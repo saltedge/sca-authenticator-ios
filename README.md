@@ -23,9 +23,9 @@
 Salt Edge Authenticator iOS Client - is a mobile client of Authenticator API of Bank (Service Provider) System system that implements Strong Customer Authentication/Dynamic Linking process.  
 The purpose of Authenticator iOS Client is to add possibility to authorize required actions for end-user.  
 
-## Project params
+## Source code
 
-You can find source code of Authenticator here: 
+You can find related source code: 
 * [Authenticator Identity Service](https://github.com/saltedge/sca-identity-service-example).
 * [Authenticator Android app](https://github.com/saltedge/sca-authenticator-android).  
 
