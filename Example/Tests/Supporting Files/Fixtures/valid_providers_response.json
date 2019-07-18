@@ -1,0 +1,130 @@
+{
+  "data": [
+    {
+      "authorization_types": [
+        {
+          "code": "digipass_go3",
+          "display_name": "Digipass GO3",
+          "extra": {},
+          "instruction": "Use Digipass GO3 for authorization.",
+          "mfa_fields": [],
+          "scopes": ["authenticator"],
+          "required_fields": [
+            {
+              "code": "client_code",
+              "display_name": "Client code",
+              "extra": {},
+              "optional": false,
+              "type": "text",
+              "validations": []
+            },
+            {
+              "code": "digipass_code",
+              "display_name": "Digipass code",
+              "extra": {},
+              "optional": false,
+              "type": "password",
+              "validations": []
+            },
+            {
+              "code": "digipass_password",
+              "display_name": "Digipass password",
+              "extra": {},
+              "optional": false,
+              "type": "password",
+              "validations": []
+            }
+          ]
+        }
+      ],
+      "code": "demobank",
+      "connection_type": "spectre_connect",
+      "connector_url": "http://localhost:4000",
+      "id": 1,
+      "instruction": "instruction",
+      "name": "Demobank",
+      "scopes": ["authenticator"],
+      "status": "active"
+    },
+    {
+      "authorization_types": [
+        {
+          "code": "digipass_go3",
+          "display_name": "Digipass GO3",
+          "extra": {},
+          "instruction": "Use Digipass GO3 for authorization.",
+          "mfa_fields": [],
+          "scopes": ["authenticator"],
+          "required_fields": [
+            {
+              "code": "client_code",
+              "display_name": "Client code",
+              "extra": {},
+              "optional": false,
+              "type": "text",
+              "validations": []
+            },
+            {
+              "code": "digipass_code",
+              "display_name": "Digipass code",
+              "extra": {},
+              "optional": false,
+              "type": "password",
+              "validations": []
+            },
+            {
+              "code": "digipass_password",
+              "display_name": "Digipass password",
+              "extra": {},
+              "optional": false,
+              "type": "password",
+              "validations": []
+            }
+          ]
+        },
+        {
+          "code": "sms_pin",
+          "display_name": "SMS-PIN",
+          "extra": {},
+          "instruction": "Use PIN code sent via SMS for authorization.",
+          "scopes": ["authenticator"],
+          "mfa_fields": [
+            {
+              "code": "sms_pincode",
+              "display_name": "SMS-PIN",
+              "extra": {},
+              "optional": false,
+              "type": "text",
+              "validations": []
+            }
+          ],
+          "required_fields": [
+            {
+              "code": "client_code",
+              "display_name": "Client code",
+              "extra": {},
+              "optional": false,
+              "type": "text",
+              "validations": []
+            },
+            {
+              "code": "device_password",
+              "display_name": "Device password",
+              "extra": {},
+              "optional": false,
+              "type": "password",
+              "validations": []
+            }
+          ]
+        }
+      ],
+      "code": "demobank2",
+      "connection_type": "spectre_connect",
+      "connector_url": "http://localhost:4000",
+      "id": 2,
+      "name": "Demobank 2",
+      "scopes": ["authenticator"],
+      "status": "active"
+    }
+  ]
+}

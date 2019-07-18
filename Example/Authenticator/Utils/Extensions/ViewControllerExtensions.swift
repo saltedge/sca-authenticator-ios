@@ -1,0 +1,166 @@
+//
+//  ViewControllerExtensions.swift
+//  This file is part of the Salt Edge Authenticator distribution
+//  (https://github.com/saltedge/sca-authenticator-ios)
+//  Copyright © 2019 Salt Edge Inc.
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, version 3 or later.
+//
+//  This program is distributed in the hope that it will be useful, but
+//  WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+//  General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+//  For the additional permissions granted for Salt Edge Authenticator
+//  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
+//
+
+import UIKit
+import MessageUI
+
+enum Presentation {
+    case push
+    case modal
+}
+
+protocol Layoutable {
+    func layout()
+}
+
+protocol Styleable {
+    func stylize()
+}
+
+extension UIViewController {
+    func showConfirmationAlert(withTitle title: String,
+                               message: String? = nil,
+                               confirmActionTitle: String = l10n(.delete),
+                               confirmActionStyle: UIAlertAction.Style = .destructive,
+                               cancelTitle: String = l10n(.cancel),
+                               confirmAction: ((UIAlertAction) -> ())? = nil,
+                               cancelAction: ((UIAlertAction) -> ())? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.view.tintColor = UIColor.auth_blue
+        let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelAction)
+        alert.addAction(cancelAction)
+        if confirmAction != nil {
+            let action = UIAlertAction(title: confirmActionTitle, style: confirmActionStyle, handler: confirmAction)
+            alert.addAction(action)
+        }
+        present(alert, animated: true, completion: nil)
+    }
+
+    func showInfoAlert(withTitle title: String,
+                       message: String? = nil,
+                       actionTitle: String = l10n(.done),
+                       completion: (() -> ())? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.view.tintColor = .auth_blue
+        let cancelAction = UIAlertAction(title: actionTitle, style: .cancel, handler: { _ in completion?() })
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+
+    func showSupportMailComposer() {
+        if MFMailComposeViewController.canSendMail() {
+            let mailVC = MFMailComposeViewController()
+            mailVC.navigationBar.tintColor = .white
+            mailVC.navigationBar.titleTextAttributes = ([.foregroundColor: UIColor.white])
+
+            mailVC.mailComposeDelegate = self
+            mailVC.setToRecipients([AppSettings.supportEmail])
+            present(mailVC, animated: true, completion: nil)
+        } else {
+            showConfirmationAlert(withTitle: l10n(.warning), message: l10n(.couldNotSendMail))
+        }
+    }
+}
+
+// MARK: MFMailComposeViewControllerDelegate
+extension UIViewController: MFMailComposeViewControllerDelegate {
+    public func mailComposeController(_ controller: MFMailComposeViewController,
+                                      didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true, completion: {
+            if result == .sent {
+                self.showConfirmationAlert(withTitle: l10n(.thankYouForFeedback), cancelTitle: l10n(.ok))
+            }
+        })
+    }
+}
+
+// MARK: - Message Bar View Presentation
+extension UIViewController {
+    @discardableResult
+    func present(message: String, style: MessageBarView.Style, height: CGFloat? = nil, hide: Bool = true) -> MessageBarView? {
+        guard isViewLoaded && view.window != nil else { return nil } // View is not loaded or not on screen at the moment
+
+        let messageView = MessageBarView(description: message, style: style)
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissView))
+        view.addSubview(messageView)
+        messageView.addGestureRecognizer(gesture)
+        messageView.alpha = 0.0
+        messageView.left(to: view)
+        messageView.width(to: view)
+        messageView.heightConstraint?.constant = 0.0
+        messageView.top(to: view)
+        view.layoutIfNeeded()
+        animateMessageView(messageView, height: height ?? messageView.defaultHeight, hide: hide)
+
+        return messageView
+    }
+
+    private func animateMessageView(_ messageView: MessageBarView, height: CGFloat, hide: Bool) {
+        messageView.heightConstraint?.constant = height
+        UIView.withSpringAnimation(animations: {
+            messageView.alpha = 1.0
+            self.view.layoutIfNeeded()
+        }, completion: {
+            after(MessageBarView.defaultDuration) {
+                if hide {
+                    self.dismiss(messageBarView: messageView)
+                }
+            }
+        })
+    }
+
+    @objc private func dismissView(_ recognizer: UITapGestureRecognizer) {
+        guard let messageView = recognizer.view as? MessageBarView else { return }
+
+        dismiss(messageBarView: messageView)
+    }
+
+    func dismiss(messageBarView: MessageBarView) {
+        guard messageBarView.superview != nil else { return }
+
+        messageBarView.heightConstraint?.constant = 0.0
+        UIView.withSpringAnimation(animations: {
+            messageBarView.alpha = 0.0
+            self.view.layoutIfNeeded()
+        }, completion: {
+            messageBarView.removeFromSuperview()
+        })
+    }
+}
+
+// MARK: - Child view controller helper
+extension UIViewController {
+    func add(_ child: UIViewController) {
+        view.addSubview(child.view)
+        child.view.edgesToSuperview()
+        addChild(child)
+        child.didMove(toParent: self)
+    }
+
+    func remove() {
+        guard parent != nil else { return }
+
+        willMove(toParent: nil)
+        removeFromParent()
+        view.removeFromSuperview()
+    }
+}

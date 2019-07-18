@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="BiP-XO-BCM">
+                                <rect key="frame" x="147.5" y="248.5" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="Odw-kr-tcb"/>
+                                    <constraint firstAttribute="height" constant="80" id="lvb-n4-beP"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Salt Edge Authenticator" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3t-14-2fs">
+                                <rect key="frame" x="36" y="340.5" width="303" height="22"/>
+                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="19"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poweredBySaltedge" translatesAutoresizingMaskIntoConstraints="NO" id="5Tv-S7-WCR">
+                                <rect key="frame" x="127" y="577" width="121.5" height="60"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="k3t-14-2fs" firstAttribute="top" secondItem="BiP-XO-BCM" secondAttribute="bottom" constant="12" id="0tH-H9-x7k"/>
+                            <constraint firstItem="BiP-XO-BCM" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="B55-m6-yJu"/>
+                            <constraint firstItem="BiP-XO-BCM" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-45" id="I72-2V-U0G"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="k3t-14-2fs" secondAttribute="trailing" constant="20" id="Tbr-5c-wyr"/>
+                            <constraint firstItem="5Tv-S7-WCR" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="UUp-aL-fHm"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="5Tv-S7-WCR" secondAttribute="bottom" constant="30" id="aoc-9o-ezg"/>
+                            <constraint firstItem="k3t-14-2fs" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="20" id="vFH-p4-JQS"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Logo" width="68" height="68"/>
+        <image name="poweredBySaltedge" width="121.5" height="60"/>
+    </resources>
+</document>

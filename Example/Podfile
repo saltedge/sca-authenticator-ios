@@ -1,0 +1,23 @@
+platform :ios, '10.0' 
+use_frameworks!
+
+def shared_pods
+  pod 'SaltedgeAuthenticatorSDK', :path => '../'
+  pod 'TinyConstraints' 
+  pod 'RealmSwift'
+  pod 'Realm'  
+  pod 'Valet'
+  pod 'Crashlytics'
+  pod 'Firebase/Core'
+  pod 'Fabric'
+end
+
+target 'Authenticator_Example' do
+  shared_pods
+end
+
+target 'Authenticator_Tests' do
+    pod 'Quick'
+    pod 'Nimble'
+    shared_pods
+end

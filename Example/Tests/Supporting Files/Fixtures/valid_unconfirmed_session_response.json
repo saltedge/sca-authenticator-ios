@@ -1,0 +1,17 @@
+{
+    "id": 1,
+    "description": "some description",
+    "secret": "session secret",
+    "action": "some action",
+    "status": "status",
+    "oauth_app_name": "oauth",
+    "created_at": "2016-12-06T09:38:01Z",
+    "expires_at": "2016-12-06T09:43:01Z",
+    "provider_name": "Demobank",
+    "provider_code": "demobank",
+    "confirmation_code": {
+        "data":"sR14BoZ7+98v9P798x4qpW7V5BEATt6BsdsCeUQH/i8=\n",
+        "key":"mVjJM0l058qjn46fiJ9Jk3soF1s+YyiY4f0DTwfy1hn+0rzs1adlaFTAmFZy\nWywMu6a/RDVXQ9MlmY1JMwfg7/D6srY038l8wWaAU0MUWkAB/IztrUDNNDtX\nLZ1Zyk5SKy0qY8FbJdUNkF2kOClngnvrlQvVyHeDCSYaB28i5MxYLyiIxiAV\nz2E6f7GJpzHQazPAviwccWmEgzlSMO4Lgk1iUY1N5SXGL1wtZST7B7vLKbm3\nw7tITXCp+SsmitT1rJ/x2pM8KFCX5lsr9l6rpaEvb0fBS6Wb5hJt2L5iN5vO\nwtYKKNerrypOFYcSY3bUTMRATvQLY8XxiTL/PKRbwQ==\n",
+        "iv":"gZ3NZ1YQHZINv+2qdex5ssaGDBzKb8TJjwY38X5xf2gHNVYnd1dgwO5dmU+i\nk1bUAeC3dOpQbUGi8ZbwQ5iieUQGaF1VkKp1EMV2VK86Ms/FqM6+YWtDDtjh\nWlb2l1mr90hbStoGnxazqQExiGQ+5zmZjWBCemkPAHqK2Jtm6TyzHoIJjhB4\n62snhlioBlT8EEq1XsTGQoLOOIB+JaPbFyitqOcdSFfq83BxV1SlgB7j3B2W\nR6a0hG5P65tcj6gE6Y5kbjAJB1sNOCJ2J+jri+7WF6XzSUorhiTbehgea+XA\nIBtmM+Z6VQkT943tmJE3cs+9qwoVcSRsaXyVBg2BEA==\n"
+    }
+}

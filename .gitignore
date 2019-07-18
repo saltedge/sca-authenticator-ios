@@ -1,0 +1,34 @@
+# Xcode
+.DS_Store
+*/build/*
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.moved-aside
+DerivedData
+.idea/
+*.hmap
+*.xccheckout
+*.xcuserstate
+Example/Pods/*
+build/*
+calabash.framework
+.irb-history
+.bundle
+screenshot_*
+application.plist
+dump*.rdb
+ObjectiveC.*
+.*.s[a-w][a-z]
+# bin is added to ignore bundler binstubs
+bin
+GoogleService-Info.plist
+tags
+coverage_reports/
+
