@@ -52,7 +52,7 @@ final class AuthorizationsCoordinator: Coordinator {
         getEncryptedAuthorizationsIfAvailable()
 
         timer = Timer.scheduledTimer(
-            timeInterval: 5.0,
+            timeInterval: 2.0,
             target: self,
             selector: #selector(getEncryptedAuthorizationsIfAvailable),
             userInfo: nil,
