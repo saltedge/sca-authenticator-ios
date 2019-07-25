@@ -28,17 +28,4 @@ public struct SEConnectHelper {
 
         return URL(string: query)
     }
-
-    public static func skipOrHandleRedirect(url: URL, success: @escaping ((AccessToken) -> ()), failure: @escaping ((String) -> ())) -> Bool {
-        guard SENetConstants.hasRedirectUrl(url.absoluteString) else { return true }
-
-        guard let accessToken = url.queryItem(for: SENetKeys.accessToken) else {
-            failure(url.queryItem(for: SENetKeys.errorClass) ?? "Something went wrong.")
-            return true
-        }
-
-        success(accessToken)
-
-        return false
-    }
 }

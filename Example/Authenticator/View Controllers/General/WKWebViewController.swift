@@ -24,10 +24,6 @@ import UIKit
 import WebKit
 import TinyConstraints
 
-private struct Layout {
-    static let loadingIndicatorSize: CGSize = CGSize(width: 90.0, height: 90.0)
-}
-
 protocol WKWebViewControllerDelegate: class {
     func showError(_ error: String)
 }
@@ -130,6 +126,6 @@ extension WKWebViewController: Layoutable {
     func layout() {
         view.addSubview(loadingIndicator)
         loadingIndicator.center(in: view)
-        loadingIndicator.size(Layout.loadingIndicatorSize)
+        loadingIndicator.size(AppLayout.loadingIndicatorSize)
     }
 }

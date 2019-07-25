@@ -39,11 +39,11 @@ private struct Layout {
     static let contentBottomOffset: CGFloat = 23.0
     static let titleLableHeight: CGFloat = 23.0
     static let buttonHeight: CGFloat = 42.0
-    static let loadingIndicatorSize: CGSize = CGSize(width: 80.0, height: 80.0)
     static let loadingPlaceholderHeight: CGFloat = 100.0
     static let descriptionViewUpdatedHeight: CGFloat = 88.0
     static let buttonsTopOffset: CGFloat = 27.5
     static let closeButtonSize: CGSize = CGSize(width: 16.0, height: 16.0)
+    static let statusImageViewSize: CGSize = CGSize(width: 80.0, height: 80.0)
 }
 
 final class AuthorizationModalView: ModalView {
@@ -277,12 +277,12 @@ extension AuthorizationModalView: Layoutable {
         statusPlaceholder.addSubviews(statusImageView, loadingIndicator)
         statusPlaceholder.height(Layout.loadingPlaceholderHeight)
 
-        statusImageView.size(Layout.loadingIndicatorSize)
+        statusImageView.size(Layout.statusImageViewSize)
         statusImageView.top(to: statusPlaceholder)
         statusImageView.centerX(to: statusPlaceholder)
         statusImageView.alpha = 0.0
 
-        loadingIndicator.size(Layout.loadingIndicatorSize)
+        loadingIndicator.size(AppLayout.loadingIndicatorSize)
         loadingIndicator.top(to: statusPlaceholder)
         loadingIndicator.centerX(to: statusPlaceholder)
     }
