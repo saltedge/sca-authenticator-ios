@@ -26,38 +26,66 @@ import SEAuthenticator
 
 protocol ConnectorWebViewControllerDelegate: WKWebViewControllerDelegate {
     func connectorConfirmed(url: URL, accessToken: AccessToken)
+    func showError(_ error: String)
 }
 
-final class ConnectorWebViewController: WKWebViewController {
-    func webView(_ webView: WKWebView,
-                 decidePolicyFor navigationAction: WKNavigationAction,
-                 decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        guard let url = navigationAction.request.url else {
-            decisionHandler(.allow)
-            return
-        }
+final class ConnectorWebViewController: UIViewController {
+    weak var delegate: ConnectorWebViewControllerDelegate?
 
-        decisionHandler(shouldAllowToHandleURL(url) ? .allow : .cancel)
+    private var webView: SEWebView
+    private let loadingIndicator = LoadingIndicator()
+
+    init() {
+        webView = SEWebView(frame: .zero)
+        super.init(nibName: nil, bundle: .authenticator_main)
     }
 
-    private func callDelegate(url: URL, accessToken: AccessToken) {
-        (delegate as? ConnectorWebViewControllerDelegate)?.connectorConfirmed(url: url, accessToken: accessToken)
+    override func loadView() {
+        super.loadView()
+        webView.delegate = self
+        view = webView
     }
 
-    private func dismiss(with error: String?) {
-        close()
-        delegate?.showError(error ?? l10n(.connectionFailed))
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        layout()
+        loadingIndicator.start()
     }
 
-    private func shouldAllowToHandleURL(_ url: URL) -> Bool {
-        return SEConnectHelper.skipOrHandleRedirect(
-            url: url,
-            success: { accessToken in
-                self.callDelegate(url: url, accessToken: accessToken)
-            },
-            failure: { error in
-                print(error)
-            }
-        )
+    func startLoading(with url: String) {
+        guard let url = URL(string: url) else { return }
+
+        let request = URLRequest(url: url)
+        webView.load(request)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - Layout
+extension ConnectorWebViewController: Layoutable {
+    func layout() {
+        view.addSubview(loadingIndicator)
+
+        loadingIndicator.center(in: view)
+        loadingIndicator.size(AppLayout.loadingIndicatorSize)
+    }
+}
+
+extension ConnectorWebViewController: SEWebViewDelegate {
+    func webView(_ webView: WKWebView, didReceiveCallback url: URL, accessToken: AccessToken) {
+        loadingIndicator.stop()
+        delegate?.connectorConfirmed(url: url, accessToken: accessToken)
+    }
+
+    func webView(_ webView: WKWebView, didReceiveCallbackWithError error: String?) {
+        loadingIndicator.stop()
+        if let error = error { delegate?.showError(error) }
+    }
+
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        loadingIndicator.stop()
     }
 }

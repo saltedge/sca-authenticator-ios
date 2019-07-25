@@ -55,14 +55,6 @@ class AppSettings {
         return ProcessInfo().environment["SPECS"] == nil
     }
 
-    static var fabricApiKey: String {
-        if let apiKey = settingsDictionary["FabricApiKey"] as? String {
-            return apiKey
-        }
-
-        return ""
-    }
-
     static var environmentSettings: [String: Any] {
         guard let settings = settingsDictionary[environment] as? [String: Any] else { return [:] }
 

@@ -41,6 +41,7 @@ struct AppLayout {
     static let cellSeparatorOffset: CGFloat = 47.0
     static let pickersLeftOffset: CGFloat = 50.0
     static let cellDefaultHeight: CGFloat = 48.0
+    static let loadingIndicatorSize: CGSize = CGSize(width: 80.0, height: 80.0)
 
     static var tabBarHeight: CGFloat {
         if let tabBarController = UIApplication.appDelegate.tabBarViewController {

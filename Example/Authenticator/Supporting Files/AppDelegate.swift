@@ -20,7 +20,6 @@
 
 import UIKit
 import UserNotifications
-import Crashlytics
 import Firebase
 import SEAuthenticator
 
@@ -42,15 +41,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
         UNUserNotificationCenter.current().delegate = self
-        configureFirebase()
         AppearanceHelper.setup()
+        configureFirebase()
         setupAppCoordinator()
         return true
     }
 
     private func configureFirebase() {
-        FirebaseApp.configure()
-        Crashlytics.start(withAPIKey: AppSettings.fabricApiKey)
+        if let configFile = Bundle.authenticator_main.path(forResource: "GoogleService-Info", ofType: "plist"),
+            let options = FirebaseOptions(contentsOfFile: configFile) {
+            FirebaseApp.configure(options: options)
+        } else {
+            print("For using Crashlytics make sure you have GoogleService-Info.plist set.")
+        }
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {

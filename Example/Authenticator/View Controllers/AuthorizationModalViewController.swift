@@ -29,7 +29,6 @@ enum AuthorizationModalType {
 }
 
 private struct Layout {
-    static let loadingIndicatorSize: CGSize = CGSize(width: 80.0, height: 80.0)
     static let topBottomOffset: CGFloat = 70.0
     static let sideOffset: CGFloat = 15
 }
@@ -163,7 +162,7 @@ extension AuthorizationModalViewController: Layoutable {
             view.addSubview(loadingView)
             loadingView.addSubview(loadingIndicator)
 
-            loadingIndicator.size(Layout.loadingIndicatorSize)
+            loadingIndicator.size(AppLayout.loadingIndicatorSize)
             loadingIndicator.center(in: loadingView)
 
             loadingView.top(to: view, offset: Layout.topBottomOffset)

@@ -32,7 +32,6 @@ private struct Layout {
     static let titleLableHeight: CGFloat = 23.0
     static let contentStackViewMinTopBottomOffset: CGFloat = 27.5
     static let contentStackViewCenterYOffset: CGFloat = -20.0
-    static let loadingIndicatorSize: CGSize = CGSize(width: 80.0, height: 80.0)
     static let loadingPlaceholderHeight: CGFloat = 100.0
 }
 
@@ -315,7 +314,7 @@ extension AuthorizationCell: Layoutable {
 
         titleLabel.height(Layout.titleLableHeight)
 
-        loadingIndicator.size(Layout.loadingIndicatorSize)
+        loadingIndicator.size(AppLayout.loadingIndicatorSize)
     }
 }
 

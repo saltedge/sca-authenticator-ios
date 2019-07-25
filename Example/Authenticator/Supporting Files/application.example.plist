@@ -4,10 +4,6 @@
 <dict>
 	<key>terms</key>
 	<string>pages/authenticator_terms</string>
-	<key>FabricBuildSecret</key>
-	<string>build_secret</string>
-	<key>FabricApiKey</key>
-	<string>fabric api key</string>
 	<key>PRODUCTION</key>
 	<dict>
 		<key>rootURL</key>
