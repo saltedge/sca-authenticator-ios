@@ -37,7 +37,7 @@ final class AuthorizationsViewController: BaseViewController {
         title: l10n(.noAuthorizations),
         description: l10n(.noAuthorizationsDescription)
     )
-    private var messageBar: MessageBarView?
+    private var messageBarView: MessageBarView?
 
     var dataSource: AuthorizationsDataSource?
 
@@ -48,6 +48,7 @@ final class AuthorizationsViewController: BaseViewController {
         view.backgroundColor = .auth_backgroundColor
         setupNavigationItems()
         setupTableView()
+        setupObservers()
         layout()
         noDataView.alpha = 1.0
     }
@@ -58,6 +59,16 @@ final class AuthorizationsViewController: BaseViewController {
 
     @objc func refresh() {
         delegate?.refreshPressed()
+    }
+
+    @objc private func hasNoConnection() {
+        messageBarView = present(message: l10n(.noInternetConnection), style: .warning, height: 60.0, hide: false)
+    }
+
+    @objc private func hasConnection() {
+        if let messageBarView = messageBarView {
+            dismiss(messageBarView: messageBarView)
+        }
     }
 }
 
@@ -80,6 +91,22 @@ extension AuthorizationsViewController {
         tableView.register(AuthorizationCell.self)
         tableView.sectionHeaderHeight = 30.0
         tableView.sectionFooterHeight = 0.0
+    }
+
+    func setupObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hasConnection),
+            name: .networkConnectionIsReachable,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hasNoConnection),
+            name: .networkConnectionIsNotReachable,
+            object: nil
+        )
     }
 
     func updateViewsHiddenState() {

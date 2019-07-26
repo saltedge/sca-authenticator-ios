@@ -148,6 +148,10 @@
 		9DCED92A22CE18280050ED3C /* Authenticator.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED89522CE18280050ED3C /* Authenticator.strings */; };
 		9DCED92D22CE1DC30050ED3C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED92B22CE1DC30050ED3C /* LaunchScreen.storyboard */; };
 		9DCED93722D3389C0050ED3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED93622D3389C0050ED3C /* Assets.xcassets */; };
+		9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */; };
+		9DD8945E22E9D969008F3130 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */; };
+		9DD8946022E9F4BD008F3130 /* NotificationsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */; };
+		9DD8946122E9F4BD008F3130 /* NotificationsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */; };
 		9DE3242A22D396F200EB162A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3242922D396F200EB162A /* AppDelegate.swift */; };
 		9DE3245322D3986B00EB162A /* test_public.pem in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3243D22D3986B00EB162A /* test_public.pem */; };
 		9DE3245422D3986B00EB162A /* test_private.pem in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3243E22D3986B00EB162A /* test_private.pem */; };
@@ -448,6 +452,8 @@
 		9DCED92C22CE1DC30050ED3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9DCED93622D3389C0050ED3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Authenticator/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		9DD8158A22DF746300B93BA8 /* Authenticator_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Authenticator_Example.entitlements; sourceTree = "<group>"; };
+		9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
+		9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsHelper.swift; sourceTree = "<group>"; };
 		9DE3242722D396F100EB162A /* TestHost-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TestHost-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DE3242922D396F200EB162A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9DE3243522D396F300EB162A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -867,6 +873,8 @@
 				9DCED83C22CE18270050ED3C /* ConnectionImageHelper.swift */,
 				9DCED83D22CE18270050ED3C /* PasscodeManger.swift */,
 				9DCED83E22CE18270050ED3C /* AmountFormatter.swift */,
+				9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */,
+				9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */,
 				9DCED83F22CE18270050ED3C /* NotificationsManager.swift */,
 				9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */,
 				9DCED84122CE18270050ED3C /* ParametersSerializer.swift */,
@@ -1165,7 +1173,6 @@
 				C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */,
 				32E639377856FE802C3852B8 /* Pods-Authenticator_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -1344,6 +1351,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Authenticator_Example/Pods-Authenticator_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SaltedgeAuthenticatorSDK/SEAuthenticator.framework",
@@ -1355,6 +1363,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SEAuthenticator.framework",
@@ -1376,6 +1385,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SaltedgeAuthenticatorSDK/SEAuthenticator.framework",
@@ -1389,6 +1399,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SEAuthenticator.framework",
@@ -1518,9 +1529,11 @@
 				9DCED91422CE18280050ED3C /* SetupAppCoordinator.swift in Sources */,
 				9DCED90922CE18280050ED3C /* LanguageCoordinator.swift in Sources */,
 				9DCED8C822CE18280050ED3C /* ImageExtensions.swift in Sources */,
+				9DD8946022E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,
 				9DCED8C722CE18280050ED3C /* BordersExtensions.swift in Sources */,
 				9DCED8D322CE18280050ED3C /* StackViewExtensions.swift in Sources */,
 				9DCED91522CE18280050ED3C /* Connection.swift in Sources */,
+				9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
 				9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */,
 				9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */,
 				9DCED90A22CE18280050ED3C /* ConnectViewCoordinator.swift in Sources */,
@@ -1634,6 +1647,8 @@
 				9DE324A022D399FE00EB162A /* ViewExtensions+Animations.swift in Sources */,
 				9DE324C322D39A7000EB162A /* MainTabBarViewController.swift in Sources */,
 				9DE324B522D39A4400EB162A /* LanguageViewController.swift in Sources */,
+				9DD8945E22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
+				9DD8946122E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,
 				9DE3249B22D399F200EB162A /* BundleExtensions.swift in Sources */,
 				9DE3249022D399D200EB162A /* BiometricsPresenter.swift in Sources */,
 				9DE3249922D399ED00EB162A /* StringExtensions.swift in Sources */,

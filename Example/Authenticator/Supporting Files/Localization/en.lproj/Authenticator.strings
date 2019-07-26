@@ -27,7 +27,8 @@
 "errors.account_reset" = "Your Account Was Reset Due to Multiple Failed Attempts.";
 "errors.contact_support" = "Something went wrong. Please contact our Support team.";
 "errors.inactive_connection" = "Inactive. Remove or reconnect.";
-"errors.no_internet_connection" = "No Internet connection.\nPlease try again later.";
+"errors.no_internet_connection" = "No Internet connection.";
+"errors.no_internet_connection_try_again" = "Please try again later.";
 "errors.passcode_ios" = "You entered the wrong Passcode. Please try again in %{count} minutes.";
 "errors.passcode_ios_singular" = "You entered the wrong Passcode. Please try again in %{count} minute.";
 "errors.warning" = "Warning";

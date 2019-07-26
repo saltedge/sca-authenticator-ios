@@ -41,6 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
         UNUserNotificationCenter.current().delegate = self
+        ReachabilityManager.shared.observeReachability()
         AppearanceHelper.setup()
         configureFirebase()
         setupAppCoordinator()

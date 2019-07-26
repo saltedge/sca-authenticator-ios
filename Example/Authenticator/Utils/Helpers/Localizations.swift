@@ -122,6 +122,8 @@ enum Localizations: String, Localizable {
 
     // MARK: - Errors
     case inactiveConnection = "errors.inactive_connection"
+    case noInternetConnection = "errors.no_internet_connection"
+    case pleaseTryAgain = "errors.no_internet_connection_try_again"
 
     // MARK: - Connection Options
     case reconnect = "actions.reconnect"
