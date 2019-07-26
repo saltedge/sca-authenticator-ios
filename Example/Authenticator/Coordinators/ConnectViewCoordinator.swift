@@ -83,7 +83,20 @@ final class ConnectViewCoordinator: Coordinator {
             vc.remove()
             self.showWebViewController()
 
-            guard let url = URL(string: qrMetadata), let configurationUrl = SEConnectHelper.сonfiguration(from: url)
+            guard ReachabilityManager.shared.isReachable else {
+                self.connectViewController.showInfoAlert(
+                    withTitle: l10n(.noInternetConnection),
+                    message: l10n(.pleaseTryAgain),
+                    actionTitle: l10n(.ok),
+                    completion: {
+                        self.connectViewController.dismiss(animated: true)
+                    }
+                )
+                return
+            }
+
+            guard let url = URL(string: qrMetadata),
+                let configurationUrl = SEConnectHelper.сonfiguration(from: url)
                 else { self.connectViewController.dismiss(animated: true); return }
 
             ConnectionsInteractor.getConnectUrl(

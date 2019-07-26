@@ -22,10 +22,10 @@
 
 import UIKit
 
-enum TabBarControllerType {
-    case authorizations
-    case connections
-    case settings
+enum TabBarControllerType: Int {
+    case authorizations = 0
+    case connections = 1
+    case settings = 2
 }
 
 struct TabBarDataSource {

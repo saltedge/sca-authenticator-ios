@@ -56,7 +56,7 @@ final class ApplicationCoordinator: Coordinator {
             tabBarCoordinator.rootViewController.dismiss(animated: false, completion: nil)
         }
 
-        tabBarCoordinator.rootViewController.selectedIndex = 0
+        tabBarCoordinator.rootViewController.selectedIndex = TabBarControllerType.authorizations.rawValue
 
         guard let rootVc = window?.rootViewController else { return }
 
@@ -76,7 +76,7 @@ final class ApplicationCoordinator: Coordinator {
             tabBarCoordinator.rootViewController.dismiss(animated: false, completion: nil)
         }
 
-        tabBarCoordinator.rootViewController.selectedIndex = 0
+        tabBarCoordinator.rootViewController.selectedIndex = TabBarControllerType.connections.rawValue
 
         guard let rootVc = window?.rootViewController else { return }
 

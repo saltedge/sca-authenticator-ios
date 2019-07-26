@@ -76,8 +76,10 @@ final class MessageBarView: UIView {
 // MARK: - Layout
 extension MessageBarView: Layoutable {
     func layout() {
-        alertLabel.edges(to: self, insets: UIEdgeInsets(top: Layout.labelOffset, left: Layout.labelOffset,
-                                                        bottom: -Layout.labelOffset, right: -Layout.labelOffset))
+        alertLabel.top(to: self, offset: Layout.labelOffset)
+        alertLabel.left(to: self, offset: Layout.labelOffset)
+        alertLabel.right(to: self, offset: -Layout.labelOffset)
+        alertLabel.bottom(to: self, offset: -Layout.labelOffset)
         alertLabel.center(in: self)
     }
 }

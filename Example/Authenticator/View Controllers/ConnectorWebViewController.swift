@@ -34,6 +34,7 @@ final class ConnectorWebViewController: UIViewController {
 
     private var webView: SEWebView
     private let loadingIndicator = LoadingIndicator()
+    private var messageBarView: MessageBarView?
 
     init() {
         webView = SEWebView(frame: .zero)
@@ -50,6 +51,7 @@ final class ConnectorWebViewController: UIViewController {
         super.viewDidLoad()
         layout()
         loadingIndicator.start()
+        setupObservers()
     }
 
     func startLoading(with url: String) {
@@ -61,6 +63,32 @@ final class ConnectorWebViewController: UIViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hasConnection),
+            name: .networkConnectionIsReachable,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hasNoConnection),
+            name: .networkConnectionIsNotReachable,
+            object: nil
+        )
+    }
+
+    @objc private func hasNoConnection() {
+        messageBarView = present(message: l10n(.noInternetConnection), style: .warning, height: 60.0, hide: false)
+    }
+
+    @objc private func hasConnection() {
+        if let messageBarView = messageBarView {
+            dismiss(messageBarView: messageBarView)
+        }
     }
 }
 
