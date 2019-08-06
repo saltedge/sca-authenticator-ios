@@ -26,3 +26,21 @@ extension Notification.Name {
     static let networkConnectionIsNotReachable = Notification.Name("network-connection-is-not-reachable")
     static let networkConnectionIsReachable = Notification.Name("network-connection-is-reachable")
 }
+
+final class NotificationsHelper {
+    private static var notificationCenter: NotificationCenter {
+        return NotificationCenter.default
+    }
+
+    static func post(_ name: Notification.Name, object: Any? = nil) {
+        notificationCenter.post(name: name, object: object)
+    }
+
+    static func observe(_ observer: Any, selector: Selector, name: Notification.Name, object: Any? = nil) {
+        notificationCenter.addObserver(observer, selector: selector, name: name, object: object)
+    }
+
+    static func removeObserver(_ object: Any) {
+        notificationCenter.removeObserver(object)
+    }
+}
