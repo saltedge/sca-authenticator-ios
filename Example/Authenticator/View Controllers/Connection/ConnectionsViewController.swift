@@ -65,7 +65,7 @@ final class ConnectionsViewController: BaseViewController {
         layout()
         updateViewsHiddenState()
         updateNavigationButtonsState()
-        NotificationCenter.default.addObserver(
+        NotificationsHelper.observe(
             self,
             selector: #selector(reloadData),
             name: NSLocale.currentLocaleDidChangeNotification,
@@ -74,7 +74,7 @@ final class ConnectionsViewController: BaseViewController {
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSLocale.currentLocaleDidChangeNotification, object: nil)
+        NotificationsHelper.removeObserver(self)
     }
 
     @objc private func addPressed() {

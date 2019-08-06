@@ -70,6 +70,10 @@ final class AuthorizationsViewController: BaseViewController {
             dismiss(messageBarView: messageBarView)
         }
     }
+
+    deinit {
+        NotificationsHelper.removeObserver(self)
+    }
 }
 
 // MARK: - Setup
@@ -94,14 +98,14 @@ extension AuthorizationsViewController {
     }
 
     func setupObservers() {
-        NotificationCenter.default.addObserver(
+        NotificationsHelper.observe(
             self,
             selector: #selector(hasConnection),
             name: .networkConnectionIsReachable,
             object: nil
         )
 
-        NotificationCenter.default.addObserver(
+        NotificationsHelper.observe(
             self,
             selector: #selector(hasNoConnection),
             name: .networkConnectionIsNotReachable,

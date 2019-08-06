@@ -34,7 +34,7 @@ class ReachabilityManager {
 
     func observeReachability() {
         self.reachability = Reachability()
-        NotificationCenter.default.addObserver(
+        NotificationsHelper.observe(
             self,
             selector: #selector(self.reachabilityChanged),
             name: NSNotification.Name.reachabilityChanged,
@@ -53,14 +53,18 @@ class ReachabilityManager {
 
         switch reachability.connection {
         case .cellular:
-            NotificationCenter.default.post(name: .networkConnectionIsReachable, object: nil)
+            NotificationsHelper.post(.networkConnectionIsReachable)
             print("Network available via Cellular Data.")
         case .wifi:
-            NotificationCenter.default.post(name: .networkConnectionIsReachable, object: nil)
+            NotificationsHelper.post(.networkConnectionIsReachable)
             print("Network available via WiFi.")
         case .none:
-            NotificationCenter.default.post(name: .networkConnectionIsNotReachable, object: nil)
+            NotificationsHelper.post(.networkConnectionIsNotReachable)
             print("Network is not available.")
         }
+    }
+
+    deinit {
+        NotificationsHelper.removeObserver(self)
     }
 }

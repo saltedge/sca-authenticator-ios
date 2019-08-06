@@ -66,14 +66,14 @@ final class ConnectorWebViewController: UIViewController {
     }
 
     private func setupObservers() {
-        NotificationCenter.default.addObserver(
+        NotificationsHelper.observe(
             self,
             selector: #selector(hasConnection),
             name: .networkConnectionIsReachable,
             object: nil
         )
 
-        NotificationCenter.default.addObserver(
+        NotificationsHelper.observe(
             self,
             selector: #selector(hasNoConnection),
             name: .networkConnectionIsNotReachable,
@@ -89,6 +89,10 @@ final class ConnectorWebViewController: UIViewController {
         if let messageBarView = messageBarView {
             dismiss(messageBarView: messageBarView)
         }
+    }
+
+    deinit {
+        NotificationsHelper.removeObserver(self)
     }
 }
 
