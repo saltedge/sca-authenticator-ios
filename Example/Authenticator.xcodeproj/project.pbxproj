@@ -13,6 +13,8 @@
 		95C1EFC722D5EE1C00078A28 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */; };
 		95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
 		95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
+		95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
+		95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
 		9D4310F422D7661D004A7FCF /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */; };
 		9D4310F522D76625004A7FCF /* AboutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */; };
 		9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */; };
@@ -1687,6 +1689,7 @@
 				9DE3248422D3999F00EB162A /* SetupStep.swift in Sources */,
 				9DE3247422D398ED00EB162A /* BaseSpec.swift in Sources */,
 				9DE324CC22D39A9000EB162A /* AuthorizationCell.swift in Sources */,
+				95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */,
 				9DE3249A22D399EF00EB162A /* ColorExtensions.swift in Sources */,
 				9DE324B022D39A2F00EB162A /* AmountFormatter.swift in Sources */,
 				9DE3247922D3997B00EB162A /* SetupAppCoordinator.swift in Sources */,
@@ -1731,6 +1734,7 @@
 				9DE3249722D399E800EB162A /* ViewsExtensions.swift in Sources */,
 				9DE3249522D399E300EB162A /* ViewControllerExtensions.swift in Sources */,
 				9DE324D722D39AB300EB162A /* InfoView.swift in Sources */,
+				95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */,
 				9D66E1AB22D4C1CA00BD59B6 /* CryptoErrorsSpec.swift in Sources */,
 				9DE324B722D39A4B00EB162A /* AuthorizationModalViewController.swift in Sources */,
 				9DE324BA22D39A5300EB162A /* EditConnectionViewController.swift in Sources */,

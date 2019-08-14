@@ -33,7 +33,7 @@ private let availableMigrations: [RealmMigratable.Type] = [
 
 struct RealmMigrationManager {
     static let schemaVersion: Int = availableMigrations.count
-    
+
     static let migrationBlock: MigrationBlock = { migration, oldSchemaVersion in
         for version in 1...schemaVersion where oldSchemaVersion < version {
             let migrationClass = availableMigrations[version - 1]
