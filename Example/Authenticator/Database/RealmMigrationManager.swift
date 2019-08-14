@@ -1,5 +1,5 @@
 //
-//  Connection.swift
+//  RealmMigrationManager
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -23,35 +23,21 @@
 import Foundation
 import RealmSwift
 
-enum ConnectionStatus: String {
-    case active
-    case inactive
+protocol RealmMigratable {
+    static func execute(_ migration: Migration)
 }
 
-@objcMembers final class Connection: Object {
-    dynamic var id: String = ""
-    dynamic var guid: String = UUID().uuidString
-    dynamic var name: String = ""
-    dynamic var code: String = ""
-    dynamic var baseUrlString: String = ""
-    dynamic var logoUrlString: String = ""
-    dynamic var accessToken: String = ""
-    dynamic var status: String = ConnectionStatus.inactive.rawValue
-    dynamic var supportEmail: String = ""
-    dynamic var createdAt: Date = Date()
-    dynamic var updatedAt: Date = Date()
+private let availableMigrations: [RealmMigratable.Type] = [
+    AddConnectionSupportEmail.self
+]
 
-    override static func primaryKey() -> String? {
-        return #keyPath(Connection.guid)
-    }
-}
-
-extension Connection {
-    var baseUrl: URL? {
-        return URL(string: baseUrlString)
-    }
-
-    var logoUrl: URL? {
-        return URL(string: logoUrlString)
+struct RealmMigrationManager {
+    static let schemaVersion: Int = availableMigrations.count
+    
+    static let migrationBlock: MigrationBlock = { migration, oldSchemaVersion in
+        for version in 1...schemaVersion where oldSchemaVersion < version {
+            let migrationClass = availableMigrations[version - 1]
+            migrationClass.execute(migration)
+        }
     }
 }

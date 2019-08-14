@@ -38,7 +38,7 @@ enum SettingsCellType: Localizable {
         case .biometrics: return BiometricsPresenter.biometricTypeText
         case .appVersion: return l10n(.applicationVersion)
         case .terms: return l10n(.terms)
-        case .support: return l10n(.support)
+        case .support: return l10n(.reportABug)
         case .about: return l10n(.about)
         }
     }

@@ -30,6 +30,7 @@ public struct SENetKeys {
     public static let name = "name"
     public static let code = "code"
     public static let logoUrl = "logo_url"
+    public static let supportEmail = "support_email"
     public static let version = "version"
 
     public static let configuration = "configuration"

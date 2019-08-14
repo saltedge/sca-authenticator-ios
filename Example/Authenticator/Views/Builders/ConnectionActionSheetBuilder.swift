@@ -26,7 +26,7 @@ typealias Action = (()->())
 
 enum ActionSheetAction {
     case reconnect
-    case report
+    case support
     case rename
     case delete
 }
@@ -46,8 +46,8 @@ struct ConnectionActionSheetBuilder {
             button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "Bank"), title: l10n(.reconnect), action: action)
         case .rename:
             button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "Edit"), title: l10n(.renameConnection), action: action)
-        case .report:
-            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "Info"), title: l10n(.reportAProblem), action: action)
+        case .support:
+            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "Info"), title: l10n(.contactSupport), action: action)
         case .delete:
             button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "Delete"), title: l10n(.delete), action: action)
         }

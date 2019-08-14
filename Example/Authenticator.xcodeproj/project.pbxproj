@@ -11,6 +11,8 @@
 		95C1EFC322D5EAA200078A28 /* AboutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */; };
 		95C1EFC522D5ECAE00078A28 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */; };
 		95C1EFC722D5EE1C00078A28 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */; };
+		95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
+		95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
 		9D4310F422D7661D004A7FCF /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */; };
 		9D4310F522D76625004A7FCF /* AboutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */; };
 		9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */; };
@@ -317,6 +319,8 @@
 		95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutDataSource.swift; sourceTree = "<group>"; };
 		95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
+		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
+		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
 		9D66E17122D4C0AF00BD59B6 /* CryptoErrorsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoErrorsSpec.swift; sourceTree = "<group>"; };
 		9D66E17222D4C0AF00BD59B6 /* ApiErrorsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiErrorsSpec.swift; sourceTree = "<group>"; };
 		9D66E17522D4C0AF00BD59B6 /* ConnectionSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionSpec.swift; sourceTree = "<group>"; };
@@ -603,6 +607,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		95D784E223042B94002BF219 /* Migrations */ = {
+			isa = PBXGroup;
+			children = (
+				95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */,
+			);
+			path = Migrations;
+			sourceTree = "<group>";
+		};
 		9D66E17022D4C0AF00BD59B6 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -777,7 +789,9 @@
 		9DCED7F522CE18270050ED3C /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				95D784E223042B94002BF219 /* Migrations */,
 				9DCED7F622CE18270050ED3C /* RealmManager.swift */,
+				95D784D2230423E1002BF219 /* RealmMigrationManager.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -1537,6 +1551,7 @@
 				9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */,
 				9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */,
 				9DCED90A22CE18280050ED3C /* ConnectViewCoordinator.swift in Sources */,
+				95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */,
 				9DCED8FE22CE18280050ED3C /* InfoView.swift in Sources */,
 				9DCED8EE22CE18280050ED3C /* MessageBarView.swift in Sources */,
 				9DCED91D22CE18280050ED3C /* LanguagePickerDataSource.swift in Sources */,
@@ -1572,6 +1587,7 @@
 				9DCED8AD22CE18280050ED3C /* RealmManager.swift in Sources */,
 				9DCED8AA22CE18280050ED3C /* MainTabBarViewController.swift in Sources */,
 				9DCED90122CE18280050ED3C /* SetupProgressBar.swift in Sources */,
+				95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */,
 				9DCED8D222CE18280050ED3C /* DateExtensions.swift in Sources */,
 				9DCED8A422CE18280050ED3C /* ConnectorWebViewController.swift in Sources */,
 				9DCED89E22CE18280050ED3C /* ConnectionsViewController.swift in Sources */,

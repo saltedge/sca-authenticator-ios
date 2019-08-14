@@ -1,5 +1,5 @@
 //
-//  Connection.swift
+//  AddConnectionSupportEmail
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -23,35 +23,13 @@
 import Foundation
 import RealmSwift
 
-enum ConnectionStatus: String {
-    case active
-    case inactive
-}
+struct AddConnectionSupportEmail: RealmMigratable {
+    static func execute(_ migration: Migration) {
+        migration.enumerateObjects(ofType: Connection.className()) { (_, newObject) in
+            guard let object = newObject else { return }
 
-@objcMembers final class Connection: Object {
-    dynamic var id: String = ""
-    dynamic var guid: String = UUID().uuidString
-    dynamic var name: String = ""
-    dynamic var code: String = ""
-    dynamic var baseUrlString: String = ""
-    dynamic var logoUrlString: String = ""
-    dynamic var accessToken: String = ""
-    dynamic var status: String = ConnectionStatus.inactive.rawValue
-    dynamic var supportEmail: String = ""
-    dynamic var createdAt: Date = Date()
-    dynamic var updatedAt: Date = Date()
-
-    override static func primaryKey() -> String? {
-        return #keyPath(Connection.guid)
-    }
-}
-
-extension Connection {
-    var baseUrl: URL? {
-        return URL(string: baseUrlString)
-    }
-
-    var logoUrl: URL? {
-        return URL(string: logoUrlString)
+            let supportEmailPath = #keyPath(Connection.supportEmail)
+            object[supportEmailPath] = ""
+        }
     }
 }
