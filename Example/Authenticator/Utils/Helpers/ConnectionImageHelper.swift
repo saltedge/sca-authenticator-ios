@@ -21,29 +21,11 @@
 //
 
 import UIKit
+import SDWebImage
 
 struct ConnectionImageHelper {
     static func setAnimatedCachedImage(from url: URL, for imageView: UIImageView) {
-        guard ImageCacheManager.isImageCached(for: url) else {
-            UIImage.from(url: url) { image in
-                ImageCacheManager.cache(
-                    image: image,
-                    for: url,
-                    completion: { cachedImage in
-                        UIView.transition(
-                            with: imageView,
-                            duration: 1.0,
-                            options: [.curveEaseOut, .transitionCrossDissolve],
-                            animations: {
-                                imageView.image = cachedImage
-                            }
-                        )
-                    }
-                )
-            }
-            return
-        }
-
-        imageView.cachedImage(from: url)
+        imageView.sd_imageTransition = .fade
+        imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "bankPlaceholderCyan"))
     }
 }

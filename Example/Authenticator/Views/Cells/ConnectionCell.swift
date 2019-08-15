@@ -21,6 +21,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 private struct Layout {
     static let sideOffset: CGFloat = 15.0
@@ -33,7 +34,6 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
     private let connectionImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = #imageLiteral(resourceName: "bankPlaceholderCyanSmall")
         return imageView
     }()
     private let titleLabel = UILabel.titleLabel
