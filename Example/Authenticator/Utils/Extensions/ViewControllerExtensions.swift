@@ -73,7 +73,7 @@ extension UIViewController {
             mailVC.navigationBar.titleTextAttributes = ([.foregroundColor: UIColor.white])
             mailVC.mailComposeDelegate = self
 
-            let email = (supportEmail.isEmpty) ? AppSettings.supportEmail : supportEmail
+            let email = supportEmail.isEmpty ? AppSettings.supportEmail : supportEmail
 
             mailVC.setToRecipients([email])
             present(mailVC, animated: true, completion: nil)
