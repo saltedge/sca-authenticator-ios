@@ -19,6 +19,7 @@
 "actions.reconnect" = "Reconnect";
 "actions.rename_connection" = "Rename Connection";
 "actions.report_problem" = "Report a Problem";
+"actions.report_bug" = "Report a Bug";
 "actions.search" = "Search";
 "actions.skip" = "Skip";
 "actions.try_again" = "Try Again";

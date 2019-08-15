@@ -39,7 +39,7 @@ struct ConnectionRepository {
         var result = false
         try? RealmManager.performRealmWriteTransaction {
             result = RealmManager.insideRealmWriteTransaction { realm in
-                realm.add(object, update: true)
+                realm.add(object, update: .all)
             }
         }
         return result

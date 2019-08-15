@@ -53,7 +53,6 @@ enum Localizations: String, Localizable {
     case notNow = "actions.not_now"
     case proceed = "actions.proceed"
     case tryAgain = "actions.try_again"
-    case reportAProblem = "actions.report_problem"
     case notEnabledBiometricsMessage = "onboarding.secure_app.biometrics_message"
     case enableBiometrics = "onboarding.secure_app.enable_biometrics"
     case goToSettings = "onboarding.secure_app.go_to_settings"
@@ -114,7 +113,6 @@ enum Localizations: String, Localizable {
     case applicationVersion = "in_app.settings.app_version"
     case language = "in_app.settings.language"
     case terms = "in_app.settings.terms_service"
-    case support = "in_app.settings.contact_support"
     case copyright = "in_app.settings.copyright"
     case copyrightDescription = "in_app.settings.copyright_description"
     case thankYouForFeedback = "in_app.settings.contact_support_message"
@@ -128,6 +126,9 @@ enum Localizations: String, Localizable {
     // MARK: - Connection Options
     case reconnect = "actions.reconnect"
     case renameConnection = "actions.rename_connection"
+    case contactSupport = "in_app.settings.contact_support"
+    case reportAProblem = "actions.report_problem"
+    case reportABug = "actions.report_bug"
 
     var localizedLabel: String { return self.rawValue }
 }
