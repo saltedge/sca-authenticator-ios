@@ -66,14 +66,16 @@ extension UIViewController {
         present(alert, animated: true)
     }
 
-    func showSupportMailComposer() {
+    func showSupportMailComposer(withEmail supportEmail: String = "") {
         if MFMailComposeViewController.canSendMail() {
             let mailVC = MFMailComposeViewController()
             mailVC.navigationBar.tintColor = .white
             mailVC.navigationBar.titleTextAttributes = ([.foregroundColor: UIColor.white])
-
             mailVC.mailComposeDelegate = self
-            mailVC.setToRecipients([AppSettings.supportEmail])
+
+            let email = supportEmail.isEmpty ? AppSettings.supportEmail : supportEmail
+
+            mailVC.setToRecipients([email])
             present(mailVC, animated: true, completion: nil)
         } else {
             showConfirmationAlert(withTitle: l10n(.warning), message: l10n(.couldNotSendMail))

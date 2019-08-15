@@ -51,7 +51,7 @@ final class RealmManager {
 
     private static func constructRealm() -> Realm {
         guard AppSettings.isNotInTestMode else {
-            return try! Realm(configuration: Realm.Configuration.defaultConfiguration) // swiftlint:disable:this force_try
+            return try! Realm(configuration: migratedConfiguration) // swiftlint:disable:this force_try
         }
 
         if realmConfiguration == nil {
@@ -64,8 +64,15 @@ final class RealmManager {
         }
     }
 
-    private static func setupRealmConfiguration() {
+    private static var migratedConfiguration: Realm.Configuration {
         var config = Realm.Configuration.defaultConfiguration
+        config.schemaVersion = UInt64(RealmMigrationManager.schemaVersion)
+        config.migrationBlock = RealmMigrationManager.migrationBlock
+        return config
+    }
+
+    private static func setupRealmConfiguration() {
+        var config = migratedConfiguration
         guard let key = dbKey else {
             fatalError("Realm cannot be initialized")
         }

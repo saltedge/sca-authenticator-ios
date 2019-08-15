@@ -65,8 +65,8 @@ private extension ConnectionsCoordinator {
             }
         }
 
-        let reportAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
-                self?.rootViewController.showSupportMailComposer()
+        let contactSupportAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
+                self?.rootViewController.showSupportMailComposer(withEmail: connection.supportEmail)
             }
         }
 
@@ -104,7 +104,7 @@ private extension ConnectionsCoordinator {
 
         actionsHash = [
             .rename: renameAction,
-            .report: reportAction,
+            .support: contactSupportAction,
             .delete: deleteAction
         ]
 

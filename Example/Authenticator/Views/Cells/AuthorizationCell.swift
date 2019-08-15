@@ -325,7 +325,7 @@ private extension UILabel {
         let labelTextSize = (labelText as NSString).boundingRect(
             with: CGSize(width: frame.size.width, height: .greatestFiniteMagnitude),
             options: .usesLineFragmentOrigin,
-            attributes: [NSAttributedString.Key.font: font],
+            attributes: [NSAttributedString.Key.font: font ?? UIFont.systemFont(ofSize: 17.0)],
             context: nil).size
 
         return labelTextSize.height > bounds.size.height

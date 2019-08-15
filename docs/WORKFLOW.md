@@ -30,6 +30,7 @@
     "code": "demobank",
     "name": "Demobank",
     "logo_url": "https://connector.bank_url.com/assets/logo.png",
+    "support_email": "support@example.com",
     "version": "1"
   }
 }
