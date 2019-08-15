@@ -81,7 +81,6 @@
 		9DCED8DA22CE18280050ED3C /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82F22CE18270050ED3C /* Localizable.swift */; };
 		9DCED8DB22CE18280050ED3C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83122CE18270050ED3C /* Constants.swift */; };
 		9DCED8DC22CE18280050ED3C /* LocalizationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83222CE18270050ED3C /* LocalizationHelper.swift */; };
-		9DCED8DD22CE18280050ED3C /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83322CE18270050ED3C /* ImageCacheManager.swift */; };
 		9DCED8DE22CE18280050ED3C /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83422CE18270050ED3C /* KeychainHelper.swift */; };
 		9DCED8DF22CE18280050ED3C /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83522CE18270050ED3C /* AppSettings.swift */; };
 		9DCED8E022CE18280050ED3C /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */; };
@@ -230,7 +229,6 @@
 		9DE324A422D39A0F00EB162A /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82F22CE18270050ED3C /* Localizable.swift */; };
 		9DE324A522D39A1300EB162A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83122CE18270050ED3C /* Constants.swift */; };
 		9DE324A622D39A1600EB162A /* LocalizationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83222CE18270050ED3C /* LocalizationHelper.swift */; };
-		9DE324A722D39A1800EB162A /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83322CE18270050ED3C /* ImageCacheManager.swift */; };
 		9DE324A822D39A1B00EB162A /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83422CE18270050ED3C /* KeychainHelper.swift */; };
 		9DE324A922D39A1E00EB162A /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83522CE18270050ED3C /* AppSettings.swift */; };
 		9DE324AA22D39A2000EB162A /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */; };
@@ -385,7 +383,6 @@
 		9DCED82F22CE18270050ED3C /* Localizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		9DCED83122CE18270050ED3C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9DCED83222CE18270050ED3C /* LocalizationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizationHelper.swift; sourceTree = "<group>"; };
-		9DCED83322CE18270050ED3C /* ImageCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		9DCED83422CE18270050ED3C /* KeychainHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		9DCED83522CE18270050ED3C /* AppSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
@@ -879,7 +876,6 @@
 			children = (
 				9DCED83122CE18270050ED3C /* Constants.swift */,
 				9DCED83222CE18270050ED3C /* LocalizationHelper.swift */,
-				9DCED83322CE18270050ED3C /* ImageCacheManager.swift */,
 				9DCED83422CE18270050ED3C /* KeychainHelper.swift */,
 				9DCED83522CE18270050ED3C /* AppSettings.swift */,
 				9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */,
@@ -1370,6 +1366,7 @@
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SaltedgeAuthenticatorSDK/SEAuthenticator.framework",
 				"${BUILT_PRODUCTS_DIR}/TinyConstraints/TinyConstraints.framework",
 				"${BUILT_PRODUCTS_DIR}/Valet/Valet.framework",
@@ -1382,6 +1379,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SEAuthenticator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TinyConstraints.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Valet.framework",
@@ -1404,6 +1402,7 @@
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SaltedgeAuthenticatorSDK/SEAuthenticator.framework",
 				"${BUILT_PRODUCTS_DIR}/TinyConstraints/TinyConstraints.framework",
 				"${BUILT_PRODUCTS_DIR}/Valet/Valet.framework",
@@ -1418,6 +1417,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SEAuthenticator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TinyConstraints.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Valet.framework",
@@ -1536,7 +1536,6 @@
 				9DCED8C422CE18280050ED3C /* AuthorizationsPresenter.swift in Sources */,
 				9DCED90822CE18280050ED3C /* PasscodeCoordinator.swift in Sources */,
 				9DCED8CD22CE18280050ED3C /* FontsExtensions.swift in Sources */,
-				9DCED8DD22CE18280050ED3C /* ImageCacheManager.swift in Sources */,
 				9DCED8A922CE18280050ED3C /* OnboardingViewController.swift in Sources */,
 				9DCED8CC22CE18280050ED3C /* ViewsExtensions.swift in Sources */,
 				9DCED8EC22CE18280050ED3C /* BiometricsHelper.swift in Sources */,
@@ -1696,7 +1695,6 @@
 				9DE3245A22D3986B00EB162A /* RevokeConnectionResponseSpec.swift in Sources */,
 				9DE324DD22D39AC300EB162A /* ProgressBar.swift in Sources */,
 				9DE3247A22D3997F00EB162A /* TabBarCoordinator.swift in Sources */,
-				9DE324A722D39A1800EB162A /* ImageCacheManager.swift in Sources */,
 				9D66E1AE22D4C1D300BD59B6 /* ConnectionCollectorSpec.swift in Sources */,
 				9DE3248922D399B400EB162A /* ConnectionsDataSource.swift in Sources */,
 				9DE3247322D398ED00EB162A /* URLRequestBuilder.swift in Sources */,
