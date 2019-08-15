@@ -21,7 +21,6 @@
 //
 
 import UIKit
-import SDWebImage
 
 private struct Layout {
     static let sideOffset: CGFloat = 15.0

@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UNUserNotificationCenter.current().delegate = self
         ReachabilityManager.shared.observeReachability()
         AppearanceHelper.setup()
-        SDImageCache.shared.config.maxDiskAge = 3600 * 24 * 7
+        SDImageCache.shared.config.maxDiskAge = 3600 * 24 * 7 // NOTE: One week
         configureFirebase()
         setupAppCoordinator()
         return true
