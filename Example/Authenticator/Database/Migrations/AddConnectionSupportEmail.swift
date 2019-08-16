@@ -1,5 +1,5 @@
 //
-//  ConnectionImageHelper.swift
+//  AddConnectionSupportEmail
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -20,12 +20,16 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import UIKit
-import SDWebImage
+import Foundation
+import RealmSwift
 
-struct ConnectionImageHelper {
-    static func setAnimatedCachedImage(from url: URL, for imageView: UIImageView) {
-        imageView.sd_imageTransition = .fade
-        imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "bankPlaceholderCyan"))
+struct AddConnectionSupportEmail: RealmMigratable {
+    static func execute(_ migration: Migration) {
+        migration.enumerateObjects(ofType: Connection.className()) { (_, newObject) in
+            guard let object = newObject else { return }
+
+            let supportEmailPath = #keyPath(Connection.supportEmail)
+            object[supportEmailPath] = ""
+        }
     }
 }

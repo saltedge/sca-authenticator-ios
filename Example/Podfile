@@ -4,7 +4,8 @@ use_frameworks!
 def shared_pods
   pod 'SaltedgeAuthenticatorSDK', :path => '../'
   pod 'ReachabilitySwift'
-  pod 'TinyConstraints' 
+  pod 'TinyConstraints'
+  pod 'SDWebImage', '~> 5.0' 
   pod 'RealmSwift'
   pod 'Realm'  
   pod 'Valet'

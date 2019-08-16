@@ -1,5 +1,5 @@
 //
-//  ConnectionImageHelper.swift
+//  RealmMigrationManager
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -20,12 +20,24 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import UIKit
-import SDWebImage
+import Foundation
+import RealmSwift
 
-struct ConnectionImageHelper {
-    static func setAnimatedCachedImage(from url: URL, for imageView: UIImageView) {
-        imageView.sd_imageTransition = .fade
-        imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "bankPlaceholderCyan"))
+protocol RealmMigratable {
+    static func execute(_ migration: Migration)
+}
+
+private let availableMigrations: [RealmMigratable.Type] = [
+    AddConnectionSupportEmail.self
+]
+
+struct RealmMigrationManager {
+    static let schemaVersion: Int = availableMigrations.count
+
+    static let migrationBlock: MigrationBlock = { migration, oldSchemaVersion in
+        for version in 1...schemaVersion where oldSchemaVersion < version {
+            let migrationClass = availableMigrations[version - 1]
+            migrationClass.execute(migration)
+        }
     }
 }

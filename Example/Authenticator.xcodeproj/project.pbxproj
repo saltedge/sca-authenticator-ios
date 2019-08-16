@@ -11,6 +11,10 @@
 		95C1EFC322D5EAA200078A28 /* AboutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */; };
 		95C1EFC522D5ECAE00078A28 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */; };
 		95C1EFC722D5EE1C00078A28 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */; };
+		95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
+		95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
+		95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
+		95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
 		9D4310F422D7661D004A7FCF /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */; };
 		9D4310F522D76625004A7FCF /* AboutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */; };
 		9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */; };
@@ -77,7 +81,6 @@
 		9DCED8DA22CE18280050ED3C /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82F22CE18270050ED3C /* Localizable.swift */; };
 		9DCED8DB22CE18280050ED3C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83122CE18270050ED3C /* Constants.swift */; };
 		9DCED8DC22CE18280050ED3C /* LocalizationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83222CE18270050ED3C /* LocalizationHelper.swift */; };
-		9DCED8DD22CE18280050ED3C /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83322CE18270050ED3C /* ImageCacheManager.swift */; };
 		9DCED8DE22CE18280050ED3C /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83422CE18270050ED3C /* KeychainHelper.swift */; };
 		9DCED8DF22CE18280050ED3C /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83522CE18270050ED3C /* AppSettings.swift */; };
 		9DCED8E022CE18280050ED3C /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */; };
@@ -226,7 +229,6 @@
 		9DE324A422D39A0F00EB162A /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82F22CE18270050ED3C /* Localizable.swift */; };
 		9DE324A522D39A1300EB162A /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83122CE18270050ED3C /* Constants.swift */; };
 		9DE324A622D39A1600EB162A /* LocalizationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83222CE18270050ED3C /* LocalizationHelper.swift */; };
-		9DE324A722D39A1800EB162A /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83322CE18270050ED3C /* ImageCacheManager.swift */; };
 		9DE324A822D39A1B00EB162A /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83422CE18270050ED3C /* KeychainHelper.swift */; };
 		9DE324A922D39A1E00EB162A /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83522CE18270050ED3C /* AppSettings.swift */; };
 		9DE324AA22D39A2000EB162A /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */; };
@@ -317,6 +319,8 @@
 		95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutDataSource.swift; sourceTree = "<group>"; };
 		95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
+		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
+		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
 		9D66E17122D4C0AF00BD59B6 /* CryptoErrorsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoErrorsSpec.swift; sourceTree = "<group>"; };
 		9D66E17222D4C0AF00BD59B6 /* ApiErrorsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiErrorsSpec.swift; sourceTree = "<group>"; };
 		9D66E17522D4C0AF00BD59B6 /* ConnectionSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionSpec.swift; sourceTree = "<group>"; };
@@ -379,7 +383,6 @@
 		9DCED82F22CE18270050ED3C /* Localizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		9DCED83122CE18270050ED3C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9DCED83222CE18270050ED3C /* LocalizationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizationHelper.swift; sourceTree = "<group>"; };
-		9DCED83322CE18270050ED3C /* ImageCacheManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		9DCED83422CE18270050ED3C /* KeychainHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		9DCED83522CE18270050ED3C /* AppSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
@@ -603,6 +606,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		95D784E223042B94002BF219 /* Migrations */ = {
+			isa = PBXGroup;
+			children = (
+				95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */,
+			);
+			path = Migrations;
+			sourceTree = "<group>";
+		};
 		9D66E17022D4C0AF00BD59B6 /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -777,7 +788,9 @@
 		9DCED7F522CE18270050ED3C /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				95D784E223042B94002BF219 /* Migrations */,
 				9DCED7F622CE18270050ED3C /* RealmManager.swift */,
+				95D784D2230423E1002BF219 /* RealmMigrationManager.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -863,7 +876,6 @@
 			children = (
 				9DCED83122CE18270050ED3C /* Constants.swift */,
 				9DCED83222CE18270050ED3C /* LocalizationHelper.swift */,
-				9DCED83322CE18270050ED3C /* ImageCacheManager.swift */,
 				9DCED83422CE18270050ED3C /* KeychainHelper.swift */,
 				9DCED83522CE18270050ED3C /* AppSettings.swift */,
 				9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */,
@@ -1244,7 +1256,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
@@ -1354,6 +1366,7 @@
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SaltedgeAuthenticatorSDK/SEAuthenticator.framework",
 				"${BUILT_PRODUCTS_DIR}/TinyConstraints/TinyConstraints.framework",
 				"${BUILT_PRODUCTS_DIR}/Valet/Valet.framework",
@@ -1366,6 +1379,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SEAuthenticator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TinyConstraints.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Valet.framework",
@@ -1388,6 +1402,7 @@
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SaltedgeAuthenticatorSDK/SEAuthenticator.framework",
 				"${BUILT_PRODUCTS_DIR}/TinyConstraints/TinyConstraints.framework",
 				"${BUILT_PRODUCTS_DIR}/Valet/Valet.framework",
@@ -1402,6 +1417,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SEAuthenticator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TinyConstraints.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Valet.framework",
@@ -1520,7 +1536,6 @@
 				9DCED8C422CE18280050ED3C /* AuthorizationsPresenter.swift in Sources */,
 				9DCED90822CE18280050ED3C /* PasscodeCoordinator.swift in Sources */,
 				9DCED8CD22CE18280050ED3C /* FontsExtensions.swift in Sources */,
-				9DCED8DD22CE18280050ED3C /* ImageCacheManager.swift in Sources */,
 				9DCED8A922CE18280050ED3C /* OnboardingViewController.swift in Sources */,
 				9DCED8CC22CE18280050ED3C /* ViewsExtensions.swift in Sources */,
 				9DCED8EC22CE18280050ED3C /* BiometricsHelper.swift in Sources */,
@@ -1537,6 +1552,7 @@
 				9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */,
 				9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */,
 				9DCED90A22CE18280050ED3C /* ConnectViewCoordinator.swift in Sources */,
+				95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */,
 				9DCED8FE22CE18280050ED3C /* InfoView.swift in Sources */,
 				9DCED8EE22CE18280050ED3C /* MessageBarView.swift in Sources */,
 				9DCED91D22CE18280050ED3C /* LanguagePickerDataSource.swift in Sources */,
@@ -1572,6 +1588,7 @@
 				9DCED8AD22CE18280050ED3C /* RealmManager.swift in Sources */,
 				9DCED8AA22CE18280050ED3C /* MainTabBarViewController.swift in Sources */,
 				9DCED90122CE18280050ED3C /* SetupProgressBar.swift in Sources */,
+				95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */,
 				9DCED8D222CE18280050ED3C /* DateExtensions.swift in Sources */,
 				9DCED8A422CE18280050ED3C /* ConnectorWebViewController.swift in Sources */,
 				9DCED89E22CE18280050ED3C /* ConnectionsViewController.swift in Sources */,
@@ -1671,13 +1688,13 @@
 				9DE3248422D3999F00EB162A /* SetupStep.swift in Sources */,
 				9DE3247422D398ED00EB162A /* BaseSpec.swift in Sources */,
 				9DE324CC22D39A9000EB162A /* AuthorizationCell.swift in Sources */,
+				95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */,
 				9DE3249A22D399EF00EB162A /* ColorExtensions.swift in Sources */,
 				9DE324B022D39A2F00EB162A /* AmountFormatter.swift in Sources */,
 				9DE3247922D3997B00EB162A /* SetupAppCoordinator.swift in Sources */,
 				9DE3245A22D3986B00EB162A /* RevokeConnectionResponseSpec.swift in Sources */,
 				9DE324DD22D39AC300EB162A /* ProgressBar.swift in Sources */,
 				9DE3247A22D3997F00EB162A /* TabBarCoordinator.swift in Sources */,
-				9DE324A722D39A1800EB162A /* ImageCacheManager.swift in Sources */,
 				9D66E1AE22D4C1D300BD59B6 /* ConnectionCollectorSpec.swift in Sources */,
 				9DE3248922D399B400EB162A /* ConnectionsDataSource.swift in Sources */,
 				9DE3247322D398ED00EB162A /* URLRequestBuilder.swift in Sources */,
@@ -1715,6 +1732,7 @@
 				9DE3249722D399E800EB162A /* ViewsExtensions.swift in Sources */,
 				9DE3249522D399E300EB162A /* ViewControllerExtensions.swift in Sources */,
 				9DE324D722D39AB300EB162A /* InfoView.swift in Sources */,
+				95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */,
 				9D66E1AB22D4C1CA00BD59B6 /* CryptoErrorsSpec.swift in Sources */,
 				9DE324B722D39A4B00EB162A /* AuthorizationModalViewController.swift in Sources */,
 				9DE324BA22D39A5300EB162A /* EditConnectionViewController.swift in Sources */,
@@ -1800,12 +1818,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1856,12 +1876,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

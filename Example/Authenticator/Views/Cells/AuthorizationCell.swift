@@ -60,7 +60,6 @@ final class AuthorizationCell: UITableViewCell, Dequeuable {
     private var connectionImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "bankPlaceholderCyanSmall")
         return imageView
     }()
     private let titleLabel = UILabel.titleLabel
@@ -165,29 +164,7 @@ final class AuthorizationCell: UITableViewCell, Dequeuable {
     private func setImage(from imageUrl: URL?) {
         guard let url = imageUrl else { return }
 
-        guard ImageCacheManager.isImageCached(for: url) else {
-            UIImage.from(url: url) { image in
-                ImageCacheManager.cache(
-                    image: image,
-                    for: url,
-                    completion: { cachedImage in
-                        UIView.transition(
-                            with: self.connectionImageView,
-                            duration: 1.0,
-                            options: [.curveEaseOut, .transitionCrossDissolve],
-                            animations: {
-                                self.connectionImageView.image = cachedImage
-                            }
-                        )
-                    }
-                )
-            }
-            return
-        }
-
-        if let connection = ConnectionsCollector.with(id: viewModel.connectionId) {
-            connectionImageView.cachedImage(from: connection.logoUrl)
-        }
+        ConnectionImageHelper.setAnimatedCachedImage(from: url, for: connectionImageView)
     }
 
     private func setupLoadingView() {
@@ -325,7 +302,7 @@ private extension UILabel {
         let labelTextSize = (labelText as NSString).boundingRect(
             with: CGSize(width: frame.size.width, height: .greatestFiniteMagnitude),
             options: .usesLineFragmentOrigin,
-            attributes: [NSAttributedString.Key.font: font],
+            attributes: [NSAttributedString.Key.font: font ?? UIFont.systemFont(ofSize: 17.0)],
             context: nil).size
 
         return labelTextSize.height > bounds.size.height

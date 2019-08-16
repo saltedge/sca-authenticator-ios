@@ -19,6 +19,7 @@
 "actions.reconnect" = "Reconnect";
 "actions.rename_connection" = "Rename Connection";
 "actions.report_problem" = "Report a Problem";
+"actions.report_bug" = "Report a Bug";
 "actions.search" = "Search";
 "actions.skip" = "Skip";
 "actions.try_again" = "Try Again";
@@ -70,8 +71,8 @@
 "onboarding.carousel_three.title" = "One App for all Bank Accounts";
 "onboarding.carousel_two.description" = "Each time you make a payment, you’ll receive a confirmation to authorize that transaction, keeping you in control at all times.";
 "onboarding.carousel_two.title" = "Absolute Control";
+"onboarding.find_connection.completed_title" = "Well done!";
 "onboarding.find_connection.completed_description" = "Application has been successfully set. Connect a Service Provider, so you can receive an authorization every time you make an action.";
-"onboarding.find_connection.completed_title" = "Sign Up Complete";
 "onboarding.secure_app.biometrics_message" = "Seems, that you don't have biometrics enabled. To enter the App faster, enable it in your settings";
 "onboarding.secure_app.enable_biometrics" = "Enable biometrics";
 "onboarding.secure_app.face_id_allow" = "Allow Face ID";

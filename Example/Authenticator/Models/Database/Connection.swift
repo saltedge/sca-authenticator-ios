@@ -37,7 +37,7 @@ enum ConnectionStatus: String {
     dynamic var logoUrlString: String = ""
     dynamic var accessToken: String = ""
     dynamic var status: String = ConnectionStatus.inactive.rawValue
-    dynamic var sessionFailMessage: String?
+    dynamic var supportEmail: String = ""
     dynamic var createdAt: Date = Date()
     dynamic var updatedAt: Date = Date()
 

@@ -33,7 +33,6 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
     private let connectionImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = #imageLiteral(resourceName: "bankPlaceholderCyanSmall")
         return imageView
     }()
     private let titleLabel = UILabel.titleLabel
