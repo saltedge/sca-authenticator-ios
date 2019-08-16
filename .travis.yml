@@ -26,6 +26,7 @@ podfile: Podfile
 before_install: cd Example
 install:
   - bundle install
+  - pod repo update
   - pod install
 before_script:
   - export PATH=/usr/local/bin:$PATH
