@@ -29,8 +29,5 @@ bundle install
 bundle exec pod repo update master
 set -o pipefail
 
-if [ "${BUILD_TYPE}" == "full" ]; then
-  bundle exec rake all_tests
-else
-  bundle exec rake unit_tests
-fi
+
+bundle exec rake unit_tests
