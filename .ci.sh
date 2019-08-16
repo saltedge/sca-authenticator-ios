@@ -25,9 +25,8 @@ export LC_ALL="en_US.UTF-8"
 cp Example/Authenticator/Supporting\ Files/application.example.plist Example/Authenticator/Supporting\ Files/application.plist
 cp Example/Authenticator/Supporting\ Files/GoogleService-Info.example.plist Example/Authenticator/Supporting\ Files/GoogleService-Info.plist
 
-bundle install
 bundle exec pod repo update master
 set -o pipefail
 
-
-bundle exec rake unit_tests
+echo "Build environment is: ${BUILD_TYPE}"
+BUILD_TYPE=${BUILD_TYPE} bundle exec rake unit_tests

@@ -33,4 +33,4 @@ cache:
 #    - bundle config --local path /Users/jenkins/builds/ios_fentury_gems
 
 test:
-    script: BUILD_TYPE=partial sh .ci.sh
+    script: BUILD_TYPE=gitlab sh .ci.sh

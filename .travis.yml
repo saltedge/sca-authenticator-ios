@@ -30,13 +30,13 @@ install:
   - pod install
 before_script:
   - export PATH=/usr/local/bin:$PATH
-  - export BUILD_TYPE=partial
-  - export BASE_REPO=authenticator/ios-authenticator
+  - export BASE_REPO=saltedge/sca-authenticator-ios
   - export DEVICE_TARGET='iPhone X'
   - export LC_ALL=en_US.UTF-8
   - DevToolsSecurity -status
   - echo $PWD
+  - cd ..
 cache:
   bundler: true
   cocoapods: true
-script: sh .ci.sh
+script: BUILD_TYPE=travis sh .ci.sh
