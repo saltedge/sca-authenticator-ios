@@ -59,9 +59,9 @@ or build from source code.
 1. Fork this repository
 1. Open terminal
 1. Move to project directory `sca-authenticator-ios/Example`
-1. Command in terminal: `gem install cocoapods`
-1. Command in terminal: `pod install`
-1. Open project's workspace in Xcode
+1. Command in terminal: `bundle install` (To install all required gems)
+1. Command in terminal: `pod install` (To install all required pods)
+1. Open project's workspace file in Xcode (`Example/Authenticator.xcworkspace`)
 1. Create `application.plist` configuration file using `application.example.plist`
 1. If you have intent to use Firebase Crashlytics then generate `GoogleService-info.plist` and add it to project.
 1. Build and run application on target device or simulator
