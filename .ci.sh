@@ -28,5 +28,4 @@ cp Example/Authenticator/Supporting\ Files/GoogleService-Info.example.plist Exam
 bundle exec pod repo update master
 set -o pipefail
 
-echo "Build environment is: ${BUILD_TYPE}"
-BUILD_TYPE=${BUILD_TYPE} bundle exec rake unit_tests
+bundle exec rake unit_tests

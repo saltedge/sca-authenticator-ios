@@ -33,13 +33,7 @@ desc "Code Coverage"
 task :coverage do
   begin
     system("bundle exec slather coverage")
-
-    page = if "#{ENV['BUILD_TYPE']}" == "travis"
-      Nokogiri::HTML(File.read("/Users/travis/build/saltedge/sca-authenticator-ios/coverage_reports/index.html"))
-    else
-      Nokogiri::HTML(File.read("coverage_reports/index.html"))
-    end
-
+    page = Nokogiri::HTML(File.read("/Users/travis/build/saltedge/sca-authenticator-ios/coverage_reports/index.html"))
     coverage = page.css('span#total_coverage').text
     puts "\nTotal unit tests coverage: " + coverage
   rescue => error
