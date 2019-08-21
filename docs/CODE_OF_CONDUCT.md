@@ -16,7 +16,7 @@ Maintainers, including the core team, are also subject to the anti-harassment po
 
 If anyone engages in harassing behavior, including maintainers, we may take appropriate action, up to and including warning the offender, deletion of comments, removal from the project’s codebase and communication systems, and escalation to Github support.
 
-If you are being harassed, notice that someone else is being harassed, or have any other concerns, please [email the core team](mailto:authenticator@saltegde.com) immediately.
+If you are being harassed, notice that someone else is being harassed, or have any other concerns, please [contact the Salte Edge team](https://www.saltedge.com/pages/contact_support) immediately.
 
 We expect everyone to follow these rules anywhere in the Salt Edge project’s codebases, issue trackers, IRC channel, group chat, and mailing lists.
 
