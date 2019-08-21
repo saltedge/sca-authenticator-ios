@@ -1,0 +1,19 @@
+
+coverage_service: html
+xcodeproj: Example/Authenticator.xcodeproj
+workspace: Example/Authenticator.xcworkspace
+scheme: Authenticator-Example
+binary_basename: Authenticator
+output_directory: coverage_reports
+ignore:
+    - Example/Authenticator/View Controllers/*
+    - Example/Authenticator/Views/*
+    - Example/Tests/*
+    - Example/Pods/*
+    - Example/Authenticator/Supporting Files/AppDelegate.swift
+    - Example/Authenticator/Utils/Extensions/ApplicationExtensions.swift
+    - Example/Authenticator/Utils/Extensions/BordersExtensions.swift
+    - Example/Authenticator/Utils/Extensions/WindowExtensions.swift
+    - Example/Authenticator/Utils/Extensions/ViewControllerExtensions.swift
+    - Example/Authenticator/Utils/Helpers/HapticFeedbackHelper.swift
+    - Example/Authenticator/Utils/Helpers/NotificationsManager.swift

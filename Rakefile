@@ -21,23 +21,25 @@ load "rake_helpers.rb"
 load "localizations_helpers.rb" if File.exist?("localizations_helpers.rb")
 require 'nokogiri'
 
-desc "All Tests"
-task :all_tests => [:unit_tests]
-
 desc "All Unit Tests"
 task :unit_tests => [:clean, :check_dependencies, :XCSpecs, :coverage]
 
 desc "Xcode Unit Tests"
 task :XCSpecs do
-  system_or_exit "xcodebuild -workspace Example/Authenticator.xcworkspace -scheme Authenticator-Example -configuration Debug -destination 'name=iPhone SE' test | xcpretty -t; test ${PIPESTATUS[0]} -eq 0"
+  system_or_exit "xcodebuild -workspace Example/Authenticator.xcworkspace -scheme Authenticator-Example -configuration Debug -destination 'name=iPhone X' test GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty -t; test ${PIPESTATUS[0]} -eq 0"
 end
 
 desc "Code Coverage"
 task :coverage do
-  system("cd Example && bundle exec slather coverage")
-  page = Nokogiri::HTML(File.read("Example/coverage_reports/index.html"))
-  coverage = page.css('span#total_coverage').text
-  puts "\nTotal unit tests coverage: " + coverage
+  begin
+    system("bundle exec slather coverage")
+    page = Nokogiri::HTML(File.read("/Users/travis/build/saltedge/sca-authenticator-ios/coverage_reports/index.html"))
+    coverage = page.css('span#total_coverage').text
+    puts "\nTotal unit tests coverage: " + coverage
+  rescue => error
+    raise unless error.message.match?(/No such file/i)
+    puts "No such file."
+  end
 end
 
 desc "Check dependencies"
@@ -48,10 +50,4 @@ end
 desc "Clean DerivedData"
 task :clean do
   system("rm -rf Example/DerivedData/Authenticator/Build")
-end
-
-task :fetch_localizations do
-  env = ENV["ENV"] || "production"
-  locales = ["en"]
-  fetch_localization({ "env" => env, "locales" => locales })
 end
