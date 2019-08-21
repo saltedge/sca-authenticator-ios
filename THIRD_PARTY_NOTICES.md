@@ -15,4 +15,4 @@ If you modify this Program, or any covered work, by linking or combining it with
 * [Nimble (Apache v2.0 license)](https://raw.githubusercontent.com/Quick/Nimble/master/LICENSE)
     
 ***NOTE***  
-In the event that we accidentally failed something, [please bring it to our attention](mailto:authenticator@saltedge.com).
+In the event that we accidentally failed something, [please bring it to our attention](https://www.saltedge.com/pages/contact_support).
