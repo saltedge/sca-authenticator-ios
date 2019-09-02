@@ -36,19 +36,19 @@ struct TabBarDataSource {
         case .authorizations:
             item = UITabBarItem(
                 title: "",
-                image: #imageLiteral(resourceName: "authorizations").withRenderingMode(.alwaysOriginal),
+                image: #imageLiteral(resourceName: "authorizations_normal").withRenderingMode(.alwaysOriginal),
                 selectedImage: #imageLiteral(resourceName: "authorizations_selected").withRenderingMode(.alwaysOriginal)
             )
         case .connections:
             item = UITabBarItem(
                 title: "",
-                image: #imageLiteral(resourceName: "bank").withRenderingMode(.alwaysOriginal),
-                selectedImage: #imageLiteral(resourceName: "bank_selected").withRenderingMode(.alwaysOriginal)
+                image: #imageLiteral(resourceName: "connections_normal").withRenderingMode(.alwaysOriginal),
+                selectedImage: #imageLiteral(resourceName: "connections_selected").withRenderingMode(.alwaysOriginal)
             )
         case .settings:
             item = UITabBarItem(
                 title: "",
-                image: #imageLiteral(resourceName: "settings").withRenderingMode(.alwaysOriginal),
+                image: #imageLiteral(resourceName: "settings_normal").withRenderingMode(.alwaysOriginal),
                 selectedImage: #imageLiteral(resourceName: "settings_selected").withRenderingMode(.alwaysOriginal)
             )
         }

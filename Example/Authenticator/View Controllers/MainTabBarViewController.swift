@@ -28,9 +28,9 @@ final class MainTabBarViewController: UITabBarController, UITabBarControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
-        tabBar.backgroundColor = .auth_darkBlue
-        tabBar.barTintColor = .auth_darkBlue
-        tabBar.tintColor = .auth_darkBlue
+        tabBar.backgroundColor = .white
+        tabBar.barTintColor = .white
+        tabBar.tintColor = .white//auth_darkBlue
     }
 
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
