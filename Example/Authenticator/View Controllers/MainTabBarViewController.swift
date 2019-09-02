@@ -30,7 +30,7 @@ final class MainTabBarViewController: UITabBarController, UITabBarControllerDele
         delegate = self
         tabBar.backgroundColor = .white
         tabBar.barTintColor = .white
-        tabBar.tintColor = .white//auth_darkBlue
+        tabBar.tintColor = .white
     }
 
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
