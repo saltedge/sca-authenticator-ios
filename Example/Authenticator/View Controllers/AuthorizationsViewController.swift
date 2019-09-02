@@ -33,7 +33,7 @@ protocol AuthorizationsViewControllerDelegate: class {
 final class AuthorizationsViewController: BaseViewController {
     private let tableView = UITableView(frame: .zero, style: .grouped)
     private let noDataView = NoDataView(
-        image: #imageLiteral(resourceName: "NoCodes"),
+        image: #imageLiteral(resourceName: "no_authorizations"),
         title: l10n(.noAuthorizations),
         description: l10n(.noAuthorizationsDescription)
     )
@@ -181,7 +181,7 @@ extension AuthorizationsViewController: Layoutable {
         tableView.edges(to: view)
         noDataView.left(to: view, offset: AppLayout.sideOffset)
         noDataView.right(to: view, offset: -AppLayout.sideOffset)
-        noDataView.centerY(to: view, offset: -AppLayout.tabBarHeight)
+        noDataView.center(in: view)
     }
 }
 

@@ -24,7 +24,7 @@ import UIKit
 import TinyConstraints
 
 private struct Layout {
-    static let imageViewSize: CGSize = CGSize(width: 120.0, height: 120.0)
+    static let imageViewSize: CGSize = CGSize(width: 100.0, height: 100.0)
     static let titleLabelTopOffset: CGFloat = 40.0
     static let descriptionLabelTopOffset: CGFloat = 15.0
     static let buttonSideOffset: CGFloat = 75.0

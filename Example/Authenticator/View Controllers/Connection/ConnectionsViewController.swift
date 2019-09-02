@@ -54,7 +54,7 @@ final class ConnectionsViewController: BaseViewController {
         setupDataSource()
         setupTableView()
         noDataView = NoDataView(
-            image: #imageLiteral(resourceName: "NoBanks"),
+            image: #imageLiteral(resourceName: "no_connections"),
             title: l10n(.noConnections),
             description: l10n(.noConnectionsDescription),
             ctaTitle: l10n(.connect),
@@ -174,7 +174,6 @@ extension ConnectionsViewController: UITableViewDelegate {
 extension ConnectionsViewController: Layoutable {
     func layout() {
         view.addSubviews(tableView, noDataView)
-
         tableView.edges(to: view)
         noDataView.left(to: view, offset: AppLayout.sideOffset)
         noDataView.right(to: view, offset: -AppLayout.sideOffset)
