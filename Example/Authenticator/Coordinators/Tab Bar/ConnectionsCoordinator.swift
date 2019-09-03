@@ -96,20 +96,17 @@ private extension ConnectionsCoordinator {
             }
         }
 
-        var actionsHash = [ActionSheetAction: Action]()
-
-        if connection.status == ConnectionStatus.inactive.rawValue {
-            actionsHash[.reconnect] = reconnectAction
-        }
-
-        actionsHash = [
-            .rename: renameAction,
-            .support: contactSupportAction,
-            .delete: deleteAction
+        var actionsArray: [(actionSheetItem: ActionSheetAction, action: Action)] = [
+            (.rename, renameAction),
+            (.support, contactSupportAction),
+            (.delete, deleteAction)
         ]
 
-        let actions = ConnectionActionSheetBuilder.createActions(from: actionsHash)
-        actionSheet.actions = actions
+        if connection.status == ConnectionStatus.inactive.rawValue {
+            actionsArray.insert((.reconnect, reconnectAction), at: 0)
+        }
+
+        actionSheet.actions = ConnectionActionSheetBuilder.createActions(from: actionsArray)
         tabBarVC.present(actionSheet, animated: true)
     }
 }

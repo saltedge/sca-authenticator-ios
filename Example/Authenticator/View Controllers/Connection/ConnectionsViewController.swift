@@ -49,6 +49,7 @@ final class ConnectionsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        edgesForExtendedLayout = []
         navigationItem.title = l10n(.connections)
         view.backgroundColor = .auth_backgroundColor
         setupDataSource()
@@ -57,7 +58,7 @@ final class ConnectionsViewController: BaseViewController {
             image: #imageLiteral(resourceName: "no_connections"),
             title: l10n(.noConnections),
             description: l10n(.noConnectionsDescription),
-            ctaTitle: l10n(.connect),
+            ctaTitle: l10n(.connectProvider),
             onCTAPress: {
                 self.addPressed()
             }
