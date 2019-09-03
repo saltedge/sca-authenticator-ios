@@ -23,7 +23,6 @@
 import UIKit
 
 protocol AuthorizationsViewControllerDelegate: class {
-    func refreshPressed()
     func selectedViewModel(at index: Int)
     func denyPressed(at index: Int)
     func confirmPressed(at index: Int, cell: AuthorizationCell)
@@ -46,8 +45,8 @@ final class AuthorizationsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         edgesForExtendedLayout = []
+        navigationItem.title = l10n(.authorizations)
         view.backgroundColor = .auth_backgroundColor
-        setupNavigationItems()
         setupTableView()
         setupObservers()
         layout()
@@ -56,10 +55,6 @@ final class AuthorizationsViewController: BaseViewController {
 
     func reloadData() {
         tableView.reloadData()
-    }
-
-    @objc func refresh() {
-        delegate?.refreshPressed()
     }
 
     @objc private func hasNoConnection() {
@@ -79,16 +74,6 @@ final class AuthorizationsViewController: BaseViewController {
 
 // MARK: - Setup
 extension AuthorizationsViewController {
-    func setupNavigationItems() {
-        navigationItem.title = "Authorizations"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: #imageLiteral(resourceName: "Sync"),
-            style: .plain,
-            target: self,
-            action: #selector(refresh)
-        )
-    }
-
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self

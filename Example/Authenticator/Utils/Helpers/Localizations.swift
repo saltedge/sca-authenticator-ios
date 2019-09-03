@@ -70,6 +70,7 @@ enum Localizations: String, Localizable {
     case allowNotificationsDescription = "onboarding.allow_notifications.description"
 
     // MARK: - Authorizations
+    case authorizations = "in_app.navigation.authorizations"
     case noAuthorizations = "in_app.authorizations.no_authorizations"
     case noAuthorizationsDescription = "in_app.authorizations.no_authorizations_description"
     case confirm = "actions.confirm"

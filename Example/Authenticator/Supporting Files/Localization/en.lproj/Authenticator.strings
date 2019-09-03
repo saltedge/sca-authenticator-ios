@@ -61,6 +61,7 @@
 "in_app.settings.passcode" = "Passcode";
 "in_app.settings.terms_service" = "Terms of Service";
 "in_app.settings.touch_id" = "Touch ID";
+"in_app.navigation.authorizations" = "Authorizations";
 "in_app.navigation.connections" = "Connections";
 "in_app.sidebar_menu.settings" = "Settings";
 "onboarding.allow_notifications.description" = "Enable notifications, to receive useful alerts and always be up to speed with your transactions.";
