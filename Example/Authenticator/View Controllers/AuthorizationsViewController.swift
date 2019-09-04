@@ -44,7 +44,6 @@ final class AuthorizationsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = []
         navigationItem.title = l10n(.authorizations)
         view.backgroundColor = .auth_backgroundColor
         setupTableView()

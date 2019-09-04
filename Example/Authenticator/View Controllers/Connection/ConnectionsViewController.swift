@@ -49,7 +49,6 @@ final class ConnectionsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        edgesForExtendedLayout = []
         navigationItem.title = l10n(.connections)
         view.backgroundColor = .auth_backgroundColor
         setupDataSource()
