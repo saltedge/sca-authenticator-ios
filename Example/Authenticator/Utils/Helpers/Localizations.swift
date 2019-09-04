@@ -70,6 +70,7 @@ enum Localizations: String, Localizable {
     case allowNotificationsDescription = "onboarding.allow_notifications.description"
 
     // MARK: - Authorizations
+    case authorizations = "in_app.navigation.authorizations"
     case noAuthorizations = "in_app.authorizations.no_authorizations"
     case noAuthorizationsDescription = "in_app.authorizations.no_authorizations_description"
     case confirm = "actions.confirm"
@@ -82,7 +83,7 @@ enum Localizations: String, Localizable {
     case noConnectionsDescription = "in_app.connect.no_connections_description"
     case connections = "in_app.navigation.connections"
     case selectConnection = "in_app.connection.select"
-    case connect = "action.connect"
+    case connectProvider = "action.connect_provider"
     case connectedOn = "in_app.connection.connected_on"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
     case processing = "in_app.connect.in_progress"
@@ -90,7 +91,7 @@ enum Localizations: String, Localizable {
     // MARK: - Settings
     case settings = "in_app.sidebar_menu.settings"
     case deleteAll = "actions.delete_all"
-    case deleteAllDataDescription = "actions.delete_connections"
+    case deleteAllDataDescription = "actions.confirm_delete_connections"
     case search = "actions.search"
 
     // MARK: - Security
@@ -125,7 +126,7 @@ enum Localizations: String, Localizable {
 
     // MARK: - Connection Options
     case reconnect = "actions.reconnect"
-    case renameConnection = "actions.rename_connection"
+    case rename = "actions.rename"
     case contactSupport = "in_app.settings.contact_support"
     case reportAProblem = "actions.report_problem"
     case reportABug = "actions.report_bug"

@@ -4,8 +4,8 @@
 "actions.close" = "Close";
 "actions.delete" = "Delete";
 "actions.delete_all" = "Delete All";
-"actions.delete_connection" = "Are you sure you want to delete this connection?";
-"actions.delete_connections" = "Are you sure you want to delete all connections?";
+"actions.confirm_delete_connection" = "Are you sure you want to delete this connection?";
+"actions.confirm_delete_connections" = "Are you sure you want to delete all connections?";
 "actions.confirm" = "Confirm";
 "actions.deny" = "Deny";
 "actions.done" = "Done";
@@ -15,9 +15,9 @@
 "actions.not_now" = "Not Now";
 "actions.ok" = "Ok";
 "actions.proceed" = "Proceed";
-"action.connect" = "Connect";
+"action.connect_provider" = "Connect Provider";
 "actions.reconnect" = "Reconnect";
-"actions.rename_connection" = "Rename Connection";
+"actions.rename" = "Rename";
 "actions.report_problem" = "Report a Problem";
 "actions.report_bug" = "Report a Bug";
 "actions.search" = "Search";
@@ -27,7 +27,7 @@
 "actions.view_more" = "View More";
 "errors.account_reset" = "Your Account Was Reset Due to Multiple Failed Attempts.";
 "errors.contact_support" = "Something went wrong. Please contact our Support team.";
-"errors.inactive_connection" = "Inactive. Remove or reconnect.";
+"errors.inactive_connection" = "Inactive connection. Remove or reconnect.";
 "errors.no_internet_connection" = "No Internet connection.";
 "errors.no_internet_connection_try_again" = "Please try again later.";
 "errors.passcode_ios" = "You entered the wrong Passcode. Please try again in %{count} minutes.";
@@ -41,8 +41,8 @@
 "in_app.connection.connected_on" = "Connected on";
 "in_app.connection.connection_failed" = "Connection Failed";
 "in_app.connect.in_progress" = "Connection in Progress. Please Wait...";
-"in_app.connect.no_connections" = "No Active Connections";
-"in_app.connect.no_connections_description" = "You have no currently active connections. Connect one to start receiving authorizations requests.";
+"in_app.connect.no_connections" = "No Connections";
+"in_app.connect.no_connections_description" = "You have no currently connected service providers. Connect one to start receiving confirmations for your actions (e.g. payments).";
 "in_app.connect.select" = "Select Connection";
 "in_app.connect.success_description" = "Your Service Provider has been successfully connected to the Authenticator App. You will receive a authorization request every time you make an action.";
 "in_app.passcode_confirmation.title" = "Enter Passcode or use Touch ID";
@@ -61,6 +61,7 @@
 "in_app.settings.passcode" = "Passcode";
 "in_app.settings.terms_service" = "Terms of Service";
 "in_app.settings.touch_id" = "Touch ID";
+"in_app.navigation.authorizations" = "Authorizations";
 "in_app.navigation.connections" = "Connections";
 "in_app.sidebar_menu.settings" = "Settings";
 "onboarding.allow_notifications.description" = "Enable notifications, to receive useful alerts and always be up to speed with your transactions.";

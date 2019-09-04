@@ -35,9 +35,22 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    private let titleLabel = UILabel.titleLabel
-    private let descriptionLabel = UILabel.descriptionLabel
-
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .auth_19regular
+        label.textColor = .black
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
+        return label
+    }()
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .auth_15regular
+        label.textColor = .darkGray
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
+        return label
+    }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         layout()
@@ -69,6 +82,7 @@ extension ConnectionCell: Layoutable {
 
         titleLabel.top(to: contentView, offset: Layout.titleLabelTopOffset)
         titleLabel.leftToRight(of: connectionImageView, offset: Layout.sideOffset)
+        titleLabel.right(to: contentView, offset: -Layout.sideOffset)
 
         descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionLabelTopOffset)
         descriptionLabel.leftToRight(of: connectionImageView, offset: Layout.sideOffset)
