@@ -37,7 +37,7 @@
 "in_app.connections_list.delete_connection" = "Delete the connection and stop receiving authorizations for it.";
 "in_app.authorizations.authorization_expired" = "Authorization Expired";
 "in_app.authorizations.no_authorizations" = "Nothing to confirm";
-"in_app.authorizations.no_authorizations_description" = "You have no active authorizations. Once a authorization is generated, it will be valid for a few minutes.";
+"in_app.authorizations.no_authorizations_description" = "You have no active authorizations. Once an action authorization is generated, it will be valid for a few minutes.";
 "in_app.connection.connected_on" = "Connected on";
 "in_app.connection.connection_failed" = "Connection Failed";
 "in_app.connect.in_progress" = "Connection in Progress. Please Wait...";

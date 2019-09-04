@@ -60,6 +60,12 @@ final class TabBarCoordinator: Coordinator {
                 self.authorizationsCoordinator.start()
             }
         }
+
+        if noActiveConnections {
+            rootViewController.selectedIndex = TabBarControllerType.connections.rawValue
+        } else {
+            rootViewController.selectedIndex = TabBarControllerType.authorizations.rawValue
+        }
     }
 
     func stop() {}
@@ -67,4 +73,6 @@ final class TabBarCoordinator: Coordinator {
     func startAuthorizationsCoordinator() {
         authorizationsCoordinator.start()
     }
+
+    private let noActiveConnections = ConnectionsCollector.activeConnections.isEmpty
 }
