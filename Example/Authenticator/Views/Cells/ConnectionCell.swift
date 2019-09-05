@@ -28,8 +28,8 @@ private struct Layout {
     static let descriptionLabelTopOffset: CGFloat = 5.0
     static let imageViewSize: CGSize = CGSize(width: 40.0, height: 40.0)
     static let connectionPlaceholderViewSize: CGSize = CGSize(width: 48.0, height: 48.0)
-    static let connectionPlaceholderViewRadius: CGFloat = connectionPlaceholderViewSize.width / 2
-    static let connectionImageOffset = sideOffset + (imageViewSize.width - connectionPlaceholderViewSize.width) / 2
+    static let connectionPlaceholderViewRadius: CGFloat = 24.0
+    static let connectionImageOffset = sideOffset + 4.0
 }
 
 final class ConnectionCell: UITableViewCell, Dequeuable {
