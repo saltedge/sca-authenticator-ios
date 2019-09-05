@@ -114,11 +114,13 @@ final class ConnectViewCoordinator: Coordinator {
             )
         }
         connectViewController.add(qrCodeViewController)
+        connectViewController.title = l10n(.scanQr)
     }
 
     private func showWebViewController() {
         webViewController.delegate = self
         connectViewController.add(webViewController)
+        connectViewController.title = connectionType == .reconnect ? l10n(.reconnect) : l10n(.newConnection)
     }
 
     private func startWebViewLoading(with url: String) {
@@ -151,9 +153,7 @@ extension ConnectViewCoordinator: ConnectorWebViewControllerDelegate {
     func connectorConfirmed(url: URL, accessToken: AccessToken) {
         guard let connection = connection else { return }
 
-        connection.accessToken = accessToken
-        connection.status = ConnectionStatus.active.rawValue
-
+        ConnectionRepository.setAccessTokenAndActive(connection, accessToken: accessToken)
         ConnectionRepository.save(connection)
 
         webViewController.remove()

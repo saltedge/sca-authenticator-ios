@@ -40,6 +40,8 @@
 "in_app.authorizations.no_authorizations_description" = "You have no active authorizations. Once an action authorization is generated, it will be valid for a few minutes.";
 "in_app.connection.connected_on" = "Connected on";
 "in_app.connection.connection_failed" = "Connection Failed";
+"in_app.connect.scan_qr" = "Scan QR code";
+"in_app.connect.new_connection" = "New connection";
 "in_app.connect.in_progress" = "Connection in Progress. Please Wait...";
 "in_app.connect.no_connections" = "No Connections";
 "in_app.connect.no_connections_description" = "You have no currently connected service providers. Connect one to start receiving confirmations for your actions (e.g. payments).";
