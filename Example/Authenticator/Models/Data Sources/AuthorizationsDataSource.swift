@@ -41,15 +41,15 @@ final class AuthorizationsDataSource {
     }
 
     var sections: Int {
-        return viewModels.count
+        return 1
     }
 
     var hasDataToShow: Bool {
         return viewModels.count > 0
     }
 
-    func rows(for section: Int) -> Int {
-        return 1
+    func rows() -> Int {
+        return viewModels.count
     }
 
     func remove(_ viewModel: AuthorizationViewModel) -> Int? {
@@ -62,15 +62,15 @@ final class AuthorizationsDataSource {
         return index
     }
 
-    func item(at index: Int) -> AuthorizationViewModel? {
+    func viewModel(at index: Int) -> AuthorizationViewModel? {
         guard viewModels.indices.contains(index) else { return nil }
 
         return viewModels[index]
     }
 
-    func cell(tableView: UITableView, for indexPath: IndexPath) -> AuthorizationCell {
-        let cell: AuthorizationCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.set(with: viewModels[indexPath.section])
-        return cell
-    }
+//    func cell(tableView: UITableView, for indexPath: IndexPath) -> AuthorizationCell {
+//        let cell: AuthorizationCell = tableView.dequeueReusableCell(for: indexPath)
+//        cell.set(with: viewModels[indexPath.section])
+//        return cell
+//    }
 }

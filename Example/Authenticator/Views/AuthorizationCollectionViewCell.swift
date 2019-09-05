@@ -1,5 +1,5 @@
 //
-//  AuthorizationCell.swift
+//  AuthorizationCollectionViewCell
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -35,33 +35,13 @@ private struct Layout {
     static let loadingPlaceholderHeight: CGFloat = 100.0
 }
 
-protocol AuthorizationCellDelegate: class {
-    func leftButtonPressed(_ cell: AuthorizationCell)
-    func rightButtonPressed(_ cell: AuthorizationCell)
-    func timerExpired(_ cell: AuthorizationCell)
-    func viewMorePressed(_ cell: AuthorizationCell)
-}
-
-final class AuthorizationCell: UITableViewCell, Dequeuable {
-    weak var delegate: AuthorizationCellDelegate?
-
-    private var timeLeftView: TimeLeftView!
+final class AuthorizationCollectionViewCell: UICollectionViewCell {
+//    weak var delegate: AuthorizationCellDelegate?
 
     private let loadingPlaceholder = UIView()
     private let loadingIndicator = LoadingIndicator()
     private var isProcessing: Bool = false
 
-    private let connectionTitleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.auth_15medium
-        label.textColor = .auth_cyan
-        return label
-    }()
-    private var connectionImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
     private let titleLabel = UILabel.titleLabel
     private let descriptionLabel = UILabel.descriptionLabel
     private var contentStackView: UIStackView = {
@@ -78,25 +58,17 @@ final class AuthorizationCell: UITableViewCell, Dequeuable {
         stackView.spacing = Layout.sideOffset
         return stackView
     }()
+
     private var tapToViewMoreButton: UIButton!
     private(set) var viewModel: AuthorizationViewModel!
 
     private var constraintsToDeactivateOnProcessing: Constraints?
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        let maxLifetime = 0
-        timeLeftView = TimeLeftView(
-            secondsLeft: maxLifetime,
-            lifetime: maxLifetime,
-            completion: { [weak self] in
-                guard let weakSelf = self else { return }
-
-                weakSelf.delegate?.timerExpired(weakSelf)
-            }
-        )
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupLoadingView()
         setupTapToViewMoreButton()
+        layout()
     }
 
     func set(with viewModel: AuthorizationViewModel) {
@@ -104,17 +76,7 @@ final class AuthorizationCell: UITableViewCell, Dequeuable {
 
         stopProcessingIfNeeded()
 
-        timeLeftView.update(
-            secondsLeft: diffInSecondsFromNow(for: viewModel.authorizationExpiresAt),
-            lifetime: viewModel.lifetime
-        )
-
-        if let connection = ConnectionsCollector.with(id: viewModel.connectionId) {
-            setImage(from: connection.logoUrl)
-            connectionTitleLabel.text = connection.name
-        }
         titleLabel.text = viewModel.title
-        contentStackView.addArrangedSubview(titleLabel)
 
         if let htmlText = viewModel.description.htmlToAttributedString {
             descriptionLabel.attributedText = htmlText
@@ -132,7 +94,7 @@ final class AuthorizationCell: UITableViewCell, Dequeuable {
         setupRightButton()
 
         layout()
-        layoutIfNeeded()
+//        layoutIfNeeded()
         if descriptionLabel.isTruncated {
             contentStackView.addArrangedSubview(tapToViewMoreButton)
         } else if contentStackView.arrangedSubviews.contains(tapToViewMoreButton) {
@@ -154,17 +116,10 @@ final class AuthorizationCell: UITableViewCell, Dequeuable {
                 layoutIfNeeded()
             }
             buttonsStackView.isHidden = true
-            timeLeftView.isHidden = true
             tapToViewMoreButton.isHidden = true
             loadingIndicator.start()
             isProcessing = true
         }
-    }
-
-    private func setImage(from imageUrl: URL?) {
-        guard let url = imageUrl else { return }
-
-        ConnectionImageHelper.setAnimatedCachedImage(from: url, for: connectionImageView)
     }
 
     private func setupLoadingView() {
@@ -182,7 +137,6 @@ final class AuthorizationCell: UITableViewCell, Dequeuable {
                 layoutIfNeeded()
             }
             buttonsStackView.isHidden = false
-            timeLeftView.isHidden = false
             tapToViewMoreButton.isHidden = false
             loadingIndicator.stop()
             isProcessing = false
@@ -199,7 +153,7 @@ final class AuthorizationCell: UITableViewCell, Dequeuable {
 }
 
 // MARK: - Setup
-private extension AuthorizationCell {
+private extension AuthorizationCollectionViewCell {
     func setupTapToViewMoreButton() {
         tapToViewMoreButton = UIButton()
         tapToViewMoreButton.setTitleColor(.auth_blue, for: .normal)
@@ -226,22 +180,22 @@ private extension AuthorizationCell {
 }
 
 // MARK: - Actions
-private extension AuthorizationCell {
+private extension AuthorizationCollectionViewCell {
     @objc func leftButtonPressed(_ sender: CustomButton) {
-        delegate?.leftButtonPressed(self)
+//        delegate?.leftButtonPressed(self)
     }
 
     @objc func rightButtonPressed(_ sender: CustomButton) {
-        delegate?.rightButtonPressed(self)
+//        delegate?.rightButtonPressed(self)
     }
 
     @objc func viewMoreButtonPressed(_ sender: CustomButton) {
-        delegate?.viewMorePressed(self)
+//        delegate?.viewMorePressed(self)
     }
 }
 
 // MARK: - Helpers
-private extension AuthorizationCell {
+private extension AuthorizationCollectionViewCell {
     func diffInSecondsFromNow(for date: Date) -> Int {
         let currentDate = Date()
         let diffDateComponents = Calendar.current.dateComponents([.minute, .second], from: currentDate, to: date)
@@ -253,19 +207,16 @@ private extension AuthorizationCell {
 }
 
 // MARK: - Layout
-extension AuthorizationCell: Layoutable {
+extension AuthorizationCollectionViewCell: Layoutable {
     func layout() {
-        addSubviews(connectionImageView, connectionTitleLabel, timeLeftView, contentStackView, buttonsStackView)
+        addSubviews(titleLabel, contentStackView, buttonsStackView)
 
-        connectionImageView.size(Layout.connectionImageSize)
-        connectionImageView.left(to: self, offset: Layout.sideOffset)
-        connectionImageView.top(to: self, offset: Layout.topOffset)
+        titleLabel.top(to: self, offset: Layout.topOffset)
+        titleLabel.centerX(to: self)
 
-        connectionTitleLabel.leftToRight(of: connectionImageView, offset: Layout.sideOffset)
-        connectionTitleLabel.centerY(to: connectionImageView)
-
-        timeLeftView.right(to: self, offset: -Layout.sideOffset)
-        timeLeftView.centerY(to: connectionImageView)
+        contentStackView.topToBottom(of: titleLabel, offset: 12.0)
+        contentStackView.left(to: self, offset: AppLayout.sideOffset)
+        contentStackView.right(to: self, offset: -AppLayout.sideOffset)
 
         buttonsStackView.left(to: self, offset: AppLayout.sideOffset / 2)
         buttonsStackView.right(to: self, offset: -AppLayout.sideOffset / 2)
@@ -278,18 +229,12 @@ extension AuthorizationCell: Layoutable {
         )
 
         let topConstraint = contentStackView.topToBottom(
-            of: timeLeftView,
+            of: titleLabel,
             offset: Layout.contentStackViewMinTopBottomOffset,
             relation: .equalOrGreater
         )
 
-        contentStackView.left(to: contentView, offset: AppLayout.sideOffset)
-        contentStackView.right(to: contentView, offset: -AppLayout.sideOffset)
-        contentStackView.centerY(to: self, offset: Layout.contentStackViewCenterYOffset)
-
         constraintsToDeactivateOnProcessing = [topConstraint, bottomConstraint]
-
-        titleLabel.height(Layout.titleLableHeight)
 
         loadingIndicator.size(AppLayout.loadingIndicatorSize)
     }

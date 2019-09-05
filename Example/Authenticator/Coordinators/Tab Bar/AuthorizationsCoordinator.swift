@@ -34,7 +34,7 @@ final class AuthorizationsCoordinator: Coordinator {
     private var connections = ConnectionsCollector.activeConnections
 
     private var selectedViewModelIndex: Int?
-    private var selectedCell: AuthorizationCell?
+    private var selectedCell: AuthorizationCollectionViewCell?
 
     func start() {
         rootViewController.dataSource = dataSource
@@ -76,7 +76,7 @@ final class AuthorizationsCoordinator: Coordinator {
     }
 
     private func confirmationData(for index: Int) -> SEConfirmAuthorizationData? {
-        guard let viewModel = dataSource.item(at: index),
+        guard let viewModel = dataSource.viewModel(at: index),
             let connection = ConnectionsCollector.with(id: viewModel.connectionId),
             let url = connection.baseUrl else { return nil }
 
@@ -157,7 +157,7 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
         AuthorizationsInteractor.deny(data: data)
     }
 
-    func confirmPressed(at index: Int, cell: AuthorizationCell) {
+    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
         selectedViewModelIndex = index
         selectedCell = cell
 
@@ -180,7 +180,7 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     }
 
     func selectedViewModel(at index: Int) {
-        guard let viewModel = dataSource.item(at: index) else { return }
+        guard let viewModel = dataSource.viewModel(at: index) else { return }
 
         presentPopup(for: viewModel)
     }

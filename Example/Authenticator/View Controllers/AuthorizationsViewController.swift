@@ -26,12 +26,14 @@ protocol AuthorizationsViewControllerDelegate: class {
     func refreshPressed()
     func selectedViewModel(at index: Int)
     func denyPressed(at index: Int)
-    func confirmPressed(at index: Int, cell: AuthorizationCell)
+    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell)
     func modalClosed()
 }
 
 final class AuthorizationsViewController: BaseViewController {
-    private let tableView = UITableView(frame: .zero, style: .grouped)
+    private let headerSwipingView = AuthorizationsHeadersSwipingView()
+    private let authorizationSwipingView = AuthorizationsCollectionSwipingView()
+
     private let noDataView = NoDataView(
         image: #imageLiteral(resourceName: "no_authorizations"),
         title: l10n(.noAuthorizations),
@@ -46,15 +48,19 @@ final class AuthorizationsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .auth_backgroundColor
+        headerSwipingView.backgroundColor = .white
+        headerSwipingView.delegate = self
         setupNavigationItems()
-        setupTableView()
         setupObservers()
         layout()
         noDataView.alpha = 1.0
     }
 
     func reloadData() {
-        tableView.reloadData()
+        headerSwipingView.dataSource = dataSource
+        authorizationSwipingView.dataSource = dataSource
+        headerSwipingView.reloadData()
+        authorizationSwipingView.reloadData()
     }
 
     @objc func refresh() {
@@ -88,15 +94,6 @@ extension AuthorizationsViewController {
         )
     }
 
-    func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.backgroundColor = .auth_backgroundColor
-        tableView.register(AuthorizationCell.self)
-        tableView.sectionHeaderHeight = 30.0
-        tableView.sectionFooterHeight = 0.0
-    }
-
     func setupObservers() {
         NotificationsHelper.observe(
             self,
@@ -120,7 +117,8 @@ extension AuthorizationsViewController {
                 guard let dataSource = self?.dataSource else { return }
 
                 self?.noDataView.alpha = dataSource.hasDataToShow ? 0.0 : 1.0
-                self?.tableView.alpha = !dataSource.hasDataToShow ? 0.0 : 1.0
+                self?.headerSwipingView.alpha = !dataSource.hasDataToShow ? 0.0 : 1.0
+                self?.authorizationSwipingView.alpha = !dataSource.hasDataToShow ? 0.0 : 1.0
             }
         )
     }
@@ -129,104 +127,34 @@ extension AuthorizationsViewController {
 // MARK: - Actions
 extension AuthorizationsViewController {
     func delete(section: Int) {
-        tableView.beginUpdates()
-        tableView.deleteSections([section], with: .fade)
-        tableView.endUpdates()
         updateViewsHiddenState()
-    }
-}
-
-// MARK: UITableViewDataSource
-extension AuthorizationsViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        guard let dataSource = self.dataSource else { return 0 }
-
-        return dataSource.sections
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let dataSource = self.dataSource else { return 0 }
-
-        return dataSource.rows(for: section)
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = dataSource?.cell(tableView: tableView, for: indexPath) else { return UITableViewCell() }
-
-        cell.selectionStyle = .none
-        cell.delegate = self
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.height * 0.7
-    }
-}
-
-// MARK: UITableViewDelegate
-extension AuthorizationsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-
-        guard let cell = tableView.cellForRow(at: indexPath) as? AuthorizationCell, cell.shouldShowPopup else { return }
-
-        delegate?.selectedViewModel(at: indexPath.section)
     }
 }
 
 // MARK: - Layout
 extension AuthorizationsViewController: Layoutable {
     func layout() {
-        view.addSubviews(tableView, noDataView)
-        tableView.edges(to: view)
+        view.addSubviews(headerSwipingView, authorizationSwipingView, noDataView)
+
+        headerSwipingView.top(to: view)
+        headerSwipingView.width(to: view)
+        headerSwipingView.height(60.0)
+
+        authorizationSwipingView.topToBottom(of: headerSwipingView)
+        authorizationSwipingView.width(to: view)
+        authorizationSwipingView.bottom(to: view, offset: -AppLayout.tabBarHeight)
+
         noDataView.left(to: view, offset: AppLayout.sideOffset)
         noDataView.right(to: view, offset: -AppLayout.sideOffset)
         noDataView.center(in: view)
     }
 }
 
-// MARK: - AuthorizationCellDelegate
-extension AuthorizationsViewController: AuthorizationCellDelegate {
-    func leftButtonPressed(_ cell: AuthorizationCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
+// MARK: - AuthorizationHeaderSwipingViewDelegate
+extension AuthorizationsViewController: AuthorizationHeaderSwipingViewDelegate {
+    func timerExpired() {
+        guard let dataSource = self.dataSource else { return }
 
-        cell.setProcessing(with: l10n(.processing))
-
-        delegate?.denyPressed(at: indexPath.section)
-    }
-
-    func rightButtonPressed(_ cell: AuthorizationCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-
-        delegate?.confirmPressed(at: indexPath.section, cell: cell)
-    }
-
-    func timerExpired(_ cell: AuthorizationCell) {
-        guard let index = dataSource?.remove(cell.viewModel) else { return }
-
-        delete(section: index)
-    }
-
-    func viewMorePressed(_ cell: AuthorizationCell) {
-        guard let indexPath = tableView.indexPath(for: cell), cell.shouldShowPopup else { return }
-
-        delegate?.selectedViewModel(at: indexPath.section)
-    }
-}
-
-// MARK: - AuthorizationModalViewControllerDelegate
-extension AuthorizationsViewController: AuthorizationModalViewControllerDelegate {
-    func denyPressed() {}
-
-    func confirmPressed() {}
-
-    func buttonPressed(_ viewModel: AuthorizationViewModel) {
-        guard let index = dataSource?.remove(viewModel) else { return }
-
-        delete(section: index)
-    }
-
-    func willBeClosed() {
-        delegate?.modalClosed()
+//        dataSource.remove(<#T##viewModel: AuthorizationViewModel##AuthorizationViewModel#>)
     }
 }
