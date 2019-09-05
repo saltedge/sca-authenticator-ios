@@ -68,8 +68,8 @@
 "onboarding.allow_notifications.title" = "Allow Notifications";
 "onboarding.carousel_one.description" = "Two factor authentication brings additional security to your payments, diminishing any possibility of fraudulent activity.";
 "onboarding.carousel_one.title" = "Ultimate Payment Security";
-"onboarding.carousel_three.description" = "Simply connect your bank to the Authenticator to never worry about the security of your transactions again.";
-"onboarding.carousel_three.title" = "One App for all Bank Accounts";
+"onboarding.carousel_three.description" = "Simply connect your Provider to the Authenticator to never worry about the security of your transactions again.";
+"onboarding.carousel_three.title" = "One App for all Payment Accounts";
 "onboarding.carousel_two.description" = "Each time you make a payment, you’ll receive a confirmation to authorize that transaction, keeping you in control at all times.";
 "onboarding.carousel_two.title" = "Absolute Control";
 "onboarding.find_connection.completed_title" = "Well done!";
