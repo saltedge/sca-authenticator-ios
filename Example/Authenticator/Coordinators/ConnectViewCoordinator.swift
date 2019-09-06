@@ -157,7 +157,9 @@ extension ConnectViewCoordinator: ConnectorWebViewControllerDelegate {
         ConnectionRepository.save(connection)
 
         webViewController.remove()
-        connectViewController.showCompleteView(with: .success, title: "Connected successfully")
+        connectViewController.navigationItem.leftBarButtonItem = nil
+        let successTitleTemplate = l10n(.connectedSuccessfullyTitle)//"Your name is %@ and your age is %d."
+        connectViewController.showCompleteView(with: .success, title: String(format: successTitleTemplate, connection.name))
     }
 
     func showError(_ error: String) {

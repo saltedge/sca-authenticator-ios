@@ -62,6 +62,7 @@ enum Localizations: String, Localizable {
     case connectionFailed = "in_app.connection.connection_failed"
     case somethingWentWrong = "errors.contact_support"
 
+    case connectedSuccessfullyTitle = "in_app.connect.success_title"
     case connectedSuccessfullyDescription = "in_app.connect.success_description"
 
     case secureAppDescription = "onboarding.secure_app.passcode_description"
