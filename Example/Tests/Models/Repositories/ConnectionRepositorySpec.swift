@@ -30,6 +30,35 @@ class ConnectionRepositorySpec: BaseSpec {
         beforeEach {
             ConnectionRepository.deleteAllConnections()
         }
+        
+        describe("setAccessTokenAndActive(_:)") {
+            it("should set access token and connection status to active") {
+                let connection = Connection()
+                connection.status = "inactive"
+                
+                ConnectionRepository.setAccessTokenAndActive(
+                    connection,
+                    accessToken: "accessToken1"
+                )
+                
+                expect(connection.accessToken).to(equal("accessToken1"))
+                expect(connection.status).to(equal("active"))
+                
+                connection.status = "inactive"
+                
+                expect(connection.status).to(equal("inactive"))
+                
+                ConnectionRepository.save(connection)
+                
+                ConnectionRepository.setAccessTokenAndActive(
+                    connection,
+                    accessToken: "accessToken2"
+                )
+                
+                expect(connection.accessToken).to(equal("accessToken2"))
+                expect(connection.status).to(equal("active"))
+            }
+        }
 
         describe("setInactive(_:)") {
             it("should set connection status to inactive") {
