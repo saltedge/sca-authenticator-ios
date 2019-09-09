@@ -48,5 +48,17 @@ class ConnectionSpec: BaseSpec {
                 expect(connection.logoUrl).to(equal(URL(string: "test.com")))
             }
         }
+        
+        describe("isManaged") {
+            it("should return true if object is stored in Db") {
+                let connection = Connection()
+                
+                expect(connection.isManaged).to(beFalse())
+                
+                ConnectionRepository.save(connection)
+                
+                expect(connection.isManaged).to(beTrue())
+            }
+        }
     }
 }

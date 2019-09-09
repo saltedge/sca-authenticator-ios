@@ -62,6 +62,7 @@ enum Localizations: String, Localizable {
     case connectionFailed = "in_app.connection.connection_failed"
     case somethingWentWrong = "errors.contact_support"
 
+    case connectedSuccessfullyTitle = "in_app.connect.success_title"
     case connectedSuccessfullyDescription = "in_app.connect.success_description"
 
     case secureAppDescription = "onboarding.secure_app.passcode_description"
@@ -87,6 +88,8 @@ enum Localizations: String, Localizable {
     case connectedOn = "in_app.connection.connected_on"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
     case processing = "in_app.connect.in_progress"
+    case scanQr = "in_app.connect.scan_qr"
+    case newConnection = "in_app.connect.new_connection"
 
     // MARK: - Settings
     case settings = "in_app.sidebar_menu.settings"
