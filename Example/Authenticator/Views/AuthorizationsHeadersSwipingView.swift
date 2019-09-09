@@ -24,7 +24,6 @@ import UIKit
 
 private struct Layout {
     static let spacing: CGFloat = 16.0
-    static let cellSize: CGSize = CGSize(width: AppLayout.screenWidth * 0.66, height: 42.0)
 }
 
 protocol AuthorizationHeaderSwipingViewDelegate: class {
@@ -32,15 +31,13 @@ protocol AuthorizationHeaderSwipingViewDelegate: class {
 }
 
 final class AuthorizationsHeadersSwipingView: UIView {
-    private var collectionView: UICollectionView
-
-    var dataSource: AuthorizationsDataSource?
+    private(set) var collectionView: UICollectionView
 
     weak var delegate: AuthorizationHeaderSwipingViewDelegate?
 
     init() {
         let flowLayout = AuthorizationsCollectionLayout()
-        flowLayout.itemSize = Layout.cellSize
+        flowLayout.itemSize = CGSize(width: AppLayout.screenWidth * 0.66, height: 42.0)
         flowLayout.minimumLineSpacing = Layout.spacing
         flowLayout.scrollDirection = .horizontal
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
@@ -66,65 +63,8 @@ private extension AuthorizationsHeadersSwipingView {
             AuthorizationHeaderCollectionViewCell.self,
             forCellWithReuseIdentifier: "AuthorizationHeaderCollectionViewCell"
         )
-        collectionView.dataSource = self
-        collectionView.delegate = self
         collectionView.isPagingEnabled = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: Layout.spacing, bottom: 0, right: Layout.spacing)
         collectionView.showsHorizontalScrollIndicator = false
-    }
-}
-
-extension AuthorizationsHeadersSwipingView: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let dataSource = self.dataSource else { return 0 }
-
-        return dataSource.rows()
-    }
-
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        guard let dataSource = self.dataSource else { return 0 }
-
-        return dataSource.sections
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let dataSource = self.dataSource,
-            let viewModel = dataSource.viewModel(at: indexPath.row) else { return UICollectionViewCell() }
-
-        guard let headerCell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "AuthorizationHeaderCollectionViewCell",
-            for: indexPath
-        ) as? AuthorizationHeaderCollectionViewCell else { return UICollectionViewCell() }
-
-        headerCell.configure(viewModel, at: indexPath)
-        headerCell.delegate = self
-
-        return headerCell
-    }
-}
-
-extension AuthorizationsHeadersSwipingView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return indexPath.section != 0
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let dataSource = self.dataSource,
-            let viewModel = dataSource.viewModel(at: indexPath.row) else { return }
-
-        print("Tapped model:", viewModel)
-    }
-
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
-        let cellWidth: CGFloat = Layout.cellSize.width
-
-        let numberOfCells = floor(frame.size.width / cellWidth)
-
-        let edgeInsets = (frame.size.width - (numberOfCells * cellWidth)) / (numberOfCells + 1)
-
-        return UIEdgeInsets(top: 0.0, left: edgeInsets, bottom: 0.0, right: edgeInsets)
     }
 }
 

@@ -26,6 +26,7 @@ import TinyConstraints
 class BaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        edgesForExtendedLayout = []
         view.backgroundColor = .white
     }
 }

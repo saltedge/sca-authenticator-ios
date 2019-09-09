@@ -31,8 +31,7 @@ protocol AuthorizationsViewControllerDelegate: class {
 }
 
 final class AuthorizationsViewController: BaseViewController {
-    private let headerSwipingView = AuthorizationsHeadersSwipingView()
-    private let authorizationSwipingView = AuthorizationsCollectionSwipingView()
+    private let authorizationsView = MainAuthorizationsView()
 
     private let noDataView = NoDataView(
         image: #imageLiteral(resourceName: "no_authorizations"),
@@ -48,8 +47,7 @@ final class AuthorizationsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .auth_backgroundColor
-        headerSwipingView.backgroundColor = .white
-        headerSwipingView.delegate = self
+        authorizationsView.backgroundColor = .white
         setupNavigationItems()
         setupObservers()
         layout()
@@ -57,10 +55,8 @@ final class AuthorizationsViewController: BaseViewController {
     }
 
     func reloadData() {
-        headerSwipingView.dataSource = dataSource
-        authorizationSwipingView.dataSource = dataSource
-        headerSwipingView.reloadData()
-        authorizationSwipingView.reloadData()
+        authorizationsView.dataSource = dataSource
+        authorizationsView.reloadData()
     }
 
     @objc func refresh() {
@@ -117,8 +113,7 @@ extension AuthorizationsViewController {
                 guard let dataSource = self?.dataSource else { return }
 
                 self?.noDataView.alpha = dataSource.hasDataToShow ? 0.0 : 1.0
-                self?.headerSwipingView.alpha = !dataSource.hasDataToShow ? 0.0 : 1.0
-                self?.authorizationSwipingView.alpha = !dataSource.hasDataToShow ? 0.0 : 1.0
+                self?.authorizationsView.alpha = !dataSource.hasDataToShow ? 0.0 : 1.0
             }
         )
     }
@@ -134,15 +129,9 @@ extension AuthorizationsViewController {
 // MARK: - Layout
 extension AuthorizationsViewController: Layoutable {
     func layout() {
-        view.addSubviews(headerSwipingView, authorizationSwipingView, noDataView)
+        view.addSubviews(authorizationsView, noDataView)
 
-        headerSwipingView.top(to: view)
-        headerSwipingView.width(to: view)
-        headerSwipingView.height(60.0)
-
-        authorizationSwipingView.topToBottom(of: headerSwipingView)
-        authorizationSwipingView.width(to: view)
-        authorizationSwipingView.bottom(to: view, offset: -AppLayout.tabBarHeight)
+        authorizationsView.edgesToSuperview()
 
         noDataView.left(to: view, offset: AppLayout.sideOffset)
         noDataView.right(to: view, offset: -AppLayout.sideOffset)
@@ -153,8 +142,7 @@ extension AuthorizationsViewController: Layoutable {
 // MARK: - AuthorizationHeaderSwipingViewDelegate
 extension AuthorizationsViewController: AuthorizationHeaderSwipingViewDelegate {
     func timerExpired() {
-        guard let dataSource = self.dataSource else { return }
-
+//        guard let dataSource = self.dataSource else { return }
 //        dataSource.remove(<#T##viewModel: AuthorizationViewModel##AuthorizationViewModel#>)
     }
 }

@@ -93,8 +93,6 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         setupLeftButton()
         setupRightButton()
 
-        layout()
-//        layoutIfNeeded()
         if descriptionLabel.isTruncated {
             contentStackView.addArrangedSubview(tapToViewMoreButton)
         } else if contentStackView.arrangedSubviews.contains(tapToViewMoreButton) {

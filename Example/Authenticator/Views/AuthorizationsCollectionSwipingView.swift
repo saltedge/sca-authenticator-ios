@@ -23,9 +23,7 @@
 import UIKit
 
 final class AuthorizationsCollectionSwipingView: UIView {
-    private let collectionView: UICollectionView
-
-    var dataSource: AuthorizationsDataSource?
+    private(set) var collectionView: UICollectionView
 
     init() {
         let flowLayout = AuthorizationsCollectionLayout()
@@ -51,8 +49,6 @@ final class AuthorizationsCollectionSwipingView: UIView {
 private extension AuthorizationsCollectionSwipingView {
     func setupCollectionView() {
         collectionView.backgroundColor = .white
-        collectionView.dataSource = self
-        collectionView.delegate = self
         collectionView.bounces = false
         collectionView.isPagingEnabled = true
         collectionView.register(
@@ -60,52 +56,6 @@ private extension AuthorizationsCollectionSwipingView {
             forCellWithReuseIdentifier: "AuthorizationCollectionViewCell"
         )
         collectionView.showsHorizontalScrollIndicator = false
-    }
-}
-
-extension AuthorizationsCollectionSwipingView: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let dataSource = self.dataSource else { return 0 }
-
-        return dataSource.rows()
-    }
-
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        guard let dataSource = self.dataSource else { return 0 }
-
-        return dataSource.sections
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let dataSource = self.dataSource,
-            let viewModel = dataSource.viewModel(at: indexPath.row) else { return UICollectionViewCell() }
-
-        guard let headerCell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "AuthorizationCollectionViewCell",
-            for: indexPath
-            ) as? AuthorizationCollectionViewCell else { return UICollectionViewCell() }
-
-        headerCell.set(with: viewModel)
-
-        return headerCell
-    }
-}
-
-extension AuthorizationsCollectionSwipingView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return indexPath.section != 0
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let dataSource = self.dataSource,
-            let viewModel = dataSource.viewModel(at: indexPath.row) else { return }
-
-        print("Tapped model:", viewModel)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return collectionView.size
     }
 }
 
