@@ -735,6 +735,16 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
+		9DCC1F3823292F4E00BF7B70 /* Authorizations */ = {
+			isa = PBXGroup;
+			children = (
+				9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */,
+				9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */,
+				9D772134231E6BAB0015BAC6 /* AuthorizationsCollectionSwipingView.swift */,
+			);
+			path = Authorizations;
+			sourceTree = "<group>";
+		};
 		9DCED7DC22CE18270050ED3C /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -889,6 +899,7 @@
 		9DCED83022CE18270050ED3C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */,
 				9DCED83122CE18270050ED3C /* Constants.swift */,
 				9DCED83222CE18270050ED3C /* LocalizationHelper.swift */,
 				9DCED83422CE18270050ED3C /* KeychainHelper.swift */,
@@ -921,19 +932,12 @@
 		9DCED84522CE18270050ED3C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9DCED84622CE18270050ED3C /* MessageBarView.swift */,
+				9DCC1F3823292F4E00BF7B70 /* Authorizations */,
 				9DCED84722CE18270050ED3C /* Cells */,
 				9DCED84D22CE18270050ED3C /* Builders */,
 				9DCED84F22CE18270050ED3C /* General */,
-				9DCED85122CE18270050ED3C /* OnboardingFeaturesView.swift */,
 				9DCED85222CE18270050ED3C /* Modals */,
 				9DCED85522CE18270050ED3C /* Components */,
-				9D772128231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift */,
-				9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */,
-				9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */,
-				9D772134231E6BAB0015BAC6 /* AuthorizationsCollectionSwipingView.swift */,
-				9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */,
-				9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -941,6 +945,8 @@
 		9DCED84722CE18270050ED3C /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */,
+				9D772128231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift */,
 				9DCED84822CE18270050ED3C /* TableViewCellDequeuable.swift */,
 				9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */,
 				9DCED84A22CE18270050ED3C /* SettingsCell.swift */,
@@ -960,6 +966,8 @@
 		9DCED84F22CE18270050ED3C /* General */ = {
 			isa = PBXGroup;
 			children = (
+				9DCED84622CE18270050ED3C /* MessageBarView.swift */,
+				9DCED85122CE18270050ED3C /* OnboardingFeaturesView.swift */,
 				9DCED85022CE18270050ED3C /* CustomSpacingLabel.swift */,
 			);
 			path = General;

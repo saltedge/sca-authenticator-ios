@@ -32,14 +32,12 @@ final class MainAuthorizationsView: UIView {
 
     var dataSource: AuthorizationsDataSource?
 
+    private lazy var translation: CGFloat = 0.0
+
     init() {
         super.init(frame: .zero)
-        headerSwipingView.collectionView.dataSource = self
-        headerSwipingView.collectionView.delegate = self
-        authorizationSwipingView.collectionView.dataSource = self
-        authorizationSwipingView.collectionView.delegate = self
-
-        setupPanGesture()
+        setupSwipingViews()
+        setupPanGestures()
         layout()
     }
 
@@ -48,16 +46,71 @@ final class MainAuthorizationsView: UIView {
         authorizationSwipingView.collectionView.reloadData()
     }
 
-    private func setupPanGesture() {
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan))
-        addGestureRecognizer(panGesture)
-    }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc func handlePan(_ recognizer: UIPanGestureRecognizer) {
+    @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
+        guard recognizer.view == authorizationSwipingView else { return }
+
+        switch recognizer.state {
+        case .began:
+            translation = recognizer.translation(in: self).x
+        case .changed:
+            let multiplier = (Layout.headerSize.width + 16) / AppLayout.screenWidth
+
+            let currentPosition = headerSwipingView.collectionView.contentOffset.x
+
+            let finalTranslation = (recognizer.translation(in: self).x - translation) * multiplier
+
+            translation = recognizer.translation(in: self).x
+
+            headerSwipingView.collectionView.setContentOffset(
+                CGPoint(x: currentPosition - finalTranslation, y: headerSwipingView.collectionView.contentOffset.y),
+                animated: false
+            )
+        default: break
+        }
+    }
+
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
+            if let superview = self.superview {
+                let translation = panGestureRecognizer.translation(in: superview)
+                return abs(translation.x) > abs(translation.y)
+            }
+        }
+        return false
+    }
+}
+
+// MARK: - Setup
+private extension MainAuthorizationsView {
+    func setupPanGestures() {
+        let headerPanGesture = UIPanGestureRecognizer()
+        headerPanGesture.addTarget(self, action: #selector(handlePan))
+        headerPanGesture.delegate = self
+        headerSwipingView.addGestureRecognizer(headerPanGesture)
+
+        let authorizationPanGesture = UIPanGestureRecognizer()
+        authorizationPanGesture.addTarget(self, action: #selector(handlePan))
+        authorizationPanGesture.delegate = self
+        authorizationSwipingView.addGestureRecognizer(authorizationPanGesture)
+    }
+
+    func setupSwipingViews() {
+        headerSwipingView.collectionView.dataSource = self
+        headerSwipingView.collectionView.delegate = self
+        authorizationSwipingView.collectionView.dataSource = self
+        authorizationSwipingView.collectionView.delegate = self
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+extension MainAuthorizationsView: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 
@@ -66,7 +119,7 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let dataSource = self.dataSource else { return 0 }
 
-        return dataSource.rows()
+        return dataSource.rows
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -100,6 +153,17 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
         }
 
         return cell
+    }
+
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView,
+                                   withVelocity velocity: CGPoint,
+                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        guard let indexPath = authorizationSwipingView.collectionView.indexPathForItem(at: targetContentOffset.pointee)
+            else { return }
+
+        UIView.animate(withDuration: 0.2) {
+            self.headerSwipingView.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+        }
     }
 }
 

@@ -68,7 +68,7 @@ final class AuthorizationsCoordinator: Coordinator {
         }
     }
 
-     private func updateDataSource(with authorizations: [SEEncryptedAuthorizationResponse]) {
+     private func updateDataSource(with authorizations: [SEDecryptedAuthorizationData]) {
         if dataSource.update(with: authorizations) {
             rootViewController.reloadData()
         }
@@ -97,7 +97,15 @@ private extension AuthorizationsCoordinator {
         AuthorizationsInteractor.refresh(
             connections: Array(connections),
             success: { encryptedAuthorizations in
-                self.updateDataSource(with: encryptedAuthorizations)
+                DispatchQueue.global(qos: .background).async {
+                    let decryptedAuthorizations = encryptedAuthorizations.compactMap { authorization in
+                        return AuthorizationsPresenter.decryptedData(from: authorization)
+                    }
+
+                    DispatchQueue.main.async {
+                        self.updateDataSource(with: decryptedAuthorizations)
+                    }
+                }
             },
             connectionNotFoundFailure: { connectionId in
                 if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {

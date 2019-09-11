@@ -73,18 +73,19 @@ class AuthorizationsDataSourceSpec: BaseSpec {
             let firstResponse = SEEncryptedAuthorizationResponse(dict)!
             let secondResponse = SEEncryptedAuthorizationResponse(secondDict)!
 
-            let firstDecryptedData = AuthorizationsPresenter.decryptedData(from: firstResponse)!
-            let secondDecryptedData = AuthorizationsPresenter.decryptedData(from: secondResponse)!
+            let firstDecryptedData: SEDecryptedAuthorizationData = AuthorizationsPresenter.decryptedData(from: firstResponse)!
+            let secondDecryptedData: SEDecryptedAuthorizationData = AuthorizationsPresenter.decryptedData(from: secondResponse)!
 
             firstModel = AuthorizationViewModel(firstDecryptedData)
             secondModel = AuthorizationViewModel(secondDecryptedData)
 
-            _ = dataSource.update(with: [firstResponse, secondResponse])
+            dataSource.update(with: [firstDecryptedData, secondDecryptedData])
+            //dataSource.update(with: [firstDecryptedData, secondDecryptedData])
         }
 
         describe("sections") {
             it("should return numer of sections, that is equal to number of authorizations") {
-                expect(dataSource.sections).to(equal(2))
+                expect(dataSource.sections).to(equal(1))
             }
         }
 
@@ -96,16 +97,16 @@ class AuthorizationsDataSourceSpec: BaseSpec {
 
         describe("rows(for)") {
             it("should always return 1") {
-                expect(dataSource.rows(for: 0)).to(equal(1))
+                expect(dataSource.rows).to(equal(2))
             }
         }
 
         describe("remove(_:)") {
             context("when view model exists") {
                 it("should remove it from array and as a result return it's index") {
-                    expect(dataSource.sections).to(equal(2))
+                    expect(dataSource.rows).to(equal(2))
                     expect(dataSource.remove(firstModel)).to(equal(0))
-                    expect(dataSource.sections).to(equal(1))
+                    expect(dataSource.rows).to(equal(1))
                 }
             }
  
@@ -118,8 +119,8 @@ class AuthorizationsDataSourceSpec: BaseSpec {
 
         describe("item(for)") {
             it("should return view model for given index") {
-                expect(dataSource.item(at: 0)).to(equal(firstModel))
-                expect(dataSource.item(at: 1)).to(equal(secondModel))
+                expect(dataSource.viewModel(at: 0)).to(equal(firstModel))
+                expect(dataSource.viewModel(at: 1)).to(equal(secondModel))
             }
         }
     }

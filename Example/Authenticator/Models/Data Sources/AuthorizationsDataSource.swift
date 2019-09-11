@@ -24,16 +24,15 @@ import UIKit
 import SEAuthenticator
 
 final class AuthorizationsDataSource {
-    private var authorizationResponses = [SEEncryptedAuthorizationResponse]()
+    private var authorizationResponses = [SEDecryptedAuthorizationData]()
     private var viewModels = [AuthorizationViewModel]()
 
-    func update(with authorizationResponses: [SEEncryptedAuthorizationResponse]) -> Bool {
+    @discardableResult
+    func update(with authorizationResponses: [SEDecryptedAuthorizationData]) -> Bool {
         if authorizationResponses != self.authorizationResponses {
             self.authorizationResponses = authorizationResponses
             self.viewModels = authorizationResponses.compactMap { response in
-                guard let data = AuthorizationsPresenter.decryptedData(from: response) else { return nil }
-
-                return AuthorizationViewModel(data)
+                return AuthorizationViewModel(response)
             }
             return true
         }
@@ -48,7 +47,7 @@ final class AuthorizationsDataSource {
         return viewModels.count > 0
     }
 
-    func rows() -> Int {
+    var rows: Int {
         return viewModels.count
     }
 
@@ -67,10 +66,4 @@ final class AuthorizationsDataSource {
 
         return viewModels[index]
     }
-
-//    func cell(tableView: UITableView, for indexPath: IndexPath) -> AuthorizationCell {
-//        let cell: AuthorizationCell = tableView.dequeueReusableCell(for: indexPath)
-//        cell.set(with: viewModels[indexPath.section])
-//        return cell
-//    }
 }

@@ -49,7 +49,6 @@ final class AuthorizationsCollectionSwipingView: UIView {
 private extension AuthorizationsCollectionSwipingView {
     func setupCollectionView() {
         collectionView.backgroundColor = .white
-        collectionView.bounces = false
         collectionView.isPagingEnabled = true
         collectionView.register(
             AuthorizationCollectionViewCell.self,
