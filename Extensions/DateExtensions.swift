@@ -22,12 +22,20 @@
 
 import Foundation
 
-extension Date {
-    var utcSeconds: Double {
+public extension Date {
+    var utcSeconds: Int {
         var currentCalendar = Calendar.current
         currentCalendar.timeZone = TimeZone.utc
         let components = Calendar.current.dateComponents([.timeZone, .year, .month, .day, .hour, .minute, .second], from: self)
 
-        return currentCalendar.date(from: components)?.timeIntervalSince1970 ?? 0.0
+        guard let dateFromComponents = currentCalendar.date(from: components) else { return 0 }
+
+        return Int(dateFromComponents.timeIntervalSince1970)
+    }
+}
+
+extension TimeZone {
+    static var utc: TimeZone {
+        return TimeZone(identifier: "UTC")!
     }
 }

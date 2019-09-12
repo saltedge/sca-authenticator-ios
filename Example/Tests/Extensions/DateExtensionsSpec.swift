@@ -1,5 +1,5 @@
 //
-//  DateExtensions.swift
+//  DateExtensionsSpec
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -20,20 +20,23 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import Foundation
+import Quick
+import Nimble
+@testable import SEAuthenticator
 
-extension Date {
-    var utcSeconds: Double {
-        var currentCalendar = Calendar.current
-        currentCalendar.timeZone = TimeZone.utc
-        let components = Calendar.current.dateComponents([.timeZone, .year, .month, .day, .hour, .minute, .second], from: self)
+class DateExtensionsSpec: BaseSpec {
+    override func spec() {
+        describe("utcSeconds") {
+            it("should return correct utc timestamp") {
+                let dateString = "2019-09-12T10:44:00+0000"
 
-        return currentCalendar.date(from: components)?.timeIntervalSince1970 ?? 0.0
-    }
-}
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+                let date = dateFormatter.date(from: dateString)!
 
-extension TimeZone {
-    static var utc: TimeZone {
-        return TimeZone(identifier: "UTC")!
+                expect(date.utcSeconds).to(equal(1568285040))
+            }
+        }
     }
 }

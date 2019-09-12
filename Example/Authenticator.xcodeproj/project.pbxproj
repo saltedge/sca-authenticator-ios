@@ -18,6 +18,8 @@
 		9D4310F422D7661D004A7FCF /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */; };
 		9D4310F522D76625004A7FCF /* AboutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */; };
 		9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */; };
+		9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */; };
+		9D6575FB232A9E8100DCC53E /* DateUtilsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6575FA232A9E8100DCC53E /* DateUtilsSpec.swift */; };
 		9D66E1A922D4C1C100BD59B6 /* DecryptedAuthorizationDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17B22D4C0AF00BD59B6 /* DecryptedAuthorizationDataSpec.swift */; };
 		9D66E1AA22D4C1C600BD59B6 /* SetupStepSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E18522D4C0AF00BD59B6 /* SetupStepSpec.swift */; };
 		9D66E1AB22D4C1CA00BD59B6 /* CryptoErrorsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17122D4C0AF00BD59B6 /* CryptoErrorsSpec.swift */; };
@@ -70,7 +72,6 @@
 		9DCED8CE22CE18280050ED3C /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82022CE18270050ED3C /* StringExtensions.swift */; };
 		9DCED8CF22CE18280050ED3C /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82122CE18270050ED3C /* ColorExtensions.swift */; };
 		9DCED8D122CE18280050ED3C /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82322CE18270050ED3C /* BundleExtensions.swift */; };
-		9DCED8D222CE18280050ED3C /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82422CE18270050ED3C /* DateExtensions.swift */; };
 		9DCED8D322CE18280050ED3C /* StackViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82522CE18270050ED3C /* StackViewExtensions.swift */; };
 		9DCED8D422CE18280050ED3C /* DicitionaryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82622CE18270050ED3C /* DicitionaryExtensions.swift */; };
 		9DCED8D522CE18280050ED3C /* ApplicationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82722CE18270050ED3C /* ApplicationExtensions.swift */; };
@@ -86,7 +87,6 @@
 		9DCED8E022CE18280050ED3C /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */; };
 		9DCED8E122CE18280050ED3C /* Localizations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83722CE18270050ED3C /* Localizations.swift */; };
 		9DCED8E422CE18280050ED3C /* AppearanceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83A22CE18270050ED3C /* AppearanceHelper.swift */; };
-		9DCED8E522CE18280050ED3C /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83B22CE18270050ED3C /* DateUtils.swift */; };
 		9DCED8E622CE18280050ED3C /* ConnectionImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83C22CE18270050ED3C /* ConnectionImageHelper.swift */; };
 		9DCED8E722CE18280050ED3C /* PasscodeManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83D22CE18270050ED3C /* PasscodeManger.swift */; };
 		9DCED8E822CE18280050ED3C /* AmountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83E22CE18270050ED3C /* AmountFormatter.swift */; };
@@ -218,7 +218,6 @@
 		9DE3249922D399ED00EB162A /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82022CE18270050ED3C /* StringExtensions.swift */; };
 		9DE3249A22D399EF00EB162A /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82122CE18270050ED3C /* ColorExtensions.swift */; };
 		9DE3249B22D399F200EB162A /* BundleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82322CE18270050ED3C /* BundleExtensions.swift */; };
-		9DE3249C22D399F400EB162A /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82422CE18270050ED3C /* DateExtensions.swift */; };
 		9DE3249D22D399F600EB162A /* StackViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82522CE18270050ED3C /* StackViewExtensions.swift */; };
 		9DE3249E22D399F900EB162A /* DicitionaryExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82622CE18270050ED3C /* DicitionaryExtensions.swift */; };
 		9DE3249F22D399FC00EB162A /* ApplicationExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED82722CE18270050ED3C /* ApplicationExtensions.swift */; };
@@ -234,7 +233,6 @@
 		9DE324AA22D39A2000EB162A /* UserDefaultsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */; };
 		9DE324AB22D39A2300EB162A /* Localizations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83722CE18270050ED3C /* Localizations.swift */; };
 		9DE324AC22D39A2500EB162A /* AppearanceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83A22CE18270050ED3C /* AppearanceHelper.swift */; };
-		9DE324AD22D39A2800EB162A /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83B22CE18270050ED3C /* DateUtils.swift */; };
 		9DE324AE22D39A2A00EB162A /* ConnectionImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83C22CE18270050ED3C /* ConnectionImageHelper.swift */; };
 		9DE324AF22D39A2D00EB162A /* PasscodeManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83D22CE18270050ED3C /* PasscodeManger.swift */; };
 		9DE324B022D39A2F00EB162A /* AmountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83E22CE18270050ED3C /* AmountFormatter.swift */; };
@@ -321,6 +319,8 @@
 		95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
 		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
 		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
+		9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsSpec.swift; sourceTree = "<group>"; };
+		9D6575FA232A9E8100DCC53E /* DateUtilsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilsSpec.swift; sourceTree = "<group>"; };
 		9D66E17122D4C0AF00BD59B6 /* CryptoErrorsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoErrorsSpec.swift; sourceTree = "<group>"; };
 		9D66E17222D4C0AF00BD59B6 /* ApiErrorsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiErrorsSpec.swift; sourceTree = "<group>"; };
 		9D66E17522D4C0AF00BD59B6 /* ConnectionSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionSpec.swift; sourceTree = "<group>"; };
@@ -372,7 +372,6 @@
 		9DCED82022CE18270050ED3C /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		9DCED82122CE18270050ED3C /* ColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		9DCED82322CE18270050ED3C /* BundleExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BundleExtensions.swift; sourceTree = "<group>"; };
-		9DCED82422CE18270050ED3C /* DateExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
 		9DCED82522CE18270050ED3C /* StackViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackViewExtensions.swift; sourceTree = "<group>"; };
 		9DCED82622CE18270050ED3C /* DicitionaryExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DicitionaryExtensions.swift; sourceTree = "<group>"; };
 		9DCED82722CE18270050ED3C /* ApplicationExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationExtensions.swift; sourceTree = "<group>"; };
@@ -388,7 +387,6 @@
 		9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsHelper.swift; sourceTree = "<group>"; };
 		9DCED83722CE18270050ED3C /* Localizations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizations.swift; sourceTree = "<group>"; };
 		9DCED83A22CE18270050ED3C /* AppearanceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearanceHelper.swift; sourceTree = "<group>"; };
-		9DCED83B22CE18270050ED3C /* DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		9DCED83C22CE18270050ED3C /* ConnectionImageHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionImageHelper.swift; sourceTree = "<group>"; };
 		9DCED83D22CE18270050ED3C /* PasscodeManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeManger.swift; sourceTree = "<group>"; };
 		9DCED83E22CE18270050ED3C /* AmountFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmountFormatter.swift; sourceTree = "<group>"; };
@@ -574,8 +572,10 @@
 				9D66E1D222D6146800BD59B6 /* Networking */,
 				9D66E18422D4C0AF00BD59B6 /* Enumerations */,
 				9D66E17022D4C0AF00BD59B6 /* Errors */,
+				9D6575F6232A9AED00DCC53E /* Extensions */,
 				9D66E17322D4C0AF00BD59B6 /* Models */,
 				9DE3246822D398B300EB162A /* Presenters */,
+				9D6575F9232A9E7300DCC53E /* Helpers */,
 				9DE3246B22D398ED00EB162A /* Spec Helpers */,
 				9DE3243B22D3986B00EB162A /* Supporting Files */,
 				607FACEA1AFB9204008FA782 /* Info.plist */,
@@ -612,6 +612,22 @@
 				95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */,
 			);
 			path = Migrations;
+			sourceTree = "<group>";
+		};
+		9D6575F6232A9AED00DCC53E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9D6575F9232A9E7300DCC53E /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				9D6575FA232A9E8100DCC53E /* DateUtilsSpec.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		9D66E17022D4C0AF00BD59B6 /* Errors */ = {
@@ -837,7 +853,6 @@
 				9DCED82022CE18270050ED3C /* StringExtensions.swift */,
 				9DCED82122CE18270050ED3C /* ColorExtensions.swift */,
 				9DCED82322CE18270050ED3C /* BundleExtensions.swift */,
-				9DCED82422CE18270050ED3C /* DateExtensions.swift */,
 				9DCED82522CE18270050ED3C /* StackViewExtensions.swift */,
 				9DCED82622CE18270050ED3C /* DicitionaryExtensions.swift */,
 				9DCED82722CE18270050ED3C /* ApplicationExtensions.swift */,
@@ -881,7 +896,6 @@
 				9DCED83622CE18270050ED3C /* UserDefaultsHelper.swift */,
 				9DCED83722CE18270050ED3C /* Localizations.swift */,
 				9DCED83A22CE18270050ED3C /* AppearanceHelper.swift */,
-				9DCED83B22CE18270050ED3C /* DateUtils.swift */,
 				9DCED83C22CE18270050ED3C /* ConnectionImageHelper.swift */,
 				9DCED83D22CE18270050ED3C /* PasscodeManger.swift */,
 				9DCED83E22CE18270050ED3C /* AmountFormatter.swift */,
@@ -1578,7 +1592,6 @@
 				9DCED92622CE18280050ED3C /* AppDelegate.swift in Sources */,
 				9DCED8CB22CE18280050ED3C /* WindowExtensions.swift in Sources */,
 				9DCED8DA22CE18280050ED3C /* Localizable.swift in Sources */,
-				9DCED8E522CE18280050ED3C /* DateUtils.swift in Sources */,
 				9DCED90022CE18280050ED3C /* CustomButton.swift in Sources */,
 				9DCED8AC22CE18280050ED3C /* QRCodeViewController.swift in Sources */,
 				9DCED90F22CE18280050ED3C /* AuthorizationModalViewCoordinator.swift in Sources */,
@@ -1589,7 +1602,6 @@
 				9DCED8AA22CE18280050ED3C /* MainTabBarViewController.swift in Sources */,
 				9DCED90122CE18280050ED3C /* SetupProgressBar.swift in Sources */,
 				95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */,
-				9DCED8D222CE18280050ED3C /* DateExtensions.swift in Sources */,
 				9DCED8A422CE18280050ED3C /* ConnectorWebViewController.swift in Sources */,
 				9DCED89E22CE18280050ED3C /* ConnectionsViewController.swift in Sources */,
 				9DCED8ED22CE18280050ED3C /* AuthorizationViewModel.swift in Sources */,
@@ -1621,7 +1633,6 @@
 			files = (
 				9DE324CF22D39A9C00EB162A /* OnboardingFeaturesView.swift in Sources */,
 				9DE324AA22D39A2000EB162A /* UserDefaultsHelper.swift in Sources */,
-				9DE3249C22D399F400EB162A /* DateExtensions.swift in Sources */,
 				9DE324D022D39A9F00EB162A /* ModalView.swift in Sources */,
 				9DE3249822D399EB00EB162A /* FontsExtensions.swift in Sources */,
 				9DE324B322D39A3700EB162A /* ParametersSerializer.swift in Sources */,
@@ -1637,6 +1648,7 @@
 				9DE324A522D39A1300EB162A /* Constants.swift in Sources */,
 				9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */,
 				9D66E1B322D4C1E900BD59B6 /* LanguagePickerDataSourceSpec.swift in Sources */,
+				9D6575FB232A9E8100DCC53E /* DateUtilsSpec.swift in Sources */,
 				9DE324DF22D39AC800EB162A /* CompleteView.swift in Sources */,
 				9DE324B122D39A3200EB162A /* NotificationsManager.swift in Sources */,
 				9DE324A222D39A0800EB162A /* AuthorizationsInteractor.swift in Sources */,
@@ -1684,6 +1696,7 @@
 				9DE324C022D39A6800EB162A /* CustomActionSheetViewController.swift in Sources */,
 				9DE324D422D39AAC00EB162A /* SetupProgressBarCircle.swift in Sources */,
 				9DE3247E22D3998D00EB162A /* PasscodeCoordinator.swift in Sources */,
+				9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */,
 				9DE3249E22D399F900EB162A /* DicitionaryExtensions.swift in Sources */,
 				9DE3248422D3999F00EB162A /* SetupStep.swift in Sources */,
 				9DE3247422D398ED00EB162A /* BaseSpec.swift in Sources */,
@@ -1740,7 +1753,6 @@
 				9D66E1B122D4C1E000BD59B6 /* SettingsDataSourceSpec.swift in Sources */,
 				9DE324C922D39A8900EB162A /* FeaturesCollectionViewCell.swift in Sources */,
 				9DE3249622D399E500EB162A /* WindowExtensions.swift in Sources */,
-				9DE324AD22D39A2800EB162A /* DateUtils.swift in Sources */,
 				9DE324A122D39A0400EB162A /* LabelStyles.swift in Sources */,
 				9DE324D522D39AAF00EB162A /* TimeLeftView.swift in Sources */,
 				9DE324A922D39A1E00EB162A /* AppSettings.swift in Sources */,
