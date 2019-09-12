@@ -36,8 +36,6 @@ private struct Layout {
 }
 
 final class AuthorizationCollectionViewCell: UICollectionViewCell {
-//    weak var delegate: AuthorizationCellDelegate?
-
     private let loadingPlaceholder = UIView()
     private let loadingIndicator = LoadingIndicator()
     private var isProcessing: Bool = false
@@ -66,8 +64,9 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupLeftButton()
+        setupRightButton()
         setupLoadingView()
-        setupTapToViewMoreButton()
         layout()
     }
 
@@ -83,17 +82,10 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         } else {
             descriptionLabel.text = viewModel.description
         }
-        descriptionLabel.numberOfLines = 0
         contentStackView.addArrangedSubview(descriptionLabel)
 
-        for button in buttonsStackView.arrangedSubviews {
-            buttonsStackView.removeArrangedSubview(button)
-            button.removeFromSuperview()
-        }
-        setupLeftButton()
-        setupRightButton()
-
         if descriptionLabel.isTruncated {
+            setupTapToViewMoreButton()
             contentStackView.addArrangedSubview(tapToViewMoreButton)
         } else if contentStackView.arrangedSubviews.contains(tapToViewMoreButton) {
             contentStackView.removeArrangedSubview(tapToViewMoreButton)

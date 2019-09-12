@@ -21,7 +21,6 @@
 //
 
 import Foundation
-//import CryptoSwift
 @testable import SEAuthenticator
 
 struct SpecCryptoHelper {

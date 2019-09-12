@@ -23,7 +23,6 @@
 import UIKit
 
 protocol AuthorizationsViewControllerDelegate: class {
-    func refreshPressed()
     func selectedViewModel(at index: Int)
     func denyPressed(at index: Int)
     func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell)
@@ -46,9 +45,9 @@ final class AuthorizationsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = l10n(.authorizations)
         view.backgroundColor = .auth_backgroundColor
         authorizationsView.backgroundColor = .white
-        setupNavigationItems()
         setupObservers()
         layout()
         noDataView.alpha = 1.0
@@ -57,10 +56,6 @@ final class AuthorizationsViewController: BaseViewController {
     func reloadData() {
         authorizationsView.dataSource = dataSource
         authorizationsView.reloadData()
-    }
-
-    @objc func refresh() {
-        delegate?.refreshPressed()
     }
 
     @objc private func hasNoConnection() {
@@ -80,16 +75,6 @@ final class AuthorizationsViewController: BaseViewController {
 
 // MARK: - Setup
 extension AuthorizationsViewController {
-    func setupNavigationItems() {
-        navigationItem.title = "Authorizations"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: #imageLiteral(resourceName: "Sync"),
-            style: .plain,
-            target: self,
-            action: #selector(refresh)
-        )
-    }
-
     func setupObservers() {
         NotificationsHelper.observe(
             self,
@@ -136,13 +121,5 @@ extension AuthorizationsViewController: Layoutable {
         noDataView.left(to: view, offset: AppLayout.sideOffset)
         noDataView.right(to: view, offset: -AppLayout.sideOffset)
         noDataView.center(in: view)
-    }
-}
-
-// MARK: - AuthorizationHeaderSwipingViewDelegate
-extension AuthorizationsViewController: AuthorizationHeaderSwipingViewDelegate {
-    func timerExpired() {
-//        guard let dataSource = self.dataSource else { return }
-//        dataSource.remove(<#T##viewModel: AuthorizationViewModel##AuthorizationViewModel#>)
     }
 }

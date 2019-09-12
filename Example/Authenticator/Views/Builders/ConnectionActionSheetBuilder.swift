@@ -32,9 +32,9 @@ enum ActionSheetAction {
 }
 
 struct ConnectionActionSheetBuilder {
-    static func createActions(from hash: [ActionSheetAction: Action]) -> [CustomActionSheetButton] {
-        let actions: [CustomActionSheetButton] = hash.map { (name, action) in
-            return button(for: name, action: action)
+    static func createActions(from array: [(actionSheetItem: ActionSheetAction, action: Action)]) -> [CustomActionSheetButton] {
+        let actions: [CustomActionSheetButton] = array.map { (actionSheetItem, action) in
+            return button(for: actionSheetItem, action: action)
         }
         return actions
     }
@@ -43,13 +43,13 @@ struct ConnectionActionSheetBuilder {
         var button: CustomActionSheetButton
         switch type {
         case .reconnect:
-            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "Bank"), title: l10n(.reconnect), action: action)
+            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "connections_normal"), title: l10n(.reconnect), action: action)
         case .rename:
-            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "Edit"), title: l10n(.renameConnection), action: action)
+            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "action_rename"), title: l10n(.rename), action: action)
         case .support:
-            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "Info"), title: l10n(.contactSupport), action: action)
+            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "action_support"), title: l10n(.contactSupport), action: action)
         case .delete:
-            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "Delete"), title: l10n(.delete), action: action)
+            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "action_delete"), title: l10n(.delete), action: action)
         }
         return button
     }

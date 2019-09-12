@@ -155,10 +155,6 @@ private extension AuthorizationsCoordinator {
 
 // MARK: - AuthorizationsViewControllerDelegate
 extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
-    func refreshPressed() {
-        refresh()
-    }
-
     func denyPressed(at index: Int) {
         guard let data = confirmationData(for: index) else { return }
 

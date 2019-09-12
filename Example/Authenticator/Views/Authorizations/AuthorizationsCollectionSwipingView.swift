@@ -28,7 +28,6 @@ final class AuthorizationsCollectionSwipingView: UIView {
     init() {
         let flowLayout = AuthorizationsCollectionLayout()
         flowLayout.scrollDirection = .horizontal
-        flowLayout.minimumInteritemSpacing = 0.0
         flowLayout.minimumLineSpacing = 0.0
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         super.init(frame: .zero)

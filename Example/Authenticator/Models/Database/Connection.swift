@@ -54,4 +54,8 @@ extension Connection {
     var logoUrl: URL? {
         return URL(string: logoUrlString)
     }
+
+    var isManaged: Bool {
+        return realm != nil
+    }
 }

@@ -56,7 +56,7 @@ final class EditConnectionViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = l10n(.renameConnection)
+        title = l10n(.rename)
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: l10n(.done),
             style: .done,

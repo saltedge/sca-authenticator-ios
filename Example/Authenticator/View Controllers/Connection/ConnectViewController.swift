@@ -32,7 +32,7 @@ enum ConnectionType {
 final class ConnectViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = l10n(.connect)
+        title = l10n(.connectProvider)
         setupCancelButton()
     }
 }

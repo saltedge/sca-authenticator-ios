@@ -25,6 +25,24 @@ import RealmSwift
 
 struct ConnectionRepository {
     @discardableResult
+    static func setAccessTokenAndActive(_ connection: Connection, accessToken token: String) -> Bool {
+        var result = false
+        if connection.isManaged {
+            try? RealmManager.performRealmWriteTransaction {
+                connection.accessToken = token
+                connection.status = ConnectionStatus.active.rawValue
+                result = true
+            }
+        } else {
+            connection.accessToken = token
+            connection.status = ConnectionStatus.active.rawValue
+            result = true
+        }
+
+        return result
+    }
+
+    @discardableResult
     static func setInactive(_ connection: Connection) -> Bool {
         var result = false
         try? RealmManager.performRealmWriteTransaction {

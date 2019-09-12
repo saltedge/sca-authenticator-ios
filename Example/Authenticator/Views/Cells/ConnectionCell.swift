@@ -23,21 +23,44 @@
 import UIKit
 
 private struct Layout {
-    static let sideOffset: CGFloat = 15.0
+    static let sideOffset: CGFloat = 16.0
     static let titleLabelTopOffset: CGFloat = 20.0
     static let descriptionLabelTopOffset: CGFloat = 5.0
     static let imageViewSize: CGSize = CGSize(width: 40.0, height: 40.0)
+    static let connectionPlaceholderViewSize: CGSize = CGSize(width: 48.0, height: 48.0)
+    static let connectionPlaceholderViewRadius: CGFloat = 24.0
+    static let connectionImageOffset = sideOffset + 4.0
 }
 
 final class ConnectionCell: UITableViewCell, Dequeuable {
+    private let connectionPlaceholderView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = Layout.connectionPlaceholderViewRadius
+        view.clipsToBounds = true
+        view.backgroundColor = .auth_backgroundColor
+        return view
+    }()
     private let connectionImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    private let titleLabel = UILabel.titleLabel
-    private let descriptionLabel = UILabel.descriptionLabel
-
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .auth_19regular
+        label.textColor = .black
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
+        return label
+    }()
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .auth_15regular
+        label.textColor = .darkGray
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
+        return label
+    }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         layout()
@@ -61,16 +84,21 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
 // MARK: - Layout
 extension ConnectionCell: Layoutable {
     func layout() {
-        contentView.addSubviews(connectionImageView, titleLabel, descriptionLabel)
+        contentView.addSubviews(connectionPlaceholderView, connectionImageView, titleLabel, descriptionLabel)
+
+        connectionPlaceholderView.size(Layout.connectionPlaceholderViewSize)
+        connectionPlaceholderView.left(to: contentView, offset: Layout.sideOffset)
+        connectionPlaceholderView.centerY(to: contentView)
 
         connectionImageView.size(Layout.imageViewSize)
-        connectionImageView.left(to: contentView, offset: Layout.sideOffset)
-        connectionImageView.centerY(to: contentView)
+        connectionImageView.left(to: contentView, offset: Layout.connectionImageOffset)
+        connectionImageView.centerY(to: connectionPlaceholderView)
 
         titleLabel.top(to: contentView, offset: Layout.titleLabelTopOffset)
-        titleLabel.leftToRight(of: connectionImageView, offset: Layout.sideOffset)
+        titleLabel.leftToRight(of: connectionPlaceholderView, offset: Layout.sideOffset)
+        titleLabel.right(to: contentView, offset: -Layout.sideOffset)
 
         descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionLabelTopOffset)
-        descriptionLabel.leftToRight(of: connectionImageView, offset: Layout.sideOffset)
+        descriptionLabel.leftToRight(of: connectionPlaceholderView, offset: Layout.sideOffset)
     }
 }

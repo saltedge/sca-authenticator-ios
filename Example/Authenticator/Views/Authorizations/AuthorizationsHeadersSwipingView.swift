@@ -26,10 +26,6 @@ private struct Layout {
     static let spacing: CGFloat = 16.0
 }
 
-protocol AuthorizationHeaderSwipingViewDelegate: class {
-    func timerExpired()
-}
-
 final class AuthorizationsHeadersSwipingView: UIView {
     private(set) var collectionView: UICollectionView
 
@@ -63,7 +59,7 @@ private extension AuthorizationsHeadersSwipingView {
             AuthorizationHeaderCollectionViewCell.self,
             forCellWithReuseIdentifier: "AuthorizationHeaderCollectionViewCell"
         )
-        collectionView.isPagingEnabled = false
+        collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
     }
 }
@@ -74,12 +70,5 @@ extension AuthorizationsHeadersSwipingView: Layoutable {
         addSubview(collectionView)
 
         collectionView.edges(to: self)
-    }
-}
-
-// MARK: - AuthorizationHeaderCellDelegate
-extension AuthorizationsHeadersSwipingView: AuthorizationHeaderCellDelegate {
-    func timerExpired(cell: AuthorizationHeaderCollectionViewCell) {
-        delegate?.timerExpired()
     }
 }
