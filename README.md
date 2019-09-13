@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/saltedge/sca-authenticator-ios.svg?branch=master)](https://travis-ci.org/saltedge/sca-authenticator-ios)
+[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/SaltedgeAuthenticatorSDK.svg?style=flat)]
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40saltedge)](http://twitter.com/saltedge)
 
