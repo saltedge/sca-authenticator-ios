@@ -29,6 +29,7 @@ install:
   - pod repo update
   - pod install
 before_script:
+  - travis cache --delete
   - export PATH=/usr/local/bin:$PATH
   - export BASE_REPO=saltedge/sca-authenticator-ios
   - export DEVICE_TARGET='iPhone X'
