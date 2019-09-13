@@ -51,15 +51,15 @@ You can find related source code:
   brew install swiftlint
   ```
   
-  ## SDK installation via [CocoaPods](https://cocoapods.org)
+## SDK installation via [CocoaPods](https://cocoapods.org)
   
-  #### Add the pod to your `Podfile`
+#### Add the pod to your `Podfile`
   
   ```ruby
   pod 'SEAuthenticator', '~> 1.0.0'
   ```
   
-  #### Import SDK into your app
+#### Import SDK into your app
   
   `import SEAuthenticator`
 
