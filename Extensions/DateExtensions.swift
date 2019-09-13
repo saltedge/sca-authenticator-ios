@@ -34,7 +34,7 @@ public extension Date {
     }
 }
 
-extension TimeZone {
+public extension TimeZone {
     static var utc: TimeZone {
         return TimeZone(identifier: "UTC")!
     }
