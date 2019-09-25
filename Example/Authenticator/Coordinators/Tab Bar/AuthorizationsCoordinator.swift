@@ -27,7 +27,6 @@ final class AuthorizationsCoordinator: Coordinator {
     let rootViewController = AuthorizationsViewController()
 
     private var passcodeCoordinator: PasscodeCoordinator?
-    private var authorizationModalViewCoordinator: AuthorizationModalViewCoordinator?
 
     private var timer: Timer?
     private let dataSource = AuthorizationsDataSource()
@@ -115,26 +114,6 @@ private extension AuthorizationsCoordinator {
         )
     }
 
-    func presentPopup(for viewModel: AuthorizationViewModel) {
-        stop()
-
-        authorizationModalViewCoordinator = AuthorizationModalViewCoordinator(
-            rootViewController: rootViewController,
-            type: .show,
-            viewModel: viewModel
-        )
-        authorizationModalViewCoordinator?.confirmationActionPressed = { authorization in
-            guard let index = self.dataSource.remove(authorization) else { return }
-
-            self.rootViewController.delete(section: index)
-            self.setupPolling()
-        }
-        authorizationModalViewCoordinator?.closePressed = {
-            self.setupPolling()
-        }
-        authorizationModalViewCoordinator?.start()
-    }
-
     func presentPasscodeView() {
         passcodeCoordinator = PasscodeCoordinator(
             rootViewController: rootViewController,
@@ -181,12 +160,6 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
                 self.presentPasscodeView()
             }
         )
-    }
-
-    func selectedViewModel(at index: Int) {
-        guard let viewModel = dataSource.viewModel(at: index) else { return }
-
-        presentPopup(for: viewModel)
     }
 
     func modalClosed() {

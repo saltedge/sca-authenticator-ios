@@ -23,10 +23,8 @@
 import UIKit
 
 protocol AuthorizationsViewControllerDelegate: class {
-    func selectedViewModel(at index: Int)
     func denyPressed(at index: Int)
     func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell)
-    func modalClosed()
 }
 
 final class AuthorizationsViewController: BaseViewController {

@@ -60,15 +60,15 @@ final class ApplicationCoordinator: Coordinator {
 
         guard let rootVc = window?.rootViewController else { return }
 
-        let authModalCoordinator = AuthorizationModalViewCoordinator(
-            rootViewController: rootVc,
-            type: .preFetchAndShow,
-            viewModel: AuthorizationViewModel(connectionId: connectionId, authorizationId: authorizationId)
-        )
-        authModalCoordinator.closePressed = {
-            self.tabBarCoordinator.startAuthorizationsCoordinator()
-        }
-        authModalCoordinator.start()
+//        let authModalCoordinator = AuthorizationModalViewCoordinator(
+//            rootViewController: rootVc,
+//            type: .preFetchAndShow,
+//            viewModel: AuthorizationViewModel(connectionId: connectionId, authorizationId: authorizationId)
+//        )
+//        authModalCoordinator.closePressed = {
+//            self.tabBarCoordinator.startAuthorizationsCoordinator()
+//        }
+//        authModalCoordinator.start()
     }
 
     func openConnectViewController(urlString: String) {

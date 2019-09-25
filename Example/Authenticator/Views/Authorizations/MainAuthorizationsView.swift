@@ -191,8 +191,4 @@ extension MainAuthorizationsView: AuthorizationCellDelegate {
 
         delegate?.denyPressed(at: indexPath.row)
     }
-
-    func viewMorePressed(_ cell: AuthorizationCollectionViewCell) {
-
-    }
 }

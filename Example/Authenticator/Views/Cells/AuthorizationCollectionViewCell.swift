@@ -38,7 +38,6 @@ private struct Layout {
 protocol AuthorizationCellDelegate: class {
     func confirmPressed(_ cell: AuthorizationCollectionViewCell)
     func denyPressed(_ cell: AuthorizationCollectionViewCell)
-    func viewMorePressed(_ cell: AuthorizationCollectionViewCell)
 }
 
 final class AuthorizationCollectionViewCell: UICollectionViewCell {
@@ -63,7 +62,6 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
 
-    private var tapToViewMoreButton: UIButton!
     private(set) var viewModel: AuthorizationViewModel!
 
     private var constraintsToDeactivateOnProcessing: Constraints?
@@ -91,18 +89,6 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
             descriptionLabel.text = viewModel.description
         }
         contentStackView.addArrangedSubview(descriptionLabel)
-
-        if descriptionLabel.isTruncated {
-            setupTapToViewMoreButton()
-            contentStackView.addArrangedSubview(tapToViewMoreButton)
-        } else if contentStackView.arrangedSubviews.contains(tapToViewMoreButton) {
-            contentStackView.removeArrangedSubview(tapToViewMoreButton)
-            tapToViewMoreButton.removeFromSuperview()
-        }
-    }
-
-    var shouldShowPopup: Bool {
-        return descriptionLabel.isTruncated
     }
 
     func setProcessing(with title: String) {
@@ -114,7 +100,6 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
                 layoutIfNeeded()
             }
             buttonsStackView.isHidden = true
-            tapToViewMoreButton.isHidden = true
             loadingIndicator.start()
             isProcessing = true
         }
@@ -135,7 +120,6 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
                 layoutIfNeeded()
             }
             buttonsStackView.isHidden = false
-            tapToViewMoreButton.isHidden = false
             loadingIndicator.stop()
             isProcessing = false
         }
@@ -152,15 +136,6 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Setup
 private extension AuthorizationCollectionViewCell {
-    func setupTapToViewMoreButton() {
-        tapToViewMoreButton = UIButton()
-        tapToViewMoreButton.setTitleColor(.auth_blue, for: .normal)
-        tapToViewMoreButton.titleLabel?.font = .auth_15medium
-        tapToViewMoreButton.setTitle(l10n(.viewMore), for: .normal)
-        tapToViewMoreButton.height(18.0)
-        tapToViewMoreButton.addTarget(self, action: #selector(viewMoreButtonPressed(_:)), for: .touchUpInside)
-    }
-
     func setupLeftButton() {
         setupButton(.bordered, title: l10n(.deny)).addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
     }
@@ -186,10 +161,6 @@ private extension AuthorizationCollectionViewCell {
 
     @objc func confirmButtonPressed(_ sender: CustomButton) {
         delegate?.confirmPressed(self)
-    }
-
-    @objc func viewMoreButtonPressed(_ sender: CustomButton) {
-        delegate?.viewMorePressed(self)
     }
 }
 
@@ -236,19 +207,5 @@ extension AuthorizationCollectionViewCell: Layoutable {
         constraintsToDeactivateOnProcessing = [topConstraint, bottomConstraint]
 
         loadingIndicator.size(AppLayout.loadingIndicatorSize)
-    }
-}
-
-private extension UILabel {
-    var isTruncated: Bool {
-        guard let labelText = text else { return false }
-
-        let labelTextSize = (labelText as NSString).boundingRect(
-            with: CGSize(width: frame.size.width, height: .greatestFiniteMagnitude),
-            options: .usesLineFragmentOrigin,
-            attributes: [NSAttributedString.Key.font: font ?? UIFont.systemFont(ofSize: 17.0)],
-            context: nil).size
-
-        return labelTextSize.height > bounds.size.height
     }
 }
