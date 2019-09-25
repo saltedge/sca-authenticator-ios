@@ -187,13 +187,13 @@ private extension AuthorizationModalView {
     }
 
     func setupLeftButton() {
-        setupButton(.bordered, title: l10n(.deny)).addTarget(self, action: #selector(leftButtonPressed(_:)), for: .touchUpInside)
+//        setupButton(.bordered, title: l10n(.deny)).addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
     }
 
     func setupRightButton() {
-        setupButton(
-            .filled, title: l10n(.confirm)).addTarget(self, action: #selector(rightButtonPressed(_:)), for: .touchUpInside
-        )
+//        setupButton(
+//            .filled, title: l10n(.confirm)).addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside
+//        )
     }
 
     func setupButton(_ style: CustomButton.Style, title: String) -> UIButton {

@@ -28,15 +28,19 @@ private struct Layout {
     static let headerSwipingViewHeight: CGFloat = 60.0
 }
 
+protocol MainAuthorizationsViewDelegate: class {
+    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell)
+    func denyPressed(at index: Int)
+}
+
 final class MainAuthorizationsView: UIView {
     private let headerSwipingView = AuthorizationsHeadersSwipingView()
     private let authorizationSwipingView = SwipingAuthorizationsCollectionView()
-
-    private lazy var translation: CGFloat = 0.0
-
     private var currentScrollableScrollView: UIScrollView?
 
     var dataSource: AuthorizationsDataSource?
+
+    weak var delegate: MainAuthorizationsViewDelegate?
 
     init() {
         super.init(frame: .zero)
@@ -89,7 +93,7 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
             guard let headerCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "AuthorizationHeaderCollectionViewCell",
                 for: indexPath
-                ) as? AuthorizationHeaderCollectionViewCell else { return UICollectionViewCell() }
+            ) as? AuthorizationHeaderCollectionViewCell else { return UICollectionViewCell() }
 
             headerCell.configure(viewModel, at: indexPath)
             cell = headerCell
@@ -97,10 +101,11 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
             guard let authorizationCell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "AuthorizationCollectionViewCell",
                 for: indexPath
-                ) as? AuthorizationCollectionViewCell else { return UICollectionViewCell() }
+            ) as? AuthorizationCollectionViewCell else { return UICollectionViewCell() }
 
             authorizationCell.set(with: viewModel)
             authorizationCell.backgroundColor = .clear
+            authorizationCell.delegate = self
             cell = authorizationCell
         }
 
@@ -108,27 +113,20 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let currentScrollableScrollView = self.currentScrollableScrollView else { return }
+        let headerInsetMultiplier: CGFloat = 0.16
+        let authorizationCellWidth = AppLayout.screenWidth
+        let halfSpacing = Layout.headerSpacing / 2
+        let headerWithPlusSpace = Layout.headerSize.width + halfSpacing
+        let authorizationXOffset = authorizationSwipingView.collectionView.contentOffset.x
 
-        if currentScrollableScrollView == authorizationSwipingView.collectionView {
-            let headerInsetMultiplier: CGFloat = 0.16
-            let authorizationCellWidth = AppLayout.screenWidth
-            let halfSpacing = Layout.headerSpacing / 2
-            let headerWithPlusSpace = Layout.headerSize.width + halfSpacing
-            let authorizationXOffset = authorizationSwipingView.collectionView.contentOffset.x
+        let page = floor(authorizationXOffset / authorizationCellWidth)
+        let pagePercent = (authorizationXOffset - (page * authorizationCellWidth)) / authorizationCellWidth
 
-            let page = floor(authorizationXOffset / authorizationCellWidth)
-            let pagePercent = (authorizationXOffset - (page * authorizationCellWidth)) / authorizationCellWidth
-
-            headerSwipingView.collectionView.contentOffset.x = (headerInsetMultiplier + page * (headerWithPlusSpace)) +
-                ((headerWithPlusSpace) * pagePercent)
-        }
-    }
-
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        currentScrollableScrollView = scrollView
+        headerSwipingView.collectionView.contentOffset.x = (headerInsetMultiplier + page * (headerWithPlusSpace)) +
+            ((headerWithPlusSpace) * pagePercent)
     }
 }
+
 // MARK: - UICollectionViewDelegate
 extension MainAuthorizationsView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -178,5 +176,23 @@ extension MainAuthorizationsView: Layoutable {
         authorizationSwipingView.topToSuperview()
         authorizationSwipingView.width(to: self)
         authorizationSwipingView.bottom(to: self)
+    }
+}
+
+extension MainAuthorizationsView: AuthorizationCellDelegate {
+    func confirmPressed(_ cell: AuthorizationCollectionViewCell) {
+        guard let indexPath = authorizationSwipingView.collectionView.indexPath(for: cell) else { return }
+
+        delegate?.confirmPressed(at: indexPath.row, cell: cell)
+    }
+
+    func denyPressed(_ cell: AuthorizationCollectionViewCell) {
+        guard let indexPath = authorizationSwipingView.collectionView.indexPath(for: cell) else { return }
+
+        delegate?.denyPressed(at: indexPath.row)
+    }
+
+    func viewMorePressed(_ cell: AuthorizationCollectionViewCell) {
+
     }
 }

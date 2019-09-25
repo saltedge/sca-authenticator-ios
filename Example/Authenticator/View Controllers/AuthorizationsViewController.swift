@@ -48,6 +48,7 @@ final class AuthorizationsViewController: BaseViewController {
         navigationItem.title = l10n(.authorizations)
         view.backgroundColor = .auth_backgroundColor
         authorizationsView.backgroundColor = .white
+        authorizationsView.delegate = self
         setupObservers()
         layout()
         noDataView.alpha = 1.0
@@ -121,5 +122,15 @@ extension AuthorizationsViewController: Layoutable {
         noDataView.left(to: view, offset: AppLayout.sideOffset)
         noDataView.right(to: view, offset: -AppLayout.sideOffset)
         noDataView.center(in: view)
+    }
+}
+
+extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
+    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
+        delegate?.confirmPressed(at: index, cell: cell)
+    }
+
+    func denyPressed(at index: Int) {
+        delegate?.denyPressed(at: index)
     }
 }

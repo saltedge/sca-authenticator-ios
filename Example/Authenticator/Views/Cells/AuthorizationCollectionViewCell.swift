@@ -35,6 +35,12 @@ private struct Layout {
     static let loadingPlaceholderHeight: CGFloat = 100.0
 }
 
+protocol AuthorizationCellDelegate: class {
+    func confirmPressed(_ cell: AuthorizationCollectionViewCell)
+    func denyPressed(_ cell: AuthorizationCollectionViewCell)
+    func viewMorePressed(_ cell: AuthorizationCollectionViewCell)
+}
+
 final class AuthorizationCollectionViewCell: UICollectionViewCell {
     private let loadingPlaceholder = UIView()
     private let loadingIndicator = LoadingIndicator()
@@ -61,6 +67,8 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
     private(set) var viewModel: AuthorizationViewModel!
 
     private var constraintsToDeactivateOnProcessing: Constraints?
+
+    weak var delegate: AuthorizationCellDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -154,11 +162,11 @@ private extension AuthorizationCollectionViewCell {
     }
 
     func setupLeftButton() {
-        setupButton(.bordered, title: l10n(.deny)).addTarget(self, action: #selector(leftButtonPressed(_:)), for: .touchUpInside)
+        setupButton(.bordered, title: l10n(.deny)).addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
     }
 
     func setupRightButton() {
-        setupButton(.filled, title: "Confirm").addTarget(self, action: #selector(rightButtonPressed(_:)), for: .touchUpInside)
+        setupButton(.filled, title: "Confirm").addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
     }
 
     func setupButton(_ style: CustomButton.Style, title: String) -> UIButton {
@@ -171,16 +179,17 @@ private extension AuthorizationCollectionViewCell {
 
 // MARK: - Actions
 private extension AuthorizationCollectionViewCell {
-    @objc func leftButtonPressed(_ sender: CustomButton) {
-//        delegate?.leftButtonPressed(self)
+    @objc func denyButtonPressed(_ sender: CustomButton) {
+        setProcessing(with: l10n(.processing))
+        delegate?.denyPressed(self)
     }
 
-    @objc func rightButtonPressed(_ sender: CustomButton) {
-//        delegate?.rightButtonPressed(self)
+    @objc func confirmButtonPressed(_ sender: CustomButton) {
+        delegate?.confirmPressed(self)
     }
 
     @objc func viewMoreButtonPressed(_ sender: CustomButton) {
-//        delegate?.viewMorePressed(self)
+        delegate?.viewMorePressed(self)
     }
 }
 
