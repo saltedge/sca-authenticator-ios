@@ -29,8 +29,6 @@ private struct Layout {
 final class AuthorizationsHeadersSwipingView: UIView {
     private(set) var collectionView: UICollectionView
 
-    weak var delegate: AuthorizationHeaderSwipingViewDelegate?
-
     init() {
         let flowLayout = AuthorizationsCollectionLayout()
         flowLayout.itemSize = CGSize(width: AppLayout.screenWidth * 0.66, height: 42.0)
@@ -59,7 +57,6 @@ private extension AuthorizationsHeadersSwipingView {
             AuthorizationHeaderCollectionViewCell.self,
             forCellWithReuseIdentifier: "AuthorizationHeaderCollectionViewCell"
         )
-        collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
     }
 }

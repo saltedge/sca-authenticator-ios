@@ -51,7 +51,7 @@ final class AuthorizationModalView: ModalView {
 
     private var connectionContentView = ConnectionContentView()
     private let closeButton = UIButton(type: .custom)
-    private var timeLeftView: TimeLeftView!
+    private var timeLeftView: CountdownProgressView!
 
     private let titleLabel = UILabel.titleLabel
 
@@ -82,25 +82,25 @@ final class AuthorizationModalView: ModalView {
     func set(with viewModel: AuthorizationViewModel) {
         self.viewModel = viewModel
 
-        timeLeftView = TimeLeftView(
-            secondsLeft: diffInSecondsFromNow(for: viewModel.authorizationExpiresAt),
-            lifetime: viewModel.lifetime,
-            completion: { [weak self] in
-                guard let weakSelf = self else { return }
-
-                UIView.animate(
-                    withDuration: 0.3,
-                    animations: {
-                        weakSelf.contentStackView.removeArrangedSubview(weakSelf.connectionContentView)
-                        weakSelf.connectionContentView.removeFromSuperview()
-                        weakSelf.contentStackView.insertArrangedSubview(weakSelf.statusPlaceholder, at: 0)
-                        weakSelf.buttonsStackView.isHidden = true
-                        weakSelf.timeLeftView.alpha = 0.0
-                    }
-                )
-                weakSelf.closed(with: l10n(.authorizationExpired), image: #imageLiteral(resourceName: "Error"))
-            }
-        )
+//        timeLeftView = CountdownProgressView(
+//            secondsLeft: diffInSecondsFromNow(for: viewModel.authorizationExpiresAt),
+//            lifetime: viewModel.lifetime,
+//            completion: { [weak self] in
+//                guard let weakSelf = self else { return }
+//
+//                UIView.animate(
+//                    withDuration: 0.3,
+//                    animations: {
+//                        weakSelf.contentStackView.removeArrangedSubview(weakSelf.connectionContentView)
+//                        weakSelf.connectionContentView.removeFromSuperview()
+//                        weakSelf.contentStackView.insertArrangedSubview(weakSelf.statusPlaceholder, at: 0)
+//                        weakSelf.buttonsStackView.isHidden = true
+//                        weakSelf.timeLeftView.alpha = 0.0
+//                    }
+//                )
+//                weakSelf.closed(with: l10n(.authorizationExpired), image: #imageLiteral(resourceName: "Error"))
+//            }
+//        )
 
         if let connection = ConnectionsCollector.with(id: viewModel.connectionId) {
             connectionContentView.set(title: connection.name, imageUrl: connection.logoUrl)

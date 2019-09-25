@@ -1,5 +1,5 @@
 //
-//  AuthorizationsCollectionSwipingView
+//  SwipingAuthorizationsCollectionView
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -22,7 +22,7 @@
 
 import UIKit
 
-final class AuthorizationsCollectionSwipingView: UIView {
+final class SwipingAuthorizationsCollectionView: UIView {
     private(set) var collectionView: UICollectionView
 
     init() {
@@ -45,9 +45,9 @@ final class AuthorizationsCollectionSwipingView: UIView {
 }
 
 // MARK: - Setup
-private extension AuthorizationsCollectionSwipingView {
+private extension SwipingAuthorizationsCollectionView {
     func setupCollectionView() {
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
         collectionView.isPagingEnabled = true
         collectionView.register(
             AuthorizationCollectionViewCell.self,
@@ -58,7 +58,7 @@ private extension AuthorizationsCollectionSwipingView {
 }
 
 // MARK: - Layout
-extension AuthorizationsCollectionSwipingView: Layoutable {
+extension SwipingAuthorizationsCollectionView: Layoutable {
     func layout() {
         addSubview(collectionView)
 

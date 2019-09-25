@@ -1,5 +1,5 @@
 //
-//  TimeLeftView.swift
+//  CountdownProgressLeftView.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -23,27 +23,18 @@
 import UIKit
 import TinyConstraints
 
-private struct Layout {
-    static let interItemOffset: CGFloat = 5.0
-    static let indicatorSize: CGSize = CGSize(width: 20.0, height: 20.0)
-}
-
-final class TimeLeftView: UIView {
-    private let timeLeftLabel = UILabel()
-    private var timeLeftIndicator: TimeLeftIndicator!
-    private let completion: () -> ()
+final class CountdownProgressView: UIView {
+    private let progressView = UIProgressView()
     private var timer: Timer!
-    private var secondsLeft: Int
-    private var lifetime: Int
+    private var secondsLeft: Int = 0
+    private var lifetime: Int = 0
 
-    init(secondsLeft: Int, lifetime: Int, completion: @escaping () -> ()) {
-        self.secondsLeft = secondsLeft
-        self.lifetime = lifetime
-        self.completion = completion
+    init() {
         super.init(frame: .zero)
-        timeLeftIndicator = TimeLeftIndicator(percentage: 1.0 - CGFloat(secondsLeft) / CGFloat(lifetime))
+        progressView.progress = Float(secondsLeft) / Float(lifetime)
+        progressView.progressTintColor = .auth_blue
+        progressView.trackTintColor = .clear
         layout()
-        stylize()
         setTimer()
         setTimeLeft(secondsLeft)
     }
@@ -65,31 +56,25 @@ final class TimeLeftView: UIView {
 }
 
 // MARK: - Helpers
-private extension TimeLeftView {
-    func secondsToMinutesAndSeconds(_ seconds: Int) -> (minutes: Int, seconds: Int) {
-        return (seconds / 60, (seconds % 3600) % 60)
-    }
-
+private extension CountdownProgressView {
     func setTimer() {
         if timer != nil { timer.invalidate() }
-        timer = Timer(timeInterval: 1, target: self, selector: #selector(countDownTime), userInfo: nil, repeats: true)
+        timer = Timer(timeInterval: 1.0, target: self, selector: #selector(countDownTime), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
     }
 
     func setTimeLeft(_ timeLeft: Int) {
-        timeLeftIndicator.update(with: 1.0 - CGFloat(timeLeft) / CGFloat(lifetime))
-        let (minutes, seconds) = secondsToMinutesAndSeconds(timeLeft)
-        timeLeftLabel.text = "\(minutes):\(String(format: "%02d", seconds))"
+        progressView.progress = Float(timeLeft) / Float(lifetime)
+        progressView.setProgress(progressView.progress, animated: true)
     }
 }
 
 // MARK: - Actions
-private extension TimeLeftView {
+private extension CountdownProgressView {
     @objc func countDownTime() {
         secondsLeft -= 1
         if secondsLeft <= 0 {
             timer.invalidate()
-            completion()
         } else {
             setTimeLeft(secondsLeft)
         }
@@ -97,25 +82,10 @@ private extension TimeLeftView {
 }
 
 // MARK: - Layout
-extension TimeLeftView: Layoutable {
+extension CountdownProgressView: Layoutable {
     func layout() {
-        addSubviews(timeLeftLabel, timeLeftIndicator)
+        addSubviews(progressView)
 
-        timeLeftLabel.left(to: self)
-        timeLeftLabel.top(to: self)
-        timeLeftLabel.bottom(to: self)
-
-        timeLeftIndicator.right(to: self)
-        timeLeftIndicator.centerY(to: self)
-        timeLeftIndicator.leftToRight(of: timeLeftLabel, offset: Layout.interItemOffset)
-        timeLeftIndicator.size(Layout.indicatorSize)
-    }
-}
-
-// MARK: - Style
-extension TimeLeftView: Styleable {
-    func stylize() {
-        timeLeftLabel.textColor = .auth_cyan
-        timeLeftLabel.font = .auth_13semibold
+        progressView.edges(to: self)
     }
 }

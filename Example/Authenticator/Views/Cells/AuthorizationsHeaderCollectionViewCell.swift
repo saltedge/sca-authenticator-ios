@@ -30,33 +30,29 @@ struct AuthorizationCellViewModel {
     let completionBlock: (() -> ())?
 }
 
-protocol AuthorizationHeaderCellDelegate: class {
-    func timerExpired(cell: AuthorizationHeaderCollectionViewCell)
+private struct Layout {
+    static let connectionImageViewSize: CGSize = CGSize(width: 24.0, height: 24.0)
+    static let connectionImageViewOffset: CGFloat = 16.0
+    static let nameLabelOffset: CGFloat = 8.0
+    static let progressViewWidthOffset: CGFloat = -22.0
+    static let timeLeftLabelOffset: CGFloat = -8.0
+    static let timeLeftLabelHeight: CGFloat = 28.0
 }
 
 final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
+    private let containerView = UIView()
     private let connectionImageView = UIImageView()
     private let connectionNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14.0, weight: .medium)
         return label
     }()
-    private var timeLeftLabel: TimeLeftView!
-
-    weak var delegate: AuthorizationHeaderCellDelegate?
+    private let timeLeftLabel = TimeLeftLabel()
+    private let progressView = CountdownProgressView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
-        timeLeftLabel = TimeLeftView(
-            secondsLeft: 0,
-            lifetime: 0,
-            completion: { [weak self] in
-                guard let weakSelf = self else { return }
-
-                weakSelf.delegate?.timerExpired(cell: weakSelf)
-            }
-        )
+        containerView.backgroundColor = .white
         setupShadowAndCornerRadius()
         layout()
     }
@@ -69,14 +65,16 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
             setImage(from: connection.logoUrl)
             connectionNameLabel.text = connection.name
         }
-        timeLeftLabel.update(
+        timeLeftLabel.update(secondsLeft: diffInSecondsFromNow(for: item.authorizationExpiresAt))
+        progressView.update(
             secondsLeft: diffInSecondsFromNow(for: item.authorizationExpiresAt),
             lifetime: item.lifetime
         )
     }
 
     private func setupShadowAndCornerRadius() {
-        layer.cornerRadius = 20.0
+        containerView.layer.cornerRadius = 21.0
+        containerView.layer.masksToBounds = true
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowOpacity = 0.1
@@ -96,18 +94,27 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
 
 extension AuthorizationHeaderCollectionViewCell: Layoutable {
     func layout() {
-        addSubviews(connectionImageView, connectionNameLabel, timeLeftLabel)
+        contentView.addSubview(containerView)
 
-        connectionImageView.left(to: self, offset: 16.0)
-        connectionImageView.centerY(to: self)
-        connectionImageView.size(CGSize(width: 24.0, height: 24.0))
+        containerView.addSubviews(connectionImageView, connectionNameLabel, progressView, timeLeftLabel)
 
-        connectionNameLabel.leftToRight(of: connectionImageView, offset: 8.0)
+        containerView.edgesToSuperview()
+
+        connectionImageView.left(to: containerView, offset: Layout.connectionImageViewOffset)
+        connectionImageView.centerY(to: containerView)
+        connectionImageView.size(Layout.connectionImageViewSize)
+
+        connectionNameLabel.leftToRight(of: connectionImageView, offset: Layout.nameLabelOffset)
         connectionNameLabel.centerY(to: connectionImageView)
 
-        timeLeftLabel.right(to: self, offset: -8.0)
+        progressView.height(3.0)
+        progressView.bottom(to: containerView)
+        progressView.width(to: containerView, offset: Layout.progressViewWidthOffset)
+        progressView.centerX(to: containerView)
+
+        timeLeftLabel.right(to: containerView, offset: Layout.timeLeftLabelOffset)
         timeLeftLabel.centerY(to: connectionImageView)
-        timeLeftLabel.height(28.0)
+        timeLeftLabel.height(Layout.timeLeftLabelHeight)
     }
 }
 

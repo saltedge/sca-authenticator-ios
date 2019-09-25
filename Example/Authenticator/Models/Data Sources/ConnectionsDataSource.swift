@@ -90,3 +90,18 @@ final class ConnectionsDataSource {
         return cell
     }
 }
+
+private extension ConnectionsDataSource {
+    static func dayMonthYearWithTimeDateFormatter() -> DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter
+    }
+}
+
+private extension Date {
+    var dayMonthYearWithTimeString: String {
+        return ConnectionsDataSource.dayMonthYearWithTimeDateFormatter().string(from: self)
+    }
+}

@@ -46,3 +46,23 @@ final class AuthorizationsCollectionLayout: UICollectionViewFlowLayout {
         return CGPoint(x: closest.center.x - halfWidth, y: proposedContentOffset.y)
     }
 }
+
+final class HeaderCollectionLayout: UICollectionViewFlowLayout {
+    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint,
+                                      withScrollingVelocity velocity: CGPoint) -> CGPoint {
+        let inset: Int = 16
+
+        let vcBounds = self.collectionView!.bounds
+
+        var candidateContentOffsetX: CGFloat = proposedContentOffset.x
+
+        for attributes in self.layoutAttributesForElements(in: vcBounds)! as [UICollectionViewLayoutAttributes] {
+            if vcBounds.origin.x < attributes.center.x {
+                candidateContentOffsetX = attributes.frame.origin.x - CGFloat(inset)
+                break
+            }
+        }
+
+        return CGPoint(x: candidateContentOffsetX, y: proposedContentOffset.y)
+    }
+}

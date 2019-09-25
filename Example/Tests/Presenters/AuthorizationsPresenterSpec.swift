@@ -50,8 +50,8 @@ class AuthorizationsPresenterSpec: BaseSpec {
                                        "connection_id": connection.id,
                                        "title": "Authorization",
                                        "description": "Test authorization",
-                                       "created_at": Date().withoutTime.iso8601string,
-                                       "expires_at": Date().withoutTime.addingTimeInterval(5.0 * 60.0).iso8601string]
+                                       "created_at": Date().iso8601string,
+                                       "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
                     let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: connection.guid))
                     let dict = [
                         "data": encryptedData.data,

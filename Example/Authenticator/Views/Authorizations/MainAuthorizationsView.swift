@@ -23,24 +23,24 @@
 import UIKit
 
 private struct Layout {
-    static let headerSpacing: CGFloat = 32.0
-    static let headerMultiplier: CGFloat = (Layout.headerSize.width + Layout.headerSpacing) / AppLayout.screenWidth
-    static let authorizationMultiplier: CGFloat = AppLayout.screenWidth / (Layout.headerSize.width + Layout.headerSpacing)
+    static let headerSpacing: CGFloat = 16.0
     static let headerSize: CGSize = CGSize(width: AppLayout.screenWidth * 0.66, height: 42.0)
+    static let headerSwipingViewHeight: CGFloat = 60.0
 }
 
 final class MainAuthorizationsView: UIView {
     private let headerSwipingView = AuthorizationsHeadersSwipingView()
-    private let authorizationSwipingView = AuthorizationsCollectionSwipingView()
+    private let authorizationSwipingView = SwipingAuthorizationsCollectionView()
 
     private lazy var translation: CGFloat = 0.0
+
+    private var currentScrollableScrollView: UIScrollView?
 
     var dataSource: AuthorizationsDataSource?
 
     init() {
         super.init(frame: .zero)
         setupSwipingViews()
-        setupPanGestures()
         layout()
     }
 
@@ -52,73 +52,16 @@ final class MainAuthorizationsView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    @objc private func handlePan(_ recognizer: UIPanGestureRecognizer) {
-        switch recognizer.state {
-        case .began:
-            translation = recognizer.translation(in: self).x
-        case .changed:
-            if recognizer.view == authorizationSwipingView {
-                let currentPosition = headerSwipingView.collectionView.contentOffset.x
-                let finalTranslation = (recognizer.translation(in: self).x - translation) * Layout.headerMultiplier
-
-                headerSwipingView.collectionView.setContentOffset(
-                    CGPoint(x: currentPosition - finalTranslation, y: headerSwipingView.collectionView.contentOffset.y),
-                    animated: false
-                )
-            } else {
-                let currentPosition = authorizationSwipingView.collectionView.contentOffset.x
-                let finalTranslation = (recognizer.translation(in: self).x - translation) * Layout.authorizationMultiplier
-
-                authorizationSwipingView.collectionView.setContentOffset(
-                    CGPoint(x: currentPosition - finalTranslation, y: authorizationSwipingView.collectionView.contentOffset.y),
-                    animated: false
-                )
-            }
-            translation = recognizer.translation(in: self).x
-        default: break
-        }
-    }
-
-    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        if let dataSource = self.dataSource, dataSource.rows > 1,
-            let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
-            if let superview = self.superview {
-                let translation = panGestureRecognizer.translation(in: superview)
-                return abs(translation.x) > abs(translation.y)
-            }
-        }
-        return false
-    }
 }
 
 // MARK: - Setup
 private extension MainAuthorizationsView {
-    func setupPanGestures() {
-        let headerPanGesture = UIPanGestureRecognizer()
-        headerPanGesture.addTarget(self, action: #selector(handlePan))
-        headerPanGesture.delegate = self
-        headerSwipingView.addGestureRecognizer(headerPanGesture)
-
-        let authorizationPanGesture = UIPanGestureRecognizer()
-        authorizationPanGesture.addTarget(self, action: #selector(handlePan))
-        authorizationPanGesture.delegate = self
-        authorizationSwipingView.addGestureRecognizer(authorizationPanGesture)
-    }
-
     func setupSwipingViews() {
         headerSwipingView.collectionView.dataSource = self
         headerSwipingView.collectionView.delegate = self
         authorizationSwipingView.collectionView.dataSource = self
         authorizationSwipingView.collectionView.delegate = self
-    }
-}
-
-// MARK: - UIGestureRecognizerDelegate
-extension MainAuthorizationsView: UIGestureRecognizerDelegate {
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
-                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
+        authorizationSwipingView.backgroundColor = .clear
     }
 }
 
@@ -157,24 +100,35 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
                 ) as? AuthorizationCollectionViewCell else { return UICollectionViewCell() }
 
             authorizationCell.set(with: viewModel)
+            authorizationCell.backgroundColor = .clear
             cell = authorizationCell
         }
 
         return cell
     }
 
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView,
-                                   withVelocity velocity: CGPoint,
-                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        guard let indexPath = authorizationSwipingView.collectionView.indexPathForItem(at: targetContentOffset.pointee)
-            else { return }
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard let currentScrollableScrollView = self.currentScrollableScrollView else { return }
 
-        UIView.animate(withDuration: 0.2) {
-            self.headerSwipingView.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+        if currentScrollableScrollView == authorizationSwipingView.collectionView {
+            let headerInsetMultiplier: CGFloat = 0.16
+            let authorizationCellWidth = AppLayout.screenWidth
+            let halfSpacing = Layout.headerSpacing / 2
+            let headerWithPlusSpace = Layout.headerSize.width + halfSpacing
+            let authorizationXOffset = authorizationSwipingView.collectionView.contentOffset.x
+
+            let page = floor(authorizationXOffset / authorizationCellWidth)
+            let pagePercent = (authorizationXOffset - (page * authorizationCellWidth)) / authorizationCellWidth
+
+            headerSwipingView.collectionView.contentOffset.x = (headerInsetMultiplier + page * (headerWithPlusSpace)) +
+                ((headerWithPlusSpace) * pagePercent)
         }
     }
-}
 
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        currentScrollableScrollView = scrollView
+    }
+}
 // MARK: - UICollectionViewDelegate
 extension MainAuthorizationsView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -191,21 +145,20 @@ extension MainAuthorizationsView: UICollectionViewDelegate, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        guard collectionView == headerSwipingView.collectionView else { return .zero }
+        if collectionView == headerSwipingView.collectionView {
+            let inset = 0.16 * AppLayout.screenWidth
 
-        let cellWidth: CGFloat = Layout.headerSize.width
-
-        let numberOfCells = floor(frame.size.width / cellWidth)
-
-        let edgeInsets = (frame.size.width - (numberOfCells * cellWidth)) / (numberOfCells + 1)
-
-        return UIEdgeInsets(top: 0.0, left: edgeInsets, bottom: 0.0, right: edgeInsets)
+            return UIEdgeInsets(top: 0.0, left: inset, bottom: 0.0, right: inset)
+        } else {
+            return UIEdgeInsets(top: 60.0, left: 0.0, bottom: 0.0, right: 0.0)
+        }
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == authorizationSwipingView.collectionView {
-            return collectionView.size
+            return CGSize(width: collectionView.size.width, height: collectionView.size.height - 60.0)//collectionView.size
         } else {
             return Layout.headerSize
         }
@@ -219,10 +172,11 @@ extension MainAuthorizationsView: Layoutable {
 
         headerSwipingView.topToSuperview()
         headerSwipingView.widthToSuperview()
-        headerSwipingView.height(60.0)
+        headerSwipingView.height(Layout.headerSwipingViewHeight)
+        sendSubviewToBack(headerSwipingView)
 
-        authorizationSwipingView.topToBottom(of: headerSwipingView)
+        authorizationSwipingView.topToSuperview()
         authorizationSwipingView.width(to: self)
-        authorizationSwipingView.bottom(to: self, offset: -AppLayout.tabBarHeight)
+        authorizationSwipingView.bottom(to: self)
     }
 }
