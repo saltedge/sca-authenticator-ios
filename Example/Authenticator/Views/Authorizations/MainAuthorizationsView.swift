@@ -104,7 +104,7 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
 
         if collectionView == headerSwipingView.collectionView {
             guard let headerCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "AuthorizationHeaderCollectionViewCell",
+                withReuseIdentifier: String(describing: AuthorizationHeaderCollectionViewCell.self),
                 for: indexPath
             ) as? AuthorizationHeaderCollectionViewCell else { return UICollectionViewCell() }
 
@@ -112,7 +112,7 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
             cell = headerCell
         } else {
             guard let authorizationCell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "AuthorizationCollectionViewCell",
+                withReuseIdentifier: String(describing: AuthorizationCollectionViewCell.self),
                 for: indexPath
             ) as? AuthorizationCollectionViewCell else { return UICollectionViewCell() }
 

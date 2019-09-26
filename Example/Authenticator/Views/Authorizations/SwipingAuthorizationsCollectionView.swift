@@ -51,7 +51,7 @@ private extension SwipingAuthorizationsCollectionView {
         collectionView.isPagingEnabled = true
         collectionView.register(
             AuthorizationCollectionViewCell.self,
-            forCellWithReuseIdentifier: "AuthorizationCollectionViewCell"
+            forCellWithReuseIdentifier: String(describing: AuthorizationCollectionViewCell.self)
         )
         collectionView.showsHorizontalScrollIndicator = false
     }
