@@ -31,6 +31,7 @@ struct AuthorizationViewModel: Equatable {
     var authorizationCode: String?
     var lifetime: Int = 0
     var authorizationExpiresAt: Date = Date()
+    var createdAt: Date = Date()
 
     init?(_ data: SEDecryptedAuthorizationData) {
         guard data.expiresAt > Date() else { return nil }
@@ -42,30 +43,14 @@ struct AuthorizationViewModel: Equatable {
         self.description = data.description
         self.authorizationExpiresAt = data.expiresAt
         self.lifetime = Int(data.expiresAt.timeIntervalSince(data.createdAt))
-    }
-
-    // NOTE: think about moving it from here
-    init(connectionId: String, authorizationId: String) {
-        self.connectionId = connectionId
-        self.authorizationId = authorizationId
+        self.createdAt = data.createdAt
     }
 
     static func == (lhs: AuthorizationViewModel, rhs: AuthorizationViewModel) -> Bool {
-        return lhs.title == rhs.title &&
-            lhs.description == rhs.description
-    }
-}
-
-extension AuthorizationViewModel {
-    func toBaseAuthorizationData() -> SEAuthorizationData? {
-        guard let connection = ConnectionsCollector.with(id: connectionId), let url = connection.baseUrl else { return nil }
-
-        return SEAuthorizationData(
-            url: url,
-            connectionGuid: connection.guid,
-            accessToken: connection.accessToken,
-            appLanguage: UserDefaultsHelper.applicationLanguage,
-            authorizationId: authorizationId
-        )
+        return lhs.authorizationId == rhs.authorizationId &&
+            lhs.connectionId == rhs.connectionId &&
+            lhs.title == rhs.title &&
+            lhs.description == rhs.description &&
+            lhs.createdAt == rhs.createdAt
     }
 }

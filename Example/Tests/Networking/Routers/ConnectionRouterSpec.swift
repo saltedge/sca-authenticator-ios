@@ -26,7 +26,7 @@ import Nimble
 
 class ConnectionRouterSpec: BaseSpec {
     override func spec() {
-        let baseUrl = URL(string: "base.com")!
+        let baseUrl = URL(string: "https://ad.int.example.com:4567/56278094067945dc9a60742a35c9f3f3")!
         let baseUrlPath = "/api/authenticator/v1/connections"
         
         describe("ConnectionRouter") {

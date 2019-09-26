@@ -68,7 +68,11 @@ final class TabBarCoordinator: Coordinator {
 
     func stop() {}
 
-    func startAuthorizationsCoordinator() {
-        authorizationsCoordinator.start()
+    func startAuthorizationsCoordinator(with connectionId: String? = nil, authorizationId: String? = nil) {
+        if let connectionId = connectionId, let authorizationId = authorizationId {
+            authorizationsCoordinator.start(with: connectionId, authorizationId: authorizationId)
+        } else {
+            authorizationsCoordinator.start()
+        }
     }
 }

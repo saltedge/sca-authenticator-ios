@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  TimeLeftLabel
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -22,32 +22,33 @@
 
 import UIKit
 
-func after(_ time: Double, _ doBlock: @escaping () -> ()) {
-    DispatchQueue.main.asyncAfter(
-        deadline: .now() + time,
-        execute: {
-            doBlock()
-        }
-    )
+final class TimeLeftLabel: UILabel {
+    private var secondsLeft: Int = 0
+
+    init() {
+        super.init(frame: .zero)
+        textColor = .auth_blue
+        font = .auth_13semibold
+        setTimeLeft(secondsLeft)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func update(secondsLeft: Int) {
+        self.secondsLeft = secondsLeft
+        setTimeLeft(secondsLeft)
+    }
+
+    private func setTimeLeft(_ timeLeft: Int) {
+        let (minutes, seconds) = secondsToMinutesAndSeconds(timeLeft)
+        text = timeLeft >= 0 ? "\(minutes):\(String(format: "%02d", seconds))" : "0:00"
+    }
 }
 
-struct AnimationConstants {
-    static let defaultDuration: CGFloat = 0.4
-    static let defaultVelocity: CGFloat = 0.2
-}
-
-struct AppLayout {
-    static let sideOffset: CGFloat = 30.0
-    static let cellSeparatorOffset: CGFloat = 47.0
-    static let pickersLeftOffset: CGFloat = 50.0
-    static let cellDefaultHeight: CGFloat = 48.0
-    static let loadingIndicatorSize: CGSize = CGSize(width: 80.0, height: 80.0)
-    static let screenWidth: CGFloat = UIScreen.main.bounds.width
-
-    static var tabBarHeight: CGFloat {
-        if let tabBarController = UIApplication.appDelegate.tabBarViewController {
-            return tabBarController.tabBar.frame.size.height
-        }
-        return 0.0
+private extension TimeLeftLabel {
+    func secondsToMinutesAndSeconds(_ seconds: Int) -> (minutes: Int, seconds: Int) {
+        return (seconds / 60, (seconds % 3600) % 60)
     }
 }
