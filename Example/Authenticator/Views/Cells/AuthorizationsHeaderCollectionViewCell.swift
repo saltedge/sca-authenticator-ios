@@ -22,14 +22,6 @@
 
 import UIKit
 
-struct AuthorizationCellViewModel {
-    let name: String
-    let expiresAt: Date
-    let lifetime: Int
-    let logoUrl: URL?
-    let completionBlock: (() -> ())?
-}
-
 private struct Layout {
     static let connectionImageViewSize: CGSize = CGSize(width: 24.0, height: 24.0)
     static let connectionImageViewOffset: CGFloat = 16.0
@@ -79,7 +71,14 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
         updateCountdown(secondsLeft)
     }
 
-    private func setupShadowAndCornerRadius() {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - Helpers
+private extension AuthorizationHeaderCollectionViewCell {
+    func setupShadowAndCornerRadius() {
         contentView.layer.cornerRadius = 21.0
         contentView.layer.masksToBounds = true
         layer.shadowColor = UIColor.black.cgColor
@@ -88,19 +87,19 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
         layer.shadowRadius = 4.0
     }
 
-    private func setImage(from imageUrl: URL?) {
+    func setImage(from imageUrl: URL?) {
         guard let url = imageUrl else { return }
 
         ConnectionImageHelper.setAnimatedCachedImage(from: url, for: connectionImageView)
     }
 
-    private func setTimer() {
+    func setTimer() {
         if timer != nil { timer.invalidate() }
         timer = Timer(timeInterval: 1.0, target: self, selector: #selector(countDownTime), userInfo: nil, repeats: true)
         RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
     }
 
-    private func updateCountdown(_ timeLeft: Int) {
+    func updateCountdown(_ timeLeft: Int) {
         setTimer()
         progressView.update(secondsLeft: timeLeft, lifetime: lifetime)
         timeLeftLabel.update(secondsLeft: timeLeft)
@@ -113,10 +112,6 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
         } else {
             updateCountdown(secondsLeft)
         }
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 

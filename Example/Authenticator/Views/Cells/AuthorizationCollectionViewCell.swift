@@ -164,18 +164,6 @@ private extension AuthorizationCollectionViewCell {
     }
 }
 
-// MARK: - Helpers
-private extension AuthorizationCollectionViewCell {
-    func diffInSecondsFromNow(for date: Date) -> Int {
-        let currentDate = Date()
-        let diffDateComponents = Calendar.current.dateComponents([.minute, .second], from: currentDate, to: date)
-
-        guard let minutes = diffDateComponents.minute, let seconds = diffDateComponents.second else { return 0 }
-
-        return 60 * minutes + seconds
-    }
-}
-
 // MARK: - Layout
 extension AuthorizationCollectionViewCell: Layoutable {
     func layout() {

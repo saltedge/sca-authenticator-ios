@@ -79,8 +79,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
             firstModel = AuthorizationViewModel(firstDecryptedData)
             secondModel = AuthorizationViewModel(secondDecryptedData)
 
-            dataSource.update(with: [firstDecryptedData, secondDecryptedData])
-            //dataSource.update(with: [firstDecryptedData, secondDecryptedData])
+            _ = dataSource.update(with: [firstDecryptedData, secondDecryptedData])
         }
 
         describe("sections") {
@@ -112,7 +111,65 @@ class AuthorizationsDataSourceSpec: BaseSpec {
  
             context("when view model doesn't exist") {
                 it("should return nil") {
-                    expect(dataSource.remove(AuthorizationViewModel(connectionId: "111", authorizationId: "222"))).to(beNil())
+                    let secondAuthMessage = ["id": "123343543535",
+                                             "connection_id": "113223",
+                                             "title": "Zombie Authorization",
+                                             "description": "Not existed",
+                                             "created_at": Date().iso8601string,
+                                             "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
+                    let decryptedData = SEDecryptedAuthorizationData(secondAuthMessage)!
+
+                    expect(dataSource.remove(AuthorizationViewModel(decryptedData)!)).to(beNil())
+                }
+            }
+        }
+
+        describe("viewModel(at)") {
+            context("when viewModel exists") {
+                it("should return viewModel for given index") {
+                    expect(dataSource.viewModel(at: 1)).to(equal(secondModel))
+                }
+            }
+
+            context("when viewModel doesn't exist at given index") {
+                it("should return nil") {
+                    expect(dataSource.viewModel(at: 5)).to(beNil())
+                }
+            }
+        }
+
+        describe("viewModel(by:)") {
+            context("when one of existed viewModels has connectionId and authorizationId equal for given params") {
+                it("should return existed viewModel") {                
+                    expect(dataSource.viewModel(by: "12345", authorizationId: "00000")).to(equal(firstModel))
+                }
+            }
+
+            context("when given parameters doesn't suit any of existed viewModels") {
+                it("should return nil") {
+                    expect(dataSource.viewModel(by: "09876", authorizationId: "1234565657575")).to(beNil())
+                }
+            }
+        }
+
+        describe("index(of)") {
+            context("when viewModel exists") {
+                it("should return index of given viewModel") {
+                    expect(dataSource.index(of: firstModel)).to(equal(0))
+                }
+            }
+
+            context("when authorization doesn't exist") {
+                it("should return nil") {
+                    let secondAuthMessage = ["id": "123343543535",
+                                             "connection_id": "113223",
+                                             "title": "Zombie Authorization",
+                                             "description": "Not existed",
+                                             "created_at": Date().iso8601string,
+                                             "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
+                    let decryptedData = SEDecryptedAuthorizationData(secondAuthMessage)!
+                    
+                    expect(dataSource.index(of: AuthorizationViewModel(decryptedData)!)).to(beNil())
                 }
             }
         }

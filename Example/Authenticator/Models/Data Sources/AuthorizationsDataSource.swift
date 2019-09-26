@@ -27,7 +27,6 @@ final class AuthorizationsDataSource {
     private var authorizationResponses = [SEDecryptedAuthorizationData]()
     private var viewModels = [AuthorizationViewModel]()
 
-    @discardableResult
     func update(with authorizationResponses: [SEDecryptedAuthorizationData]) -> Bool {
         if authorizationResponses != self.authorizationResponses {
             self.authorizationResponses = authorizationResponses

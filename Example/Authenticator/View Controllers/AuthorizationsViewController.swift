@@ -35,7 +35,6 @@ final class AuthorizationsViewController: BaseViewController {
         title: l10n(.noAuthorizations),
         description: l10n(.noAuthorizationsDescription)
     )
-    private lazy var loadingIndicator = LoadingIndicator()
 
     private var messageBarView: MessageBarView?
 
@@ -71,20 +70,6 @@ final class AuthorizationsViewController: BaseViewController {
         if let messageBarView = messageBarView {
             dismiss(messageBarView: messageBarView)
         }
-    }
-
-    func setupLoadingIndicator() {
-        noDataView.alpha = 0.0
-
-        view.addSubview(loadingIndicator)
-
-        loadingIndicator.size(AppLayout.loadingIndicatorSize)
-        loadingIndicator.center(in: view)
-    }
-    
-    func hideLoadingIndicator() {
-        noDataView.alpha = 1.0
-        loadingIndicator.removeFromSuperview()
     }
 
     deinit {
@@ -143,6 +128,7 @@ extension AuthorizationsViewController: Layoutable {
     }
 }
 
+// MARK: - MainAuthorizationsViewDelegate
 extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
     func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
         delegate?.confirmPressed(at: index, cell: cell)
