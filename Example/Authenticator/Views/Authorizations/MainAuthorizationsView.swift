@@ -53,6 +53,19 @@ final class MainAuthorizationsView: UIView {
         authorizationSwipingView.collectionView.reloadData()
     }
 
+    func scroll(to index: Int) {
+        headerSwipingView.collectionView.scrollToItem(
+            at: IndexPath(item: index, section: 0),
+            at: .centeredHorizontally,
+            animated: false
+        )
+        authorizationSwipingView.collectionView.scrollToItem(
+            at: IndexPath(item: index, section: 0),
+            at: .centeredHorizontally,
+            animated: false
+        )
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -113,17 +126,14 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let headerInsetMultiplier: CGFloat = 0.16
         let authorizationCellWidth = AppLayout.screenWidth
-        let halfSpacing = Layout.headerSpacing / 2
-        let headerWithPlusSpace = Layout.headerSize.width + halfSpacing
+        let headerPlusSpace = Layout.headerSize.width + Layout.headerSpacing
         let authorizationXOffset = authorizationSwipingView.collectionView.contentOffset.x
 
         let page = floor(authorizationXOffset / authorizationCellWidth)
         let pagePercent = (authorizationXOffset - (page * authorizationCellWidth)) / authorizationCellWidth
 
-        headerSwipingView.collectionView.contentOffset.x = (headerInsetMultiplier + page * (headerWithPlusSpace)) +
-            ((headerWithPlusSpace) * pagePercent)
+        headerSwipingView.collectionView.contentOffset.x = (page * headerPlusSpace - 8.0) + (headerPlusSpace * pagePercent)
     }
 }
 
@@ -156,7 +166,7 @@ extension MainAuthorizationsView: UICollectionViewDelegate, UICollectionViewDele
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         if collectionView == authorizationSwipingView.collectionView {
-            return CGSize(width: collectionView.size.width, height: collectionView.size.height - 60.0)//collectionView.size
+            return CGSize(width: collectionView.size.width, height: collectionView.size.height - 60.0)
         } else {
             return Layout.headerSize
         }
@@ -179,6 +189,7 @@ extension MainAuthorizationsView: Layoutable {
     }
 }
 
+// MARK: - AuthorizationCellDelegate
 extension MainAuthorizationsView: AuthorizationCellDelegate {
     func confirmPressed(_ cell: AuthorizationCollectionViewCell) {
         guard let indexPath = authorizationSwipingView.collectionView.indexPath(for: cell) else { return }

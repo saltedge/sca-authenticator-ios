@@ -35,12 +35,19 @@ final class AuthorizationsCoordinator: Coordinator {
     private var selectedViewModelIndex: Int?
     private var selectedCell: AuthorizationCollectionViewCell?
 
+    private var authorizationFromPush: (connectionId: String, authorizationId: String)?
+
     func start() {
         rootViewController.dataSource = dataSource
         rootViewController.delegate = self
 
         setupPolling()
         updateDataSource(with: [])
+    }
+
+    func start(with connectionId: String, authorizationId: String) {
+        start()
+        authorizationFromPush = (connectionId, authorizationId)
     }
 
     func stop() {
@@ -70,6 +77,16 @@ final class AuthorizationsCoordinator: Coordinator {
      private func updateDataSource(with authorizations: [SEDecryptedAuthorizationData]) {
         if dataSource.update(with: authorizations) {
             rootViewController.reloadData()
+            if authorizations.count > 1,
+                let authorizationToScroll = authorizationFromPush,
+                let viewModel = dataSource.viewModel(
+                    by: authorizationToScroll.connectionId,
+                    authorizationId: authorizationToScroll.authorizationId
+                ),
+                let index = dataSource.index(of: viewModel) {
+                    rootViewController.scroll(to: index)
+                    authorizationFromPush = nil
+            }
         }
         rootViewController.updateViewsHiddenState()
     }

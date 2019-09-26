@@ -23,15 +23,12 @@
 import UIKit
 
 final class TimeLeftLabel: UILabel {
-    private var timer: Timer!
-
     private var secondsLeft: Int = 0
 
     init() {
         super.init(frame: .zero)
         textColor = .auth_blue
         font = .auth_13semibold
-        setTimer()
         setTimeLeft(secondsLeft)
     }
 
@@ -41,33 +38,12 @@ final class TimeLeftLabel: UILabel {
 
     func update(secondsLeft: Int) {
         self.secondsLeft = secondsLeft
-        setTimer()
         setTimeLeft(secondsLeft)
-    }
-
-    private func setTimer() {
-        if timer != nil { timer.invalidate() }
-        timer = Timer(timeInterval: 1.0, target: self, selector: #selector(countDownTime), userInfo: nil, repeats: true)
-        RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
     }
 
     private func setTimeLeft(_ timeLeft: Int) {
         let (minutes, seconds) = secondsToMinutesAndSeconds(timeLeft)
-        text = "\(minutes):\(String(format: "%02d", seconds))"
-    }
-
-    @objc private func countDownTime() {
-        secondsLeft -= 1
-        if secondsLeft <= 0 {
-            timer.invalidate()
-            text = "0:00"
-        } else {
-            setTimeLeft(secondsLeft)
-        }
-    }
-
-    deinit {
-        timer.invalidate()
+        text = timeLeft >= 0 ? "\(minutes):\(String(format: "%02d", seconds))" : "0:00"
     }
 }
 

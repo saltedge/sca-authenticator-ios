@@ -35,6 +35,8 @@ final class AuthorizationsViewController: BaseViewController {
         title: l10n(.noAuthorizations),
         description: l10n(.noAuthorizationsDescription)
     )
+    private lazy var loadingIndicator = LoadingIndicator()
+
     private var messageBarView: MessageBarView?
 
     var dataSource: AuthorizationsDataSource?
@@ -57,6 +59,10 @@ final class AuthorizationsViewController: BaseViewController {
         authorizationsView.reloadData()
     }
 
+    func scroll(to index: Int) {
+        authorizationsView.scroll(to: index)
+    }
+
     @objc private func hasNoConnection() {
         messageBarView = present(message: l10n(.noInternetConnection), style: .warning, height: 60.0, hide: false)
     }
@@ -65,6 +71,20 @@ final class AuthorizationsViewController: BaseViewController {
         if let messageBarView = messageBarView {
             dismiss(messageBarView: messageBarView)
         }
+    }
+
+    func setupLoadingIndicator() {
+        noDataView.alpha = 0.0
+
+        view.addSubview(loadingIndicator)
+
+        loadingIndicator.size(AppLayout.loadingIndicatorSize)
+        loadingIndicator.center(in: view)
+    }
+    
+    func hideLoadingIndicator() {
+        noDataView.alpha = 1.0
+        loadingIndicator.removeFromSuperview()
     }
 
     deinit {

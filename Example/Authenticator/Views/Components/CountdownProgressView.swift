@@ -25,7 +25,6 @@ import TinyConstraints
 
 final class CountdownProgressView: UIView {
     private let progressView = UIProgressView()
-    private var timer: Timer!
     private var secondsLeft: Int = 0
     private var lifetime: Int = 0
 
@@ -35,19 +34,13 @@ final class CountdownProgressView: UIView {
         progressView.progressTintColor = .auth_blue
         progressView.trackTintColor = .clear
         layout()
-        setTimer()
         setTimeLeft(secondsLeft)
     }
 
     func update(secondsLeft: Int, lifetime: Int) {
         self.secondsLeft = secondsLeft
         self.lifetime = lifetime
-        setTimer()
         setTimeLeft(secondsLeft)
-    }
-
-    deinit {
-        timer.invalidate()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -57,27 +50,9 @@ final class CountdownProgressView: UIView {
 
 // MARK: - Helpers
 private extension CountdownProgressView {
-    func setTimer() {
-        if timer != nil { timer.invalidate() }
-        timer = Timer(timeInterval: 1.0, target: self, selector: #selector(countDownTime), userInfo: nil, repeats: true)
-        RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
-    }
-
     func setTimeLeft(_ timeLeft: Int) {
         progressView.progress = Float(timeLeft) / Float(lifetime)
         progressView.setProgress(progressView.progress, animated: true)
-    }
-}
-
-// MARK: - Actions
-private extension CountdownProgressView {
-    @objc func countDownTime() {
-        secondsLeft -= 1
-        if secondsLeft <= 0 {
-            timer.invalidate()
-        } else {
-            setTimeLeft(secondsLeft)
-        }
     }
 }
 

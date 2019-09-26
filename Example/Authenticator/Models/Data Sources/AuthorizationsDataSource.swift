@@ -33,7 +33,7 @@ final class AuthorizationsDataSource {
             self.authorizationResponses = authorizationResponses
             self.viewModels = authorizationResponses.compactMap { response in
                 return AuthorizationViewModel(response)
-            }
+            }.sorted(by: { $0.createdAt < $1.createdAt })
             return true
         }
         return false
@@ -65,5 +65,13 @@ final class AuthorizationsDataSource {
         guard viewModels.indices.contains(index) else { return nil }
 
         return viewModels[index]
+    }
+
+    func viewModel(by connectionId: String?, authorizationId: String?) -> AuthorizationViewModel? {
+        return viewModels.filter { $0.connectionId == connectionId && $0.authorizationId == authorizationId }.first
+    }
+
+    func index(of viewModel: AuthorizationViewModel) -> Int? {
+        return viewModels.firstIndex(of: viewModel)
     }
 }
