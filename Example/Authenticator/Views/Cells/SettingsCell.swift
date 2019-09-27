@@ -53,17 +53,21 @@ enum SettingsCellType: Localizable {
 }
 
 final class SettingsCell: UITableViewCell, Dequeuable {
-
     private var biometricsSwitch: UISwitch {
         let toggler = UISwitch()
         toggler.addTarget(self, action: #selector(toggleBiometricsState(_:)), for: .valueChanged)
         toggler.onTintColor = .auth_blue
+        toggler.tintColor = .auth_gray
         toggler.isOn = PasscodeManager.isBiometricsEnabled
         return toggler
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .white
+        textLabel?.textColor = .auth_darkGray
+        detailTextLabel?.textColor = .auth_gray
+        contentView.tintColor = .auth_gray
     }
 
     func set(with item: SettingsCellType) {

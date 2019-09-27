@@ -43,11 +43,14 @@ final class PasscodeCoordinator: Coordinator, PasscodeViewControllerDelegate {
 
     func start() {
         passcodeVc.delegate = self
+        passcodeVc.modalPresentationStyle = .fullScreen
 
         blockAppIfNeeded()
 
         if purpose == .edit || type == .authorize {
-            rootViewController.present(UINavigationController(rootViewController: passcodeVc), animated: true)
+            let navigationController = UINavigationController(rootViewController: passcodeVc)
+            navigationController.modalPresentationStyle = .fullScreen
+            rootViewController.present(navigationController, animated: true)
         } else {
             rootViewController.present(passcodeVc, animated: true)
         }

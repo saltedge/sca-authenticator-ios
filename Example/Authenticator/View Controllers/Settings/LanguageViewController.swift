@@ -32,8 +32,10 @@ final class LanguageViewController: BaseViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: LanguagePickerDataSource.reuseIdentifier)
         tableView.sectionHeaderHeight = 30.0
         tableView.sectionFooterHeight = 0.0
+        tableView.backgroundColor = .auth_backgroundColor
         return tableView
     }()
+
     private var dataSource: LanguagePickerDataSource
     private var selectedLanguage = UserDefaultsHelper.applicationLanguage
     weak var delegate: LanguagePickerDelegate?
@@ -61,9 +63,11 @@ extension LanguageViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: LanguagePickerDataSource.reuseIdentifier, for: indexPath)
         cell.textLabel?.text = dataSource.language(for: indexPath)
         cell.textLabel?.textAlignment = .left
+        cell.textLabel?.textColor = .auth_darkGray
         let convertedLanguage = LocalizationHelper.languageDisplayName(from: selectedLanguage)
         cell.accessoryType = convertedLanguage == dataSource.language(for: indexPath) ? .checkmark : .none
         cell.tintColor = .auth_blue
+        cell.backgroundColor = .auth_backgroundColor
         return cell
     }
 

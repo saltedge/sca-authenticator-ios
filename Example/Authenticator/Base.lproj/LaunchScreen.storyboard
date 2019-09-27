@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Salt Edge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3t-14-2fs">
-                                <rect key="frame" x="145" y="311" width="87" height="23"/>
+                                <rect key="frame" x="145" y="313" width="87" height="23"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -43,7 +41,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="BiP-XO-BCM">
-                                <rect key="frame" x="147" y="217" width="80" height="80"/>
+                                <rect key="frame" x="147.5" y="217" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="Odw-kr-tcb"/>
                                     <constraint firstAttribute="height" constant="80" id="lvb-n4-beP"/>
@@ -59,7 +57,7 @@
                             <constraint firstItem="BiP-XO-BCM" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-76.5" id="I72-2V-U0G"/>
                             <constraint firstItem="E4t-3C-ktm" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" constant="-42" id="Lsq-Gb-50f"/>
                             <constraint firstItem="E4t-3C-ktm" firstAttribute="top" secondItem="e9U-FE-KrW" secondAttribute="bottom" constant="9" id="WO4-Km-hLN"/>
-                            <constraint firstItem="k3t-14-2fs" firstAttribute="top" secondItem="BiP-XO-BCM" secondAttribute="bottom" constant="14" id="gq2-0m-7SH"/>
+                            <constraint firstItem="k3t-14-2fs" firstAttribute="top" secondItem="BiP-XO-BCM" secondAttribute="bottom" constant="16" id="gq2-0m-7SH"/>
                             <constraint firstItem="FMB-YY-e8y" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="t7R-rx-02v"/>
                             <constraint firstItem="e9U-FE-KrW" firstAttribute="centerX" secondItem="k3t-14-2fs" secondAttribute="centerX" constant="-1" id="yCG-wf-FgD"/>
                         </constraints>

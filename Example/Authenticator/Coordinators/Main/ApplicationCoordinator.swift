@@ -42,6 +42,7 @@ final class ApplicationCoordinator: Coordinator {
             UserDefaultsHelper.applicationLanguage = "en"
 
             let navController = UINavigationController(rootViewController: onboardingCoordinator.onboardingViewController)
+            navController.modalPresentationStyle = .fullScreen
             navController.isNavigationBarHidden = true
             window?.rootViewController = navController
             onboardingCoordinator.start()

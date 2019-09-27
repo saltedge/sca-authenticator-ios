@@ -28,11 +28,11 @@ extension UIColor {
     }
 
     static var auth_gray: UIColor {
-        return UIColor(red: 155.0/255.0, green: 155.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+        return UIColor(red: 117.0/255.0, green: 117.0/255.0, blue: 117.0/255.0, alpha: 1.0)
     }
 
     static var auth_darkGray: UIColor {
-        return UIColor(red: 74.0/255.0, green: 74.0/255.0, blue: 74.0/255.0, alpha: 1.0)
+        return UIColor(red: 33.0/255.0, green: 33.0/255.0, blue: 33.0/255.0, alpha: 1.0)
     }
 
     static var auth_blue20: UIColor {
