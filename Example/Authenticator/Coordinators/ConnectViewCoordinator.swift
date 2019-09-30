@@ -50,8 +50,10 @@ final class ConnectViewCoordinator: Coordinator {
         case .deepLink: connectFrom(urlString: configurationUrl)
         }
 
+        let navigationController = UINavigationController(rootViewController: connectViewController)
+        navigationController.modalPresentationStyle = .fullScreen
         rootViewController.present(
-            UINavigationController(rootViewController: connectViewController),
+            navigationController,
             animated: true
         )
     }

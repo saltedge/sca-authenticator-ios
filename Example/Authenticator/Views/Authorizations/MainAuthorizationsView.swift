@@ -181,11 +181,13 @@ extension MainAuthorizationsView: Layoutable {
         headerSwipingView.topToSuperview()
         headerSwipingView.widthToSuperview()
         headerSwipingView.height(Layout.headerSwipingViewHeight)
+        headerSwipingView.centerX(to: self)
         sendSubviewToBack(headerSwipingView)
 
         authorizationSwipingView.topToSuperview()
         authorizationSwipingView.width(to: self)
         authorizationSwipingView.bottom(to: self)
+        authorizationSwipingView.centerX(to: self)
     }
 }
 

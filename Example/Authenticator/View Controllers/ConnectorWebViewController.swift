@@ -49,6 +49,7 @@ final class ConnectorWebViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .auth_backgroundColor
         layout()
         loadingIndicator.start()
         setupObservers()

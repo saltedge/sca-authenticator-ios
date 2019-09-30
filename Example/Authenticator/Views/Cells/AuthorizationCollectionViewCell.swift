@@ -22,13 +22,14 @@
 
 import UIKit
 import TinyConstraints
+import WebKit
 
 private struct Layout {
     static let connectionImageSize: CGSize = CGSize(width: 25.0, height: 25.0)
     static let sideOffset: CGFloat = AppLayout.sideOffset / 2
     static let topOffset: CGFloat = 20.0
     static let buttonHeight: CGFloat = 36.0
-    static let bottomOffset: CGFloat = -25.0
+    static let bottomOffset: CGFloat = -24.0
     static let titleLableHeight: CGFloat = 23.0
     static let contentStackViewMinTopBottomOffset: CGFloat = 27.5
     static let contentStackViewCenterYOffset: CGFloat = -20.0
@@ -46,7 +47,8 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
     private var isProcessing: Bool = false
 
     private let titleLabel = UILabel.titleLabel
-    private let descriptionLabel = UILabel.descriptionLabel
+    private lazy var descriptionTextview = UITextView()
+    private lazy var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
     private var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -83,12 +85,13 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 
         titleLabel.text = viewModel.title
 
-        if let htmlText = viewModel.description.htmlToAttributedString {
-            descriptionLabel.attributedText = htmlText
+        if viewModel.description.htmlToAttributedString != nil {
+            webView.loadHTMLString(viewModel.description, baseURL: nil)
+            contentStackView.addArrangedSubview(webView)
         } else {
-            descriptionLabel.text = viewModel.description
+            descriptionTextview.text = viewModel.description
+            contentStackView.addArrangedSubview(descriptionTextview)
         }
-        contentStackView.addArrangedSubview(descriptionLabel)
     }
 
     func setProcessing(with title: String) {
@@ -175,6 +178,7 @@ extension AuthorizationCollectionViewCell: Layoutable {
         contentStackView.topToBottom(of: titleLabel, offset: 12.0)
         contentStackView.left(to: self, offset: AppLayout.sideOffset)
         contentStackView.right(to: self, offset: -AppLayout.sideOffset)
+        contentStackView.bottomToTop(of: buttonsStackView)
 
         buttonsStackView.left(to: self, offset: AppLayout.sideOffset / 2)
         buttonsStackView.right(to: self, offset: -AppLayout.sideOffset / 2)

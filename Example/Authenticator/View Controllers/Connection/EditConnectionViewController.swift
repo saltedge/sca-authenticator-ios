@@ -38,6 +38,8 @@ final class EditConnectionViewController: BaseViewController {
         textField.clearButtonMode = .whileEditing
         textField.placeholder = "Name"
         textField.backgroundColor = .white
+        textField.textColor = .auth_darkGray
+        textField.tintColor = .auth_gray
         return textField
     }()
     private var connection: Connection

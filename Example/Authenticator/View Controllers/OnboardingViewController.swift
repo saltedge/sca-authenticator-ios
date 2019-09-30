@@ -39,6 +39,7 @@ final class OnboardingViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         featuresView.delegate = self
         setupButtons()
         layout()

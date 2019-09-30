@@ -48,6 +48,7 @@ final class PasscodeViewController: BaseViewController {
         self.purpose = purpose
         passcodeView = PasscodeView(purpose: purpose)
         super.init(nibName: nil, bundle: nil)
+        view.backgroundColor = .white
         passcodeView.delegate = self
         if purpose == .edit || type == .authorize { setupLeftButton() }
     }

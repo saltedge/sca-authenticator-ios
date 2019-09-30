@@ -44,8 +44,21 @@ final class SetupAppViewController: BaseViewController {
     private var step: SetupStep = .createPasscode
 
     private var progressBar: SetupProgressBar
-    private let titleLabel = UILabel(frame: .zero)
-    private let descriptionLabel = UILabel(frame: .zero)
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .auth_darkGray
+        label.font = .auth_19semibold
+        label.textAlignment = .center
+        return label
+    }()
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .auth_15regular
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        label.textColor = .auth_darkGray
+        return label
+    }()
 
     private var currentView = UIView()
     private let passcodeView = PasscodeView(purpose: .create)
@@ -84,8 +97,8 @@ final class SetupAppViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         layout()
-        stylize()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -220,19 +233,6 @@ extension SetupAppViewController: Layoutable {
 
         view.layoutIfNeeded()
         progressBar.setupXPositionForCircles()
-    }
-}
-
-// MARK: - Styleable
-extension SetupAppViewController: Styleable {
-    func stylize() {
-        titleLabel.font = .auth_19semibold
-        titleLabel.textAlignment = .center
-
-        descriptionLabel.font = .auth_15regular
-        descriptionLabel.textAlignment = .center
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.textColor = .auth_darkGray
     }
 }
 

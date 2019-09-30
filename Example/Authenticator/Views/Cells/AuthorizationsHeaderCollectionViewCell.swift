@@ -36,6 +36,7 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
     private let connectionNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14.0, weight: .medium)
+        label.textColor = .auth_darkGray
         return label
     }()
     private let timeLeftLabel = TimeLeftLabel()
