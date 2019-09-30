@@ -39,11 +39,24 @@
 		9D66E1E322D6146900BD59B6 /* ProviderResponseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E1DA22D6146800BD59B6 /* ProviderResponseSpec.swift */; };
 		9D66E1E522D6146900BD59B6 /* HeadersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E1DC22D6146800BD59B6 /* HeadersSpec.swift */; };
 		9D66E1E622D6146900BD59B6 /* RequestParametersBuilderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E1DD22D6146800BD59B6 /* RequestParametersBuilderSpec.swift */; };
+		9D772129231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772128231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift */; };
+		9D77212A231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772128231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift */; };
+		9D77212C231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */; };
+		9D77212D231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */; };
+		9D77212F231E51200015BAC6 /* AuthorizationsCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */; };
+		9D772130231E51200015BAC6 /* AuthorizationsCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */; };
+		9D772132231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */; };
+		9D772133231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */; };
+		9D772135231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */; };
+		9D772136231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */; };
+		9D77213823264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */; };
+		9D77213923264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */; };
+		9DAAC0E2233A5341006D0758 /* TimeLeftLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */; };
+		9DAAC0E3233A5341006D0758 /* TimeLeftLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */; };
 		9DB18ED722D4A35500BEF299 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87922CE18280050ED3C /* Connection.swift */; };
 		9DCED89A22CE18280050ED3C /* APIErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7DD22CE18270050ED3C /* APIErrors.swift */; };
 		9DCED89B22CE18280050ED3C /* LanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E022CE18270050ED3C /* LanguageViewController.swift */; };
 		9DCED89C22CE18280050ED3C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E122CE18270050ED3C /* SettingsViewController.swift */; };
-		9DCED89D22CE18280050ED3C /* AuthorizationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E222CE18270050ED3C /* AuthorizationModalViewController.swift */; };
 		9DCED89E22CE18280050ED3C /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E422CE18270050ED3C /* ConnectionsViewController.swift */; };
 		9DCED89F22CE18280050ED3C /* ConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E522CE18270050ED3C /* ConnectViewController.swift */; };
 		9DCED8A022CE18280050ED3C /* EditConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E622CE18270050ED3C /* EditConnectionViewController.swift */; };
@@ -100,16 +113,14 @@
 		9DCED8F022CE18280050ED3C /* FeaturesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */; };
 		9DCED8F122CE18280050ED3C /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84A22CE18270050ED3C /* SettingsCell.swift */; };
 		9DCED8F222CE18280050ED3C /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84B22CE18270050ED3C /* ConnectionCell.swift */; };
-		9DCED8F322CE18280050ED3C /* AuthorizationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84C22CE18270050ED3C /* AuthorizationCell.swift */; };
 		9DCED8F422CE18280050ED3C /* ConnectionActionSheetBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84E22CE18270050ED3C /* ConnectionActionSheetBuilder.swift */; };
 		9DCED8F522CE18280050ED3C /* CustomSpacingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85022CE18270050ED3C /* CustomSpacingLabel.swift */; };
 		9DCED8F622CE18280050ED3C /* OnboardingFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85122CE18270050ED3C /* OnboardingFeaturesView.swift */; };
 		9DCED8F722CE18280050ED3C /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85322CE18270050ED3C /* ModalView.swift */; };
-		9DCED8F822CE18280050ED3C /* AuthorizationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85422CE18270050ED3C /* AuthorizationModalView.swift */; };
 		9DCED8F922CE18280050ED3C /* PasscodeSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85622CE18270050ED3C /* PasscodeSymbolView.swift */; };
 		9DCED8FA22CE18280050ED3C /* TimeLeftIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85722CE18270050ED3C /* TimeLeftIndicator.swift */; };
 		9DCED8FB22CE18280050ED3C /* SetupProgressBarCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85822CE18270050ED3C /* SetupProgressBarCircle.swift */; };
-		9DCED8FC22CE18280050ED3C /* TimeLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85922CE18270050ED3C /* TimeLeftView.swift */; };
+		9DCED8FC22CE18280050ED3C /* CountdownProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85922CE18270050ED3C /* CountdownProgressView.swift */; };
 		9DCED8FD22CE18280050ED3C /* PasscodeKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85A22CE18270050ED3C /* PasscodeKeyboard.swift */; };
 		9DCED8FE22CE18280050ED3C /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85B22CE18270050ED3C /* InfoView.swift */; };
 		9DCED8FF22CE18280050ED3C /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85C22CE18270050ED3C /* SeparatorView.swift */; };
@@ -128,7 +139,6 @@
 		9DCED90C22CE18280050ED3C /* AuthorizationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */; };
 		9DCED90D22CE18280050ED3C /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86D22CE18270050ED3C /* SettingsCoordinator.swift */; };
 		9DCED90E22CE18280050ED3C /* ConnectionsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86E22CE18270050ED3C /* ConnectionsCoordinator.swift */; };
-		9DCED90F22CE18280050ED3C /* AuthorizationModalViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86F22CE18270050ED3C /* AuthorizationModalViewCoordinator.swift */; };
 		9DCED91022CE18280050ED3C /* EditConnectionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87022CE18270050ED3C /* EditConnectionCoordinator.swift */; };
 		9DCED91122CE18280050ED3C /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87222CE18270050ED3C /* ApplicationCoordinator.swift */; };
 		9DCED91222CE18280050ED3C /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87322CE18280050ED3C /* Coordinator.swift */; };
@@ -193,7 +203,6 @@
 		9DE3247E22D3998D00EB162A /* PasscodeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86722CE18270050ED3C /* PasscodeCoordinator.swift */; };
 		9DE3247F22D3998F00EB162A /* LanguageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86822CE18270050ED3C /* LanguageCoordinator.swift */; };
 		9DE3248022D3999200EB162A /* ConnectViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86922CE18270050ED3C /* ConnectViewCoordinator.swift */; };
-		9DE3248122D3999400EB162A /* AuthorizationModalViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86F22CE18270050ED3C /* AuthorizationModalViewCoordinator.swift */; };
 		9DE3248222D3999600EB162A /* EditConnectionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87022CE18270050ED3C /* EditConnectionCoordinator.swift */; };
 		9DE3248322D3999B00EB162A /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F622CE18270050ED3C /* RealmManager.swift */; };
 		9DE3248422D3999F00EB162A /* SetupStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81022CE18270050ED3C /* SetupStep.swift */; };
@@ -242,7 +251,6 @@
 		9DE324B422D39A3A00EB162A /* BiometricsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84222CE18270050ED3C /* BiometricsHelper.swift */; };
 		9DE324B522D39A4400EB162A /* LanguageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E022CE18270050ED3C /* LanguageViewController.swift */; };
 		9DE324B622D39A4700EB162A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E122CE18270050ED3C /* SettingsViewController.swift */; };
-		9DE324B722D39A4B00EB162A /* AuthorizationModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E222CE18270050ED3C /* AuthorizationModalViewController.swift */; };
 		9DE324B822D39A4E00EB162A /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E422CE18270050ED3C /* ConnectionsViewController.swift */; };
 		9DE324B922D39A5100EB162A /* ConnectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E522CE18270050ED3C /* ConnectViewController.swift */; };
 		9DE324BA22D39A5300EB162A /* EditConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E622CE18270050ED3C /* EditConnectionViewController.swift */; };
@@ -263,16 +271,14 @@
 		9DE324C922D39A8900EB162A /* FeaturesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */; };
 		9DE324CA22D39A8B00EB162A /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84A22CE18270050ED3C /* SettingsCell.swift */; };
 		9DE324CB22D39A8E00EB162A /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84B22CE18270050ED3C /* ConnectionCell.swift */; };
-		9DE324CC22D39A9000EB162A /* AuthorizationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84C22CE18270050ED3C /* AuthorizationCell.swift */; };
 		9DE324CD22D39A9500EB162A /* ConnectionActionSheetBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84E22CE18270050ED3C /* ConnectionActionSheetBuilder.swift */; };
 		9DE324CE22D39A9800EB162A /* CustomSpacingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85022CE18270050ED3C /* CustomSpacingLabel.swift */; };
 		9DE324CF22D39A9C00EB162A /* OnboardingFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85122CE18270050ED3C /* OnboardingFeaturesView.swift */; };
 		9DE324D022D39A9F00EB162A /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85322CE18270050ED3C /* ModalView.swift */; };
-		9DE324D122D39AA100EB162A /* AuthorizationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85422CE18270050ED3C /* AuthorizationModalView.swift */; };
 		9DE324D222D39AA700EB162A /* PasscodeSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85622CE18270050ED3C /* PasscodeSymbolView.swift */; };
 		9DE324D322D39AAA00EB162A /* TimeLeftIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85722CE18270050ED3C /* TimeLeftIndicator.swift */; };
 		9DE324D422D39AAC00EB162A /* SetupProgressBarCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85822CE18270050ED3C /* SetupProgressBarCircle.swift */; };
-		9DE324D522D39AAF00EB162A /* TimeLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85922CE18270050ED3C /* TimeLeftView.swift */; };
+		9DE324D522D39AAF00EB162A /* CountdownProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85922CE18270050ED3C /* CountdownProgressView.swift */; };
 		9DE324D622D39AB100EB162A /* PasscodeKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85A22CE18270050ED3C /* PasscodeKeyboard.swift */; };
 		9DE324D722D39AB300EB162A /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85B22CE18270050ED3C /* InfoView.swift */; };
 		9DE324D822D39AB600EB162A /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85C22CE18270050ED3C /* SeparatorView.swift */; };
@@ -340,10 +346,16 @@
 		9D66E1DA22D6146800BD59B6 /* ProviderResponseSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderResponseSpec.swift; sourceTree = "<group>"; };
 		9D66E1DC22D6146800BD59B6 /* HeadersSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadersSpec.swift; sourceTree = "<group>"; };
 		9D66E1DD22D6146800BD59B6 /* RequestParametersBuilderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParametersBuilderSpec.swift; sourceTree = "<group>"; };
+		9D772128231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
+		9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsHeadersSwipingView.swift; sourceTree = "<group>"; };
+		9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsCollectionLayout.swift; sourceTree = "<group>"; };
+		9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationCollectionViewCell.swift; sourceTree = "<group>"; };
+		9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingAuthorizationsCollectionView.swift; sourceTree = "<group>"; };
+		9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAuthorizationsView.swift; sourceTree = "<group>"; };
+		9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLeftLabel.swift; sourceTree = "<group>"; };
 		9DCED7DD22CE18270050ED3C /* APIErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIErrors.swift; sourceTree = "<group>"; };
 		9DCED7E022CE18270050ED3C /* LanguageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguageViewController.swift; sourceTree = "<group>"; };
 		9DCED7E122CE18270050ED3C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		9DCED7E222CE18270050ED3C /* AuthorizationModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationModalViewController.swift; sourceTree = "<group>"; };
 		9DCED7E422CE18270050ED3C /* ConnectionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionsViewController.swift; sourceTree = "<group>"; };
 		9DCED7E522CE18270050ED3C /* ConnectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectViewController.swift; sourceTree = "<group>"; };
 		9DCED7E622CE18270050ED3C /* EditConnectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditConnectionViewController.swift; sourceTree = "<group>"; };
@@ -400,16 +412,14 @@
 		9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturesCollectionViewCell.swift; sourceTree = "<group>"; };
 		9DCED84A22CE18270050ED3C /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		9DCED84B22CE18270050ED3C /* ConnectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
-		9DCED84C22CE18270050ED3C /* AuthorizationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationCell.swift; sourceTree = "<group>"; };
 		9DCED84E22CE18270050ED3C /* ConnectionActionSheetBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionActionSheetBuilder.swift; sourceTree = "<group>"; };
 		9DCED85022CE18270050ED3C /* CustomSpacingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSpacingLabel.swift; sourceTree = "<group>"; };
 		9DCED85122CE18270050ED3C /* OnboardingFeaturesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingFeaturesView.swift; sourceTree = "<group>"; };
 		9DCED85322CE18270050ED3C /* ModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
-		9DCED85422CE18270050ED3C /* AuthorizationModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationModalView.swift; sourceTree = "<group>"; };
 		9DCED85622CE18270050ED3C /* PasscodeSymbolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeSymbolView.swift; sourceTree = "<group>"; };
 		9DCED85722CE18270050ED3C /* TimeLeftIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLeftIndicator.swift; sourceTree = "<group>"; };
 		9DCED85822CE18270050ED3C /* SetupProgressBarCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupProgressBarCircle.swift; sourceTree = "<group>"; };
-		9DCED85922CE18270050ED3C /* TimeLeftView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLeftView.swift; sourceTree = "<group>"; };
+		9DCED85922CE18270050ED3C /* CountdownProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownProgressView.swift; sourceTree = "<group>"; };
 		9DCED85A22CE18270050ED3C /* PasscodeKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeKeyboard.swift; sourceTree = "<group>"; };
 		9DCED85B22CE18270050ED3C /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		9DCED85C22CE18270050ED3C /* SeparatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
@@ -428,7 +438,6 @@
 		9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationsCoordinator.swift; sourceTree = "<group>"; };
 		9DCED86D22CE18270050ED3C /* SettingsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		9DCED86E22CE18270050ED3C /* ConnectionsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionsCoordinator.swift; sourceTree = "<group>"; };
-		9DCED86F22CE18270050ED3C /* AuthorizationModalViewCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationModalViewCoordinator.swift; sourceTree = "<group>"; };
 		9DCED87022CE18270050ED3C /* EditConnectionCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditConnectionCoordinator.swift; sourceTree = "<group>"; };
 		9DCED87222CE18270050ED3C /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
 		9DCED87322CE18280050ED3C /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
@@ -736,6 +745,16 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
+		9DCC1F3823292F4E00BF7B70 /* Authorizations */ = {
+			isa = PBXGroup;
+			children = (
+				9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */,
+				9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */,
+				9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */,
+			);
+			path = Authorizations;
+			sourceTree = "<group>";
+		};
 		9DCED7DC22CE18270050ED3C /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -748,7 +767,6 @@
 			isa = PBXGroup;
 			children = (
 				9DCED7DF22CE18270050ED3C /* Settings */,
-				9DCED7E222CE18270050ED3C /* AuthorizationModalViewController.swift */,
 				9DCED7E322CE18270050ED3C /* Connection */,
 				9DCED7E822CE18270050ED3C /* General */,
 				9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */,
@@ -889,6 +907,7 @@
 		9DCED83022CE18270050ED3C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */,
 				9DCED83122CE18270050ED3C /* Constants.swift */,
 				9DCED83222CE18270050ED3C /* LocalizationHelper.swift */,
 				9DCED83422CE18270050ED3C /* KeychainHelper.swift */,
@@ -920,11 +939,10 @@
 		9DCED84522CE18270050ED3C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9DCED84622CE18270050ED3C /* MessageBarView.swift */,
+				9DCC1F3823292F4E00BF7B70 /* Authorizations */,
 				9DCED84722CE18270050ED3C /* Cells */,
 				9DCED84D22CE18270050ED3C /* Builders */,
 				9DCED84F22CE18270050ED3C /* General */,
-				9DCED85122CE18270050ED3C /* OnboardingFeaturesView.swift */,
 				9DCED85222CE18270050ED3C /* Modals */,
 				9DCED85522CE18270050ED3C /* Components */,
 			);
@@ -934,11 +952,12 @@
 		9DCED84722CE18270050ED3C /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */,
+				9D772128231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift */,
 				9DCED84822CE18270050ED3C /* TableViewCellDequeuable.swift */,
 				9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */,
 				9DCED84A22CE18270050ED3C /* SettingsCell.swift */,
 				9DCED84B22CE18270050ED3C /* ConnectionCell.swift */,
-				9DCED84C22CE18270050ED3C /* AuthorizationCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -954,6 +973,8 @@
 		9DCED84F22CE18270050ED3C /* General */ = {
 			isa = PBXGroup;
 			children = (
+				9DCED84622CE18270050ED3C /* MessageBarView.swift */,
+				9DCED85122CE18270050ED3C /* OnboardingFeaturesView.swift */,
 				9DCED85022CE18270050ED3C /* CustomSpacingLabel.swift */,
 			);
 			path = General;
@@ -963,7 +984,6 @@
 			isa = PBXGroup;
 			children = (
 				9DCED85322CE18270050ED3C /* ModalView.swift */,
-				9DCED85422CE18270050ED3C /* AuthorizationModalView.swift */,
 			);
 			path = Modals;
 			sourceTree = "<group>";
@@ -974,7 +994,8 @@
 				9DCED85622CE18270050ED3C /* PasscodeSymbolView.swift */,
 				9DCED85722CE18270050ED3C /* TimeLeftIndicator.swift */,
 				9DCED85822CE18270050ED3C /* SetupProgressBarCircle.swift */,
-				9DCED85922CE18270050ED3C /* TimeLeftView.swift */,
+				9DCED85922CE18270050ED3C /* CountdownProgressView.swift */,
+				9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */,
 				9DCED85A22CE18270050ED3C /* PasscodeKeyboard.swift */,
 				9DCED85B22CE18270050ED3C /* InfoView.swift */,
 				9DCED85C22CE18270050ED3C /* SeparatorView.swift */,
@@ -998,7 +1019,6 @@
 				9DCED86A22CE18270050ED3C /* Tab Bar */,
 				9DCED86622CE18270050ED3C /* Settings */,
 				9DCED86922CE18270050ED3C /* ConnectViewCoordinator.swift */,
-				9DCED86F22CE18270050ED3C /* AuthorizationModalViewCoordinator.swift */,
 				9DCED87022CE18270050ED3C /* EditConnectionCoordinator.swift */,
 			);
 			path = Coordinators;
@@ -1536,8 +1556,7 @@
 				95C1EFC322D5EAA200078A28 /* AboutDataSource.swift in Sources */,
 				9DCED8F622CE18280050ED3C /* OnboardingFeaturesView.swift in Sources */,
 				9DCED8FF22CE18280050ED3C /* SeparatorView.swift in Sources */,
-				9DCED8F822CE18280050ED3C /* AuthorizationModalView.swift in Sources */,
-				9DCED8FC22CE18280050ED3C /* TimeLeftView.swift in Sources */,
+				9DCED8FC22CE18280050ED3C /* CountdownProgressView.swift in Sources */,
 				9DCED91122CE18280050ED3C /* ApplicationCoordinator.swift in Sources */,
 				9DCED92122CE18280050ED3C /* EntityResponse.swift in Sources */,
 				9DCED8A322CE18280050ED3C /* WKWebViewController.swift in Sources */,
@@ -1556,6 +1575,7 @@
 				9DCED8E622CE18280050ED3C /* ConnectionImageHelper.swift in Sources */,
 				9DCED90522CE18280050ED3C /* PasscodeView.swift in Sources */,
 				9DCED91422CE18280050ED3C /* SetupAppCoordinator.swift in Sources */,
+				9D772135231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */,
 				9DCED90922CE18280050ED3C /* LanguageCoordinator.swift in Sources */,
 				9DCED8C822CE18280050ED3C /* ImageExtensions.swift in Sources */,
 				9DD8946022E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,
@@ -1565,6 +1585,7 @@
 				9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
 				9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */,
 				9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */,
+				9D77212C231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */,
 				9DCED90A22CE18280050ED3C /* ConnectViewCoordinator.swift in Sources */,
 				95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */,
 				9DCED8FE22CE18280050ED3C /* InfoView.swift in Sources */,
@@ -1572,13 +1593,13 @@
 				9DCED91D22CE18280050ED3C /* LanguagePickerDataSource.swift in Sources */,
 				9DCED89B22CE18280050ED3C /* LanguageViewController.swift in Sources */,
 				9DCED8D422CE18280050ED3C /* DicitionaryExtensions.swift in Sources */,
+				9D772129231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */,
 				9DCED91B22CE18280050ED3C /* ConnectionsDataSource.swift in Sources */,
 				9DCED8DB22CE18280050ED3C /* Constants.swift in Sources */,
 				9DCED8F222CE18280050ED3C /* ConnectionCell.swift in Sources */,
 				9DCED90322CE18280050ED3C /* TaptileFeedbackButton.swift in Sources */,
 				9DCED8E022CE18280050ED3C /* UserDefaultsHelper.swift in Sources */,
 				9DCED8D522CE18280050ED3C /* ApplicationExtensions.swift in Sources */,
-				9DCED8F322CE18280050ED3C /* AuthorizationCell.swift in Sources */,
 				9DCED8D622CE18280050ED3C /* ViewExtensions+Animations.swift in Sources */,
 				9DCED89C22CE18280050ED3C /* SettingsViewController.swift in Sources */,
 				9DCED8D122CE18280050ED3C /* BundleExtensions.swift in Sources */,
@@ -1588,13 +1609,13 @@
 				9DCED91A22CE18280050ED3C /* TabBarDataSource.swift in Sources */,
 				9DCED8DC22CE18280050ED3C /* LocalizationHelper.swift in Sources */,
 				9DCED8A622CE18280050ED3C /* PasscodeViewController.swift in Sources */,
+				9D77213823264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */,
 				9DCED8FB22CE18280050ED3C /* SetupProgressBarCircle.swift in Sources */,
 				9DCED92622CE18280050ED3C /* AppDelegate.swift in Sources */,
 				9DCED8CB22CE18280050ED3C /* WindowExtensions.swift in Sources */,
 				9DCED8DA22CE18280050ED3C /* Localizable.swift in Sources */,
 				9DCED90022CE18280050ED3C /* CustomButton.swift in Sources */,
 				9DCED8AC22CE18280050ED3C /* QRCodeViewController.swift in Sources */,
-				9DCED90F22CE18280050ED3C /* AuthorizationModalViewCoordinator.swift in Sources */,
 				9DCED8C322CE18280050ED3C /* BiometricsPresenter.swift in Sources */,
 				9DCED8EF22CE18280050ED3C /* TableViewCellDequeuable.swift in Sources */,
 				9DCED91F22CE18280050ED3C /* ConnectionRepository.swift in Sources */,
@@ -1602,10 +1623,10 @@
 				9DCED8AA22CE18280050ED3C /* MainTabBarViewController.swift in Sources */,
 				9DCED90122CE18280050ED3C /* SetupProgressBar.swift in Sources */,
 				95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */,
+				9D77212F231E51200015BAC6 /* AuthorizationsCollectionLayout.swift in Sources */,
 				9DCED8A422CE18280050ED3C /* ConnectorWebViewController.swift in Sources */,
 				9DCED89E22CE18280050ED3C /* ConnectionsViewController.swift in Sources */,
 				9DCED8ED22CE18280050ED3C /* AuthorizationViewModel.swift in Sources */,
-				9DCED89D22CE18280050ED3C /* AuthorizationModalViewController.swift in Sources */,
 				9DCED8F122CE18280050ED3C /* SettingsCell.swift in Sources */,
 				9DCED90422CE18280050ED3C /* ProgressBar.swift in Sources */,
 				9DCED91222CE18280050ED3C /* Coordinator.swift in Sources */,
@@ -1616,8 +1637,10 @@
 				9DCED8EA22CE18280050ED3C /* HapticFeedbackHelper.swift in Sources */,
 				9DCED91E22CE18280050ED3C /* SettingsDataSource.swift in Sources */,
 				9DCED89F22CE18280050ED3C /* ConnectViewController.swift in Sources */,
+				9D772132231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */,
 				9DCED8D822CE18280050ED3C /* AuthorizationsInteractor.swift in Sources */,
 				9DCED8E722CE18280050ED3C /* PasscodeManger.swift in Sources */,
+				9DAAC0E2233A5341006D0758 /* TimeLeftLabel.swift in Sources */,
 				95C1EFC722D5EE1C00078A28 /* AboutCoordinator.swift in Sources */,
 				9DCED8A022CE18280050ED3C /* EditConnectionViewController.swift in Sources */,
 				9DCED8CA22CE18280050ED3C /* ViewControllerExtensions.swift in Sources */,
@@ -1656,6 +1679,8 @@
 				9DE324C222D39A6D00EB162A /* OnboardingViewController.swift in Sources */,
 				9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */,
 				9DE3249D22D399F600EB162A /* StackViewExtensions.swift in Sources */,
+				9D77212A231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */,
+				9DAAC0E3233A5341006D0758 /* TimeLeftLabel.swift in Sources */,
 				9D66E1E622D6146900BD59B6 /* RequestParametersBuilderSpec.swift in Sources */,
 				9DE3247B22D3998200EB162A /* AuthorizationsCoordinator.swift in Sources */,
 				9D66E1A922D4C1C100BD59B6 /* DecryptedAuthorizationDataSpec.swift in Sources */,
@@ -1685,6 +1710,7 @@
 				9D66E1DE22D6146900BD59B6 /* ConnectionRouterSpec.swift in Sources */,
 				9DE324CE22D39A9800EB162A /* CustomSpacingLabel.swift in Sources */,
 				9DE3247F22D3998F00EB162A /* LanguageCoordinator.swift in Sources */,
+				9D772136231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */,
 				9DE324AC22D39A2500EB162A /* AppearanceHelper.swift in Sources */,
 				9DE3247822D3997900EB162A /* OnboardingCoordinator.swift in Sources */,
 				9D66E1AA22D4C1C600BD59B6 /* SetupStepSpec.swift in Sources */,
@@ -1700,14 +1726,15 @@
 				9DE3249E22D399F900EB162A /* DicitionaryExtensions.swift in Sources */,
 				9DE3248422D3999F00EB162A /* SetupStep.swift in Sources */,
 				9DE3247422D398ED00EB162A /* BaseSpec.swift in Sources */,
-				9DE324CC22D39A9000EB162A /* AuthorizationCell.swift in Sources */,
 				95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */,
 				9DE3249A22D399EF00EB162A /* ColorExtensions.swift in Sources */,
 				9DE324B022D39A2F00EB162A /* AmountFormatter.swift in Sources */,
 				9DE3247922D3997B00EB162A /* SetupAppCoordinator.swift in Sources */,
 				9DE3245A22D3986B00EB162A /* RevokeConnectionResponseSpec.swift in Sources */,
 				9DE324DD22D39AC300EB162A /* ProgressBar.swift in Sources */,
+				9D772133231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */,
 				9DE3247A22D3997F00EB162A /* TabBarCoordinator.swift in Sources */,
+				9D772130231E51200015BAC6 /* AuthorizationsCollectionLayout.swift in Sources */,
 				9D66E1AE22D4C1D300BD59B6 /* ConnectionCollectorSpec.swift in Sources */,
 				9DE3248922D399B400EB162A /* ConnectionsDataSource.swift in Sources */,
 				9DE3247322D398ED00EB162A /* URLRequestBuilder.swift in Sources */,
@@ -1729,13 +1756,11 @@
 				9D66E1B522D4C1F300BD59B6 /* AuthorizationsDataSourceSpec.swift in Sources */,
 				9DE3248722D399AC00EB162A /* ConnectionsCollector.swift in Sources */,
 				9DE3248C22D399BD00EB162A /* SettingsDataSource.swift in Sources */,
-				9DE3248122D3999400EB162A /* AuthorizationModalViewCoordinator.swift in Sources */,
 				9DE324BD22D39A5D00EB162A /* ConnectorWebViewController.swift in Sources */,
 				9DE324A822D39A1B00EB162A /* KeychainHelper.swift in Sources */,
 				9DE324BC22D39A5B00EB162A /* WKWebViewController.swift in Sources */,
 				9DE3246622D3986B00EB162A /* CreateConnectionResponseSpec.swift in Sources */,
 				9DE324A622D39A1600EB162A /* LocalizationHelper.swift in Sources */,
-				9DE324D122D39AA100EB162A /* AuthorizationModalView.swift in Sources */,
 				9DE324D922D39AB900EB162A /* CustomButton.swift in Sources */,
 				9DE324DA22D39ABB00EB162A /* SetupProgressBar.swift in Sources */,
 				9DE3246A22D398B300EB162A /* AuthorizationsPresenterSpec.swift in Sources */,
@@ -1747,14 +1772,14 @@
 				9DE324D722D39AB300EB162A /* InfoView.swift in Sources */,
 				95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */,
 				9D66E1AB22D4C1CA00BD59B6 /* CryptoErrorsSpec.swift in Sources */,
-				9DE324B722D39A4B00EB162A /* AuthorizationModalViewController.swift in Sources */,
 				9DE324BA22D39A5300EB162A /* EditConnectionViewController.swift in Sources */,
+				9D77212D231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */,
 				9D4310F422D7661D004A7FCF /* AboutCoordinator.swift in Sources */,
 				9D66E1B122D4C1E000BD59B6 /* SettingsDataSourceSpec.swift in Sources */,
 				9DE324C922D39A8900EB162A /* FeaturesCollectionViewCell.swift in Sources */,
 				9DE3249622D399E500EB162A /* WindowExtensions.swift in Sources */,
 				9DE324A122D39A0400EB162A /* LabelStyles.swift in Sources */,
-				9DE324D522D39AAF00EB162A /* TimeLeftView.swift in Sources */,
+				9DE324D522D39AAF00EB162A /* CountdownProgressView.swift in Sources */,
 				9DE324A922D39A1E00EB162A /* AppSettings.swift in Sources */,
 				9DE3248F22D399CD00EB162A /* EntityResponse.swift in Sources */,
 				9D66E1E022D6146900BD59B6 /* ProviderRouterSpec.swift in Sources */,
@@ -1770,6 +1795,7 @@
 				9D66E1E322D6146900BD59B6 /* ProviderResponseSpec.swift in Sources */,
 				9DE3248D22D399C200EB162A /* ConnectionRepository.swift in Sources */,
 				9D66E1AF22D4C1D700BD59B6 /* ConnectionDataSpec.swift in Sources */,
+				9D77213923264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */,
 				9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */,
 				9DE324AE22D39A2A00EB162A /* ConnectionImageHelper.swift in Sources */,
 			);
@@ -1934,12 +1960,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				DEVELOPMENT_TEAM = 8QFQG87EDC;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
 			};
@@ -1952,12 +1980,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				DEVELOPMENT_TEAM = 8QFQG87EDC;
+				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
 			};

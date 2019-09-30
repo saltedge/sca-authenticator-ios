@@ -8,7 +8,7 @@
 import UIKit
 
 private struct CustomActionSheetButtonLayout {
-    static let logoSize: CGSize = CGSize(width: 28.0, height: 28.0)
+    static let logoSize: CGSize = CGSize(width: 25.0, height: 25.0)
     static let logoLeftOffset: CGFloat = 15.0
     static let logoTopOffset: CGFloat = 17.0
     static let labelsOffset: CGFloat = 13.0
@@ -18,7 +18,7 @@ final class CustomActionSheetButton: TaptileFeedbackButton {
     private let buttonLogo = UIImageView()
     private let buttonTitle: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .auth_darkGray
         label.font = .auth_17regular
         return label
     }()

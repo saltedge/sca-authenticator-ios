@@ -50,7 +50,6 @@ final class ConnectionsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.connections)
-        view.backgroundColor = .auth_backgroundColor
         setupDataSource()
         setupTableView()
         noDataView = NoDataView(

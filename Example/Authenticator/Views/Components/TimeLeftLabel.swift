@@ -1,5 +1,5 @@
 //
-//  BaseViewController.swift
+//  TimeLeftLabel
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -21,12 +21,34 @@
 //
 
 import UIKit
-import TinyConstraints
 
-class BaseViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        edgesForExtendedLayout = []
-        view.backgroundColor = .auth_backgroundColor
+final class TimeLeftLabel: UILabel {
+    private var secondsLeft: Int = 0
+
+    init() {
+        super.init(frame: .zero)
+        textColor = .auth_blue
+        font = .auth_13semibold
+        setTimeLeft(secondsLeft)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func update(secondsLeft: Int) {
+        self.secondsLeft = secondsLeft
+        setTimeLeft(secondsLeft)
+    }
+
+    private func setTimeLeft(_ timeLeft: Int) {
+        let (minutes, seconds) = secondsToMinutesAndSeconds(timeLeft)
+        text = timeLeft >= 0 ? "\(minutes):\(String(format: "%02d", seconds))" : "0:00"
+    }
+}
+
+private extension TimeLeftLabel {
+    func secondsToMinutesAndSeconds(_ seconds: Int) -> (minutes: Int, seconds: Int) {
+        return (seconds / 60, (seconds % 3600) % 60)
     }
 }

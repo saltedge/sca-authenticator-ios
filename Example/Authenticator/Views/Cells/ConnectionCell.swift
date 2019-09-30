@@ -26,7 +26,7 @@ private struct Layout {
     static let sideOffset: CGFloat = 16.0
     static let titleLabelTopOffset: CGFloat = 20.0
     static let descriptionLabelTopOffset: CGFloat = 5.0
-    static let imageViewSize: CGSize = CGSize(width: 40.0, height: 40.0)
+    static let imageViewSize: CGSize = CGSize(width: 30.0, height: 30.0)
     static let connectionPlaceholderViewSize: CGSize = CGSize(width: 48.0, height: 48.0)
     static let connectionPlaceholderViewRadius: CGFloat = 24.0
     static let connectionImageOffset = sideOffset + 4.0
@@ -61,8 +61,10 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        backgroundColor = .white
         layout()
     }
 
@@ -84,15 +86,16 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
 // MARK: - Layout
 extension ConnectionCell: Layoutable {
     func layout() {
-        contentView.addSubviews(connectionPlaceholderView, connectionImageView, titleLabel, descriptionLabel)
+        contentView.addSubviews(connectionPlaceholderView, titleLabel, descriptionLabel)
+
+        connectionPlaceholderView.addSubview(connectionImageView)
 
         connectionPlaceholderView.size(Layout.connectionPlaceholderViewSize)
         connectionPlaceholderView.left(to: contentView, offset: Layout.sideOffset)
         connectionPlaceholderView.centerY(to: contentView)
 
         connectionImageView.size(Layout.imageViewSize)
-        connectionImageView.left(to: contentView, offset: Layout.connectionImageOffset)
-        connectionImageView.centerY(to: connectionPlaceholderView)
+        connectionImageView.center(in: connectionPlaceholderView)
 
         titleLabel.top(to: contentView, offset: Layout.titleLabelTopOffset)
         titleLabel.leftToRight(of: connectionPlaceholderView, offset: Layout.sideOffset)

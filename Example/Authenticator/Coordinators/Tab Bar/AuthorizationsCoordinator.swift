@@ -27,14 +27,15 @@ final class AuthorizationsCoordinator: Coordinator {
     let rootViewController = AuthorizationsViewController()
 
     private var passcodeCoordinator: PasscodeCoordinator?
-    private var authorizationModalViewCoordinator: AuthorizationModalViewCoordinator?
 
     private var timer: Timer?
     private let dataSource = AuthorizationsDataSource()
     private var connections = ConnectionsCollector.activeConnections
 
     private var selectedViewModelIndex: Int?
-    private var selectedCell: AuthorizationCell?
+    private var selectedCell: AuthorizationCollectionViewCell?
+
+    private var authorizationFromPush: (connectionId: String, authorizationId: String)?
 
     func start() {
         rootViewController.dataSource = dataSource
@@ -42,6 +43,11 @@ final class AuthorizationsCoordinator: Coordinator {
 
         setupPolling()
         updateDataSource(with: [])
+    }
+
+    func start(with connectionId: String, authorizationId: String) {
+        start()
+        authorizationFromPush = (connectionId, authorizationId)
     }
 
     func stop() {
@@ -68,15 +74,25 @@ final class AuthorizationsCoordinator: Coordinator {
         }
     }
 
-     private func updateDataSource(with authorizations: [SEEncryptedAuthorizationResponse]) {
+     private func updateDataSource(with authorizations: [SEDecryptedAuthorizationData]) {
         if dataSource.update(with: authorizations) {
             rootViewController.reloadData()
+            if authorizations.count > 1,
+                let authorizationToScroll = authorizationFromPush,
+                let viewModel = dataSource.viewModel(
+                    by: authorizationToScroll.connectionId,
+                    authorizationId: authorizationToScroll.authorizationId
+                ),
+                let index = dataSource.index(of: viewModel) {
+                    rootViewController.scroll(to: index)
+                    authorizationFromPush = nil
+            }
         }
         rootViewController.updateViewsHiddenState()
     }
 
     private func confirmationData(for index: Int) -> SEConfirmAuthorizationData? {
-        guard let viewModel = dataSource.item(at: index),
+        guard let viewModel = dataSource.viewModel(at: index),
             let connection = ConnectionsCollector.with(id: viewModel.connectionId),
             let url = connection.baseUrl else { return nil }
 
@@ -97,7 +113,15 @@ private extension AuthorizationsCoordinator {
         AuthorizationsInteractor.refresh(
             connections: Array(connections),
             success: { encryptedAuthorizations in
-                self.updateDataSource(with: encryptedAuthorizations)
+                DispatchQueue.global(qos: .background).async {
+                    let decryptedAuthorizations = encryptedAuthorizations.compactMap { authorization in
+                        return AuthorizationsPresenter.decryptedData(from: authorization)
+                    }
+
+                    DispatchQueue.main.async {
+                        self.updateDataSource(with: decryptedAuthorizations)
+                    }
+                }
             },
             connectionNotFoundFailure: { connectionId in
                 if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
@@ -105,26 +129,6 @@ private extension AuthorizationsCoordinator {
                 }
             }
         )
-    }
-
-    func presentPopup(for viewModel: AuthorizationViewModel) {
-        stop()
-
-        authorizationModalViewCoordinator = AuthorizationModalViewCoordinator(
-            rootViewController: rootViewController,
-            type: .show,
-            viewModel: viewModel
-        )
-        authorizationModalViewCoordinator?.confirmationActionPressed = { authorization in
-            guard let index = self.dataSource.remove(authorization) else { return }
-
-            self.rootViewController.delete(section: index)
-            self.setupPolling()
-        }
-        authorizationModalViewCoordinator?.closePressed = {
-            self.setupPolling()
-        }
-        authorizationModalViewCoordinator?.start()
     }
 
     func presentPasscodeView() {
@@ -153,7 +157,7 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
         AuthorizationsInteractor.deny(data: data)
     }
 
-    func confirmPressed(at index: Int, cell: AuthorizationCell) {
+    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
         selectedViewModelIndex = index
         selectedCell = cell
 
@@ -173,12 +177,6 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
                 self.presentPasscodeView()
             }
         )
-    }
-
-    func selectedViewModel(at index: Int) {
-        guard let viewModel = dataSource.item(at: index) else { return }
-
-        presentPopup(for: viewModel)
     }
 
     func modalClosed() {

@@ -42,6 +42,7 @@ final class ApplicationCoordinator: Coordinator {
             UserDefaultsHelper.applicationLanguage = "en"
 
             let navController = UINavigationController(rootViewController: onboardingCoordinator.onboardingViewController)
+            navController.modalPresentationStyle = .fullScreen
             navController.isNavigationBarHidden = true
             window?.rootViewController = navController
             onboardingCoordinator.start()
@@ -58,17 +59,7 @@ final class ApplicationCoordinator: Coordinator {
 
         tabBarCoordinator.rootViewController.selectedIndex = TabBarControllerType.authorizations.rawValue
 
-        guard let rootVc = window?.rootViewController else { return }
-
-        let authModalCoordinator = AuthorizationModalViewCoordinator(
-            rootViewController: rootVc,
-            type: .preFetchAndShow,
-            viewModel: AuthorizationViewModel(connectionId: connectionId, authorizationId: authorizationId)
-        )
-        authModalCoordinator.closePressed = {
-            self.tabBarCoordinator.startAuthorizationsCoordinator()
-        }
-        authModalCoordinator.start()
+        tabBarCoordinator.startAuthorizationsCoordinator(with: connectionId, authorizationId: authorizationId)
     }
 
     func openConnectViewController(urlString: String) {

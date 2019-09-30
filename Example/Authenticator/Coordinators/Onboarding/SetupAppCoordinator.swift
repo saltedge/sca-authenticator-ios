@@ -33,6 +33,7 @@ final class SetupAppCoordinator: Coordinator {
 
     func start() {
         setupAppViewController.delegate = self
+        setupAppViewController.modalPresentationStyle = .fullScreen
         rootViewController.navigationController?.present(setupAppViewController, animated: true)
     }
 
