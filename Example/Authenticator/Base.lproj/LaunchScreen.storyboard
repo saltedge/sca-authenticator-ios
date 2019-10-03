@@ -19,13 +19,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Salt Edge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3t-14-2fs">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Salt Edge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3t-14-2fs">
                                 <rect key="frame" x="145" y="315" width="87" height="23"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Authenticator" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FMB-YY-e8y">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Authenticator" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FMB-YY-e8y">
                                 <rect key="frame" x="128.5" y="339" width="118" height="23"/>
                                 <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="20"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.2901960784" alpha="1" colorSpace="calibratedRGB"/>
@@ -51,13 +51,13 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="E4t-3C-ktm" firstAttribute="centerX" secondItem="e9U-FE-KrW" secondAttribute="centerX" id="7EA-4P-6cd"/>
-                            <constraint firstItem="FMB-YY-e8y" firstAttribute="top" secondItem="BiP-XO-BCM" secondAttribute="bottom" constant="44" id="9mH-SZ-LJc"/>
+                            <constraint firstItem="FMB-YY-e8y" firstAttribute="top" secondItem="BiP-XO-BCM" secondAttribute="bottom" constant="42" id="9mH-SZ-LJc"/>
                             <constraint firstItem="BiP-XO-BCM" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="B55-m6-yJu"/>
                             <constraint firstItem="E4t-3C-ktm" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="DOe-b6-tOS"/>
                             <constraint firstItem="BiP-XO-BCM" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-76.5" id="I72-2V-U0G"/>
                             <constraint firstItem="E4t-3C-ktm" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" constant="-42" id="Lsq-Gb-50f"/>
                             <constraint firstItem="E4t-3C-ktm" firstAttribute="top" secondItem="e9U-FE-KrW" secondAttribute="bottom" constant="9" id="WO4-Km-hLN"/>
-                            <constraint firstItem="k3t-14-2fs" firstAttribute="top" secondItem="BiP-XO-BCM" secondAttribute="bottom" constant="16" id="gq2-0m-7SH"/>
+                            <constraint firstItem="k3t-14-2fs" firstAttribute="top" secondItem="BiP-XO-BCM" secondAttribute="bottom" constant="18" id="gq2-0m-7SH"/>
                             <constraint firstItem="FMB-YY-e8y" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="t7R-rx-02v"/>
                             <constraint firstItem="e9U-FE-KrW" firstAttribute="centerX" secondItem="k3t-14-2fs" secondAttribute="centerX" constant="-1" id="yCG-wf-FgD"/>
                         </constraints>
