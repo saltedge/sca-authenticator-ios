@@ -42,7 +42,7 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
     }()
     private let connectionImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     private let titleLabel: UILabel = {
@@ -94,7 +94,7 @@ extension ConnectionCell: Layoutable {
         connectionPlaceholderView.left(to: contentView, offset: Layout.sideOffset)
         connectionPlaceholderView.centerY(to: contentView)
 
-        connectionImageView.size(Layout.imageViewSize)
+        connectionImageView.size(Layout.connectionPlaceholderViewSize)
         connectionImageView.center(in: connectionPlaceholderView)
 
         titleLabel.top(to: contentView, offset: Layout.titleLabelTopOffset)
