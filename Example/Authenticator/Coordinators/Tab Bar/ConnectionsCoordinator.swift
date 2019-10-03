@@ -124,22 +124,4 @@ extension ConnectionsCoordinator: ConnectionsViewControllerDelegate {
         )
         connectViewCoordinator?.start()
     }
-
-    func deleteAllPressed() {
-        rootViewController.showConfirmationAlert(
-            withTitle: l10n(.deleteAll),
-            message: l10n(.deleteAllDataDescription),
-            confirmActionTitle: l10n(.delete),
-            cancelTitle: l10n(.cancel),
-            confirmAction: { [weak self] _ in
-                guard let weakSelf = self else { return }
-
-                weakSelf.activeConnections.forEach { ConnectionsInteractor.revoke($0) }
-
-                weakSelf.connections.forEach { SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: $0.guid)) }
-
-                ConnectionRepository.deleteAllConnections()
-            }
-        )
-    }
 }

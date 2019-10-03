@@ -42,6 +42,7 @@ struct ConnectionsInteractor {
                     connection.name = response.name
                 }
 
+                connection.supportEmail = response.supportEmail
                 connection.logoUrlString = response.logoUrl?.absoluteString ?? ""
                 connection.baseUrlString = response.connectUrl.absoluteString
 
