@@ -26,7 +26,6 @@ import TinyConstraints
 protocol ConnectionsViewControllerDelegate: class {
     func selected(_ connection: Connection)
     func addPressed()
-    func deleteAllPressed()
 }
 
 private struct Layout {
@@ -80,10 +79,6 @@ final class ConnectionsViewController: BaseViewController {
         delegate?.addPressed()
     }
 
-    @objc private func deleteAllPressed() {
-        delegate?.deleteAllPressed()
-    }
-
     @objc private func reloadData() {
         tableView.reloadData()
     }
@@ -120,12 +115,6 @@ private extension ConnectionsViewController {
 
     func updateNavigationButtonsState() {
         if dataSource.hasDataToShow {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(
-                title: l10n(.deleteAll),
-                style: .plain,
-                target: self,
-                action: #selector(deleteAllPressed)
-            )
             navigationItem.rightBarButtonItem = UIBarButtonItem(
                 image: #imageLiteral(resourceName: "Add"),
                 style: .plain,

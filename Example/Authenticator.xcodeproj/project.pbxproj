@@ -154,8 +154,6 @@
 		9DCED91F22CE18280050ED3C /* ConnectionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED88722CE18280050ED3C /* ConnectionRepository.swift */; };
 		9DCED92122CE18280050ED3C /* EntityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED88A22CE18280050ED3C /* EntityResponse.swift */; };
 		9DCED92322CE18280050ED3C /* GoogleService-Info.example.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED88D22CE18280050ED3C /* GoogleService-Info.example.plist */; };
-		9DCED92422CE18280050ED3C /* application.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED88E22CE18280050ED3C /* application.plist */; };
-		9DCED92522CE18280050ED3C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED88F22CE18280050ED3C /* GoogleService-Info.plist */; };
 		9DCED92622CE18280050ED3C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED89022CE18280050ED3C /* AppDelegate.swift */; };
 		9DCED92722CE18280050ED3C /* application.example.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED89122CE18280050ED3C /* application.example.plist */; };
 		9DCED92A22CE18280050ED3C /* Authenticator.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED89522CE18280050ED3C /* Authenticator.strings */; };
@@ -292,6 +290,8 @@
 		9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86422CE18270050ED3C /* LoadingIndicator.swift */; };
 		9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED89022CE18280050ED3C /* AppDelegate.swift */; };
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
+		F846BC102344FEC9005A9781 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */; };
+		F846BC112344FEC9005A9781 /* application.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0F2344FEC9005A9781 /* application.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -453,8 +453,6 @@
 		9DCED88722CE18280050ED3C /* ConnectionRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionRepository.swift; sourceTree = "<group>"; };
 		9DCED88A22CE18280050ED3C /* EntityResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EntityResponse.swift; sourceTree = "<group>"; };
 		9DCED88D22CE18280050ED3C /* GoogleService-Info.example.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.example.plist"; sourceTree = "<group>"; };
-		9DCED88E22CE18280050ED3C /* application.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = application.plist; sourceTree = "<group>"; };
-		9DCED88F22CE18280050ED3C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9DCED89022CE18280050ED3C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9DCED89122CE18280050ED3C /* application.example.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = application.example.plist; sourceTree = "<group>"; };
 		9DCED89322CE18280050ED3C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -501,6 +499,8 @@
 		C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Authenticator_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D211CB21F21CCFE7A57F9A63 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F846BC0F2344FEC9005A9781 /* application.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = application.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1124,11 +1124,11 @@
 			isa = PBXGroup;
 			children = (
 				9DCED88D22CE18280050ED3C /* GoogleService-Info.example.plist */,
-				9DCED88E22CE18280050ED3C /* application.plist */,
-				9DCED88F22CE18280050ED3C /* GoogleService-Info.plist */,
 				9DCED89022CE18280050ED3C /* AppDelegate.swift */,
 				9DCED89122CE18280050ED3C /* application.example.plist */,
 				9DCED89322CE18280050ED3C /* Info.plist */,
+				F846BC0F2344FEC9005A9781 /* application.plist */,
+				F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */,
 				9DCED89422CE18280050ED3C /* Localization */,
 			);
 			path = "Supporting Files";
@@ -1346,11 +1346,11 @@
 			files = (
 				9DCED92D22CE1DC30050ED3C /* LaunchScreen.storyboard in Resources */,
 				9DCED92722CE18280050ED3C /* application.example.plist in Resources */,
-				9DCED92422CE18280050ED3C /* application.plist in Resources */,
 				9DCED93722D3389C0050ED3C /* Assets.xcassets in Resources */,
+				F846BC112344FEC9005A9781 /* application.plist in Resources */,
 				9DCED92322CE18280050ED3C /* GoogleService-Info.example.plist in Resources */,
 				9DCED92A22CE18280050ED3C /* Authenticator.strings in Resources */,
-				9DCED92522CE18280050ED3C /* GoogleService-Info.plist in Resources */,
+				F846BC102344FEC9005A9781 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
