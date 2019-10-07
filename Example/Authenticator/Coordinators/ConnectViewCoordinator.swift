@@ -61,29 +61,16 @@ final class ConnectViewCoordinator: Coordinator {
     func stop() {}
 
     private func connectFrom(urlString: String?) {
-        guard let link = urlString, let url = URL(string: link) else { return }
+        guard let link = urlString, let configurationUrl = URL(string: link) else { return }
 
-        showWebViewController()
+        self.showWebViewController()
 
-        ConnectionsInteractor.getConnectUrl(
-            from: url,
-            success: { [weak self]  connection, connectUrl in
-                guard let strongSelf = self else { return }
-
-                strongSelf.connection = connection
-                strongSelf.startWebViewLoading(with: connectUrl)
-            },
-            failure: { error in
-                self.connectViewController.dismiss(animated: true)
-                print(error)
-            }
-        )
+        self.getConnectUrl(from: configurationUrl)
     }
 
     private func showQrCodeViewController() {
         qrCodeViewController.metadataReceived = { vc, qrMetadata in
             vc.remove()
-            self.showWebViewController()
 
             guard ReachabilityManager.shared.isReachable else {
                 self.connectViewController.showInfoAlert(
@@ -101,22 +88,28 @@ final class ConnectViewCoordinator: Coordinator {
                 let configurationUrl = SEConnectHelper.сonfiguration(from: url)
                 else { self.connectViewController.dismiss(animated: true); return }
 
-            ConnectionsInteractor.getConnectUrl(
-                from: configurationUrl,
-                success: { [weak self]  connection, connectUrl in
-                    guard let strongSelf = self else { return }
+            self.showWebViewController()
 
-                    strongSelf.connection = connection
-                    strongSelf.webViewController.startLoading(with: connectUrl)
-                },
-                failure: { error in
-                    self.connectViewController.dismiss(animated: true)
-                    print(error)
-                }
-            )
+            self.getConnectUrl(from: configurationUrl)
         }
         connectViewController.add(qrCodeViewController)
         connectViewController.title = l10n(.scanQr)
+    }
+
+    private func getConnectUrl(from configurationUrl: URL) {
+        ConnectionsInteractor.getConnectUrl(
+            from: configurationUrl,
+            success: { [weak self]  connection, connectUrl in
+                guard let strongSelf = self else { return }
+
+                strongSelf.connection = connection
+                strongSelf.webViewController.startLoading(with: connectUrl)
+            },
+            failure: { error in
+                self.connectViewController.dismiss(animated: true)
+                print(error)
+            }
+        )
     }
 
     private func showWebViewController() {
