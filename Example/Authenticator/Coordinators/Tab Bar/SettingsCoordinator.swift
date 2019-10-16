@@ -56,6 +56,8 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
         case .about:
             aboutCoordinator = AboutCoordinator(rootViewController: rootViewController)
             aboutCoordinator?.start()
+        case .licenses:
+            rootViewController.navigationController?.pushViewController(LicensesViewController(), animated: true)
         default: break
         }
     }

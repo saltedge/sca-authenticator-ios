@@ -18,6 +18,10 @@
 		9D4310F422D7661D004A7FCF /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */; };
 		9D4310F522D76625004A7FCF /* AboutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */; };
 		9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */; };
+		9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
+		9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
+		9D5AC68D23573553003B00E2 /* LibraririesType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68C23573553003B00E2 /* LibraririesType.swift */; };
+		9D5AC68E23573553003B00E2 /* LibraririesType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68C23573553003B00E2 /* LibraririesType.swift */; };
 		9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */; };
 		9D6575FB232A9E8100DCC53E /* DateUtilsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6575FA232A9E8100DCC53E /* DateUtilsSpec.swift */; };
 		9D66E1A922D4C1C100BD59B6 /* DecryptedAuthorizationDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17B22D4C0AF00BD59B6 /* DecryptedAuthorizationDataSpec.swift */; };
@@ -325,6 +329,8 @@
 		95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
 		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
 		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
+		9D5AC68923571958003B00E2 /* LicensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewController.swift; sourceTree = "<group>"; };
+		9D5AC68C23573553003B00E2 /* LibraririesType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraririesType.swift; sourceTree = "<group>"; };
 		9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsSpec.swift; sourceTree = "<group>"; };
 		9D6575FA232A9E8100DCC53E /* DateUtilsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilsSpec.swift; sourceTree = "<group>"; };
 		9D66E17122D4C0AF00BD59B6 /* CryptoErrorsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoErrorsSpec.swift; sourceTree = "<group>"; };
@@ -787,6 +793,7 @@
 				9DCED7E022CE18270050ED3C /* LanguageViewController.swift */,
 				9DCED7E122CE18270050ED3C /* SettingsViewController.swift */,
 				95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */,
+				9D5AC68923571958003B00E2 /* LicensesViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1100,6 +1107,7 @@
 				9DCED88422CE18280050ED3C /* LanguagePickerDataSource.swift */,
 				9DCED88522CE18280050ED3C /* SettingsDataSource.swift */,
 				95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */,
+				9D5AC68C23573553003B00E2 /* LibraririesType.swift */,
 			);
 			path = "Data Sources";
 			sourceTree = "<group>";
@@ -1579,6 +1587,7 @@
 				9D772135231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */,
 				9DCED90922CE18280050ED3C /* LanguageCoordinator.swift in Sources */,
 				9DCED8C822CE18280050ED3C /* ImageExtensions.swift in Sources */,
+				9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9DD8946022E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,
 				9DCED8C722CE18280050ED3C /* BordersExtensions.swift in Sources */,
 				9DCED8D322CE18280050ED3C /* StackViewExtensions.swift in Sources */,
@@ -1637,6 +1646,7 @@
 				9DCED8FA22CE18280050ED3C /* TimeLeftIndicator.swift in Sources */,
 				9DCED8EA22CE18280050ED3C /* HapticFeedbackHelper.swift in Sources */,
 				9DCED91E22CE18280050ED3C /* SettingsDataSource.swift in Sources */,
+				9D5AC68D23573553003B00E2 /* LibraririesType.swift in Sources */,
 				9DCED89F22CE18280050ED3C /* ConnectViewController.swift in Sources */,
 				9D772132231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */,
 				9DCED8D822CE18280050ED3C /* AuthorizationsInteractor.swift in Sources */,
@@ -1710,6 +1720,7 @@
 				9DE324D822D39AB600EB162A /* SeparatorView.swift in Sources */,
 				9D66E1DE22D6146900BD59B6 /* ConnectionRouterSpec.swift in Sources */,
 				9DE324CE22D39A9800EB162A /* CustomSpacingLabel.swift in Sources */,
+				9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9DE3247F22D3998F00EB162A /* LanguageCoordinator.swift in Sources */,
 				9D772136231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */,
 				9DE324AC22D39A2500EB162A /* AppearanceHelper.swift in Sources */,
@@ -1726,6 +1737,7 @@
 				9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */,
 				9DE3249E22D399F900EB162A /* DicitionaryExtensions.swift in Sources */,
 				9DE3248422D3999F00EB162A /* SetupStep.swift in Sources */,
+				9D5AC68E23573553003B00E2 /* LibraririesType.swift in Sources */,
 				9DE3247422D398ED00EB162A /* BaseSpec.swift in Sources */,
 				95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */,
 				9DE3249A22D399EF00EB162A /* ColorExtensions.swift in Sources */,
@@ -1974,6 +1986,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "Authenticator Distribution";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
@@ -1998,7 +2011,7 @@
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Salt Edge Authenticator Distr";
+				PROVISIONING_PROFILE_SPECIFIER = "Authenticator Distribution";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;

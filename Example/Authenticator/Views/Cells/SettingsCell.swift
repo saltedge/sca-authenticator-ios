@@ -30,6 +30,7 @@ enum SettingsCellType: Localizable {
     case terms
     case support
     case about
+    case licenses
 
     var localizedLabel: String {
         switch self {
@@ -40,6 +41,7 @@ enum SettingsCellType: Localizable {
         case .terms: return l10n(.terms)
         case .support: return l10n(.reportABug)
         case .about: return l10n(.about)
+        case .licenses: return l10n(.licenses)
         }
     }
 
@@ -81,8 +83,7 @@ final class SettingsCell: UITableViewCell, Dequeuable {
             accessoryType = .disclosureIndicator
             detailTextLabel?.centerY(to: contentView)
             detailTextLabel?.right(to: contentView, offset: -10.0)
-        case .passcode,
-             .about: accessoryType = .disclosureIndicator
+        case .passcode, .about, .licenses: accessoryType = .disclosureIndicator
         case .biometrics: accessoryView = biometricsSwitch
         case .terms, .support: textLabel?.textColor = .auth_blue
         default: break
