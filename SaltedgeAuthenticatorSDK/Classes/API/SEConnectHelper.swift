@@ -23,9 +23,19 @@
 import Foundation
 
 public struct SEConnectHelper {
+    public static func isValid(deepLinkUrl url: URL) -> Bool {
+        return сonfiguration(from: url) != nil
+    }
+    
     public static func сonfiguration(from url: URL) -> URL? {
         guard let query = url.queryItem(for: SENetKeys.configuration) else { return nil }
 
         return URL(string: query)
+    }
+    
+    public static func connectQuery(from url: URL) -> String? {
+        guard let query = url.queryItem(for: SENetKeys.connectQuery) else { return nil }
+
+        return query
     }
 }

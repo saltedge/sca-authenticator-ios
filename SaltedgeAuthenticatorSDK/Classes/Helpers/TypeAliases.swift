@@ -30,4 +30,5 @@ public typealias GUID = String
 public typealias ID = String
 
 public typealias PushToken = String
+public typealias ConnectQuery = String
 public typealias ApplicationLanguage = String

@@ -62,7 +62,7 @@ final class ApplicationCoordinator: Coordinator {
         tabBarCoordinator.startAuthorizationsCoordinator(with: connectionId, authorizationId: authorizationId)
     }
 
-    func openConnectViewController(urlString: String) {
+    func openConnectViewController(deepLinkUrl: URL) {
         if (tabBarCoordinator.rootViewController.presentedViewController as? UINavigationController) != nil {
             tabBarCoordinator.rootViewController.dismiss(animated: false, completion: nil)
         }
@@ -75,7 +75,7 @@ final class ApplicationCoordinator: Coordinator {
             self?.connectViewCoordinator = ConnectViewCoordinator(
                 rootViewController: rootVc,
                 connectionType: .deepLink,
-                configurationUrl: urlString
+                deepLinkUrl: deepLinkUrl
             )
 
             self?.connectViewCoordinator?.start()
