@@ -25,6 +25,7 @@ import SEAuthenticator
 
 struct ConnectionsInteractor {
     static func getConnectUrl(from url: URL,
+                              with connectQuery: String?,
                               success: @escaping (Connection, String) -> (),
                               failure: @escaping (String) -> ()) {
         fetchProvider(
@@ -50,8 +51,9 @@ struct ConnectionsInteractor {
                     by: connectionUrl,
                     data: connectionData,
                     pushToken: UserDefaultsHelper.pushToken,
+                    connectQuery: connectQuery,
                     appLanguage: UserDefaultsHelper.applicationLanguage,
-                     onSuccess: { response in
+                    onSuccess: { response in
                         connection.id = response.id
                         success(connection, response.connectUrl)
                     },

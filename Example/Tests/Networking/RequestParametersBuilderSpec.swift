@@ -56,11 +56,14 @@ class RequestParametersBuilderSpec: BaseSpec {
                         ParametersKeys.publicKey: connectionData.publicKey,
                         ParametersKeys.returnUrl: "authenticator://oauth/redirect",
                         ParametersKeys.platform: "ios",
-                        ParametersKeys.pushToken: pushToken
+                        ParametersKeys.pushToken: pushToken,
+                        ParametersKeys.connectQuery: nil
                     ]
                 ]
 
-                let isEqual = RequestParametersBuilder.parameters(for: connectionData, pushToken: pushToken) == expectedParams
+                let isEqual = RequestParametersBuilder.parameters(for: connectionData,
+                                                                  pushToken: pushToken,
+                                                                  connectQuery: nil) == expectedParams
 
                 expect(isEqual).to(beTruthy())
             }
