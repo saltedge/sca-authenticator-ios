@@ -26,7 +26,7 @@ struct SettingsDataSource {
     private let data: [Int: [SettingsCellType]] = [
         0: [.language],
         1: [.passcode, .biometrics],
-        2: [.about, .licenses],
+        2: [.about],
         3: [.support]
     ]
 

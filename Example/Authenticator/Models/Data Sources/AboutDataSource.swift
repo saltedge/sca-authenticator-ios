@@ -24,7 +24,7 @@ import UIKit
 
 struct AboutDataSource {
     private let data: [Int: [SettingsCellType]] = [
-        0: [.appVersion, .terms]
+        0: [.appVersion, .terms, .licenses]
     ]
 
     var sections: Int {

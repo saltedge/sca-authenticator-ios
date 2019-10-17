@@ -31,16 +31,14 @@ final class LicensesViewController: BaseViewController {
         return tableView
     }()
 
+    private let dataSource = LibrariesDataSource()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.licenses)
         tableView.dataSource = self
         tableView.delegate = self
         layout()
-    }
-
-    private func library(for row: Int) -> LibraririesType {
-        return LibraririesType.allCases[row]
     }
 }
 
@@ -51,12 +49,12 @@ extension LicensesViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return LibraririesType.allCases.count
+        return dataSource.numberOfItems
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "LibraryCell", for: indexPath)
-        cell.textLabel?.text = library(for: indexPath.row).item.0
+        cell.textLabel?.text = dataSource.item(for: indexPath.row).0
         return cell
     }
 }
@@ -66,10 +64,10 @@ extension LicensesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        guard let url = URL(string: library(for: indexPath.row).item.1) else { return }
+        guard let url = URL(string: dataSource.item(for: indexPath.row).1) else { return }
 
         let vc = SFSafariViewController(url: url)
-        vc.title = library(for: indexPath.row).item.0
+        vc.title = dataSource.item(for: indexPath.row).0
         navigationController?.pushViewController(vc, animated: true)
     }
 }

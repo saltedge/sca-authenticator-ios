@@ -55,6 +55,8 @@ extension AboutCoordinator: AboutViewControllerDelegate {
                 webViewController.hidesBottomBarWhenPushed = true
                 rootViewController?.navigationController?.pushViewController(webViewController, animated: true)
             }
+        case .licenses:
+            aboutViewController.navigationController?.pushViewController(LicensesViewController(), animated: true)
         default:break
         }
     }
