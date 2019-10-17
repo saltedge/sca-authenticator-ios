@@ -48,7 +48,7 @@ final class ConnectViewCoordinator: Coordinator {
         case .reconnect: loadUrl()
         case .connect: showQrCodeViewController()
         case .deepLink:
-            if let url = self.deepLinkUrl {
+            if let url = deepLinkUrl {
                 fetchConfiguration(deepLinkUrl: url)
             } else {
                 showQrCodeViewController()
@@ -67,11 +67,11 @@ final class ConnectViewCoordinator: Coordinator {
 
     private func fetchConfiguration(deepLinkUrl: URL) {
         guard let configurationUrl = SEConnectHelper.сonfiguration(from: deepLinkUrl) else { return }
+        
         let connectQuery = SEConnectHelper.connectQuery(from: deepLinkUrl)
 
-        self.showWebViewController()
-
-        self.getConnectUrl(from: configurationUrl, with: connectQuery)
+        showWebViewController()
+        getConnectUrl(from: configurationUrl, with: connectQuery)
     }
 
     private func showQrCodeViewController() {
