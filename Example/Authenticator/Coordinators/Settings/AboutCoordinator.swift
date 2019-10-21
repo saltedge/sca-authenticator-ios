@@ -47,14 +47,11 @@ extension AboutCoordinator: AboutViewControllerDelegate {
         case .terms:
             let webViewController = WKWebViewController()
 
-            if let type = dataSource.item(for: indexPath),
-                let pageURL = dataSource.pageURL(for: type) {
-                webViewController.startLoading(with: pageURL.absoluteString)
-                webViewController.displayType = .push
-                webViewController.title = type.localizedLabel
-                webViewController.hidesBottomBarWhenPushed = true
-                rootViewController?.navigationController?.pushViewController(webViewController, animated: true)
-            }
+            webViewController.startLoading(with: AppSettings.termsURL.absoluteString)
+            webViewController.displayType = .push
+            webViewController.title = item.localizedLabel
+            webViewController.hidesBottomBarWhenPushed = true
+            rootViewController?.navigationController?.pushViewController(webViewController, animated: true)
         case .licenses:
             aboutViewController.navigationController?.pushViewController(LicensesViewController(), animated: true)
         default:break

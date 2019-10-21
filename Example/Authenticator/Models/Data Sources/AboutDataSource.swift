@@ -23,30 +23,17 @@
 import UIKit
 
 struct AboutDataSource {
-    private let data: [Int: [SettingsCellType]] = [
-        0: [.appVersion, .terms, .licenses]
-    ]
+    private let data: [SettingsCellType] = [.appVersion, .terms, .licenses]
 
     var sections: Int {
-        return data.keys.count
+        return 1
     }
 
     func rows(for section: Int) -> Int {
-        guard let items = data[section] else { return 0 }
-
-        return items.count
+        return data.count
     }
 
-    func item(for indexPath: IndexPath) -> SettingsCellType? {
-        guard let item = data[indexPath.section]?[indexPath.row] else { return nil }
-
-        return item
-    }
-
-    func pageURL(for type: SettingsCellType) -> URL? {
-        switch type {
-        case .terms: return AppSettings.termsURL
-        default: return nil
-        }
+    func item(for indexPath: IndexPath) -> SettingsCellType {
+        return data[indexPath.row]
     }
 }
