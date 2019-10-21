@@ -92,9 +92,7 @@ extension AboutViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: SettingsCell = tableView.dequeueReusableCell(for: indexPath)
 
-        guard let item = dataSource.item(for: indexPath) else { return UITableViewCell() }
-
-        cell.set(with: item)
+        cell.set(with: dataSource.item(for: indexPath))
         return cell
     }
 
@@ -122,9 +120,7 @@ extension AboutViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        guard let item = dataSource.item(for: indexPath) else { return }
-
-        delegate?.selected(item, indexPath: indexPath)
+        delegate?.selected(dataSource.item(for: indexPath), indexPath: indexPath)
     }
 }
 

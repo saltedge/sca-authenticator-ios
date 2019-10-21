@@ -51,6 +51,7 @@
 "in_app.passcode_confirmation.title" = "Enter Passcode or use Touch ID";
 "in_app.passcode_confirmation.title2" = "Enter Passcode or use Face ID";
 "in_app.settings.about" = "About";
+"in_app.settings.licenses" = "Open-source licenses";
 "in_app.settings.copyright" = "Copyright";
 "in_app.settings.copyright_description" = "Salt Edge Authenticator\n© 2019 Salt Edge Inc.";
 "in_app.settings.app_version" = "App Version";

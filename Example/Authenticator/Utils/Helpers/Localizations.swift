@@ -96,6 +96,7 @@ enum Localizations: String, Localizable {
     case deleteAll = "actions.delete_all"
     case deleteAllDataDescription = "actions.confirm_delete_connections"
     case search = "actions.search"
+    case licenses = "in_app.settings.licenses"
 
     // MARK: - Security
     case touchID = "in_app.settings.touch_id"

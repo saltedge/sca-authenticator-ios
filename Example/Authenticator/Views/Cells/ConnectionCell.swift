@@ -42,7 +42,7 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
     }()
     private let connectionImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     private let titleLabel: UILabel = {
