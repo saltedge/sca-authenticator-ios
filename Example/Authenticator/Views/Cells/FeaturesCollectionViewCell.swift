@@ -63,7 +63,6 @@ extension FeaturesCollectionViewCell: Layoutable {
 
         containerView.addSubviews(imageView, titleLabel, descriptionLabel)
 
-        containerView.height(380.0)
         containerView.center(in: contentView)
         containerView.left(to: contentView, offset: AppLayout.sideOffset)
         containerView.right(to: contentView, offset: -AppLayout.sideOffset)
@@ -76,9 +75,10 @@ extension FeaturesCollectionViewCell: Layoutable {
         titleLabel.centerX(to: containerView)
 
         descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionLabelTopOffset)
-        descriptionLabel.centerX(to: contentView)
-        descriptionLabel.left(to: containerView)
-        descriptionLabel.right(to: containerView)
+        descriptionLabel.bottomToSuperview()
+        descriptionLabel.leftToSuperview()
+        descriptionLabel.rightToSuperview()
+        descriptionLabel.centerX(to: containerView)
     }
 }
 
