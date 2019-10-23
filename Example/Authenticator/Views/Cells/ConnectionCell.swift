@@ -25,7 +25,7 @@ import UIKit
 private struct Layout {
     static let sideOffset: CGFloat = 16.0
     static let titleLabelTopOffset: CGFloat = 20.0
-    static let descriptionLabelTopOffset: CGFloat = 5.0
+    static let descriptionLabelOffset: CGFloat = 5.0
     static let imageViewSize: CGSize = CGSize(width: 30.0, height: 30.0)
     static let connectionPlaceholderViewSize: CGSize = CGSize(width: 48.0, height: 48.0)
     static let connectionPlaceholderViewRadius: CGFloat = 24.0
@@ -101,7 +101,8 @@ extension ConnectionCell: Layoutable {
         titleLabel.leftToRight(of: connectionPlaceholderView, offset: Layout.sideOffset)
         titleLabel.right(to: contentView, offset: -Layout.sideOffset)
 
-        descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionLabelTopOffset)
+        descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionLabelOffset)
         descriptionLabel.leftToRight(of: connectionPlaceholderView, offset: Layout.sideOffset)
+        descriptionLabel.right(to: contentView, offset: -Layout.descriptionLabelOffset)
     }
 }

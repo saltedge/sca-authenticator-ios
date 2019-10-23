@@ -58,7 +58,7 @@ final class CompleteView: UIView {
 
         fileprivate var image: UIImage {
             switch self {
-            case .success, .complete: return #imageLiteral(resourceName: "Done")
+            case .success, .complete: return #imageLiteral(resourceName: "Success")
             case .fail: return #imageLiteral(resourceName: "Error")
             }
         }
