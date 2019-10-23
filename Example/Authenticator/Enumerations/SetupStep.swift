@@ -33,7 +33,7 @@ enum SetupStep {
         case .createPasscode: return l10n(.secureApp)
         case .allowBiometricsUsage: return BiometricsPresenter.allowText
         case .allowNotifications: return l10n(.allowNotifications)
-        case .signUpComplete: return ""
+        case .signUpComplete: return l10n(.signUpComplete)
         }
     }
 
@@ -42,7 +42,7 @@ enum SetupStep {
         case .createPasscode: return l10n(.secureAppDescription)
         case .allowBiometricsUsage: return BiometricsPresenter.usageDescription
         case .allowNotifications: return l10n(.allowNotificationsDescription)
-        case .signUpComplete: return ""
+        case .signUpComplete: return l10n(.signUpCompleteDescription)
         }
     }
 }

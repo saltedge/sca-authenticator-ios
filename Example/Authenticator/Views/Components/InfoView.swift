@@ -40,15 +40,19 @@ class InfoView: UIView {
 
     private let imageView = UIImageView(frame: .zero)
     private var mainButton: CustomButton
-    private var secondaryButton: CustomButton
+    private let secondaryButton = CustomButton(.bordered, text: "")
 
-    init(image: UIImage, mainButtonText: String, secondaryButtonText: String) {
+    init(image: UIImage, mainButtonText: String, secondaryButtonText: String? = nil) {
         mainButton = CustomButton(.filled, text: mainButtonText)
-        secondaryButton = CustomButton(.bordered, text: secondaryButtonText)
         super.init(frame: .zero)
         imageView.image = image
         mainButton.addTarget(self, action: #selector(mainButtonPressed), for: .touchUpInside)
-        secondaryButton.addTarget(self, action: #selector(secondaryButtonPressed), for: .touchUpInside)
+        if let secondaryButtonText = secondaryButtonText {
+            secondaryButton.setTitle(secondaryButtonText, for: .normal)
+            secondaryButton.addTarget(self, action: #selector(secondaryButtonPressed), for: .touchUpInside)
+        } else {
+            secondaryButton.isHidden = true
+        }
         layout()
     }
 
