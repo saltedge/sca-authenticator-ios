@@ -31,13 +31,13 @@ final class ConnectViewCoordinator: Coordinator {
     private var connectViewController = ConnectViewController()
     private var connection: Connection?
     private let connectionType: ConnectionType
-    private let configurationUrl: String?
+    private let deepLinkUrl: URL?
 
     init(rootViewController: UIViewController,
          connectionType: ConnectionType,
-         configurationUrl: String? = nil,
+         deepLinkUrl: URL? = nil,
          connection: Connection? = nil) {
-        self.configurationUrl = configurationUrl
+        self.deepLinkUrl = deepLinkUrl
         self.rootViewController = rootViewController
         self.connection = connection
         self.connectionType = connectionType
@@ -47,7 +47,12 @@ final class ConnectViewCoordinator: Coordinator {
         switch connectionType {
         case .reconnect: loadUrl()
         case .connect: showQrCodeViewController()
-        case .deepLink: connectFrom(urlString: configurationUrl)
+        case .deepLink:
+            if let url = deepLinkUrl {
+                fetchConfiguration(deepLinkUrl: url)
+            } else {
+                showQrCodeViewController()
+            }
         }
 
         let navigationController = UINavigationController(rootViewController: connectViewController)
@@ -60,12 +65,13 @@ final class ConnectViewCoordinator: Coordinator {
 
     func stop() {}
 
-    private func connectFrom(urlString: String?) {
-        guard let link = urlString, let configurationUrl = URL(string: link) else { return }
+    private func fetchConfiguration(deepLinkUrl: URL) {
+        guard let configurationUrl = SEConnectHelper.сonfiguration(from: deepLinkUrl) else { return }
+        
+        let connectQuery = SEConnectHelper.connectQuery(from: deepLinkUrl)
 
-        self.showWebViewController()
-
-        self.getConnectUrl(from: configurationUrl)
+        showWebViewController()
+        getConnectUrl(from: configurationUrl, with: connectQuery)
     }
 
     private func showQrCodeViewController() {
@@ -84,21 +90,20 @@ final class ConnectViewCoordinator: Coordinator {
                 return
             }
 
-            guard let url = URL(string: qrMetadata),
-                let configurationUrl = SEConnectHelper.сonfiguration(from: url)
-                else { self.connectViewController.dismiss(animated: true); return }
-
-            self.showWebViewController()
-
-            self.getConnectUrl(from: configurationUrl)
+            if let qrUrl = URL(string: qrMetadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
+                self.fetchConfiguration(deepLinkUrl: qrUrl)
+            } else {
+                self.connectViewController.dismiss(animated: true)
+            }
         }
         connectViewController.add(qrCodeViewController)
         connectViewController.title = l10n(.scanQr)
     }
 
-    private func getConnectUrl(from configurationUrl: URL) {
+    private func getConnectUrl(from configurationUrl: URL, with connectQuery: String?) {
         ConnectionsInteractor.getConnectUrl(
             from: configurationUrl,
+            with: connectQuery,
             success: { [weak self]  connection, connectUrl in
                 guard let strongSelf = self else { return }
 

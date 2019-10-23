@@ -34,6 +34,7 @@ public struct SENetKeys {
     public static let version = "version"
 
     public static let configuration = "configuration"
+    public static let connectQuery = "connect_query"
     public static let connectUrl = "connect_url"
 
     public static let title = "title"

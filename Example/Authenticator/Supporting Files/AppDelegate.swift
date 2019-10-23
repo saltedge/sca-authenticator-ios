@@ -70,31 +70,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return UIApplication.appDelegate
     }
 
-    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
-        var parameters: [String: String] = [:]
-        URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
-            parameters[$0.name] = $0.value
-        }
-
-        guard let configuration = parameters[SENetKeys.configuration] else { return false }
+    func application(_ application: UIApplication,
+                     open url: URL,
+                     sourceApplication: String?, annotation: Any) -> Bool {
+        guard SEConnectHelper.isValid(deepLinkUrl: url) else { return false }
 
         if UIWindow.topViewController is PasscodeViewController {
-            applicationCoordinator?.openConnectViewController(urlString: configuration)
+            applicationCoordinator?.openConnectViewController(deepLinkUrl: url)
         }
         return true
     }
 
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         let deviceTokenString = deviceToken.map { String(format: "%02x", $0) }.joined()
-
-        print("DEVICE TOKEN: \(deviceTokenString)")
-
-//        let deviceTokenString = deviceToken.reduce("", { $0 + String(format: "%02X", $1) })
 
         UserDefaultsHelper.pushToken = deviceTokenString
     }
 
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    func application(_ application: UIApplication,
+                     didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print(error.localizedDescription)
     }
 

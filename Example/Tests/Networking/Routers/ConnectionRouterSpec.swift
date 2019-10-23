@@ -38,11 +38,19 @@ class ConnectionRouterSpec: BaseSpec {
                         with: baseUrl,
                         method: HTTPMethod.post.rawValue,
                         headers: Headers.requestHeaders(with: "en"),
-                        params: RequestParametersBuilder.parameters(for: data, pushToken: "push token"),
+                        params: RequestParametersBuilder.parameters(for: data,
+                                                                    pushToken: "push token",
+                                                                    connectQuery: nil),
                         encoding: .json
                     )
 
-                    let request = SEConnectionRouter.getConnectUrl(baseUrl, data, "push token", "en").asURLRequest()
+                    let request = SEConnectionRouter.getConnectUrl(
+                        baseUrl,
+                        data,
+                        "push token",
+                        nil,
+                        "en"
+                    ).asURLRequest()
 
                     expect(request).to(equal(expectedRequest))
                 }
