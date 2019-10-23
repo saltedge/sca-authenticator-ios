@@ -74,6 +74,7 @@ extension OnboardingViewController: Layoutable {
 
         featuresView.top(to: view)
         featuresView.width(to: view)
+        featuresView.centerX(to: view)
         featuresView.bottom(to: view, offset: -view.height * Layout.featuresViewBottomMultiplier)
 
         [skipButton, getStartedButton].forEach {

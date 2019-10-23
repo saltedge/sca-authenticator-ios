@@ -32,7 +32,7 @@ protocol FeaturesViewDelegate: class {
 
 final class OnboardingFeaturesView: UIView {
     weak var delegate: FeaturesViewDelegate?
-
+    
     private var collectionView: UICollectionView!
     private var pageControl = UIPageControl()
 
@@ -122,11 +122,14 @@ extension OnboardingFeaturesView: Layoutable {
     func layout() {
         addSubviews(collectionView, pageControl)
 
-        collectionView.edges(to: self, insets: UIEdgeInsets(top: 0.0, left: 0.0, bottom: -Layout.pageControlHeight, right: 0.0))
+        collectionView.top(to: self)
+        collectionView.width(to: self)
+        collectionView.centerX(to: self)
+        collectionView.bottomToTop(of: pageControl)
 
-        pageControl.centerX(to: collectionView)
+        pageControl.centerX(to: self)
         pageControl.height(Layout.pageControlHeight)
-        pageControl.topToBottom(of: collectionView, offset: 10.0)
+        pageControl.bottom(to: self)
     }
 }
 
