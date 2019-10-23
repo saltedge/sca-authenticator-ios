@@ -33,6 +33,7 @@ private struct Layout {
 final class FeaturesCollectionViewCell: UICollectionViewCell {
     static var reuseIdentifier: String = "FeaturesCollectionViewCell"
 
+    private let containerView = UIView()
     private let imageView = UIImageView(frame: .zero)
     private let titleLabel = UILabel.titleLabel
     private let descriptionLabel = UILabel.descriptionLabel
@@ -58,21 +59,26 @@ final class FeaturesCollectionViewCell: UICollectionViewCell {
 // MARK: - Layout
 extension FeaturesCollectionViewCell: Layoutable {
     func layout() {
-        addSubviews(imageView, titleLabel, descriptionLabel)
+        addSubview(containerView)
 
-        imageView.centerX(to: contentView)
-        imageView.top(to: contentView, offset: Layout.topImageViewOffset)
+        containerView.addSubviews(imageView, titleLabel, descriptionLabel)
+
+        containerView.center(in: contentView)
+        containerView.left(to: contentView, offset: AppLayout.sideOffset)
+        containerView.right(to: contentView, offset: -AppLayout.sideOffset)
+
+        imageView.top(to: containerView)
+        imageView.centerX(to: containerView)
         imageView.size(Layout.imageViewSize)
 
         titleLabel.topToBottom(of: imageView, offset: Layout.titleLabelTopOffset)
-        titleLabel.centerX(to: contentView)
-        titleLabel.left(to: contentView, offset: AppLayout.sideOffset)
-        titleLabel.right(to: contentView, offset: -AppLayout.sideOffset)
+        titleLabel.centerX(to: containerView)
 
         descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionLabelTopOffset)
-        descriptionLabel.centerX(to: contentView)
-        descriptionLabel.left(to: contentView, offset: AppLayout.sideOffset)
-        descriptionLabel.right(to: contentView, offset: -AppLayout.sideOffset)
+        descriptionLabel.bottomToSuperview()
+        descriptionLabel.leftToSuperview()
+        descriptionLabel.rightToSuperview()
+        descriptionLabel.centerX(to: containerView)
     }
 }
 

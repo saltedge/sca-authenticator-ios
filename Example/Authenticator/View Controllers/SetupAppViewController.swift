@@ -64,11 +64,8 @@ final class SetupAppViewController: BaseViewController {
     private let passcodeView = PasscodeView(purpose: .create)
     private var allowBiometricsView: InfoView
     private var allowNotificationView: InfoView
-    private var signUpCompleteView = CompleteView(
-        state: .complete,
-        title: l10n(.signUpComplete),
-        description: l10n(.signUpCompleteDescription)
-    )
+    private var signUpCompleteView: InfoView
+
     private var views = [UIView]()
 
     weak var delegate: SetupAppViewControllerDelegate?
@@ -85,13 +82,15 @@ final class SetupAppViewController: BaseViewController {
             mainButtonText: l10n(.allowNotifications),
             secondaryButtonText: l10n(.notNow)
         )
+        signUpCompleteView = InfoView(
+            image: #imageLiteral(resourceName: "Done"),
+            mainButtonText: l10n(.proceed)
+        )
         super.init(nibName: nil, bundle: nil)
 
-        views = [passcodeView, allowBiometricsView, allowNotificationView]
+        views = [passcodeView, allowBiometricsView, allowNotificationView, signUpCompleteView]
         passcodeView.delegate = self
-        signUpCompleteView.delegate = self
-        signUpCompleteView.alpha = 0.0
-        [allowBiometricsView, allowNotificationView].forEach { $0.delegate = self }
+        [allowBiometricsView, allowNotificationView, signUpCompleteView].forEach { $0.delegate = self }
         views.forEach { $0.alpha = 0.0 }
     }
 
@@ -203,7 +202,6 @@ extension SetupAppViewController: Layoutable {
     func layout() {
         view.addSubviews(progressBar, titleLabel, descriptionLabel)
         view.addSubviews(views)
-        view.addSubview(signUpCompleteView)
 
         progressBar.left(to: view, offset: Layout.progressBarSideOffset)
         progressBar.right(to: view, offset: -Layout.progressBarSideOffset)
@@ -226,10 +224,6 @@ extension SetupAppViewController: Layoutable {
             $0.topToBottom(of: descriptionLabel, offset: Layout.infoViewsTopOffset)
             $0.bottom(to: view)
         }
-        signUpCompleteView.topToBottom(of: progressBar, offset: Layout.signUpCompleteViewTopOffset)
-        signUpCompleteView.left(to: view)
-        signUpCompleteView.width(to: view)
-        signUpCompleteView.bottom(to: view)
 
         view.layoutIfNeeded()
         progressBar.setupXPositionForCircles()
@@ -242,6 +236,7 @@ extension SetupAppViewController: InfoViewDelegate {
         switch view {
         case allowBiometricsView: delegate?.allowBiometricsPressed()
         case allowNotificationView: delegate?.allowNotificationsViewAction()
+        case signUpCompleteView: delegate?.procceedPressed()
         default: break
         }
     }
@@ -261,14 +256,5 @@ extension SetupAppViewController: PasscodeViewDelegate {
 
     func completed() {
         switchToNextStep()
-    }
-}
-
-// MARK: - CompleteViewDelegate
-extension SetupAppViewController: CompleteViewDelegate {
-    func reportAProblemPressed(for view: CompleteView) { }
-
-    func proceedPressed(for view: CompleteView) {
-        delegate?.procceedPressed()
     }
 }
