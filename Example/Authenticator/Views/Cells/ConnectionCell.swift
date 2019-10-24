@@ -75,7 +75,7 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
 
         guard let imageUrl = imageUrl else { return }
 
-        ConnectionImageHelper.setAnimatedCachedImage(from: imageUrl, for: connectionImageView)
+        CacheHelper.setAnimatedCachedImage(from: imageUrl, for: connectionImageView)
     }
 
     required init?(coder aDecoder: NSCoder) {

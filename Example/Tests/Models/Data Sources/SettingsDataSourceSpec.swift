@@ -30,23 +30,22 @@ class SettingsDataSourceSpec: BaseSpec {
 
         describe("sections") {
             it("should return number of sections") {
-                expect(dataSource.sections).to(equal(4))
+                expect(dataSource.sections).to(equal(3))
             }
         }
 
         describe("rows(for:)") {
             context("when sections exists") {
                 it("should return number of rows") {
-                    expect(dataSource.rows(for: 0)).to(equal(1))
+                    expect(dataSource.rows(for: 0)).to(equal(3))
                     expect(dataSource.rows(for: 1)).to(equal(2))
                     expect(dataSource.rows(for: 2)).to(equal(1))
-                    expect(dataSource.rows(for: 3)).to(equal(1))
                 }
             }
 
             context("when section doesn't exists") {
                 it("should return 0") {
-                    expect(dataSource.rows(for: 5)).to(equal(0))
+                    expect(dataSource.rows(for: 53)).to(equal(0))
                 }
             }
         }
@@ -55,10 +54,13 @@ class SettingsDataSourceSpec: BaseSpec {
             context("when sections exists") {
                 it("should return corresponding item") {
                     expect(dataSource.item(for: IndexPath(row: 0, section: 0))).to(equal(SettingsCellType.language))
-                    expect(dataSource.item(for: IndexPath(row: 0, section: 1))).to(equal(SettingsCellType.passcode))
-                    expect(dataSource.item(for: IndexPath(row: 1, section: 1))).to(equal(SettingsCellType.biometrics))
-                    expect(dataSource.item(for: IndexPath(row: 0, section: 2))).to(equal(SettingsCellType.about))
-                    expect(dataSource.item(for: IndexPath(row: 0, section: 3))).to(equal(SettingsCellType.support))
+                    expect(dataSource.item(for: IndexPath(row: 1, section: 0))).to(equal(SettingsCellType.passcode))
+                    expect(dataSource.item(for: IndexPath(row: 2, section: 0))).to(equal(SettingsCellType.biometrics))
+
+                    expect(dataSource.item(for: IndexPath(row: 0, section: 1))).to(equal(SettingsCellType.about))
+                    expect(dataSource.item(for: IndexPath(row: 1, section: 1))).to(equal(SettingsCellType.support))
+
+                    expect(dataSource.item(for: IndexPath(row: 0, section: 2))).to(equal(SettingsCellType.clearData))
                 }                                         
             }
 

@@ -1,5 +1,5 @@
 //
-//  ConnectionImageHelper.swift
+//  CacheHelper
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -23,9 +23,18 @@
 import UIKit
 import SDWebImage
 
-struct ConnectionImageHelper {
+struct CacheHelper {
+    static func setDefaultDiskAge() {
+        SDImageCache.shared.config.maxDiskAge = 3600 * 24 * 7 // NOTE: One week
+    }
+
     static func setAnimatedCachedImage(from url: URL, for imageView: UIImageView) {
         imageView.sd_imageTransition = .fade
         imageView.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "bankPlaceholderCyan"))
+    }
+
+    static func clearCache() {
+        SDImageCache.shared.clearDisk()
+        SDImageCache.shared.clearMemory()
     }
 }

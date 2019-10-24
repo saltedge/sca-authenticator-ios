@@ -1,3 +1,4 @@
+"actions.add" = "Add";
 "actions.back" = "Back";
 "actions.cancel" = "Cancel";
 "actions.change_passcode" = "Change Passcode";
@@ -65,6 +66,8 @@
 "in_app.settings.passcode" = "Passcode";
 "in_app.settings.terms_service" = "Terms of Service";
 "in_app.settings.touch_id" = "Touch ID";
+"in_app.settings.clear_all_data" = "Clear all data";
+"in_app.settings.clear_all_data_description" = "All app data including service providers, user data and settings will be permanently deleted.";
 "in_app.navigation.authorizations" = "Authorizations";
 "in_app.navigation.connections" = "Connections";
 "in_app.sidebar_menu.settings" = "Settings";

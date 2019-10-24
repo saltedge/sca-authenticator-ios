@@ -56,6 +56,17 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
         case .about:
             aboutCoordinator = AboutCoordinator(rootViewController: rootViewController)
             aboutCoordinator?.start()
+        case .clearData:
+            rootViewController.showConfirmationAlert(
+                withTitle: "\(l10n(.clearData))?",
+                message: l10n(.clearDataDescription),
+                confirmActionTitle: l10n(.ok),
+                confirmActionStyle: .default,
+                confirmAction: { _ in
+                    RealmManager.deleteAll()
+                    CacheHelper.clearCache()
+                }
+            )
         default: break
         }
     }
