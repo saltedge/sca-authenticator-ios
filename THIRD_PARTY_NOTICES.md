@@ -10,7 +10,6 @@ If you modify this Program, or any covered work, by linking or combining it with
 * [Realm Swift (Apache v2.0 license)](https://raw.githubusercontent.com/realm/realm-cocoa/master/LICENSE)
 * [Square/Valet (Apache v2.0 license)](https://raw.githubusercontent.com/square/Valet/master/LICENSE)
 * [Typist (MIT license)](https://raw.githubusercontent.com/totocaster/Typist/master/LICENSE)
-* [Crashlytics (Commercial)](http://try.crashlytics.com/)
 * [Firebase (Commercial)](https://firebase.google.com/terms)
 * [SwiftyAttributes (MIT license)](https://raw.githubusercontent.com/eddiekaiger/SwiftyAttributes/master/LICENSE)
 * [Quick (Apache v2.0 license)](https://raw.githubusercontent.com/Quick/Quick/master/LICENSE)
