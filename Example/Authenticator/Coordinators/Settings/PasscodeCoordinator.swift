@@ -144,6 +144,7 @@ private extension PasscodeCoordinator {
         RealmManager.deleteAll()
         PasscodeManager.remove()
         UserDefaultsHelper.clearDefaults()
+        CacheHelper.clearCache()
         AppDelegate.main.showApplicationResetPopup()
     }
 

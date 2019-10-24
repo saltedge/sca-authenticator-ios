@@ -91,7 +91,7 @@ private extension AuthorizationHeaderCollectionViewCell {
     func setImage(from imageUrl: URL?) {
         guard let url = imageUrl else { return }
 
-        ConnectionImageHelper.setAnimatedCachedImage(from: url, for: connectionImageView)
+        CacheHelper.setAnimatedCachedImage(from: url, for: connectionImageView)
     }
 
     func setTimer() {

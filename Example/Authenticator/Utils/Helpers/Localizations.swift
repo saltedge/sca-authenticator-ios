@@ -27,12 +27,14 @@ func l10n(_ localization: Localizations) -> String {
 }
 
 enum Localizations: String, Localizable {
+    case add = "actions.add"
     case back = "actions.back"
     case cancel = "actions.cancel"
     case delete = "actions.delete"
     case ok = "actions.ok"
     case warning = "errors.warning"
     case done = "actions.done"
+    case submit = "actions.submit"
 
     // MARK: - Onboarding
     case getStarted = "actions.get_started"
@@ -97,11 +99,14 @@ enum Localizations: String, Localizable {
     case deleteAllDataDescription = "actions.confirm_delete_connections"
     case search = "actions.search"
     case licenses = "in_app.settings.licenses"
+    case clearData = "in_app.settings.clear_all_data"
+    case clearDataDescription = "in_app.settings.clear_all_data_description"
 
     // MARK: - Security
     case touchID = "in_app.settings.touch_id"
     case faceID = "in_app.settings.face_id"
     case passcode = "in_app.settings.passcode"
+    case changePasscode = "actions.change_passcode"
     case wrongPasscode = "errors.passcode_ios"
     case wrongPasscodeSingular = "errors.passcode_ios_singular"
     case accountReset = "errors.account_reset"

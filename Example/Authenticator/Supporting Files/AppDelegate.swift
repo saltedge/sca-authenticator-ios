@@ -22,7 +22,6 @@ import UIKit
 import UserNotifications
 import Firebase
 import SEAuthenticator
-import SDWebImage
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
@@ -43,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UNUserNotificationCenter.current().delegate = self
         ReachabilityManager.shared.observeReachability()
         AppearanceHelper.setup()
-        SDImageCache.shared.config.maxDiskAge = 3600 * 24 * 7 // NOTE: One week
+        CacheHelper.setDefaultDiskAge()
         configureFirebase()
         setupAppCoordinator()
         return true

@@ -24,10 +24,9 @@ import UIKit
 
 struct SettingsDataSource {
     private let data: [Int: [SettingsCellType]] = [
-        0: [.language],
-        1: [.passcode, .biometrics],
-        2: [.about],
-        3: [.support]
+        0: [.language, .passcode, .biometrics],
+        1: [.about, .support],
+        2: [.clearData]
     ]
 
     var sections: Int {
