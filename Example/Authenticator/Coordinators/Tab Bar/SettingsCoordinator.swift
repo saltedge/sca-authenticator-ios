@@ -60,7 +60,7 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
             rootViewController.showConfirmationAlert(
                 withTitle: "\(l10n(.clearData))?",
                 message: l10n(.clearDataDescription),
-                confirmActionTitle: l10n(.submit),
+                confirmActionTitle: l10n(.ok),
                 confirmActionStyle: .default,
                 confirmAction: { _ in
                     RealmManager.deleteAll()
