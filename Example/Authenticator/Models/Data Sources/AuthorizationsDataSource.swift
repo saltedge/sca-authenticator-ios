@@ -28,11 +28,12 @@ final class AuthorizationsDataSource {
     private var viewModels = [AuthorizationViewModel]()
 
     func update(with authorizationResponses: [SEDecryptedAuthorizationData]) -> Bool {
+        clearAuthorizations()
         if authorizationResponses != self.authorizationResponses {
             self.authorizationResponses = authorizationResponses
             self.viewModels = authorizationResponses.compactMap { response in
                 return AuthorizationViewModel(response)
-            }.sorted(by: { $0.createdAt < $1.createdAt })
+            }.sorted(by: { $0.createdAt < $1.createdAt }).merge(array: self.viewModels)
             return true
         }
         return false
@@ -72,5 +73,31 @@ final class AuthorizationsDataSource {
 
     func index(of viewModel: AuthorizationViewModel) -> Int? {
         return viewModels.firstIndex(of: viewModel)
+    }
+
+    func clearAuthorizations() {
+        viewModels = viewModels.compactMap { viewModel in
+            if viewModel.expired  || viewModel.state != .none {
+                if Date().timeIntervalSince1970 - viewModel.authorizationExpiresAt.timeIntervalSince1970 >= 3 {
+                    return nil
+                }
+            }
+            return viewModel
+        }
+    }
+
+    func confirmationData(for index: Int) -> SEConfirmAuthorizationData? {
+        guard let viewModel = viewModel(at: index),
+            let connection = ConnectionsCollector.with(id: viewModel.connectionId),
+            let url = connection.baseUrl else { return nil }
+
+        return SEConfirmAuthorizationData(
+            url: url,
+            connectionGuid: connection.guid,
+            accessToken: connection.accessToken,
+            appLanguage: UserDefaultsHelper.applicationLanguage,
+            authorizationId: viewModel.authorizationId,
+            authorizationCode: viewModel.authorizationCode
+        )
     }
 }

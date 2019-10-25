@@ -22,11 +22,6 @@
 
 import UIKit
 
-protocol AuthorizationsViewControllerDelegate: class {
-    func denyPressed(at index: Int)
-    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell)
-}
-
 final class AuthorizationsViewController: BaseViewController {
     private let authorizationsView = MainAuthorizationsView()
 
@@ -39,8 +34,6 @@ final class AuthorizationsViewController: BaseViewController {
     private var messageBarView: MessageBarView?
 
     var dataSource: AuthorizationsDataSource?
-
-    weak var delegate: AuthorizationsViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,6 +106,23 @@ extension AuthorizationsViewController {
     func delete(section: Int) {
         updateViewsHiddenState()
     }
+
+    func presentPasscodeView() {
+        let passcodeCoordinator = PasscodeCoordinator(
+            rootViewController: self,
+            purpose: .enter,
+            type: .authorize
+        )
+        passcodeCoordinator.onCompleteClosure = { [weak self] in
+            //self?.selectedCell?.setProcessing(with: l10n(.processing))
+
+            guard let index = self?.authorizationsView.focusIndexPath,
+                let data = self?.dataSource?.confirmationData(for: index.row) else { return }
+
+            AuthorizationsInteractor.confirm(data: data)
+        }
+        passcodeCoordinator.start()
+    }
 }
 
 // MARK: - Layout
@@ -128,13 +138,30 @@ extension AuthorizationsViewController: Layoutable {
     }
 }
 
-// MARK: - MainAuthorizationsViewDelegate
+// MARK: - Network
 extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
-    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
-        delegate?.confirmPressed(at: index, cell: cell)
+    func denyPressed(at index: Int) {
+        guard let data = dataSource?.confirmationData(for: index) else { return }
+
+        AuthorizationsInteractor.deny(data: data)
     }
 
-    func denyPressed(at index: Int) {
-        delegate?.denyPressed(at: index)
+    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
+        guard PasscodeManager.isBiometricsEnabled else { self.presentPasscodeView(); return }
+
+        PasscodeManager.useBiometrics(
+            type: .authorize,
+            reasonString: "Confirm authorization",
+            onSuccess: {
+                cell.setProcessing(with: l10n(.processing))
+
+                guard let data = self.dataSource?.confirmationData(for: index) else { return }
+
+                AuthorizationsInteractor.confirm(data: data)
+            },
+            onFailure: { _ in
+                self.presentPasscodeView()
+            }
+        )
     }
 }

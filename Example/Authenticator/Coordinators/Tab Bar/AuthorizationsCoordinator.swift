@@ -29,7 +29,6 @@ final class AuthorizationsCoordinator: Coordinator {
     private var passcodeCoordinator: PasscodeCoordinator?
 
     private var timer: Timer?
-    private let dataSource = AuthorizationsDataSource()
     private var connections = ConnectionsCollector.activeConnections
 
     private var selectedViewModelIndex: Int?
@@ -37,10 +36,10 @@ final class AuthorizationsCoordinator: Coordinator {
 
     private var authorizationFromPush: (connectionId: String, authorizationId: String)?
 
+    private let dataSource = AuthorizationsDataSource()
+
     func start() {
         rootViewController.dataSource = dataSource
-        rootViewController.delegate = self
-
         setupPolling()
         updateDataSource(with: [])
     }
@@ -90,21 +89,6 @@ final class AuthorizationsCoordinator: Coordinator {
         }
         rootViewController.updateViewsHiddenState()
     }
-
-    private func confirmationData(for index: Int) -> SEConfirmAuthorizationData? {
-        guard let viewModel = dataSource.viewModel(at: index),
-            let connection = ConnectionsCollector.with(id: viewModel.connectionId),
-            let url = connection.baseUrl else { return nil }
-
-        return SEConfirmAuthorizationData(
-            url: url,
-            connectionGuid: connection.guid,
-            accessToken: connection.accessToken,
-            appLanguage: UserDefaultsHelper.applicationLanguage,
-            authorizationId: viewModel.authorizationId,
-            authorizationCode: viewModel.authorizationCode
-        )
-    }
 }
 
 // MARK: - Actions
@@ -129,57 +113,5 @@ private extension AuthorizationsCoordinator {
                 }
             }
         )
-    }
-
-    func presentPasscodeView() {
-        passcodeCoordinator = PasscodeCoordinator(
-            rootViewController: rootViewController,
-            purpose: .enter,
-            type: .authorize
-        )
-        passcodeCoordinator?.onCompleteClosure = { [weak self] in
-            self?.selectedCell?.setProcessing(with: l10n(.processing))
-
-            guard let index = self?.selectedViewModelIndex,
-                let data = self?.confirmationData(for: index) else { return }
-
-            AuthorizationsInteractor.confirm(data: data)
-        }
-        passcodeCoordinator?.start()
-    }
-}
-
-// MARK: - AuthorizationsViewControllerDelegate
-extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
-    func denyPressed(at index: Int) {
-        guard let data = confirmationData(for: index) else { return }
-
-        AuthorizationsInteractor.deny(data: data)
-    }
-
-    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
-        selectedViewModelIndex = index
-        selectedCell = cell
-
-        guard PasscodeManager.isBiometricsEnabled else { self.presentPasscodeView(); return }
-
-        PasscodeManager.useBiometrics(
-            type: .authorize,
-            reasonString: "Confirm authorization",
-            onSuccess: {
-                cell.setProcessing(with: l10n(.processing))
-
-                guard let data = self.confirmationData(for: index) else { return }
-
-                AuthorizationsInteractor.confirm(data: data)
-            },
-            onFailure: { _ in
-                self.presentPasscodeView()
-            }
-        )
-    }
-
-    func modalClosed() {
-        setupPolling()
     }
 }

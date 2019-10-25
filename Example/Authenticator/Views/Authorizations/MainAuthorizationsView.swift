@@ -35,12 +35,21 @@ protocol MainAuthorizationsViewDelegate: class {
 
 final class MainAuthorizationsView: UIView {
     private let headerSwipingView = AuthorizationsHeadersSwipingView()
-    private let authorizationSwipingView = SwipingAuthorizationsCollectionView()
+    private let authorizationCollectionView: UICollectionView = {
+        let flowLayout = AuthorizationsCollectionLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumLineSpacing = 0.0
+        return UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+    }()
     private var currentScrollableScrollView: UIScrollView?
 
     var dataSource: AuthorizationsDataSource?
 
     weak var delegate: MainAuthorizationsViewDelegate?
+
+    var focusIndexPath: IndexPath? {
+        self.authorizationCollectionView.indexPathsForVisibleItems.first
+    }
 
     init() {
         super.init(frame: .zero)
@@ -50,7 +59,7 @@ final class MainAuthorizationsView: UIView {
 
     func reloadData() {
         headerSwipingView.collectionView.reloadData()
-        authorizationSwipingView.collectionView.reloadData()
+        authorizationCollectionView.reloadData()
     }
 
     func scroll(to index: Int) {
@@ -59,7 +68,7 @@ final class MainAuthorizationsView: UIView {
             at: .centeredHorizontally,
             animated: false
         )
-        authorizationSwipingView.collectionView.scrollToItem(
+        authorizationCollectionView.scrollToItem(
             at: IndexPath(item: index, section: 0),
             at: .centeredHorizontally,
             animated: false
@@ -76,9 +85,15 @@ private extension MainAuthorizationsView {
     func setupSwipingViews() {
         headerSwipingView.collectionView.dataSource = self
         headerSwipingView.collectionView.delegate = self
-        authorizationSwipingView.collectionView.dataSource = self
-        authorizationSwipingView.collectionView.delegate = self
-        authorizationSwipingView.backgroundColor = .clear
+        authorizationCollectionView.dataSource = self
+        authorizationCollectionView.delegate = self
+        authorizationCollectionView.backgroundColor = .clear
+        authorizationCollectionView.register(
+            AuthorizationCollectionViewCell.self,
+            forCellWithReuseIdentifier: String(describing: AuthorizationCollectionViewCell.self)
+        )
+        authorizationCollectionView.isPagingEnabled = true
+        authorizationCollectionView.showsHorizontalScrollIndicator = false
     }
 }
 
@@ -128,7 +143,7 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let authorizationCellWidth = AppLayout.screenWidth
         let headerPlusSpace = Layout.headerSize.width + Layout.headerSpacing
-        let authorizationXOffset = authorizationSwipingView.collectionView.contentOffset.x
+        let authorizationXOffset = authorizationCollectionView.contentOffset.x
 
         let page = floor(authorizationXOffset / authorizationCellWidth)
         let pagePercent = (authorizationXOffset - (page * authorizationCellWidth)) / authorizationCellWidth
@@ -146,7 +161,7 @@ extension MainAuthorizationsView: UICollectionViewDelegate, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == headerSwipingView.collectionView {
             headerSwipingView.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            authorizationSwipingView.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            authorizationCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         }
     }
 
@@ -165,7 +180,7 @@ extension MainAuthorizationsView: UICollectionViewDelegate, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if collectionView == authorizationSwipingView.collectionView {
+        if collectionView == authorizationCollectionView {
             return CGSize(width: collectionView.size.width, height: collectionView.size.height - 60.0)
         } else {
             return Layout.headerSize
@@ -176,7 +191,7 @@ extension MainAuthorizationsView: UICollectionViewDelegate, UICollectionViewDele
 // MARK: - Layout
 extension MainAuthorizationsView: Layoutable {
     func layout() {
-        addSubviews(headerSwipingView, authorizationSwipingView)
+        addSubviews(headerSwipingView, authorizationCollectionView)
 
         headerSwipingView.topToSuperview()
         headerSwipingView.widthToSuperview()
@@ -184,23 +199,23 @@ extension MainAuthorizationsView: Layoutable {
         headerSwipingView.centerX(to: self)
         sendSubviewToBack(headerSwipingView)
 
-        authorizationSwipingView.topToSuperview()
-        authorizationSwipingView.width(to: self)
-        authorizationSwipingView.bottom(to: self)
-        authorizationSwipingView.centerX(to: self)
+        authorizationCollectionView.topToSuperview()
+        authorizationCollectionView.width(to: self)
+        authorizationCollectionView.bottom(to: self)
+        authorizationCollectionView.centerX(to: self)
     }
 }
 
 // MARK: - AuthorizationCellDelegate
 extension MainAuthorizationsView: AuthorizationCellDelegate {
     func confirmPressed(_ cell: AuthorizationCollectionViewCell) {
-        guard let indexPath = authorizationSwipingView.collectionView.indexPath(for: cell) else { return }
+        guard let indexPath = authorizationCollectionView.indexPath(for: cell) else { return }
 
         delegate?.confirmPressed(at: indexPath.row, cell: cell)
     }
 
     func denyPressed(_ cell: AuthorizationCollectionViewCell) {
-        guard let indexPath = authorizationSwipingView.collectionView.indexPath(for: cell) else { return }
+        guard let indexPath = authorizationCollectionView.indexPath(for: cell) else { return }
 
         delegate?.denyPressed(at: indexPath.row)
     }

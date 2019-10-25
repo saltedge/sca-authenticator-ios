@@ -44,6 +44,7 @@ protocol AuthorizationCellDelegate: class {
 final class AuthorizationCollectionViewCell: UICollectionViewCell {
     private let loadingPlaceholder = UIView()
     private let loadingIndicator = LoadingIndicator()
+    private let stateView = AuthorizationStateView.init(state: .none)
     private var isProcessing: Bool = false
 
     private let titleLabel = UILabel.titleLabel
@@ -80,6 +81,12 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 
     func set(with viewModel: AuthorizationViewModel) {
         self.viewModel = viewModel
+
+        if viewModel.expired {
+            stateView.set(state: .timeOut)
+        } else {
+            stateView.set(state: .none)
+        }
 
         stopProcessingIfNeeded()
 
@@ -123,8 +130,10 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
                 layoutIfNeeded()
             }
             buttonsStackView.isHidden = false
+            // NOTE: Add start loading indicator in the status view
             loadingIndicator.stop()
             isProcessing = false
+            viewModel.state = .success
         }
     }
 
@@ -159,10 +168,15 @@ private extension AuthorizationCollectionViewCell {
 private extension AuthorizationCollectionViewCell {
     @objc func denyButtonPressed(_ sender: CustomButton) {
         setProcessing(with: l10n(.processing))
+        stateView.set(state: .denied)
+        // NOTE: Move logit to working with authorization id
         delegate?.denyPressed(self)
+        viewModel.state = .denied
     }
 
     @objc func confirmButtonPressed(_ sender: CustomButton) {
+        stateView.set(state: .active)
+        // NOTE: Move logit to working with authorization id
         delegate?.confirmPressed(self)
     }
 }
@@ -174,6 +188,7 @@ extension AuthorizationCollectionViewCell: Layoutable {
 
         titleLabel.top(to: self, offset: Layout.topOffset)
         titleLabel.centerX(to: self)
+        titleLabel.textColor = .lightGray
 
         contentStackView.topToBottom(of: titleLabel, offset: 12.0)
         contentStackView.left(to: self, offset: AppLayout.sideOffset)
@@ -199,5 +214,11 @@ extension AuthorizationCollectionViewCell: Layoutable {
         constraintsToDeactivateOnProcessing = [topConstraint, bottomConstraint]
 
         loadingIndicator.size(AppLayout.loadingIndicatorSize)
+
+        addSubview(stateView)
+        stateView.topToSuperview()
+        stateView.bottomToSuperview()
+        stateView.leftToSuperview()
+        stateView.rightToSuperview()
     }
 }
