@@ -39,11 +39,12 @@ public struct SEConnectionManager {
 
     public static func revokeConnection(by url: URL,
                                         data: SERevokeConnectionData,
+                                        expiresAt: Int,
                                         appLanguage: ApplicationLanguage,
                                         onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConnectionResponse>,
                                         onFailure failure: @escaping FailureBlock) {
         HTTPService<SERevokeConnectionResponse>.execute(
-            request: SEConnectionRouter.revoke(url, data, appLanguage),
+            request: SEConnectionRouter.revoke(url, data, expiresAt, appLanguage),
             success: success,
             failure: failure
         )

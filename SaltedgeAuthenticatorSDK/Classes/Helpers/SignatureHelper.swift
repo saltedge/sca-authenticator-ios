@@ -24,14 +24,18 @@ import Foundation
 import CommonCrypto
 
 struct SignatureHelper {
-    static func signedPayload(method: HTTPMethod, urlString: String, guid: GUID, params: [String: Any]?) -> String? {
+    static func signedPayload(method: HTTPMethod,
+                              urlString: String,
+                              guid: GUID,
+                              expiresAt: Int,
+                              params: [String: Any]?) -> String? {
         let bodyString: String
         if let payloadParams = params, let payloadBody = ParametersSerializer.createBody(parameters: payloadParams) {
             bodyString = String(data: payloadBody, encoding: .utf8) ?? ""
         } else {
             bodyString = ""
         }
-        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
         let payload = "\(method)|\(urlString)|\(expiresAt)|\(bodyString)"
 
         return sign(message: payload, guid: guid)

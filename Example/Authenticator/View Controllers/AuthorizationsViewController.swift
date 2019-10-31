@@ -62,6 +62,10 @@ final class AuthorizationsViewController: BaseViewController {
         authorizationsView.scroll(to: index)
     }
 
+    func remove(at index: Int) {
+        authorizationsView.remove(at: index)
+    }
+
     @objc private func hasNoConnection() {
         messageBarView = present(message: l10n(.noInternetConnection), style: .warning, height: 60.0, hide: false)
     }

@@ -32,13 +32,14 @@ struct HeadersKeys {
 }
 
 struct Headers {
-    static func signedRequestHeaders(token: String, signature: String?, appLanguage: String) -> [String: String] {
+    static func signedRequestHeaders(token: String, expiresAt: Int, signature: String?, appLanguage: String) -> [String: String] {
         guard let signedMessage = signature else { return authorizedRequestHeaders(token: token, appLanguage: appLanguage) }
 
-        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-
         return authorizedRequestHeaders(token: token, appLanguage: appLanguage).merge(
-            with: [HeadersKeys.expiresAt: "\(expiresAt)", HeadersKeys.signature: "\(signedMessage)"]
+            with: [
+                HeadersKeys.expiresAt: "\(expiresAt)",
+                HeadersKeys.signature: "\(signedMessage)"
+            ]
         )
     }
 

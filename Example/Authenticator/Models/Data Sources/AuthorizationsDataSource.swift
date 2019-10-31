@@ -47,6 +47,7 @@ final class AuthorizationsDataSource {
     }
 
     var rows: Int {
+        print(viewModels)
         return viewModels.count
     }
 

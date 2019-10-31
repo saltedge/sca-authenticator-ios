@@ -88,7 +88,8 @@ private extension ConnectionsCoordinator {
                     withTitle: l10n(.delete),
                     message: l10n(.deleteConnectionDescription),
                     confirmAction: { _ in
-                        ConnectionsInteractor.revoke(connection)
+                        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+                        ConnectionsInteractor.revoke(connection, expiresAt: expiresAt)
                         SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
                         ConnectionRepository.delete(connection)
                     }

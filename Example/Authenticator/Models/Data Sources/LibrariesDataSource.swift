@@ -32,8 +32,6 @@ struct LibrariesDataSource {
                 ("Realm Swift", "https://raw.githubusercontent.com/realm/realm-cocoa/master/LICENSE"),
                 ("Square/Valet", "https://raw.githubusercontent.com/square/Valet/master/LICENSE"),
                 ("Typist", "https://raw.githubusercontent.com/totocaster/Typist/master/LICENSE"),
-                ("Crashlytics", "https://firebase.google.com/products/crashlytics?utm_source=crashlytics_marketing&utm_medium=redirect&utm_campaign=crashlytics_redirect"
-                ),
                 ("Firebase", "https://firebase.google.com/terms"),
                 ("SwiftyAttributes", "https://raw.githubusercontent.com/eddiekaiger/SwiftyAttributes/master/LICENSE"),
                 ("Quick/Nimble", "https://raw.githubusercontent.com/Quick/Quick/master/LICENSE"),

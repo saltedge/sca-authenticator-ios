@@ -110,16 +110,21 @@ final class AuthorizationsCoordinator: Coordinator {
 // MARK: - Actions
 private extension AuthorizationsCoordinator {
     @objc func refresh() {
+        let expiresAt: Int = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
         AuthorizationsInteractor.refresh(
             connections: Array(connections),
-            success: { encryptedAuthorizations in
+            expiresAt: expiresAt,
+            success: { [weak self] encryptedAuthorizations in
+                guard let strongSelf = self else { return }
+
                 DispatchQueue.global(qos: .background).async {
                     let decryptedAuthorizations = encryptedAuthorizations.compactMap { authorization in
                         return AuthorizationsPresenter.decryptedData(from: authorization)
                     }
 
                     DispatchQueue.main.async {
-                        self.updateDataSource(with: decryptedAuthorizations)
+                        strongSelf.updateDataSource(with: decryptedAuthorizations)
                     }
                 }
             },
@@ -132,18 +137,37 @@ private extension AuthorizationsCoordinator {
     }
 
     func presentPasscodeView() {
+        let expiresAt: Int = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
         passcodeCoordinator = PasscodeCoordinator(
             rootViewController: rootViewController,
             purpose: .enter,
             type: .authorize
         )
         passcodeCoordinator?.onCompleteClosure = { [weak self] in
-            self?.selectedCell?.setProcessing(with: l10n(.processing))
+            guard let strongSelf = self else { return }
 
-            guard let index = self?.selectedViewModelIndex,
-                let data = self?.confirmationData(for: index) else { return }
+            strongSelf.selectedCell?.setProcessing(with: l10n(.processing))
 
-            AuthorizationsInteractor.confirm(data: data)
+            guard let index = strongSelf.selectedViewModelIndex,
+                let data = strongSelf.confirmationData(for: index),
+                let viewModel = strongSelf.dataSource.viewModel(at: index) else { return }
+
+            AuthorizationsInteractor.confirm(
+                data: data,
+                expiresAt: expiresAt,
+                success: {
+                    _ = strongSelf.dataSource.remove(viewModel)
+                    strongSelf.rootViewController.remove(at: index)
+                    strongSelf.setupPolling()
+                },
+                failure: { _ in
+                    strongSelf.setupPolling()
+                }
+            )
+        }
+        passcodeCoordinator?.onDismissClosure = { [weak self] in
+            self?.setupPolling()
         }
         passcodeCoordinator?.start()
     }
@@ -152,26 +176,63 @@ private extension AuthorizationsCoordinator {
 // MARK: - AuthorizationsViewControllerDelegate
 extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     func denyPressed(at index: Int) {
-        guard let data = confirmationData(for: index) else { return }
+        let expiresAt: Int = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
 
-        AuthorizationsInteractor.deny(data: data)
+        guard let data = confirmationData(for: index),
+            let viewModel = dataSource.viewModel(at: index) else { return }
+
+        timer?.invalidate()
+
+        AuthorizationsInteractor.deny(
+            data: data,
+            expiresAt: expiresAt,
+            success: { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.rootViewController.remove(at: index)
+                _ = strongSelf.dataSource.remove(viewModel)
+                strongSelf.setupPolling()
+            },
+            failure: { _ in
+                self.setupPolling()
+            }
+        )
     }
 
     func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
+        let expiresAt: Int = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
         selectedViewModelIndex = index
         selectedCell = cell
+
+        timer?.invalidate()
 
         guard PasscodeManager.isBiometricsEnabled else { self.presentPasscodeView(); return }
 
         PasscodeManager.useBiometrics(
             type: .authorize,
-            reasonString: "Confirm authorization",
-            onSuccess: {
+            reasonString: l10n(.confirmAuthorization),
+            onSuccess: { [weak self] in
+                guard let strongSelf = self else { return }
+
                 cell.setProcessing(with: l10n(.processing))
 
-                guard let data = self.confirmationData(for: index) else { return }
+                guard let data = strongSelf.confirmationData(for: index),
+                    let viewModel = strongSelf.dataSource.viewModel(at: index) else { return }
 
-                AuthorizationsInteractor.confirm(data: data)
+                AuthorizationsInteractor.confirm(
+                    data: data,
+                    expiresAt: expiresAt,
+                    success: {
+                        _ = strongSelf.dataSource.remove(viewModel)
+                        strongSelf.rootViewController.remove(at: index)
+                        strongSelf.setupPolling()
+                    },
+                    failure: { error in
+                        print(error)
+                        strongSelf.setupPolling()
+                    }
+                )
             },
             onFailure: { _ in
                 self.presentPasscodeView()

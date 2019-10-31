@@ -67,7 +67,7 @@ final class ConnectViewCoordinator: Coordinator {
 
     private func fetchConfiguration(deepLinkUrl: URL) {
         guard let configurationUrl = SEConnectHelper.сonfiguration(from: deepLinkUrl) else { return }
-        
+
         let connectQuery = SEConnectHelper.connectQuery(from: deepLinkUrl)
 
         showWebViewController()
@@ -112,7 +112,7 @@ final class ConnectViewCoordinator: Coordinator {
             },
             failure: { error in
                 self.connectViewController.dismiss(animated: true)
-                print(error)
+                self.rootViewController.present(message: error, style: .error)
             }
         )
     }

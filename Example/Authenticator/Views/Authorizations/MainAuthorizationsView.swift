@@ -66,6 +66,12 @@ final class MainAuthorizationsView: UIView {
         )
     }
 
+    func remove(at index: Int) {
+        headerSwipingView.collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
+        authorizationSwipingView.collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
+        reloadData()
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -116,6 +122,7 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
                 for: indexPath
             ) as? AuthorizationCollectionViewCell else { return UICollectionViewCell() }
 
+            print("View Model in cell:", viewModel)
             authorizationCell.set(with: viewModel)
             authorizationCell.backgroundColor = .clear
             authorizationCell.delegate = self

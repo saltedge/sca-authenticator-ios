@@ -25,7 +25,12 @@ import Foundation
 struct ParametersSerializer {
     static func createBody(parameters: [String: Any]) -> Data? {
         do {
-            let data = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+            var data: Data
+            if #available(iOS 11.0, *) {
+                data = try JSONSerialization.data(withJSONObject: parameters, options: [.sortedKeys, .prettyPrinted])
+            } else {
+                data = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+            }
 
             return data
         } catch {

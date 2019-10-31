@@ -28,6 +28,7 @@ func l10n(_ localization: Localizations) -> String {
 
 enum Localizations: String, Localizable {
     case add = "actions.add"
+    case allow = "actions.allow"
     case back = "actions.back"
     case cancel = "actions.cancel"
     case delete = "actions.delete"
@@ -75,6 +76,7 @@ enum Localizations: String, Localizable {
     case authorizations = "in_app.navigation.authorizations"
     case noAuthorizations = "in_app.authorizations.no_authorizations"
     case noAuthorizationsDescription = "in_app.authorizations.no_authorizations_description"
+    case confirmAuthorization = "actions.confirm_authorization"
     case confirm = "actions.confirm"
     case deny = "actions.deny"
     case viewMore = "actions.view_more"

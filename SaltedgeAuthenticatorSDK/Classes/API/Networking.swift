@@ -66,7 +66,7 @@ extension Networking {
             let jsonData = try? JSONSerialization.jsonObject(
                 with: requestData,
                 options: []
-                ) as? [String: Any] else { return nil }
+        ) as? [String: Any] else { return nil }
 
         return jsonData
     }
