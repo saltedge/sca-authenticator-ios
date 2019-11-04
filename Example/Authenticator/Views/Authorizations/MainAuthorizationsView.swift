@@ -114,6 +114,7 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
                 for: indexPath
             ) as? AuthorizationHeaderCollectionViewCell else { return UICollectionViewCell() }
 
+            headerCell.delegate = self
             headerCell.configure(viewModel, at: indexPath)
             cell = headerCell
         } else {
@@ -122,7 +123,6 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
                 for: indexPath
             ) as? AuthorizationCollectionViewCell else { return UICollectionViewCell() }
 
-            print("View Model in cell:", viewModel)
             authorizationCell.set(with: viewModel)
             authorizationCell.backgroundColor = .clear
             authorizationCell.delegate = self
@@ -210,5 +210,15 @@ extension MainAuthorizationsView: AuthorizationCellDelegate {
         guard let indexPath = authorizationSwipingView.collectionView.indexPath(for: cell) else { return }
 
         delegate?.denyPressed(at: indexPath.row)
+    }
+}
+
+extension MainAuthorizationsView: AuthorizationHeaderCollectionViewCellDelegate {
+    func timerExpired(_ cell: AuthorizationHeaderCollectionViewCell) {
+        guard let indexPath = headerSwipingView.collectionView.indexPath(for: cell),
+            let viewModel = dataSource?.viewModel(at: indexPath.row) else { return }
+
+        _ = dataSource?.remove(viewModel)
+        remove(at: indexPath.row)
     }
 }
