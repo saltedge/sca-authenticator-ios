@@ -34,10 +34,7 @@ final class ConnectionsCoordinator: Coordinator {
         ascending: true
     )
 
-    private let activeConnections = ConnectionsCollector.activeConnections.sorted(
-        byKeyPath: #keyPath(Connection.createdAt),
-        ascending: true
-    )
+    private let activeConnections = ConnectionsCollector.activeConnections
 
     func start() {
         rootViewController.delegate = self

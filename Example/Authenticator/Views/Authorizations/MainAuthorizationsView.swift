@@ -213,6 +213,7 @@ extension MainAuthorizationsView: AuthorizationCellDelegate {
     }
 }
 
+// MARK: - AuthorizationHeaderCollectionViewCellDelegates
 extension MainAuthorizationsView: AuthorizationHeaderCollectionViewCellDelegate {
     func timerExpired(_ cell: AuthorizationHeaderCollectionViewCell) {
         guard let indexPath = headerSwipingView.collectionView.indexPath(for: cell),

@@ -780,11 +780,11 @@
 			children = (
 				9DCED7DF22CE18270050ED3C /* Settings */,
 				9DCED7E322CE18270050ED3C /* Connection */,
+				9DCED7EE22CE18270050ED3C /* Custom Action Sheet */,
 				9DCED7E822CE18270050ED3C /* General */,
 				9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */,
 				9DCED7EC22CE18270050ED3C /* AuthorizationsViewController.swift */,
 				9DCED7ED22CE18270050ED3C /* PasscodeViewController.swift */,
-				9DCED7EE22CE18270050ED3C /* Custom Action Sheet */,
 				9DCED7F122CE18270050ED3C /* OnboardingViewController.swift */,
 				9DCED7F222CE18270050ED3C /* MainTabBarViewController.swift */,
 				9DCED7F322CE18270050ED3C /* SetupAppViewController.swift */,

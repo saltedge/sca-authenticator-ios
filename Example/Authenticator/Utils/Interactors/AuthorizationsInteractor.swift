@@ -25,9 +25,10 @@ import SEAuthenticator
 
 struct AuthorizationsInteractor {
     static func confirm(data: SEConfirmAuthorizationData,
-                        expiresAt: Int,
                         success: (() -> ())? = nil,
                         failure: ((String) -> ())? = nil) {
+        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
         SEAuthorizationManager.confirmAuthorization(
             data: data,
             expiresAt: expiresAt,
@@ -41,9 +42,10 @@ struct AuthorizationsInteractor {
     }
 
     static func deny(data: SEConfirmAuthorizationData,
-                     expiresAt: Int,
                      success: (() -> ())? = nil,
                      failure: ((String) -> ())? = nil) {
+        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
         SEAuthorizationManager.denyAuthorization(
             data: data,
             expiresAt: expiresAt,
@@ -57,10 +59,11 @@ struct AuthorizationsInteractor {
     }
 
     static func refresh(connections: [Connection],
-                        expiresAt: Int,
                         success: @escaping ([SEEncryptedAuthorizationResponse]) -> (),
                         failure: ((String) -> ())? = nil,
                         connectionNotFoundFailure: @escaping ((String?) -> ())) {
+        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
         var numberOfResponses = 0
 
         var encryptedAuthorizations = [SEEncryptedAuthorizationResponse]()

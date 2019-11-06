@@ -105,16 +105,19 @@ final class AuthorizationsCoordinator: Coordinator {
             authorizationCode: viewModel.authorizationCode
         )
     }
+
+    private func remove(_ viewModel: AuthorizationViewModel, at index: Int) {
+        _ = dataSource.remove(viewModel)
+        rootViewController.remove(at: index)
+        setupPolling()
+    }
 }
 
 // MARK: - Actions
 private extension AuthorizationsCoordinator {
     @objc func refresh() {
-        let expiresAt: Int = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-
         AuthorizationsInteractor.refresh(
-            connections: Array(connections),
-            expiresAt: expiresAt,
+            connections: connections,
             success: { [weak self] encryptedAuthorizations in
                 guard let strongSelf = self else { return }
 
@@ -136,9 +139,7 @@ private extension AuthorizationsCoordinator {
         )
     }
 
-    func presentPasscodeView() {
-        let expiresAt: Int = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-
+    func showAndConfirmWithPasscode() {
         passcodeCoordinator = PasscodeCoordinator(
             rootViewController: rootViewController,
             purpose: .enter,
@@ -155,11 +156,8 @@ private extension AuthorizationsCoordinator {
 
             AuthorizationsInteractor.confirm(
                 data: data,
-                expiresAt: expiresAt,
                 success: {
-                    _ = strongSelf.dataSource.remove(viewModel)
-                    strongSelf.rootViewController.remove(at: index)
-                    strongSelf.setupPolling()
+                    strongSelf.remove(viewModel, at: index)
                 },
                 failure: { _ in
                     strongSelf.setupPolling()
@@ -176,8 +174,6 @@ private extension AuthorizationsCoordinator {
 // MARK: - AuthorizationsViewControllerDelegate
 extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     func denyPressed(at index: Int) {
-        let expiresAt: Int = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-
         guard let data = confirmationData(for: index),
             let viewModel = dataSource.viewModel(at: index) else { return }
 
@@ -185,13 +181,10 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
 
         AuthorizationsInteractor.deny(
             data: data,
-            expiresAt: expiresAt,
             success: { [weak self] in
                 guard let strongSelf = self else { return }
 
-                strongSelf.rootViewController.remove(at: index)
-                _ = strongSelf.dataSource.remove(viewModel)
-                strongSelf.setupPolling()
+                strongSelf.remove(viewModel, at: index)
             },
             failure: { _ in
                 self.setupPolling()
@@ -200,14 +193,12 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     }
 
     func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
-        let expiresAt: Int = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-
         selectedViewModelIndex = index
         selectedCell = cell
 
         timer?.invalidate()
 
-        guard PasscodeManager.isBiometricsEnabled else { self.presentPasscodeView(); return }
+        guard PasscodeManager.isBiometricsEnabled else { self.showAndConfirmWithPasscode(); return }
 
         PasscodeManager.useBiometrics(
             type: .authorize,
@@ -222,20 +213,16 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
 
                 AuthorizationsInteractor.confirm(
                     data: data,
-                    expiresAt: expiresAt,
                     success: {
-                        _ = strongSelf.dataSource.remove(viewModel)
-                        strongSelf.rootViewController.remove(at: index)
-                        strongSelf.setupPolling()
+                        strongSelf.remove(viewModel, at: index)
                     },
-                    failure: { error in
-                        print(error)
+                    failure: { _ in
                         strongSelf.setupPolling()
                     }
                 )
             },
             onFailure: { _ in
-                self.presentPasscodeView()
+                self.showAndConfirmWithPasscode()
             }
         )
     }
