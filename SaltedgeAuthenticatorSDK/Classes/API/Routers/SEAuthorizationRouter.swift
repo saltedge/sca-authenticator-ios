@@ -23,10 +23,10 @@
 import Foundation
 
 enum SEAuthorizationRouter: Routable {
-    case list(SEBaseAuthorizationData)
-    case getAuthorization(SEAuthorizationData)
-    case confirm(SEConfirmAuthorizationData)
-    case deny(SEConfirmAuthorizationData)
+    case list(SEBaseAuthorizationData, Int)
+    case getAuthorization(SEAuthorizationData, Int)
+    case confirm(SEConfirmAuthorizationData, Int)
+    case deny(SEConfirmAuthorizationData, Int)
 
     var method: HTTPMethod {
         switch self {
@@ -44,57 +44,75 @@ enum SEAuthorizationRouter: Routable {
 
     var url: URL {
         switch self {
-        case .list(let data):
+        case .list(let data, _):
             return data.url.appendingPathComponent(SENetPaths.authorizations.path)
-        case .getAuthorization(let data):
+        case .getAuthorization(let data, _):
             return data.url.appendingPathComponent("\(SENetPaths.authorizations.path)/\(data.authorizationId)")
-        case .confirm(let data), .deny(let data):
+        case .confirm(let data, _), .deny(let data, _):
             return data.url.appendingPathComponent("\(SENetPaths.authorizations.path)/\(data.authorizationId)")
         }
     }
 
     var headers: [String: String]? {
         switch self {
-        case .list(let data):
+        case .list(let data, let expiresAt):
             let signature = SignatureHelper.signedPayload(
                 method: .get,
                 urlString: url.absoluteString,
                 guid: data.connectionGuid,
+                expiresAt: expiresAt,
                 params: parameters
             )
 
-            return Headers.signedRequestHeaders(token: data.accessToken, signature: signature, appLanguage: data.appLanguage)
-        case .getAuthorization(let data):
+            return Headers.signedRequestHeaders(
+                token: data.accessToken,
+                expiresAt: expiresAt,
+                signature: signature,
+                appLanguage: data.appLanguage
+            )
+        case .getAuthorization(let data, let expiresAt):
             let signature = SignatureHelper.signedPayload(
                 method: .get,
                 urlString: data.url.appendingPathComponent(
                     "\(SENetPaths.authorizations.path)/\(data.authorizationId)"
                     ).absoluteString,
                 guid: data.connectionGuid,
+                expiresAt: expiresAt,
                 params: parameters
             )
 
-            return Headers.signedRequestHeaders(token: data.accessToken, signature: signature, appLanguage: data.appLanguage)
-        case .confirm(let data), .deny(let data):
+            return Headers.signedRequestHeaders(
+                token: data.accessToken,
+                expiresAt: expiresAt,
+                signature: signature,
+                appLanguage: data.appLanguage
+            )
+        case .confirm(let data, let expiresAt), .deny(let data, let expiresAt):
             let signature = SignatureHelper.signedPayload(
                 method: .put,
                 urlString: data.url.appendingPathComponent(
                     "\(SENetPaths.authorizations.path)/\(data.authorizationId)"
                     ).absoluteString,
                 guid: data.connectionGuid,
+                expiresAt: expiresAt,
                 params: parameters
             )
 
-            return Headers.signedRequestHeaders(token: data.accessToken, signature: signature, appLanguage: data.appLanguage)
+            return Headers.signedRequestHeaders(
+                token: data.accessToken,
+                expiresAt: expiresAt,
+                signature: signature,
+                appLanguage: data.appLanguage
+            )
         }
     }
 
     var parameters: [String: Any]? {
         switch self {
         case .list, .getAuthorization: return nil
-        case .confirm(let data):
+        case .confirm(let data, _):
             return RequestParametersBuilder.confirmAuthorization(true, authorizationCode: data.authorizationCode)
-        case .deny(let data):
+        case .deny(let data, _):
             return RequestParametersBuilder.confirmAuthorization(false, authorizationCode: data.authorizationCode)
         }
     }

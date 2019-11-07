@@ -780,11 +780,11 @@
 			children = (
 				9DCED7DF22CE18270050ED3C /* Settings */,
 				9DCED7E322CE18270050ED3C /* Connection */,
+				9DCED7EE22CE18270050ED3C /* Custom Action Sheet */,
 				9DCED7E822CE18270050ED3C /* General */,
 				9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */,
 				9DCED7EC22CE18270050ED3C /* AuthorizationsViewController.swift */,
 				9DCED7ED22CE18270050ED3C /* PasscodeViewController.swift */,
-				9DCED7EE22CE18270050ED3C /* Custom Action Sheet */,
 				9DCED7F122CE18270050ED3C /* OnboardingViewController.swift */,
 				9DCED7F222CE18270050ED3C /* MainTabBarViewController.swift */,
 				9DCED7F322CE18270050ED3C /* SetupAppViewController.swift */,
@@ -1984,13 +1984,13 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 103;
+				CURRENT_PROJECT_VERSION = 106;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.2;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2009,13 +2009,13 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 103;
+				CURRENT_PROJECT_VERSION = 106;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 2.1.2;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";

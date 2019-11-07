@@ -32,6 +32,8 @@ class HeadersSpec: BaseSpec {
             "Content-Type": "application/json"
         ]
 
+        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
         describe("authorizedRequestHeaders(token:)") {
             it("should return apropriate headers with AccessToken") {
                 let token = "some token"
@@ -47,14 +49,13 @@ class HeadersSpec: BaseSpec {
                 it("should return apropriate signed headers") {
                     let token = "token"
                     let signature = "some signature"
-                    let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
 
                     let expectedHeaders = Headers.authorizedRequestHeaders(token: token, appLanguage: "en").merge(
                         with: [HeadersKeys.expiresAt: "\(expiresAt)", HeadersKeys.signature: "\(signature)"]
                     )
 
                     expect(expectedHeaders).to(
-                        equal(Headers.signedRequestHeaders(token: token, signature: signature, appLanguage: "en"))
+                        equal(Headers.signedRequestHeaders(token: token, expiresAt: expiresAt, signature: signature, appLanguage: "en"))
                     )
                 }
             }
@@ -66,7 +67,7 @@ class HeadersSpec: BaseSpec {
                     let expectedHeaders = Headers.authorizedRequestHeaders(token: token, appLanguage: "en")
 
                     expect(expectedHeaders).to(
-                        equal(Headers.signedRequestHeaders(token: token, signature: nil, appLanguage: "en"))
+                        equal(Headers.signedRequestHeaders(token: token, expiresAt: expiresAt, signature: nil, appLanguage: "en"))
                     )
                 }
             }

@@ -33,6 +33,7 @@ final class PasscodeCoordinator: Coordinator, PasscodeViewControllerDelegate {
     private var blockedAlert: UIAlertController?
 
     var onCompleteClosure: (() -> ())?
+    var onDismissClosure: (() -> ())?
 
     init(rootViewController: UIViewController, purpose: PasscodeView.Purpose, type: PasscodeType) {
         self.purpose = purpose
@@ -170,5 +171,9 @@ extension PasscodeCoordinator {
 
     func biometricsPressed() {
         showBiometricsIfEnabled()
+    }
+
+    func closePressed() {
+        onDismissClosure?()
     }
 }

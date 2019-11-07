@@ -27,8 +27,11 @@ struct AuthorizationsInteractor {
     static func confirm(data: SEConfirmAuthorizationData,
                         success: (() -> ())? = nil,
                         failure: ((String) -> ())? = nil) {
+        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
         SEAuthorizationManager.confirmAuthorization(
             data: data,
+            expiresAt: expiresAt,
             onSuccess: { _ in
                 success?()
             },
@@ -41,8 +44,11 @@ struct AuthorizationsInteractor {
     static func deny(data: SEConfirmAuthorizationData,
                      success: (() -> ())? = nil,
                      failure: ((String) -> ())? = nil) {
+        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
         SEAuthorizationManager.denyAuthorization(
             data: data,
+            expiresAt: expiresAt,
             onSuccess: { _ in
                 success?()
             },
@@ -56,6 +62,8 @@ struct AuthorizationsInteractor {
                         success: @escaping ([SEEncryptedAuthorizationResponse]) -> (),
                         failure: ((String) -> ())? = nil,
                         connectionNotFoundFailure: @escaping ((String?) -> ())) {
+        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
         var numberOfResponses = 0
 
         var encryptedAuthorizations = [SEEncryptedAuthorizationResponse]()
@@ -72,6 +80,7 @@ struct AuthorizationsInteractor {
                     accessToken: accessToken,
                     appLanguage: UserDefaultsHelper.applicationLanguage
                 ),
+                expiresAt: expiresAt,
                 onSuccess: { response in
                     encryptedAuthorizations.append(contentsOf: response.data)
                     numberOfResponses += 1

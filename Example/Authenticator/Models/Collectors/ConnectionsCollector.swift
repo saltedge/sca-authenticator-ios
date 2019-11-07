@@ -33,8 +33,13 @@ struct ConnectionsCollector {
         return RealmManager.defaultRealm.objects(Connection.self)
     }
 
-    static var activeConnections: Results<Connection> {
-        return self.where("\(#keyPath(Connection.status)) == %@", "active")
+    static var activeConnections: [Connection] {
+        return Array(self.where("\(#keyPath(Connection.status)) == %@", "active")
+            .sorted(
+                byKeyPath: #keyPath(Connection.createdAt),
+                ascending: true
+            )
+        )
     }
 
     static var connectionNames: [String] {

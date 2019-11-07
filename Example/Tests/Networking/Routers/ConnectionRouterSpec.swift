@@ -38,9 +38,11 @@ class ConnectionRouterSpec: BaseSpec {
                         with: baseUrl,
                         method: HTTPMethod.post.rawValue,
                         headers: Headers.requestHeaders(with: "en"),
-                        params: RequestParametersBuilder.parameters(for: data,
-                                                                    pushToken: "push token",
-                                                                    connectQuery: nil),
+                        params: RequestParametersBuilder.parameters(
+                            for: data,
+                            pushToken: "push token",
+                            connectQuery: nil
+                        ),
                         encoding: .json
                     )
 
@@ -60,15 +62,19 @@ class ConnectionRouterSpec: BaseSpec {
                 it("should create a valid url request") {
                     let data = SERevokeConnectionData(id: "1", guid: "guid", token: "token")
 
+                    let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
                     let signature = SignatureHelper.signedPayload(
                         method: .delete,
                         urlString: baseUrl.appendingPathComponent(baseUrlPath).absoluteString,
                         guid: data.guid,
+                        expiresAt: expiresAt,
                         params: nil
                     )
 
                     let headers = Headers.signedRequestHeaders(
                         token: data.token,
+                        expiresAt: expiresAt,
                         signature: signature,
                         appLanguage: "en"
                     )
@@ -80,7 +86,7 @@ class ConnectionRouterSpec: BaseSpec {
                         encoding: .json
                     )
                     
-                    let request = SEConnectionRouter.revoke(baseUrl, data, "en").asURLRequest()
+                    let request = SEConnectionRouter.revoke(baseUrl, data, expiresAt, "en").asURLRequest()
                     
                     expect(request).to(equal(expectedRequest))
                 }

@@ -24,7 +24,7 @@ import Foundation
 
 enum SEConnectionRouter: Routable {
     case getConnectUrl(URL, SEConnectionData, PushToken, ConnectQuery?, ApplicationLanguage)
-    case revoke(URL, SERevokeConnectionData, ApplicationLanguage)
+    case revoke(URL, SERevokeConnectionData, Int, ApplicationLanguage)
 
     var method: HTTPMethod {
         switch self {
@@ -43,33 +43,39 @@ enum SEConnectionRouter: Routable {
     var url: URL {
         switch self {
         case .getConnectUrl(let url, _, _, _, _): return url
-        case .revoke(let url, _, _): return url.appendingPathComponent("\(SENetPaths.connections.path)")
+        case .revoke(let url, _, _, _): return url.appendingPathComponent("\(SENetPaths.connections.path)")
         }
     }
 
     var headers: [String: String]? {
         switch self {
         case .getConnectUrl(_, _, _, _, let appLanguage): return Headers.requestHeaders(with: appLanguage)
-        case .revoke(_, let data, let appLanguage):
+        case .revoke(_, let data, let expiresAt, let appLanguage):
             let signature = SignatureHelper.signedPayload(
                 method: .delete,
                 urlString: url.absoluteString,
                 guid: data.guid,
+                expiresAt: expiresAt,
                 params: parameters
             )
 
-            return Headers.signedRequestHeaders(token: data.token,
-                                                signature: signature,
-                                                appLanguage: appLanguage)
+            return Headers.signedRequestHeaders(
+                token: data.token,
+                expiresAt: expiresAt,
+                signature: signature,
+                appLanguage: appLanguage
+            )
         }
     }
 
     var parameters: [String: Any]? {
         switch self {
         case .getConnectUrl(_, let data, let pushToken, let connectQuery, _):
-            return RequestParametersBuilder.parameters(for: data,
-                                                       pushToken: pushToken,
-                                                       connectQuery: connectQuery)
+            return RequestParametersBuilder.parameters(
+                for: data,
+                pushToken: pushToken,
+                connectQuery: connectQuery
+            )
         case .revoke: return nil
         }
     }

@@ -24,40 +24,44 @@ import Foundation
 
 public struct SEAuthorizationManager {
     public static func getEncryptedAuthorizations(data: SEBaseAuthorizationData,
+                                                  expiresAt: Int,
                                                   onSuccess success: @escaping HTTPServiceSuccessClosure<SEAuthorizationsResponse>,
                                                   onFailure failure: @escaping FailureBlock) {
         HTTPService<SEAuthorizationsResponse>.execute(
-            request: SEAuthorizationRouter.list(data),
+            request: SEAuthorizationRouter.list(data, expiresAt),
             success: success,
             failure: failure
         )
     }
 
     public static func getEncryptedAuthorization(data: SEAuthorizationData,
+                                                 expiresAt: Int,
                                                  onSuccess success: @escaping HTTPServiceSuccessClosure<SEAuthorizationResponse>,
                                                  onFailure failure: @escaping FailureBlock) {
         HTTPService<SEAuthorizationResponse>.execute(
-            request: SEAuthorizationRouter.getAuthorization(data),
+            request: SEAuthorizationRouter.getAuthorization(data, expiresAt),
             success: success,
             failure: failure
         )
     }
 
     public static func confirmAuthorization(data: SEConfirmAuthorizationData,
+                                            expiresAt: Int,
                                             onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmAuthorizationResponse>,
                                             onFailure failure: @escaping FailureBlock) {
         HTTPService<SEConfirmAuthorizationResponse>.execute(
-            request: SEAuthorizationRouter.confirm(data),
+            request: SEAuthorizationRouter.confirm(data, expiresAt),
             success: success,
             failure: failure
         )
     }
 
     public static func denyAuthorization(data: SEConfirmAuthorizationData,
+                                         expiresAt: Int,
                                          onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmAuthorizationResponse>,
                                          onFailure failure: @escaping FailureBlock) {
         HTTPService<SEConfirmAuthorizationResponse>.execute(
-            request: SEAuthorizationRouter.deny(data),
+            request: SEAuthorizationRouter.deny(data, expiresAt),
             success: success,
             failure: failure
         )

@@ -66,6 +66,12 @@ final class MainAuthorizationsView: UIView {
         )
     }
 
+    func remove(at index: Int) {
+        headerSwipingView.collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
+        authorizationSwipingView.collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
+        reloadData()
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -108,6 +114,7 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
                 for: indexPath
             ) as? AuthorizationHeaderCollectionViewCell else { return UICollectionViewCell() }
 
+            headerCell.delegate = self
             headerCell.configure(viewModel, at: indexPath)
             cell = headerCell
         } else {
@@ -203,5 +210,16 @@ extension MainAuthorizationsView: AuthorizationCellDelegate {
         guard let indexPath = authorizationSwipingView.collectionView.indexPath(for: cell) else { return }
 
         delegate?.denyPressed(at: indexPath.row)
+    }
+}
+
+// MARK: - AuthorizationHeaderCollectionViewCellDelegates
+extension MainAuthorizationsView: AuthorizationHeaderCollectionViewCellDelegate {
+    func timerExpired(_ cell: AuthorizationHeaderCollectionViewCell) {
+        guard let indexPath = headerSwipingView.collectionView.indexPath(for: cell),
+            let viewModel = dataSource?.viewModel(at: indexPath.row) else { return }
+
+        _ = dataSource?.remove(viewModel)
+        remove(at: indexPath.row)
     }
 }

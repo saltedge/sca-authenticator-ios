@@ -28,6 +28,7 @@ class AuthorizationRouterSpec: BaseSpec {
     override func spec() {
         let baseUrl = URL(string: "base.com")!
         let baseUrlPath = "api/authenticator/v1/authorizations"
+        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
 
         describe("AuthorizationsRouter") {
             context("when it's .list") {
@@ -36,11 +37,13 @@ class AuthorizationRouterSpec: BaseSpec {
                         method: .get,
                         urlString: baseUrl.appendingPathComponent(baseUrlPath).absoluteString,
                         guid: "tag",
+                        expiresAt: expiresAt,
                         params: nil
                     )
 
                     let headers = Headers.signedRequestHeaders(
                         token: "token",
+                        expiresAt: expiresAt,
                         signature: signature,
                         appLanguage: "en"
                     )
@@ -59,7 +62,7 @@ class AuthorizationRouterSpec: BaseSpec {
                         appLanguage: "en"
                     )
                 
-                    let request = SEAuthorizationRouter.list(expectedData).asURLRequest()
+                    let request = SEAuthorizationRouter.list(expectedData, expiresAt).asURLRequest()
 
                     expect(request).to(equal(expectedRequest))
                 }
@@ -79,11 +82,13 @@ class AuthorizationRouterSpec: BaseSpec {
                         method: .get,
                         urlString: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.authorizationId)").absoluteString,
                         guid: "123guid",
+                        expiresAt: expiresAt,
                         params: nil
                     )
 
                     let headers = Headers.signedRequestHeaders(
                         token: "accessToken",
+                        expiresAt: expiresAt,
                         signature: signature,
                         appLanguage: "en"
                     )
@@ -95,7 +100,7 @@ class AuthorizationRouterSpec: BaseSpec {
                         encoding: .url
                     )
 
-                    let request = SEAuthorizationRouter.getAuthorization(data).asURLRequest()
+                    let request = SEAuthorizationRouter.getAuthorization(data, expiresAt).asURLRequest()
 
                     expect(request).to(equal(expectedRequest))
                 }
@@ -118,11 +123,13 @@ class AuthorizationRouterSpec: BaseSpec {
                         method: .put,
                         urlString: data.url.appendingPathComponent("\(baseUrlPath)/\(data.authorizationId)").absoluteString,
                         guid: data.connectionGuid,
+                        expiresAt: expiresAt,
                         params: params
                     )
 
                     let headers = Headers.signedRequestHeaders(
                         token: data.accessToken,
+                        expiresAt: expiresAt,
                         signature: signature,
                         appLanguage: "en"
                     )
@@ -135,7 +142,7 @@ class AuthorizationRouterSpec: BaseSpec {
                         encoding: .json
                     )
 
-                    let request = SEAuthorizationRouter.confirm(data).asURLRequest()
+                    let request = SEAuthorizationRouter.confirm(data, expiresAt).asURLRequest()
 
                     expect(request).to(equal(expectedRequest))
                 }
@@ -158,11 +165,13 @@ class AuthorizationRouterSpec: BaseSpec {
                         method: .put,
                         urlString: data.url.appendingPathComponent("\(baseUrlPath)/\(data.authorizationId)").absoluteString,
                         guid: data.connectionGuid,
+                        expiresAt: expiresAt,
                         params: params
                     )
                     
                     let headers = Headers.signedRequestHeaders(
                         token: data.accessToken,
+                        expiresAt: expiresAt,
                         signature: signature,
                         appLanguage: "en"
                     )
@@ -175,7 +184,7 @@ class AuthorizationRouterSpec: BaseSpec {
                         encoding: .json
                     )
                     
-                    let request = SEAuthorizationRouter.deny(data).asURLRequest()
+                    let request = SEAuthorizationRouter.deny(data, expiresAt).asURLRequest()
                     
                     expect(request).to(equal(expectedRequest))
                 }

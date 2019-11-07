@@ -74,7 +74,7 @@ struct ConnectionsInteractor {
         )
     }
 
-    static func revoke(_ connection: Connection, success: (() -> ())? = nil) {
+    static func revoke(_ connection: Connection, expiresAt: Int, success: (() -> ())? = nil) {
         guard let baseUrl = connection.baseUrl else { return }
 
         let data = SERevokeConnectionData(id: connection.id, guid: connection.guid, token: connection.accessToken)
@@ -82,6 +82,7 @@ struct ConnectionsInteractor {
         SEConnectionManager.revokeConnection(
             by: baseUrl,
             data: data,
+            expiresAt: expiresAt,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             onSuccess: { _ in
                 success?()

@@ -36,6 +36,7 @@ protocol PasscodeViewControllerDelegate: class {
     func completed()
     func wrongPasswordEntered()
     func biometricsPressed()
+    func closePressed()
 }
 
 final class PasscodeViewController: BaseViewController {

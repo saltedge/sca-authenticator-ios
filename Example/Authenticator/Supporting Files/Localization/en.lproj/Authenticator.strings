@@ -1,4 +1,5 @@
 "actions.add" = "Add";
+"actions.allow" = "Allow";
 "actions.back" = "Back";
 "actions.cancel" = "Cancel";
 "actions.change_passcode" = "Change Passcode";
@@ -8,13 +9,14 @@
 "actions.confirm_delete_connection" = "Are you sure you want to delete this connection?";
 "actions.confirm_delete_connections" = "Are you sure you want to delete all connections?";
 "actions.confirm" = "Confirm";
+"actions.confirm_authorization" = "Confirm authorization";
 "actions.deny" = "Deny";
 "actions.done" = "Done";
 "actions.enter_passcode" = "Enter Passcode";
 "actions.get_started" = "Get Started";
 "actions.next" = "Next";
 "actions.not_now" = "Not Now";
-"actions.ok" = "Ok";
+"actions.ok" = "OK";
 "actions.proceed" = "Proceed";
 "action.connect_provider" = "Connect Provider";
 "actions.reconnect" = "Reconnect";
@@ -80,7 +82,7 @@
 "onboarding.carousel_two.description" = "Each time you make a payment, you’ll receive a confirmation to authorize that transaction, keeping you in control at all times.";
 "onboarding.carousel_two.title" = "Absolute Control";
 "onboarding.find_connection.completed_title" = "Well done!";
-"onboarding.find_connection.completed_description" = "Application has been successfully set. Connect a Service Provider, so you can receive an authorization every time you make an action.";
+"onboarding.find_connection.completed_description" = "Application has been successfully set. Proceed to connect your service provider.";
 "onboarding.secure_app.biometrics_message" = "Seems, that you don't have biometrics enabled. To enter the App faster, enable it in your settings";
 "onboarding.secure_app.enable_biometrics" = "Enable biometrics";
 "onboarding.secure_app.face_id_allow" = "Allow Face ID";

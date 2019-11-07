@@ -31,6 +31,10 @@ private struct Layout {
     static let timeLeftLabelHeight: CGFloat = 28.0
 }
 
+protocol AuthorizationHeaderCollectionViewCellDelegate: class {
+    func timerExpired(_ cell: AuthorizationHeaderCollectionViewCell)
+}
+
 final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
     private let connectionImageView = UIImageView()
     private let connectionNameLabel: UILabel = {
@@ -45,6 +49,8 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
     private var timer: Timer!
     private var secondsLeft: Int = 0
     private var lifetime: Int = 0
+
+    weak var delegate: AuthorizationHeaderCollectionViewCellDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -110,6 +116,7 @@ private extension AuthorizationHeaderCollectionViewCell {
         secondsLeft -= 1
         if secondsLeft <= 0 {
             timer.invalidate()
+            delegate?.timerExpired(self)
         } else {
             updateCountdown(secondsLeft)
         }

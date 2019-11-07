@@ -47,7 +47,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
     private var isProcessing: Bool = false
 
     private let titleLabel = UILabel.titleLabel
-    private lazy var descriptionTextview = UITextView()
+    private lazy var descriptionTextView = UITextView()
     private lazy var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
     private var contentStackView: UIStackView = {
         let stackView = UIStackView()
@@ -72,6 +72,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        descriptionTextView.isUserInteractionEnabled = false
         setupLeftButton()
         setupRightButton()
         setupLoadingView()
@@ -86,11 +87,13 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         titleLabel.text = viewModel.title
 
         if viewModel.description.htmlToAttributedString != nil {
+            contentStackView.removeArrangedSubview(descriptionTextView)
             webView.loadHTMLString(viewModel.description, baseURL: nil)
             contentStackView.addArrangedSubview(webView)
         } else {
-            descriptionTextview.text = viewModel.description
-            contentStackView.addArrangedSubview(descriptionTextview)
+            contentStackView.removeArrangedSubview(webView)
+            descriptionTextView.text = viewModel.description
+            contentStackView.addArrangedSubview(descriptionTextView)
         }
     }
 
@@ -144,7 +147,7 @@ private extension AuthorizationCollectionViewCell {
     }
 
     func setupRightButton() {
-        setupButton(.filled, title: "Confirm").addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
+        setupButton(.filled, title: l10n(.allow)).addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
     }
 
     func setupButton(_ style: CustomButton.Style, title: String) -> UIButton {

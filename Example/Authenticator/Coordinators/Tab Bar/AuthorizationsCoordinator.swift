@@ -105,21 +105,29 @@ final class AuthorizationsCoordinator: Coordinator {
             authorizationCode: viewModel.authorizationCode
         )
     }
+
+    private func remove(_ viewModel: AuthorizationViewModel, at index: Int) {
+        _ = dataSource.remove(viewModel)
+        rootViewController.remove(at: index)
+        setupPolling()
+    }
 }
 
 // MARK: - Actions
 private extension AuthorizationsCoordinator {
     @objc func refresh() {
         AuthorizationsInteractor.refresh(
-            connections: Array(connections),
-            success: { encryptedAuthorizations in
+            connections: connections,
+            success: { [weak self] encryptedAuthorizations in
+                guard let strongSelf = self else { return }
+
                 DispatchQueue.global(qos: .background).async {
                     let decryptedAuthorizations = encryptedAuthorizations.compactMap { authorization in
                         return AuthorizationsPresenter.decryptedData(from: authorization)
                     }
 
                     DispatchQueue.main.async {
-                        self.updateDataSource(with: decryptedAuthorizations)
+                        strongSelf.updateDataSource(with: decryptedAuthorizations)
                     }
                 }
             },
@@ -131,19 +139,33 @@ private extension AuthorizationsCoordinator {
         )
     }
 
-    func presentPasscodeView() {
+    func showAndConfirmWithPasscode() {
         passcodeCoordinator = PasscodeCoordinator(
             rootViewController: rootViewController,
             purpose: .enter,
             type: .authorize
         )
         passcodeCoordinator?.onCompleteClosure = { [weak self] in
-            self?.selectedCell?.setProcessing(with: l10n(.processing))
+            guard let strongSelf = self else { return }
 
-            guard let index = self?.selectedViewModelIndex,
-                let data = self?.confirmationData(for: index) else { return }
+            strongSelf.selectedCell?.setProcessing(with: l10n(.processing))
 
-            AuthorizationsInteractor.confirm(data: data)
+            guard let index = strongSelf.selectedViewModelIndex,
+                let data = strongSelf.confirmationData(for: index),
+                let viewModel = strongSelf.dataSource.viewModel(at: index) else { return }
+
+            AuthorizationsInteractor.confirm(
+                data: data,
+                success: {
+                    strongSelf.remove(viewModel, at: index)
+                },
+                failure: { _ in
+                    strongSelf.setupPolling()
+                }
+            )
+        }
+        passcodeCoordinator?.onDismissClosure = { [weak self] in
+            self?.setupPolling()
         }
         passcodeCoordinator?.start()
     }
@@ -152,29 +174,55 @@ private extension AuthorizationsCoordinator {
 // MARK: - AuthorizationsViewControllerDelegate
 extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     func denyPressed(at index: Int) {
-        guard let data = confirmationData(for: index) else { return }
+        guard let data = confirmationData(for: index),
+            let viewModel = dataSource.viewModel(at: index) else { return }
 
-        AuthorizationsInteractor.deny(data: data)
+        timer?.invalidate()
+
+        AuthorizationsInteractor.deny(
+            data: data,
+            success: { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.remove(viewModel, at: index)
+            },
+            failure: { _ in
+                self.setupPolling()
+            }
+        )
     }
 
     func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
         selectedViewModelIndex = index
         selectedCell = cell
 
-        guard PasscodeManager.isBiometricsEnabled else { self.presentPasscodeView(); return }
+        timer?.invalidate()
+
+        guard PasscodeManager.isBiometricsEnabled else { self.showAndConfirmWithPasscode(); return }
 
         PasscodeManager.useBiometrics(
             type: .authorize,
-            reasonString: "Confirm authorization",
-            onSuccess: {
+            reasonString: l10n(.confirmAuthorization),
+            onSuccess: { [weak self] in
+                guard let strongSelf = self else { return }
+
                 cell.setProcessing(with: l10n(.processing))
 
-                guard let data = self.confirmationData(for: index) else { return }
+                guard let data = strongSelf.confirmationData(for: index),
+                    let viewModel = strongSelf.dataSource.viewModel(at: index) else { return }
 
-                AuthorizationsInteractor.confirm(data: data)
+                AuthorizationsInteractor.confirm(
+                    data: data,
+                    success: {
+                        strongSelf.remove(viewModel, at: index)
+                    },
+                    failure: { _ in
+                        strongSelf.setupPolling()
+                    }
+                )
             },
             onFailure: { _ in
-                self.presentPasscodeView()
+                self.showAndConfirmWithPasscode()
             }
         )
     }
