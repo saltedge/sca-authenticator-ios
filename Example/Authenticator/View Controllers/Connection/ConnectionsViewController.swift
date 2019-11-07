@@ -23,8 +23,14 @@
 import UIKit
 import TinyConstraints
 
+enum ConnectionAction {
+    case delete
+    case edit
+    case reconnect
+}
+
 protocol ConnectionsViewControllerDelegate: class {
-    func selected(_ connection: Connection)
+    func selected(_ connection: Connection, action: ConnectionAction?)
     func addPressed()
 }
 
@@ -154,7 +160,37 @@ extension ConnectionsViewController: UITableViewDelegate {
 
         guard let connection = dataSource.item(for: indexPath) else { return }
 
-        delegate?.selected(connection)
+        delegate?.selected(connection, action: nil)
+    }
+
+    @available(iOS 11.0, *)
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let connection = dataSource.item(for: indexPath) else { return nil }
+
+        let delete = UIContextualAction(style: .destructive, title: l10n(.delete)) { _, _, completionHandler in
+            self.delegate?.selected(connection, action: .delete)
+            completionHandler(true)
+        }
+
+        let rename = UIContextualAction(style: .normal, title: l10n(.rename)) { _, _, completionHandler in
+            self.delegate?.selected(connection, action: .edit)
+            completionHandler(true)
+        }
+
+        var actions: [UIContextualAction] = [delete, rename]
+
+        if connection.status == ConnectionStatus.inactive.rawValue {
+            let reconnect = UIContextualAction(style: .normal, title: l10n(.reconnect)) { action, _, completionHandler in
+                self.delegate?.selected(connection, action: .reconnect)
+                completionHandler(true)
+            }
+            reconnect.backgroundColor = UIColor.auth_blue
+            actions.insert(reconnect, at: 1)
+        }
+
+        let swipeActionConfig = UISwipeActionsConfiguration(actions: actions)
+        return swipeActionConfig
     }
 }
 
