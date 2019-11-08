@@ -48,6 +48,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
 
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        QuickActionsHelper.setupActions()
+    }
+
     private func configureFirebase() {
         if let configFile = Bundle.authenticator_main.path(forResource: "GoogleService-Info", ofType: "plist"),
             let options = FirebaseOptions(contentsOfFile: configFile) {
@@ -90,6 +94,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print(error.localizedDescription)
+    }
+
+    func application(_ application: UIApplication,
+                     performActionFor shortcutItem: UIApplicationShortcutItem,
+                     completionHandler: @escaping (Bool) -> Void) {
+        if AVCaptureHelper.cameraIsAuthorized, shortcutItem.type == QuickActionsType.openCamera.rawValue {
+            applicationCoordinator?.openConnectViewController()
+            completionHandler(true)
+        }
     }
 
     func userNotificationCenter(_ center: UNUserNotificationCenter,
