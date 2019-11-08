@@ -110,9 +110,13 @@ final class ConnectViewCoordinator: Coordinator {
                 strongSelf.connection = connection
                 strongSelf.webViewController.startLoading(with: connectUrl)
             },
-            failure: { error in
-                self.connectViewController.dismiss(animated: true)
-                self.rootViewController.present(message: error, style: .error)
+            failure: { [weak self] error in
+                self?.connectViewController.dismiss(
+                    animated: true,
+                    completion: {
+                        self?.rootViewController.present(message: error, style: .error)
+                    }
+                )
             }
         )
     }
