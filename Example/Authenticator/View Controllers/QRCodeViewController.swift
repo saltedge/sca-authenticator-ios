@@ -70,6 +70,12 @@ final class QRCodeViewController: UIViewController {
         do {
             videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
         } catch {
+            showInfoAlert(
+                withTitle: l10n(.somethingWentWrong),
+                completion: {
+                    self.dismiss(animated: true)
+                }
+            )
             return
         }
 
