@@ -41,6 +41,36 @@ final class ConnectionsCoordinator: Coordinator {
     }
 
     func stop() {}
+
+    private func reconnect(_ connection: Connection) {
+        connectViewCoordinator = ConnectViewCoordinator(
+            rootViewController: rootViewController,
+            connectionType: .reconnect,
+            connection: connection
+        )
+        connectViewCoordinator?.start()
+    }
+
+    private func remove(_ connection: Connection) {
+        rootViewController.navigationController?.showConfirmationAlert(
+            withTitle: l10n(.delete),
+            message: l10n(.deleteConnectionDescription),
+            confirmAction: { _ in
+                let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+                ConnectionsInteractor.revoke(connection, expiresAt: expiresAt)
+                SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
+                ConnectionRepository.delete(connection)
+            }
+        )
+    }
+
+    private func rename(_ connection: Connection) {
+        editConnectionCoordinator = EditConnectionCoordinator(
+            rootViewController: rootViewController,
+            connection: connection
+        )
+        editConnectionCoordinator?.start()
+    }
 }
 
 // MARK: - Actions
@@ -51,14 +81,9 @@ private extension ConnectionsCoordinator {
         let actionSheet = CustomActionSheetViewController()
 
         let reconnectAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
-            guard let strongSelf = self else { return }
+                guard let strongSelf = self else { return }
 
-            strongSelf.connectViewCoordinator = ConnectViewCoordinator(
-                rootViewController: strongSelf.rootViewController,
-                connectionType: .reconnect,
-                connection: connection
-            )
-            strongSelf.connectViewCoordinator?.start()
+                strongSelf.reconnect(connection)
             }
         }
 
@@ -70,27 +95,14 @@ private extension ConnectionsCoordinator {
         let renameAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
                 guard let strongSelf = self else { return }
 
-                strongSelf.editConnectionCoordinator = EditConnectionCoordinator(
-                    rootViewController: strongSelf.rootViewController,
-                    connection: connection
-                )
-                strongSelf.editConnectionCoordinator?.start()
+                strongSelf.rename(connection)
             }
         }
 
         let deleteAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
-            guard let strongSelf = self else { return }
+                guard let strongSelf = self else { return }
 
-            strongSelf.rootViewController.navigationController?.showConfirmationAlert(
-                    withTitle: l10n(.delete),
-                    message: l10n(.deleteConnectionDescription),
-                    confirmAction: { _ in
-                        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-                        ConnectionsInteractor.revoke(connection, expiresAt: expiresAt)
-                        SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
-                        ConnectionRepository.delete(connection)
-                    }
-                )
+                strongSelf.remove(connection)
             }
         }
 
@@ -111,8 +123,14 @@ private extension ConnectionsCoordinator {
 
 // MARK: - ConnectionsViewControllerDelegate
 extension ConnectionsCoordinator: ConnectionsViewControllerDelegate {
-    func selected(_ connection: Connection) {
-        showActionSheet(for: connection)
+    func selected(_ connection: Connection, action: ConnectionAction?) {
+        guard let action = action else { showActionSheet(for: connection); return }
+    
+        switch action {
+        case .delete: remove(connection)
+        case .edit: rename(connection)
+        case .reconnect: reconnect(connection)
+        }
     }
 
     func addPressed() {
