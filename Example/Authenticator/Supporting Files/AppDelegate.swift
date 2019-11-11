@@ -79,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         guard SEConnectHelper.isValid(deepLinkUrl: url) else { return false }
 
         if UIWindow.topViewController is PasscodeViewController {
-            applicationCoordinator?.openConnectViewController(deepLinkUrl: url)
+            applicationCoordinator?.openConnectViewController(deepLinkUrl: url, connectionType: .deepLink)
         }
         return true
     }
@@ -100,7 +100,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                      performActionFor shortcutItem: UIApplicationShortcutItem,
                      completionHandler: @escaping (Bool) -> Void) {
         if AVCaptureHelper.cameraIsAuthorized, shortcutItem.type == QuickActionsType.openCamera.rawValue {
-            applicationCoordinator?.openConnectViewController()
+            applicationCoordinator?.openConnectViewController(connectionType: .connect)
             completionHandler(true)
         }
     }
