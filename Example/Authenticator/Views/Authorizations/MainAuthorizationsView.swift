@@ -133,6 +133,7 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        AppDelegate.main.authorizationIdFromPush = nil
         let authorizationCellWidth = AppLayout.screenWidth
         let headerPlusSpace = Layout.headerSize.width + Layout.headerSpacing
         let authorizationXOffset = authorizationSwipingView.collectionView.contentOffset.x
@@ -148,13 +149,6 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
 extension MainAuthorizationsView: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         return true
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == headerSwipingView.collectionView {
-            headerSwipingView.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-            authorizationSwipingView.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-        }
     }
 
     func collectionView(_ collectionView: UICollectionView,

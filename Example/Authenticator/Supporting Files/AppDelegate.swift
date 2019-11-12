@@ -36,6 +36,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     var applicationCoordinator: ApplicationCoordinator?
 
+    static var main: AppDelegate {
+        return UIApplication.appDelegate
+    }
+
+    var authorizationIdFromPush: String?
+
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -58,6 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
+        authorizationIdFromPush = nil
         applicationCoordinator?.openPasscodeIfNeeded()
     }
 
@@ -65,8 +72,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         applicationCoordinator?.showBiometricsIfEnabled()
     }
 
-    static var main: AppDelegate {
-        return UIApplication.appDelegate
+    func applicationWillTerminate(_ application: UIApplication) {
+        authorizationIdFromPush = nil
     }
 
     func application(_ application: UIApplication,
@@ -101,6 +108,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let dataDict = apsDict[SENetKeys.data] as? [String: Any],
             let connectionId = dataDict[SENetKeys.connectionId] as? String,
             let authorizationId = dataDict[SENetKeys.authorizationId] as? String else { completionHandler(); return }
+
+        authorizationIdFromPush = authorizationId
 
         if UIWindow.topViewController is PasscodeViewController {
             applicationCoordinator?.handleAuthorizationsFromPasscode(connectionId: connectionId, authorizationId: authorizationId)
