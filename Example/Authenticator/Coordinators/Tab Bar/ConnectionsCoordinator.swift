@@ -22,7 +22,6 @@
 
 import UIKit
 import SEAuthenticator
-import AVFoundation
 
 final class ConnectionsCoordinator: Coordinator {
     let rootViewController = ConnectionsViewController()
@@ -135,32 +134,29 @@ extension ConnectionsCoordinator: ConnectionsViewControllerDelegate {
     }
 
     func addPressed() {
-        AVCaptureDevice.requestAccess(for: .video) { response in
-            if response {
-                DispatchQueue.main.async {
-                    self.connectViewCoordinator = ConnectViewCoordinator(
-                        rootViewController: self.rootViewController,
-                        connectionType: .connect
-                    )
-                    self.connectViewCoordinator?.start()
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self.rootViewController.showConfirmationAlert(
-                        withTitle: l10n(.deniedCamera),
-                        message: l10n(.deniedCameraDescription),
-                        confirmActionTitle: l10n(.goToSettings),
-                        confirmActionStyle: .default,
-                        confirmAction: { _ in
-                            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+        AVCaptureHelper.requestAccess(
+            success: {
+                self.connectViewCoordinator = ConnectViewCoordinator(
+                    rootViewController: self.rootViewController,
+                    connectionType: .connect
+                )
+                self.connectViewCoordinator?.start()
+            },
+            failure: {
+                self.rootViewController.showConfirmationAlert(
+                    withTitle: l10n(.deniedCamera),
+                    message: l10n(.deniedCameraDescription),
+                    confirmActionTitle: l10n(.goToSettings),
+                    confirmActionStyle: .default,
+                    confirmAction: { _ in
+                        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
 
-                            if UIApplication.shared.canOpenURL(settingsUrl) {
-                                UIApplication.shared.open(settingsUrl)
-                            }
+                        if UIApplication.shared.canOpenURL(settingsUrl) {
+                            UIApplication.shared.open(settingsUrl)
                         }
-                    )
-                }
+                    }
+                )
             }
-        }
+        )
     }
 }
