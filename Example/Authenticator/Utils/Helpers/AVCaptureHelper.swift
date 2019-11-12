@@ -27,4 +27,14 @@ struct AVCaptureHelper {
     static var cameraIsAuthorized: Bool {
         return AVCaptureDevice.authorizationStatus(for: .video) == AVAuthorizationStatus.authorized
     }
+
+    static func requestAccess(success: @escaping (() -> ()), failure: @escaping (() -> ())) {
+        AVCaptureDevice.requestAccess(for: .video) { response in
+            if response {
+                DispatchQueue.main.async { success() }
+            } else {
+                DispatchQueue.main.async { failure() }
+            }
+        }
+    }
 }
