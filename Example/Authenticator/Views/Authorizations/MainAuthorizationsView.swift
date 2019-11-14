@@ -36,7 +36,6 @@ protocol MainAuthorizationsViewDelegate: class {
 final class MainAuthorizationsView: UIView {
     private let headerSwipingView = AuthorizationsHeadersSwipingView()
     private let authorizationSwipingView = SwipingAuthorizationsCollectionView()
-    private var currentScrollableScrollView: UIScrollView?
 
     var dataSource: AuthorizationsDataSource?
 
@@ -133,7 +132,6 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        AppDelegate.main.authorizationIdFromPush = nil
         let authorizationCellWidth = AppLayout.screenWidth
         let headerPlusSpace = Layout.headerSize.width + Layout.headerSpacing
         let authorizationXOffset = authorizationSwipingView.collectionView.contentOffset.x
@@ -142,6 +140,10 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
         let pagePercent = (authorizationXOffset - (page * authorizationCellWidth)) / authorizationCellWidth
 
         headerSwipingView.collectionView.contentOffset.x = (page * headerPlusSpace - 8.0) + (headerPlusSpace * pagePercent)
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        AppDelegate.main.authorizationIdFromPush = nil
     }
 }
 

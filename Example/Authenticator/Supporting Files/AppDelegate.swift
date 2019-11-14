@@ -109,7 +109,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let connectionId = dataDict[SENetKeys.connectionId] as? String,
             let authorizationId = dataDict[SENetKeys.authorizationId] as? String else { completionHandler(); return }
 
-        authorizationIdFromPush = authorizationId
+        if let authorizationIdFromPush = authorizationIdFromPush, authorizationIdFromPush == authorizationId {
+            self.authorizationIdFromPush = nil
+        } else {
+            self.authorizationIdFromPush = authorizationId
+        }
 
         if UIWindow.topViewController is PasscodeViewController {
             applicationCoordinator?.handleAuthorizationsFromPasscode(connectionId: connectionId, authorizationId: authorizationId)

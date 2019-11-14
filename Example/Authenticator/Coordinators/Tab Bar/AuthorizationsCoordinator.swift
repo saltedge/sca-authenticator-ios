@@ -85,7 +85,6 @@ final class AuthorizationsCoordinator: Coordinator {
                 ),
                 let index = dataSource.index(of: viewModel) {
                     rootViewController.scroll(to: index)
-                    authorizationFromPush = nil
             }
         }
         rootViewController.updateViewsHiddenState()
@@ -205,8 +204,8 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
         guard let data = confirmationData(for: index),
             let viewModel = dataSource.viewModel(at: index) else { return }
 
-        if let authorizationIdFromPush = AppDelegate.main.authorizationIdFromPush,
-            viewModel.authorizationId == authorizationIdFromPush || dataSource.rows == 1 {
+        if (AppDelegate.main.authorizationIdFromPush != nil
+            && viewModel.authorizationId == AppDelegate.main.authorizationIdFromPush) || dataSource.rows == 1 {
             AppDelegate.main.authorizationIdFromPush = nil
             cell.setProcessing(with: l10n(.processing))
             self.authorize(data, viewModel: viewModel, index: index)

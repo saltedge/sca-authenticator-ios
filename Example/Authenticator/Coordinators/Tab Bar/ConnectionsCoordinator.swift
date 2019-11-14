@@ -125,7 +125,7 @@ private extension ConnectionsCoordinator {
 extension ConnectionsCoordinator: ConnectionsViewControllerDelegate {
     func selected(_ connection: Connection, action: ConnectionAction?) {
         guard let action = action else { showActionSheet(for: connection); return }
-    
+
         switch action {
         case .delete: remove(connection)
         case .edit: rename(connection)
