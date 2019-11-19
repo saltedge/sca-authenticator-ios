@@ -165,8 +165,12 @@ extension PasscodeCoordinator {
     }
 
     func completed() {
-        onCompleteClosure?()
-        passcodeVc.dismiss(animated: true)
+        passcodeVc.dismiss(
+            animated: true,
+            completion: {
+                self.onCompleteClosure?()
+            }
+        )
     }
 
     func biometricsPressed() {

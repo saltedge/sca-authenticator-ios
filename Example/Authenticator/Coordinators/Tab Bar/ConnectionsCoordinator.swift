@@ -125,7 +125,7 @@ private extension ConnectionsCoordinator {
 extension ConnectionsCoordinator: ConnectionsViewControllerDelegate {
     func selected(_ connection: Connection, action: ConnectionAction?) {
         guard let action = action else { showActionSheet(for: connection); return }
-    
+
         switch action {
         case .delete: remove(connection)
         case .edit: rename(connection)
@@ -134,10 +134,29 @@ extension ConnectionsCoordinator: ConnectionsViewControllerDelegate {
     }
 
     func addPressed() {
-        connectViewCoordinator = ConnectViewCoordinator(
-            rootViewController: rootViewController,
-            connectionType: .connect
+        AVCaptureHelper.requestAccess(
+            success: {
+                self.connectViewCoordinator = ConnectViewCoordinator(
+                    rootViewController: self.rootViewController,
+                    connectionType: .connect
+                )
+                self.connectViewCoordinator?.start()
+            },
+            failure: {
+                self.rootViewController.showConfirmationAlert(
+                    withTitle: l10n(.deniedCamera),
+                    message: l10n(.deniedCameraDescription),
+                    confirmActionTitle: l10n(.goToSettings),
+                    confirmActionStyle: .default,
+                    confirmAction: { _ in
+                        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+                        if UIApplication.shared.canOpenURL(settingsUrl) {
+                            UIApplication.shared.open(settingsUrl)
+                        }
+                    }
+                )
+            }
         )
-        connectViewCoordinator?.start()
     }
 }

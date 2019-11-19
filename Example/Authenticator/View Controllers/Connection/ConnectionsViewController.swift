@@ -122,8 +122,7 @@ private extension ConnectionsViewController {
     func updateNavigationButtonsState() {
         if dataSource.hasDataToShow {
             navigationItem.rightBarButtonItem = UIBarButtonItem(
-                image: #imageLiteral(resourceName: l10n(.add)),
-                style: .plain,
+                barButtonSystemItem: .add,
                 target: self,
                 action: #selector(addPressed)
             )
