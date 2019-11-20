@@ -30,6 +30,8 @@
 "actions.view_more" = "View More";
 "errors.account_reset" = "Your Account Was Reset Due to Multiple Failed Attempts.";
 "errors.contact_support" = "Something went wrong. Please contact our Support team.";
+"errors.denied_camera" = "Camera access denied";
+"errors.denied_camera_description" = "Please allow camera usage in phone settings. Without camera you won't be able to connect provider.";
 "errors.inactive_connection" = "Inactive connection. Remove or reconnect.";
 "errors.no_internet_connection" = "No Internet connection.";
 "errors.no_internet_connection_try_again" = "Please try again later.";

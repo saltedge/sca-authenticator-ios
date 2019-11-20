@@ -30,9 +30,9 @@ private struct Layout {
     static let yOffset: CGFloat = 100.0
 }
 
-class QRCodeViewController: UIViewController {
-    private var captureSession: AVCaptureSession?
-    private var videoPreviewLayer: AVCaptureVideoPreviewLayer?
+final class QRCodeViewController: UIViewController {
+    private var captureSession: AVCaptureSession!
+    private var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     private var qrCodeFrameView: UIView?
 
     var metadataReceived: ((UIViewController, String) ->())?
@@ -44,50 +44,66 @@ class QRCodeViewController: UIViewController {
         createOverlay(frame: view.frame)
     }
 
-    private func instantiateSession() {
-        guard let captureDevice = AVCaptureDevice.default(for: .video) else {
-            showInfoAlert(
-                withTitle: l10n(.somethingWentWrong),
-                completion: {
-                    self.dismiss(animated: true)
-                }
-            )
-            return
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if !captureSession.isRunning {
+            captureSession.startRunning()
         }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if captureSession.isRunning {
+            captureSession.stopRunning()
+        }
+    }
+
+    private func instantiateSession() {
+        captureSession = AVCaptureSession()
+
+        guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
+
+        let videoInput: AVCaptureDeviceInput
 
         do {
-            let input = try AVCaptureDeviceInput(device: captureDevice)
-
-            let captureSession = AVCaptureSession()
-
-            self.captureSession = captureSession
-            captureSession.addInput(input)
-
-            let captureMetadataOutput = AVCaptureMetadataOutput()
-            captureSession.addOutput(captureMetadataOutput)
-
-            captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
-
-            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-
-            guard let videoLayer = videoPreviewLayer else { return }
-
-            videoLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
-            videoLayer.frame = view.layer.bounds
-            view.layer.addSublayer(videoLayer)
-
-            captureSession.startRunning()
+            videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
         } catch {
             showInfoAlert(
                 withTitle: l10n(.somethingWentWrong),
-                message: error.localizedDescription,
                 completion: {
                     self.dismiss(animated: true)
                 }
             )
             return
         }
+
+        if captureSession.canAddInput(videoInput) {
+            captureSession.addInput(videoInput)
+        } else {
+            captureSession = nil
+            return
+        }
+
+        let metadataOutput = AVCaptureMetadataOutput()
+
+        if captureSession.canAddOutput(metadataOutput) {
+            captureSession.addOutput(metadataOutput)
+
+            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            metadataOutput.metadataObjectTypes = [.qr]
+        } else {
+            captureSession = nil
+            return
+        }
+
+        videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+        videoPreviewLayer.frame = view.layer.bounds
+        videoPreviewLayer.videoGravity = .resizeAspectFill
+        view.layer.addSublayer(videoPreviewLayer)
+
+        captureSession.startRunning()
     }
 
     private func setup() {
@@ -139,7 +155,10 @@ class QRCodeViewController: UIViewController {
 extension QRCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        captureSession.stopRunning()
+
         output.setMetadataObjectsDelegate(nil, queue: nil)
+
         if metadataObjects.count == 0 {
             qrCodeFrameView?.frame = CGRect.zero
             return

@@ -88,6 +88,7 @@ extension LanguageViewController: UITableViewDataSource {
 extension LanguageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        QuickActionsHelper.setupActions()
         delegate?.languagePicker(selected: selectedLanguage)
     }
 }
