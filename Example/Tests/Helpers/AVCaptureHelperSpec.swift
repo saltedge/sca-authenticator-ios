@@ -32,11 +32,7 @@ private class FakeAVCaptureDevice: AVCaptureDevice {
     }
 
     override class func requestAccess(for mediaType: AVMediaType, completionHandler handler: @escaping (Bool) -> Void) {
-        if self.status == .authorized {
-            handler(true)
-        } else {
-            handler(false)
-        }
+        handler(status == .authorized)
     }
 
     static func setAuthorizationStatus(status: AVAuthorizationStatus) {
