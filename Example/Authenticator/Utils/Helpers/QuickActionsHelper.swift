@@ -28,7 +28,7 @@ enum QuickActionsType: String {
 
 struct QuickActionsHelper {
     static func setupActions() {
-        guard AVCaptureHelper.cameraIsAuthorized else { UIApplication.shared.shortcutItems = nil; return }
+        guard AVCaptureHelper.cameraIsAuthorized() else { UIApplication.shared.shortcutItems = nil; return }
 
         let openCamera = UIApplicationShortcutItem(
             type: QuickActionsType.openCamera.rawValue,

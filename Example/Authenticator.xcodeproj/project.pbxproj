@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0430C65D2386E496004C52E5 /* application.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0430C65C2386E496004C52E5 /* application.plist */; };
+		0497D9272385948B002974C0 /* AVCaptureHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0497D9262385948B002974C0 /* AVCaptureHelperSpec.swift */; };
 		8E664D44698ED18B94EA30DD /* Pods_Authenticator_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 371C1048BDDFEF99F01C885C /* Pods_Authenticator_Tests.framework */; };
 		95C1EFC322D5EAA200078A28 /* AboutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */; };
 		95C1EFC522D5ECAE00078A28 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */; };
@@ -301,7 +303,6 @@
 		9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED89022CE18280050ED3C /* AppDelegate.swift */; };
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
 		F846BC102344FEC9005A9781 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */; };
-		F846BC112344FEC9005A9781 /* application.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0F2344FEC9005A9781 /* application.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -322,6 +323,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0430C65C2386E496004C52E5 /* application.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = application.plist; sourceTree = "<group>"; };
+		0497D9262385948B002974C0 /* AVCaptureHelperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureHelperSpec.swift; sourceTree = "<group>"; };
 		1249D71A41FFB9C79FF0AE5E /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		32E639377856FE802C3852B8 /* Pods-Authenticator_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.release.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		371C1048BDDFEF99F01C885C /* Pods_Authenticator_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Authenticator_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -516,7 +519,6 @@
 		C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Authenticator_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D211CB21F21CCFE7A57F9A63 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		F846BC0F2344FEC9005A9781 /* application.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = application.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -652,6 +654,7 @@
 			children = (
 				9D6575FA232A9E8100DCC53E /* DateUtilsSpec.swift */,
 				95CD02DC235864130085C52A /* SEConnectHelperSpec.swift */,
+				0497D9262385948B002974C0 /* AVCaptureHelperSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1145,11 +1148,11 @@
 		9DCED88B22CE18280050ED3C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0430C65C2386E496004C52E5 /* application.plist */,
 				9DCED88D22CE18280050ED3C /* GoogleService-Info.example.plist */,
 				9DCED89022CE18280050ED3C /* AppDelegate.swift */,
 				9DCED89122CE18280050ED3C /* application.example.plist */,
 				9DCED89322CE18280050ED3C /* Info.plist */,
-				F846BC0F2344FEC9005A9781 /* application.plist */,
 				F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */,
 				9DCED89422CE18280050ED3C /* Localization */,
 			);
@@ -1370,7 +1373,7 @@
 				9DCED92D22CE1DC30050ED3C /* LaunchScreen.storyboard in Resources */,
 				9DCED92722CE18280050ED3C /* application.example.plist in Resources */,
 				9DCED93722D3389C0050ED3C /* Assets.xcassets in Resources */,
-				F846BC112344FEC9005A9781 /* application.plist in Resources */,
+				0430C65D2386E496004C52E5 /* application.plist in Resources */,
 				9DCED92322CE18280050ED3C /* GoogleService-Info.example.plist in Resources */,
 				9DCED92A22CE18280050ED3C /* Authenticator.strings in Resources */,
 				F846BC102344FEC9005A9781 /* GoogleService-Info.plist in Resources */,
@@ -1695,6 +1698,7 @@
 				9DE3247222D398ED00EB162A /* SpecCryptoHelper.swift in Sources */,
 				9D4310F522D76625004A7FCF /* AboutDataSource.swift in Sources */,
 				9D66E1B422D4C1F000BD59B6 /* ConnectionDataSourceSpec.swift in Sources */,
+				0497D9272385948B002974C0 /* AVCaptureHelperSpec.swift in Sources */,
 				9DE324B622D39A4700EB162A /* SettingsViewController.swift in Sources */,
 				9DE324A522D39A1300EB162A /* Constants.swift in Sources */,
 				9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */,
