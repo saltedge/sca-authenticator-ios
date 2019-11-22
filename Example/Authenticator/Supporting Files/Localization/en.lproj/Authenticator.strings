@@ -61,6 +61,7 @@
 "in_app.settings.copyright_description" = "Salt Edge Authenticator\n© 2019 Salt Edge Inc.";
 "in_app.settings.app_version" = "App Version";
 "in_app.settings.change_passcode_description" = "Input current Passcode";
+"in_app.settings.support" = "Support";
 "in_app.settings.contact_support" = "Contact Support";
 "in_app.settings.contact_support_failed" = "Could not send message. Please check your Email configuration and try again.";
 "in_app.settings.contact_support_message" = "Thank you for your feedback!";

@@ -96,7 +96,7 @@ DEPENDENCIES:
   - Valet
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - Crashlytics
     - CryptoSwift
     - Fabric

@@ -88,7 +88,9 @@ private extension ConnectionsCoordinator {
         }
 
         let contactSupportAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
-                self?.rootViewController.showSupportMailComposer(withEmail: connection.supportEmail)
+                guard let strongSelf = self else { return }
+
+                strongSelf.rootViewController.showSupportMailComposer(withEmail: connection.supportEmail)
             }
         }
 
@@ -130,6 +132,7 @@ extension ConnectionsCoordinator: ConnectionsViewControllerDelegate {
         case .delete: remove(connection)
         case .edit: rename(connection)
         case .reconnect: reconnect(connection)
+        case .support: rootViewController.showSupportMailComposer(withEmail: connection.supportEmail)
         }
     }
 
