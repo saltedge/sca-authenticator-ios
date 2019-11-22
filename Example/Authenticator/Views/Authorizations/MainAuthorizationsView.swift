@@ -142,6 +142,10 @@ extension MainAuthorizationsView: UICollectionViewDataSource {
 
         headerSwipingView.collectionView.contentOffset.x = (page * headerPlusSpace - 8.0) + (headerPlusSpace * pagePercent)
     }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        AppDelegate.main.authorizationIdFromPush = nil
+    }
 }
 
 // MARK: - UICollectionViewDelegate

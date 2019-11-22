@@ -85,7 +85,6 @@ final class AuthorizationsCoordinator: Coordinator {
                 ),
                 let index = dataSource.index(of: viewModel) {
                     rootViewController.scroll(to: index)
-                    authorizationFromPush = nil
             }
         }
         rootViewController.updateViewsHiddenState()
@@ -106,6 +105,18 @@ final class AuthorizationsCoordinator: Coordinator {
         )
     }
 
+    private func authorize(_ data: SEConfirmAuthorizationData, viewModel: AuthorizationViewModel, index: Int) {
+        AuthorizationsInteractor.confirm(
+            data: data,
+            success: {
+                self.remove(viewModel, at: index)
+            },
+            failure: { _ in
+                self.setupPolling()
+            }
+        )
+    }
+
     private func remove(_ viewModel: AuthorizationViewModel, at index: Int) {
         _ = dataSource.remove(viewModel)
         rootViewController.remove(at: index)
@@ -117,7 +128,7 @@ final class AuthorizationsCoordinator: Coordinator {
 private extension AuthorizationsCoordinator {
     @objc func refresh() {
         AuthorizationsInteractor.refresh(
-            connections: connections,
+            connections: Array(connections),
             success: { [weak self] encryptedAuthorizations in
                 guard let strongSelf = self else { return }
 
@@ -154,15 +165,7 @@ private extension AuthorizationsCoordinator {
                 let data = strongSelf.confirmationData(for: index),
                 let viewModel = strongSelf.dataSource.viewModel(at: index) else { return }
 
-            AuthorizationsInteractor.confirm(
-                data: data,
-                success: {
-                    strongSelf.remove(viewModel, at: index)
-                },
-                failure: { _ in
-                    strongSelf.setupPolling()
-                }
-            )
+            strongSelf.authorize(data, viewModel: viewModel, index: index)
         }
         passcodeCoordinator?.onDismissClosure = { [weak self] in
             self?.setupPolling()
@@ -198,6 +201,17 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
 
         timer?.invalidate()
 
+        guard let data = confirmationData(for: index),
+            let viewModel = dataSource.viewModel(at: index) else { return }
+
+         if (AppDelegate.main.authorizationIdFromPush != nil
+            && viewModel.authorizationId == AppDelegate.main.authorizationIdFromPush) || dataSource.rows == 1 {
+            AppDelegate.main.authorizationIdFromPush = nil
+            cell.setProcessing(with: l10n(.processing))
+            self.authorize(data, viewModel: viewModel, index: index)
+            return
+        }
+
         guard PasscodeManager.isBiometricsEnabled else { self.showAndConfirmWithPasscode(); return }
 
         PasscodeManager.useBiometrics(
@@ -208,18 +222,7 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
 
                 cell.setProcessing(with: l10n(.processing))
 
-                guard let data = strongSelf.confirmationData(for: index),
-                    let viewModel = strongSelf.dataSource.viewModel(at: index) else { return }
-
-                AuthorizationsInteractor.confirm(
-                    data: data,
-                    success: {
-                        strongSelf.remove(viewModel, at: index)
-                    },
-                    failure: { _ in
-                        strongSelf.setupPolling()
-                    }
-                )
+                strongSelf.authorize(data, viewModel: viewModel, index: index)
             },
             onFailure: { _ in
                 self.showAndConfirmWithPasscode()
