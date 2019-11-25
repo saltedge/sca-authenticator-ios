@@ -139,7 +139,7 @@ enum Localizations: String, Localizable {
     // MARK: - Connection Options
     case reconnect = "actions.reconnect"
     case rename = "actions.rename"
-    case support = "in_app.settings.contact_support"
+    case support = "in_app.settings.support"
     case contactSupport = "in_app.settings.contact_support"
     case reportAProblem = "actions.report_problem"
     case reportABug = "actions.report_bug"
