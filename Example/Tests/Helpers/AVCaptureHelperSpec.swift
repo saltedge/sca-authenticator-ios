@@ -24,22 +24,6 @@ import Quick
 import Nimble
 import AVFoundation
 
-private class FakeAVCaptureDevice: AVCaptureDevice {
-    static var status: AVAuthorizationStatus?
-
-    override class func authorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus {
-        return status!
-    }
-
-    override class func requestAccess(for mediaType: AVMediaType, completionHandler handler: @escaping (Bool) -> Void) {
-        handler(status == .authorized)
-    }
-
-    static func setAuthorizationStatus(status: AVAuthorizationStatus) {
-        self.status = status
-    }
-}
-
 class AVCaptureHelperSpec: BaseSpec {
     override func spec() {
         describe("requestAccess") {
@@ -111,5 +95,21 @@ class AVCaptureHelperSpec: BaseSpec {
                 }
             }
         }
+    }
+}
+
+private class FakeAVCaptureDevice: AVCaptureDevice {
+    static var status: AVAuthorizationStatus!
+
+    override class func authorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus {
+        return status
+    }
+
+    override class func requestAccess(for mediaType: AVMediaType, completionHandler handler: @escaping (Bool) -> Void) {
+        handler(status == .authorized)
+    }
+
+    static func setAuthorizationStatus(status: AVAuthorizationStatus) {
+        self.status = status
     }
 }
