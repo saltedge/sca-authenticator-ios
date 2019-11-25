@@ -24,12 +24,14 @@ import Foundation
 import AVFoundation
 
 struct AVCaptureHelper {
-    static var cameraIsAuthorized: Bool {
-        return AVCaptureDevice.authorizationStatus(for: .video) == AVAuthorizationStatus.authorized
+    static func cameraIsAuthorized(for device: AVCaptureDevice.Type = AVCaptureDevice.self) -> Bool {
+        return device.authorizationStatus(for: .video) == AVAuthorizationStatus.authorized
     }
 
-    static func requestAccess(success: @escaping (() -> ()), failure: @escaping (() -> ())) {
-        AVCaptureDevice.requestAccess(for: .video) { response in
+    static func requestAccess(device: AVCaptureDevice.Type = AVCaptureDevice.self,
+                              success: @escaping (() -> ()),
+                              failure: @escaping (() -> ())) {
+        device.requestAccess(for: .video) { response in
             if response {
                 DispatchQueue.main.async { success() }
             } else {

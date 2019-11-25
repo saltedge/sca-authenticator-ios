@@ -99,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication,
                      performActionFor shortcutItem: UIApplicationShortcutItem,
                      completionHandler: @escaping (Bool) -> Void) {
-        if AVCaptureHelper.cameraIsAuthorized, shortcutItem.type == QuickActionsType.openCamera.rawValue {
+        if AVCaptureHelper.cameraIsAuthorized(), shortcutItem.type == QuickActionsType.openCamera.rawValue {
             applicationCoordinator?.openConnectViewController(connectionType: .connect)
             completionHandler(true)
         }
