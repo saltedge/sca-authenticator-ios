@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479C5512387F8C300F3FE0A /* AVCaptureHelperSpec.swift */; };
 		8E664D44698ED18B94EA30DD /* Pods_Authenticator_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 371C1048BDDFEF99F01C885C /* Pods_Authenticator_Tests.framework */; };
 		95C1EFC322D5EAA200078A28 /* AboutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */; };
 		95C1EFC522D5ECAE00078A28 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */; };
@@ -322,6 +323,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0479C5512387F8C300F3FE0A /* AVCaptureHelperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureHelperSpec.swift; sourceTree = "<group>"; };
 		1249D71A41FFB9C79FF0AE5E /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		32E639377856FE802C3852B8 /* Pods-Authenticator_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.release.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		371C1048BDDFEF99F01C885C /* Pods_Authenticator_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Authenticator_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -652,6 +654,7 @@
 			children = (
 				9D6575FA232A9E8100DCC53E /* DateUtilsSpec.swift */,
 				95CD02DC235864130085C52A /* SEConnectHelperSpec.swift */,
+				0479C5512387F8C300F3FE0A /* AVCaptureHelperSpec.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1792,6 +1795,7 @@
 				9DE324BD22D39A5D00EB162A /* ConnectorWebViewController.swift in Sources */,
 				9DE324A822D39A1B00EB162A /* KeychainHelper.swift in Sources */,
 				9DE324BC22D39A5B00EB162A /* WKWebViewController.swift in Sources */,
+				0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */,
 				9DE3246622D3986B00EB162A /* CreateConnectionResponseSpec.swift in Sources */,
 				9DE324A622D39A1600EB162A /* LocalizationHelper.swift in Sources */,
 				9DE324D922D39AB900EB162A /* CustomButton.swift in Sources */,
