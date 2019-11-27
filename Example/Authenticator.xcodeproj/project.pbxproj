@@ -53,8 +53,6 @@
 		9D772130231E51200015BAC6 /* AuthorizationsCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */; };
 		9D772132231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */; };
 		9D772133231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */; };
-		9D772135231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */; };
-		9D772136231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */; };
 		9D77213823264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */; };
 		9D77213923264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */; };
 		9D940958235DDB900080EBB5 /* AboutDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D940957235DDB8F0080EBB5 /* AboutDataSourceSpec.swift */; };
@@ -303,6 +301,8 @@
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
 		F846BC102344FEC9005A9781 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */; };
 		F846BC112344FEC9005A9781 /* application.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0F2344FEC9005A9781 /* application.plist */; };
+		F8639CF4234F78720053E120 /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8954B6C23474102008E9C3C /* AuthorizationStateView.swift */; };
+		F8954B6D23474102008E9C3C /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8954B6C23474102008E9C3C /* AuthorizationStateView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -365,7 +365,6 @@
 		9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsHeadersSwipingView.swift; sourceTree = "<group>"; };
 		9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsCollectionLayout.swift; sourceTree = "<group>"; };
 		9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationCollectionViewCell.swift; sourceTree = "<group>"; };
-		9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingAuthorizationsCollectionView.swift; sourceTree = "<group>"; };
 		9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAuthorizationsView.swift; sourceTree = "<group>"; };
 		9D940957235DDB8F0080EBB5 /* AboutDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutDataSourceSpec.swift; sourceTree = "<group>"; };
 		9D94095923618CF00080EBB5 /* CacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHelper.swift; sourceTree = "<group>"; };
@@ -519,6 +518,7 @@
 		D211CB21F21CCFE7A57F9A63 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F846BC0F2344FEC9005A9781 /* application.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = application.plist; sourceTree = "<group>"; };
+		F8954B6C23474102008E9C3C /* AuthorizationStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthorizationStateView.swift; path = Authenticator/Views/Components/AuthorizationStateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -551,6 +551,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				F8954B6C23474102008E9C3C /* AuthorizationStateView.swift */,
 				9DD8158A22DF746300B93BA8 /* Authenticator_Example.entitlements */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for SaltedgeAuthenticatorSDK */,
@@ -771,7 +772,6 @@
 			children = (
 				9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */,
 				9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */,
-				9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */,
 			);
 			path = Authorizations;
 			sourceTree = "<group>";
@@ -1600,7 +1600,6 @@
 				9DCED8EC22CE18280050ED3C /* BiometricsHelper.swift in Sources */,
 				9DCED90522CE18280050ED3C /* PasscodeView.swift in Sources */,
 				9DCED91422CE18280050ED3C /* SetupAppCoordinator.swift in Sources */,
-				9D772135231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */,
 				9DCED90922CE18280050ED3C /* LanguageCoordinator.swift in Sources */,
 				9DCED8C822CE18280050ED3C /* ImageExtensions.swift in Sources */,
 				9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */,
@@ -1675,6 +1674,7 @@
 				9DCED8A022CE18280050ED3C /* EditConnectionViewController.swift in Sources */,
 				9DCED8CA22CE18280050ED3C /* ViewControllerExtensions.swift in Sources */,
 				9DCED90722CE18280050ED3C /* LoadingIndicator.swift in Sources */,
+				F8954B6D23474102008E9C3C /* AuthorizationStateView.swift in Sources */,
 				9DCED8CF22CE18280050ED3C /* ColorExtensions.swift in Sources */,
 				9DCED8F522CE18280050ED3C /* CustomSpacingLabel.swift in Sources */,
 			);
@@ -1721,6 +1721,7 @@
 				9DE3249422D399E000EB162A /* ViewExtensions+Utilitarian.swift in Sources */,
 				9DE3249222D399DB00EB162A /* BordersExtensions.swift in Sources */,
 				9DE3248022D3999200EB162A /* ConnectViewCoordinator.swift in Sources */,
+				F8639CF4234F78720053E120 /* AuthorizationStateView.swift in Sources */,
 				9DE324C422D39A7300EB162A /* SetupAppViewController.swift in Sources */,
 				9D66E1AC22D4C1CC00BD59B6 /* ApiErrorsSpec.swift in Sources */,
 				9DE3249122D399D500EB162A /* AuthorizationsPresenter.swift in Sources */,
@@ -1744,7 +1745,6 @@
 				9DE324CE22D39A9800EB162A /* CustomSpacingLabel.swift in Sources */,
 				9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9DE3247F22D3998F00EB162A /* LanguageCoordinator.swift in Sources */,
-				9D772136231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */,
 				9DE324AC22D39A2500EB162A /* AppearanceHelper.swift in Sources */,
 				9DE3247822D3997900EB162A /* OnboardingCoordinator.swift in Sources */,
 				9D66E1AA22D4C1C600BD59B6 /* SetupStepSpec.swift in Sources */,

@@ -32,10 +32,12 @@ struct AuthorizationViewModel: Equatable {
     var lifetime: Int = 0
     var authorizationExpiresAt: Date = Date()
     var createdAt: Date = Date()
+    var expired: Bool {
+        authorizationExpiresAt < Date()
+    }
+    var state: AuthorizationStateView.AuthorizationState
 
     init?(_ data: SEDecryptedAuthorizationData) {
-        guard data.expiresAt > Date() else { return nil }
-
         self.authorizationId = data.id
         self.connectionId = data.connectionId
         self.authorizationCode = data.authorizationCode
@@ -44,6 +46,7 @@ struct AuthorizationViewModel: Equatable {
         self.authorizationExpiresAt = data.expiresAt
         self.lifetime = Int(data.expiresAt.timeIntervalSince(data.createdAt))
         self.createdAt = data.createdAt
+        self.state = data.expiresAt < Date() ? .timeOut : .none
     }
 
     static func == (lhs: AuthorizationViewModel, rhs: AuthorizationViewModel) -> Bool {
@@ -52,5 +55,21 @@ struct AuthorizationViewModel: Equatable {
             lhs.title == rhs.title &&
             lhs.description == rhs.description &&
             lhs.createdAt == rhs.createdAt
+    }
+}
+
+extension Array where Element == AuthorizationViewModel {
+    func merge(array: [Element]) -> [AuthorizationViewModel] {
+        let expiredElements: [Element] = array.compactMap { element in
+            if element.expired || element.state != .none {
+                return element
+            } else {
+                return nil
+            }
+        }
+
+        var merged: [Element] = self
+        merged.append(contentsOf: expiredElements)
+        return merged
     }
 }
