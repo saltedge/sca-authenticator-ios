@@ -81,30 +81,22 @@ private extension ConnectionsCoordinator {
         let actionSheet = CustomActionSheetViewController()
 
         let reconnectAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
-                guard let strongSelf = self else { return }
-
-                strongSelf.reconnect(connection)
+                self?.reconnect(connection)
             }
         }
 
         let contactSupportAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
-                guard let strongSelf = self else { return }
-
-                strongSelf.rootViewController.showSupportMailComposer(withEmail: connection.supportEmail)
+                self?.rootViewController.showSupportMailComposer(withEmail: connection.supportEmail)
             }
         }
 
         let renameAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
-                guard let strongSelf = self else { return }
-
-                strongSelf.rename(connection)
+                self?.rename(connection)
             }
         }
 
         let deleteAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
-                guard let strongSelf = self else { return }
-
-                strongSelf.remove(connection)
+                self?.remove(connection)
             }
         }
 
