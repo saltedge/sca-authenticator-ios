@@ -32,7 +32,7 @@ protocol FeaturesViewDelegate: class {
 
 final class OnboardingFeaturesView: UIView {
     weak var delegate: FeaturesViewDelegate?
-    
+
     private var collectionView: UICollectionView!
     private var pageControl = UIPageControl()
 

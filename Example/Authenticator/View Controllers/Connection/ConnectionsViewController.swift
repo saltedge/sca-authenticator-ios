@@ -27,6 +27,7 @@ enum ConnectionAction {
     case delete
     case edit
     case reconnect
+    case support
 }
 
 protocol ConnectionsViewControllerDelegate: class {
@@ -161,8 +162,11 @@ extension ConnectionsViewController: UITableViewDelegate {
 
         delegate?.selected(connection, action: nil)
     }
+}
 
-    @available(iOS 11.0, *)
+// MARK: UISwipeActionsConfiguration
+@available(iOS 11.0, *)
+extension ConnectionsViewController {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard let connection = dataSource.item(for: indexPath) else { return nil }
@@ -188,8 +192,19 @@ extension ConnectionsViewController: UITableViewDelegate {
             actions.insert(reconnect, at: 1)
         }
 
-        let swipeActionConfig = UISwipeActionsConfiguration(actions: actions)
-        return swipeActionConfig
+        return UISwipeActionsConfiguration(actions: actions)
+    }
+
+    func tableView(_ tableView: UITableView,
+                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let connection = dataSource.item(for: indexPath) else { return nil }
+
+        let support = UIContextualAction(style: .normal, title: l10n(.support)) { _, _, completionHandler in
+            self.delegate?.selected(connection, action: .support)
+            completionHandler(true)
+        }
+
+        return UISwipeActionsConfiguration(actions: [support])
     }
 }
 
