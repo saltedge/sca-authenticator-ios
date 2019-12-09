@@ -37,8 +37,8 @@ private struct Layout {
 }
 
 protocol AuthorizationCellDelegate: class {
-    func confirmPressed(_ cell: AuthorizationCollectionViewCell)
-    func denyPressed(_ cell: AuthorizationCollectionViewCell)
+    func confirmPressed(_ authorizationId: String)
+    func denyPressed(_ authorizationId: String)
 }
 
 final class AuthorizationCollectionViewCell: UICollectionViewCell {
@@ -80,29 +80,27 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         layout()
     }
 
-    func set(with viewModel: AuthorizationViewModel, success: Bool = false) {
+    func set(with viewModel: AuthorizationViewModel) {
         self.viewModel = viewModel
 
-        if success {
-            stateView.set(state: .success)
-        } else if viewModel.expired {
+        if viewModel.expired && viewModel.state != .timeOut {
             stateView.set(state: .timeOut)
         } else {
-            stateView.set(state: .none)
-        }
+            stateView.set(state: viewModel.state)
 
-        stopProcessingIfNeeded()
+            stopProcessingIfNeeded()
 
-        titleLabel.text = viewModel.title
+            titleLabel.text = viewModel.title
 
-        if viewModel.description.htmlToAttributedString != nil {
-            contentStackView.removeArrangedSubview(descriptionTextView)
-            webView.loadHTMLString(viewModel.description, baseURL: nil)
-            contentStackView.addArrangedSubview(webView)
-        } else {
-            contentStackView.removeArrangedSubview(webView)
-            descriptionTextView.text = viewModel.description
-            contentStackView.addArrangedSubview(descriptionTextView)
+            if viewModel.description.htmlToAttributedString != nil {
+                contentStackView.removeArrangedSubview(descriptionTextView)
+                webView.loadHTMLString(viewModel.description, baseURL: nil)
+                contentStackView.addArrangedSubview(webView)
+            } else {
+                contentStackView.removeArrangedSubview(webView)
+                descriptionTextView.text = viewModel.description
+                contentStackView.addArrangedSubview(descriptionTextView)
+            }
         }
     }
 
@@ -138,7 +136,6 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
             // NOTE: Add start loading indicator in the status view
             loadingIndicator.stop()
             isProcessing = false
-            viewModel.state = .success
         }
     }
 
@@ -172,17 +169,16 @@ private extension AuthorizationCollectionViewCell {
 // MARK: - Actions
 private extension AuthorizationCollectionViewCell {
     @objc func denyButtonPressed(_ sender: CustomButton) {
-        setProcessing(with: l10n(.processing))
-        stateView.set(state: .denied)
+//        setProcessing(with: l10n(.processing))
+//        stateView.set(state: .denied)
         // NOTE: Move logit to working with authorization id
-        delegate?.denyPressed(self)
-        viewModel.state = .denied
+        delegate?.denyPressed(viewModel.authorizationId)
     }
 
     @objc func confirmButtonPressed(_ sender: CustomButton) {
-        stateView.set(state: .active)
         // NOTE: Move logit to working with authorization id
-        delegate?.confirmPressed(self)
+//        stateView.set(state: .active)
+        delegate?.confirmPressed(viewModel.authorizationId)
     }
 }
 

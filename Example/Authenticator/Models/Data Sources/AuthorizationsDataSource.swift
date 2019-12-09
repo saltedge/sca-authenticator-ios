@@ -28,15 +28,15 @@ final class AuthorizationsDataSource {
     private var viewModels = [AuthorizationViewModel]()
 
     func update(with authorizationResponses: [SEDecryptedAuthorizationData]) -> Bool {
-        clearAuthorizations()
         if authorizationResponses != self.authorizationResponses {
             self.authorizationResponses = authorizationResponses
             self.viewModels = authorizationResponses.compactMap { response in
                 return AuthorizationViewModel(response)
-            }.sorted(by: { $0.createdAt < $1.createdAt }).merge(array: self.viewModels)
+            }.merge(array: self.viewModels).sorted(by: { $0.createdAt < $1.createdAt })
             return true
         }
-        return false
+
+        return clearAuthorizations()
     }
 
     var sections: Int {
@@ -75,19 +75,31 @@ final class AuthorizationsDataSource {
         return viewModels.firstIndex(of: viewModel)
     }
 
-    func clearAuthorizations() {
-        viewModels = viewModels.compactMap { viewModel in
-            if viewModel.expired  || viewModel.state != .none {
-                if Date().timeIntervalSince1970 - viewModel.authorizationExpiresAt.timeIntervalSince1970 >= 3 {
-                    return nil
-                }
+    func viewModel(with authorizationId: String) -> AuthorizationViewModel? {
+        return viewModels.filter({ $0.authorizationId == authorizationId }).first
+    }
+
+    func clearAuthorizations() -> Bool {
+        let viewModels: [AuthorizationViewModel] = self.viewModels.compactMap { viewModel in
+            if viewModel.state != .none,
+                let actionTime = viewModel.actionTime, Date().timeIntervalSince1970 - actionTime.timeIntervalSince1970 >= 3 {
+                return nil
+            }
+            if viewModel.expired, Date().timeIntervalSince1970 - viewModel.authorizationExpiresAt.timeIntervalSince1970 >= 3 {
+                return nil
             }
             return viewModel
         }
+        // Ugly code
+        if viewModels != self.viewModels {
+            self.viewModels = viewModels
+            return true
+        }
+        return false
     }
 
-    func confirmationData(for index: Int) -> SEConfirmAuthorizationData? {
-        guard let viewModel = viewModel(at: index),
+    func confirmationData(for authorizationId: String) -> SEConfirmAuthorizationData? {
+        guard let viewModel = viewModel(with: authorizationId),
             let connection = ConnectionsCollector.with(id: viewModel.connectionId),
             let url = connection.baseUrl else { return nil }
 

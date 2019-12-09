@@ -23,7 +23,7 @@
 import Foundation
 import SEAuthenticator
 
-struct AuthorizationViewModel: Equatable {
+class AuthorizationViewModel: Equatable {
     var title: String = ""
     var authorizationId: String
     var connectionId: String
@@ -32,6 +32,7 @@ struct AuthorizationViewModel: Equatable {
     var lifetime: Int = 0
     var authorizationExpiresAt: Date = Date()
     var createdAt: Date = Date()
+    var actionTime: Date?
     var expired: Bool {
         authorizationExpiresAt < Date()
     }

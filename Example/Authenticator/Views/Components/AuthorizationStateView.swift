@@ -29,8 +29,8 @@ final class AuthorizationStateView: UIView {
     private var accessoryView: UIView?
 
     enum AuthorizationState: String {
-        case none
-        case active
+        case none // default
+        case active // confirm
         case success
         case timeOut
         case denied
@@ -75,15 +75,12 @@ final class AuthorizationStateView: UIView {
         set(state: state)
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     func set(state: AuthorizationState) {
         UIView.animate(withDuration: 0.2) {
             if state == .none {
                 self.alpha = 0.0
             } else {
+                print("called 1")
                 self.alpha = 1.0
             }
         }
@@ -98,39 +95,42 @@ final class AuthorizationStateView: UIView {
 
         accessoryView?.removeFromSuperview()
         accessoryView = state.topAccessoryView
-        topView.addSubviews(accessoryView!)
-        accessoryView!.centerInSuperview()
-        accessoryView!.size(AppLayout.loadingIndicatorSize)
+        if let accessoryView = self.accessoryView {
+            topView.addSubview(accessoryView)
+            accessoryView.centerInSuperview()
+            accessoryView.size(AppLayout.loadingIndicatorSize)
+        }
         if state == .active, let loadingIndicator = accessoryView as? LoadingIndicator {
             loadingIndicator.start()
         }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: Layout
 extension AuthorizationStateView: Layoutable {
-  func layout() {
-    let blurEffect = UIBlurEffect(style: .light)
-    let blurEffectView = UIVisualEffectView(effect: blurEffect)
+    func layout() {
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
 
-    addSubviews([blurEffectView, messageLabel, titleLabel, topView])
+        addSubviews([blurEffectView, messageLabel, titleLabel, topView])
 
-    messageLabel.centerYToSuperview()
-    messageLabel.leftToSuperview()
-    messageLabel.rightToSuperview()
+        messageLabel.centerYToSuperview()
+        messageLabel.leftToSuperview()
+        messageLabel.rightToSuperview()
 
-    titleLabel.leftToSuperview()
-    titleLabel.rightToSuperview()
-    titleLabel.bottomToTop(of: messageLabel, offset: -32)
+        titleLabel.leftToSuperview()
+        titleLabel.rightToSuperview()
+        titleLabel.bottomToTop(of: messageLabel, offset: -32)
 
-    topView.centerXToSuperview()
-    topView.bottomToTop(of: titleLabel, offset: -32)
-    topView.size(AppLayout.loadingIndicatorSize)
+        topView.centerXToSuperview()
+        topView.bottomToTop(of: titleLabel, offset: -32)
+        topView.size(AppLayout.loadingIndicatorSize)
 
-    blurEffectView.leftToSuperview()
-    blurEffectView.widthToSuperview()
-    blurEffectView.topToSuperview()
-    blurEffectView.bottomToSuperview()
-    blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-  }
+        blurEffectView.edgesToSuperview()
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+    }
 }

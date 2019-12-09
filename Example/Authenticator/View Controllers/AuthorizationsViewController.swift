@@ -35,6 +35,8 @@ final class AuthorizationsViewController: BaseViewController {
 
     var dataSource: AuthorizationsDataSource?
 
+    var passcodeCoordinator: PasscodeCoordinator?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.authorizations)
@@ -106,26 +108,42 @@ extension AuthorizationsViewController {
 }
 
 // MARK: - Actions
-extension AuthorizationsViewController {
+private extension AuthorizationsViewController {
     func delete(section: Int) {
         updateViewsHiddenState()
     }
 
-    func presentPasscodeView() {
-        let passcodeCoordinator = PasscodeCoordinator(
+    func confirmAuthorization(by authorizationId: String) {
+        guard let data = dataSource?.confirmationData(for: authorizationId),
+            let viewModel = dataSource?.viewModel(with: authorizationId) else { return }
+
+        viewModel.state = .active
+        authorizationsView.reloadData()// (for: viewModel)
+
+        AuthorizationsInteractor.confirm(
+            data: data,
+            success: {
+                viewModel.state = .success
+                viewModel.actionTime = Date()
+                self.authorizationsView.reloadData()
+            },
+            failure: { _ in
+                viewModel.state = .undefined
+                self.authorizationsView.reloadData()
+            }
+        )
+    }
+
+    func presentPasscodeView(_ authorizationId: String) {
+        passcodeCoordinator = PasscodeCoordinator(
             rootViewController: self,
             purpose: .enter,
             type: .authorize
         )
-        passcodeCoordinator.onCompleteClosure = { [weak self] in
-            //self?.selectedCell?.setProcessing(with: l10n(.processing))
-
-            guard let index = self?.authorizationsView.focusIndexPath,
-                let data = self?.dataSource?.confirmationData(for: index.row) else { return }
-
-            AuthorizationsInteractor.confirm(data: data)
+        passcodeCoordinator?.onCompleteClosure = { [weak self] in
+            self?.confirmAuthorization(by: authorizationId)
         }
-        passcodeCoordinator.start()
+        passcodeCoordinator?.start()
     }
 }
 
@@ -144,37 +162,39 @@ extension AuthorizationsViewController: Layoutable {
 
 // MARK: - Network
 extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
-    func denyPressed(at index: Int) {
-        guard let data = dataSource?.confirmationData(for: index) else { return }
+    func denyPressed(authorizationId: String) {
+        guard let data = dataSource?.confirmationData(for: authorizationId),
+            let viewModel = dataSource?.viewModel(with: authorizationId) else { return }
 
-        AuthorizationsInteractor.deny(data: data)
+        viewModel.state = .active
+        authorizationsView.reloadData()
+
+        AuthorizationsInteractor.deny(
+            data: data,
+            success: {
+                viewModel.state = .denied
+                viewModel.actionTime = Date()
+                self.authorizationsView.reloadData()
+            },
+            failure: { _ in
+                viewModel.state = .undefined
+                self.authorizationsView.reloadData()
+            }
+        )
     }
 
-    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
-       guard PasscodeManager.isBiometricsEnabled else { self.presentPasscodeView(); return }
+    func confirmPressed(authorizationId: String) {
+        guard PasscodeManager.isBiometricsEnabled else { self.presentPasscodeView(authorizationId); return }
 
-       PasscodeManager.useBiometrics(
-           type: .authorize,
-           reasonString: l10n(.confirmAuthorization),
-           onSuccess: { [weak self] in
-               cell.setProcessing(with: l10n(.processing))
-
-               guard let data = self?.dataSource?.confirmationData(for: index),
-                   let viewModel = self?.dataSource?.viewModel(at: index) else { return }
-
-               AuthorizationsInteractor.confirm(
-                   data: data,
-                   success: {
-                       cell.set(with: viewModel, success: true)
-                   },
-                   failure: { _ in
-                       //strongSelf.setupPolling()
-                   }
-               )
+        PasscodeManager.useBiometrics(
+            type: .authorize,
+            reasonString: l10n(.confirmAuthorization),
+            onSuccess: { [weak self] in
+                self?.confirmAuthorization(by: authorizationId)
            },
            onFailure: { _ in
-               self.presentPasscodeView()
+               self.presentPasscodeView(authorizationId)
            }
        )
-   }
+    }
 }

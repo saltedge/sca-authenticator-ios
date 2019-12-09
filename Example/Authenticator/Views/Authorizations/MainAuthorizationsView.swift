@@ -29,8 +29,8 @@ private struct Layout {
 }
 
 protocol MainAuthorizationsViewDelegate: class {
-    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell)
-    func denyPressed(at index: Int)
+    func confirmPressed(authorizationId: String)
+    func denyPressed(authorizationId: String)
 }
 
 final class MainAuthorizationsView: UIView {
@@ -60,6 +60,13 @@ final class MainAuthorizationsView: UIView {
     func reloadData() {
         headerSwipingView.collectionView.reloadData()
         authorizationCollectionView.reloadData()
+    }
+
+    func reloadData(for viewModel: AuthorizationViewModel) {
+        guard let dataSource = self.dataSource, let index = dataSource.index(of: viewModel) else { return }
+
+        headerSwipingView.collectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
+        authorizationCollectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
     }
 
     func scroll(to index: Int) {
@@ -215,26 +222,26 @@ extension MainAuthorizationsView: Layoutable {
 
 // MARK: - AuthorizationCellDelegate
 extension MainAuthorizationsView: AuthorizationCellDelegate {
-    func confirmPressed(_ cell: AuthorizationCollectionViewCell) {
-        guard let indexPath = authorizationCollectionView.indexPath(for: cell) else { return }
+    func confirmPressed(_ authorizationId: String) {
+//        guard let indexPath = authorizationCollectionView.indexPath(for: cell) else { return }
 
-        delegate?.confirmPressed(at: indexPath.row, cell: cell)
+        delegate?.confirmPressed(authorizationId: authorizationId)
     }
 
-    func denyPressed(_ cell: AuthorizationCollectionViewCell) {
-        guard let indexPath = authorizationCollectionView.indexPath(for: cell) else { return }
+    func denyPressed(_ authorizationId: String) {
+//        guard let indexPath = authorizationCollectionView.indexPath(for: cell) else { return }
 
-        delegate?.denyPressed(at: indexPath.row)
+        delegate?.denyPressed(authorizationId: authorizationId)
     }
 }
 
 // MARK: - AuthorizationHeaderCollectionViewCellDelegates
 extension MainAuthorizationsView: AuthorizationHeaderCollectionViewCellDelegate {
     func timerExpired(_ cell: AuthorizationHeaderCollectionViewCell) {
-        guard let indexPath = headerSwipingView.collectionView.indexPath(for: cell),
-            let viewModel = dataSource?.viewModel(at: indexPath.row) else { return }
+        guard let indexPath = headerSwipingView.collectionView.indexPath(for: cell) else { return }
+        print("expired")
 
-        _ = dataSource?.remove(viewModel)
-        remove(at: indexPath.row)
+        headerSwipingView.collectionView.reloadItems(at: [indexPath])
+        authorizationCollectionView.reloadItems(at: [indexPath])
     }
 }
