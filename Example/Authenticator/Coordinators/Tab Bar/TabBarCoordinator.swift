@@ -25,9 +25,9 @@ import UIKit
 final class TabBarCoordinator: Coordinator {
     let rootViewController = MainTabBarViewController()
 
-    private let authorizationsCoordinator: AuthorizationsCoordinator
-    private let connectionsCoordinator: ConnectionsCoordinator
-    private let settingsCoordinator: SettingsCoordinator
+    private let authorizationsCoordinator = AuthorizationsCoordinator()
+    private let connectionsCoordinator = ConnectionsCoordinator()
+    private let settingsCoordinator = SettingsCoordinator()
     private let noActiveConnections = ConnectionsCollector.activeConnections.isEmpty
 
     var coordinators: [Coordinator] {
@@ -35,9 +35,9 @@ final class TabBarCoordinator: Coordinator {
     }
 
     init() {
-        authorizationsCoordinator = AuthorizationsCoordinator()
-        connectionsCoordinator = ConnectionsCoordinator()
-        settingsCoordinator = SettingsCoordinator()
+//        authorizationsCoordinator = AuthorizationsCoordinator()
+//        connectionsCoordinator = ConnectionsCoordinator()
+//        settingsCoordinator = SettingsCoordinator()
 
         let authNavController = UINavigationController(rootViewController: authorizationsCoordinator.rootViewController)
         authNavController.tabBarItem = TabBarDataSource.tabBarItem(for: .authorizations)

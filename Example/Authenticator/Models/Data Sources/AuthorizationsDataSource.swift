@@ -85,7 +85,7 @@ final class AuthorizationsDataSource {
                 let actionTime = viewModel.actionTime, Date().timeIntervalSince1970 - actionTime.timeIntervalSince1970 >= 3 {
                 return nil
             }
-            if viewModel.expired, Date().timeIntervalSince1970 - viewModel.authorizationExpiresAt.timeIntervalSince1970 >= 3 {
+            if viewModel.expired, Date().timeIntervalSince1970 - viewModel.authorizationExpiresAt.timeIntervalSince1970 >= 6 {
                 return nil
             }
             return viewModel

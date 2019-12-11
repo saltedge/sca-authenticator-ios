@@ -118,18 +118,18 @@ private extension AuthorizationsViewController {
             let viewModel = dataSource?.viewModel(with: authorizationId) else { return }
 
         viewModel.state = .active
-        authorizationsView.reloadData()// (for: viewModel)
+        authorizationsView.reloadData(for: viewModel)
 
         AuthorizationsInteractor.confirm(
             data: data,
-            success: {
+            success: { [weak self] in
                 viewModel.state = .success
                 viewModel.actionTime = Date()
-                self.authorizationsView.reloadData()
+                self?.authorizationsView.reloadData(for: viewModel)
             },
-            failure: { _ in
+            failure: { [weak self] _ in
                 viewModel.state = .undefined
-                self.authorizationsView.reloadData()
+                self?.authorizationsView.reloadData(for: viewModel)
             }
         )
     }
@@ -167,18 +167,18 @@ extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
             let viewModel = dataSource?.viewModel(with: authorizationId) else { return }
 
         viewModel.state = .active
-        authorizationsView.reloadData()
+        authorizationsView.reloadData(for: viewModel)
 
         AuthorizationsInteractor.deny(
             data: data,
             success: {
                 viewModel.state = .denied
                 viewModel.actionTime = Date()
-                self.authorizationsView.reloadData()
+                self.authorizationsView.reloadData(for: viewModel)
             },
             failure: { _ in
                 viewModel.state = .undefined
-                self.authorizationsView.reloadData()
+                self.authorizationsView.reloadData(for: viewModel)
             }
         )
     }

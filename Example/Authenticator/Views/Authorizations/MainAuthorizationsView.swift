@@ -43,18 +43,21 @@ final class MainAuthorizationsView: UIView {
     }()
     private var currentScrollableScrollView: UIScrollView?
 
+    private var timer: Timer?
+
     var dataSource: AuthorizationsDataSource?
 
     weak var delegate: MainAuthorizationsViewDelegate?
-
-    var focusIndexPath: IndexPath? {
-        self.authorizationCollectionView.indexPathsForVisibleItems.first
-    }
 
     init() {
         super.init(frame: .zero)
         setupSwipingViews()
         layout()
+        setTimer()
+    }
+
+    deinit {
+        stopTimer()
     }
 
     func reloadData() {
@@ -90,6 +93,39 @@ final class MainAuthorizationsView: UIView {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - Helpers
+private extension MainAuthorizationsView {
+    func setTimer() {
+        if timer == nil {
+            let timer = Timer(timeInterval: 1.0,
+              target: self,
+              selector: #selector(updateTimer),
+              userInfo: nil,
+              repeats: true
+            )
+            RunLoop.current.add(timer, forMode: .common)
+
+            self.timer = timer
+        }
+    }
+
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+
+    @objc func updateTimer() {
+        let visibleCellsIndexPaths = headerSwipingView.collectionView.indexPathsForVisibleItems
+
+        for indexPath in visibleCellsIndexPaths {
+            if let item = dataSource?.viewModel(at: indexPath.row), !item.expired, item.state == .none,
+                let cell = headerSwipingView.collectionView.cellForItem(at: indexPath) as? AuthorizationHeaderCollectionViewCell {
+                cell.updateTime(item)
+            }
+        }
     }
 }
 
@@ -223,14 +259,10 @@ extension MainAuthorizationsView: Layoutable {
 // MARK: - AuthorizationCellDelegate
 extension MainAuthorizationsView: AuthorizationCellDelegate {
     func confirmPressed(_ authorizationId: String) {
-//        guard let indexPath = authorizationCollectionView.indexPath(for: cell) else { return }
-
         delegate?.confirmPressed(authorizationId: authorizationId)
     }
 
     func denyPressed(_ authorizationId: String) {
-//        guard let indexPath = authorizationCollectionView.indexPath(for: cell) else { return }
-
         delegate?.denyPressed(authorizationId: authorizationId)
     }
 }

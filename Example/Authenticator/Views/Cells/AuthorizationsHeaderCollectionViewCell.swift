@@ -46,31 +46,16 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
     private let timeLeftLabel = TimeLeftLabel()
     private let progressView = CountdownProgressView()
 
-    private var timer: Timer?
-    private var secondsLeft: Int = 0
-    private var lifetime: Int = 0
-
-//    private var
-
     weak var delegate: AuthorizationHeaderCollectionViewCellDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .white
         setupShadowAndCornerRadius()
-//        timer = Timer(timeInterval: 1.0, target: self, selector: #selector(countDownTime), userInfo: nil, repeats: true)
-//        setTimer()
         layout()
     }
 
-    deinit {
-        timer?.invalidate()
-    }
-
     func configure(_ item: AuthorizationViewModel, at indexPath: IndexPath) {
-        secondsLeft = diffInSecondsFromNow(for: item.authorizationExpiresAt)
-        lifetime = item.lifetime
-
         connectionImageView.contentMode = .scaleAspectFit
         connectionImageView.image = #imageLiteral(resourceName: "bankPlaceholderCyanSmall")
 
@@ -78,24 +63,15 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
             setImage(from: connection.logoUrl)
             connectionNameLabel.text = connection.name
         }
-        print("configuring")
-        updateCountdown(secondsLeft)
-        if !item.expired && item.state != .timeOut {
-            print("VIZVALSEA SET TIMERA")
-            setTimer()
-        }
-//        if let timer = self.timer, timer == nil, !timer.isValid {
-//            print("-------")
-//            print("ON ZASETLSA")
-//            setTimer()
-////            updateCountdown(secondsLeft)
-//        }
+        updateTime(item)
     }
 
-//    func stopTimer() {
-////        timer?.invalidate()
-////        timer = nil
-////    }
+    func updateTime(_ item: AuthorizationViewModel) {
+        let secondsLeft = diffInSecondsFromNow(for: item.authorizationExpiresAt)
+
+        progressView.update(secondsLeft: secondsLeft, lifetime: item.lifetime)
+        timeLeftLabel.update(secondsLeft: secondsLeft)
+    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -117,43 +93,6 @@ private extension AuthorizationHeaderCollectionViewCell {
         guard let url = imageUrl else { return }
 
         CacheHelper.setAnimatedCachedImage(from: url, for: connectionImageView)
-    }
-
-    func setTimer() {
-//        if timer != nil {
-//            timer.invalidate()
-//            timer = nil
-//        } else {
-//            timer = Timer(timeInterval: 1.0, target: self, selector: #selector(countDownTime), userInfo: nil, repeats: true)
-
-//        if !timer?.isValid {
-        if timer == nil {
-            timer = Timer(timeInterval: 1.0, target: self, selector: #selector(countDownTime), userInfo: nil, repeats: true)
-
-            guard let timer = self.timer else { return }
-
-            RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
-        }
-//        }
-//        }
-    }
-
-    func updateCountdown(_ timeLeft: Int) {
-//        setTimer()
-        progressView.update(secondsLeft: timeLeft, lifetime: lifetime)
-        timeLeftLabel.update(secondsLeft: timeLeft)
-    }
-
-    @objc func countDownTime() {
-        secondsLeft -= 1
-        if secondsLeft < 0 {
-            timer?.invalidate()
-            timer = nil
-            delegate?.timerExpired(self)
-        } else {
-            print("UPDATE COUNTDOWN CALLED")
-            updateCountdown(secondsLeft)
-        }
     }
 }
 
