@@ -69,21 +69,14 @@ final class AuthorizationStateView: UIView {
         }
     }
 
+    private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+
     init(state: AuthorizationState) {
         super.init(frame: .zero)
         layout()
-        set(state: state)
     }
 
     func set(state: AuthorizationState) {
-        UIView.animate(withDuration: 0.2) { [weak self] in
-            if state == .none {
-                self?.alpha = 0.0
-            } else {
-                self?.alpha = 1.0
-            }
-        }
-
         messageLabel.text = state.message
         titleLabel.text = state.title
         setTopView(state: state)
@@ -112,9 +105,6 @@ final class AuthorizationStateView: UIView {
 // MARK: Layout
 extension AuthorizationStateView: Layoutable {
     func layout() {
-        let blurEffect = UIBlurEffect(style: .light)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-
         addSubviews(blurEffectView, messageLabel, titleLabel, topView)
 
         messageLabel.centerYToSuperview()

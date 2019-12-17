@@ -67,6 +67,8 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
     }
 
     func updateTime(_ item: AuthorizationViewModel) {
+        guard item.state == .none else { return }
+
         let secondsLeft = diffInSecondsFromNow(for: item.authorizationExpiresAt)
 
         progressView.update(secondsLeft: secondsLeft, lifetime: item.lifetime)

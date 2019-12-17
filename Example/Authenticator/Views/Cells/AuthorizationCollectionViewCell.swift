@@ -25,15 +25,10 @@ import TinyConstraints
 import WebKit
 
 private struct Layout {
-    static let connectionImageSize: CGSize = CGSize(width: 25.0, height: 25.0)
     static let sideOffset: CGFloat = AppLayout.sideOffset / 2
     static let topOffset: CGFloat = 20.0
     static let buttonHeight: CGFloat = 36.0
     static let bottomOffset: CGFloat = -24.0
-    static let titleLableHeight: CGFloat = 23.0
-    static let contentStackViewMinTopBottomOffset: CGFloat = 27.5
-    static let contentStackViewCenterYOffset: CGFloat = -20.0
-    static let loadingPlaceholderHeight: CGFloat = 100.0
 }
 
 protocol AuthorizationCellDelegate: class {
@@ -42,8 +37,6 @@ protocol AuthorizationCellDelegate: class {
 }
 
 final class AuthorizationCollectionViewCell: UICollectionViewCell {
-    private let loadingPlaceholder = UIView()
-    private let loadingIndicator = LoadingIndicator()
     private let stateView = AuthorizationStateView(state: .none)
     private var isProcessing: Bool = false
 
@@ -76,21 +69,24 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         descriptionTextView.isUserInteractionEnabled = false
         setupLeftButton()
         setupRightButton()
-        setupLoadingView()
         layout()
     }
 
     func set(with viewModel: AuthorizationViewModel) {
         self.viewModel = viewModel
 
+        guard viewModel.state == .none else {
+            stateView.set(state: viewModel.state)
+            stateView.isHidden = false
+            return
+        }
+
         if viewModel.expired && viewModel.state != .timeOut {
             stateView.set(state: .timeOut)
+            stateView.isHidden = false
         } else {
-            stateView.set(state: viewModel.state)
-
-            stopProcessingIfNeeded()
-
-            titleLabel.text = viewModel.title
+            stateView.isHidden = true
+            stateView.set(state: .none)
 
             if viewModel.description.htmlToAttributedString != nil {
                 contentStackView.removeArrangedSubview(descriptionTextView)
@@ -102,45 +98,6 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
                 contentStackView.addArrangedSubview(descriptionTextView)
             }
         }
-    }
-
-    func setProcessing(with title: String) {
-        if !isProcessing {
-            titleLabel.text = title
-            contentStackView.insertArrangedSubview(loadingPlaceholder, at: 0)
-            if let constraintsToDeactivate = constraintsToDeactivateOnProcessing {
-                constraintsToDeactivate.deActivate()
-                layoutIfNeeded()
-            }
-            buttonsStackView.isHidden = true
-            loadingIndicator.start()
-            isProcessing = true
-        }
-    }
-
-    private func setupLoadingView() {
-        loadingPlaceholder.addSubview(loadingIndicator)
-        loadingIndicator.top(to: loadingPlaceholder)
-        loadingIndicator.centerX(to: loadingPlaceholder)
-        loadingPlaceholder.height(Layout.loadingPlaceholderHeight)
-    }
-
-    private func stopProcessingIfNeeded() {
-        if isProcessing {
-            contentStackView.removeArrangedSubview(loadingPlaceholder)
-            if let constraintsToDeactivate = constraintsToDeactivateOnProcessing {
-                constraintsToDeactivate.activate()
-                layoutIfNeeded()
-            }
-            buttonsStackView.isHidden = false
-            // NOTE: Add start loading indicator in the status view
-            loadingIndicator.stop()
-            isProcessing = false
-        }
-    }
-
-    deinit {
-        loadingIndicator.stop()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -160,7 +117,6 @@ private extension AuthorizationCollectionViewCell {
 
     func setupButton(_ style: CustomButton.Style, title: String) -> UIButton {
         let button = CustomButton(style, text: title, height: Layout.buttonHeight)
-        button.titleLabel?.font = style == .filled ? .auth_15semibold : .auth_15medium
         buttonsStackView.addArrangedSubview(button)
         return button
     }
@@ -169,15 +125,10 @@ private extension AuthorizationCollectionViewCell {
 // MARK: - Actions
 private extension AuthorizationCollectionViewCell {
     @objc func denyButtonPressed(_ sender: CustomButton) {
-//        setProcessing(with: l10n(.processing))
-//        stateView.set(state: .denied)
-        // NOTE: Move logit to working with authorization id
         delegate?.denyPressed(viewModel.authorizationId)
     }
 
     @objc func confirmButtonPressed(_ sender: CustomButton) {
-        // NOTE: Move logit to working with authorization id
-//        stateView.set(state: .active)
         delegate?.confirmPressed(viewModel.authorizationId)
     }
 }
@@ -185,7 +136,7 @@ private extension AuthorizationCollectionViewCell {
 // MARK: - Layout
 extension AuthorizationCollectionViewCell: Layoutable {
     func layout() {
-        addSubviews(titleLabel, contentStackView, buttonsStackView)
+        addSubviews(titleLabel, contentStackView, buttonsStackView, stateView)
 
         titleLabel.top(to: self, offset: Layout.topOffset)
         titleLabel.centerX(to: self)
@@ -200,26 +151,6 @@ extension AuthorizationCollectionViewCell: Layoutable {
         buttonsStackView.right(to: self, offset: -AppLayout.sideOffset / 2)
         buttonsStackView.bottom(to: self, offset: Layout.bottomOffset)
 
-        let bottomConstraint = buttonsStackView.topToBottom(
-            of: contentStackView,
-            offset: Layout.contentStackViewMinTopBottomOffset,
-            relation: .equalOrGreater
-        )
-
-        let topConstraint = contentStackView.topToBottom(
-            of: titleLabel,
-            offset: Layout.contentStackViewMinTopBottomOffset,
-            relation: .equalOrGreater
-        )
-
-        constraintsToDeactivateOnProcessing = [topConstraint, bottomConstraint]
-
-        loadingIndicator.size(AppLayout.loadingIndicatorSize)
-
-        addSubview(stateView)
-        stateView.topToSuperview()
-        stateView.bottomToSuperview()
-        stateView.leftToSuperview()
-        stateView.rightToSuperview()
+        stateView.edgesToSuperview()
     }
 }

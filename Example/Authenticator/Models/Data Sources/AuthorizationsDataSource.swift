@@ -51,14 +51,12 @@ final class AuthorizationsDataSource {
         return viewModels.count
     }
 
-    func remove(_ viewModel: AuthorizationViewModel) -> Int? {
-        guard let index = viewModels.firstIndex(of: viewModel) else { return nil }
+    func remove(_ viewModel: AuthorizationViewModel) {
+        guard let index = viewModels.firstIndex(of: viewModel) else { return }
 
         viewModels.remove(at: index)
 
         if authorizationResponses.indices.contains(index) { authorizationResponses.remove(at: index) }
-
-        return index
     }
 
     func viewModel(at index: Int) -> AuthorizationViewModel? {
@@ -85,7 +83,7 @@ final class AuthorizationsDataSource {
                 let actionTime = viewModel.actionTime, Date().timeIntervalSince1970 - actionTime.timeIntervalSince1970 >= 3 {
                 return nil
             }
-            if viewModel.expired, Date().timeIntervalSince1970 - viewModel.authorizationExpiresAt.timeIntervalSince1970 >= 6 {
+            if viewModel.expired, Date().timeIntervalSince1970 - viewModel.authorizationExpiresAt.timeIntervalSince1970 >= 3 {
                 return nil
             }
             return viewModel

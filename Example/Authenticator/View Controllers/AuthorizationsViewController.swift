@@ -57,10 +57,6 @@ final class AuthorizationsViewController: BaseViewController {
         authorizationsView.scroll(to: index)
     }
 
-    func remove(at index: Int) {
-        authorizationsView.remove(at: index)
-    }
-
     @objc private func hasNoConnection() {
         messageBarView = present(message: l10n(.noInternetConnection), style: .warning, height: 60.0, hide: false)
     }
@@ -118,18 +114,18 @@ private extension AuthorizationsViewController {
             let viewModel = dataSource?.viewModel(with: authorizationId) else { return }
 
         viewModel.state = .active
-        authorizationsView.reloadData(for: viewModel)
+        authorizationsView.reloadData()
 
         AuthorizationsInteractor.confirm(
             data: data,
             success: { [weak self] in
                 viewModel.state = .success
                 viewModel.actionTime = Date()
-                self?.authorizationsView.reloadData(for: viewModel)
+                self?.authorizationsView.reloadData()
             },
             failure: { [weak self] _ in
                 viewModel.state = .undefined
-                self?.authorizationsView.reloadData(for: viewModel)
+                self?.authorizationsView.reloadData()
             }
         )
     }
@@ -167,18 +163,18 @@ extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
             let viewModel = dataSource?.viewModel(with: authorizationId) else { return }
 
         viewModel.state = .active
-        authorizationsView.reloadData(for: viewModel)
+        authorizationsView.reloadData()
 
         AuthorizationsInteractor.deny(
             data: data,
             success: {
                 viewModel.state = .denied
                 viewModel.actionTime = Date()
-                self.authorizationsView.reloadData(for: viewModel)
+                self.authorizationsView.reloadData()
             },
             failure: { _ in
                 viewModel.state = .undefined
-                self.authorizationsView.reloadData(for: viewModel)
+                self.authorizationsView.reloadData()
             }
         )
     }

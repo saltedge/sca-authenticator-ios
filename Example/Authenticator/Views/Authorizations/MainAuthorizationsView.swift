@@ -65,13 +65,6 @@ final class MainAuthorizationsView: UIView {
         authorizationCollectionView.reloadData()
     }
 
-    func reloadData(for viewModel: AuthorizationViewModel) {
-        guard let dataSource = self.dataSource, let index = dataSource.index(of: viewModel) else { return }
-
-        headerSwipingView.collectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
-        authorizationCollectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
-    }
-
     func scroll(to index: Int) {
         headerSwipingView.collectionView.scrollToItem(
             at: IndexPath(item: index, section: 0),
@@ -83,12 +76,6 @@ final class MainAuthorizationsView: UIView {
             at: .centeredHorizontally,
             animated: false
         )
-    }
-
-    func remove(at index: Int) {
-        headerSwipingView.collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
-        authorizationCollectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
-        reloadData()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -271,7 +258,6 @@ extension MainAuthorizationsView: AuthorizationCellDelegate {
 extension MainAuthorizationsView: AuthorizationHeaderCollectionViewCellDelegate {
     func timerExpired(_ cell: AuthorizationHeaderCollectionViewCell) {
         guard let indexPath = headerSwipingView.collectionView.indexPath(for: cell) else { return }
-        print("expired")
 
         headerSwipingView.collectionView.reloadItems(at: [indexPath])
         authorizationCollectionView.reloadItems(at: [indexPath])

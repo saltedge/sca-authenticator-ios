@@ -51,6 +51,7 @@ final class AuthorizationsCoordinator: Coordinator {
 
     func stop() {
         timer?.invalidate()
+        timer = nil
     }
 
     private func setupPolling() {
@@ -66,7 +67,7 @@ final class AuthorizationsCoordinator: Coordinator {
     }
 
     @objc private func getEncryptedAuthorizationsIfAvailable() {
-        if connections.count > 0 {
+        if timer != nil, connections.count > 0 {
             refresh()
         } else {
             updateDataSource(with: [])
