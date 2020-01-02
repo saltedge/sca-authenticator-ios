@@ -24,15 +24,37 @@ import Foundation
 
 public struct SEConnectHelper {
     public static func isValid(deepLinkUrl url: URL) -> Bool {
-        return сonfiguration(from: url) != nil
+        return сonfiguration(from: url) != nil || isValidAction(deepLinkUrl: url)
     }
-    
+
+    public static func isValidAction(deepLinkUrl url: URL) -> Bool {
+        return actionGuid(from: url) != nil && connectUrl(from: url) != nil
+    }
+
+    public static func returnToUrl(from url: URL) -> URL? {
+        guard let query = url.queryItem(for: "return_to") else { return nil }
+
+        return URL(string: query)
+    }
+
+    public static func connectUrl(from url: URL) -> URL? {
+        guard let query = url.queryItem(for: "connect_url") else { return nil }
+
+        return URL(string: query)
+    }
+
+    public static func actionGuid(from url: URL) -> String? {
+        guard let query = url.queryItem(for: "action_uuid") else { return nil }
+
+        return query
+    }
+
     public static func сonfiguration(from url: URL) -> URL? {
         guard let query = url.queryItem(for: SENetKeys.configuration) else { return nil }
 
         return URL(string: query)
     }
-    
+
     public static func connectQuery(from url: URL) -> String? {
         guard let query = url.queryItem(for: SENetKeys.connectQuery) else { return nil }
 

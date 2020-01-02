@@ -33,6 +33,8 @@ final class ConnectViewCoordinator: Coordinator {
     private let connectionType: ConnectionType
     private let deepLinkUrl: URL?
 
+    private var tabBarCoordinator: TabBarCoordinator?
+
     init(rootViewController: UIViewController,
          connectionType: ConnectionType,
          deepLinkUrl: URL? = nil,
@@ -74,6 +76,7 @@ final class ConnectViewCoordinator: Coordinator {
         getConnectUrl(from: configurationUrl, with: connectQuery)
     }
 
+    // TODO: Clean this
     private func showQrCodeViewController() {
         qrCodeViewController.metadataReceived = { vc, qrMetadata in
             vc.remove()
@@ -91,7 +94,47 @@ final class ConnectViewCoordinator: Coordinator {
             }
 
             if let qrUrl = URL(string: qrMetadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
-                self.fetchConfiguration(deepLinkUrl: qrUrl)
+                if let actionGuid = SEConnectHelper.actionGuid(from: qrUrl),
+                    let connectUrl = SEConnectHelper.connectUrl(from: qrUrl) {
+                    let connection = ConnectionsCollector.activeConnections.first!
+
+                    let actionData = SEActionData(
+                        url: connectUrl,
+                        connectionGuid: connection.guid,
+                        accessToken: connection.accessToken,
+                        appLanguage: UserDefaultsHelper.applicationLanguage
+                    )
+
+                    SEActionManager.confirmAction(
+                        data: actionData,
+                        actionGuid: actionGuid,
+                        onSuccess: { response in
+                            self.connectViewController.showCompleteView(
+                                with: .success,
+                                title: "Action confirmed",
+                                completion: {
+                                    if let connectionId = response.connectionId,
+                                        let authorizationId = response.authorizationId {
+                                        self.tabBarCoordinator?.startAuthorizationsCoordinator(
+                                            with: connectionId,
+                                            authorizationId: authorizationId
+                                        )
+                                        print("Vse esti")
+                                    } else {
+                                        if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
+                                            UIApplication.shared.open(returnTo)
+                                        }
+                                    }
+                                }
+                            )
+                        },
+                        onFailure: { _ in
+                            self.connectViewController.showCompleteView(with: .fail, title: "Something went wrong")
+                        }
+                    )
+                } else {
+                    self.fetchConfiguration(deepLinkUrl: qrUrl)
+                }
             } else {
                 self.connectViewController.dismiss(animated: true)
             }
