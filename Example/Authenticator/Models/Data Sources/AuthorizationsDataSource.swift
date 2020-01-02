@@ -36,7 +36,13 @@ final class AuthorizationsDataSource {
             return true
         }
 
-        return clearAuthorizations()
+        let cleared = clearedViewModels()
+
+        if cleared != self.viewModels {
+            self.viewModels = cleared
+            return true
+        }
+        return false
     }
 
     var sections: Int {
@@ -49,14 +55,6 @@ final class AuthorizationsDataSource {
 
     var rows: Int {
         return viewModels.count
-    }
-
-    func remove(_ viewModel: AuthorizationViewModel) {
-        guard let index = viewModels.firstIndex(of: viewModel) else { return }
-
-        viewModels.remove(at: index)
-
-        if authorizationResponses.indices.contains(index) { authorizationResponses.remove(at: index) }
     }
 
     func viewModel(at index: Int) -> AuthorizationViewModel? {
@@ -77,25 +75,6 @@ final class AuthorizationsDataSource {
         return viewModels.filter({ $0.authorizationId == authorizationId }).first
     }
 
-    func clearAuthorizations() -> Bool {
-        let viewModels: [AuthorizationViewModel] = self.viewModels.compactMap { viewModel in
-            if viewModel.state != .none,
-                let actionTime = viewModel.actionTime, Date().timeIntervalSince1970 - actionTime.timeIntervalSince1970 >= 3 {
-                return nil
-            }
-            if viewModel.expired, Date().timeIntervalSince1970 - viewModel.authorizationExpiresAt.timeIntervalSince1970 >= 3 {
-                return nil
-            }
-            return viewModel
-        }
-        // Ugly code
-        if viewModels != self.viewModels {
-            self.viewModels = viewModels
-            return true
-        }
-        return false
-    }
-
     func confirmationData(for authorizationId: String) -> SEConfirmAuthorizationData? {
         guard let viewModel = viewModel(with: authorizationId),
             let connection = ConnectionsCollector.with(id: viewModel.connectionId),
@@ -109,5 +88,40 @@ final class AuthorizationsDataSource {
             authorizationId: viewModel.authorizationId,
             authorizationCode: viewModel.authorizationCode
         )
+    }
+
+    private func clearedViewModels() -> [AuthorizationViewModel] {
+        return self.viewModels.compactMap { viewModel in
+            if viewModel.state != .none,
+                let actionTime = viewModel.actionTime, Date().timeIntervalSince1970 - actionTime.timeIntervalSince1970 >= 3 {
+                return nil
+            }
+            if viewModel.expired, Date().timeIntervalSince1970 - viewModel.authorizationExpiresAt.timeIntervalSince1970 >= 3 {
+                return nil
+            }
+            return viewModel
+        }
+    }
+}
+
+extension Array where Element == AuthorizationViewModel {
+    func merge(array: [Element]) -> [AuthorizationViewModel] {
+        let expiredElements: [Element] = array.compactMap { element in
+            if element.expired || element.state != .none {
+                return element
+            } else {
+                return nil
+            }
+        }
+
+        let arrayAuthIds: [String] = self.map { $0.authorizationId }
+        let arrayConnectionIds: [String] = self.map { $0.connectionId }
+
+        var merged: [Element] = self
+        merged.append(contentsOf: expiredElements
+            .filter { !arrayAuthIds.contains($0.authorizationId) || !arrayConnectionIds.contains($0.connectionId) }
+        )
+
+        return merged
     }
 }

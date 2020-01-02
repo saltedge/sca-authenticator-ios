@@ -28,12 +28,11 @@ class AuthorizationsDataSourceSpec: BaseSpec {
     override func spec() {
         var firstModel, secondModel: AuthorizationViewModel!
         let dataSource = AuthorizationsDataSource()
+        var viewModelsArray = [AuthorizationViewModel]()
+        var connection: Connection!
 
         beforeEach {
-            let connection = Connection()
-            connection.id = "12345"
-            ConnectionRepository.save(connection)
-            _ = SECryptoHelper.createKeyPair(with: SETagHelper.create(for: connection.guid))
+            connection = createConnection(id: "12345")
 
             let authMessage = ["id": "00000",
                                "connection_id": connection.id,
@@ -48,38 +47,94 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                      "description": "Test authorization",
                                      "created_at": Date().iso8601string,
                                      "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
-            
-            let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: connection.guid))
-            let secondEncryptedData = try! SECryptoHelper.encrypt(
-                secondAuthMessage.jsonString!, tag: SETagHelper.create(for: connection.guid)
-            )
-            
-            let dict = [
-                "data": encryptedData.data,
-                "key": encryptedData.key,
-                "iv": encryptedData.iv,
-                "connection_id": connection.id,
-                "algorithm": "AES-256-CBC"
-            ]
 
-            let secondDict = [
-                "data": secondEncryptedData.data,
-                "key": secondEncryptedData.key,
-                "iv": secondEncryptedData.iv,
-                "connection_id": connection.id,
-                "algorithm": "AES-256-CBC"
-            ]
-
-            let firstResponse = SEEncryptedAuthorizationResponse(dict)!
-            let secondResponse = SEEncryptedAuthorizationResponse(secondDict)!
-
-            let firstDecryptedData: SEDecryptedAuthorizationData = AuthorizationsPresenter.decryptedData(from: firstResponse)!
-            let secondDecryptedData: SEDecryptedAuthorizationData = AuthorizationsPresenter.decryptedData(from: secondResponse)!
+            let firstDecryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
+            let secondDecryptedData = createAuthResponse(with: secondAuthMessage, id: connection.id, guid: connection.guid)
 
             firstModel = AuthorizationViewModel(firstDecryptedData)
             secondModel = AuthorizationViewModel(secondDecryptedData)
 
+            viewModelsArray.append(contentsOf: [firstModel, secondModel])
+
             _ = dataSource.update(with: [firstDecryptedData, secondDecryptedData])
+        }
+
+        afterEach {
+            viewModelsArray.removeAll()
+        }
+
+        describe("merge") {
+            context("when merged viewmodel is expired") {
+                it("should merge it into initial viewModels array") {
+                    let authMessage = ["id": "00002",
+                                       "connection_id": connection.id,
+                                       "title": "Authorization",
+                                       "description": "Test authorization",
+                                       "created_at": Date().addingTimeInterval(-10.0 * 60.0).iso8601string,
+                                       "expires_at": Date().addingTimeInterval(-5.0 * 60.0).iso8601string]
+                    let decryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
+                    let firstExpiredViewModel = AuthorizationViewModel(decryptedData)!
+
+                    let secondAuthMessage = ["id": "00003",
+                                             "connection_id": connection.id,
+                                             "title": "Authorization",
+                                             "description": "Test authorization",
+                                             "created_at": Date().addingTimeInterval(-10.0 * 60.0).iso8601string,
+                                             "expires_at": Date().addingTimeInterval(-5.0 * 60.0).iso8601string]
+                    let secondDecryptedData = createAuthResponse(with: secondAuthMessage, id: connection.id, guid: connection.guid)
+                    let secondExpiredViewModel = AuthorizationViewModel(secondDecryptedData)!
+
+                    expect(viewModelsArray.contains(firstExpiredViewModel)).toNot(beTrue())
+                    expect(viewModelsArray.count).to(equal(2))
+
+                    viewModelsArray = viewModelsArray.merge(array: [firstExpiredViewModel, secondExpiredViewModel])
+
+                    expect(viewModelsArray.count).to(equal(4))
+                    expect(viewModelsArray.contains(firstExpiredViewModel)).to(beTrue())
+                    expect(viewModelsArray.contains(secondExpiredViewModel)).to(beTrue())
+                }
+            }
+
+            context("when viewModel state isn't none") {
+                it("should merge it with initial array") {
+                    let message = ["id": "00004",
+                                   "connection_id": connection.id,
+                                   "title": "Second Authorization",
+                                   "description": "Test authorization",
+                                   "created_at": Date().iso8601string,
+                                   "expires_at": Date().addingTimeInterval(10.0 * 60.0).iso8601string]
+                    let decryptedData = createAuthResponse(with: message, id: connection.id, guid: connection.guid)
+                    let viewModel = AuthorizationViewModel(decryptedData)!
+                    viewModel.state = .denied
+
+                    expect(viewModelsArray.count).to(equal(2))
+
+                    viewModelsArray = viewModelsArray.merge(array: [viewModel])
+
+                    expect(viewModelsArray.count).to(equal(3))
+                    expect(viewModelsArray.contains(viewModel)).to(beTrue())
+                }
+            }
+
+            context("when merged viewModel isn't expired") {
+                it("shouldn't merge it") {
+                    let message = ["id": "00005",
+                                   "connection_id": connection.id,
+                                   "title": "Second Authorization",
+                                   "description": "Test authorization",
+                                   "created_at": Date().iso8601string,
+                                   "expires_at": Date().addingTimeInterval(10.0 * 60.0).iso8601string]
+                    let decryptedData = createAuthResponse(with: message, id: connection.id, guid: connection.guid)
+                    let viewModel = AuthorizationViewModel(decryptedData)!
+
+                    expect(viewModelsArray.count).to(equal(2))
+                    
+                    viewModelsArray = viewModelsArray.merge(array: [viewModel])
+
+                    expect(viewModelsArray.count).to(equal(2))
+                    expect(viewModelsArray.contains(viewModel)).toNot(beTrue())
+                }
+            }
         }
 
         describe("sections") {
@@ -97,30 +152,6 @@ class AuthorizationsDataSourceSpec: BaseSpec {
         describe("rows(for)") {
             it("should always return 1") {
                 expect(dataSource.rows).to(equal(2))
-            }
-        }
-
-        describe("remove(_:)") {
-            context("when view model exists") {
-                it("should remove it from array and as a result return it's index") {
-                    expect(dataSource.rows).to(equal(2))
-                    expect(dataSource.remove(firstModel)).to(equal(0))
-                    expect(dataSource.rows).to(equal(1))
-                }
-            }
- 
-            context("when view model doesn't exist") {
-                it("should return nil") {
-                    let secondAuthMessage = ["id": "123343543535",
-                                             "connection_id": "113223",
-                                             "title": "Zombie Authorization",
-                                             "description": "Not existed",
-                                             "created_at": Date().iso8601string,
-                                             "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
-                    let decryptedData = SEDecryptedAuthorizationData(secondAuthMessage)!
-
-                    expect(dataSource.remove(AuthorizationViewModel(decryptedData)!)).to(beNil())
-                }
             }
         }
 
@@ -179,6 +210,31 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                 expect(dataSource.viewModel(at: 0)).to(equal(firstModel))
                 expect(dataSource.viewModel(at: 1)).to(equal(secondModel))
             }
+        }
+
+        func createConnection(id: ID) -> Connection {
+            let connection = Connection()
+            connection.id = id
+            ConnectionRepository.save(connection)
+            _ = SECryptoHelper.createKeyPair(with: SETagHelper.create(for: connection.guid))
+
+            return connection
+        }
+
+        func createAuthResponse(with authMessage: [String: Any], id: ID, guid: GUID) -> SEDecryptedAuthorizationData {
+            let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: guid))
+
+            let dict = [
+                "data": encryptedData.data,
+                "key": encryptedData.key,
+                "iv": encryptedData.iv,
+                "connection_id": id,
+                "algorithm": "AES-256-CBC"
+            ]
+
+            let response = SEEncryptedAuthorizationResponse(dict)!
+
+            return AuthorizationsPresenter.decryptedData(from: response)!
         }
     }
 }

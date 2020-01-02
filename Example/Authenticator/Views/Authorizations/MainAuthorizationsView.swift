@@ -65,6 +65,10 @@ final class MainAuthorizationsView: UIView {
         authorizationCollectionView.reloadData()
     }
 
+    func reloadData(at index: Int) {
+        authorizationCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
+    }
+
     func scroll(to index: Int) {
         headerSwipingView.collectionView.scrollToItem(
             at: IndexPath(item: index, section: 0),
@@ -105,11 +109,12 @@ private extension MainAuthorizationsView {
     }
 
     @objc func updateTimer() {
-        let visibleCellsIndexPaths = headerSwipingView.collectionView.indexPathsForVisibleItems
+        let visibleCellsIndexPaths = self.headerSwipingView.collectionView.indexPathsForVisibleItems
 
         for indexPath in visibleCellsIndexPaths {
-            if let item = dataSource?.viewModel(at: indexPath.row), !item.expired, item.state == .none,
-                let cell = headerSwipingView.collectionView.cellForItem(at: indexPath) as? AuthorizationHeaderCollectionViewCell {
+            if let item = self.dataSource?.viewModel(at: indexPath.row),
+                let cell = self.headerSwipingView.collectionView.cellForItem(at: indexPath)
+                    as? AuthorizationHeaderCollectionViewCell {
                 cell.updateTime(item)
             }
         }

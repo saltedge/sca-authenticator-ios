@@ -48,6 +48,10 @@ final class AuthorizationsViewController: BaseViewController {
         noDataView.alpha = 1.0
     }
 
+    func reloadData(at index: Int) {
+        authorizationsView.reloadData(at: index)
+    }
+
     func reloadData() {
         authorizationsView.dataSource = dataSource
         authorizationsView.reloadData()
@@ -111,21 +115,22 @@ private extension AuthorizationsViewController {
 
     func confirmAuthorization(by authorizationId: String) {
         guard let data = dataSource?.confirmationData(for: authorizationId),
-            let viewModel = dataSource?.viewModel(with: authorizationId) else { return }
+            let viewModel = dataSource?.viewModel(with: authorizationId),
+            let index = dataSource?.index(of: viewModel) else { return }
 
         viewModel.state = .active
-        authorizationsView.reloadData()
+        authorizationsView.reloadData(at: index)
 
         AuthorizationsInteractor.confirm(
             data: data,
             success: { [weak self] in
                 viewModel.state = .success
                 viewModel.actionTime = Date()
-                self?.authorizationsView.reloadData()
+                self?.authorizationsView.reloadData(at: index)
             },
             failure: { [weak self] _ in
                 viewModel.state = .undefined
-                self?.authorizationsView.reloadData()
+                self?.authorizationsView.reloadData(at: index)
             }
         )
     }
@@ -160,21 +165,22 @@ extension AuthorizationsViewController: Layoutable {
 extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
     func denyPressed(authorizationId: String) {
         guard let data = dataSource?.confirmationData(for: authorizationId),
-            let viewModel = dataSource?.viewModel(with: authorizationId) else { return }
+            let viewModel = dataSource?.viewModel(with: authorizationId),
+            let index = dataSource?.index(of: viewModel) else { return }
 
         viewModel.state = .active
-        authorizationsView.reloadData()
+        authorizationsView.reloadData(at: index)
 
         AuthorizationsInteractor.deny(
             data: data,
             success: {
                 viewModel.state = .denied
                 viewModel.actionTime = Date()
-                self.authorizationsView.reloadData()
+                self.authorizationsView.reloadData(at: index)
             },
             failure: { _ in
                 viewModel.state = .undefined
-                self.authorizationsView.reloadData()
+                self.authorizationsView.reloadData(at: index)
             }
         )
     }

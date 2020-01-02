@@ -61,13 +61,13 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
 
         if let connection = ConnectionsCollector.with(id: item.connectionId) {
             setImage(from: connection.logoUrl)
-            connectionNameLabel.text = connection.name
-        }
+            connectionNameLabel.text = item.authorizationId//connection.name
+        } 
         updateTime(item)
     }
 
     func updateTime(_ item: AuthorizationViewModel) {
-        guard item.state == .none else { return }
+        guard item.state == .none, item.actionTime == nil else { return }
 
         let secondsLeft = diffInSecondsFromNow(for: item.authorizationExpiresAt)
 

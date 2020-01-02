@@ -60,8 +60,6 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 
     private(set) var viewModel: AuthorizationViewModel!
 
-    private var constraintsToDeactivateOnProcessing: Constraints?
-
     weak var delegate: AuthorizationCellDelegate?
 
     override init(frame: CGRect) {

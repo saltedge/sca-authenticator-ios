@@ -76,7 +76,6 @@ final class AuthorizationsCoordinator: Coordinator {
 
      private func updateDataSource(with authorizations: [SEDecryptedAuthorizationData]) {
         if dataSource.update(with: authorizations) {
-            rootViewController.reloadData()
             if authorizations.count > 1,
                 let authorizationToScroll = authorizationFromPush,
                 let viewModel = dataSource.viewModel(
@@ -87,6 +86,7 @@ final class AuthorizationsCoordinator: Coordinator {
                     rootViewController.scroll(to: index)
                     authorizationFromPush = nil
             }
+            rootViewController.reloadData()
         }
         rootViewController.updateViewsHiddenState()
     }

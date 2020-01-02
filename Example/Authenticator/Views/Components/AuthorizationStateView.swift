@@ -69,10 +69,11 @@ final class AuthorizationStateView: UIView {
         }
     }
 
-    private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+//    private let blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
 
     init(state: AuthorizationState) {
         super.init(frame: .zero)
+        backgroundColor = .white
         layout()
     }
 
@@ -83,7 +84,7 @@ final class AuthorizationStateView: UIView {
     }
 
     func setTopView(state: AuthorizationState) {
-        backgroundColor = .clear
+//        backgroundColor = .clear
 
         accessoryView?.removeFromSuperview()
         accessoryView = state.topAccessoryView
@@ -105,7 +106,11 @@ final class AuthorizationStateView: UIView {
 // MARK: Layout
 extension AuthorizationStateView: Layoutable {
     func layout() {
-        addSubviews(blurEffectView, messageLabel, titleLabel, topView)
+//        addSubviews(blurEffectView)
+
+//        blurEffectView.contentView.addSubviews(messageLabel, titleLabel, topView)
+
+        addSubviews(messageLabel, titleLabel, topView)
 
         messageLabel.centerYToSuperview()
         messageLabel.leftToSuperview()
@@ -119,7 +124,7 @@ extension AuthorizationStateView: Layoutable {
         topView.bottomToTop(of: titleLabel, offset: -32)
         topView.size(AppLayout.loadingIndicatorSize)
 
-        blurEffectView.edgesToSuperview()
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        blurEffectView.edgesToSuperview()
+//        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }
 }

@@ -58,19 +58,3 @@ class AuthorizationViewModel: Equatable {
             lhs.createdAt == rhs.createdAt
     }
 }
-
-extension Array where Element == AuthorizationViewModel {
-    func merge(array: [Element]) -> [AuthorizationViewModel] {
-        let expiredElements: [Element] = array.compactMap { element in
-            if element.expired || element.state != .none {
-                return element
-            } else {
-                return nil
-            }
-        }
-
-        var merged: [Element] = self
-        merged.append(contentsOf: expiredElements)
-        return merged
-    }
-}
