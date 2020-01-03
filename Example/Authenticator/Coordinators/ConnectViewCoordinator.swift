@@ -33,8 +33,6 @@ final class ConnectViewCoordinator: Coordinator {
     private let connectionType: ConnectionType
     private let deepLinkUrl: URL?
 
-    private var tabBarCoordinator: TabBarCoordinator?
-
     init(rootViewController: UIViewController,
          connectionType: ConnectionType,
          deepLinkUrl: URL? = nil,
@@ -76,6 +74,10 @@ final class ConnectViewCoordinator: Coordinator {
         getConnectUrl(from: configurationUrl, with: connectQuery)
     }
 
+    private func fetchAction(from url: URL) {
+        
+    }
+
     // TODO: Clean this
     private func showQrCodeViewController() {
         qrCodeViewController.metadataReceived = { vc, qrMetadata in
@@ -109,24 +111,30 @@ final class ConnectViewCoordinator: Coordinator {
                         data: actionData,
                         actionGuid: actionGuid,
                         onSuccess: { response in
-                            self.connectViewController.showCompleteView(
-                                with: .success,
-                                title: "Action confirmed",
-                                completion: {
-                                    if let connectionId = response.connectionId,
-                                        let authorizationId = response.authorizationId {
-                                        self.tabBarCoordinator?.startAuthorizationsCoordinator(
-                                            with: connectionId,
+                            if let connectionId = response.connectionId,
+                                let authorizationId = response.authorizationId {
+                                self.connectViewController.showCompleteView(
+                                    with: .success,
+                                    title: "Please confirm authorization",
+                                    completion: {
+                                        AppDelegate.main.applicationCoordinator?.showAuthorizations(
+                                            connectionId: connectionId,
                                             authorizationId: authorizationId
                                         )
-                                        print("Vse esti")
-                                    } else {
+                                    }
+                                )
+                            } else {
+                                self.connectViewController.showCompleteView(
+                                    with: .success,
+                                    title: "Successful authentication",
+                                    description: "You were successfully authenticated",
+                                    completion: {
                                         if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
                                             UIApplication.shared.open(returnTo)
                                         }
                                     }
-                                }
-                            )
+                                )
+                            }
                         },
                         onFailure: { _ in
                             self.connectViewController.showCompleteView(with: .fail, title: "Something went wrong")
