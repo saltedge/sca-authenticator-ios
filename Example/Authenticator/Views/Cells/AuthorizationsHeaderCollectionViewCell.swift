@@ -61,8 +61,8 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
 
         if let connection = ConnectionsCollector.with(id: item.connectionId) {
             setImage(from: connection.logoUrl)
-            connectionNameLabel.text = item.authorizationId//connection.name
-        } 
+            connectionNameLabel.text = connection.name
+        }
         updateTime(item)
     }
 

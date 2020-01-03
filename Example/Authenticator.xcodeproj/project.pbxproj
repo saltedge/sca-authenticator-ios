@@ -298,11 +298,11 @@
 		9DE324DF22D39AC800EB162A /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86322CE18270050ED3C /* CompleteView.swift */; };
 		9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86422CE18270050ED3C /* LoadingIndicator.swift */; };
 		9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED89022CE18280050ED3C /* AppDelegate.swift */; };
+		9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
+		9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
 		F846BC102344FEC9005A9781 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */; };
 		F846BC112344FEC9005A9781 /* application.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0F2344FEC9005A9781 /* application.plist */; };
-		F8639CF4234F78720053E120 /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8954B6C23474102008E9C3C /* AuthorizationStateView.swift */; };
-		F8954B6D23474102008E9C3C /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8954B6C23474102008E9C3C /* AuthorizationStateView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -512,13 +512,13 @@
 		9DE324E522D4773F00EB162A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9DE324E722D4774A00EB162A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9DE324E922D4775000EB162A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationStateView.swift; sourceTree = "<group>"; };
 		BE78B0BDB65BD9B80C655471 /* SaltedgeAuthenticatorSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SaltedgeAuthenticatorSDK.podspec; path = ../SaltedgeAuthenticatorSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Authenticator_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D211CB21F21CCFE7A57F9A63 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F846BC0F2344FEC9005A9781 /* application.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = application.plist; sourceTree = "<group>"; };
-		F8954B6C23474102008E9C3C /* AuthorizationStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthorizationStateView.swift; path = Authenticator/Views/Components/AuthorizationStateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -551,7 +551,6 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
-				F8954B6C23474102008E9C3C /* AuthorizationStateView.swift */,
 				9DD8158A22DF746300B93BA8 /* Authenticator_Example.entitlements */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for SaltedgeAuthenticatorSDK */,
@@ -770,8 +769,9 @@
 		9DCC1F3823292F4E00BF7B70 /* Authorizations */ = {
 			isa = PBXGroup;
 			children = (
-				9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */,
 				9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */,
+				9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */,
+				9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */,
 			);
 			path = Authorizations;
 			sourceTree = "<group>";
@@ -1663,6 +1663,7 @@
 				9DCED8DE22CE18280050ED3C /* KeychainHelper.swift in Sources */,
 				9DCED8FA22CE18280050ED3C /* TimeLeftIndicator.swift in Sources */,
 				9DCED8EA22CE18280050ED3C /* HapticFeedbackHelper.swift in Sources */,
+				9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */,
 				9DCED91E22CE18280050ED3C /* SettingsDataSource.swift in Sources */,
 				9D5AC68D23573553003B00E2 /* LibrariesDataSource.swift in Sources */,
 				9DCED89F22CE18280050ED3C /* ConnectViewController.swift in Sources */,
@@ -1674,7 +1675,6 @@
 				9DCED8A022CE18280050ED3C /* EditConnectionViewController.swift in Sources */,
 				9DCED8CA22CE18280050ED3C /* ViewControllerExtensions.swift in Sources */,
 				9DCED90722CE18280050ED3C /* LoadingIndicator.swift in Sources */,
-				F8954B6D23474102008E9C3C /* AuthorizationStateView.swift in Sources */,
 				9DCED8CF22CE18280050ED3C /* ColorExtensions.swift in Sources */,
 				9DCED8F522CE18280050ED3C /* CustomSpacingLabel.swift in Sources */,
 			);
@@ -1699,6 +1699,7 @@
 				9D4310F522D76625004A7FCF /* AboutDataSource.swift in Sources */,
 				9D66E1B422D4C1F000BD59B6 /* ConnectionDataSourceSpec.swift in Sources */,
 				9DE324B622D39A4700EB162A /* SettingsViewController.swift in Sources */,
+				9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */,
 				9DE324A522D39A1300EB162A /* Constants.swift in Sources */,
 				9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */,
 				9D66E1B322D4C1E900BD59B6 /* LanguagePickerDataSourceSpec.swift in Sources */,
@@ -1721,7 +1722,6 @@
 				9DE3249422D399E000EB162A /* ViewExtensions+Utilitarian.swift in Sources */,
 				9DE3249222D399DB00EB162A /* BordersExtensions.swift in Sources */,
 				9DE3248022D3999200EB162A /* ConnectViewCoordinator.swift in Sources */,
-				F8639CF4234F78720053E120 /* AuthorizationStateView.swift in Sources */,
 				9DE324C422D39A7300EB162A /* SetupAppViewController.swift in Sources */,
 				9D66E1AC22D4C1CC00BD59B6 /* ApiErrorsSpec.swift in Sources */,
 				9DE3249122D399D500EB162A /* AuthorizationsPresenter.swift in Sources */,

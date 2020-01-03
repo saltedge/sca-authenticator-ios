@@ -106,11 +106,17 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 // MARK: - Setup
 private extension AuthorizationCollectionViewCell {
     func setupLeftButton() {
-        setupButton(.bordered, title: l10n(.deny)).addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
+        setupButton(
+            .bordered,
+            title: l10n(.deny)
+        ).addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
     }
 
     func setupRightButton() {
-        setupButton(.filled, title: l10n(.allow)).addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
+        setupButton(
+            .filled,
+            title: l10n(.allow)
+        ).addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
     }
 
     func setupButton(_ style: CustomButton.Style, title: String) -> UIButton {
