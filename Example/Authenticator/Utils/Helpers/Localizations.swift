@@ -80,7 +80,17 @@ enum Localizations: String, Localizable {
     case confirm = "actions.confirm"
     case deny = "actions.deny"
     case viewMore = "actions.view_more"
+
     case authorizationExpired = "in_app.authorizations.authorization_expired"
+    case active = "authorization.active.title"
+    case successfulAuthorization = "authorization.success.title"
+    case denied = "authorization.denied.title"
+    case timeOut = "authorization.time_out.title"
+
+    case activeMessage = "authorization.active.message"
+    case successfulAuthorizationMessage = "authorization.success.message"
+    case deniedMessage = "authorization.denied.message"
+    case timeOutMessage = "authorization.time_out.message"
 
     // MARK: - Connections
     case noConnections = "in_app.connect.no_connections"

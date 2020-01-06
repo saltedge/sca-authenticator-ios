@@ -130,6 +130,7 @@ private extension AuthorizationsViewController {
             },
             failure: { [weak self] _ in
                 viewModel.state = .undefined
+                viewModel.actionTime = Date()
                 self?.authorizationsView.reloadData(at: index)
             }
         )
@@ -180,6 +181,7 @@ extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
             },
             failure: { _ in
                 viewModel.state = .undefined
+                viewModel.actionTime = Date()
                 self.authorizationsView.reloadData(at: index)
             }
         )

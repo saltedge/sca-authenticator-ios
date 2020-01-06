@@ -35,10 +35,6 @@ final class TabBarCoordinator: Coordinator {
     }
 
     init() {
-//        authorizationsCoordinator = AuthorizationsCoordinator()
-//        connectionsCoordinator = ConnectionsCoordinator()
-//        settingsCoordinator = SettingsCoordinator()
-
         let authNavController = UINavigationController(rootViewController: authorizationsCoordinator.rootViewController)
         authNavController.tabBarItem = TabBarDataSource.tabBarItem(for: .authorizations)
 

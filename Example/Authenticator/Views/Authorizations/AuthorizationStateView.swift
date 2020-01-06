@@ -38,22 +38,22 @@ final class AuthorizationStateView: UIView {
 
         var title: String {
             switch self {
-            case .active: return "Authorizing..."
-            case .success: return "Success!"
-            case .timeOut: return "Time Out"
-            case .denied: return "Denied"
-            case .undefined: return "Something went wrong"
+            case .active: return l10n(.active)
+            case .success: return l10n(.successfulAuthorization)
+            case .timeOut: return l10n(.timeOut)
+            case .denied: return l10n(.denied)
+            case .undefined: return l10n(.somethingWentWrong)
             default: return ""
             }
         }
 
         var message: String {
             switch self {
-            case .active: return "Please wait while authorization in process..."
-            case .success: return "Ypur action was successfully authorized."
-            case .timeOut: return "Time to authorize your action is out"
-            case .denied: return "Your action was denied"
-            case .undefined: return "Please try again."
+            case .active: return l10n(.activeMessage)
+            case .success: return l10n(.successfulAuthorizationMessage)
+            case .timeOut: return l10n(.timeOutMessage)
+            case .denied: return l10n(.deniedMessage)
+            case .undefined: return l10n(.pleaseTryAgain)
             default: return ""
             }
         }
