@@ -85,7 +85,6 @@ final class AuthorizationsCoordinator: Coordinator {
                     authorizationId: authorizationToScroll.authorizationId
                 ),
                 let index = dataSource.index(of: viewModel) {
-                    print("INDEX: ", index)
                     rootViewController.scroll(to: index)
                     authorizationFromPush = nil
             }

@@ -31,6 +31,8 @@ final class AuthorizationsDataSource {
         if authorizationResponses != self.authorizationResponses {
             self.authorizationResponses = authorizationResponses
             self.viewModels = authorizationResponses.compactMap { response in
+                guard response.expiresAt >= Date() else { return nil }
+
                 return AuthorizationViewModel(response)
             }.merge(array: self.viewModels).sorted(by: { $0.createdAt < $1.createdAt })
             return true
@@ -90,6 +92,11 @@ final class AuthorizationsDataSource {
         )
     }
 
+    func clearAuthorizations() {
+        authorizationResponses.removeAll()
+        viewModels.removeAll()
+    }
+
     private func clearedViewModels() -> [AuthorizationViewModel] {
         return self.viewModels.compactMap { viewModel in
             if viewModel.state != .none,
@@ -114,12 +121,12 @@ extension Array where Element == AuthorizationViewModel {
             }
         }
 
-        let arrayAuthIds: [String] = self.map { $0.authorizationId }
-        let arrayConnectionIds: [String] = self.map { $0.connectionId }
+        let newAuthIds: [String] = self.map { $0.authorizationId }
+        let newConnectionIds: [String] = self.map { $0.connectionId }
 
         var merged: [Element] = self
         merged.append(contentsOf: expiredElements
-            .filter { !arrayAuthIds.contains($0.authorizationId) || !arrayConnectionIds.contains($0.connectionId) }
+            .filter { !newAuthIds.contains($0.authorizationId) || !newConnectionIds.contains($0.connectionId) }
         )
 
         return merged

@@ -28,7 +28,6 @@ class AuthorizationsDataSourceSpec: BaseSpec {
     override func spec() {
         var firstModel, secondModel: AuthorizationViewModel!
         let dataSource = AuthorizationsDataSource()
-        var viewModelsArray = [AuthorizationViewModel]()
         var connection: Connection!
 
         beforeEach {
@@ -47,93 +46,133 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                      "description": "Test authorization",
                                      "created_at": Date().iso8601string,
                                      "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
-
+    
             let firstDecryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
             let secondDecryptedData = createAuthResponse(with: secondAuthMessage, id: connection.id, guid: connection.guid)
 
             firstModel = AuthorizationViewModel(firstDecryptedData)
             secondModel = AuthorizationViewModel(secondDecryptedData)
 
-            viewModelsArray.append(contentsOf: [firstModel, secondModel])
-
             _ = dataSource.update(with: [firstDecryptedData, secondDecryptedData])
         }
 
         afterEach {
-            viewModelsArray.removeAll()
+            dataSource.clearAuthorizations()
         }
 
-        describe("merge") {
-            context("when merged viewmodel is expired") {
-                it("should merge it into initial viewModels array") {
-                    let authMessage = ["id": "00002",
+        describe("update") {
+            context("when new authorization is expired") {
+                it("should skip it and refresh existed models") {
+                    expect(dataSource.rows).to(equal(2))
+
+                    let expiredAuthId = "1"
+
+                    let authMessage = ["id": "3456311111111114",
                                        "connection_id": connection.id,
                                        "title": "Authorization",
                                        "description": "Test authorization",
-                                       "created_at": Date().addingTimeInterval(-10.0 * 60.0).iso8601string,
-                                       "expires_at": Date().addingTimeInterval(-5.0 * 60.0).iso8601string]
+                                       "created_at": Date().iso8601string,
+                                       "expires_at": Date().addingTimeInterval(-3.0 * 60.0).iso8601string]
+
                     let decryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
-                    let firstExpiredViewModel = AuthorizationViewModel(decryptedData)!
 
-                    let secondAuthMessage = ["id": "00003",
-                                             "connection_id": connection.id,
-                                             "title": "Authorization",
-                                             "description": "Test authorization",
-                                             "created_at": Date().addingTimeInterval(-10.0 * 60.0).iso8601string,
-                                             "expires_at": Date().addingTimeInterval(-5.0 * 60.0).iso8601string]
-                    let secondDecryptedData = createAuthResponse(with: secondAuthMessage, id: connection.id, guid: connection.guid)
-                    let secondExpiredViewModel = AuthorizationViewModel(secondDecryptedData)!
+                    _ = dataSource.update(with: [decryptedData])
 
-                    expect(viewModelsArray.contains(firstExpiredViewModel)).toNot(beTrue())
-                    expect(viewModelsArray.count).to(equal(2))
-
-                    viewModelsArray = viewModelsArray.merge(array: [firstExpiredViewModel, secondExpiredViewModel])
-
-                    expect(viewModelsArray.count).to(equal(4))
-                    expect(viewModelsArray.contains(firstExpiredViewModel)).to(beTrue())
-                    expect(viewModelsArray.contains(secondExpiredViewModel)).to(beTrue())
+                    expect(dataSource.rows).to(equal(0))
                 }
             }
 
-            context("when viewModel state isn't none") {
-                it("should merge it with initial array") {
-                    let message = ["id": "00004",
-                                   "connection_id": connection.id,
-                                   "title": "Second Authorization",
-                                   "description": "Test authorization",
-                                   "created_at": Date().iso8601string,
-                                   "expires_at": Date().addingTimeInterval(10.0 * 60.0).iso8601string]
-                    let decryptedData = createAuthResponse(with: message, id: connection.id, guid: connection.guid)
-                    let viewModel = AuthorizationViewModel(decryptedData)!
-                    viewModel.state = .denied
+            context("when new authorization is not expired") {
+                it("should map decrypted data into view model and remove old models") {
+                    expect(dataSource.rows).to(equal(2))
 
-                    expect(viewModelsArray.count).to(equal(2))
+                    let authMessage = ["id": "987",
+                                       "connection_id": connection.id,
+                                       "title": "Authorization",
+                                       "description": "Test authorization",
+                                       "created_at": Date().iso8601string,
+                                       "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
+                    let decryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
 
-                    viewModelsArray = viewModelsArray.merge(array: [viewModel])
+                    _ = dataSource.update(with: [decryptedData])
 
-                    expect(viewModelsArray.count).to(equal(3))
-                    expect(viewModelsArray.contains(viewModel)).to(beTrue())
+                    expect(dataSource.rows).to(equal(1))
                 }
             }
 
-            context("when merged viewModel isn't expired") {
-                it("shouldn't merge it") {
-                    let message = ["id": "00005",
-                                   "connection_id": connection.id,
-                                   "title": "Second Authorization",
-                                   "description": "Test authorization",
-                                   "created_at": Date().iso8601string,
-                                   "expires_at": Date().addingTimeInterval(10.0 * 60.0).iso8601string]
-                    let decryptedData = createAuthResponse(with: message, id: connection.id, guid: connection.guid)
-                    let viewModel = AuthorizationViewModel(decryptedData)!
+            context("when one of the new authorizations is not expired and other is expired") {
+                it("should skip the expired one and map only valid one") {
+                    expect(dataSource.rows).to(equal(2))
 
-                    expect(viewModelsArray.count).to(equal(2))
+                    let expiredAuthId = "33333"
+                    let validAuthId = "99999"
+
+                    let expiredAuthMessage = ["id": expiredAuthId,
+                                              "connection_id": connection.id,
+                                              "title": "Expired Authorization",
+                                              "description": "Test expired authorization",
+                                              "created_at": Date().iso8601string,
+                                              "expires_at": Date().addingTimeInterval(-3.0 * 60.0).iso8601string]
+                    let expiredDecryptedData = createAuthResponse(with: expiredAuthMessage, id: connection.id, guid: connection.guid)
                     
-                    viewModelsArray = viewModelsArray.merge(array: [viewModel])
+                    let validAuthMessage = ["id": validAuthId,
+                                            "connection_id": connection.id,
+                                            "title": "Valid Authorization",
+                                            "description": "Test valid authorization",
+                                            "created_at": Date().iso8601string,
+                                            "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
+                    let validDecryptedData = createAuthResponse(with: validAuthMessage, id: connection.id, guid: connection.guid)
+                    
+                    _ = dataSource.update(with: [expiredDecryptedData, validDecryptedData])
+                    
+                    expect(dataSource.rows).to(equal(1))
 
-                    expect(viewModelsArray.count).to(equal(2))
-                    expect(viewModelsArray.contains(viewModel)).toNot(beTrue())
+                    expect(dataSource.viewModel(with: validAuthId)).to(equal(AuthorizationViewModel(validDecryptedData)))
+                    expect(dataSource.viewModel(with: expiredAuthId)).to(beNil())
                 }
+            }
+
+            context("merge") {
+                context("when one authorization expired and other was added") {
+                    it("should keep the expired one and add the new one") {
+                        expect(dataSource.rows).to(equal(2))
+                        
+                        let authMessage = ["id": "909",
+                                           "connection_id": connection.id,
+                                           "title": "Expired Authorization",
+                                           "description": "Test expired authorization",
+                                           "created_at": Date().iso8601string,
+                                           "expires_at": Date().addingTimeInterval(1.0).iso8601string]
+                        let decryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
+                        
+                        _ = dataSource.update(with: [decryptedData])
+                        sleep(1)
+                        
+                        expect(dataSource.rows).to(equal(1))
+                        
+                        let newAuthMessage = ["id": "910",
+                                              "connection_id": connection.id,
+                                              "title": "Expired Authorization",
+                                              "description": "Test expired authorization",
+                                              "created_at": Date().iso8601string,
+                                              "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
+                        let newDecryptedData = createAuthResponse(with: newAuthMessage, id: connection.id, guid: connection.guid)
+                        
+                        _ = dataSource.update(with: [newDecryptedData])
+                        
+                        expect(dataSource.rows).to(equal(2))
+                    }
+                }
+            }
+        }
+
+        describe("clearAuthoriations") {
+            it("should remove all authorizations") {
+                expect(dataSource.rows).to(equal(2))
+
+                dataSource.clearAuthorizations()
+
+                expect(dataSource.rows).to(equal(0))
             }
         }
 
