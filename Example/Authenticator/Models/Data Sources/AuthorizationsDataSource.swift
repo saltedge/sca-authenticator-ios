@@ -99,7 +99,7 @@ final class AuthorizationsDataSource {
 
     private func clearedViewModels() -> [AuthorizationViewModel] {
         return self.viewModels.compactMap { viewModel in
-            if viewModel.state != .none,
+            if viewModel.state != .base,
                 let actionTime = viewModel.actionTime, Date().timeIntervalSince1970 - actionTime.timeIntervalSince1970 >= 3 {
                 return nil
             }
@@ -114,7 +114,7 @@ final class AuthorizationsDataSource {
 extension Array where Element == AuthorizationViewModel {
     func merge(array: [Element]) -> [AuthorizationViewModel] {
         let expiredElements: [Element] = array.compactMap { element in
-            if element.expired || element.state != .none {
+            if element.expired || element.state != .base {
                 return element
             } else {
                 return nil

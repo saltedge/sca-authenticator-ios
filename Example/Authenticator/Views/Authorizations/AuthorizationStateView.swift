@@ -29,8 +29,8 @@ final class AuthorizationStateView: UIView {
     private var accessoryView: UIView?
 
     enum AuthorizationState: String {
-        case none // default
-        case active // confirm
+        case base
+        case processing
         case success
         case timeOut
         case denied
@@ -38,7 +38,7 @@ final class AuthorizationStateView: UIView {
 
         var title: String {
             switch self {
-            case .active: return l10n(.active)
+            case .base: return l10n(.active)
             case .success: return l10n(.successfulAuthorization)
             case .timeOut: return l10n(.timeOut)
             case .denied: return l10n(.denied)
@@ -49,7 +49,7 @@ final class AuthorizationStateView: UIView {
 
         var message: String {
             switch self {
-            case .active: return l10n(.activeMessage)
+            case .base: return l10n(.activeMessage)
             case .success: return l10n(.successfulAuthorizationMessage)
             case .timeOut: return l10n(.timeOutMessage)
             case .denied: return l10n(.deniedMessage)
@@ -89,7 +89,7 @@ final class AuthorizationStateView: UIView {
             accessoryView.centerInSuperview()
             accessoryView.size(AppLayout.loadingIndicatorSize)
         }
-        if state == .active, let loadingIndicator = accessoryView as? LoadingIndicator {
+        if state == .processing, let loadingIndicator = accessoryView as? LoadingIndicator {
             loadingIndicator.start()
         }
     }

@@ -37,7 +37,7 @@ protocol AuthorizationCellDelegate: class {
 }
 
 final class AuthorizationCollectionViewCell: UICollectionViewCell {
-    private let stateView = AuthorizationStateView(state: .none)
+    private let stateView = AuthorizationStateView(state: .base)
     private var isProcessing: Bool = false
 
     private let titleLabel = UILabel.titleLabel
@@ -84,7 +84,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
             stateView.isHidden = false
         } else {
             stateView.isHidden = true
-            stateView.set(state: .none)
+            stateView.set(state: .base)
 
             if viewModel.description.htmlToAttributedString != nil {
                 contentStackView.removeArrangedSubview(descriptionTextView)

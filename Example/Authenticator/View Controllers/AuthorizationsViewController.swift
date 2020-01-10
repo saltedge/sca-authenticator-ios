@@ -118,7 +118,7 @@ private extension AuthorizationsViewController {
             let viewModel = dataSource?.viewModel(with: authorizationId),
             let index = dataSource?.index(of: viewModel) else { return }
 
-        viewModel.state = .active
+        viewModel.state = .processing
         authorizationsView.reloadData(at: index)
 
         AuthorizationsInteractor.confirm(
@@ -169,7 +169,7 @@ extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
             let viewModel = dataSource?.viewModel(with: authorizationId),
             let index = dataSource?.index(of: viewModel) else { return }
 
-        viewModel.state = .active
+        viewModel.state = .processing
         authorizationsView.reloadData(at: index)
 
         AuthorizationsInteractor.deny(

@@ -47,7 +47,7 @@ class AuthorizationViewModel: Equatable {
         self.authorizationExpiresAt = data.expiresAt
         self.lifetime = Int(data.expiresAt.timeIntervalSince(data.createdAt))
         self.createdAt = data.createdAt
-        self.state = data.expiresAt < Date() ? .timeOut : .none
+        self.state = data.expiresAt < Date() ? .timeOut : .base
     }
 
     static func == (lhs: AuthorizationViewModel, rhs: AuthorizationViewModel) -> Bool {
