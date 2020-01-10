@@ -26,7 +26,7 @@ task :unit_tests => [:clean, :check_dependencies, :XCSpecs, :coverage]
 
 desc "Xcode Unit Tests"
 task :XCSpecs do
-  system_or_exit "xcodebuild -workspace Example/Authenticator.xcworkspace -scheme Authenticator-Example -configuration Debug -destination 'name=iPhone X' test GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty -t; test ${PIPESTATUS[0]} -eq 0"
+  system_or_exit "xcodebuild -workspace Example/Authenticator.xcworkspace -scheme Authenticator-Example -configuration Debug -destination 'name=iPhone 11' test GCC_GENERATE_TEST_COVERAGE_FILES=YES | xcpretty -t; test ${PIPESTATUS[0]} -eq 0"
 end
 
 desc "Code Coverage"
