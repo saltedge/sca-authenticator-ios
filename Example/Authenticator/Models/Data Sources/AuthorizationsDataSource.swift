@@ -111,9 +111,9 @@ final class AuthorizationsDataSource {
     }
 }
 
-extension Array where Element == AuthorizationViewModel {
+private extension Array where Element == AuthorizationViewModel {
     func merge(array: [Element]) -> [AuthorizationViewModel] {
-        let expiredElements: [Element] = array.compactMap { element in
+        let finalElements: [Element] = array.compactMap { element in
             if element.expired || element.state != .base {
                 return element
             } else {
@@ -125,7 +125,7 @@ extension Array where Element == AuthorizationViewModel {
         let newConnectionIds: [String] = self.map { $0.connectionId }
 
         var merged: [Element] = self
-        merged.append(contentsOf: expiredElements
+        merged.append(contentsOf: finalElements
             .filter { !newAuthIds.contains($0.authorizationId) || !newConnectionIds.contains($0.connectionId) }
         )
 

@@ -30,17 +30,17 @@ final class AuthorizationStateView: UIView {
 
     enum AuthorizationState: String {
         case base
+        case denied
+        case expired
         case processing
         case success
-        case timeOut
-        case denied
         case undefined
 
         var title: String {
             switch self {
             case .base: return l10n(.active)
             case .success: return l10n(.successfulAuthorization)
-            case .timeOut: return l10n(.timeOut)
+            case .expired: return l10n(.timeOut)
             case .denied: return l10n(.denied)
             case .undefined: return l10n(.somethingWentWrong)
             default: return ""
@@ -51,7 +51,7 @@ final class AuthorizationStateView: UIView {
             switch self {
             case .base: return l10n(.activeMessage)
             case .success: return l10n(.successfulAuthorizationMessage)
-            case .timeOut: return l10n(.timeOutMessage)
+            case .expired: return l10n(.timeOutMessage)
             case .denied: return l10n(.deniedMessage)
             case .undefined: return l10n(.pleaseTryAgain)
             default: return ""
@@ -61,7 +61,7 @@ final class AuthorizationStateView: UIView {
         var topAccessoryView: UIView {
             switch self {
             case .success: return UIImageView(image: UIImage(named: "success"))
-            case .timeOut: return UIImageView(image: UIImage(named: "time_out"))
+            case .expired: return UIImageView(image: UIImage(named: "time_out"))
             case .denied: return UIImageView(image: UIImage(named: "deny"))
             case .undefined: return UIImageView(image: UIImage(named: "smth_wrong"))
             default: return LoadingIndicator()

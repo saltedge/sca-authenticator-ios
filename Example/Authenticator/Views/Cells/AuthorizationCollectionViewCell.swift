@@ -79,8 +79,8 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
             return
         }
 
-        if viewModel.expired && viewModel.state != .timeOut {
-            stateView.set(state: .timeOut)
+        if viewModel.expired && viewModel.state != .expired {
+            stateView.set(state: .expired)
             stateView.isHidden = false
         } else {
             stateView.isHidden = true
