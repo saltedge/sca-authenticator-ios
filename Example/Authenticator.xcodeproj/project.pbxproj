@@ -301,7 +301,6 @@
 		9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
-		F846BC102344FEC9005A9781 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */; };
 		F846BC112344FEC9005A9781 /* application.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0F2344FEC9005A9781 /* application.plist */; };
 /* End PBXBuildFile section */
 
@@ -517,7 +516,6 @@
 		C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Authenticator_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D211CB21F21CCFE7A57F9A63 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F846BC0F2344FEC9005A9781 /* application.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = application.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1153,7 +1151,6 @@
 				9DCED89122CE18280050ED3C /* application.example.plist */,
 				9DCED89322CE18280050ED3C /* Info.plist */,
 				F846BC0F2344FEC9005A9781 /* application.plist */,
-				F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */,
 				9DCED89422CE18280050ED3C /* Localization */,
 			);
 			path = "Supporting Files";
@@ -1376,7 +1373,6 @@
 				F846BC112344FEC9005A9781 /* application.plist in Resources */,
 				9DCED92322CE18280050ED3C /* GoogleService-Info.example.plist in Resources */,
 				9DCED92A22CE18280050ED3C /* Authenticator.strings in Resources */,
-				F846BC102344FEC9005A9781 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
