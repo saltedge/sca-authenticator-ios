@@ -24,18 +24,6 @@ import Quick
 import Nimble
 @testable import SEAuthenticator
 
-extension SEDecryptedAuthorizationData: Equatable {
-    public static func == (lhs: SEDecryptedAuthorizationData, rhs: SEDecryptedAuthorizationData) -> Bool {
-        return lhs.id == rhs.id &&
-            lhs.connectionId == rhs.connectionId &&
-            lhs.title == rhs.title &&
-            lhs.description == rhs.description &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.expiresAt == rhs.expiresAt &&
-            lhs.authorizationCode == rhs.authorizationCode
-    }
-}
-
 class AuthorizationsPresenterSpec: BaseSpec {
     override func spec() {
         describe("decryptedData(from:)") {

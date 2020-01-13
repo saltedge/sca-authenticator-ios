@@ -46,28 +46,16 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
     private let timeLeftLabel = TimeLeftLabel()
     private let progressView = CountdownProgressView()
 
-    private var timer: Timer!
-    private var secondsLeft: Int = 0
-    private var lifetime: Int = 0
-
     weak var delegate: AuthorizationHeaderCollectionViewCellDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .white
         setupShadowAndCornerRadius()
-        setTimer()
         layout()
     }
 
-    deinit {
-        timer.invalidate()
-    }
-
     func configure(_ item: AuthorizationViewModel, at indexPath: IndexPath) {
-        secondsLeft = diffInSecondsFromNow(for: item.authorizationExpiresAt)
-        lifetime = item.lifetime
-
         connectionImageView.contentMode = .scaleAspectFit
         connectionImageView.image = #imageLiteral(resourceName: "bankPlaceholderCyanSmall")
 
@@ -75,7 +63,16 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
             setImage(from: connection.logoUrl)
             connectionNameLabel.text = connection.name
         }
-        updateCountdown(secondsLeft)
+        updateTime(item)
+    }
+
+    func updateTime(_ item: AuthorizationViewModel) {
+        guard item.state == .none, item.actionTime == nil else { return }
+
+        let secondsLeft = diffInSecondsFromNow(for: item.authorizationExpiresAt)
+
+        progressView.update(secondsLeft: secondsLeft, lifetime: item.lifetime)
+        timeLeftLabel.update(secondsLeft: secondsLeft)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -98,28 +95,6 @@ private extension AuthorizationHeaderCollectionViewCell {
         guard let url = imageUrl else { return }
 
         CacheHelper.setAnimatedCachedImage(from: url, for: connectionImageView)
-    }
-
-    func setTimer() {
-        if timer != nil { timer.invalidate() }
-        timer = Timer(timeInterval: 1.0, target: self, selector: #selector(countDownTime), userInfo: nil, repeats: true)
-        RunLoop.current.add(timer, forMode: RunLoop.Mode.common)
-    }
-
-    func updateCountdown(_ timeLeft: Int) {
-        setTimer()
-        progressView.update(secondsLeft: timeLeft, lifetime: lifetime)
-        timeLeftLabel.update(secondsLeft: timeLeft)
-    }
-
-    @objc private func countDownTime() {
-        secondsLeft -= 1
-        if secondsLeft <= 0 {
-            timer.invalidate()
-            delegate?.timerExpired(self)
-        } else {
-            updateCountdown(secondsLeft)
-        }
     }
 }
 

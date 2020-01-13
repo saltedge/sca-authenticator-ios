@@ -28,6 +28,14 @@
 "actions.try_again" = "Try Again";
 "actions.unlock_authenticator" = "Unlock Authenticator";
 "actions.view_more" = "View More";
+"authorization.active.title" = "Authorizing...";
+"authorization.success.title" = "Success!";
+"authorization.time_out.title" = "Time Out";
+"authorization.denied.title" = "Denied";
+"authorization.active.message" = "Please wait while authorization in process...";
+"authorization.success.message" = "Your action was successfully authorized";
+"authorization.time_out.message" = "Time to authorize your action is out";
+"authorization.denied.message" = "Your action was denied";
 "errors.account_reset" = "Your Account Was Reset Due to Multiple Failed Attempts.";
 "errors.contact_support" = "Something went wrong. Please contact our Support team.";
 "errors.denied_camera" = "Camera access denied";
@@ -37,6 +45,7 @@
 "errors.no_internet_connection_try_again" = "Please try again later.";
 "errors.passcode_ios" = "You entered the wrong Passcode. Please try again in %{count} minutes.";
 "errors.passcode_ios_singular" = "You entered the wrong Passcode. Please try again in %{count} minute.";
+"errors.try_again" = "Please try again";
 "errors.warning" = "Warning";
 "in_app.connections_list.delete_all_connections" = "Delete all connections and stop receiving authorizations for all connections.";
 "in_app.connections_list.delete_connection" = "Delete the connection and stop receiving authorizations for it.";

@@ -29,7 +29,7 @@ final class TimeLeftLabel: UILabel {
         super.init(frame: .zero)
         textColor = .auth_blue
         font = .auth_13semibold
-        setTimeLeft(secondsLeft)
+//        setTimeLeft(secondsLeft)
     }
 
     required init?(coder aDecoder: NSCoder) {
