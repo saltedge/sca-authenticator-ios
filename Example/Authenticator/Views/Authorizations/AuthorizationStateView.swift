@@ -38,7 +38,7 @@ final class AuthorizationStateView: UIView {
 
         var title: String {
             switch self {
-            case .base: return l10n(.active)
+            case .processing: return l10n(.active)
             case .success: return l10n(.successfulAuthorization)
             case .expired: return l10n(.timeOut)
             case .denied: return l10n(.denied)
@@ -49,7 +49,7 @@ final class AuthorizationStateView: UIView {
 
         var message: String {
             switch self {
-            case .base: return l10n(.activeMessage)
+            case .processing: return l10n(.activeMessage)
             case .success: return l10n(.successfulAuthorizationMessage)
             case .expired: return l10n(.timeOutMessage)
             case .denied: return l10n(.deniedMessage)
