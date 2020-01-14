@@ -73,7 +73,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
     func set(with viewModel: AuthorizationViewModel) {
         self.viewModel = viewModel
 
-        guard viewModel.state == .none else {
+        guard viewModel.state == .base else {
             stateView.set(state: viewModel.state)
             stateView.isHidden = false
             return
