@@ -23,6 +23,7 @@
 		9D453CC123CCB56400702695 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CC023CCB56400702695 /* main.swift */; };
 		9D453CC223CCB56400702695 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CC023CCB56400702695 /* main.swift */; };
 		9D453CCD23D06F0E00702695 /* TimerApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CCC23D06F0E00702695 /* TimerApplication.swift */; };
+		9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CCC23D06F0E00702695 /* TimerApplication.swift */; };
 		9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
 		9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
 		9D5AC68D23573553003B00E2 /* LibrariesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68C23573553003B00E2 /* LibrariesDataSource.swift */; };
@@ -1795,6 +1796,7 @@
 				9DE3248322D3999B00EB162A /* RealmManager.swift in Sources */,
 				9DE3248822D399B100EB162A /* TabBarDataSource.swift in Sources */,
 				9DE324CB22D39A8E00EB162A /* ConnectionCell.swift in Sources */,
+				9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */,
 				9D66E1B522D4C1F300BD59B6 /* AuthorizationsDataSourceSpec.swift in Sources */,
 				9DE3248722D399AC00EB162A /* ConnectionsCollector.swift in Sources */,
 				9DE3248C22D399BD00EB162A /* SettingsDataSource.swift in Sources */,
