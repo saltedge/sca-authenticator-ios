@@ -30,7 +30,6 @@ final class ApplicationCoordinator: Coordinator {
     private var connectViewCoordinator: ConnectViewCoordinator?
 
     private var passcodeShownDueToInactivity: Bool = false
-    private var timeoutObserverRegistered: Bool = true
 
     init(window: UIWindow?) {
         self.window = window
@@ -65,23 +64,17 @@ final class ApplicationCoordinator: Coordinator {
     }
 
     func registerTimeoutNotification() {
-        if !timeoutObserverRegistered {
-            timeoutObserverRegistered = true
-
-            NotificationCenter.default.addObserver(
-                self,
-                selector: #selector(applicationDidTimeout(notification:)),
-                name: .appTimeout,
-                object: nil
-            )
-        }
+        disableTimeoutNotification()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationDidTimeout(notification:)),
+            name: .appTimeout,
+            object: nil
+        )
     }
 
     func disableTimeoutNotification() {
-        if timeoutObserverRegistered {
-            timeoutObserverRegistered = false
-            NotificationCenter.default.removeObserver(self, name: .appTimeout, object: nil)
-        }
+        NotificationCenter.default.removeObserver(self, name: .appTimeout, object: nil)
     }
 
     func stop() {}
