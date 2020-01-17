@@ -37,6 +37,7 @@
 "authorization.time_out.message" = "Time to authorize your action is out";
 "authorization.denied.message" = "Your action was denied";
 "errors.account_reset" = "Your Account Was Reset Due to Multiple Failed Attempts.";
+"errors.authorization_not_found" = "Authorization request was either processed, canceled or expired";
 "errors.contact_support" = "Something went wrong. Please contact our Support team.";
 "errors.denied_camera" = "Camera access denied";
 "errors.denied_camera_description" = "Please allow camera usage in phone settings. Without camera you won't be able to connect provider.";

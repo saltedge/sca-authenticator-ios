@@ -76,6 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if UserDefaultsHelper.didShowOnboarding {
             applicationCoordinator?.registerTimeoutNotification()
         }
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         applicationCoordinator?.showBiometricsIfEnabled()
     }
 
