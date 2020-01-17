@@ -77,18 +77,21 @@ final class AuthorizationsCoordinator: Coordinator {
      private func updateDataSource(with authorizations: [SEDecryptedAuthorizationData]) {
         if dataSource.update(with: authorizations) {
             rootViewController.reloadData()
-
-            if authorizations.count > 1,
-                let authorizationToScroll = authorizationFromPush,
-                let viewModel = dataSource.viewModel(
-                    by: authorizationToScroll.connectionId,
-                    authorizationId: authorizationToScroll.authorizationId
-                ),
-                let index = dataSource.index(of: viewModel) {
-                    rootViewController.scroll(to: index)
-                    authorizationFromPush = nil
-            }
         }
+
+        if let authorizationToScroll = authorizationFromPush {
+            if let viewModel = dataSource.viewModel(
+                by: authorizationToScroll.connectionId,
+                authorizationId: authorizationToScroll.authorizationId
+            ),
+            let index = dataSource.index(of: viewModel) {
+                rootViewController.scroll(to: index)
+            } else {
+                rootViewController.present(message: l10n(.authorizationNotFound), style: .error)
+            }
+            authorizationFromPush = nil
+        }
+
         rootViewController.updateViewsHiddenState()
     }
 }
@@ -110,6 +113,9 @@ private extension AuthorizationsCoordinator {
                         strongSelf.updateDataSource(with: decryptedAuthorizations)
                     }
                 }
+            },
+            failure: { error in
+                self.rootViewController.present(message: error, style: .error)
             },
             connectionNotFoundFailure: { connectionId in
                 if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {

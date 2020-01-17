@@ -140,6 +140,7 @@ enum Localizations: String, Localizable {
     case couldNotSendMail = "in_app.settings.contact_support_failed"
 
     // MARK: - Errors
+    case authorizationNotFound = "errors.authorization_not_found"
     case deniedCamera = "errors.denied_camera"
     case deniedCameraDescription = "errors.denied_camera_description"
     case inactiveConnection = "errors.inactive_connection"

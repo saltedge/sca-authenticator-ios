@@ -109,7 +109,11 @@ extension UIViewController {
         messageView.left(to: view)
         messageView.width(to: view)
         messageView.heightConstraint?.constant = 0.0
-        messageView.top(to: view)
+        if #available(iOS 11.0, *) {
+            messageView.top(to: view, view.safeAreaLayoutGuide.topAnchor)
+        } else {
+            messageView.top(to: view)
+        }
         view.layoutIfNeeded()
         animateMessageView(messageView, height: height ?? messageView.defaultHeight, hide: hide)
 
