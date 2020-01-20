@@ -55,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
+        TimerApplication.resetIdleTimer()
         applicationCoordinator?.disableTimerNotifications()
     }
 
@@ -68,6 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
+        TimerApplication.resetIdleTimer()
         applicationCoordinator?.disableTimerNotifications()
         applicationCoordinator?.openPasscodeIfNeeded()
     }
