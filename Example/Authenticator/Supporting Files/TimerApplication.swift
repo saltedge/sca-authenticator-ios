@@ -28,7 +28,7 @@ extension Notification.Name {
 
 class TimerApplication: UIApplication {
     private static var timeoutInSeconds: TimeInterval {
-        return 60.0 // NOTE: One minute
+        return 10.0 // NOTE: One minute
     }
 
     private static var idleTimer: Timer?

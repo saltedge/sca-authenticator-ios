@@ -31,6 +31,8 @@ final class ApplicationCoordinator: Coordinator {
 
     private var passcodeShownDueToInactivity: Bool = false
 
+    private var messageBarView: MessageBarView?
+
     init(window: UIWindow?) {
         self.window = window
     }
@@ -57,10 +59,16 @@ final class ApplicationCoordinator: Coordinator {
         guard let topController = UIWindow.topViewController,
             !topController.isKind(of: PasscodeViewController.self) else { return }
 
-        passcodeShownDueToInactivity = true
-        disableTimeoutNotification()
-        openPasscodeIfNeeded()
-        showBiometricsIfEnabled()
+        messageBarView = topController.present(
+            message: "The app will be blocked in 5 seconds due to inactivity",
+            style: .warning,
+            completion: {
+                self.passcodeShownDueToInactivity = true
+                self.disableTimeoutNotification()
+                self.openPasscodeIfNeeded()
+                self.showBiometricsIfEnabled()
+            }
+        )
     }
 
     func registerTimeoutNotification() {
@@ -74,6 +82,9 @@ final class ApplicationCoordinator: Coordinator {
     }
 
     func disableTimeoutNotification() {
+        if let messageBarView = messageBarView, let topController = UIWindow.topViewController {
+            topController.dismiss(messageBarView: messageBarView)
+        }
         NotificationCenter.default.removeObserver(self, name: .appTimeout, object: nil)
     }
 
