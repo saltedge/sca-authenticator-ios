@@ -126,17 +126,18 @@ extension UIViewController {
 
     private func animateMessageView(_ messageView: MessageBarView, height: CGFloat, hide: Bool, completion: (() ->())? = nil) {
         messageView.heightConstraint?.constant = height
-        UIView.withSpringAnimation(animations: {
-            messageView.alpha = 1.0
-            self.view.layoutIfNeeded()
-        }, completion: {
-            after(MessageBarView.defaultDuration) {
-                if hide {
+        UIView.withSpringAnimation(
+            animations: {
+                messageView.alpha = 1.0
+                self.view.layoutIfNeeded()
+            },
+            completion: {
+                after(MessageBarView.defaultDuration) {
                     completion?()
-                    self.dismiss(messageBarView: messageView)
+                    if hide { self.dismiss(messageBarView: messageView) }
                 }
             }
-        })
+        )
     }
 
     @objc private func dismissView(_ recognizer: UITapGestureRecognizer) {
@@ -149,12 +150,16 @@ extension UIViewController {
         guard messageBarView.superview != nil else { return }
 
         messageBarView.heightConstraint?.constant = 0.0
-        UIView.withSpringAnimation(animations: {
-            messageBarView.alpha = 0.0
-            self.view.layoutIfNeeded()
-        }, completion: {
-            messageBarView.removeFromSuperview()
-        })
+
+        UIView.withSpringAnimation(
+            animations: {
+                messageBarView.alpha = 0.0
+                self.view.layoutIfNeeded()
+            },
+            completion: {
+                messageBarView.removeFromSuperview()
+            }
+        )
     }
 }
 
