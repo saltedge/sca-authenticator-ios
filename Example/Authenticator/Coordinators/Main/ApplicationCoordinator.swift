@@ -29,12 +29,15 @@ final class ApplicationCoordinator: Coordinator {
     private var passcodeCoordinator: PasscodeCoordinator?
     private var connectViewCoordinator: ConnectViewCoordinator?
 
+    private var passcodeShownDueToInactivity: Bool = false
+
     init(window: UIWindow?) {
         self.window = window
     }
 
     func start() {
         if UserDefaultsHelper.didShowOnboarding {
+            registerTimeoutNotification()
             window?.rootViewController = tabBarCoordinator.rootViewController
             tabBarCoordinator.start()
         } else {
@@ -48,6 +51,30 @@ final class ApplicationCoordinator: Coordinator {
             onboardingCoordinator.start()
         }
         window?.makeKeyAndVisible()
+    }
+
+    @objc func applicationDidTimeout(notification: NSNotification) {
+        guard let topController = UIWindow.topViewController,
+            !topController.isKind(of: PasscodeViewController.self) else { return }
+
+        passcodeShownDueToInactivity = true
+        disableTimeoutNotification()
+        openPasscodeIfNeeded()
+        showBiometricsIfEnabled()
+    }
+
+    func registerTimeoutNotification() {
+        disableTimeoutNotification()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(applicationDidTimeout(notification:)),
+            name: .appTimeout,
+            object: nil
+        )
+    }
+
+    func disableTimeoutNotification() {
+        NotificationCenter.default.removeObserver(self, name: .appTimeout, object: nil)
     }
 
     func stop() {}
@@ -91,20 +118,8 @@ final class ApplicationCoordinator: Coordinator {
     func openPasscodeIfNeeded() {
         guard PasscodeManager.hasPasscode else { return }
 
-        let presentPasscode: () -> () = {
-            if let topController = UIWindow.topViewController {
-                self.passcodeCoordinator = PasscodeCoordinator(
-                    rootViewController: topController,
-                    purpose: .enter,
-                    type: .main
-                )
-                self.passcodeCoordinator?.start()
-                self.passcodeCoordinator?.onCompleteClosure = {
-                    self.tabBarCoordinator.startAuthorizationsCoordinator()
-                }
-            }
-        }
         removeAlertControllerIfPresented()
+
         if let passcodeVC = UIWindow.topViewController as? PasscodeViewController {
             passcodeVC.dismiss(animated: false, completion: presentPasscode)
         } else {
@@ -115,6 +130,24 @@ final class ApplicationCoordinator: Coordinator {
     func showBiometricsIfEnabled() {
         if UserDefaultsHelper.blockedTill == nil, let passcodeCoordinator = passcodeCoordinator {
             passcodeCoordinator.showBiometricsIfEnabled()
+        }
+    }
+
+    private func presentPasscode() {
+        guard let topController = UIWindow.topViewController else { return }
+
+        passcodeCoordinator = PasscodeCoordinator(
+            rootViewController: topController,
+            purpose: .enter,
+            type: .main
+        )
+        passcodeCoordinator?.start()
+        passcodeCoordinator?.onCompleteClosure = {
+            TimerApplication.resetIdleTimer()
+            self.registerTimeoutNotification()
+            if !self.passcodeShownDueToInactivity {
+                self.tabBarCoordinator.startAuthorizationsCoordinator()
+            }
         }
     }
 

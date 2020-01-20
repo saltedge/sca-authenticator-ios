@@ -23,7 +23,6 @@ import UserNotifications
 import Firebase
 import SEAuthenticator
 
-@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     var window: UIWindow?
 
@@ -49,7 +48,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
+        if UserDefaultsHelper.didShowOnboarding {
+            applicationCoordinator?.registerTimeoutNotification()
+        }
         QuickActionsHelper.setupActions()
+    }
+
+    func applicationWillResignActive(_ application: UIApplication) {
+        applicationCoordinator?.disableTimeoutNotification()
     }
 
     private func configureFirebase() {
@@ -62,10 +68,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
+        applicationCoordinator?.disableTimeoutNotification()
         applicationCoordinator?.openPasscodeIfNeeded()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
+        if UserDefaultsHelper.didShowOnboarding {
+            applicationCoordinator?.registerTimeoutNotification()
+        }
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         applicationCoordinator?.showBiometricsIfEnabled()
     }

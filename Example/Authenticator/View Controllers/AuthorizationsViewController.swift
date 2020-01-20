@@ -35,8 +35,6 @@ final class AuthorizationsViewController: BaseViewController {
 
     var dataSource: AuthorizationsDataSource?
 
-    var passcodeCoordinator: PasscodeCoordinator?
-
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.authorizations)
@@ -135,18 +133,6 @@ private extension AuthorizationsViewController {
             }
         )
     }
-
-    func presentPasscodeView(_ authorizationId: String) {
-        passcodeCoordinator = PasscodeCoordinator(
-            rootViewController: self,
-            purpose: .enter,
-            type: .authorize
-        )
-        passcodeCoordinator?.onCompleteClosure = { [weak self] in
-            self?.confirmAuthorization(by: authorizationId)
-        }
-        passcodeCoordinator?.start()
-    }
 }
 
 // MARK: - Layout
@@ -188,17 +174,6 @@ extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
     }
 
     func confirmPressed(authorizationId: String) {
-        guard PasscodeManager.isBiometricsEnabled else { self.presentPasscodeView(authorizationId); return }
-
-        PasscodeManager.useBiometrics(
-            type: .authorize,
-            reasonString: l10n(.confirmAuthorization),
-            onSuccess: { [weak self] in
-                self?.confirmAuthorization(by: authorizationId)
-           },
-           onFailure: { _ in
-               self.presentPasscodeView(authorizationId)
-           }
-       )
+        confirmAuthorization(by: authorizationId)
     }
 }
