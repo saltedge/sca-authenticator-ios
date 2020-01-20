@@ -51,9 +51,11 @@ extension SEWebView: WKNavigationDelegate {
             if let accessToken = url.queryItem(for: SENetKeys.accessToken) {
                 self.delegate?.webView(self, didReceiveCallback: url, accessToken: accessToken)
             } else {
-                self.delegate?.webView(
-                    self, didReceiveCallbackWithError: url.queryItem(for: SENetKeys.errorClass) ?? "Something went wrong."
-                )
+                let error: String = url.queryItem(for: SENetKeys.errorMessage)
+                    ?? url.queryItem(for: SENetKeys.errorClass)
+                    ?? "Something went wrong"
+
+                self.delegate?.webView(self, didReceiveCallbackWithError: error)
             }
 
             decisionHandler(.cancel)

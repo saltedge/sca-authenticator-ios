@@ -58,7 +58,7 @@ You can find related source code:
 #### Add the pod to your `Podfile`
   
   ```ruby
-  pod 'SEAuthenticator', '~> 1.0.1'
+  pod 'SEAuthenticator', '~> 1.0.2'
   ```
   
 #### Import SDK into your app
