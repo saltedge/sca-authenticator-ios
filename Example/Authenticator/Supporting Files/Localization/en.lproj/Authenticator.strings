@@ -48,6 +48,7 @@
 "errors.passcode_ios_singular" = "You entered the wrong Passcode. Please try again in %{count} minute.";
 "errors.try_again" = "Please try again";
 "errors.warning" = "Warning";
+"warnings.inactivity_block_message" = "Application will be locked due to inactivity";
 "in_app.connections_list.delete_all_connections" = "Delete all connections and stop receiving authorizations for all connections.";
 "in_app.connections_list.delete_connection" = "Delete the connection and stop receiving authorizations for it.";
 "in_app.authorizations.authorization_expired" = "Authorization Expired";

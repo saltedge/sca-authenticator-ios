@@ -24,6 +24,7 @@ import UIKit
 
 extension Notification.Name {
     static let appTimeout = Notification.Name("appTimeout")
+    static let resetTimer = Notification.Name("reset_timer")
 }
 
 class TimerApplication: UIApplication {
@@ -54,12 +55,20 @@ class TimerApplication: UIApplication {
         )
     }
 
+    private static func timerResetNotification() {
+        NotificationCenter.default.post(
+            name: .resetTimer,
+            object: nil
+        )
+    }
+
     override func sendEvent(_ event: UIEvent) {
         super.sendEvent(event)
 
         if let touches = event.allTouches {
             for touch in touches where touch.phase == .began {
                 TimerApplication.resetIdleTimer()
+                TimerApplication.timerResetNotification()
             }
         }
     }

@@ -43,7 +43,8 @@ final class MessageBarView: UIView {
     }
 
     var heightConstraint: Constraint?
-    static let defaultDuration: TimeInterval = 3.0
+
+    static let defaultDuration: TimeInterval = 5.0
 
     var defaultHeight: CGFloat {
         let neededHeight = alertLabel.intrinsicContentSize.height + 2.0 * Layout.labelOffset

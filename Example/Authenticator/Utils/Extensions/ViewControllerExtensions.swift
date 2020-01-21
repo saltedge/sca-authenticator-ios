@@ -98,7 +98,11 @@ extension UIViewController: MFMailComposeViewControllerDelegate {
 // MARK: - Message Bar View Presentation
 extension UIViewController {
     @discardableResult
-    func present(message: String, style: MessageBarView.Style, height: CGFloat? = nil, hide: Bool = true) -> MessageBarView? {
+    func present(message: String,
+                 style: MessageBarView.Style,
+                 height: CGFloat? = nil,
+                 hide: Bool = true,
+                 completion: (() ->())? = nil) -> MessageBarView? {
         guard isViewLoaded && view.window != nil else { return nil } // View is not loaded or not on screen at the moment
 
         let messageView = MessageBarView(description: message, style: style)
@@ -115,23 +119,25 @@ extension UIViewController {
             messageView.top(to: view)
         }
         view.layoutIfNeeded()
-        animateMessageView(messageView, height: height ?? messageView.defaultHeight, hide: hide)
+        animateMessageView(messageView, height: height ?? messageView.defaultHeight, hide: hide, completion: completion)
 
         return messageView
     }
 
-    private func animateMessageView(_ messageView: MessageBarView, height: CGFloat, hide: Bool) {
+    private func animateMessageView(_ messageView: MessageBarView, height: CGFloat, hide: Bool, completion: (() ->())? = nil) {
         messageView.heightConstraint?.constant = height
-        UIView.withSpringAnimation(animations: {
-            messageView.alpha = 1.0
-            self.view.layoutIfNeeded()
-        }, completion: {
-            after(MessageBarView.defaultDuration) {
-                if hide {
-                    self.dismiss(messageBarView: messageView)
+        UIView.withSpringAnimation(
+            animations: {
+                messageView.alpha = 1.0
+                self.view.layoutIfNeeded()
+            },
+            completion: {
+                after(MessageBarView.defaultDuration) {
+                    completion?()
+                    if hide { self.dismiss(messageBarView: messageView) }
                 }
             }
-        })
+        )
     }
 
     @objc private func dismissView(_ recognizer: UITapGestureRecognizer) {
@@ -144,12 +150,16 @@ extension UIViewController {
         guard messageBarView.superview != nil else { return }
 
         messageBarView.heightConstraint?.constant = 0.0
-        UIView.withSpringAnimation(animations: {
-            messageBarView.alpha = 0.0
-            self.view.layoutIfNeeded()
-        }, completion: {
-            messageBarView.removeFromSuperview()
-        })
+
+        UIView.withSpringAnimation(
+            animations: {
+                messageBarView.alpha = 0.0
+                self.view.layoutIfNeeded()
+            },
+            completion: {
+                messageBarView.removeFromSuperview()
+            }
+        )
     }
 }
 

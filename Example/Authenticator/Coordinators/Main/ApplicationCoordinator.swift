@@ -31,13 +31,15 @@ final class ApplicationCoordinator: Coordinator {
 
     private var passcodeShownDueToInactivity: Bool = false
 
+    private var messageBarView: MessageBarView?
+
     init(window: UIWindow?) {
         self.window = window
     }
 
     func start() {
         if UserDefaultsHelper.didShowOnboarding {
-            registerTimeoutNotification()
+            registerTimerNotifications()
             window?.rootViewController = tabBarCoordinator.rootViewController
             tabBarCoordinator.start()
         } else {
@@ -53,28 +55,25 @@ final class ApplicationCoordinator: Coordinator {
         window?.makeKeyAndVisible()
     }
 
-    @objc func applicationDidTimeout(notification: NSNotification) {
-        guard let topController = UIWindow.topViewController,
-            !topController.isKind(of: PasscodeViewController.self) else { return }
-
-        passcodeShownDueToInactivity = true
-        disableTimeoutNotification()
-        openPasscodeIfNeeded()
-        showBiometricsIfEnabled()
-    }
-
-    func registerTimeoutNotification() {
-        disableTimeoutNotification()
+    func registerTimerNotifications() {
+        disableTimerNotifications()
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(applicationDidTimeout(notification:)),
             name: .appTimeout,
             object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(dismissMessage),
+            name: .resetTimer,
+            object: nil
+        )
     }
 
-    func disableTimeoutNotification() {
+    func disableTimerNotifications() {
         NotificationCenter.default.removeObserver(self, name: .appTimeout, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .resetTimer, object: nil)
     }
 
     func stop() {}
@@ -144,7 +143,7 @@ final class ApplicationCoordinator: Coordinator {
         passcodeCoordinator?.start()
         passcodeCoordinator?.onCompleteClosure = {
             TimerApplication.resetIdleTimer()
-            self.registerTimeoutNotification()
+            self.registerTimerNotifications()
             if !self.passcodeShownDueToInactivity {
                 self.tabBarCoordinator.startAuthorizationsCoordinator()
             }
@@ -154,6 +153,40 @@ final class ApplicationCoordinator: Coordinator {
     private func removeAlertControllerIfPresented() {
         if let alertViewController = UIWindow.topViewController as? UIAlertController {
             alertViewController.dismiss(animated: false)
+        }
+    }
+
+    @objc func applicationDidTimeout(notification: NSNotification) {
+        guard let topController = UIWindow.topViewController,
+            !topController.isKind(of: PasscodeViewController.self) else { return }
+
+        var visibleController: UIViewController
+
+        if let tabBarController = topController as? MainTabBarViewController,
+            let selectedController = (tabBarController.selectedViewController as? UINavigationController)?.viewControllers.last {
+            visibleController = selectedController
+        } else {
+            visibleController = topController
+        }
+
+        messageBarView = visibleController.present(
+            message: l10n(.inactivityMessage),
+            style: .warning,
+            completion: {
+                if self.messageBarView != nil {
+                    self.passcodeShownDueToInactivity = true
+                    self.disableTimerNotifications()
+                    self.openPasscodeIfNeeded()
+                    self.showBiometricsIfEnabled()
+                }
+            }
+        )
+    }
+
+    @objc private func dismissMessage() {
+        if let messageView = messageBarView, let topController = UIWindow.topViewController {
+            topController.dismiss(messageBarView: messageView)
+            messageBarView = nil
         }
     }
 }

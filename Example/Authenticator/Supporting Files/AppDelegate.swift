@@ -49,13 +49,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         if UserDefaultsHelper.didShowOnboarding {
-            applicationCoordinator?.registerTimeoutNotification()
+            applicationCoordinator?.registerTimerNotifications()
         }
         QuickActionsHelper.setupActions()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        applicationCoordinator?.disableTimeoutNotification()
+        TimerApplication.resetIdleTimer()
+        applicationCoordinator?.disableTimerNotifications()
     }
 
     private func configureFirebase() {
@@ -68,13 +69,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        applicationCoordinator?.disableTimeoutNotification()
+        TimerApplication.resetIdleTimer()
+        applicationCoordinator?.disableTimerNotifications()
         applicationCoordinator?.openPasscodeIfNeeded()
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         if UserDefaultsHelper.didShowOnboarding {
-            applicationCoordinator?.registerTimeoutNotification()
+            applicationCoordinator?.registerTimerNotifications()
         }
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         applicationCoordinator?.showBiometricsIfEnabled()
