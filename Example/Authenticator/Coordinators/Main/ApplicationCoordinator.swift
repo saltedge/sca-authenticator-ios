@@ -163,7 +163,7 @@ final class ApplicationCoordinator: Coordinator {
         var visibleController: UIViewController
 
         if let tabBarController = topController as? MainTabBarViewController,
-            let selectedController = (tabBarController.selectedViewController as? UINavigationController)?.viewControllers.first {
+            let selectedController = (tabBarController.selectedViewController as? UINavigationController)?.viewControllers.last {
             visibleController = selectedController
         } else {
             visibleController = topController
