@@ -109,6 +109,8 @@ extension AuthorizationHeaderCollectionViewCell: Layoutable {
 
         connectionNameLabel.leftToRight(of: connectionImageView, offset: Layout.nameLabelOffset)
         connectionNameLabel.centerY(to: connectionImageView)
+        connectionNameLabel.rightToLeft(of: timeLeftLabel, offset: -Layout.nameLabelOffset, relation: .equalOrLess)
+        connectionNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         progressView.height(3.0)
         progressView.bottom(to: contentView)
@@ -118,6 +120,7 @@ extension AuthorizationHeaderCollectionViewCell: Layoutable {
         timeLeftLabel.right(to: contentView, offset: Layout.timeLeftLabelOffset)
         timeLeftLabel.centerY(to: connectionImageView)
         timeLeftLabel.height(Layout.timeLeftLabelHeight)
+        timeLeftLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
 }
 
