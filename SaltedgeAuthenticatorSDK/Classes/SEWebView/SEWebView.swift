@@ -73,6 +73,15 @@ extension SEWebView: WKNavigationDelegate {
     }
 
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        delegate?.webView(webView, didReceiveCallbackWithError: error.localizedDescription)
+        let error = (error as NSError)
+
+        if error.domain == "WebKitErrorDomain" && error.code == 102 {
+            // Error code 102 "Frame load interrupted" is raised by the WKWebView
+            // when the URL is from an http redirect. This is a common pattern when
+            // implementing OAuth with a WebView.
+            return
+        } else {
+            delegate?.webView(webView, didReceiveCallbackWithError: error.localizedDescription)
+        }
     }
 }
