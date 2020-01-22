@@ -2,6 +2,8 @@
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/SaltedgeAuthenticatorSDK.svg?style=flat)](https://img.shields.io/cocoapods/v/SaltedgeAuthenticatorSDK.svg?style=flat)
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 [![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/fold_left.svg?style=social&label=Follow%20%40saltedge)](http://twitter.com/saltedge)
+[![Gitter](https://badges.gitter.im/Salt-Edge/authenticator.svg)](https://gitter.im/Salt-Edge/authenticator?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 
 <br />
 <p align="center">
@@ -58,7 +60,7 @@ You can find related source code:
 #### Add the pod to your `Podfile`
   
   ```ruby
-  pod 'SEAuthenticator', '~> 1.0.1'
+  pod 'SEAuthenticator', '~> 1.0.3'
   ```
   
 #### Import SDK into your app

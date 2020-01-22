@@ -30,11 +30,9 @@ final class CountdownProgressView: UIView {
 
     init() {
         super.init(frame: .zero)
-        progressView.progress = Float(secondsLeft) / Float(lifetime)
         progressView.progressTintColor = .auth_blue
         progressView.trackTintColor = .clear
         layout()
-        setTimeLeft(secondsLeft)
     }
 
     func update(secondsLeft: Int, lifetime: Int) {
@@ -52,7 +50,7 @@ final class CountdownProgressView: UIView {
 private extension CountdownProgressView {
     func setTimeLeft(_ timeLeft: Int) {
         progressView.progress = Float(timeLeft) / Float(lifetime)
-        progressView.setProgress(progressView.progress, animated: true)
+        progressView.setProgress(progressView.progress, animated: false)
     }
 }
 

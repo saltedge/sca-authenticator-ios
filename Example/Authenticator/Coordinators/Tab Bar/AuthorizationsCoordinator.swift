@@ -29,7 +29,6 @@ final class AuthorizationsCoordinator: Coordinator {
     private var passcodeCoordinator: PasscodeCoordinator?
 
     private var timer: Timer?
-    private let dataSource = AuthorizationsDataSource()
     private var connections = ConnectionsCollector.activeConnections
 
     private var selectedViewModelIndex: Int?
@@ -37,10 +36,10 @@ final class AuthorizationsCoordinator: Coordinator {
 
     private var authorizationFromPush: (connectionId: String, authorizationId: String)?
 
+    private let dataSource = AuthorizationsDataSource()
+
     func start() {
         rootViewController.dataSource = dataSource
-        rootViewController.delegate = self
-
         setupPolling()
         updateDataSource(with: [])
     }
@@ -52,6 +51,7 @@ final class AuthorizationsCoordinator: Coordinator {
 
     func stop() {
         timer?.invalidate()
+        timer = nil
     }
 
     private func setupPolling() {
@@ -67,7 +67,7 @@ final class AuthorizationsCoordinator: Coordinator {
     }
 
     @objc private func getEncryptedAuthorizationsIfAvailable() {
-        if connections.count > 0 {
+        if timer != nil, connections.count > 0 {
             refresh()
         } else {
             updateDataSource(with: [])
@@ -77,39 +77,22 @@ final class AuthorizationsCoordinator: Coordinator {
      private func updateDataSource(with authorizations: [SEDecryptedAuthorizationData]) {
         if dataSource.update(with: authorizations) {
             rootViewController.reloadData()
-            if authorizations.count > 1,
-                let authorizationToScroll = authorizationFromPush,
-                let viewModel = dataSource.viewModel(
-                    by: authorizationToScroll.connectionId,
-                    authorizationId: authorizationToScroll.authorizationId
-                ),
-                let index = dataSource.index(of: viewModel) {
-                    rootViewController.scroll(to: index)
-                    authorizationFromPush = nil
-            }
         }
+
+        if let authorizationToScroll = authorizationFromPush {
+            if let viewModel = dataSource.viewModel(
+                by: authorizationToScroll.connectionId,
+                authorizationId: authorizationToScroll.authorizationId
+            ),
+            let index = dataSource.index(of: viewModel) {
+                rootViewController.scroll(to: index)
+            } else {
+                rootViewController.present(message: l10n(.authorizationNotFound), style: .error)
+            }
+            authorizationFromPush = nil
+        }
+
         rootViewController.updateViewsHiddenState()
-    }
-
-    private func confirmationData(for index: Int) -> SEConfirmAuthorizationData? {
-        guard let viewModel = dataSource.viewModel(at: index),
-            let connection = ConnectionsCollector.with(id: viewModel.connectionId),
-            let url = connection.baseUrl else { return nil }
-
-        return SEConfirmAuthorizationData(
-            url: url,
-            connectionGuid: connection.guid,
-            accessToken: connection.accessToken,
-            appLanguage: UserDefaultsHelper.applicationLanguage,
-            authorizationId: viewModel.authorizationId,
-            authorizationCode: viewModel.authorizationCode
-        )
-    }
-
-    private func remove(_ viewModel: AuthorizationViewModel, at index: Int) {
-        _ = dataSource.remove(viewModel)
-        rootViewController.remove(at: index)
-        setupPolling()
     }
 }
 
@@ -117,7 +100,7 @@ final class AuthorizationsCoordinator: Coordinator {
 private extension AuthorizationsCoordinator {
     @objc func refresh() {
         AuthorizationsInteractor.refresh(
-            connections: connections,
+            connections: Array(connections),
             success: { [weak self] encryptedAuthorizations in
                 guard let strongSelf = self else { return }
 
@@ -131,103 +114,14 @@ private extension AuthorizationsCoordinator {
                     }
                 }
             },
+            failure: { error in
+                self.rootViewController.present(message: error, style: .error)
+            },
             connectionNotFoundFailure: { connectionId in
                 if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
                     ConnectionRepository.setInactive(connection)
                 }
             }
         )
-    }
-
-    func showAndConfirmWithPasscode() {
-        passcodeCoordinator = PasscodeCoordinator(
-            rootViewController: rootViewController,
-            purpose: .enter,
-            type: .authorize
-        )
-        passcodeCoordinator?.onCompleteClosure = { [weak self] in
-            guard let strongSelf = self else { return }
-
-            strongSelf.selectedCell?.setProcessing(with: l10n(.processing))
-
-            guard let index = strongSelf.selectedViewModelIndex,
-                let data = strongSelf.confirmationData(for: index),
-                let viewModel = strongSelf.dataSource.viewModel(at: index) else { return }
-
-            AuthorizationsInteractor.confirm(
-                data: data,
-                success: {
-                    strongSelf.remove(viewModel, at: index)
-                },
-                failure: { _ in
-                    strongSelf.setupPolling()
-                }
-            )
-        }
-        passcodeCoordinator?.onDismissClosure = { [weak self] in
-            self?.setupPolling()
-        }
-        passcodeCoordinator?.start()
-    }
-}
-
-// MARK: - AuthorizationsViewControllerDelegate
-extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
-    func denyPressed(at index: Int) {
-        guard let data = confirmationData(for: index),
-            let viewModel = dataSource.viewModel(at: index) else { return }
-
-        timer?.invalidate()
-
-        AuthorizationsInteractor.deny(
-            data: data,
-            success: { [weak self] in
-                guard let strongSelf = self else { return }
-
-                strongSelf.remove(viewModel, at: index)
-            },
-            failure: { _ in
-                self.setupPolling()
-            }
-        )
-    }
-
-    func confirmPressed(at index: Int, cell: AuthorizationCollectionViewCell) {
-        selectedViewModelIndex = index
-        selectedCell = cell
-
-        timer?.invalidate()
-
-        guard PasscodeManager.isBiometricsEnabled else { self.showAndConfirmWithPasscode(); return }
-
-        PasscodeManager.useBiometrics(
-            type: .authorize,
-            reasonString: l10n(.confirmAuthorization),
-            onSuccess: { [weak self] in
-                guard let strongSelf = self else { return }
-
-                cell.setProcessing(with: l10n(.processing))
-
-                guard let data = strongSelf.confirmationData(for: index),
-                    let viewModel = strongSelf.dataSource.viewModel(at: index) else { return }
-
-                AuthorizationsInteractor.confirm(
-                    data: data,
-                    success: {
-                        strongSelf.remove(viewModel, at: index)
-                    },
-                    failure: { _ in
-                        strongSelf.setupPolling()
-                    }
-                )
-            },
-            onFailure: { _ in
-                self.showAndConfirmWithPasscode()
-            }
-        )
-    }
-
-    func modalClosed() {
-        setupPolling()
     }
 }

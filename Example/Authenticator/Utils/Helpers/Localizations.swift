@@ -80,7 +80,17 @@ enum Localizations: String, Localizable {
     case confirm = "actions.confirm"
     case deny = "actions.deny"
     case viewMore = "actions.view_more"
+
     case authorizationExpired = "in_app.authorizations.authorization_expired"
+    case active = "authorization.active.title"
+    case successfulAuthorization = "authorization.success.title"
+    case denied = "authorization.denied.title"
+    case timeOut = "authorization.time_out.title"
+
+    case activeMessage = "authorization.active.message"
+    case successfulAuthorizationMessage = "authorization.success.message"
+    case deniedMessage = "authorization.denied.message"
+    case timeOutMessage = "authorization.time_out.message"
 
     // MARK: - Connections
     case noConnections = "in_app.connect.no_connections"
@@ -130,11 +140,13 @@ enum Localizations: String, Localizable {
     case couldNotSendMail = "in_app.settings.contact_support_failed"
 
     // MARK: - Errors
+    case authorizationNotFound = "errors.authorization_not_found"
     case deniedCamera = "errors.denied_camera"
     case deniedCameraDescription = "errors.denied_camera_description"
     case inactiveConnection = "errors.inactive_connection"
     case noInternetConnection = "errors.no_internet_connection"
     case pleaseTryAgain = "errors.no_internet_connection_try_again"
+    case inactivityMessage = "warnings.inactivity_block_message"
 
     // MARK: - Connection Options
     case reconnect = "actions.reconnect"

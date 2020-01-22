@@ -20,6 +20,10 @@
 		9D4310F422D7661D004A7FCF /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */; };
 		9D4310F522D76625004A7FCF /* AboutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */; };
 		9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */; };
+		9D453CC123CCB56400702695 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CC023CCB56400702695 /* main.swift */; };
+		9D453CC223CCB56400702695 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CC023CCB56400702695 /* main.swift */; };
+		9D453CCD23D06F0E00702695 /* TimerApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CCC23D06F0E00702695 /* TimerApplication.swift */; };
+		9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CCC23D06F0E00702695 /* TimerApplication.swift */; };
 		9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
 		9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
 		9D5AC68D23573553003B00E2 /* LibrariesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68C23573553003B00E2 /* LibrariesDataSource.swift */; };
@@ -53,8 +57,6 @@
 		9D772130231E51200015BAC6 /* AuthorizationsCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */; };
 		9D772132231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */; };
 		9D772133231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */; };
-		9D772135231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */; };
-		9D772136231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */; };
 		9D77213823264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */; };
 		9D77213923264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */; };
 		9D940958235DDB900080EBB5 /* AboutDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D940957235DDB8F0080EBB5 /* AboutDataSourceSpec.swift */; };
@@ -300,8 +302,9 @@
 		9DE324DF22D39AC800EB162A /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86322CE18270050ED3C /* CompleteView.swift */; };
 		9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86422CE18270050ED3C /* LoadingIndicator.swift */; };
 		9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED89022CE18280050ED3C /* AppDelegate.swift */; };
+		9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
+		9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
-		F846BC102344FEC9005A9781 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */; };
 		F846BC112344FEC9005A9781 /* application.plist in Resources */ = {isa = PBXBuildFile; fileRef = F846BC0F2344FEC9005A9781 /* application.plist */; };
 /* End PBXBuildFile section */
 
@@ -338,6 +341,8 @@
 		95CD02DC235864130085C52A /* SEConnectHelperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEConnectHelperSpec.swift; sourceTree = "<group>"; };
 		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
 		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
+		9D453CC023CCB56400702695 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		9D453CCC23D06F0E00702695 /* TimerApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerApplication.swift; sourceTree = "<group>"; };
 		9D5AC68923571958003B00E2 /* LicensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewController.swift; sourceTree = "<group>"; };
 		9D5AC68C23573553003B00E2 /* LibrariesDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibrariesDataSource.swift; sourceTree = "<group>"; };
 		9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsSpec.swift; sourceTree = "<group>"; };
@@ -365,7 +370,6 @@
 		9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsHeadersSwipingView.swift; sourceTree = "<group>"; };
 		9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsCollectionLayout.swift; sourceTree = "<group>"; };
 		9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationCollectionViewCell.swift; sourceTree = "<group>"; };
-		9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingAuthorizationsCollectionView.swift; sourceTree = "<group>"; };
 		9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAuthorizationsView.swift; sourceTree = "<group>"; };
 		9D940957235DDB8F0080EBB5 /* AboutDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutDataSourceSpec.swift; sourceTree = "<group>"; };
 		9D94095923618CF00080EBB5 /* CacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHelper.swift; sourceTree = "<group>"; };
@@ -513,11 +517,11 @@
 		9DE324E522D4773F00EB162A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9DE324E722D4774A00EB162A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9DE324E922D4775000EB162A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationStateView.swift; sourceTree = "<group>"; };
 		BE78B0BDB65BD9B80C655471 /* SaltedgeAuthenticatorSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SaltedgeAuthenticatorSDK.podspec; path = ../SaltedgeAuthenticatorSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Authenticator_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D211CB21F21CCFE7A57F9A63 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F846BC0F2344FEC9005A9781 /* application.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = application.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -769,9 +773,9 @@
 		9DCC1F3823292F4E00BF7B70 /* Authorizations */ = {
 			isa = PBXGroup;
 			children = (
-				9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */,
 				9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */,
-				9D772134231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift */,
+				9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */,
+				9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */,
 			);
 			path = Authorizations;
 			sourceTree = "<group>";
@@ -1148,12 +1152,13 @@
 		9DCED88B22CE18280050ED3C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9D453CCC23D06F0E00702695 /* TimerApplication.swift */,
 				9DCED88D22CE18280050ED3C /* GoogleService-Info.example.plist */,
 				9DCED89022CE18280050ED3C /* AppDelegate.swift */,
+				9D453CC023CCB56400702695 /* main.swift */,
 				9DCED89122CE18280050ED3C /* application.example.plist */,
 				9DCED89322CE18280050ED3C /* Info.plist */,
 				F846BC0F2344FEC9005A9781 /* application.plist */,
-				F846BC0E2344FEC9005A9781 /* GoogleService-Info.plist */,
 				9DCED89422CE18280050ED3C /* Localization */,
 			);
 			path = "Supporting Files";
@@ -1376,7 +1381,6 @@
 				F846BC112344FEC9005A9781 /* application.plist in Resources */,
 				9DCED92322CE18280050ED3C /* GoogleService-Info.example.plist in Resources */,
 				9DCED92A22CE18280050ED3C /* Authenticator.strings in Resources */,
-				F846BC102344FEC9005A9781 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1595,16 +1599,17 @@
 				9DCED8C422CE18280050ED3C /* AuthorizationsPresenter.swift in Sources */,
 				9DCED90822CE18280050ED3C /* PasscodeCoordinator.swift in Sources */,
 				9DCED8CD22CE18280050ED3C /* FontsExtensions.swift in Sources */,
+				9D453CC123CCB56400702695 /* main.swift in Sources */,
 				9DCED8A922CE18280050ED3C /* OnboardingViewController.swift in Sources */,
 				9DCED8CC22CE18280050ED3C /* ViewsExtensions.swift in Sources */,
 				9DCED8EC22CE18280050ED3C /* BiometricsHelper.swift in Sources */,
 				9DCED90522CE18280050ED3C /* PasscodeView.swift in Sources */,
 				9DCED91422CE18280050ED3C /* SetupAppCoordinator.swift in Sources */,
-				9D772135231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */,
 				9DCED90922CE18280050ED3C /* LanguageCoordinator.swift in Sources */,
 				9DCED8C822CE18280050ED3C /* ImageExtensions.swift in Sources */,
 				9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9DD8946022E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,
+				9D453CCD23D06F0E00702695 /* TimerApplication.swift in Sources */,
 				9DCED8C722CE18280050ED3C /* BordersExtensions.swift in Sources */,
 				9DCED8D322CE18280050ED3C /* StackViewExtensions.swift in Sources */,
 				9DCED91522CE18280050ED3C /* Connection.swift in Sources */,
@@ -1664,6 +1669,7 @@
 				9DCED8DE22CE18280050ED3C /* KeychainHelper.swift in Sources */,
 				9DCED8FA22CE18280050ED3C /* TimeLeftIndicator.swift in Sources */,
 				9DCED8EA22CE18280050ED3C /* HapticFeedbackHelper.swift in Sources */,
+				9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */,
 				9DCED91E22CE18280050ED3C /* SettingsDataSource.swift in Sources */,
 				9D5AC68D23573553003B00E2 /* LibrariesDataSource.swift in Sources */,
 				9DCED89F22CE18280050ED3C /* ConnectViewController.swift in Sources */,
@@ -1699,6 +1705,7 @@
 				9D4310F522D76625004A7FCF /* AboutDataSource.swift in Sources */,
 				9D66E1B422D4C1F000BD59B6 /* ConnectionDataSourceSpec.swift in Sources */,
 				9DE324B622D39A4700EB162A /* SettingsViewController.swift in Sources */,
+				9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */,
 				9DE324A522D39A1300EB162A /* Constants.swift in Sources */,
 				9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */,
 				9D66E1B322D4C1E900BD59B6 /* LanguagePickerDataSourceSpec.swift in Sources */,
@@ -1717,6 +1724,7 @@
 				9D66E1A922D4C1C100BD59B6 /* DecryptedAuthorizationDataSpec.swift in Sources */,
 				9D66E1B222D4C1E600BD59B6 /* TabBarDataSourceSpec.swift in Sources */,
 				9DE324DC22D39AC100EB162A /* TaptileFeedbackButton.swift in Sources */,
+				9D453CC223CCB56400702695 /* main.swift in Sources */,
 				9DE324AB22D39A2300EB162A /* Localizations.swift in Sources */,
 				9DE3249422D399E000EB162A /* ViewExtensions+Utilitarian.swift in Sources */,
 				9DE3249222D399DB00EB162A /* BordersExtensions.swift in Sources */,
@@ -1744,7 +1752,6 @@
 				9DE324CE22D39A9800EB162A /* CustomSpacingLabel.swift in Sources */,
 				9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9DE3247F22D3998F00EB162A /* LanguageCoordinator.swift in Sources */,
-				9D772136231E6BAB0015BAC6 /* SwipingAuthorizationsCollectionView.swift in Sources */,
 				9DE324AC22D39A2500EB162A /* AppearanceHelper.swift in Sources */,
 				9DE3247822D3997900EB162A /* OnboardingCoordinator.swift in Sources */,
 				9D66E1AA22D4C1C600BD59B6 /* SetupStepSpec.swift in Sources */,
@@ -1789,6 +1796,7 @@
 				9DE3248322D3999B00EB162A /* RealmManager.swift in Sources */,
 				9DE3248822D399B100EB162A /* TabBarDataSource.swift in Sources */,
 				9DE324CB22D39A8E00EB162A /* ConnectionCell.swift in Sources */,
+				9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */,
 				9D66E1B522D4C1F300BD59B6 /* AuthorizationsDataSourceSpec.swift in Sources */,
 				9DE3248722D399AC00EB162A /* ConnectionsCollector.swift in Sources */,
 				9DE3248C22D399BD00EB162A /* SettingsDataSource.swift in Sources */,
@@ -2000,13 +2008,13 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 106;
+				CURRENT_PROJECT_VERSION = 107;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.2.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2025,13 +2033,13 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 106;
+				CURRENT_PROJECT_VERSION = 107;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.2.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";

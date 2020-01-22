@@ -23,7 +23,7 @@
 import Foundation
 import SEAuthenticator
 
-struct AuthorizationViewModel: Equatable {
+class AuthorizationViewModel: Equatable {
     var title: String = ""
     var authorizationId: String
     var connectionId: String
@@ -32,10 +32,13 @@ struct AuthorizationViewModel: Equatable {
     var lifetime: Int = 0
     var authorizationExpiresAt: Date = Date()
     var createdAt: Date = Date()
+    var actionTime: Date? // NOTE: Time from where destroy is calculated
+    var expired: Bool {
+        authorizationExpiresAt < Date()
+    }
+    var state: AuthorizationStateView.AuthorizationState
 
     init?(_ data: SEDecryptedAuthorizationData) {
-        guard data.expiresAt > Date() else { return nil }
-
         self.authorizationId = data.id
         self.connectionId = data.connectionId
         self.authorizationCode = data.authorizationCode
@@ -44,6 +47,7 @@ struct AuthorizationViewModel: Equatable {
         self.authorizationExpiresAt = data.expiresAt
         self.lifetime = Int(data.expiresAt.timeIntervalSince(data.createdAt))
         self.createdAt = data.createdAt
+        self.state = data.expiresAt < Date() ? .expired : .base
     }
 
     static func == (lhs: AuthorizationViewModel, rhs: AuthorizationViewModel) -> Bool {
