@@ -23,7 +23,7 @@
 import Foundation
 
 enum SEActionRouter: Routable {
-    case confirm(SEActionData, GUID)
+    case perform(SEActionData, GUID)
 
     var method: HTTPMethod {
         return .post
@@ -35,18 +35,19 @@ enum SEActionRouter: Routable {
 
     var url: URL {
         switch self {
-        case .confirm(let data, let actionGuid): return data.url.appendingPathComponent("/api/authenticator/v1/action/\(actionGuid)")
+        case .perform(let data, let actionGuid):
+            return data.url.appendingPathComponent("\(SENetPaths.action.path)/\(actionGuid)")
         }
     }
 
     var headers: [String : String]? {
         switch self {
-        case .confirm(let data, let actionGuid):
+        case .perform(let data, let actionGuid):
             let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
 
             let signature = SignatureHelper.signedPayload(
                 method: .post,
-                urlString: data.url.appendingPathComponent("/api/authenticator/v1/action/\(actionGuid)").absoluteString,
+                urlString: data.url.appendingPathComponent("\(SENetPaths.action.path)/\(actionGuid)").absoluteString,
                 guid: data.connectionGuid,
                 expiresAt: expiresAt,
                 params: parameters

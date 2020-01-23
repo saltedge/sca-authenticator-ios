@@ -28,31 +28,9 @@ public struct SEActionManager {
                                      onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmActionResponse>,
                                      onFailure failure: @escaping FailureBlock) {
         HTTPService<SEConfirmActionResponse>.execute(
-            request: SEActionRouter.confirm(data, actionGuid),
+            request: SEActionRouter.perform(data, actionGuid),
             success: success,
             failure: failure
         )
-    }
-}
-
-public struct SEConfirmActionResponse: SerializableResponse {
-    public let success: Bool
-    public var authorizationId: String?
-    public var connectionId: String?
-
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? [String: Any],
-            let success = data[SENetKeys.success] as? Bool {
-            if let authorizationId = data[SENetKeys.authorizationId] as? String {
-                self.authorizationId = authorizationId
-            }
-            if let connectionId = data[SENetKeys.connectionId] as? String {
-                self.connectionId = connectionId
-            }
-            self.success = success
-        } else {
-            return nil
-        }
     }
 }

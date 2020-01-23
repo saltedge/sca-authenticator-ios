@@ -74,11 +74,6 @@ final class ConnectViewCoordinator: Coordinator {
         getConnectUrl(from: configurationUrl, with: connectQuery)
     }
 
-    private func fetchAction(from url: URL) {
-        
-    }
-
-    // TODO: Clean this
     private func showQrCodeViewController() {
         qrCodeViewController.metadataReceived = { vc, qrMetadata in
             vc.remove()
@@ -96,59 +91,68 @@ final class ConnectViewCoordinator: Coordinator {
             }
 
             if let qrUrl = URL(string: qrMetadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
-                if let actionGuid = SEConnectHelper.actionGuid(from: qrUrl),
-                    let connectUrl = SEConnectHelper.connectUrl(from: qrUrl) {
-                    let connection = ConnectionsCollector.activeConnections.first!
-
-                    let actionData = SEActionData(
-                        url: connectUrl,
-                        connectionGuid: connection.guid,
-                        accessToken: connection.accessToken,
-                        appLanguage: UserDefaultsHelper.applicationLanguage
-                    )
-
-                    SEActionManager.confirmAction(
-                        data: actionData,
-                        actionGuid: actionGuid,
-                        onSuccess: { response in
-                            if let connectionId = response.connectionId,
-                                let authorizationId = response.authorizationId {
-                                self.connectViewController.showCompleteView(
-                                    with: .success,
-                                    title: "Please confirm authorization",
-                                    completion: {
-                                        AppDelegate.main.applicationCoordinator?.showAuthorizations(
-                                            connectionId: connectionId,
-                                            authorizationId: authorizationId
-                                        )
-                                    }
-                                )
-                            } else {
-                                self.connectViewController.showCompleteView(
-                                    with: .success,
-                                    title: "Successful authentication",
-                                    description: "You were successfully authenticated",
-                                    completion: {
-                                        if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
-                                            UIApplication.shared.open(returnTo)
-                                        }
-                                    }
-                                )
-                            }
-                        },
-                        onFailure: { _ in
-                            self.connectViewController.showCompleteView(with: .fail, title: "Something went wrong")
-                        }
-                    )
-                } else {
-                    self.fetchConfiguration(deepLinkUrl: qrUrl)
-                }
+                self.handleQr(url: qrUrl)
             } else {
                 self.connectViewController.dismiss(animated: true)
             }
         }
         connectViewController.add(qrCodeViewController)
         connectViewController.title = l10n(.scanQr)
+    }
+
+    private func handleQr(url: URL) {
+        if let actionGuid = SEConnectHelper.actionGuid(from: url),
+            let connectUrl = SEConnectHelper.connectUrl(from: url) {
+            connectViewController.startLoading()
+
+            let pickerVc = ConnectionPickerViewController()
+            pickerVc.selectedConnection = { connection in
+                let actionData = SEActionData(
+                    url: connectUrl,
+                    connectionGuid: connection.guid,
+                    accessToken: connection.accessToken,
+                    appLanguage: UserDefaultsHelper.applicationLanguage
+                )
+
+                self.confirmAction(actionData: actionData, actionGuid: actionGuid, qrUrl: url)
+            }
+            connectViewController.present(UINavigationController(rootViewController: pickerVc), animated: true)
+        } else {
+            fetchConfiguration(deepLinkUrl: url)
+        }
+    }
+
+    private func confirmAction(actionData: SEActionData, actionGuid: GUID, qrUrl: URL) {
+        SEActionManager.confirmAction(
+            data: actionData,
+            actionGuid: actionGuid,
+            onSuccess: { response in
+                self.connectViewController.stopLoading()
+
+                if let connectionId = response.connectionId,
+                    let authorizationId = response.authorizationId {
+                    AppDelegate.main.applicationCoordinator?.showAuthorizations(
+                        connectionId: connectionId,
+                        authorizationId: authorizationId
+                    )
+                } else {
+                    self.connectViewController.showCompleteView(
+                        with: .success,
+                        title: l10n(.instantActionSuccessMessage),
+                        description: l10n(.instantActionSuccessDescription),
+                        completion: {
+                            if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
+                                UIApplication.shared.open(returnTo)
+                            }
+                        }
+                    )
+                }
+            },
+            onFailure: { _ in
+                self.connectViewController.stopLoading()
+                self.connectViewController.showCompleteView(with: .fail, title: l10n(.somethingWentWrong))
+            }
+        )
     }
 
     private func getConnectUrl(from configurationUrl: URL, with connectQuery: String?) {

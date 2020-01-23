@@ -92,6 +92,11 @@ enum Localizations: String, Localizable {
     case deniedMessage = "authorization.denied.message"
     case timeOutMessage = "authorization.time_out.message"
 
+    // MARK: - Actions
+
+    case instantActionSuccessMessage = "instant_action.success_message"
+    case instantActionSuccessDescription = "instant_action.success_description"
+
     // MARK: - Connections
     case noConnections = "in_app.connect.no_connections"
     case noConnectionsDescription = "in_app.connect.no_connections_description"
