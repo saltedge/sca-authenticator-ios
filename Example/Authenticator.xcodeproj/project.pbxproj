@@ -19,6 +19,10 @@
 		95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
 		9D1DEE7423D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */; };
 		9D1DEE7523D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */; };
+		9D1DEE7B23DB4FE5003C79AC /* valid_submit_action_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7A23DB4FE5003C79AC /* valid_submit_action_data.json */; };
+		9D1DEE7D23DB503F003C79AC /* invalid_submit_action_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7C23DB503F003C79AC /* invalid_submit_action_data.json */; };
+		9D1DEE7F23DB5071003C79AC /* SubmitActionResponseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7E23DB5071003C79AC /* SubmitActionResponseSpec.swift */; };
+		9D1DEE8123DB5177003C79AC /* ActionRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1DEE8023DB5177003C79AC /* ActionRouterSpec.swift */; };
 		9D4310F422D7661D004A7FCF /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */; };
 		9D4310F522D76625004A7FCF /* AboutDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */; };
 		9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */; };
@@ -344,6 +348,10 @@
 		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
 		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
 		9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionPickerViewController.swift; sourceTree = "<group>"; };
+		9D1DEE7A23DB4FE5003C79AC /* valid_submit_action_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = valid_submit_action_data.json; sourceTree = "<group>"; };
+		9D1DEE7C23DB503F003C79AC /* invalid_submit_action_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = invalid_submit_action_data.json; sourceTree = "<group>"; };
+		9D1DEE7E23DB5071003C79AC /* SubmitActionResponseSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitActionResponseSpec.swift; sourceTree = "<group>"; };
+		9D1DEE8023DB5177003C79AC /* ActionRouterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRouterSpec.swift; sourceTree = "<group>"; };
 		9D453CC023CCB56400702695 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9D453CCC23D06F0E00702695 /* TimerApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerApplication.swift; sourceTree = "<group>"; };
 		9D5AC68923571958003B00E2 /* LicensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewController.swift; sourceTree = "<group>"; };
@@ -755,6 +763,7 @@
 		9D66E1D322D6146800BD59B6 /* Routers */ = {
 			isa = PBXGroup;
 			children = (
+				9D1DEE8023DB5177003C79AC /* ActionRouterSpec.swift */,
 				9D66E1D422D6146800BD59B6 /* ConnectionRouterSpec.swift */,
 				9D66E1D522D6146800BD59B6 /* AuthorizationRouterSpec.swift */,
 				9D66E1D622D6146800BD59B6 /* ProviderRouterSpec.swift */,
@@ -769,6 +778,7 @@
 				9DE3244522D3986B00EB162A /* RevokeConnectionResponseSpec.swift */,
 				9DE3245122D3986B00EB162A /* CreateConnectionResponseSpec.swift */,
 				9D66E1DA22D6146800BD59B6 /* ProviderResponseSpec.swift */,
+				9D1DEE7E23DB5071003C79AC /* SubmitActionResponseSpec.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -1214,6 +1224,8 @@
 				9DE3244722D3986B00EB162A /* valid_encrypted_authorizations_data.json */,
 				9DE3244822D3986B00EB162A /* valid_create_connection_data.json */,
 				9DE3244922D3986B00EB162A /* invalid_encrypted_data_response.json */,
+				9D1DEE7A23DB4FE5003C79AC /* valid_submit_action_data.json */,
+				9D1DEE7C23DB503F003C79AC /* invalid_submit_action_data.json */,
 				9DE3244B22D3986B00EB162A /* valid_confirm_authorization_data.json */,
 				9DE3244C22D3986B00EB162A /* valid_providers_response.json */,
 				9DE3244D22D3986B00EB162A /* incorrect_encrypted_data.json */,
@@ -1393,6 +1405,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DE3246122D3986B00EB162A /* valid_providers_response.json in Resources */,
+				9D1DEE7D23DB503F003C79AC /* invalid_submit_action_data.json in Resources */,
 				9DE3246422D3986B00EB162A /* valid_unconfirmed_session_response.json in Resources */,
 				9DE3245D22D3986B00EB162A /* valid_create_connection_data.json in Resources */,
 				9DE3246022D3986B00EB162A /* valid_confirm_authorization_data.json in Resources */,
@@ -1402,6 +1415,7 @@
 				9DE3245C22D3986B00EB162A /* valid_encrypted_authorizations_data.json in Resources */,
 				9DE3245E22D3986B00EB162A /* invalid_encrypted_data_response.json in Resources */,
 				9DE3245422D3986B00EB162A /* test_private.pem in Resources */,
+				9D1DEE7B23DB4FE5003C79AC /* valid_submit_action_data.json in Resources */,
 				9DE3246222D3986B00EB162A /* incorrect_encrypted_data.json in Resources */,
 				9DE3245B22D3986B00EB162A /* correct_encrypted_data.json in Resources */,
 				9DE3245622D3986B00EB162A /* valid_encrypted_authorization_data.json in Resources */,
@@ -1812,6 +1826,7 @@
 				0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */,
 				9DE3246622D3986B00EB162A /* CreateConnectionResponseSpec.swift in Sources */,
 				9DE324A622D39A1600EB162A /* LocalizationHelper.swift in Sources */,
+				9D1DEE7F23DB5071003C79AC /* SubmitActionResponseSpec.swift in Sources */,
 				9DE324D922D39AB900EB162A /* CustomButton.swift in Sources */,
 				9DE324DA22D39ABB00EB162A /* SetupProgressBar.swift in Sources */,
 				9DE3246A22D398B300EB162A /* AuthorizationsPresenterSpec.swift in Sources */,
@@ -1849,6 +1864,7 @@
 				9D66E1AF22D4C1D700BD59B6 /* ConnectionDataSpec.swift in Sources */,
 				9D77213923264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */,
 				9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */,
+				9D1DEE8123DB5177003C79AC /* ActionRouterSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
