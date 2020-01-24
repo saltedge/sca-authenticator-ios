@@ -2,7 +2,7 @@
 //  SEActionRouter
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@
 import Foundation
 
 enum SEActionRouter: Routable {
-    case perform(SEActionData, GUID)
+    case submit(SEActionData)
 
     var method: HTTPMethod {
-        return .post
+        return .put
     }
 
     var encoding: Encoding {
@@ -35,19 +35,19 @@ enum SEActionRouter: Routable {
 
     var url: URL {
         switch self {
-        case .perform(let data, let actionGuid):
-            return data.url.appendingPathComponent("\(SENetPaths.action.path)/\(actionGuid)")
+        case .submit(let data):
+            return data.url.appendingPathComponent("\(SENetPaths.actions.path)/\(data.guid)")
         }
     }
 
     var headers: [String : String]? {
         switch self {
-        case .perform(let data, let actionGuid):
+        case .submit(let data):
             let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
 
             let signature = SignatureHelper.signedPayload(
-                method: .post,
-                urlString: data.url.appendingPathComponent("\(SENetPaths.action.path)/\(actionGuid)").absoluteString,
+                method: .put,
+                urlString: data.url.appendingPathComponent("\(SENetPaths.actions.path)/\(data.guid)").absoluteString,
                 guid: data.connectionGuid,
                 expiresAt: expiresAt,
                 params: parameters

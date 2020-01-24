@@ -30,13 +30,15 @@ final class ConnectionPickerViewController: UIViewController {
         return tableView
     }()
     private let connections = Array(ConnectionsCollector.activeConnections)
+
     var selectedConnection: ((Connection) -> ())?
+    var cancelPressedClosure: (() -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        title = "Select Connection"
+        title = l10n(.selectConnection)
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .cancel,
             target: self,
@@ -45,8 +47,13 @@ final class ConnectionPickerViewController: UIViewController {
         layout()
     }
 
-    @objc func cancel() {
-        self.dismiss(animated: true, completion: nil)
+    @objc private func cancel() {
+        dismiss(
+            animated: true,
+            completion: {
+                self.cancelPressedClosure?()
+            }
+        )
     }
 }
 
@@ -76,7 +83,7 @@ extension ConnectionPickerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         selectedConnection?(connections[indexPath.row])
-        cancel()
+        dismiss(animated: true)
     }
 }
 

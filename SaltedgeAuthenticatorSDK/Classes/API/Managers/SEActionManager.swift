@@ -2,7 +2,7 @@
 //  SEActionManager
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,11 +24,10 @@ import Foundation
 
 public struct SEActionManager {
     public static func confirmAction(data: SEActionData,
-                                     actionGuid: GUID,
                                      onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmActionResponse>,
                                      onFailure failure: @escaping FailureBlock) {
         HTTPService<SEConfirmActionResponse>.execute(
-            request: SEActionRouter.perform(data, actionGuid),
+            request: SEActionRouter.submit(data),
             success: success,
             failure: failure
         )

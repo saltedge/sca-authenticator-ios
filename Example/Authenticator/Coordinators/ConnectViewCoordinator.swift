@@ -78,17 +78,7 @@ final class ConnectViewCoordinator: Coordinator {
         qrCodeViewController.metadataReceived = { vc, qrMetadata in
             vc.remove()
 
-            guard ReachabilityManager.shared.isReachable else {
-                self.connectViewController.showInfoAlert(
-                    withTitle: l10n(.noInternetConnection),
-                    message: l10n(.pleaseTryAgain),
-                    actionTitle: l10n(.ok),
-                    completion: {
-                        self.connectViewController.dismiss(animated: true)
-                    }
-                )
-                return
-            }
+            self.checkInternetConnection()
 
             if let qrUrl = URL(string: qrMetadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
                 self.handleQr(url: qrUrl)
@@ -105,54 +95,81 @@ final class ConnectViewCoordinator: Coordinator {
             let connectUrl = SEConnectHelper.connectUrl(from: url) {
             connectViewController.startLoading()
 
-            let pickerVc = ConnectionPickerViewController()
-            pickerVc.selectedConnection = { connection in
-                let actionData = SEActionData(
-                    url: connectUrl,
-                    connectionGuid: connection.guid,
-                    accessToken: connection.accessToken,
-                    appLanguage: UserDefaultsHelper.applicationLanguage
-                )
-
-                self.confirmAction(actionData: actionData, actionGuid: actionGuid, qrUrl: url)
+            guard ConnectionsCollector.activeConnections.count > 1 else {
+                if let connection = ConnectionsCollector.activeConnections.first {
+                    let actionData = SEActionData(
+                        url: connectUrl,
+                        guid: actionGuid,
+                        connectionGuid: connection.guid,
+                        accessToken: connection.accessToken,
+                        appLanguage: UserDefaultsHelper.applicationLanguage
+                    )
+                    self.confirmAction(actionData: actionData, actionGuid: actionGuid, qrUrl: url)
+                }
+                return
             }
-            connectViewController.present(UINavigationController(rootViewController: pickerVc), animated: true)
+
+            presentConnectionPicker(with: actionGuid, connectUrl: connectUrl, qrUrl: url)
         } else {
             fetchConfiguration(deepLinkUrl: url)
         }
     }
 
+    private func presentConnectionPicker(with actionGuid: GUID, connectUrl: URL, qrUrl: URL) {
+        let pickerVc = ConnectionPickerViewController()
+        pickerVc.selectedConnection = { connection in
+            let actionData = SEActionData(
+                url: connectUrl,
+                guid: actionGuid,
+                connectionGuid: connection.guid,
+                accessToken: connection.accessToken,
+                appLanguage: UserDefaultsHelper.applicationLanguage
+            )
+
+            self.confirmAction(actionData: actionData, actionGuid: actionGuid, qrUrl: qrUrl)
+        }
+        pickerVc.cancelPressedClosure = {
+            self.rootViewController.dismiss(animated: true)
+        }
+        let pickerNavVc = UINavigationController(rootViewController: pickerVc)
+        pickerNavVc.modalPresentationStyle = .fullScreen
+        connectViewController.present(pickerNavVc, animated: true)
+    }
+
     private func confirmAction(actionData: SEActionData, actionGuid: GUID, qrUrl: URL) {
         SEActionManager.confirmAction(
             data: actionData,
-            actionGuid: actionGuid,
             onSuccess: { response in
                 self.connectViewController.stopLoading()
 
-                if let connectionId = response.connectionId,
-                    let authorizationId = response.authorizationId {
-                    AppDelegate.main.applicationCoordinator?.showAuthorizations(
-                        connectionId: connectionId,
-                        authorizationId: authorizationId
-                    )
-                } else {
-                    self.connectViewController.showCompleteView(
-                        with: .success,
-                        title: l10n(.instantActionSuccessMessage),
-                        description: l10n(.instantActionSuccessDescription),
-                        completion: {
-                            if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
-                                UIApplication.shared.open(returnTo)
-                            }
-                        }
-                    )
-                }
+                self.handleActionResponse(response, qrUrl: qrUrl)
             },
             onFailure: { _ in
                 self.connectViewController.stopLoading()
                 self.connectViewController.showCompleteView(with: .fail, title: l10n(.somethingWentWrong))
             }
         )
+    }
+
+    private func handleActionResponse(_ response: SEConfirmActionResponse, qrUrl: URL) {
+        if let connectionId = response.connectionId,
+            let authorizationId = response.authorizationId {
+            AppDelegate.main.applicationCoordinator?.showAuthorizations(
+                connectionId: connectionId,
+                authorizationId: authorizationId
+            )
+        } else {
+            self.connectViewController.showCompleteView(
+                with: .success,
+                title: l10n(.instantActionSuccessMessage),
+                description: l10n(.instantActionSuccessDescription),
+                completion: {
+                    if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
+                        UIApplication.shared.open(returnTo)
+                    }
+                }
+            )
+        }
     }
 
     private func getConnectUrl(from configurationUrl: URL, with connectQuery: String?) {
@@ -204,6 +221,20 @@ final class ConnectViewCoordinator: Coordinator {
                 print(error)
             }
         )
+    }
+
+    private func checkInternetConnection() {
+        guard ReachabilityManager.shared.isReachable else {
+            self.connectViewController.showInfoAlert(
+                withTitle: l10n(.noInternetConnection),
+                message: l10n(.pleaseTryAgain),
+                actionTitle: l10n(.ok),
+                completion: {
+                    self.connectViewController.dismiss(animated: true)
+                }
+            )
+            return
+        }
     }
 }
 
