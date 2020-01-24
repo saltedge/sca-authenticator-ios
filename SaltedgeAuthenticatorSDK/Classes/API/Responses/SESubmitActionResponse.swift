@@ -22,7 +22,7 @@
 
 import Foundation
 
-public struct SEConfirmActionResponse: SerializableResponse {
+public struct SESubmitActionResponse: SerializableResponse {
     public let success: Bool
     public var authorizationId: String?
     public var connectionId: String?

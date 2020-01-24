@@ -23,10 +23,10 @@
 import Foundation
 
 public struct SEActionManager {
-    public static func confirmAction(data: SEActionData,
-                                     onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmActionResponse>,
+    public static func submitAction(data: SEActionData,
+                                     onSuccess success: @escaping HTTPServiceSuccessClosure<SESubmitActionResponse>,
                                      onFailure failure: @escaping FailureBlock) {
-        HTTPService<SEConfirmActionResponse>.execute(
+        HTTPService<SESubmitActionResponse>.execute(
             request: SEActionRouter.submit(data),
             success: success,
             failure: failure

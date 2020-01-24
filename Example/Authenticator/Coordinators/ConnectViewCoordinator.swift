@@ -104,7 +104,7 @@ final class ConnectViewCoordinator: Coordinator {
                         accessToken: connection.accessToken,
                         appLanguage: UserDefaultsHelper.applicationLanguage
                     )
-                    self.confirmAction(actionData: actionData, actionGuid: actionGuid, qrUrl: url)
+                    self.submitAction(actionData: actionData, actionGuid: actionGuid, qrUrl: url)
                 }
                 return
             }
@@ -126,7 +126,7 @@ final class ConnectViewCoordinator: Coordinator {
                 appLanguage: UserDefaultsHelper.applicationLanguage
             )
 
-            self.confirmAction(actionData: actionData, actionGuid: actionGuid, qrUrl: qrUrl)
+            self.submitAction(actionData: actionData, actionGuid: actionGuid, qrUrl: qrUrl)
         }
         pickerVc.cancelPressedClosure = {
             self.rootViewController.dismiss(animated: true)
@@ -136,8 +136,8 @@ final class ConnectViewCoordinator: Coordinator {
         connectViewController.present(pickerNavVc, animated: true)
     }
 
-    private func confirmAction(actionData: SEActionData, actionGuid: GUID, qrUrl: URL) {
-        SEActionManager.confirmAction(
+    private func submitAction(actionData: SEActionData, actionGuid: GUID, qrUrl: URL) {
+        SEActionManager.submitAction(
             data: actionData,
             onSuccess: { response in
                 self.connectViewController.stopLoading()
@@ -151,7 +151,7 @@ final class ConnectViewCoordinator: Coordinator {
         )
     }
 
-    private func handleActionResponse(_ response: SEConfirmActionResponse, qrUrl: URL) {
+    private func handleActionResponse(_ response: SESubmitActionResponse, qrUrl: URL) {
         if let connectionId = response.connectionId,
             let authorizationId = response.authorizationId {
             AppDelegate.main.applicationCoordinator?.showAuthorizations(
