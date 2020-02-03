@@ -1,85 +1,92 @@
 PODS:
-  - Crashlytics (3.13.4):
+  - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
-  - CryptoSwift (1.0.0)
+  - CryptoSwift (1.3.0)
   - Fabric (1.10.2)
-  - Firebase/Core (6.7.0):
+  - Firebase/Core (6.16.0):
     - Firebase/CoreOnly
-    - FirebaseAnalytics (= 6.1.1)
-  - Firebase/CoreOnly (6.7.0):
-    - FirebaseCore (= 6.2.1)
-  - FirebaseAnalytics (6.1.1):
-    - FirebaseCore (~> 6.2)
-    - FirebaseInstanceID (~> 4.2)
-    - GoogleAppMeasurement (= 6.1.1)
+    - FirebaseAnalytics (= 6.2.2)
+  - Firebase/CoreOnly (6.16.0):
+    - FirebaseCore (= 6.6.1)
+  - FirebaseAnalytics (6.2.2):
+    - FirebaseCore (~> 6.6)
+    - FirebaseInstanceID (~> 4.3)
+    - GoogleAppMeasurement (= 6.2.2)
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
-    - nanopb (~> 0.3)
-  - FirebaseCore (6.2.1):
-    - FirebaseCoreDiagnostics (~> 1.0)
-    - FirebaseCoreDiagnosticsInterop (~> 1.0)
-    - GoogleUtilities/Environment (~> 6.2)
-    - GoogleUtilities/Logger (~> 6.2)
-  - FirebaseCoreDiagnostics (1.0.1):
-    - FirebaseCoreDiagnosticsInterop (~> 1.0)
-    - GoogleDataTransportCCTSupport (~> 1.0)
-    - GoogleUtilities/Environment (~> 6.2)
-    - GoogleUtilities/Logger (~> 6.2)
-  - FirebaseCoreDiagnosticsInterop (1.0.0)
-  - FirebaseInstanceID (4.2.3):
-    - FirebaseCore (~> 6.0)
-    - GoogleUtilities/Environment (~> 6.0)
-    - GoogleUtilities/UserDefaults (~> 6.0)
-  - GoogleAppMeasurement (6.1.1):
+    - nanopb (= 0.3.9011)
+  - FirebaseCore (6.6.1):
+    - FirebaseCoreDiagnostics (~> 1.2)
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
+  - FirebaseCoreDiagnostics (1.2.0):
+    - FirebaseCoreDiagnosticsInterop (~> 1.2)
+    - GoogleDataTransportCCTSupport (~> 1.3)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/Logger (~> 6.5)
+    - nanopb (~> 0.3.901)
+  - FirebaseCoreDiagnosticsInterop (1.2.0)
+  - FirebaseInstallations (1.1.0):
+    - FirebaseCore (~> 6.6)
+    - GoogleUtilities/UserDefaults (~> 6.5)
+    - PromisesObjC (~> 1.2)
+  - FirebaseInstanceID (4.3.0):
+    - FirebaseCore (~> 6.6)
+    - FirebaseInstallations (~> 1.0)
+    - GoogleUtilities/Environment (~> 6.5)
+    - GoogleUtilities/UserDefaults (~> 6.5)
+  - GoogleAppMeasurement (6.2.2):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.0)
     - GoogleUtilities/MethodSwizzler (~> 6.0)
     - GoogleUtilities/Network (~> 6.0)
     - "GoogleUtilities/NSData+zlib (~> 6.0)"
-    - nanopb (~> 0.3)
-  - GoogleDataTransport (1.1.3)
-  - GoogleDataTransportCCTSupport (1.0.2):
-    - GoogleDataTransport (~> 1.1)
-    - nanopb
-  - GoogleUtilities/AppDelegateSwizzler (6.2.5):
+    - nanopb (= 0.3.9011)
+  - GoogleDataTransport (3.3.1)
+  - GoogleDataTransportCCTSupport (1.3.1):
+    - GoogleDataTransport (~> 3.3)
+    - nanopb (~> 0.3.901)
+  - GoogleUtilities/AppDelegateSwizzler (6.5.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (6.2.5)
-  - GoogleUtilities/Logger (6.2.5):
+  - GoogleUtilities/Environment (6.5.1)
+  - GoogleUtilities/Logger (6.5.1):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (6.2.5):
+  - GoogleUtilities/MethodSwizzler (6.5.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (6.2.5):
+  - GoogleUtilities/Network (6.5.1):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (6.2.5)"
-  - GoogleUtilities/Reachability (6.2.5):
+  - "GoogleUtilities/NSData+zlib (6.5.1)"
+  - GoogleUtilities/Reachability (6.5.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (6.2.5):
+  - GoogleUtilities/UserDefaults (6.5.1):
     - GoogleUtilities/Logger
-  - nanopb (0.3.901):
-    - nanopb/decode (= 0.3.901)
-    - nanopb/encode (= 0.3.901)
-  - nanopb/decode (0.3.901)
-  - nanopb/encode (0.3.901)
-  - Nimble (8.0.2)
-  - Quick (2.1.0)
-  - ReachabilitySwift (4.3.1)
-  - Realm (3.17.3):
-    - Realm/Headers (= 3.17.3)
-  - Realm/Headers (3.17.3)
-  - RealmSwift (3.17.3):
-    - Realm (= 3.17.3)
+  - nanopb (0.3.9011):
+    - nanopb/decode (= 0.3.9011)
+    - nanopb/encode (= 0.3.9011)
+  - nanopb/decode (0.3.9011)
+  - nanopb/encode (0.3.9011)
+  - Nimble (8.0.5)
+  - PromisesObjC (1.2.8)
+  - Quick (2.2.0)
+  - ReachabilitySwift (5.0.0)
+  - Realm (4.3.1):
+    - Realm/Headers (= 4.3.1)
+  - Realm/Headers (4.3.1)
+  - RealmSwift (4.3.1):
+    - Realm (= 4.3.1)
   - SaltedgeAuthenticatorSDK (1.0.3):
     - CryptoSwift
   - SDWebImage (5.1.0):
     - SDWebImage/Core (= 5.1.0)
   - SDWebImage/Core (5.1.0)
   - TinyConstraints (4.0.1)
-  - Valet (3.2.6)
+  - Valet (3.2.8)
 
 DEPENDENCIES:
   - Crashlytics
@@ -105,6 +112,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCoreDiagnosticsInterop
+    - FirebaseInstallations
     - FirebaseInstanceID
     - GoogleAppMeasurement
     - GoogleDataTransport
@@ -112,6 +120,7 @@ SPEC REPOS:
     - GoogleUtilities
     - nanopb
     - Nimble
+    - PromisesObjC
     - Quick
     - ReachabilitySwift
     - Realm
@@ -125,29 +134,31 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Crashlytics: 2dfd686bcb918dc10ee0e76f7f853fe42c7bd552
-  CryptoSwift: d81eeaa59dc5a8d03720fe919a6fd07b51f7439f
+  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
+  CryptoSwift: 1283821600233bdbeb96d7b389c3288c3bf77211
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
-  Firebase: 291d7b0a7b393f252358083b5d224884126fa46d
-  FirebaseAnalytics: 843c7f64a8f9c79f0d03281197ebe7bb1d58d477
-  FirebaseCore: 32b48f41c84a56fbde73b35ed01a830b3b6dc048
-  FirebaseCoreDiagnostics: 4c04ae09d0ab027c30179828c6bb47764df1bd13
-  FirebaseCoreDiagnosticsInterop: 6829da2b8d1fc795ff1bd99df751d3788035d2cb
-  FirebaseInstanceID: 8b42755db950682e7de0d167bc6fb26a57b244af
-  GoogleAppMeasurement: 86a82f0e1f20b8eedf8e20326530138fd71409de
-  GoogleDataTransport: 91e682bd60a49d3f8f69f2e909a66efaed5a1e7a
-  GoogleDataTransportCCTSupport: 6b545f7149111180763dc18c6f372c963de4a310
-  GoogleUtilities: e7dc37039b19df7fe543479d3e4a02ac8d11bb69
-  nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
-  Nimble: 622629381bda1dd5678162f21f1368cec7cbba60
-  Quick: 4be43f6634acfa727dd106bdf3929ce125ffa79d
-  ReachabilitySwift: 4032e2f59586e11e3b0ebe15b167abdd587a388b
-  Realm: 5a1d9d47bfc101dd597668b1a8af4288a2557f6d
-  RealmSwift: b7fdc2d18616621c31df5c7a398a45a2163f8eb0
+  Firebase: 497158b816d0a86fc31babbd05546fcd7e6083ff
+  FirebaseAnalytics: cf95d3aab897612783020fbd98401d5366f135ee
+  FirebaseCore: 85064903ed6c28e47fec9c7bd149d94ba1b6b6e7
+  FirebaseCoreDiagnostics: 5e78803ab276bc5b50340e3c539c06c3de35c649
+  FirebaseCoreDiagnosticsInterop: 296e2c5f5314500a850ad0b83e9e7c10b011a850
+  FirebaseInstallations: 575cd32f2aec0feeb0e44f5d0110a09e5e60b47b
+  FirebaseInstanceID: 6668efc1655a4052c083f287a7141f1ead12f9c2
+  GoogleAppMeasurement: d0560d915abf15e692e8538ba1d58442217b6aff
+  GoogleDataTransport: 0048df6388dab1c254799f2a30365b1dffe20422
+  GoogleDataTransportCCTSupport: f880d70972efa2ed1be4e9173a0f4c5f3dc2d176
+  GoogleUtilities: 06eb53bb579efe7099152735900dd04bf09e7275
+  nanopb: 18003b5e52dab79db540fe93fe9579f399bd1ccd
+  Nimble: 4ab1aeb9b45553c75b9687196b0fa0713170a332
+  PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
+  Quick: 7fb19e13be07b5dfb3b90d4f9824c855a11af40e
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  Realm: 31dc40934081ef740f60feedc46d88473cbfeb40
+  RealmSwift: b5199e9a41f67b99f51acf6874a6166f5fbe93d1
   SaltedgeAuthenticatorSDK: f2cbea005b85c0edfe56bd49936e9e04be11eaa1
   SDWebImage: fb387001955223213dde14bc08c8b73f371f8d8f
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
-  Valet: dcc4ff74f0d010be665239ab89c7a4a5cd39ee33
+  Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
 PODFILE CHECKSUM: bb44b98030719cdebb5375f6843876ab4a4bce76
 
