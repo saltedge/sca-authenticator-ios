@@ -87,6 +87,8 @@
 "in_app.navigation.authorizations" = "Authorizations";
 "in_app.navigation.connections" = "Connections";
 "in_app.sidebar_menu.settings" = "Settings";
+"instant_action.success_message" = "Successful authentication";
+"instant_action.success_description" = "You were successfully authenticated";
 "onboarding.allow_notifications.description" = "Enable notifications, to receive useful alerts and always be up to speed with your transactions.";
 "onboarding.allow_notifications.title" = "Allow Notifications";
 "onboarding.carousel_one.description" = "Two factor authentication brings additional security to your payments, diminishing any possibility of fraudulent activity.";

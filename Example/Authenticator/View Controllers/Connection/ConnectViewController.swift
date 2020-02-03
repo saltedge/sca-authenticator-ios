@@ -30,10 +30,26 @@ enum ConnectionType {
 }
 
 final class ConnectViewController: BaseViewController {
+    private lazy var loadingIndicator = LoadingIndicator()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = l10n(.connectProvider)
         setupCancelButton()
+    }
+
+    func startLoading() {
+        view.addSubview(loadingIndicator)
+
+        loadingIndicator.center(in: view)
+        loadingIndicator.size(AppLayout.loadingIndicatorSize)
+
+        loadingIndicator.start()
+    }
+
+    func stopLoading() {
+        loadingIndicator.stop()
+        loadingIndicator.removeFromSuperview()
     }
 }
 

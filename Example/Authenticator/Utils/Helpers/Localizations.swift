@@ -92,16 +92,20 @@ enum Localizations: String, Localizable {
     case deniedMessage = "authorization.denied.message"
     case timeOutMessage = "authorization.time_out.message"
 
+    // MARK: - Actions
+    case instantActionSuccessMessage = "instant_action.success_message"
+    case instantActionSuccessDescription = "instant_action.success_description"
+
     // MARK: - Connections
     case noConnections = "in_app.connect.no_connections"
     case noConnectionsDescription = "in_app.connect.no_connections_description"
     case connections = "in_app.navigation.connections"
-    case selectConnection = "in_app.connection.select"
     case connectProvider = "action.connect_provider"
     case connectedOn = "in_app.connection.connected_on"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
     case processing = "in_app.connect.in_progress"
     case scanQr = "in_app.connect.scan_qr"
+    case selectConnection = "in_app.connect.select"
     case newConnection = "in_app.connect.new_connection"
 
     // MARK: - Settings
