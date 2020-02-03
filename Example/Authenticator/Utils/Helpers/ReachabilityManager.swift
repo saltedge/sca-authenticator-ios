@@ -29,11 +29,11 @@ class ReachabilityManager {
     private var reachability: Reachability!
 
     var isReachable: Bool {
-        return reachability.connection != .none
+        return reachability.connection != .unavailable
     }
 
     func observeReachability() {
-        self.reachability = Reachability()
+        self.reachability = try? Reachability()
         NotificationsHelper.observe(
             self,
             selector: #selector(self.reachabilityChanged),
@@ -58,7 +58,7 @@ class ReachabilityManager {
         case .wifi:
             NotificationsHelper.post(.networkConnectionIsReachable)
             print("Network available via WiFi.")
-        case .none:
+        case .unavailable, .none:
             NotificationsHelper.post(.networkConnectionIsNotReachable)
             print("Network is not available.")
         }
