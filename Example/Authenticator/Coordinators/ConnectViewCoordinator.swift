@@ -71,7 +71,7 @@ final class ConnectViewCoordinator: Coordinator {
         let connectQuery = SEConnectHelper.connectQuery(from: deepLinkUrl)
 
         showWebViewController()
-        getConnectUrl(from: configurationUrl, with: connectQuery)
+        createConnection(from: configurationUrl, with: connectQuery)
     }
 
     private func showQrCodeViewController() {
@@ -172,8 +172,8 @@ final class ConnectViewCoordinator: Coordinator {
         }
     }
 
-    private func getConnectUrl(from configurationUrl: URL, with connectQuery: String?) {
-        ConnectionsInteractor.getConnectUrl(
+    private func createConnection(from configurationUrl: URL, with connectQuery: String?) {
+        ConnectionsInteractor.createConnection(
             from: configurationUrl,
             with: connectQuery,
             success: { [weak self]  connection, connectUrl in
@@ -209,13 +209,17 @@ final class ConnectViewCoordinator: Coordinator {
             let connectionData = SEConnectionData(code: connection.code, tag: connection.guid),
             let connectUrl = connection.baseUrl?.appendingPathComponent(SENetPaths.connections.path) else { return }
 
-        SEConnectionManager.getConnectUrl(
+        SEConnectionManager.createConnection(
             by: connectUrl,
             data: connectionData,
             pushToken: UserDefaultsHelper.pushToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             onSuccess: { [weak self] response in
-                self?.startWebViewLoading(with: response.connectUrl)
+                if let connectUrl = response.connectUrl {
+                    self?.startWebViewLoading(with: connectUrl)
+                } else {
+                    print(l10n(.somethingWentWrong))
+                }
             },
             onFailure: { error in
                 print(error)

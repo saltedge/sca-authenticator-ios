@@ -30,7 +30,7 @@ class ConnectionRouterSpec: BaseSpec {
         let baseUrlPath = "/api/authenticator/v1/connections"
         
         describe("ConnectionRouter") {
-            context("when it's .getConnectUrl") {
+            context("when it's .createConnection") {
                 it("should create a valid url request") {
                     let data = SEConnectionData(code: "code", tag: "guid")!
 
@@ -46,7 +46,7 @@ class ConnectionRouterSpec: BaseSpec {
                         encoding: .json
                     )
 
-                    let request = SEConnectionRouter.getConnectUrl(
+                    let request = SEConnectionRouter.createConnection(
                         baseUrl,
                         data,
                         "push token",
