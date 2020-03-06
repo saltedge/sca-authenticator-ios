@@ -49,7 +49,7 @@ final class ConnectViewCoordinator: Coordinator {
         case .connect: showQrCodeViewController()
         case .deepLink:
             if let url = deepLinkUrl {
-                fetchConfiguration(deepLinkUrl: url)
+                handleQr(url: url)
             } else {
                 showQrCodeViewController()
             }
