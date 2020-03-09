@@ -40,7 +40,6 @@ final class AuthorizationsCoordinator: Coordinator {
     private let dataSource = AuthorizationsDataSource()
 
     func start() {
-        poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationsIfAvailable))
         rootViewController.dataSource = dataSource
         setupPolling()
         updateDataSource(with: [])
@@ -53,11 +52,13 @@ final class AuthorizationsCoordinator: Coordinator {
 
     func stop() {
         poller?.stopPolling()
+        poller = nil
     }
 
     private func setupPolling() {
         getEncryptedAuthorizationsIfAvailable()
 
+        poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationsIfAvailable))
         poller?.startPolling()
     }
 

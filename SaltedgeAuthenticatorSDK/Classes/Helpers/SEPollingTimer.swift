@@ -31,7 +31,7 @@ public class SEPoller {
         self.targetClass = targetClass
         self.executionSelector = selector
     }
-    
+
     public func startPolling() {
         timer = Timer.scheduledTimer(
             timeInterval: 3.0,
