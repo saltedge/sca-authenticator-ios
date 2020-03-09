@@ -24,7 +24,7 @@ import Foundation
 import SEAuthenticator
 
 struct ConnectionsInteractor {
-    static func getConnectUrl(from url: URL,
+    static func createConnection(from url: URL,
                               with connectQuery: String?,
                               success: @escaping (Connection, String) -> (),
                               failure: @escaping (String) -> ()) {
@@ -47,7 +47,7 @@ struct ConnectionsInteractor {
                 connection.logoUrlString = response.logoUrl?.absoluteString ?? ""
                 connection.baseUrlString = response.connectUrl.absoluteString
 
-                SEConnectionManager.getConnectUrl(
+                SEConnectionManager.createConnection(
                     by: connectionUrl,
                     data: connectionData,
                     pushToken: UserDefaultsHelper.pushToken,
@@ -55,7 +55,11 @@ struct ConnectionsInteractor {
                     appLanguage: UserDefaultsHelper.applicationLanguage,
                     onSuccess: { response in
                         connection.id = response.id
-                        success(connection, response.connectUrl)
+                        if let connectUrl = response.connectUrl {
+                            success(connection, connectUrl)
+                        } else {
+                            failure(l10n(.somethingWentWrong))
+                        }
                     },
                     onFailure: failure
                 )

@@ -23,26 +23,30 @@
 import Foundation
 
 public struct SEConnectionManager {
-    public static func getConnectUrl(by url: URL,
-                                     data: SEConnectionData,
-                                     pushToken: PushToken,
-                                     connectQuery: ConnectQuery? = nil,
-                                     appLanguage: ApplicationLanguage,
-                                     onSuccess success: @escaping HTTPServiceSuccessClosure<SECreateConnectionResponse>,
-                                     onFailure failure: @escaping FailureBlock) {
+    public static func createConnection(
+        by url: URL,
+        data: SEConnectionData,
+        pushToken: PushToken,
+        connectQuery: ConnectQuery? = nil,
+        appLanguage: ApplicationLanguage,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SECreateConnectionResponse>,
+        onFailure failure: @escaping FailureBlock
+    ) {
         HTTPService<SECreateConnectionResponse>.execute(
-            request: SEConnectionRouter.getConnectUrl(url, data, pushToken, connectQuery, appLanguage),
+            request: SEConnectionRouter.createConnection(url, data, pushToken, connectQuery, appLanguage),
             success: success,
             failure: failure
         )
     }
 
-    public static func revokeConnection(by url: URL,
-                                        data: SERevokeConnectionData,
-                                        expiresAt: Int,
-                                        appLanguage: ApplicationLanguage,
-                                        onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConnectionResponse>,
-                                        onFailure failure: @escaping FailureBlock) {
+    public static func revokeConnection(
+        by url: URL,
+        data: SERevokeConnectionData,
+        expiresAt: Int,
+        appLanguage: ApplicationLanguage,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConnectionResponse>,
+        onFailure failure: @escaping FailureBlock
+    ) {
         HTTPService<SERevokeConnectionResponse>.execute(
             request: SEConnectionRouter.revoke(url, data, expiresAt, appLanguage),
             success: success,

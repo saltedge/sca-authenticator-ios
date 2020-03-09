@@ -23,16 +23,17 @@
 import Foundation
 
 public struct SECreateConnectionResponse: SerializableResponse {
-    public let connectUrl: String
     public let id: String
+    public let accessToken: String?
+    public let connectUrl: String? // NOTE: Open in SEWebView
 
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
             let data = dict[SENetKeys.data] as? [String: Any],
-            let connectUrl = data[SENetKeys.connectUrl] as? String,
             let id = data[SENetKeys.id] as? String {
-            self.connectUrl = connectUrl
             self.id = id
+            self.connectUrl = data[SENetKeys.connectUrl] as? String
+            self.accessToken = data[SENetKeys.accessToken] as? String
         } else {
             return nil
         }
