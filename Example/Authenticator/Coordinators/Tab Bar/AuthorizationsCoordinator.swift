@@ -28,8 +28,8 @@ final class AuthorizationsCoordinator: Coordinator {
 
     private var passcodeCoordinator: PasscodeCoordinator?
 
-//    private var timer: Timer?
-    private var pollingTimer: SEPollingTimer?
+    private var poller: SEPoller?
+
     private var connections = ConnectionsCollector.activeConnections
 
     private var selectedViewModelIndex: Int?
@@ -40,7 +40,7 @@ final class AuthorizationsCoordinator: Coordinator {
     private let dataSource = AuthorizationsDataSource()
 
     func start() {
-//        pollingTimer =
+        poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationsIfAvailable))
         rootViewController.dataSource = dataSource
         setupPolling()
         updateDataSource(with: [])
@@ -52,28 +52,21 @@ final class AuthorizationsCoordinator: Coordinator {
     }
 
     func stop() {
-//        timer?.invalidate()
-//        timer = nil
+        poller?.stopPolling()
     }
 
     private func setupPolling() {
         getEncryptedAuthorizationsIfAvailable()
 
-//        timer = Timer.scheduledTimer(
-//            timeInterval: 2.0,
-//            target: self,
-//            selector: #selector(getEncryptedAuthorizationsIfAvailable),
-//            userInfo: nil,
-//            repeats: true
-//        )
+        poller?.startPolling()
     }
 
     @objc private func getEncryptedAuthorizationsIfAvailable() {
-//        if timer != nil, connections.count > 0 {
-//            refresh()
-//        } else {
-//            updateDataSource(with: [])
-//        }
+        if poller != nil, connections.count > 0 {
+            refresh()
+        } else {
+            updateDataSource(with: [])
+        }
     }
 
      private func updateDataSource(with authorizations: [SEDecryptedAuthorizationData]) {

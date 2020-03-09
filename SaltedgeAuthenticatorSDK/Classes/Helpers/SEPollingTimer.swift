@@ -22,27 +22,27 @@
 
 import Foundation
 
-class SEPollingTimer {
+public class SEPoller {
     private var timer: Timer?
     private var targetClass: Any
-    @objc private var executionSelector: () -> ()
+    @objc private var executionSelector: Selector
 
-    init(targetClass: Any, selector: @escaping () -> ()) {
+    public init(targetClass: Any, selector: Selector) {
         self.targetClass = targetClass
         self.executionSelector = selector
     }
     
-    func startPolling() {
+    public func startPolling() {
         timer = Timer.scheduledTimer(
-            timeInterval: 2.0,
+            timeInterval: 3.0,
             target: targetClass,
-            selector: #selector(getter: self.executionSelector),
+            selector: executionSelector,
             userInfo: nil,
             repeats: true
         )
     }
 
-    func stopPolling() {
+    public func stopPolling() {
         timer?.invalidate()
         timer = nil
     }
