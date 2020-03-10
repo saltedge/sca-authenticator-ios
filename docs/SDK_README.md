@@ -201,7 +201,34 @@ That's all, now you have connection to the Bank (Service Provider).
     ```
 ### Fetch authorizations list
 
-1. Send request
+1. For periodically fetching of authorizations list, implement polling service. You may use Swift Timer which will request pending Authorizations every 3 seconds.
+
+```swift
+    var pollingTimer: Timer?
+
+    func startPolling() {
+        getEncryptedAuthorizations()
+        
+        pollingTimer = Timer.scheduledTimer(
+            timeInterval: 3.0,
+            target: self,
+            selector: #selector(getEncryptedAuthorizations),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+```
+
+To stop polling, just invalidate timer and set it to nil:
+
+```swift
+    func stopPolling() {
+        pollingTimer?.invalidate()
+        pollingTimer = nil
+    }
+```
+
+2. Send request
     - parameters:
       - `SEBaseAuthorizationData`:
         - `url`: the url, which will be use to make request.
@@ -221,7 +248,7 @@ That's all, now you have connection to the Bank (Service Provider).
         )
     ```
 
-2. Decrypt authorization response, using `SECryptoHelper.decrypt` method.
+3. Decrypt authorization response, using `SECryptoHelper.decrypt` method.
     - parameters:
       - `SEEncryptedData`:
         - `iv`: an initialization vector of encryption algorithm, this string is encrypted with public key linked to mobile client.
