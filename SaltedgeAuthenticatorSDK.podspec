@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name                  = 'SaltedgeAuthenticatorSDK'
-  s.version               = '1.0.3'
+  s.version               = '1.0.4'
   s.summary               = 'SDK for decoupled authentication solution to meet the requirements of Strong Customer Authentication (SCA)'
 
   s.description           = <<-DESC
