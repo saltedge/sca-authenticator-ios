@@ -177,16 +177,12 @@ final class ConnectViewCoordinator: Coordinator {
             from: configurationUrl,
             with: connectQuery,
             success: { [weak self] connection, accessToken in
-                guard let strongSelf = self else { return }
-
-                strongSelf.connection = connection
-                strongSelf.finishConnectWithSuccess(accessToken: accessToken)
+                self?.connection = connection
+                self?.finishConnectWithSuccess(accessToken: accessToken)
             },
             redirect: { [weak self]  connection, connectUrl in
-                guard let strongSelf = self else { return }
-
-                strongSelf.connection = connection
-                strongSelf.webViewController.startLoading(with: connectUrl)
+                self?.connection = connection
+                self?.webViewController.startLoading(with: connectUrl)
             },
             failure: { [weak self] error in
                 self?.dismissConnectWithError(error)
@@ -207,20 +203,17 @@ final class ConnectViewCoordinator: Coordinator {
 
     private func reconnectConnection() {
         guard let connection = connection else { return }
-        ConnectionsInteractor.requestCreateConnection(
-            connection: connection,
+
+        ConnectionsInteractor.submitConnection(
+            for: connection,
             connectQuery: nil,
             success: { [weak self] connection, accessToken in
-                guard let strongSelf = self else { return }
-
-                strongSelf.connection = connection
-                strongSelf.finishConnectWithSuccess(accessToken: accessToken)
+                self?.connection = connection
+                self?.finishConnectWithSuccess(accessToken: accessToken)
             },
             redirect: { [weak self]  connection, connectUrl in
-                guard let strongSelf = self else { return }
-
-                strongSelf.connection = connection
-                strongSelf.webViewController.startLoading(with: connectUrl)
+                self?.connection = connection
+                self?.webViewController.startLoading(with: connectUrl)
             },
             failure: { [weak self] error in
                 self?.dismissConnectWithError(error)
@@ -273,7 +266,7 @@ extension ConnectViewCoordinator {
     }
 
     func dismissConnectWithError(_ error: String) {
-        self.connectViewController.dismiss(
+        connectViewController.dismiss(
             animated: true,
             completion: {
                 self.rootViewController.present(message: error, style: .error)
