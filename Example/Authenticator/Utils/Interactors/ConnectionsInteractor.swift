@@ -24,10 +24,12 @@ import Foundation
 import SEAuthenticator
 
 struct ConnectionsInteractor {
-    static func createConnection(from url: URL,
-                              with connectQuery: String?,
-                              success: @escaping (Connection, String) -> (),
-                              failure: @escaping (String) -> ()) {
+    static func createConnection(
+        from url: URL,
+        with connectQuery: String?,
+        success: @escaping (Connection, String) -> (),
+        failure: @escaping (String) -> ()
+    ) {
         fetchProvider(
             from: url,
             success: { response in
