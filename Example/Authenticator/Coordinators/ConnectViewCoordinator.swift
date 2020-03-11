@@ -45,7 +45,7 @@ final class ConnectViewCoordinator: Coordinator {
 
     func start() {
         switch connectionType {
-        case .reconnect: loadUrl()
+        case .reconnect: reconnectConnection()
         case .connect: showQrCodeViewController()
         case .deepLink:
             if let url = deepLinkUrl {
@@ -71,7 +71,7 @@ final class ConnectViewCoordinator: Coordinator {
         let connectQuery = SEConnectHelper.connectQuery(from: deepLinkUrl)
 
         showWebViewController()
-        createConnection(from: configurationUrl, with: connectQuery)
+        createNewConnection(from: configurationUrl, with: connectQuery)
     }
 
     private func showQrCodeViewController() {
@@ -172,23 +172,20 @@ final class ConnectViewCoordinator: Coordinator {
         }
     }
 
-    private func createConnection(from configurationUrl: URL, with connectQuery: String?) {
-        ConnectionsInteractor.createConnection(
+    private func createNewConnection(from configurationUrl: URL, with connectQuery: String?) {
+        ConnectionsInteractor.createNewConnection(
             from: configurationUrl,
             with: connectQuery,
-            success: { [weak self]  connection, connectUrl in
-                guard let strongSelf = self else { return }
-
-                strongSelf.connection = connection
-                strongSelf.webViewController.startLoading(with: connectUrl)
+            success: { [weak self] connection, accessToken in
+                self?.connection = connection
+                self?.finishConnectWithSuccess(accessToken: accessToken)
+            },
+            redirect: { [weak self]  connection, connectUrl in
+                self?.connection = connection
+                self?.webViewController.startLoading(with: connectUrl)
             },
             failure: { [weak self] error in
-                self?.connectViewController.dismiss(
-                    animated: true,
-                    completion: {
-                        self?.rootViewController.present(message: error, style: .error)
-                    }
-                )
+                self?.dismissConnectWithError(error)
             }
         )
     }
@@ -204,25 +201,22 @@ final class ConnectViewCoordinator: Coordinator {
         webViewController.startLoading(with: url)
     }
 
-    private func loadUrl() {
-        guard let connection = connection,
-            let connectionData = SEConnectionData(code: connection.code, tag: connection.guid),
-            let connectUrl = connection.baseUrl?.appendingPathComponent(SENetPaths.connections.path) else { return }
+    private func reconnectConnection() {
+        guard let connection = connection else { return }
 
-        SEConnectionManager.createConnection(
-            by: connectUrl,
-            data: connectionData,
-            pushToken: UserDefaultsHelper.pushToken,
-            appLanguage: UserDefaultsHelper.applicationLanguage,
-            onSuccess: { [weak self] response in
-                if let connectUrl = response.connectUrl {
-                    self?.startWebViewLoading(with: connectUrl)
-                } else {
-                    print(l10n(.somethingWentWrong))
-                }
+        ConnectionsInteractor.submitConnection(
+            for: connection,
+            connectQuery: nil,
+            success: { [weak self] connection, accessToken in
+                self?.connection = connection
+                self?.finishConnectWithSuccess(accessToken: accessToken)
             },
-            onFailure: { error in
-                print(error)
+            redirect: { [weak self]  connection, connectUrl in
+                self?.connection = connection
+                self?.webViewController.startLoading(with: connectUrl)
+            },
+            failure: { [weak self] error in
+                self?.dismissConnectWithError(error)
             }
         )
     }
@@ -245,6 +239,17 @@ final class ConnectViewCoordinator: Coordinator {
 // MARK: - ConnectorWebViewControllerDelegate
 extension ConnectViewCoordinator: ConnectorWebViewControllerDelegate {
     func connectorConfirmed(url: URL, accessToken: AccessToken) {
+        finishConnectWithSuccess(accessToken: accessToken)
+    }
+
+    func showError(_ error: String) {
+        finishConnectWithError(error)
+    }
+}
+
+// MARK: - ConnectViewCoordinator: Finish
+extension ConnectViewCoordinator {
+    func finishConnectWithSuccess(accessToken: AccessToken) {
         guard let connection = connection else { return }
 
         ConnectionRepository.setAccessTokenAndActive(connection, accessToken: accessToken)
@@ -256,7 +261,16 @@ extension ConnectViewCoordinator: ConnectorWebViewControllerDelegate {
         connectViewController.showCompleteView(with: .success, title: String(format: successTitleTemplate, connection.name))
     }
 
-    func showError(_ error: String) {
+    func finishConnectWithError(_ error: String) {
         connectViewController.showCompleteView(with: .fail, title: error, description: l10n(.tryAgain))
+    }
+
+    func dismissConnectWithError(_ error: String) {
+        connectViewController.dismiss(
+            animated: true,
+            completion: {
+                self.rootViewController.present(message: error, style: .error)
+            }
+        )
     }
 }
