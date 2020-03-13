@@ -26,6 +26,7 @@ import SEAuthenticator
 final class AuthorizationsCoordinator: Coordinator {
     let rootViewController = AuthorizationsViewController()
 
+    private var connectViewCoordinator: ConnectViewCoordinator?
     private var passcodeCoordinator: PasscodeCoordinator?
 
     private var poller: SEPoller?
@@ -41,6 +42,7 @@ final class AuthorizationsCoordinator: Coordinator {
 
     func start() {
         rootViewController.dataSource = dataSource
+        rootViewController.delegate = self
         setupPolling()
         updateDataSource(with: [])
     }
@@ -117,6 +119,36 @@ private extension AuthorizationsCoordinator {
                 if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
                     ConnectionRepository.setInactive(connection)
                 }
+            }
+        )
+    }
+}
+
+// MARK: - AuthorizationsViewControllerDelegate
+extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
+    func scanQrPressed() {
+        AVCaptureHelper.requestAccess(
+            success: {
+                self.connectViewCoordinator = ConnectViewCoordinator(
+                    rootViewController: self.rootViewController,
+                    connectionType: .connect
+                )
+                self.connectViewCoordinator?.start()
+            },
+            failure: {
+                self.rootViewController.showConfirmationAlert(
+                    withTitle: l10n(.deniedCamera),
+                    message: l10n(.deniedCameraDescription),
+                    confirmActionTitle: l10n(.goToSettings),
+                    confirmActionStyle: .default,
+                    confirmAction: { _ in
+                        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+                        if UIApplication.shared.canOpenURL(settingsUrl) {
+                            UIApplication.shared.open(settingsUrl)
+                        }
+                    }
+                )
             }
         )
     }
