@@ -93,6 +93,7 @@ enum Localizations: String, Localizable {
     case timeOutMessage = "authorization.time_out.message"
 
     // MARK: - Actions
+    case newAction = "instant_action.new_action"
     case instantActionSuccessMessage = "instant_action.success_message"
     case instantActionSuccessDescription = "instant_action.success_description"
 
