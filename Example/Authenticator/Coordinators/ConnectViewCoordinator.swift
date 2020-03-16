@@ -93,6 +93,7 @@ final class ConnectViewCoordinator: Coordinator {
     private func handleQr(url: URL) {
         if let actionGuid = SEConnectHelper.actionGuid(from: url),
             let connectUrl = SEConnectHelper.connectUrl(from: url) {
+            connectViewController.title = l10n(.newAction)
             connectViewController.startLoading()
 
             guard ConnectionsCollector.activeConnections.count > 1 else {
@@ -159,7 +160,7 @@ final class ConnectViewCoordinator: Coordinator {
                 authorizationId: authorizationId
             )
         } else {
-            self.connectViewController.showCompleteView(
+            connectViewController.showCompleteView(
                 with: .success,
                 title: l10n(.instantActionSuccessMessage),
                 description: l10n(.instantActionSuccessDescription),
