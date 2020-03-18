@@ -29,10 +29,15 @@ final class ConnectionPickerViewController: UIViewController {
         tableView.backgroundColor = .auth_backgroundColor
         return tableView
     }()
-    private let connections = Array(ConnectionsCollector.activeConnections)
+    private var connections: [Connection]
 
     var selectedConnection: ((Connection) -> ())?
     var cancelPressedClosure: (() -> ())?
+
+    init(connections: [Connection]) {
+        self.connections = connections
+        super.init(nibName: nil, bundle: .authenticator_main)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +59,10 @@ final class ConnectionPickerViewController: UIViewController {
                 self.cancelPressedClosure?()
             }
         )
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
