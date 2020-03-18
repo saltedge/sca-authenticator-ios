@@ -34,6 +34,7 @@ class ConnectionCollectorSpec: BaseSpec {
             firstConnection.accessToken = "12345aaa"
             firstConnection.status = "active"
             firstConnection.name = "First"
+            firstConnection.baseUrlString = "https://firstConnectUrl.com"
 
             ConnectionRepository.save(firstConnection)
 
@@ -42,6 +43,7 @@ class ConnectionCollectorSpec: BaseSpec {
             secondConnection.accessToken = "6789bbb"
             secondConnection.status = "inactive"
             secondConnection.name = "Second"
+            secondConnection.baseUrlString = "https://someConnectUrl.com"
 
             ConnectionRepository.save(secondConnection)
         }
@@ -59,6 +61,28 @@ class ConnectionCollectorSpec: BaseSpec {
         describe("activeConnections") {
             it("should return array only of active connections") {
                 expect(Array(ConnectionsCollector.activeConnections)).to(equal([firstConnection]))
+            }
+        }
+
+        describe("activeConnections(by connectUrl)") {
+            it("should return array only of active connections filtered by connect url") {
+                let thirdConnection = Connection()
+                thirdConnection.id = "third"
+                thirdConnection.status = "active"
+                thirdConnection.baseUrlString = "https://firstConnectUrl.com"
+
+                ConnectionRepository.save(thirdConnection)
+
+                let fourthConnection = Connection()
+                fourthConnection.id = "fourth"
+                fourthConnection.status = "active"
+                fourthConnection.baseUrlString = "https://secondConnectUrl.com"
+
+                ConnectionRepository.save(fourthConnection)
+
+                expect(Array(ConnectionsCollector.activeConnections(by: URL(string: "https://firstConnectUrl.com")!))).to(equal([firstConnection, thirdConnection]))
+                
+                expect(Array(ConnectionsCollector.activeConnections(by: URL(string: "https://secondConnectUrl.com")!))).to(equal([fourthConnection]))
             }
         }
 

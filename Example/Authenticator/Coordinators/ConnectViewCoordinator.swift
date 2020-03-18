@@ -96,38 +96,26 @@ final class ConnectViewCoordinator: Coordinator {
             connectViewController.title = l10n(.newAction)
             connectViewController.startLoading()
 
-            guard ConnectionsCollector.activeConnections.count > 1 else {
-                if let connection = ConnectionsCollector.activeConnections.first {
-                    let actionData = SEActionData(
-                        url: connectUrl,
-                        guid: actionGuid,
-                        connectionGuid: connection.guid,
-                        accessToken: connection.accessToken,
-                        appLanguage: UserDefaultsHelper.applicationLanguage
-                    )
-                    self.submitAction(actionData: actionData, actionGuid: actionGuid, qrUrl: url)
-                }
-                return
-            }
+            let connections = ConnectionsCollector.activeConnections(by: connectUrl)
 
-            presentConnectionPicker(with: actionGuid, connectUrl: connectUrl, qrUrl: url)
+            if connections.count > 1 {
+                presentConnectionPicker(with: connections, actionGuid: actionGuid, connectUrl: connectUrl, qrUrl: url)
+            } else if connections.count == 1 {
+                guard let connection = connections.first else { return }
+
+                submitAction(for: connection, connectUrl: connectUrl, actionGuid: actionGuid, qrUrl: url)
+            } else {
+                dismissConnectWithError(l10n(.somethingWentWrong))
+            }
         } else {
             fetchConfiguration(deepLinkUrl: url)
         }
     }
 
-    private func presentConnectionPicker(with actionGuid: GUID, connectUrl: URL, qrUrl: URL) {
-        let pickerVc = ConnectionPickerViewController()
+    private func presentConnectionPicker(with connections: [Connection], actionGuid: GUID, connectUrl: URL, qrUrl: URL) {
+        let pickerVc = ConnectionPickerViewController(connections: connections)
         pickerVc.selectedConnection = { connection in
-            let actionData = SEActionData(
-                url: connectUrl,
-                guid: actionGuid,
-                connectionGuid: connection.guid,
-                accessToken: connection.accessToken,
-                appLanguage: UserDefaultsHelper.applicationLanguage
-            )
-
-            self.submitAction(actionData: actionData, actionGuid: actionGuid, qrUrl: qrUrl)
+            self.submitAction(for: connection, connectUrl: connectUrl, actionGuid: actionGuid, qrUrl: qrUrl)
         }
         pickerVc.cancelPressedClosure = {
             self.rootViewController.dismiss(animated: true)
@@ -137,7 +125,15 @@ final class ConnectViewCoordinator: Coordinator {
         connectViewController.present(pickerNavVc, animated: true)
     }
 
-    private func submitAction(actionData: SEActionData, actionGuid: GUID, qrUrl: URL) {
+    private func submitAction(for connection: Connection, connectUrl: URL, actionGuid: GUID, qrUrl: URL) {
+        let actionData = SEActionData(
+            url: connectUrl,
+            guid: actionGuid,
+            connectionGuid: connection.guid,
+            accessToken: connection.accessToken,
+            appLanguage: UserDefaultsHelper.applicationLanguage
+        )
+
         SEActionManager.submitAction(
             data: actionData,
             onSuccess: { response in
@@ -145,9 +141,11 @@ final class ConnectViewCoordinator: Coordinator {
 
                 self.handleActionResponse(response, qrUrl: qrUrl)
             },
-            onFailure: { _ in
-                self.connectViewController.stopLoading()
-                self.connectViewController.showCompleteView(with: .fail, title: l10n(.somethingWentWrong))
+            onFailure: { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.connectViewController.stopLoading()
+                    self?.connectViewController.showCompleteView(with: .fail, title: l10n(.somethingWentWrong))
+                }
             }
         )
     }
