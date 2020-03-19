@@ -33,7 +33,7 @@ public struct DateUtils {
     private var iso8601dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
         formatter.timeZone = TimeZone.utc
         formatter.locale = Locale(identifier: "en_US_POSIX")
         return formatter

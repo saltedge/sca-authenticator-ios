@@ -33,8 +33,8 @@ class DecryptedAuthorizationDataSpec: BaseSpec {
                                        "connection_id": "12345",
                                        "title": "Authorization",
                                        "description": "Test authorization",
-                                       "created_at": "2019-05-20T09:30:40.378Z",
-                                       "expires_at": "2019-05-20T09:30:45.378Z",
+                                       "created_at": "2019-05-20T09:30:40Z",
+                                       "expires_at": "2019-05-20T09:30:45Z",
                                        "authorization_code": "11"]
                     let expectedData = SEDecryptedAuthorizationData(authMessage)!
                     
@@ -42,8 +42,8 @@ class DecryptedAuthorizationDataSpec: BaseSpec {
                     expect(expectedData.connectionId).to(equal("12345"))
                     expect(expectedData.title).to(equal("Authorization"))
                     expect(expectedData.description).to(equal("Test authorization"))
-                    expect(expectedData.createdAt.iso8601string).to(equal("2019-05-20T09:30:40.378Z"))
-                    expect(expectedData.expiresAt.iso8601string).to(equal("2019-05-20T09:30:45.378Z"))
+                    expect(expectedData.createdAt.iso8601string).to(equal("2019-05-20T09:30:40Z"))
+                    expect(expectedData.expiresAt.iso8601string).to(equal("2019-05-20T09:30:45Z"))
                     expect(expectedData.authorizationCode).to(equal("11"))
                 }
             }
@@ -53,7 +53,7 @@ class DecryptedAuthorizationDataSpec: BaseSpec {
                     let authMessage = ["id": "00000",
                                        "title": "Authorization",
                                        "description": "Test authorization",
-                                       "created_at": "2019-05-20T09:30:40.378Z",
+                                       "created_at": "2019-05-20T09:30:40Z",
                                        "expires_at": "2019-05-20T09:30:45.378Z"]
                     let expectedData = SEDecryptedAuthorizationData(authMessage)
 

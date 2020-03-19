@@ -30,7 +30,7 @@ class DateUtilsSpec: BaseSpec {
             it("should return the proper ISO8601 date formatter") {
                 let fmt = DateUtils.iso8601dateFormatter
 
-                expect(fmt.dateFormat).to(equal("yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"))
+                expect(fmt.dateFormat).to(equal("yyyy-MM-dd'T'HH:mm:ssXXXXX"))
                 expect(fmt.timeZone).to(equal(TimeZone.utc))
                 expect(fmt.locale).to(equal(Locale(identifier: "en_US_POSIX")))
                 expect(fmt.calendar).to(equal(Calendar(identifier: .iso8601)))
@@ -39,7 +39,7 @@ class DateUtilsSpec: BaseSpec {
 
         describe("iso8601date") {
             it("should return date in iso8601 format") {
-                let dateString = "2013-07-21T11:02:02.000Z"
+                let dateString = "2013-07-21T11:02:02Z"
 
                 var dateComponents = DateComponents()
                 dateComponents.year = 2013
