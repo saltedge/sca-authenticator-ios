@@ -42,8 +42,8 @@ class DecryptedAuthorizationDataSpec: BaseSpec {
                     expect(expectedData.connectionId).to(equal("12345"))
                     expect(expectedData.title).to(equal("Authorization"))
                     expect(expectedData.description).to(equal("Test authorization"))
-                    expect(expectedData.createdAt.iso8601string).to(equal("2019-05-20T09:30:40Z"))
-                    expect(expectedData.expiresAt.iso8601string).to(equal("2019-05-20T09:30:45Z"))
+                    expect(expectedData.createdAt.iso8601string).to(equal("2019-05-20T09:30:40"))
+                    expect(expectedData.expiresAt.iso8601string).to(equal("2019-05-20T09:30:45"))
                     expect(expectedData.authorizationCode).to(equal("11"))
                 }
             }

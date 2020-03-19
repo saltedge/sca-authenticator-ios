@@ -64,8 +64,6 @@ struct AuthorizationsInteractor {
                         connectionNotFoundFailure: @escaping ((String?) -> ())) {
         let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
 
-        var numberOfResponses = 0
-
         var encryptedAuthorizations = [SEEncryptedAuthorizationResponse]()
 
         for connection in connections {
@@ -83,8 +81,8 @@ struct AuthorizationsInteractor {
                 expiresAt: expiresAt,
                 onSuccess: { response in
                     encryptedAuthorizations.append(contentsOf: response.data)
-                    numberOfResponses += 1
-                    if numberOfResponses == connections.count {
+
+                    if encryptedAuthorizations != response.data {
                         success(encryptedAuthorizations)
                     }
                 },
@@ -92,7 +90,7 @@ struct AuthorizationsInteractor {
                     if SEAPIError.connectionNotFound.isConnectionNotFound(error) {
                         connectionNotFoundFailure(connection.id)
                     } else {
-                        failure?(error)
+                        failure?("\(l10n(.somethingWentWrong)) (\(connection.name))")
                     }
                 }
             )

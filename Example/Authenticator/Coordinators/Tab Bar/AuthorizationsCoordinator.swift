@@ -113,7 +113,7 @@ private extension AuthorizationsCoordinator {
                 }
             },
             failure: { error in
-                self.rootViewController.present(message: error, style: .error)
+                print(error)
             },
             connectionNotFoundFailure: { connectionId in
                 if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
