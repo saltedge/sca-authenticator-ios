@@ -66,6 +66,16 @@ struct AuthorizationsInteractor {
 
         var encryptedAuthorizations = [SEEncryptedAuthorizationResponse]()
 
+        var numberOfResponses = 0
+
+        func incrementAndCheckResponseCount() {
+            numberOfResponses += 1
+
+            if numberOfResponses == connections.count {
+                success(encryptedAuthorizations)
+            }
+        }
+
         for connection in connections {
             let accessToken = connection.accessToken
 
@@ -82,11 +92,11 @@ struct AuthorizationsInteractor {
                 onSuccess: { response in
                     encryptedAuthorizations.append(contentsOf: response.data)
 
-                    if encryptedAuthorizations != response.data {
-                        success(encryptedAuthorizations)
-                    }
+                    incrementAndCheckResponseCount()
                 },
                 onFailure: { error in
+                    incrementAndCheckResponseCount()
+
                     if SEAPIError.connectionNotFound.isConnectionNotFound(error) {
                         connectionNotFoundFailure(connection.id)
                     } else {
