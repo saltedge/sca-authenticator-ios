@@ -42,6 +42,8 @@
 "errors.denied_camera" = "Camera access denied";
 "errors.denied_camera_description" = "Please allow camera usage in phone settings. Without camera you won't be able to connect provider.";
 "errors.inactive_connection" = "Inactive connection. Remove or reconnect.";
+"errors.no_active_connections" = "You have no currently connected service providers. Connect one to start receiving authorizations for your actions (e.g. payments).";
+"errors.no_suitable_connection" = "You have no suitable connection for this action";
 "errors.no_internet_connection" = "No Internet connection.";
 "errors.no_internet_connection_try_again" = "Please try again later.";
 "errors.passcode_ios" = "You entered the wrong Passcode. Please try again in %{count} minutes.";
