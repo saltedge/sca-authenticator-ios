@@ -114,15 +114,18 @@ final class ConnectViewCoordinator: Coordinator {
 
     private func presentConnectionPicker(with connections: [Connection], actionGuid: GUID, connectUrl: URL, qrUrl: URL) {
         let pickerVc = ConnectionPickerViewController(connections: connections)
+        pickerVc.modalPresentationStyle = .fullScreen
+
+        connectViewController.title = l10n(.newAction)
+        connectViewController.add(pickerVc)
+
         pickerVc.selectedConnection = { connection in
+            pickerVc.remove()
             self.submitAction(for: connection, connectUrl: connectUrl, actionGuid: actionGuid, qrUrl: qrUrl)
         }
         pickerVc.cancelPressedClosure = {
             self.rootViewController.dismiss(animated: true)
         }
-        let pickerNavVc = UINavigationController(rootViewController: pickerVc)
-        pickerNavVc.modalPresentationStyle = .fullScreen
-        connectViewController.present(pickerNavVc, animated: true)
     }
 
     private func submitAction(for connection: Connection, connectUrl: URL, actionGuid: GUID, qrUrl: URL) {

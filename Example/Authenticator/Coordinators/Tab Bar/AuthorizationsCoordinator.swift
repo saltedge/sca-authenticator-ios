@@ -48,6 +48,7 @@ final class AuthorizationsCoordinator: Coordinator {
     }
 
     func start(with connectionId: String, authorizationId: String) {
+        refresh()
         start()
         authorizationFromPush = (connectionId, authorizationId)
     }
@@ -58,9 +59,8 @@ final class AuthorizationsCoordinator: Coordinator {
     }
 
     private func setupPolling() {
-        getEncryptedAuthorizationsIfAvailable()
-
         poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationsIfAvailable))
+        getEncryptedAuthorizationsIfAvailable()
         poller?.startPolling()
     }
 
