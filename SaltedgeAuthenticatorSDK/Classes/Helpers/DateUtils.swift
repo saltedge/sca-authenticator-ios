@@ -23,19 +23,16 @@
 import Foundation
 
 public struct DateUtils {
-    static var iso8601dateFormatter: DateFormatter {
-        return sharedInstance.iso8601dateFormatter
+    static var iso8601dateFormatter: ISO8601DateFormatter {
+        return shared.iso8601dateFormatter
     }
-    
-    private static let sharedInstance = DateUtils()
-    
-    // NOTE: We use XXXXX instead of Z to avoid appending of GMT offset
-    private var iso8601dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.calendar = Calendar(identifier: .iso8601)
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
-        formatter.timeZone = TimeZone.utc
-        formatter.locale = Locale(identifier: "en_US_POSIX")
+
+    private static let shared = DateUtils()
+
+    private var iso8601dateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = .utc
+        formatter.formatOptions = [.withFullDate, .withTime, .withDashSeparatorInDate, .withColonSeparatorInTime]
         return formatter
     }()
 }
