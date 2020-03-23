@@ -40,7 +40,6 @@ private struct Layout {
 
 protocol CompleteViewDelegate: class {
     func proceedPressed(for view: CompleteView)
-    func reportAProblemPressed(for view: CompleteView)
 }
 
 final class CompleteView: UIView {
@@ -52,7 +51,7 @@ final class CompleteView: UIView {
         fileprivate var mainActionTitle: String {
             switch self {
             case .success, .complete: return l10n(.proceed)
-            case .fail: return l10n(.tryAgain)
+            case .fail: return l10n(.ok)
             }
         }
 
@@ -91,7 +90,6 @@ final class CompleteView: UIView {
     private let titleLabel = UILabel.titleLabel
     private let descriptionLabel = UILabel.descriptionLabel
     private let proceedButton: CustomButton
-    private let reportAProblemButton = UIButton()
     private var state: State
 
     var proceedClosure: (() -> ())?
@@ -104,21 +102,14 @@ final class CompleteView: UIView {
         imageView.contentMode = .scaleAspectFit
         titleLabel.text = title
         descriptionLabel.text = description
-        reportAProblemButton.setTitle(l10n(.reportAProblem), for: .normal)
-        reportAProblemButton.setTitleColor(UIColor.auth_blue, for: .normal)
+        descriptionLabel.textColor = .auth_gray
         proceedButton.addTarget(self, action: #selector(proceedPressed), for: .touchUpInside)
-        reportAProblemButton.addTarget(self, action: #selector(reportAProblemPressed), for: .touchUpInside)
-        if state != .fail { reportAProblemButton.isHidden = true }
         layout()
     }
 
     @objc private func proceedPressed() {
         proceedClosure?()
         delegate?.proceedPressed(for: self)
-    }
-
-    @objc private func reportAProblemPressed() {
-        delegate?.reportAProblemPressed(for: self)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -129,7 +120,7 @@ final class CompleteView: UIView {
 // MARK: - Layout
 extension CompleteView: Layoutable {
     func layout() {
-        addSubviews(imageView, titleLabel, descriptionLabel, proceedButton, reportAProblemButton)
+        addSubviews(imageView, titleLabel, descriptionLabel, proceedButton)
 
         imageView.bottomToTop(of: titleLabel, offset: -state.imageViewBottomOffset)
         imageView.size(state.imageSize)
@@ -151,9 +142,5 @@ extension CompleteView: Layoutable {
         } else {
             proceedButton.topToBottom(of: descriptionLabel, offset: Layout.descriptionLabelBottomOffset)
         }
-
-        reportAProblemButton.topToBottom(of: proceedButton, offset: Layout.reportAProblemTopOffset)
-        reportAProblemButton.left(to: self, offset: state.buttonsOffset)
-        reportAProblemButton.right(to: self, offset: -state.buttonsOffset)
     }
 }
