@@ -121,11 +121,12 @@ final class ConnectViewCoordinator: Coordinator {
         let pickerVc = ConnectionPickerViewController(connections: connections)
         pickerVc.modalPresentationStyle = .fullScreen
 
-        connectViewController.title = l10n(.newAction)
+        connectViewController.title = l10n(.selectConnection)
         connectViewController.add(pickerVc)
 
         pickerVc.selectedConnection = { connection in
             pickerVc.remove()
+            self.connectViewController.title = l10n(.newAction)
             self.submitAction(for: connection, connectUrl: connectUrl, actionGuid: actionGuid, qrUrl: qrUrl)
         }
         pickerVc.cancelPressedClosure = {
@@ -152,7 +153,7 @@ final class ConnectViewCoordinator: Coordinator {
             onFailure: { [weak self] _ in
                 DispatchQueue.main.async {
                     self?.connectViewController.stopLoading()
-                    self?.connectViewController.showCompleteView(with: .fail, title: l10n(.somethingWentWrong))
+                    self?.finishConnectWithError(l10n(.actionError))
                 }
             }
         )
