@@ -23,14 +23,14 @@
 import UIKit
 
 final class EditConnectionCoordinator: Coordinator {
-    private var rootViewController: UIViewController
-    private var editConnectionViewController: EditConnectionViewController
+    private var rootViewController: UIViewController!
+    private var editConnectionViewController: EditConnectionViewController!
     private var connection: Connection
 
     init(rootViewController: UIViewController, connection: Connection) {
         self.connection = connection
         self.rootViewController = rootViewController
-        self.editConnectionViewController = EditConnectionViewController(connection: connection)
+//        self.editConnectionViewController = EditConnectionViewController()
     }
 
     func start() {

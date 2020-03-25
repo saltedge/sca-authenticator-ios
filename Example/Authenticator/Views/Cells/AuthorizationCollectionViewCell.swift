@@ -104,6 +104,17 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         }
     }
 
+    func mvvmSetup(viewModel: AuthorizationViewModel) {
+        // Listen to the change of the observableState property to update the UI state
+        viewModel.observableState.valueChanged = { [weak self] changedState in
+            if changedState == .expired {
+                self?.stateView.set(state: .expired)
+            } else {
+                // handle state
+            }
+        }
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -33,7 +33,7 @@ protocol EditConnectionViewControllerDelegate: class {
 }
 
 final class EditConnectionViewController: BaseViewController {
-    private let nameTextField: TextFieldWithOffset = {
+    private var nameTextField: TextFieldWithOffset = {
         let textField = TextFieldWithOffset(15.0)
         textField.clearButtonMode = .whileEditing
         textField.placeholder = "Name"
@@ -42,19 +42,19 @@ final class EditConnectionViewController: BaseViewController {
         textField.tintColor = .auth_gray
         return textField
     }()
-    private var connection: Connection
 
-    weak var delegate: EditConnectionViewControllerDelegate?
+    private var connectionViewModel: ConnectionViewModel
 
-    init(connection: Connection) {
-        self.connection = connection
-        super.init(nibName: nil, bundle: nil)
-        nameTextField.text = connection.name
+    init(viewModel: ConnectionViewModel) {
+        self.connectionViewModel = viewModel
+        super.init(nibName: nil, bundle: .authenticator_main)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    weak var delegate: EditConnectionViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +73,13 @@ final class EditConnectionViewController: BaseViewController {
     }
 
     @objc private func donePressed() {
-        delegate?.donePressed(text: nameTextField.text)
+        guard let name = nameTextField.text, !ConnectionsCollector.connectionNames.contains(name) else {
+            showConfirmationAlert(withTitle: "This name already exists.")
+            return
+        }
+        connectionViewModel.update(with: name)
+
+        navigationController?.popViewController(animated: true)
     }
 
     @objc private func textFieldDidChange(_ textField: TextFieldWithOffset) {

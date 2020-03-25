@@ -65,6 +65,16 @@
 		9D772133231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */; };
 		9D77213823264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */; };
 		9D77213923264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */; };
+		9D87F49B2429302800F85D1F /* ConnectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */; };
+		9D87F49C2429302800F85D1F /* ConnectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */; };
+		9D87F49E2429326800F85D1F /* NewConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49D2429326800F85D1F /* NewConnectionCell.swift */; };
+		9D87F49F2429326800F85D1F /* NewConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49D2429326800F85D1F /* NewConnectionCell.swift */; };
+		9D87F4A12429393000F85D1F /* NewConnectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A02429393000F85D1F /* NewConnectionsDataSource.swift */; };
+		9D87F4A22429393000F85D1F /* NewConnectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A02429393000F85D1F /* NewConnectionsDataSource.swift */; };
+		9D87F4A4242A024900F85D1F /* DynamicTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A3242A024900F85D1F /* DynamicTypes.swift */; };
+		9D87F4A5242A024900F85D1F /* DynamicTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A3242A024900F85D1F /* DynamicTypes.swift */; };
+		9D87F4A7242A6BCD00F85D1F /* ConnectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionListViewModel.swift */; };
+		9D87F4A8242A6BCD00F85D1F /* ConnectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionListViewModel.swift */; };
 		9D940958235DDB900080EBB5 /* AboutDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D940957235DDB8F0080EBB5 /* AboutDataSourceSpec.swift */; };
 		9D94095A23618CF00080EBB5 /* CacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94095923618CF00080EBB5 /* CacheHelper.swift */; };
 		9D94095B23618CF00080EBB5 /* CacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94095923618CF00080EBB5 /* CacheHelper.swift */; };
@@ -382,6 +392,11 @@
 		9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsCollectionLayout.swift; sourceTree = "<group>"; };
 		9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationCollectionViewCell.swift; sourceTree = "<group>"; };
 		9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAuthorizationsView.swift; sourceTree = "<group>"; };
+		9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionViewModel.swift; sourceTree = "<group>"; };
+		9D87F49D2429326800F85D1F /* NewConnectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConnectionCell.swift; sourceTree = "<group>"; };
+		9D87F4A02429393000F85D1F /* NewConnectionsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConnectionsDataSource.swift; sourceTree = "<group>"; };
+		9D87F4A3242A024900F85D1F /* DynamicTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTypes.swift; sourceTree = "<group>"; };
+		9D87F4A6242A6BCD00F85D1F /* ConnectionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionListViewModel.swift; sourceTree = "<group>"; };
 		9D940957235DDB8F0080EBB5 /* AboutDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutDataSourceSpec.swift; sourceTree = "<group>"; };
 		9D94095923618CF00080EBB5 /* CacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHelper.swift; sourceTree = "<group>"; };
 		9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLeftLabel.swift; sourceTree = "<group>"; };
@@ -837,6 +852,8 @@
 				9DCED7E522CE18270050ED3C /* ConnectViewController.swift */,
 				9DCED7E622CE18270050ED3C /* EditConnectionViewController.swift */,
 				9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */,
+				9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */,
+				9D87F4A6242A6BCD00F85D1F /* ConnectionListViewModel.swift */,
 			);
 			path = Connection;
 			sourceTree = "<group>";
@@ -966,6 +983,7 @@
 				9DCED84122CE18270050ED3C /* ParametersSerializer.swift */,
 				9DCED84222CE18270050ED3C /* BiometricsHelper.swift */,
 				9DD4DF242375969A000A9B80 /* QuickActionsHelper.swift */,
+				9D87F4A3242A024900F85D1F /* DynamicTypes.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1000,6 +1018,7 @@
 				9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */,
 				9DCED84A22CE18270050ED3C /* SettingsCell.swift */,
 				9DCED84B22CE18270050ED3C /* ConnectionCell.swift */,
+				9D87F49D2429326800F85D1F /* NewConnectionCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1143,6 +1162,7 @@
 				9DCED88522CE18280050ED3C /* SettingsDataSource.swift */,
 				95C1EFC222D5EAA200078A28 /* AboutDataSource.swift */,
 				9D5AC68C23573553003B00E2 /* LibrariesDataSource.swift */,
+				9D87F4A02429393000F85D1F /* NewConnectionsDataSource.swift */,
 			);
 			path = "Data Sources";
 			sourceTree = "<group>";
@@ -1624,6 +1644,7 @@
 				9D453CC123CCB56400702695 /* main.swift in Sources */,
 				9DCED8A922CE18280050ED3C /* OnboardingViewController.swift in Sources */,
 				9DCED8CC22CE18280050ED3C /* ViewsExtensions.swift in Sources */,
+				9D87F49E2429326800F85D1F /* NewConnectionCell.swift in Sources */,
 				9DCED8EC22CE18280050ED3C /* BiometricsHelper.swift in Sources */,
 				9DCED90522CE18280050ED3C /* PasscodeView.swift in Sources */,
 				9DCED91422CE18280050ED3C /* SetupAppCoordinator.swift in Sources */,
@@ -1636,6 +1657,7 @@
 				9DCED8D322CE18280050ED3C /* StackViewExtensions.swift in Sources */,
 				9DCED91522CE18280050ED3C /* Connection.swift in Sources */,
 				9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
+				9D87F4A7242A6BCD00F85D1F /* ConnectionListViewModel.swift in Sources */,
 				9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */,
 				9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */,
 				9D77212C231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */,
@@ -1667,7 +1689,9 @@
 				9D77213823264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */,
 				9DCED8FB22CE18280050ED3C /* SetupProgressBarCircle.swift in Sources */,
 				9DCED92622CE18280050ED3C /* AppDelegate.swift in Sources */,
+				9D87F49B2429302800F85D1F /* ConnectionViewModel.swift in Sources */,
 				9DCED8CB22CE18280050ED3C /* WindowExtensions.swift in Sources */,
+				9D87F4A12429393000F85D1F /* NewConnectionsDataSource.swift in Sources */,
 				9DCED8DA22CE18280050ED3C /* Localizable.swift in Sources */,
 				9DCED90022CE18280050ED3C /* CustomButton.swift in Sources */,
 				9DCED8AC22CE18280050ED3C /* QRCodeViewController.swift in Sources */,
@@ -1699,6 +1723,7 @@
 				9D772132231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */,
 				9DCED8D822CE18280050ED3C /* AuthorizationsInteractor.swift in Sources */,
 				9DCED8E722CE18280050ED3C /* PasscodeManger.swift in Sources */,
+				9D87F4A4242A024900F85D1F /* DynamicTypes.swift in Sources */,
 				9DAAC0E2233A5341006D0758 /* TimeLeftLabel.swift in Sources */,
 				95C1EFC722D5EE1C00078A28 /* AboutCoordinator.swift in Sources */,
 				9DCED8A022CE18280050ED3C /* EditConnectionViewController.swift in Sources */,
@@ -1720,6 +1745,7 @@
 				9DE3249822D399EB00EB162A /* FontsExtensions.swift in Sources */,
 				9DE324B322D39A3700EB162A /* ParametersSerializer.swift in Sources */,
 				9DE324BF22D39A6300EB162A /* PasscodeViewController.swift in Sources */,
+				9D87F4A5242A024900F85D1F /* DynamicTypes.swift in Sources */,
 				9DE324AF22D39A2D00EB162A /* PasscodeManger.swift in Sources */,
 				9D66E1E522D6146900BD59B6 /* HeadersSpec.swift in Sources */,
 				9DE3247122D398ED00EB162A /* SpecUtils.swift in Sources */,
@@ -1743,6 +1769,7 @@
 				9D77212A231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */,
 				9DAAC0E3233A5341006D0758 /* TimeLeftLabel.swift in Sources */,
 				9D66E1E622D6146900BD59B6 /* RequestParametersBuilderSpec.swift in Sources */,
+				9D87F4A8242A6BCD00F85D1F /* ConnectionListViewModel.swift in Sources */,
 				9DE3247B22D3998200EB162A /* AuthorizationsCoordinator.swift in Sources */,
 				9D66E1A922D4C1C100BD59B6 /* DecryptedAuthorizationDataSpec.swift in Sources */,
 				9D66E1B222D4C1E600BD59B6 /* TabBarDataSourceSpec.swift in Sources */,
@@ -1792,6 +1819,7 @@
 				9DE3248422D3999F00EB162A /* SetupStep.swift in Sources */,
 				9D5AC68E23573553003B00E2 /* LibrariesDataSource.swift in Sources */,
 				9DE3247422D398ED00EB162A /* BaseSpec.swift in Sources */,
+				9D87F4A22429393000F85D1F /* NewConnectionsDataSource.swift in Sources */,
 				95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */,
 				9DE3249A22D399EF00EB162A /* ColorExtensions.swift in Sources */,
 				9DE324B022D39A2F00EB162A /* AmountFormatter.swift in Sources */,
@@ -1829,6 +1857,7 @@
 				9DE324BC22D39A5B00EB162A /* WKWebViewController.swift in Sources */,
 				0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */,
 				9DE3246622D3986B00EB162A /* CreateConnectionResponseSpec.swift in Sources */,
+				9D87F49F2429326800F85D1F /* NewConnectionCell.swift in Sources */,
 				9DE324A622D39A1600EB162A /* LocalizationHelper.swift in Sources */,
 				9D1DEE7F23DB5071003C79AC /* SubmitActionResponseSpec.swift in Sources */,
 				9DE324D922D39AB900EB162A /* CustomButton.swift in Sources */,
@@ -1844,6 +1873,7 @@
 				95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */,
 				9D66E1AB22D4C1CA00BD59B6 /* CryptoErrorsSpec.swift in Sources */,
 				9DE324BA22D39A5300EB162A /* EditConnectionViewController.swift in Sources */,
+				9D87F49C2429302800F85D1F /* ConnectionViewModel.swift in Sources */,
 				9D77212D231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */,
 				9D4310F422D7661D004A7FCF /* AboutCoordinator.swift in Sources */,
 				9D66E1B122D4C1E000BD59B6 /* SettingsDataSourceSpec.swift in Sources */,

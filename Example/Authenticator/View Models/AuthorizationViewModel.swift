@@ -38,6 +38,8 @@ class AuthorizationViewModel: Equatable {
     }
     var state: AuthorizationStateView.AuthorizationState
 
+    var observableState: Observable<AuthorizationStateView.AuthorizationState>!
+
     init?(_ data: SEDecryptedAuthorizationData) {
         self.authorizationId = data.id
         self.connectionId = data.connectionId
@@ -56,5 +58,20 @@ class AuthorizationViewModel: Equatable {
             lhs.title == rhs.title &&
             lhs.description == rhs.description &&
             lhs.createdAt == rhs.createdAt
+    }
+}
+
+class Observable<T> {
+    var value: T {
+        didSet {
+            DispatchQueue.main.async {
+                self.valueChanged?(self.value)
+            }
+        }
+    }
+    var valueChanged: ((T) -> Void)?
+
+    init(_ v: T) {
+        value = v
     }
 }

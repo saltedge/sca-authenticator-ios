@@ -45,18 +45,22 @@ final class ConnectionsViewController: BaseViewController {
         tableView.sectionHeaderHeight = 30.0
         tableView.sectionFooterHeight = 0.0
         tableView.backgroundColor = .auth_backgroundColor
-        tableView.register(ConnectionCell.self)
+        tableView.rowHeight = Layout.cellHeight
+        tableView.register(NewConnectionCell.self)
         return tableView
     }()
     private var noDataView: NoDataView!
-    private var dataSource: ConnectionsDataSource!
+
+    private var viewControllerViewModel: ConnectionListViewModel!
+    private var dataSource: NewConnectionsDataSource!
 
     weak var delegate: ConnectionsViewControllerDelegate?
+    var connectViewCoordinator: ConnectViewCoordinator?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.connections)
-        setupDataSource()
+        setupViewModelAndDataSource()
         setupTableView()
         noDataView = NoDataView(
             image: #imageLiteral(resourceName: "no_connections"),
@@ -83,7 +87,7 @@ final class ConnectionsViewController: BaseViewController {
     }
 
     @objc private func addPressed() {
-        delegate?.addPressed()
+        addNewConnection()
     }
 
     @objc private func reloadData() {
@@ -93,8 +97,8 @@ final class ConnectionsViewController: BaseViewController {
 
 // MARK: - Setup
 private extension ConnectionsViewController {
-    func setupDataSource() {
-        dataSource = ConnectionsDataSource(
+    func setupViewModelAndDataSource() {
+        viewControllerViewModel = ConnectionListViewModel(
             onDataChange: { [weak self] in
                 guard let weakSelf = self else { return }
 
@@ -103,6 +107,8 @@ private extension ConnectionsViewController {
                 weakSelf.updateNavigationButtonsState()
             }
         )
+
+        dataSource = NewConnectionsDataSource(viewModel: viewControllerViewModel)
     }
 
     func setupTableView() {
@@ -158,9 +164,9 @@ extension ConnectionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        guard let connection = dataSource.item(for: indexPath) else { return }
+        guard let connection = viewControllerViewModel.item(for: indexPath) else { return }
 
-        delegate?.selected(connection, action: nil)
+//        delegate?.selected(connection, action: nil)
     }
 }
 
@@ -169,42 +175,87 @@ extension ConnectionsViewController: UITableViewDelegate {
 extension ConnectionsViewController {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let connection = dataSource.item(for: indexPath) else { return nil }
+        guard let connectionViewModel = viewControllerViewModel.item(for: indexPath) else { return nil }
 
         let delete = UIContextualAction(style: .destructive, title: l10n(.delete)) { _, _, completionHandler in
-            self.delegate?.selected(connection, action: .delete)
+            self.navigationController?.showConfirmationAlert(
+                withTitle: l10n(.delete),
+                message: l10n(.deleteConnectionDescription),
+                confirmAction: { _ in
+                    connectionViewModel.remove()
+                }
+            )
             completionHandler(true)
         }
 
         let rename = UIContextualAction(style: .normal, title: l10n(.rename)) { _, _, completionHandler in
-            self.delegate?.selected(connection, action: .edit)
+            self.rename(connectionViewModel)
             completionHandler(true)
         }
 
         var actions: [UIContextualAction] = [delete, rename]
 
-        if connection.status == ConnectionStatus.inactive.rawValue {
-            let reconnect = UIContextualAction(style: .normal, title: l10n(.reconnect)) { action, _, completionHandler in
-                self.delegate?.selected(connection, action: .reconnect)
-                completionHandler(true)
-            }
-            reconnect.backgroundColor = UIColor.auth_blue
-            actions.insert(reconnect, at: 1)
-        }
+//        if connection.status == ConnectionStatus.inactive.rawValue {
+//            let reconnect = UIContextualAction(style: .normal, title: l10n(.reconnect)) { action, _, completionHandler in
+//                self.delegate?.selected(connection, action: .reconnect)
+//                completionHandler(true)
+//            }
+//            reconnect.backgroundColor = UIColor.auth_blue
+//            actions.insert(reconnect, at: 1)
+//        }
 
         return UISwipeActionsConfiguration(actions: actions)
     }
 
     func tableView(_ tableView: UITableView,
                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let connection = dataSource.item(for: indexPath) else { return nil }
+        guard let connectionViewModel = viewControllerViewModel.item(for: indexPath) else { return nil }
 
         let support = UIContextualAction(style: .normal, title: l10n(.support)) { _, _, completionHandler in
-            self.delegate?.selected(connection, action: .support)
+            self.showSupport(email: connectionViewModel.supportEmail)
             completionHandler(true)
         }
 
         return UISwipeActionsConfiguration(actions: [support])
+    }
+}
+
+// MARK: - Actions
+private extension ConnectionsViewController {
+    func rename(_ viewModel: ConnectionViewModel) {
+        let editVc = EditConnectionViewController(viewModel: viewModel)
+        navigationController?.pushViewController(editVc, animated: true)
+    }
+
+    func showSupport(email: String) {
+        showSupportMailComposer(withEmail: email)
+    }
+
+    func addNewConnection() {
+        AVCaptureHelper.requestAccess(
+            success: {
+                self.connectViewCoordinator = ConnectViewCoordinator(
+                    rootViewController: self,
+                    connectionType: .connect
+                )
+                self.connectViewCoordinator?.start()
+            },
+            failure: {
+                self.showConfirmationAlert(
+                    withTitle: l10n(.deniedCamera),
+                    message: l10n(.deniedCameraDescription),
+                    confirmActionTitle: l10n(.goToSettings),
+                    confirmActionStyle: .default,
+                    confirmAction: { _ in
+                        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+                        if UIApplication.shared.canOpenURL(settingsUrl) {
+                            UIApplication.shared.open(settingsUrl)
+                        }
+                    }
+                )
+            }
+        )
     }
 }
 

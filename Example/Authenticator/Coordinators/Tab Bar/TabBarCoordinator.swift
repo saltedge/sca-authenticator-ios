@@ -38,7 +38,7 @@ final class TabBarCoordinator: Coordinator {
         let authNavController = UINavigationController(rootViewController: authorizationsCoordinator.rootViewController)
         authNavController.tabBarItem = TabBarDataSource.tabBarItem(for: .authorizations)
 
-        let connectionsNavController = UINavigationController(rootViewController: connectionsCoordinator.rootViewController)
+        let connectionsNavController = UINavigationController(rootViewController: ConnectionsViewController())
         connectionsNavController.tabBarItem = TabBarDataSource.tabBarItem(for: .connections)
 
         let settingsNavController = UINavigationController(rootViewController: settingsCoordinator.rootViewController)
