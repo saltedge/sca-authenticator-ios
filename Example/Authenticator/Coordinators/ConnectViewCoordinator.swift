@@ -93,50 +93,56 @@ final class ConnectViewCoordinator: Coordinator {
     private func handleQr(url: URL) {
         if let actionGuid = SEConnectHelper.actionGuid(from: url),
             let connectUrl = SEConnectHelper.connectUrl(from: url) {
-            connectViewController.startLoading()
-
-            guard ConnectionsCollector.activeConnections.count > 1 else {
-                if let connection = ConnectionsCollector.activeConnections.first {
-                    let actionData = SEActionData(
-                        url: connectUrl,
-                        guid: actionGuid,
-                        connectionGuid: connection.guid,
-                        accessToken: connection.accessToken,
-                        appLanguage: UserDefaultsHelper.applicationLanguage
-                    )
-                    self.submitAction(actionData: actionData, actionGuid: actionGuid, qrUrl: url)
-                }
+            guard ConnectionsCollector.activeConnections.count > 0 else {
+                finishConnectWithError(l10n(.noActiveConnection))
                 return
             }
 
-            presentConnectionPicker(with: actionGuid, connectUrl: connectUrl, qrUrl: url)
+            connectViewController.title = l10n(.newAction)
+            connectViewController.startLoading()
+
+            let connections = ConnectionsCollector.activeConnections(by: connectUrl)
+
+            if connections.count > 1 {
+                presentConnectionPicker(with: connections, actionGuid: actionGuid, connectUrl: connectUrl, qrUrl: url)
+            } else if connections.count == 1 {
+                guard let connection = connections.first else { return }
+
+                submitAction(for: connection, connectUrl: connectUrl, actionGuid: actionGuid, qrUrl: url)
+            } else {
+                dismissConnectWithError(l10n(.noSuitableConnection))
+            }
         } else {
             fetchConfiguration(deepLinkUrl: url)
         }
     }
 
-    private func presentConnectionPicker(with actionGuid: GUID, connectUrl: URL, qrUrl: URL) {
-        let pickerVc = ConnectionPickerViewController()
-        pickerVc.selectedConnection = { connection in
-            let actionData = SEActionData(
-                url: connectUrl,
-                guid: actionGuid,
-                connectionGuid: connection.guid,
-                accessToken: connection.accessToken,
-                appLanguage: UserDefaultsHelper.applicationLanguage
-            )
+    private func presentConnectionPicker(with connections: [Connection], actionGuid: GUID, connectUrl: URL, qrUrl: URL) {
+        let pickerVc = ConnectionPickerViewController(connections: connections)
+        pickerVc.modalPresentationStyle = .fullScreen
 
-            self.submitAction(actionData: actionData, actionGuid: actionGuid, qrUrl: qrUrl)
+        connectViewController.title = l10n(.selectConnection)
+        connectViewController.add(pickerVc)
+
+        pickerVc.selectedConnection = { connection in
+            pickerVc.remove()
+            self.connectViewController.title = l10n(.newAction)
+            self.submitAction(for: connection, connectUrl: connectUrl, actionGuid: actionGuid, qrUrl: qrUrl)
         }
         pickerVc.cancelPressedClosure = {
             self.rootViewController.dismiss(animated: true)
         }
-        let pickerNavVc = UINavigationController(rootViewController: pickerVc)
-        pickerNavVc.modalPresentationStyle = .fullScreen
-        connectViewController.present(pickerNavVc, animated: true)
     }
 
-    private func submitAction(actionData: SEActionData, actionGuid: GUID, qrUrl: URL) {
+    private func submitAction(for connection: Connection, connectUrl: URL, actionGuid: GUID, qrUrl: URL) {
+        let actionData = SEActionData(
+            url: connectUrl,
+            guid: actionGuid,
+            connectionGuid: connection.guid,
+            accessToken: connection.accessToken,
+            appLanguage: UserDefaultsHelper.applicationLanguage
+        )
+
         SEActionManager.submitAction(
             data: actionData,
             onSuccess: { response in
@@ -144,9 +150,11 @@ final class ConnectViewCoordinator: Coordinator {
 
                 self.handleActionResponse(response, qrUrl: qrUrl)
             },
-            onFailure: { _ in
-                self.connectViewController.stopLoading()
-                self.connectViewController.showCompleteView(with: .fail, title: l10n(.somethingWentWrong))
+            onFailure: { [weak self] _ in
+                DispatchQueue.main.async {
+                    self?.connectViewController.stopLoading()
+                    self?.finishConnectWithError(l10n(.actionError))
+                }
             }
         )
     }
@@ -159,7 +167,7 @@ final class ConnectViewCoordinator: Coordinator {
                 authorizationId: authorizationId
             )
         } else {
-            self.connectViewController.showCompleteView(
+            connectViewController.showCompleteView(
                 with: .success,
                 title: l10n(.instantActionSuccessMessage),
                 description: l10n(.instantActionSuccessDescription),
@@ -177,16 +185,12 @@ final class ConnectViewCoordinator: Coordinator {
             from: configurationUrl,
             with: connectQuery,
             success: { [weak self] connection, accessToken in
-                guard let strongSelf = self else { return }
-
-                strongSelf.connection = connection
-                strongSelf.finishConnectWithSuccess(accessToken: accessToken)
+                self?.connection = connection
+                self?.finishConnectWithSuccess(accessToken: accessToken)
             },
             redirect: { [weak self]  connection, connectUrl in
-                guard let strongSelf = self else { return }
-
-                strongSelf.connection = connection
-                strongSelf.webViewController.startLoading(with: connectUrl)
+                self?.connection = connection
+                self?.webViewController.startLoading(with: connectUrl)
             },
             failure: { [weak self] error in
                 self?.dismissConnectWithError(error)
@@ -207,20 +211,17 @@ final class ConnectViewCoordinator: Coordinator {
 
     private func reconnectConnection() {
         guard let connection = connection else { return }
-        ConnectionsInteractor.requestCreateConnection(
-            connection: connection,
+
+        ConnectionsInteractor.submitConnection(
+            for: connection,
             connectQuery: nil,
             success: { [weak self] connection, accessToken in
-                guard let strongSelf = self else { return }
-
-                strongSelf.connection = connection
-                strongSelf.finishConnectWithSuccess(accessToken: accessToken)
+                self?.connection = connection
+                self?.finishConnectWithSuccess(accessToken: accessToken)
             },
             redirect: { [weak self]  connection, connectUrl in
-                guard let strongSelf = self else { return }
-
-                strongSelf.connection = connection
-                strongSelf.webViewController.startLoading(with: connectUrl)
+                self?.connection = connection
+                self?.webViewController.startLoading(with: connectUrl)
             },
             failure: { [weak self] error in
                 self?.dismissConnectWithError(error)
@@ -273,7 +274,7 @@ extension ConnectViewCoordinator {
     }
 
     func dismissConnectWithError(_ error: String) {
-        self.connectViewController.dismiss(
+        connectViewController.dismiss(
             animated: true,
             completion: {
                 self.rootViewController.present(message: error, style: .error)

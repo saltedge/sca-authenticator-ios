@@ -40,7 +40,12 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
     private let stateView = AuthorizationStateView(state: .base)
     private var isProcessing: Bool = false
 
-    private let titleLabel = UILabel.titleLabel
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .auth_gray
+        label.font = UIFont.systemFont(ofSize: 14.0)
+        return label
+    }()
     private lazy var descriptionTextView = UITextView()
     private lazy var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
     private var contentStackView: UIStackView = {
@@ -72,6 +77,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 
     func set(with viewModel: AuthorizationViewModel) {
         self.viewModel = viewModel
+        titleLabel.text = viewModel.title
 
         guard viewModel.state == .base else {
             stateView.set(state: viewModel.state)
@@ -144,7 +150,6 @@ extension AuthorizationCollectionViewCell: Layoutable {
 
         titleLabel.top(to: self, offset: Layout.topOffset)
         titleLabel.centerX(to: self)
-        titleLabel.textColor = .lightGray
 
         contentStackView.topToBottom(of: titleLabel, offset: 12.0)
         contentStackView.left(to: self, offset: AppLayout.sideOffset)

@@ -47,8 +47,8 @@ struct ConnectionsInteractor {
                 connection.logoUrlString = response.logoUrl?.absoluteString ?? ""
                 connection.baseUrlString = response.connectUrl.absoluteString
 
-                requestCreateConnection(
-                    connection: connection,
+                submitConnection(
+                    for: connection,
                     connectQuery: connectQuery,
                     success: success,
                     redirect: redirect,
@@ -69,8 +69,8 @@ struct ConnectionsInteractor {
         )
     }
 
-    static func requestCreateConnection(
-        connection: Connection,
+    static func submitConnection(
+        for connection: Connection,
         connectQuery: String?,
         success: @escaping (Connection, AccessToken) -> (),
         redirect: @escaping (Connection, String) -> (),

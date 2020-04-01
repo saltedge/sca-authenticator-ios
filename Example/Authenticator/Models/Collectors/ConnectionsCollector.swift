@@ -41,6 +41,10 @@ struct ConnectionsCollector {
             )
     }
 
+    static func activeConnections(by connectUrl: URL) -> [Connection] {
+        return Array(activeConnections).filter { $0.baseUrl == connectUrl }
+    }
+
     static var connectionNames: [String] {
         return allConnections.map { $0.name }
     }
