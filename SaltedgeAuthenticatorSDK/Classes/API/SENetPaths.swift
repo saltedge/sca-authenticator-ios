@@ -23,6 +23,7 @@
 import Foundation
 
 public enum SENetPaths: String {
+    case actions
     case authorizations
     case connections
 

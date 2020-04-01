@@ -22,6 +22,10 @@
 
 import UIKit
 
+protocol AuthorizationsViewControllerDelegate: class {
+    func scanQrPressed()
+}
+
 final class AuthorizationsViewController: BaseViewController {
     private let authorizationsView = MainAuthorizationsView()
 
@@ -33,6 +37,8 @@ final class AuthorizationsViewController: BaseViewController {
 
     private var messageBarView: MessageBarView?
 
+    weak var delegate: AuthorizationsViewControllerDelegate?
+
     var dataSource: AuthorizationsDataSource?
 
     override func viewDidLoad() {
@@ -41,6 +47,7 @@ final class AuthorizationsViewController: BaseViewController {
         view.backgroundColor = .auth_backgroundColor
         authorizationsView.backgroundColor = .white
         authorizationsView.delegate = self
+        setupQrButton()
         setupObservers()
         layout()
         noDataView.alpha = 1.0
@@ -76,6 +83,15 @@ final class AuthorizationsViewController: BaseViewController {
 
 // MARK: - Setup
 extension AuthorizationsViewController {
+    func setupQrButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "qr"),
+            style: .plain,
+            target: self,
+            action: #selector(scanQrPressed)
+        )
+    }
+
     func setupObservers() {
         NotificationsHelper.observe(
             self,
@@ -107,6 +123,10 @@ extension AuthorizationsViewController {
 
 // MARK: - Actions
 private extension AuthorizationsViewController {
+    @objc func scanQrPressed() {
+        delegate?.scanQrPressed()
+    }
+
     func delete(section: Int) {
         updateViewsHiddenState()
     }

@@ -1,8 +1,8 @@
 //
-//  SerializableResponse.swift
+//  SEActionManager
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,6 +22,14 @@
 
 import Foundation
 
-public protocol SerializableResponse {
-    init?(_ value: Any)
+public struct SEActionManager {
+    public static func submitAction(data: SEActionData,
+                                    onSuccess success: @escaping HTTPServiceSuccessClosure<SESubmitActionResponse>,
+                                    onFailure failure: @escaping FailureBlock) {
+        HTTPService<SESubmitActionResponse>.execute(
+            request: SEActionRouter.submit(data),
+            success: success,
+            failure: failure
+        )
+    }
 }

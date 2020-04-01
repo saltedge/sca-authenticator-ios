@@ -24,18 +24,18 @@ import Foundation
 import SEAuthenticator
 
 struct ConnectionsInteractor {
-    static func getConnectUrl(from url: URL,
-                              with connectQuery: String?,
-                              success: @escaping (Connection, String) -> (),
-                              failure: @escaping (String) -> ()) {
+    static func createNewConnection(
+        from url: URL,
+        with connectQuery: String?,
+        success: @escaping (Connection, AccessToken) -> (),
+        redirect: @escaping (Connection, String) -> (),
+        failure: @escaping (String) -> ()
+    ) {
         fetchProvider(
             from: url,
             success: { response in
-                let connectionUrl = response.connectUrl.appendingPathComponent(SENetPaths.connections.path)
-
                 let connection = Connection()
-
-                guard let connectionData = SEConnectionData(code: response.code, tag: connection.guid) else { return }
+                connection.code = response.code
 
                 if ConnectionsCollector.connectionNames.contains(response.name) {
                     connection.name = "\(response.name) (\(ConnectionsCollector.connectionNames.count + 1))"
@@ -47,17 +47,12 @@ struct ConnectionsInteractor {
                 connection.logoUrlString = response.logoUrl?.absoluteString ?? ""
                 connection.baseUrlString = response.connectUrl.absoluteString
 
-                SEConnectionManager.getConnectUrl(
-                    by: connectionUrl,
-                    data: connectionData,
-                    pushToken: UserDefaultsHelper.pushToken,
+                submitConnection(
+                    for: connection,
                     connectQuery: connectQuery,
-                    appLanguage: UserDefaultsHelper.applicationLanguage,
-                    onSuccess: { response in
-                        connection.id = response.id
-                        success(connection, response.connectUrl)
-                    },
-                    onFailure: failure
+                    success: success,
+                    redirect: redirect,
+                    failure: failure
                 )
             },
             failure: failure
@@ -70,6 +65,36 @@ struct ConnectionsInteractor {
         SEProviderManager.fetchProviderData(
             url: url,
             onSuccess: success,
+            onFailure: failure
+        )
+    }
+
+    static func submitConnection(
+        for connection: Connection,
+        connectQuery: String?,
+        success: @escaping (Connection, AccessToken) -> (),
+        redirect: @escaping (Connection, String) -> (),
+        failure: @escaping (String) -> ()
+    ) {
+        guard let connectionData = SEConnectionData(code: connection.code, tag: connection.guid),
+            let connectUrl = connection.baseUrl?.appendingPathComponent(SENetPaths.connections.path) else { return }
+
+        SEConnectionManager.createConnection(
+            by: connectUrl,
+            data: connectionData,
+            pushToken: UserDefaultsHelper.pushToken,
+            connectQuery: connectQuery,
+            appLanguage: UserDefaultsHelper.applicationLanguage,
+            onSuccess: { response in
+                connection.id = response.id
+                if let accessToken = response.accessToken {
+                    success(connection, accessToken)
+                } else if let connectUrl = response.connectUrl {
+                    redirect(connection, connectUrl)
+                } else {
+                    failure(l10n(.somethingWentWrong))
+                }
+            },
             onFailure: failure
         )
     }

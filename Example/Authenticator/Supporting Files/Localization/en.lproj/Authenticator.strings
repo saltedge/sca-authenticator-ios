@@ -37,11 +37,14 @@
 "authorization.time_out.message" = "Time to authorize your action is out";
 "authorization.denied.message" = "Your action was denied";
 "errors.account_reset" = "Your Account Was Reset Due to Multiple Failed Attempts.";
+"errors.instant_action.error" = "Action error";
 "errors.authorization_not_found" = "Authorization request was either processed, canceled or expired";
 "errors.contact_support" = "Something went wrong. Please contact our Support team.";
 "errors.denied_camera" = "Camera access denied";
 "errors.denied_camera_description" = "Please allow camera usage in phone settings. Without camera you won't be able to connect provider.";
 "errors.inactive_connection" = "Inactive connection. Remove or reconnect.";
+"errors.no_active_connections" = "You have no currently connected service providers. Connect one to start receiving authorizations for your actions (e.g. payments).";
+"errors.no_suitable_connection" = "You have no suitable connection for this action";
 "errors.no_internet_connection" = "No Internet connection.";
 "errors.no_internet_connection_try_again" = "Please try again later.";
 "errors.passcode_ios" = "You entered the wrong Passcode. Please try again in %{count} minutes.";
@@ -87,6 +90,9 @@
 "in_app.navigation.authorizations" = "Authorizations";
 "in_app.navigation.connections" = "Connections";
 "in_app.sidebar_menu.settings" = "Settings";
+"instant_action.new_action" = "New Action";
+"instant_action.success_message" = "Successful action";
+"instant_action.success_description" = "Action was successfully processed";
 "onboarding.allow_notifications.description" = "Enable notifications, to receive useful alerts and always be up to speed with your transactions.";
 "onboarding.allow_notifications.title" = "Allow Notifications";
 "onboarding.carousel_one.description" = "Two factor authentication brings additional security to your payments, diminishing any possibility of fraudulent activity.";

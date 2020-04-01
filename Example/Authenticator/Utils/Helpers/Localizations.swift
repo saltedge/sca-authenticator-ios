@@ -92,16 +92,21 @@ enum Localizations: String, Localizable {
     case deniedMessage = "authorization.denied.message"
     case timeOutMessage = "authorization.time_out.message"
 
+    // MARK: - Actions
+    case newAction = "instant_action.new_action"
+    case instantActionSuccessMessage = "instant_action.success_message"
+    case instantActionSuccessDescription = "instant_action.success_description"
+
     // MARK: - Connections
     case noConnections = "in_app.connect.no_connections"
     case noConnectionsDescription = "in_app.connect.no_connections_description"
     case connections = "in_app.navigation.connections"
-    case selectConnection = "in_app.connection.select"
     case connectProvider = "action.connect_provider"
     case connectedOn = "in_app.connection.connected_on"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
     case processing = "in_app.connect.in_progress"
     case scanQr = "in_app.connect.scan_qr"
+    case selectConnection = "in_app.connect.select"
     case newConnection = "in_app.connect.new_connection"
 
     // MARK: - Settings
@@ -140,6 +145,9 @@ enum Localizations: String, Localizable {
     case couldNotSendMail = "in_app.settings.contact_support_failed"
 
     // MARK: - Errors
+    case actionError = "errors.instant_action.error"
+    case noActiveConnection = "errors.no_active_connections"
+    case noSuitableConnection = "errors.no_suitable_connection"
     case authorizationNotFound = "errors.authorization_not_found"
     case deniedCamera = "errors.denied_camera"
     case deniedCameraDescription = "errors.denied_camera_description"

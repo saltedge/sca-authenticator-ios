@@ -43,6 +43,42 @@ class SEConnectHelperSpec: BaseSpec {
                 )
                 
                 expect(SEConnectHelper.isValid(deepLinkUrl: expectUrl!)).to(beTrue())
+
+                expectUrl = URL(
+                    string: "authenticator://saltedge.com/action?action_uuid=123456&connect_url=https://connect.com"
+                )
+                
+                expect(SEConnectHelper.isValid(deepLinkUrl: expectUrl!)).to(beTrue())
+
+                expectUrl = URL(
+                    string: "authenticator://saltedge.com/action?action_uuid=123456"
+                )
+
+                expect(SEConnectHelper.isValid(deepLinkUrl: expectUrl!)).to(beFalse())
+            }
+        }
+
+        describe("actionGuid") {
+            it("should return action_uuid param value or nil") {
+                let expectUrl = URL(string: "authenticator://saltedge.com/action?action_uuid=123456")
+
+                expect(SEConnectHelper.actionGuid(from: expectUrl!)).to(equal("123456"))
+            }
+        }
+
+        describe("connectUrl") {
+            it("should return connect_url param value or nil") {
+                let expectUrl = URL(string: "authenticator://saltedge.com/action?connect_url=https://connect.com")
+
+                expect(SEConnectHelper.connectUrl(from: expectUrl!)).to(equal(URL(string: "https://connect.com")))
+            }
+        }
+
+        describe("returnTo") {
+            it("should return return_to param value or nil") {
+                let expectUrl = URL(string: "authenticator://saltedge.com/action?connect_url=https://connect.com&return_to=https://return.com")
+
+                expect(SEConnectHelper.returnToUrl(from: expectUrl!)).to(equal(URL(string: "https://return.com")))
             }
         }
         

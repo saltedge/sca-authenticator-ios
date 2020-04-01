@@ -64,9 +64,17 @@ struct AuthorizationsInteractor {
                         connectionNotFoundFailure: @escaping ((String?) -> ())) {
         let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
 
+        var encryptedAuthorizations = [SEEncryptedAuthorizationResponse]()
+
         var numberOfResponses = 0
 
-        var encryptedAuthorizations = [SEEncryptedAuthorizationResponse]()
+        func incrementAndCheckResponseCount() {
+            numberOfResponses += 1
+
+            if numberOfResponses == connections.count {
+                success(encryptedAuthorizations)
+            }
+        }
 
         for connection in connections {
             let accessToken = connection.accessToken
@@ -83,16 +91,16 @@ struct AuthorizationsInteractor {
                 expiresAt: expiresAt,
                 onSuccess: { response in
                     encryptedAuthorizations.append(contentsOf: response.data)
-                    numberOfResponses += 1
-                    if numberOfResponses == connections.count {
-                        success(encryptedAuthorizations)
-                    }
+
+                    incrementAndCheckResponseCount()
                 },
                 onFailure: { error in
+                    incrementAndCheckResponseCount()
+
                     if SEAPIError.connectionNotFound.isConnectionNotFound(error) {
                         connectionNotFoundFailure(connection.id)
                     } else {
-                        failure?(error)
+                        failure?("\(l10n(.somethingWentWrong)) (\(connection.name))")
                     }
                 }
             )

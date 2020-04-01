@@ -35,6 +35,9 @@ class DataFixtures {
     static var validConfirmAuthorizationData: [String: Any] { return json("valid_confirm_authorization_data") }
     static var invalidConfirmAuthorizationData: [String: Any] { return json("invalid_confirm_authorization_data") }
 
+    static var validSubmitActionData: [String: Any] { return json("valid_submit_action_data") }
+    static var invalidSubmitActionData: [String: Any] { return json("invalid_submit_action_data") }
+
     static var validCreateConnectionData: [String: Any] { return json("valid_create_connection_data") }
     static var invalidCreateConnectionData: [String: Any] { return json("invalid_create_connection_data") }
 

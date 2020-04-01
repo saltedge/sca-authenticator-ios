@@ -26,9 +26,11 @@ import SEAuthenticator
 final class AuthorizationsCoordinator: Coordinator {
     let rootViewController = AuthorizationsViewController()
 
+    private var connectViewCoordinator: ConnectViewCoordinator?
     private var passcodeCoordinator: PasscodeCoordinator?
 
-    private var timer: Timer?
+    private var poller: SEPoller?
+
     private var connections = ConnectionsCollector.activeConnections
 
     private var selectedViewModelIndex: Int?
@@ -40,34 +42,30 @@ final class AuthorizationsCoordinator: Coordinator {
 
     func start() {
         rootViewController.dataSource = dataSource
+        rootViewController.delegate = self
         setupPolling()
         updateDataSource(with: [])
     }
 
     func start(with connectionId: String, authorizationId: String) {
+        refresh()
         start()
         authorizationFromPush = (connectionId, authorizationId)
     }
 
     func stop() {
-        timer?.invalidate()
-        timer = nil
+        poller?.stopPolling()
+        poller = nil
     }
 
     private func setupPolling() {
+        poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationsIfAvailable))
         getEncryptedAuthorizationsIfAvailable()
-
-        timer = Timer.scheduledTimer(
-            timeInterval: 2.0,
-            target: self,
-            selector: #selector(getEncryptedAuthorizationsIfAvailable),
-            userInfo: nil,
-            repeats: true
-        )
+        poller?.startPolling()
     }
 
     @objc private func getEncryptedAuthorizationsIfAvailable() {
-        if timer != nil, connections.count > 0 {
+        if poller != nil, connections.count > 0 {
             refresh()
         } else {
             updateDataSource(with: [])
@@ -115,12 +113,42 @@ private extension AuthorizationsCoordinator {
                 }
             },
             failure: { error in
-                self.rootViewController.present(message: error, style: .error)
+                print(error)
             },
             connectionNotFoundFailure: { connectionId in
                 if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
                     ConnectionRepository.setInactive(connection)
                 }
+            }
+        )
+    }
+}
+
+// MARK: - AuthorizationsViewControllerDelegate
+extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
+    func scanQrPressed() {
+        AVCaptureHelper.requestAccess(
+            success: {
+                self.connectViewCoordinator = ConnectViewCoordinator(
+                    rootViewController: self.rootViewController,
+                    connectionType: .connect
+                )
+                self.connectViewCoordinator?.start()
+            },
+            failure: {
+                self.rootViewController.showConfirmationAlert(
+                    withTitle: l10n(.deniedCamera),
+                    message: l10n(.deniedCameraDescription),
+                    confirmActionTitle: l10n(.goToSettings),
+                    confirmActionStyle: .default,
+                    confirmAction: { _ in
+                        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+                        if UIApplication.shared.canOpenURL(settingsUrl) {
+                            UIApplication.shared.open(settingsUrl)
+                        }
+                    }
+                )
             }
         )
     }

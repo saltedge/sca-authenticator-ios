@@ -30,10 +30,25 @@ enum ConnectionType {
 }
 
 final class ConnectViewController: BaseViewController {
+    private lazy var loadingIndicator = LoadingIndicator()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = l10n(.connectProvider)
         setupCancelButton()
+    }
+
+    func startLoading() {
+        view.addSubview(loadingIndicator)
+
+        loadingIndicator.center(in: view)
+        loadingIndicator.size(AppLayout.loadingIndicatorSize)
+
+        loadingIndicator.start()
+    }
+
+    func stopLoading() {
+        loadingIndicator.stop()
+        loadingIndicator.removeFromSuperview()
     }
 }
 
@@ -55,10 +70,12 @@ extension ConnectViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    func showCompleteView(with state: CompleteView.State,
-                          title: String,
-                          description: String = l10n(.connectedSuccessfullyDescription),
-                          completion: (() -> ())? = nil) {
+    func showCompleteView(
+        with state: CompleteView.State,
+        title: String,
+        description: String = l10n(.connectedSuccessfullyDescription),
+        completion: (() -> ())? = nil
+    ) {
         let completeView = CompleteView(state: state, title: title, description: description)
         completeView.proceedClosure = completion
         completeView.delegate = self
@@ -78,9 +95,5 @@ extension ConnectViewController {
 extension ConnectViewController: CompleteViewDelegate {
     func proceedPressed(for view: CompleteView) {
         dismiss(animated: true, completion: nil)
-    }
-
-    func reportAProblemPressed(for view: CompleteView) {
-        showSupportMailComposer()
     }
 }
