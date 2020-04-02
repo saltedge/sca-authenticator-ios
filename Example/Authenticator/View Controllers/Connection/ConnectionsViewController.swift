@@ -195,14 +195,14 @@ extension ConnectionsViewController {
 
         var actions: [UIContextualAction] = [delete, rename]
 
-//        if connection.status == ConnectionStatus.inactive.rawValue {
-//            let reconnect = UIContextualAction(style: .normal, title: l10n(.reconnect)) { action, _, completionHandler in
-//                self.delegate?.selected(connection, action: .reconnect)
-//                completionHandler(true)
-//            }
-//            reconnect.backgroundColor = UIColor.auth_blue
-//            actions.insert(reconnect, at: 1)
-//        }
+        if connectionViewModel.status == ConnectionStatus.inactive.rawValue {
+            let reconnect = UIContextualAction(style: .normal, title: l10n(.reconnect)) { _, _, completionHandler in
+                self.reconnect(connectionViewModel.id)
+                completionHandler(true)
+            }
+            reconnect.backgroundColor = UIColor.auth_blue
+            actions.insert(reconnect, at: 1)
+        }
 
         return UISwipeActionsConfiguration(actions: actions)
     }
@@ -222,13 +222,23 @@ extension ConnectionsViewController {
 
 // MARK: - Actions
 private extension ConnectionsViewController {
-    func rename(_ viewModel: ConnectionViewModel) {
+    func rename(_ viewModel: ConnectionCellViewModel) {
         let editVc = EditConnectionViewController(viewModel: viewModel)
+        editVc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(editVc, animated: true)
     }
 
     func showSupport(email: String) {
         showSupportMailComposer(withEmail: email)
+    }
+
+    func reconnect(_ connectionId: String) {
+        connectViewCoordinator = ConnectViewCoordinator(
+            rootViewController: self,
+            connectionType: .reconnect,
+            connectionId: connectionId
+        )
+        connectViewCoordinator?.start()
     }
 
     func addNewConnection() {

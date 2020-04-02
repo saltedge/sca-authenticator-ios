@@ -1,5 +1,5 @@
 //
-//  DynamicTypes
+//  Observable
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -20,16 +20,21 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import Foundation
+import UIKit
 
-class Dynamic<T> {
-    var bind :(T) -> () = { _ in }
-    var value :T? {
+class Observable<ObservedType: Equatable> {
+    var value: ObservedType {
         didSet {
-            bind(value!)
+            guard value != oldValue else { return }
+
+            DispatchQueue.main.async {
+                self.valueChanged?(self.value)
+            }
         }
     }
-    init(_ v :T) {
+    var valueChanged: ((ObservedType) -> Void)?
+
+    init(_ v: ObservedType) {
         value = v
     }
 }

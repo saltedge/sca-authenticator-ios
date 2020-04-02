@@ -79,40 +79,57 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         self.viewModel = viewModel
         titleLabel.text = viewModel.title
 
-        guard viewModel.state == .base else {
-            stateView.set(state: viewModel.state)
-            stateView.isHidden = false
-            return
-        }
+        viewModel.state.valueChanged = { [weak self] changedState in
+            guard let strongSelf = self else { return }
 
-        if viewModel.expired && viewModel.state != .expired {
-            stateView.set(state: .expired)
-            stateView.isHidden = false
-        } else {
-            stateView.isHidden = true
-            stateView.set(state: .base)
+            guard changedState == .base else {
+                strongSelf.stateView.set(state: changedState)
+                strongSelf.stateView.isHidden = false
+                return
+            }
 
-            if viewModel.description.htmlToAttributedString != nil {
-                contentStackView.removeArrangedSubview(descriptionTextView)
-                webView.loadHTMLString(viewModel.description, baseURL: nil)
-                contentStackView.addArrangedSubview(webView)
+            if viewModel.expired && changedState != .expired {
+                strongSelf.stateView.set(state: .expired)
+                strongSelf.stateView.isHidden = false
             } else {
-                contentStackView.removeArrangedSubview(webView)
-                descriptionTextView.text = viewModel.description
-                contentStackView.addArrangedSubview(descriptionTextView)
+                strongSelf.stateView.isHidden = true
+                strongSelf.stateView.set(state: .base)
+
+                if viewModel.description.htmlToAttributedString != nil {
+                    strongSelf.contentStackView.removeArrangedSubview(strongSelf.descriptionTextView)
+                    strongSelf.webView.loadHTMLString(viewModel.description, baseURL: nil)
+                    strongSelf.contentStackView.addArrangedSubview(strongSelf.webView)
+                } else {
+                    strongSelf.contentStackView.removeArrangedSubview(strongSelf.webView)
+                    strongSelf.descriptionTextView.text = viewModel.description
+                    strongSelf.contentStackView.addArrangedSubview(strongSelf.descriptionTextView)
+                }
             }
         }
-    }
 
-    func mvvmSetup(viewModel: AuthorizationViewModel) {
-        // Listen to the change of the observableState property to update the UI state
-        viewModel.observableState.valueChanged = { [weak self] changedState in
-            if changedState == .expired {
-                self?.stateView.set(state: .expired)
-            } else {
-                // handle state
-            }
-        }
+//        guard viewModel.state == .base else {
+//            stateView.set(state: viewModel.state)
+//            stateView.isHidden = false
+//            return
+//        }
+//
+//        if viewModel.expired && viewModel.state != .expired {
+//            stateView.set(state: .expired)
+//            stateView.isHidden = false
+//        } else {
+//            stateView.isHidden = true
+//            stateView.set(state: .base)
+//
+//            if viewModel.description.htmlToAttributedString != nil {
+//                contentStackView.removeArrangedSubview(descriptionTextView)
+//                webView.loadHTMLString(viewModel.description, baseURL: nil)
+//                contentStackView.addArrangedSubview(webView)
+//            } else {
+//                contentStackView.removeArrangedSubview(webView)
+//                descriptionTextView.text = viewModel.description
+//                contentStackView.addArrangedSubview(descriptionTextView)
+//            }
+//        }
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -22,6 +22,7 @@
 
 import UIKit
 import TinyConstraints
+import RealmSwift
 
 private struct Layout {
     static let fieldHeight: CGFloat = 48.0
@@ -33,8 +34,8 @@ protocol EditConnectionViewControllerDelegate: class {
 }
 
 final class EditConnectionViewController: BaseViewController {
-    private var nameTextField: TextFieldWithOffset = {
-        let textField = TextFieldWithOffset(15.0)
+    private let nameTextField: UITextField = {
+        let textField = UITextField()
         textField.clearButtonMode = .whileEditing
         textField.placeholder = "Name"
         textField.backgroundColor = .white
@@ -42,12 +43,29 @@ final class EditConnectionViewController: BaseViewController {
         textField.tintColor = .auth_gray
         return textField
     }()
+    let editConnectionVm: EditConnectionViewModel
 
-    private var connectionViewModel: ConnectionViewModel
-
-    init(viewModel: ConnectionViewModel) {
-        self.connectionViewModel = viewModel
+    init(viewModel: ConnectionCellViewModel) {
+        self.editConnectionVm = EditConnectionViewModel(connectionId: viewModel.id)
         super.init(nibName: nil, bundle: .authenticator_main)
+
+        editConnectionVm.state.valueChanged = { state in
+            switch state {
+            case .alert(let alert):
+                self.showConfirmationAlert(
+                    withTitle: alert,
+                    cancelAction: { _ in
+                        self.editConnectionVm.didDismissAlert()
+                    }
+                )
+            case .finish:
+                self.navigationController?.popViewController(animated: true)
+            case .edit(let defaultName):
+                if let name = defaultName {
+                    self.nameTextField.text = name
+                }
+            }
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -73,13 +91,7 @@ final class EditConnectionViewController: BaseViewController {
     }
 
     @objc private func donePressed() {
-        guard let name = nameTextField.text, !ConnectionsCollector.connectionNames.contains(name) else {
-            showConfirmationAlert(withTitle: "This name already exists.")
-            return
-        }
-        connectionViewModel.update(with: name)
-
-        navigationController?.popViewController(animated: true)
+        editConnectionVm.updateName(with: nameTextField.text)
     }
 
     @objc private func textFieldDidChange(_ textField: TextFieldWithOffset) {

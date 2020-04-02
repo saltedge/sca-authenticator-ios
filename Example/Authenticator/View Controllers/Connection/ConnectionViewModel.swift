@@ -23,32 +23,29 @@
 import UIKit
 import SEAuthenticator
 
-class ConnectionViewModel {
+@dynamicMemberLookup
+class ConnectionCellViewModel {
     private let connection: Connection
 
-    let connectionName: String
-    let connectionImageUrl: URL?
+    var connectionName: String
     let description: String
-    let supportEmail: String
     var descriptionColor: UIColor = .auth_gray
+    var connectionStatus = Observable<ConnectionStatus>(.active)
 
     init(connection: Connection) {
         self.connection = connection
-        self.connectionName = connection.name
-        self.supportEmail = connection.supportEmail
-        self.connectionImageUrl = connection.logoUrl
 
         let inactiveDescription = l10n(.inactiveConnection)
         let activeDescription = "\(l10n(.connectedOn)) \(connection.createdAt.dayMonthYearWithTimeString)"
 
         self.description = connection.status == ConnectionStatus.inactive.rawValue ? inactiveDescription : activeDescription
         self.descriptionColor = connection.status == ConnectionStatus.inactive.rawValue ? .auth_red : .auth_gray
+
+        self.connectionName = connection.name
     }
 
-    func update(with text: String) {
-        try? RealmManager.performRealmWriteTransaction {
-            connection.name = text
-        }
+    subscript<T>(dynamicMember keyPath: KeyPath<Connection, T>) -> T {
+        return connection[keyPath: keyPath]
     }
 
     func remove() {
@@ -60,7 +57,7 @@ class ConnectionViewModel {
     }
 }
 
-private extension ConnectionViewModel {
+private extension ConnectionCellViewModel {
     static func dayMonthYearWithTimeDateFormatter() -> DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -71,6 +68,6 @@ private extension ConnectionViewModel {
 
 private extension Date {
     var dayMonthYearWithTimeString: String {
-        return ConnectionViewModel.dayMonthYearWithTimeDateFormatter().string(from: self)
+        return ConnectionCellViewModel.dayMonthYearWithTimeDateFormatter().string(from: self)
     }
 }

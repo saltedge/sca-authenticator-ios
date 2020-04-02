@@ -36,9 +36,7 @@ class AuthorizationViewModel: Equatable {
     var expired: Bool {
         authorizationExpiresAt < Date()
     }
-    var state: AuthorizationStateView.AuthorizationState
-
-    var observableState: Observable<AuthorizationStateView.AuthorizationState>!
+    var state = Observable<AuthorizationStateView.AuthorizationState>(.base)
 
     init?(_ data: SEDecryptedAuthorizationData) {
         self.authorizationId = data.id
@@ -49,7 +47,7 @@ class AuthorizationViewModel: Equatable {
         self.authorizationExpiresAt = data.expiresAt
         self.lifetime = Int(data.expiresAt.timeIntervalSince(data.createdAt))
         self.createdAt = data.createdAt
-        self.state = data.expiresAt < Date() ? .expired : .base
+        self.state.value = data.expiresAt < Date() ? .expired : .base
     }
 
     static func == (lhs: AuthorizationViewModel, rhs: AuthorizationViewModel) -> Bool {
@@ -58,20 +56,5 @@ class AuthorizationViewModel: Equatable {
             lhs.title == rhs.title &&
             lhs.description == rhs.description &&
             lhs.createdAt == rhs.createdAt
-    }
-}
-
-class Observable<T> {
-    var value: T {
-        didSet {
-            DispatchQueue.main.async {
-                self.valueChanged?(self.value)
-            }
-        }
-    }
-    var valueChanged: ((T) -> Void)?
-
-    init(_ v: T) {
-        value = v
     }
 }

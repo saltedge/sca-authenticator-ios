@@ -34,17 +34,17 @@ class ConnectionListViewModel {
     private var onDataChange: OnDataChangeClosure?
     private var connectionsNotificationToken: NotificationToken?
 
-    var connectionViewModels: [ConnectionViewModel]!
+    var connectionViewModels: [ConnectionCellViewModel]!
 
     init(onDataChange: OnDataChangeClosure? = nil) {
         self.onDataChange = onDataChange
 
-        self.connectionViewModels = connections.map { ConnectionViewModel(connection: $0) }
+        self.connectionViewModels = connections.map { ConnectionCellViewModel(connection: $0) }
 
         connectionsNotificationToken = connections.observe { [weak self] _ in
             guard let onDataChange = self?.onDataChange else { return }
 
-            self?.connectionViewModels = self?.connections.map { ConnectionViewModel(connection: $0) }
+            self?.connectionViewModels = self?.connections.map { ConnectionCellViewModel(connection: $0) }
 
             onDataChange()
         }
@@ -54,7 +54,7 @@ class ConnectionListViewModel {
         return connectionViewModels.count
     }
 
-    func item(for indexPath: IndexPath) -> ConnectionViewModel? {
+    func item(for indexPath: IndexPath) -> ConnectionCellViewModel? {
         if indexPath.row == 0 && connectionViewModels.indices.contains(indexPath.section) {
             return connectionViewModels[indexPath.section]
         }

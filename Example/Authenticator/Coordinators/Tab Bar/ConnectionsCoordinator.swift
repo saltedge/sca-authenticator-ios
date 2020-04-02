@@ -42,14 +42,14 @@ final class ConnectionsCoordinator: Coordinator {
 
     func stop() {}
 
-    private func reconnect(_ connection: Connection) {
-        connectViewCoordinator = ConnectViewCoordinator(
-            rootViewController: rootViewController,
-            connectionType: .reconnect,
-            connection: connection
-        )
-        connectViewCoordinator?.start()
-    }
+//    private func reconnect(_ connection: Connection) {
+//        connectViewCoordinator = ConnectViewCoordinator(
+//            rootViewController: rootViewController,
+//            connectionType: .reconnect,
+//            connection: connection
+//        )
+//        connectViewCoordinator?.start()
+//    }
 
     private func remove(_ connection: Connection) {
         rootViewController.navigationController?.showConfirmationAlert(
@@ -81,7 +81,7 @@ private extension ConnectionsCoordinator {
         let actionSheet = CustomActionSheetViewController()
 
         let reconnectAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
-                self?.reconnect(connection)
+//                self?.reconnect(connection)
             }
         }
 
@@ -118,14 +118,14 @@ private extension ConnectionsCoordinator {
 // MARK: - ConnectionsViewControllerDelegate
 extension ConnectionsCoordinator: ConnectionsViewControllerDelegate {
     func selected(_ connection: Connection, action: ConnectionAction?) {
-        guard let action = action else { showActionSheet(for: connection); return }
-
-        switch action {
-        case .delete: remove(connection)
-        case .edit: rename(connection)
-        case .reconnect: reconnect(connection)
-        case .support: rootViewController.showSupportMailComposer(withEmail: connection.supportEmail)
-        }
+//        guard let action = action else { showActionSheet(for: connection); return }
+//
+//        switch action {
+//        case .delete: remove(connection)
+//        case .edit: rename(connection)
+//        case .reconnect: reconnect(connection)
+//        case .support: rootViewController.showSupportMailComposer(withEmail: connection.supportEmail)
+//        }
     }
 
     func addPressed() {

@@ -62,13 +62,13 @@ final class NewConnectionCell: UITableViewCell, Dequeuable {
         return label
     }()
 
-    var connectionViewModel: ConnectionViewModel! {
+    var connectionViewModel: ConnectionCellViewModel! {
         didSet {
             titleLabel.text = connectionViewModel.connectionName
             descriptionLabel.text = connectionViewModel.description
             descriptionLabel.textColor = connectionViewModel.descriptionColor
 
-            if let imageUrl = connectionViewModel.connectionImageUrl {
+            if let imageUrl = connectionViewModel.logoUrl {
                 CacheHelper.setAnimatedCachedImage(from: imageUrl, for: connectionImageView)
             }
         }
