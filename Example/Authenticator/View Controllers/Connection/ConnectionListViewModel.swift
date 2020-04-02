@@ -49,13 +49,6 @@ class ConnectionListViewModel {
         return connections.count
     }
 
-    func item(for indexPath: IndexPath) -> Connection? {
-        if indexPath.row == 0 && connections.indices.contains(indexPath.section) {
-            return connections[indexPath.section]
-        }
-        return nil
-    }
-
     func cellViewModel(at indexPath: IndexPath) -> ConnectionCellViewModel {
         return ConnectionCellViewModel(connection: item(for: indexPath)!)
     }
@@ -74,6 +67,13 @@ class ConnectionListViewModel {
         ConnectionsInteractor.revoke(connection, expiresAt: expiresAt)
         SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
         ConnectionRepository.delete(connection)
+    }
+
+    private func item(for indexPath: IndexPath) -> Connection? {
+        if indexPath.row == 0 && connections.indices.contains(indexPath.section) {
+            return connections[indexPath.section]
+        }
+        return nil
     }
 
     deinit {

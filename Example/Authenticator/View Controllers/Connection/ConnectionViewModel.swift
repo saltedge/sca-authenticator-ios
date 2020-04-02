@@ -21,7 +21,6 @@
 //
 
 import UIKit
-import SEAuthenticator
 
 @dynamicMemberLookup
 class ConnectionCellViewModel {
@@ -41,6 +40,7 @@ class ConnectionCellViewModel {
         self.description = connection.status == ConnectionStatus.inactive.rawValue ? inactiveDescription : activeDescription
         self.descriptionColor = connection.status == ConnectionStatus.inactive.rawValue ? .auth_red : .auth_gray
 
+        self.connectionStatus.value = ConnectionStatus(rawValue: connection.status)!
         self.connectionName = connection.name
     }
 

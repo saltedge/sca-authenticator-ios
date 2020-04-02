@@ -166,7 +166,6 @@
 		9DCED90B22CE18280050ED3C /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86B22CE18270050ED3C /* TabBarCoordinator.swift */; };
 		9DCED90C22CE18280050ED3C /* AuthorizationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */; };
 		9DCED90D22CE18280050ED3C /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86D22CE18270050ED3C /* SettingsCoordinator.swift */; };
-		9DCED90E22CE18280050ED3C /* ConnectionsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86E22CE18270050ED3C /* ConnectionsCoordinator.swift */; };
 		9DCED91122CE18280050ED3C /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87222CE18270050ED3C /* ApplicationCoordinator.swift */; };
 		9DCED91222CE18280050ED3C /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87322CE18280050ED3C /* Coordinator.swift */; };
 		9DCED91322CE18280050ED3C /* OnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87522CE18280050ED3C /* OnboardingCoordinator.swift */; };
@@ -227,7 +226,6 @@
 		9DE3247A22D3997F00EB162A /* TabBarCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86B22CE18270050ED3C /* TabBarCoordinator.swift */; };
 		9DE3247B22D3998200EB162A /* AuthorizationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */; };
 		9DE3247C22D3998600EB162A /* SettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86D22CE18270050ED3C /* SettingsCoordinator.swift */; };
-		9DE3247D22D3998800EB162A /* ConnectionsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86E22CE18270050ED3C /* ConnectionsCoordinator.swift */; };
 		9DE3247E22D3998D00EB162A /* PasscodeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86722CE18270050ED3C /* PasscodeCoordinator.swift */; };
 		9DE3247F22D3998F00EB162A /* LanguageCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86822CE18270050ED3C /* LanguageCoordinator.swift */; };
 		9DE3248022D3999200EB162A /* ConnectViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86922CE18270050ED3C /* ConnectViewCoordinator.swift */; };
@@ -481,7 +479,6 @@
 		9DCED86B22CE18270050ED3C /* TabBarCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarCoordinator.swift; sourceTree = "<group>"; };
 		9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationsCoordinator.swift; sourceTree = "<group>"; };
 		9DCED86D22CE18270050ED3C /* SettingsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
-		9DCED86E22CE18270050ED3C /* ConnectionsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionsCoordinator.swift; sourceTree = "<group>"; };
 		9DCED87222CE18270050ED3C /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
 		9DCED87322CE18280050ED3C /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		9DCED87522CE18280050ED3C /* OnboardingCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingCoordinator.swift; sourceTree = "<group>"; };
@@ -1105,7 +1102,6 @@
 				9DCED86B22CE18270050ED3C /* TabBarCoordinator.swift */,
 				9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */,
 				9DCED86D22CE18270050ED3C /* SettingsCoordinator.swift */,
-				9DCED86E22CE18270050ED3C /* ConnectionsCoordinator.swift */,
 			);
 			path = "Tab Bar";
 			sourceTree = "<group>";
@@ -1626,7 +1622,6 @@
 				9DCED8E122CE18280050ED3C /* Localizations.swift in Sources */,
 				9DCED8DF22CE18280050ED3C /* AppSettings.swift in Sources */,
 				9DCED90C22CE18280050ED3C /* AuthorizationsCoordinator.swift in Sources */,
-				9DCED90E22CE18280050ED3C /* ConnectionsCoordinator.swift in Sources */,
 				95C1EFC322D5EAA200078A28 /* AboutDataSource.swift in Sources */,
 				9DCED8F622CE18280050ED3C /* OnboardingFeaturesView.swift in Sources */,
 				9DCED8FF22CE18280050ED3C /* SeparatorView.swift in Sources */,
@@ -1863,7 +1858,6 @@
 				9DE324DA22D39ABB00EB162A /* SetupProgressBar.swift in Sources */,
 				9DE3246A22D398B300EB162A /* AuthorizationsPresenterSpec.swift in Sources */,
 				9DE324B422D39A3A00EB162A /* BiometricsHelper.swift in Sources */,
-				9DE3247D22D3998800EB162A /* ConnectionsCoordinator.swift in Sources */,
 				9DD4DF262375969B000A9B80 /* QuickActionsHelper.swift in Sources */,
 				9DE324DE22D39AC500EB162A /* PasscodeView.swift in Sources */,
 				9DE3249722D399E800EB162A /* ViewsExtensions.swift in Sources */,

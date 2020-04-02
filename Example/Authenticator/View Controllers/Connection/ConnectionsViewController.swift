@@ -163,6 +163,7 @@ extension ConnectionsViewController: UITableViewDataSource {
 extension ConnectionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        showActionSheet(at: indexPath)
     }
 }
 
@@ -207,7 +208,7 @@ extension ConnectionsViewController {
 
     func tableView(_ tableView: UITableView,
                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let connectionViewModel = viewControllerViewModel.item(for: indexPath) else { return nil }
+        let connectionViewModel = viewControllerViewModel.cellViewModel(at: indexPath)
 
         let support = UIContextualAction(style: .normal, title: l10n(.support)) { _, _, completionHandler in
             self.showSupport(email: connectionViewModel.supportEmail)
@@ -220,6 +221,51 @@ extension ConnectionsViewController {
 
 // MARK: - Actions
 private extension ConnectionsViewController {
+    func showActionSheet(at indexPath: IndexPath) {
+        guard let tabBarVC = AppDelegate.main.tabBarViewController else { return }
+
+        let actionSheet = CustomActionSheetViewController()
+
+        let reconnectAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
+                guard let connectionId = self?.viewControllerViewModel.connectionId(at: indexPath) else { return }
+
+                self?.reconnect(connectionId)
+            }
+        }
+
+        let contactSupportAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
+                guard let connectionViewModel = self?.viewControllerViewModel.cellViewModel(at: indexPath) else { return }
+
+                self?.showSupportMailComposer(withEmail: connectionViewModel.supportEmail)
+            }
+        }
+
+        let renameAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
+                guard let connectionId = self?.viewControllerViewModel.connectionId(at: indexPath) else { return }
+
+                self?.rename(connectionId)
+            }
+        }
+
+        let deleteAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
+                self?.viewControllerViewModel.remove(at: indexPath)
+            }
+        }
+
+        var actionsArray: [(actionSheetItem: ActionSheetAction, action: Action)] = [
+            (.rename, renameAction),
+            (.support, contactSupportAction),
+            (.delete, deleteAction)
+        ]
+
+        if viewControllerViewModel.cellViewModel(at: indexPath).status == ConnectionStatus.inactive.rawValue {
+            actionsArray.insert((.reconnect, reconnectAction), at: 0)
+        }
+
+        actionSheet.actions = ConnectionActionSheetBuilder.createActions(from: actionsArray)
+        tabBarVC.present(actionSheet, animated: true)
+    }
+
     func rename(_ id: String) {
         let editVc = EditConnectionViewController(connectionId: id)
         editVc.hidesBottomBarWhenPushed = true
