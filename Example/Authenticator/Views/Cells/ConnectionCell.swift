@@ -1,8 +1,8 @@
 //
-//  ConnectionCell.swift
+//  ConnectionCell
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -62,20 +62,22 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
         return label
     }()
 
+    var connectionViewModel: ConnectionCellViewModel! {
+        didSet {
+            titleLabel.text = connectionViewModel.connectionName
+            descriptionLabel.text = connectionViewModel.description
+            descriptionLabel.textColor = connectionViewModel.descriptionColor
+
+            if let imageUrl = connectionViewModel.logoUrl {
+                CacheHelper.setAnimatedCachedImage(from: imageUrl, for: connectionImageView)
+            }
+        }
+    }
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         backgroundColor = .white
         layout()
-    }
-
-    func set(bankName: String, description: String, descriptionColor: UIColor = .auth_gray, imageUrl: URL?) {
-        titleLabel.text = bankName
-        descriptionLabel.text = description
-        descriptionLabel.textColor = descriptionColor
-
-        guard let imageUrl = imageUrl else { return }
-
-        CacheHelper.setAnimatedCachedImage(from: imageUrl, for: connectionImageView)
     }
 
     required init?(coder aDecoder: NSCoder) {

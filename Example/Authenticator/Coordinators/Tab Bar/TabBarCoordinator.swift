@@ -26,12 +26,11 @@ final class TabBarCoordinator: Coordinator {
     let rootViewController = MainTabBarViewController()
 
     private let authorizationsCoordinator = AuthorizationsCoordinator()
-    private let connectionsCoordinator = ConnectionsCoordinator()
     private let settingsCoordinator = SettingsCoordinator()
     private let noActiveConnections = ConnectionsCollector.activeConnections.isEmpty
 
     var coordinators: [Coordinator] {
-        return [connectionsCoordinator, settingsCoordinator]
+        return [settingsCoordinator]
     }
 
     init() {

@@ -1,5 +1,5 @@
 //
-//  NewConnectionsDataSource
+//  ConnectionsDataSource
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -22,7 +22,7 @@
 
 import UIKit
 
-final class NewConnectionsDataSource {
+final class ConnectionsDataSource {
     private var connectionListViewModel: ConnectionListViewModel!
 
     init(viewModel: ConnectionListViewModel) {
@@ -45,9 +45,10 @@ final class NewConnectionsDataSource {
         return connectionListViewModel.count() > 0
     }
 
-    func cell(for indexPath: IndexPath) -> NewConnectionCell {
-        let cell = NewConnectionCell()
-        cell.connectionViewModel = connectionListViewModel.item(for: indexPath)
+    func cell(for indexPath: IndexPath) -> ConnectionCell {
+        let cell = ConnectionCell()
+
+        cell.connectionViewModel = connectionListViewModel.cellViewModel(at: indexPath)
 
         return cell
     }

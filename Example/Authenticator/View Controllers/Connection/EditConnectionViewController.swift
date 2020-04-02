@@ -45,8 +45,8 @@ final class EditConnectionViewController: BaseViewController {
     }()
     let editConnectionVm: EditConnectionViewModel
 
-    init(viewModel: ConnectionCellViewModel) {
-        self.editConnectionVm = EditConnectionViewModel(connectionId: viewModel.id)
+    init(connectionId: String) {
+        self.editConnectionVm = EditConnectionViewModel(connectionId: connectionId)
         super.init(nibName: nil, bundle: .authenticator_main)
 
         editConnectionVm.state.valueChanged = { state in

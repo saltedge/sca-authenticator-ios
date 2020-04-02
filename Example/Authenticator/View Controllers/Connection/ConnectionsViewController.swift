@@ -46,13 +46,13 @@ final class ConnectionsViewController: BaseViewController {
         tableView.sectionFooterHeight = 0.0
         tableView.backgroundColor = .auth_backgroundColor
         tableView.rowHeight = Layout.cellHeight
-        tableView.register(NewConnectionCell.self)
+        tableView.register(ConnectionCell.self)
         return tableView
     }()
     private var noDataView: NoDataView!
 
     private var viewControllerViewModel: ConnectionListViewModel!
-    private var dataSource: NewConnectionsDataSource!
+    private var dataSource: ConnectionsDataSource!
 
     weak var delegate: ConnectionsViewControllerDelegate?
     var connectViewCoordinator: ConnectViewCoordinator?
@@ -108,7 +108,7 @@ private extension ConnectionsViewController {
             }
         )
 
-        dataSource = NewConnectionsDataSource(viewModel: viewControllerViewModel)
+        dataSource = ConnectionsDataSource(viewModel: viewControllerViewModel)
     }
 
     func setupTableView() {
@@ -163,10 +163,6 @@ extension ConnectionsViewController: UITableViewDataSource {
 extension ConnectionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
-        guard let connection = viewControllerViewModel.item(for: indexPath) else { return }
-
-//        delegate?.selected(connection, action: nil)
     }
 }
 
@@ -175,29 +171,31 @@ extension ConnectionsViewController: UITableViewDelegate {
 extension ConnectionsViewController {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let connectionViewModel = viewControllerViewModel.item(for: indexPath) else { return nil }
-
         let delete = UIContextualAction(style: .destructive, title: l10n(.delete)) { _, _, completionHandler in
             self.navigationController?.showConfirmationAlert(
                 withTitle: l10n(.delete),
                 message: l10n(.deleteConnectionDescription),
                 confirmAction: { _ in
-                    connectionViewModel.remove()
+                    self.viewControllerViewModel.remove(at: indexPath)
                 }
             )
             completionHandler(true)
         }
 
         let rename = UIContextualAction(style: .normal, title: l10n(.rename)) { _, _, completionHandler in
-            self.rename(connectionViewModel)
+            guard let connectionId = self.viewControllerViewModel.connectionId(at: indexPath) else { return }
+
+            self.rename(connectionId)
             completionHandler(true)
         }
 
         var actions: [UIContextualAction] = [delete, rename]
 
-        if connectionViewModel.status == ConnectionStatus.inactive.rawValue {
+        if viewControllerViewModel.cellViewModel(at: indexPath).status == ConnectionStatus.inactive.rawValue {
             let reconnect = UIContextualAction(style: .normal, title: l10n(.reconnect)) { _, _, completionHandler in
-                self.reconnect(connectionViewModel.id)
+                guard let connectionId = self.viewControllerViewModel.connectionId(at: indexPath) else { return }
+
+                self.reconnect(connectionId)
                 completionHandler(true)
             }
             reconnect.backgroundColor = UIColor.auth_blue
@@ -222,8 +220,8 @@ extension ConnectionsViewController {
 
 // MARK: - Actions
 private extension ConnectionsViewController {
-    func rename(_ viewModel: ConnectionCellViewModel) {
-        let editVc = EditConnectionViewController(viewModel: viewModel)
+    func rename(_ id: String) {
+        let editVc = EditConnectionViewController(connectionId: id)
         editVc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(editVc, animated: true)
     }

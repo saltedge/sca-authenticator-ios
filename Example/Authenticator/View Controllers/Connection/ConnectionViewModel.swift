@@ -47,14 +47,6 @@ class ConnectionCellViewModel {
     subscript<T>(dynamicMember keyPath: KeyPath<Connection, T>) -> T {
         return connection[keyPath: keyPath]
     }
-
-    func remove() {
-        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-
-        ConnectionsInteractor.revoke(connection, expiresAt: expiresAt)
-        SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
-        ConnectionRepository.delete(connection)
-    }
 }
 
 private extension ConnectionCellViewModel {

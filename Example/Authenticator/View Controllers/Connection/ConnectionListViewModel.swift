@@ -22,6 +22,7 @@
 
 import Foundation
 import RealmSwift
+import SEAuthenticator
 
 class ConnectionListViewModel {
     typealias OnDataChangeClosure = () -> ()
@@ -34,31 +35,45 @@ class ConnectionListViewModel {
     private var onDataChange: OnDataChangeClosure?
     private var connectionsNotificationToken: NotificationToken?
 
-    var connectionViewModels: [ConnectionCellViewModel]!
-
     init(onDataChange: OnDataChangeClosure? = nil) {
         self.onDataChange = onDataChange
 
-        self.connectionViewModels = connections.map { ConnectionCellViewModel(connection: $0) }
-
         connectionsNotificationToken = connections.observe { [weak self] _ in
             guard let onDataChange = self?.onDataChange else { return }
-
-            self?.connectionViewModels = self?.connections.map { ConnectionCellViewModel(connection: $0) }
 
             onDataChange()
         }
     }
 
     func count() -> Int {
-        return connectionViewModels.count
+        return connections.count
     }
 
-    func item(for indexPath: IndexPath) -> ConnectionCellViewModel? {
-        if indexPath.row == 0 && connectionViewModels.indices.contains(indexPath.section) {
-            return connectionViewModels[indexPath.section]
+    func item(for indexPath: IndexPath) -> Connection? {
+        if indexPath.row == 0 && connections.indices.contains(indexPath.section) {
+            return connections[indexPath.section]
         }
         return nil
+    }
+
+    func cellViewModel(at indexPath: IndexPath) -> ConnectionCellViewModel {
+        return ConnectionCellViewModel(connection: item(for: indexPath)!)
+    }
+
+    func connectionId(at indexPath: IndexPath) -> String? {
+        guard let connection = item(for: indexPath) else { return nil }
+
+        return connection.id
+    }
+
+    func remove(at indexPath: IndexPath) {
+        guard let connection = item(for: indexPath) else { return }
+
+        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
+        ConnectionsInteractor.revoke(connection, expiresAt: expiresAt)
+        SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
+        ConnectionRepository.delete(connection)
     }
 
     deinit {

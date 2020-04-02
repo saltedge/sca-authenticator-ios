@@ -26,7 +26,7 @@ import SEAuthenticator
 final class ConnectionsCoordinator: Coordinator {
     let rootViewController = ConnectionsViewController()
 
-    private var editConnectionCoordinator: EditConnectionCoordinator?
+//    private var editConnectionCoordinator: EditConnectionCoordinator?
     private var connectViewCoordinator: ConnectViewCoordinator?
 
     private let connections = ConnectionsCollector.allConnections.sorted(
@@ -64,13 +64,13 @@ final class ConnectionsCoordinator: Coordinator {
         )
     }
 
-    private func rename(_ connection: Connection) {
-        editConnectionCoordinator = EditConnectionCoordinator(
-            rootViewController: rootViewController,
-            connection: connection
-        )
-        editConnectionCoordinator?.start()
-    }
+//    private func rename(_ connection: Connection) {
+//        editConnectionCoordinator = EditConnectionCoordinator(
+//            rootViewController: rootViewController,
+//            connection: connection
+//        )
+//        editConnectionCoordinator?.start()
+//    }
 }
 
 // MARK: - Actions
@@ -91,7 +91,7 @@ private extension ConnectionsCoordinator {
         }
 
         let renameAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
-                self?.rename(connection)
+//                self?.rename(connection)
             }
         }
 

@@ -1,5 +1,5 @@
 //
-//  NewConnectionCell
+//  ConnectionCell
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -32,7 +32,7 @@ private struct Layout {
     static let connectionImageOffset = sideOffset + 4.0
 }
 
-final class NewConnectionCell: UITableViewCell, Dequeuable {
+final class ConnectionCell: UITableViewCell, Dequeuable {
     private let connectionPlaceholderView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = Layout.connectionPlaceholderViewRadius
@@ -86,7 +86,7 @@ final class NewConnectionCell: UITableViewCell, Dequeuable {
 }
 
 // MARK: - Layout
-extension NewConnectionCell: Layoutable {
+extension ConnectionCell: Layoutable {
     func layout() {
         contentView.addSubviews(connectionPlaceholderView, titleLabel, descriptionLabel)
 
