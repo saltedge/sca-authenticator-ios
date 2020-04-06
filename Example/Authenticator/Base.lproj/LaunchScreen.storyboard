@@ -21,7 +21,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchGroup" translatesAutoresizingMaskIntoConstraints="NO" id="Npg-97-4j3">
-                                <rect key="frame" x="40" y="192" width="295" height="213"/>
+                                <rect key="frame" x="40" y="164" width="295" height="213"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="213" id="gIo-1s-0Tz"/>
                                 </constraints>
@@ -37,7 +37,7 @@
                         <color key="backgroundColor" name="background"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="Npg-97-4j3" secondAttribute="trailing" constant="24" id="8rx-6W-awQ"/>
-                            <constraint firstItem="Npg-97-4j3" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="148" id="Lkv-kQ-fpZ"/>
+                            <constraint firstItem="Npg-97-4j3" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="120" id="Lkv-kQ-fpZ"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="E4t-3C-ktm" secondAttribute="bottom" constant="8" id="Tam-X2-cUA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="E4t-3C-ktm" secondAttribute="trailing" constant="113" id="arW-Wg-bFZ"/>
                             <constraint firstItem="Npg-97-4j3" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="24" id="kTO-q9-jWC"/>
