@@ -27,6 +27,7 @@ class ConnectionDataSourceSpec: BaseSpec {
     override func spec() {
         var firstConnection, secondConnection: Connection!
         var dataSource: ConnectionsDataSource!
+        var viewModel: ConnectionListViewModel!
 
         beforeEach {
             firstConnection = Connection()
@@ -41,23 +42,12 @@ class ConnectionDataSourceSpec: BaseSpec {
 
             ConnectionRepository.save(secondConnection)
 
-            dataSource = ConnectionsDataSource()
+            viewModel = ConnectionListViewModel()
+            dataSource = ConnectionsDataSource(viewModel: viewModel)
         }
 
         afterEach {
             ConnectionRepository.deleteAllConnections()
-        }
-        
-        describe("onDataChange block") {
-            it("should call block each time data has changed") {
-                var wasOnChangeClosureCalled = false
-                let onDataChange: ConnectionsDataSource.OnDataChangeClosure = {
-                    wasOnChangeClosureCalled = true
-                }
-                dataSource = ConnectionsDataSource(onDataChange: onDataChange)
-
-                expect(wasOnChangeClosureCalled).toEventually(beTrue())
-            }
         }
 
         describe("sections") {
@@ -75,14 +65,6 @@ class ConnectionDataSourceSpec: BaseSpec {
         describe("height(for)") {
             it("should return 86") {
                 expect(dataSource.height(for: 0)).to(equal(86.0))
-            }
-        }
-
-        describe("item(for indexPath)") {
-            it("should return correct connection for given index path") {
-                expect(dataSource.item(for: IndexPath(row: 0, section: 0))).to(equal(firstConnection))
-                expect(dataSource.item(for: IndexPath(row: 0, section: 1))).to(equal(secondConnection))
-                expect(dataSource.item(for: IndexPath(row: 0, section: 3))).to(beNil())
             }
         }
 

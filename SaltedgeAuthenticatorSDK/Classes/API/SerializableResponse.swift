@@ -22,6 +22,6 @@
 
 import Foundation
 
-protocol SerializableResponse {
+public protocol SerializableResponse {
     init?(_ value: Any)
 }

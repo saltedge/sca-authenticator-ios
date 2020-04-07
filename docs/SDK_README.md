@@ -33,6 +33,7 @@ Authenticator SDK provide next features:
 * [Fetch authorization by ID](#fetch-authorization-by-id)
 * [Confirm authorization](#confirm-authorization)
 * [Deny authorization](#deny-authorization)
+* [Send instant action](#send-instant-action)
 
 ### Data models
 
@@ -337,7 +338,7 @@ User can deny authorization
 - parameters:
     - `SEConfirmAuthorizationData`:
         - `authorizationId`: the uniq id of authorization to confirm
-        - `url`: the url, which will be use to make request.
+        - `url`: the url, which will be used to make request.
         - `connectionGuid`: the uniq guid of the connection.
         - `accessToken`: a unique token string for authenticated access to API resources.
         - `appLanguage`: Request header to identify preferred language.
@@ -354,3 +355,37 @@ User can deny authorization
         }
     )
 ```
+
+### Send Instant Action
+
+Instant Action feature is designated to authenticate an action of Service Provider (e.g. Sign-In, Payment Order). Each Instant Action has unique code `actionGuid`. After receiving of `actionGuid`, Authenticator app should submit to selected by user Connection:
+
+- parameters:
+    - `SEActionData`:
+        - `url`: the url, which will be used to make request.
+        - `guid`: the unique identifier af an action.
+        - `connectionGuid`: the unique identifier af the Connection where action will be submitted.
+        - `accessToken`: a unique token string for authenticated access to API resources.
+        - `appLanguage`: Request header to identify preferred language.
+
+```swift
+    let actionData = SEActionData(
+        url: connectUrl,
+        guid: actionGuid,
+        connectionGuid: connection.guid,
+        accessToken: connection.accessToken,
+        appLanguage: UserDefaultsHelper.applicationLanguage
+    )
+
+    SEActionManager.submitAction(
+        data: actionData,
+        onSuccess: { response in
+            // handle success here
+        },
+        onFailure: { error in
+            // handle error
+        }
+    )
+```
+
+On success, Authenticator app receives `SESubmitActionResponse` which has optional fields `connectionId` and `authorizationId` (if additional confirmation is required).

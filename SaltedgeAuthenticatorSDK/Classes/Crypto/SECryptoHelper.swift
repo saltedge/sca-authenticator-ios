@@ -152,11 +152,9 @@ public struct SECryptoHelper {
     }
 
     private static func generateRandomBytes(count: Int) throws -> Data {
-        var keyData = Data(count: count)
+        let keyData = Data(count: count)
         var newData = keyData
-        let result = newData.withUnsafeMutableBytes { (mutableBytes: UnsafeMutablePointer<UInt8>) -> Int32 in
-            SecRandomCopyBytes(kSecRandomDefault, keyData.count, mutableBytes)
-        }
+        let result = newData.withUnsafeMutableBytes { SecRandomCopyBytes(kSecRandomDefault, keyData.count, $0.baseAddress!) }
         if result == errSecSuccess {
             return keyData
         } else {
