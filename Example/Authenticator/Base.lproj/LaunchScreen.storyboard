@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,50 +17,31 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Salt Edge" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3t-14-2fs">
-                                <rect key="frame" x="145" y="315" width="87" height="23"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="20"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Authenticator" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FMB-YY-e8y">
-                                <rect key="frame" x="128.5" y="339" width="118" height="23"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="20"/>
-                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poweredBySaltedge" translatesAutoresizingMaskIntoConstraints="NO" id="E4t-3C-ktm">
-                                <rect key="frame" x="139.5" y="605" width="96" height="20"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Powered by" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9U-FE-KrW">
-                                <rect key="frame" x="155.5" y="582" width="64" height="14"/>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="12"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="BiP-XO-BCM">
-                                <rect key="frame" x="147.5" y="217" width="80" height="80"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchGroup" translatesAutoresizingMaskIntoConstraints="NO" id="Npg-97-4j3">
+                                <rect key="frame" x="40" y="164" width="295" height="213"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="80" id="Odw-kr-tcb"/>
-                                    <constraint firstAttribute="height" constant="80" id="lvb-n4-beP"/>
+                                    <constraint firstAttribute="height" constant="213" id="gIo-1s-0Tz"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="saltedge" translatesAutoresizingMaskIntoConstraints="NO" id="E4t-3C-ktm">
+                                <rect key="frame" x="129" y="746" width="117" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="0iF-YF-jvs"/>
+                                    <constraint firstAttribute="width" constant="117" id="b1I-UP-EPj"/>
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="background"/>
                         <constraints>
-                            <constraint firstItem="E4t-3C-ktm" firstAttribute="centerX" secondItem="e9U-FE-KrW" secondAttribute="centerX" id="7EA-4P-6cd"/>
-                            <constraint firstItem="FMB-YY-e8y" firstAttribute="top" secondItem="BiP-XO-BCM" secondAttribute="bottom" constant="42" id="9mH-SZ-LJc"/>
-                            <constraint firstItem="BiP-XO-BCM" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="B55-m6-yJu"/>
-                            <constraint firstItem="E4t-3C-ktm" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="DOe-b6-tOS"/>
-                            <constraint firstItem="BiP-XO-BCM" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-76.5" id="I72-2V-U0G"/>
-                            <constraint firstItem="E4t-3C-ktm" firstAttribute="bottom" secondItem="Ze5-6b-2t3" secondAttribute="bottom" constant="-42" id="Lsq-Gb-50f"/>
-                            <constraint firstItem="E4t-3C-ktm" firstAttribute="top" secondItem="e9U-FE-KrW" secondAttribute="bottom" constant="9" id="WO4-Km-hLN"/>
-                            <constraint firstItem="k3t-14-2fs" firstAttribute="top" secondItem="BiP-XO-BCM" secondAttribute="bottom" constant="18" id="gq2-0m-7SH"/>
-                            <constraint firstItem="FMB-YY-e8y" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="t7R-rx-02v"/>
-                            <constraint firstItem="e9U-FE-KrW" firstAttribute="centerX" secondItem="k3t-14-2fs" secondAttribute="centerX" constant="-1" id="yCG-wf-FgD"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Npg-97-4j3" secondAttribute="trailing" constant="24" id="8rx-6W-awQ"/>
+                            <constraint firstItem="Npg-97-4j3" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="120" id="Lkv-kQ-fpZ"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="E4t-3C-ktm" secondAttribute="bottom" constant="8" id="Tam-X2-cUA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="E4t-3C-ktm" secondAttribute="trailing" constant="113" id="arW-Wg-bFZ"/>
+                            <constraint firstItem="Npg-97-4j3" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="24" id="kTO-q9-jWC"/>
+                            <constraint firstItem="E4t-3C-ktm" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="113" id="xMk-mb-pFh"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -69,7 +51,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo" width="68" height="68"/>
-        <image name="poweredBySaltedge" width="96" height="20"/>
+        <image name="LaunchGroup" width="295" height="239"/>
+        <image name="saltedge" width="117" height="24"/>
+        <namedColor name="background">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>
