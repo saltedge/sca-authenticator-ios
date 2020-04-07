@@ -3,7 +3,7 @@
 Authenticator iOS SDK - is a module for connecting to Salt Edge Authenticator API of Bank (Service Provider) System, that implements
 Strong Customer Authentication/Dynamic Linking process.  
 
-You can find source code of Authenticator Identity Service here: for [Authenticator Identity Service iOS](https://github.com/saltedge/sca-identity-service-example).
+You can find source code of Authenticator Identity Service here: [Authenticator Identity Service](https://github.com/saltedge/sca-identity-service-example).
 
 ## How Authenticator system works
 
@@ -37,7 +37,7 @@ Authenticator SDK provide next features:
 
 ### Data models
 
-#### Connection model
+#### SEConnection
  * `guid` **[string]** - Alias to RSA keypair
  * `id` **[string]** - Unique id received from Authenticator API
  * `name` **[string]** - Provider's name from `SEProviderResponse`
@@ -47,7 +47,7 @@ Authenticator SDK provide next features:
  * `accessToken` **[string]** - Access token for accessing Authenticator API resources
  * `status` **[string]** - Connection Status. ACTIVE or INACTIVE
 
-### SEEncryptedData
+#### SEEncryptedData
  * `iv` **[string]** - an initialization vector of encryption algorithm, this string is encrypted with public key linked to mobile client
  * `key` **[string]** - an secure key of encryption algorithm, this string is encrypted with public key linked to mobile client
  * `data` **[string]** - encrypted authorization payload with algorithm mentioned above
@@ -77,8 +77,8 @@ Authenticator SDK provide next features:
  * `connectUrl` **[string]** - Base url of Authenticator API
 
 ##### SECreateConnectionResponse
- * `connect_url` ***[string]** - an url of Connect Web Page for future end-user authentication
- * `id` ***[string]*** - an ID of current connection
+ * `connect_url` **[string]** - an url of Connect Web Page for future end-user authentication
+ * `id` **[string]** - an ID of current connection
 
 ##### SEConfirmAuthorizationResponse
  * `id` **[string]** - a unique id of authorization
@@ -126,7 +126,7 @@ Use extraction method from `SEConnectHelper.swift`
         let connectionData = SEConnectionData(code: providerCode, tag: connectionGuid)
     ```
 
-6. Post `SEConnectionData` and receive authorization url (`connect_url`), using `SEConnectionManager.getConnectUrl` method.
+6. Post `SEConnectionData` and receive authorization url (`connect_url`), using `SEConnectionManager.createConnection` method.
     - parameters:
       - `url`: the url, which will be use to make request.
       - `data`: `SEConnectionData`
@@ -134,7 +134,7 @@ Use extraction method from `SEConnectHelper.swift`
       - `appLanguage`: Request header to identify preferred language.
 
     ```swift
-        SEConnectionManager.getConnectUrl(
+        SEConnectionManager.createConnection(
             by: connectionUrl,
             data: connectionData,
             pushToken: pushToken,
@@ -149,14 +149,14 @@ Use extraction method from `SEConnectHelper.swift`
         )
     ```
 
-7. Pass `connectUrl` to instance of `SEWebView`.
+7. Pass `connectUrl` to instance of `SEWebView` *(For OAuth authentication)*.
 
     ```swift
         let request = URLRequest(url: connectUrl)
         seWebView.load(request)
     ```
 
-8. After passing user authencation, webView will catch `accessToken` or `error`. Result will be returned through `SEWebViewDelegate`.
+8. After passing user authencation, webView will catch `accessToken` or `error`. Result will be returned through `SEWebViewDelegate` *(For OAuth authentication)*.
 
     ```swift
         func webView(_ webView: WKWebView, didReceiveCallback url: URL, accessToken: AccessToken) {
