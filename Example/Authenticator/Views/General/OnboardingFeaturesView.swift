@@ -33,16 +33,10 @@ protocol FeaturesViewDelegate: class {
 final class OnboardingFeaturesView: UIView {
     weak var delegate: FeaturesViewDelegate?
 
-    private var collectionView: UICollectionView!
+    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: FeaturesViewFlowLayout())
     private var pageControl = UIPageControl()
 
-    private let images = [#imageLiteral(resourceName: "paymentsSecurity"), #imageLiteral(resourceName: "absoluteControl"), #imageLiteral(resourceName: "oneApp")]
-    private let titles = [l10n(.firstFeature), l10n(.secondFeature), l10n(.thirdFeature)]
-    private let descriptions = [
-        l10n(.firstFeatureDescription),
-        l10n(.secondFeatureDescription),
-        l10n(.thirdFeatureDescription)
-    ]
+    private let featureListViewModel = FeatureViewViewModel()
 
     init() {
         super.init(frame: .zero)
@@ -59,7 +53,6 @@ final class OnboardingFeaturesView: UIView {
 // MARK: - Setup
 private extension OnboardingFeaturesView {
     func setupCollectionView() {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: FeaturesViewFlowLayout())
         collectionView.register(
             FeaturesCollectionViewCell.self, forCellWithReuseIdentifier: FeaturesCollectionViewCell.reuseIdentifier
         )
@@ -71,29 +64,32 @@ private extension OnboardingFeaturesView {
     }
 
     func setupPageControl() {
-        pageControl.numberOfPages = titles.count
+        pageControl.numberOfPages = featureListViewModel.numberOfPages
         pageControl.currentPage = 0
-        pageControl.currentPageIndicatorTintColor = .auth_blue
-        pageControl.pageIndicatorTintColor = .auth_lightGray50
+        pageControl.currentPageIndicatorTintColor = FeatureViewViewModel.Style.indicatorColor
+        pageControl.pageIndicatorTintColor = FeatureViewViewModel.Style.pageindicatorTintColor
     }
 }
 
 // MARK: - UICollectionViewDataSource
 extension OnboardingFeaturesView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return featureListViewModel.numberOfSections
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return images.count
+        return featureListViewModel.numberOfPages
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeaturesCollectionViewCell.reuseIdentifier,
-                                                      for: indexPath) as! FeaturesCollectionViewCell
-        // swiftlint:disable:previous force_cast
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: FeaturesCollectionViewCell.reuseIdentifier,
+            for: indexPath
+        ) as! FeaturesCollectionViewCell // swiftlint:disable:this force_cast
 
-        cell.set(image: images[indexPath.row], title: titles[indexPath.row], description: descriptions[indexPath.row])
+        let cellViewModel = FeatureCellViewModel(item: featureListViewModel.item(at: indexPath))
+        cell.viewModel = cellViewModel
+
         return cell
     }
 }
@@ -107,13 +103,14 @@ extension OnboardingFeaturesView: UICollectionViewDelegateFlowLayout {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if collectionView.width > 0 {
-            let page = Int(scrollView.contentOffset.x / collectionView.width)
-            pageControl.currentPage = page
-            if page == images.count - 1 {
+        featureListViewModel.countLastPage(
+            collectionViewWidth: collectionView.width,
+            scrollViewContentXOffest: scrollView.contentOffset.x,
+            pageControl: pageControl,
+            completion: {
                 delegate?.swipedToLastPage()
             }
-        }
+        )
     }
 }
 

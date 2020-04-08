@@ -38,13 +38,21 @@ final class FeaturesCollectionViewCell: UICollectionViewCell {
     private let titleLabel = UILabel.titleLabel
     private let descriptionLabel = UILabel.descriptionLabel
 
+    var viewModel: FeatureCellViewModel! {
+        didSet {
+            imageView.image = viewModel.image
+            titleLabel.text = viewModel.title
+            descriptionLabel.text = viewModel.description
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
         layout()
         stylize()
     }
-
+    
     func set(image: UIImage, title: String, description: String) {
         imageView.image = image
         titleLabel.text = title
