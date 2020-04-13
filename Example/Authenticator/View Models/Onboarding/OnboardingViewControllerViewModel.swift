@@ -1,5 +1,5 @@
 //
-//  FeatureViewViewModel
+//  OnboardingViewControllerViewModel
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -22,7 +22,26 @@
 
 import UIKit
 
-struct FeatureViewViewModel {
+enum OnboardingViewControllerViewState: Equatable {
+    case showPage(_ pageNumber: Int)
+    case swipedAt(_ pageNumber: Int)
+    case finish
+    case normal
+
+    static func == (lhs: OnboardingViewControllerViewState, rhs: OnboardingViewControllerViewState) -> Bool {
+        switch (lhs, rhs) {
+        case (.finish, .finish), (.normal, .normal):
+            return true
+        case let (.showPage(page1), .showPage(page2)), let (.swipedAt(page1), .swipedAt(page2)):
+            return page1 == page2
+        default: return false
+        }
+    }
+}
+
+class OnboardingViewControllerViewModel {
+    var state = Observable<OnboardingViewControllerViewState>(.normal)
+
     private let images = [#imageLiteral(resourceName: "paymentsSecurity"), #imageLiteral(resourceName: "absoluteControl"), #imageLiteral(resourceName: "oneApp")]
     private let titles = [l10n(.firstFeature), l10n(.secondFeature), l10n(.thirdFeature)]
     private let descriptions = [
@@ -30,6 +49,8 @@ struct FeatureViewViewModel {
         l10n(.secondFeatureDescription),
         l10n(.thirdFeatureDescription)
     ]
+
+    private var currentPage: Int = 0
 
     var features: [OnboardingItem] {
         return images.enumerated().map { index, value in
@@ -47,18 +68,31 @@ struct FeatureViewViewModel {
         return features[indexPath.row]
     }
 
-    func countLastPage(
-        collectionViewWidth: CGFloat,
-        scrollViewContentXOffest: CGFloat,
-        pageControl: UIPageControl,
-        completion: () -> ()
-    ) {
-        if collectionViewWidth > 0 {
-            let page = Int(scrollViewContentXOffest / collectionViewWidth)
-            pageControl.currentPage = page
-            if page == numberOfPages - 1 {
-                completion()
-            }
+    func didPressedNext() {
+        guard state.value == .normal, currentPage < 2 else { return }
+
+        currentPage += 1
+
+        state.value = .showPage(currentPage)
+
+        if currentPage == numberOfPages - 1 {
+            state.value = .finish
+        }
+    }
+
+    func didChangePage() {
+        state.value = .normal
+    }
+
+    func countLastPage(collectionViewWidth: CGFloat, scrollViewContentXOffest: CGFloat) {
+        guard collectionViewWidth != 0.0 else { return }
+
+        let page = Int(scrollViewContentXOffest / collectionViewWidth)
+
+        if page == numberOfPages - 1 {
+            state.value = .finish
+        } else {
+            state.value = .swipedAt(page)
         }
     }
 
@@ -66,4 +100,7 @@ struct FeatureViewViewModel {
     let backgroundColor: UIColor = .backgroundColor
     let indicatorColor: UIColor = .lightBlue
     let pageindicatorTintColor: UIColor = .lightGray
+
+    let titleColor: UIColor = .lightBlue
+    let buttonFont: UIFont = .systemFont(ofSize: 18.0, weight: .medium)
 }

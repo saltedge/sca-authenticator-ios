@@ -24,14 +24,17 @@ import UIKit
 import TinyConstraints
 
 private struct Layout {
-    static let buttonHeight: CGFloat = 42.0
-    static let buttonBottomOffset: CGFloat = 30.0
-    static let buttonSideOffset: CGFloat = 30.0
-    static let featuresViewBottomMultiplier: CGFloat = 0.25
+    static let pageControlTopOffset: CGFloat = AppLayout.screenHeight * 0.47
+    static let pageLeftOffset: CGFloat = 32.0
+    static let pageControlHeight: CGFloat = 8.0
+    static let buttonHeight: CGFloat = 48.0
+    static let buttonStackViewBottomOffset: CGFloat = 8.0
+    static let buttonStackViewSideOffset: CGFloat = 32.0
 }
 
 final class OnboardingViewController: BaseViewController {
-    private let featuresView = OnboardingFeaturesView()
+    private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: FeaturesViewFlowLayout())
+    private var pageControl = UIPageControl()
 
     private let skipButton = UIButton(frame: .zero)
     private let actionButton = CustomButton(.filled, text: l10n(.next))
@@ -44,36 +47,123 @@ final class OnboardingViewController: BaseViewController {
         stackView.spacing = 0.0
         return stackView
     }()
+    private let contatiner = UIView()
+
+    private let viewModel = OnboardingViewControllerViewModel()
 
     var donePressedClosure: (() -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .backgroundColor
-        featuresView.delegate = self
+        view.backgroundColor = viewModel.backgroundColor
+        setupCollectionView()
+        setupPageControl()
         setupButtons()
+        handleState()
         layout()
     }
 
-    @objc func printGetStarted() {
-        print("geeeeet starteeed")
+    @objc func getStartedPressed() {
+        donePressedClosure?()
     }
 
-    @objc func printNext() {
-        print("neeeext")
+    @objc func nextPressed() {
+        viewModel.didPressedNext()
+    }
+
+    func handleState() {
+        viewModel.state.valueChanged = { value in
+            switch value {
+            case .swipedAt(let number):
+                self.pageControl.currentPage = number
+            case .showPage(let number):
+                self.pageControl.currentPage = number
+                self.collectionView.scrollToItem(
+                    at: IndexPath(row: number, section: 0),
+                    at: .centeredHorizontally,
+                    animated: true
+                )
+            case .finish:
+                self.pageControl.currentPage = self.viewModel.numberOfPages
+                self.swipedToLastPage()
+            default: break
+            }
+            self.viewModel.didChangePage()
+        }
     }
 }
 
 // MARK: - Setup
 private extension OnboardingViewController {
+    func setupCollectionView() {
+        collectionView.register(
+            FeaturesCollectionViewCell.self, forCellWithReuseIdentifier: FeaturesCollectionViewCell.reuseIdentifier
+        )
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.isPagingEnabled = true
+        collectionView.backgroundColor = viewModel.backgroundColor
+    }
+
+    func setupPageControl() {
+        pageControl.numberOfPages = viewModel.numberOfPages
+        pageControl.currentPage = 0
+        pageControl.currentPageIndicatorTintColor = viewModel.indicatorColor
+        pageControl.pageIndicatorTintColor = viewModel.pageindicatorTintColor
+    }
+
     func setupButtons() {
         skipButton.setTitle(l10n(.skip), for: .normal)
         skipButton.contentHorizontalAlignment = .left
-        skipButton.setTitleColor(.lightBlue, for: .normal)
-        skipButton.titleLabel?.font = .systemFont(ofSize: 18.0, weight: .medium)
+        skipButton.setTitleColor(viewModel.titleColor, for: .normal)
+        skipButton.titleLabel?.font = viewModel.buttonFont
         skipButton.addTarget(self, action: #selector(done), for: .touchUpInside)
 
-        actionButton.addTarget(self, action: #selector(printNext), for: .touchUpInside)
+        actionButton.addTarget(self, action: #selector(nextPressed), for: .touchUpInside)
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+extension OnboardingViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return viewModel.numberOfSections
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.numberOfPages
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: FeaturesCollectionViewCell.reuseIdentifier,
+            for: indexPath
+        ) as! FeaturesCollectionViewCell // swiftlint:disable:this force_cast
+
+        let cellViewModel = FeatureCellViewModel(item: viewModel.item(at: indexPath))
+        cell.viewModel = cellViewModel
+
+        return cell
+    }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+extension OnboardingViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return collectionView.size
+    }
+
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>
+    ) {
+        viewModel.countLastPage(
+            collectionViewWidth: collectionView.width,
+            scrollViewContentXOffest: targetContentOffset.pointee.x
+        )
     }
 }
 
@@ -87,25 +177,31 @@ extension OnboardingViewController {
 // MARK: - Layout
 extension OnboardingViewController: Layoutable {
     func layout() {
-        view.addSubviews(featuresView, buttonsStackView)
+        view.addSubviews(collectionView, pageControl, buttonsStackView)
+
+        collectionView.top(to: view)
+        collectionView.width(to: view)
+        collectionView.centerX(to: view)
+        collectionView.bottomToTop(of: buttonsStackView)
+
+        pageControl.top(to: collectionView, offset: Layout.pageControlTopOffset)
+        pageControl.left(to: collectionView, offset: Layout.pageLeftOffset)
+        pageControl.height(Layout.pageControlHeight)
+
         buttonsStackView.addArrangedSubviews(skipButton, actionButton)
 
-        featuresView.top(to: view)
-        featuresView.width(to: view)
-        featuresView.centerX(to: view)
-        featuresView.height(view.height * 0.68)
-
-        skipButton.height(48.0)
-
-        buttonsStackView.bottom(to: view, view.safeAreaLayoutGuide.bottomAnchor, offset: -8.0)
-        buttonsStackView.left(to: view, offset: 32.0)
-        buttonsStackView.right(to: view, offset: -32.0)
-        buttonsStackView.height(48.0)
+        buttonsStackView.bottom(
+            to: view, view.safeAreaLayoutGuide.bottomAnchor,
+            offset: -Layout.buttonStackViewBottomOffset
+        )
+        buttonsStackView.left(to: view, offset: Layout.buttonStackViewSideOffset)
+        buttonsStackView.right(to: view, offset: -Layout.buttonStackViewSideOffset)
+        buttonsStackView.height(Layout.buttonHeight)
     }
 }
 
 // MARK: - FeaturesViewDelegate
-extension OnboardingViewController: FeaturesViewDelegate {
+extension OnboardingViewController {
     func swipedToLastPage() {
         UIView.animate(
             withDuration: 0.3,
@@ -115,10 +211,23 @@ extension OnboardingViewController: FeaturesViewDelegate {
             options: [],
             animations: {
                 self.skipButton.isHidden = true
-                self.actionButton.setTitle("Get Started", for: .normal)
-                self.buttonsStackView.layoutIfNeeded()
+                self.actionButton.setTitle(l10n(.getStarted), for: .normal)
             }
         )
-        actionButton.addTarget(self, action: #selector(printGetStarted), for: .touchUpInside)
+        actionButton.removeTarget(self, action: #selector(nextPressed), for: .touchUpInside)
+        actionButton.addTarget(self, action: #selector(getStartedPressed), for: .touchUpInside)
+    }
+}
+
+private final class FeaturesViewFlowLayout: UICollectionViewFlowLayout {
+    override init() {
+        super.init()
+        scrollDirection = .horizontal
+        minimumInteritemSpacing = 0.0
+        minimumLineSpacing = 0.0
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

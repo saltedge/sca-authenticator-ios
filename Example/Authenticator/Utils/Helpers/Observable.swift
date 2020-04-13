@@ -27,9 +27,7 @@ class Observable<ObservedType: Equatable> {
         didSet {
             guard value != oldValue else { return }
 
-            DispatchQueue.main.async {
-                self.valueChanged?(self.value)
-            }
+            self.valueChanged?(self.value)
         }
     }
     var valueChanged: ((ObservedType) -> Void)?
