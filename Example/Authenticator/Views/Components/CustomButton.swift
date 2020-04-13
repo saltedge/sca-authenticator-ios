@@ -24,35 +24,47 @@ import UIKit
 import TinyConstraints
 
 private struct Layout {
-    static let cornerRadius: CGFloat = 8.0
-    static let height: CGFloat = 42.0
+    static let cornerRadius: CGFloat = 4.0
+    static let height: CGFloat = 48.0
 }
 
-class CustomButton: TaptileFeedbackButton {
+// TODO: Remove bordered button type
+class CustomButton: UIButton {
     enum Style {
         case filled
         case bordered
     }
 
-    override var shadowColor: CGColor {
-        return UIColor.auth_blue.withAlphaComponent(0.3).cgColor
+    override open var isHighlighted: Bool {
+        didSet {
+            backgroundColor = isHighlighted ? .primaryDark : .darkBlue
+        }
     }
 
     init(_ style: CustomButton.Style, text: String, height: CGFloat = Layout.height) {
-        super.init()
+        super.init(frame: .zero)
         style == .filled ? setupFilledButton() : setupBorderedButton()
         setTitle(text, for: .normal)
+        setTitleColor(.white, for: [.normal, .selected, .highlighted, .focused])
         layer.cornerRadius = Layout.cornerRadius
         self.height(height)
+        setupShadow()
+    }
+
+    private func setupShadow() {
+        layer.shadowColor = UIColor(red: 0.051, green: 0.576, blue: 0.973, alpha: 0.2).cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 12)
+        layer.shadowOpacity = 1
+        layer.shadowRadius = 30.0
     }
 
     private func setupFilledButton() {
-        backgroundColor = .auth_blue
-        titleLabel?.font = .auth_15regular
+        backgroundColor = .darkBlue
+        titleLabel?.font = .systemFont(ofSize: 18.0, weight: .medium)
     }
 
     private func setupBorderedButton() {
-        setTitleColor(.auth_blue, for: .normal)
+        setTitleColor(.white, for: .normal)
         titleLabel?.font = .auth_15medium
         layer.borderColor = UIColor.auth_blue.cgColor
         layer.borderWidth = 1.0

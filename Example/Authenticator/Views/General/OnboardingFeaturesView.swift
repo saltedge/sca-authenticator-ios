@@ -23,7 +23,9 @@
 import UIKit
 
 private struct Layout {
-    static let pageControlHeight: CGFloat = 36.0
+    static let pageControlTopOffset: CGFloat = AppLayout.screenHeight * 0.47
+    static let pageLeftOffset: CGFloat = 32.0
+    static let pageControlHeight: CGFloat = 8.0
 }
 
 protocol FeaturesViewDelegate: class {
@@ -36,7 +38,7 @@ final class OnboardingFeaturesView: UIView {
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: FeaturesViewFlowLayout())
     private var pageControl = UIPageControl()
 
-    private let featureListViewModel = FeatureViewViewModel()
+    private let viewModel = FeatureViewViewModel()
 
     init() {
         super.init(frame: .zero)
@@ -60,25 +62,25 @@ private extension OnboardingFeaturesView {
         collectionView.dataSource = self
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = viewModel.backgroundColor
     }
 
     func setupPageControl() {
-        pageControl.numberOfPages = featureListViewModel.numberOfPages
+        pageControl.numberOfPages = viewModel.numberOfPages
         pageControl.currentPage = 0
-        pageControl.currentPageIndicatorTintColor = FeatureViewViewModel.Style.indicatorColor
-        pageControl.pageIndicatorTintColor = FeatureViewViewModel.Style.pageindicatorTintColor
+        pageControl.currentPageIndicatorTintColor = viewModel.indicatorColor
+        pageControl.pageIndicatorTintColor = viewModel.pageindicatorTintColor
     }
 }
 
 // MARK: - UICollectionViewDataSource
 extension OnboardingFeaturesView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return featureListViewModel.numberOfSections
+        return viewModel.numberOfSections
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return featureListViewModel.numberOfPages
+        return viewModel.numberOfPages
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -87,7 +89,7 @@ extension OnboardingFeaturesView: UICollectionViewDataSource {
             for: indexPath
         ) as! FeaturesCollectionViewCell // swiftlint:disable:this force_cast
 
-        let cellViewModel = FeatureCellViewModel(item: featureListViewModel.item(at: indexPath))
+        let cellViewModel = FeatureCellViewModel(item: viewModel.item(at: indexPath))
         cell.viewModel = cellViewModel
 
         return cell
@@ -103,7 +105,7 @@ extension OnboardingFeaturesView: UICollectionViewDelegateFlowLayout {
     }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        featureListViewModel.countLastPage(
+        viewModel.countLastPage(
             collectionViewWidth: collectionView.width,
             scrollViewContentXOffest: scrollView.contentOffset.x,
             pageControl: pageControl,
@@ -122,11 +124,11 @@ extension OnboardingFeaturesView: Layoutable {
         collectionView.top(to: self)
         collectionView.width(to: self)
         collectionView.centerX(to: self)
-        collectionView.bottomToTop(of: pageControl)
+        collectionView.bottom(to: self)
 
-        pageControl.centerX(to: self)
+        pageControl.top(to: self, offset: Layout.pageControlTopOffset)
+        pageControl.left(to: self, offset: Layout.pageLeftOffset)
         pageControl.height(Layout.pageControlHeight)
-        pageControl.bottom(to: self)
     }
 }
 

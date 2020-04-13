@@ -32,17 +32,35 @@ private struct Layout {
 
 final class OnboardingViewController: BaseViewController {
     private let featuresView = OnboardingFeaturesView()
+
     private let skipButton = UIButton(frame: .zero)
-    private let getStartedButton = CustomButton(.filled, text: l10n(.getStarted))
+    private let actionButton = CustomButton(.filled, text: l10n(.next))
+
+    private var buttonsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillEqually
+        stackView.spacing = 0.0
+        return stackView
+    }()
 
     var donePressedClosure: (() -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         featuresView.delegate = self
         setupButtons()
         layout()
+    }
+
+    @objc func printGetStarted() {
+        print("geeeeet starteeed")
+    }
+
+    @objc func printNext() {
+        print("neeeext")
     }
 }
 
@@ -50,13 +68,12 @@ final class OnboardingViewController: BaseViewController {
 private extension OnboardingViewController {
     func setupButtons() {
         skipButton.setTitle(l10n(.skip), for: .normal)
-        skipButton.setTitleColor(.auth_blue, for: .normal)
-        skipButton.setTitleColor(.auth_lightGray50, for: .highlighted)
-        skipButton.titleLabel?.font = .auth_19regular
+        skipButton.contentHorizontalAlignment = .left
+        skipButton.setTitleColor(.lightBlue, for: .normal)
+        skipButton.titleLabel?.font = .systemFont(ofSize: 18.0, weight: .medium)
         skipButton.addTarget(self, action: #selector(done), for: .touchUpInside)
 
-        getStartedButton.addTarget(self, action: #selector(done), for: .touchUpInside)
-        getStartedButton.alpha = 0.0
+        actionButton.addTarget(self, action: #selector(printNext), for: .touchUpInside)
     }
 }
 
@@ -70,19 +87,20 @@ extension OnboardingViewController {
 // MARK: - Layout
 extension OnboardingViewController: Layoutable {
     func layout() {
-        view.addSubviews(featuresView, skipButton, getStartedButton)
+        view.addSubviews(featuresView, buttonsStackView)
+        buttonsStackView.addArrangedSubviews(skipButton, actionButton)
 
         featuresView.top(to: view)
         featuresView.width(to: view)
         featuresView.centerX(to: view)
-        featuresView.bottom(to: view, offset: -view.height * Layout.featuresViewBottomMultiplier)
+        featuresView.height(view.height * 0.68)
 
-        [skipButton, getStartedButton].forEach {
-            $0.bottom(to: view, offset: -Layout.buttonBottomOffset)
-            $0.left(to: view, offset: Layout.buttonSideOffset)
-            $0.right(to: view, offset: -Layout.buttonSideOffset)
-        }
-        skipButton.height(to: getStartedButton)
+        skipButton.height(48.0)
+
+        buttonsStackView.bottom(to: view, view.safeAreaLayoutGuide.bottomAnchor, offset: -8.0)
+        buttonsStackView.left(to: view, offset: 32.0)
+        buttonsStackView.right(to: view, offset: -32.0)
+        buttonsStackView.height(48.0)
     }
 }
 
@@ -91,10 +109,16 @@ extension OnboardingViewController: FeaturesViewDelegate {
     func swipedToLastPage() {
         UIView.animate(
             withDuration: 0.3,
+            delay: 0.0,
+            usingSpringWithDamping: 0.9,
+            initialSpringVelocity: 1.0,
+            options: [],
             animations: {
-                self.skipButton.alpha = 0.0
-                self.getStartedButton.alpha = 1.0
+                self.skipButton.isHidden = true
+                self.actionButton.setTitle("Get Started", for: .normal)
+                self.buttonsStackView.layoutIfNeeded()
             }
         )
+        actionButton.addTarget(self, action: #selector(printGetStarted), for: .touchUpInside)
     }
 }

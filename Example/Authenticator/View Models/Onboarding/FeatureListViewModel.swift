@@ -23,11 +23,6 @@
 import UIKit
 
 struct FeatureViewViewModel {
-    struct Style {
-        static let indicatorColor: UIColor = .auth_blue
-        static let pageindicatorTintColor: UIColor = .auth_lightGray50
-    }
-
     private let images = [#imageLiteral(resourceName: "paymentsSecurity"), #imageLiteral(resourceName: "absoluteControl"), #imageLiteral(resourceName: "oneApp")]
     private let titles = [l10n(.firstFeature), l10n(.secondFeature), l10n(.thirdFeature)]
     private let descriptions = [
@@ -66,4 +61,9 @@ struct FeatureViewViewModel {
             }
         }
     }
+
+    // MARK: - Style
+    let backgroundColor: UIColor = .backgroundColor
+    let indicatorColor: UIColor = .lightBlue
+    let pageindicatorTintColor: UIColor = .lightGray
 }

@@ -24,7 +24,7 @@ import UIKit
 
 class TaptileFeedbackButton: UIButton {
     var shadowColor: CGColor {
-        return UIColor.black.withAlphaComponent(0.1).cgColor
+        return UIColor(red: 0, green: 0.485, blue: 0.85, alpha: 1).cgColor
     }
 
     lazy var shadowLayer: CALayer = {
@@ -38,8 +38,11 @@ class TaptileFeedbackButton: UIButton {
     init() {
         super.init(frame: .zero)
         addTarget(self, action: #selector(highlight), for: [.touchDown, .touchDragInside, .touchDragEnter])
-        addTarget(self, action: #selector(unhighlight), for: [.touchUpInside, .touchUpOutside, .touchDragOutside,
-                                                              .touchDragExit, .touchCancel])
+        addTarget(
+            self,
+            action: #selector(unhighlight),
+            for: [.touchUpInside, .touchUpOutside, .touchDragOutside, .touchDragExit, .touchCancel]
+        )
     }
 
     required init?(coder aDecoder: NSCoder) {
