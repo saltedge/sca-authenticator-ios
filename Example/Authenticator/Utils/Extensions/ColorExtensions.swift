@@ -23,6 +23,34 @@
 import UIKit
 
 extension UIColor {
+    static var actionColor: UIColor {
+        return UIColor(named: "actionColor", in: .authenticator_main, compatibleWith: nil)!
+    }
+
+    static var backgroundColor: UIColor! {
+        return UIColor(named: "background", in: .authenticator_main, compatibleWith: nil)!
+    }
+
+    static var textColor: UIColor {
+        return UIColor(named: "textColor", in: .authenticator_main, compatibleWith: nil)!
+    }
+
+    static var lightBlue: UIColor {
+        return UIColor(named: "lightBlue", in: .authenticator_main, compatibleWith: nil)!
+    }
+
+    static var darkBlue: UIColor {
+        return UIColor(named: "darkBlue", in: .authenticator_main, compatibleWith: nil)!
+    }
+
+    static var lightGray: UIColor {
+        return UIColor(named: "lightGray", in: .authenticator_main, compatibleWith: nil)!
+    }
+
+    static var primaryDark: UIColor {
+        return UIColor(named: "primaryDark", in: .authenticator_main, compatibleWith: nil)!
+    }
+
     static var auth_lightGray50: UIColor {
         return UIColor(red: 204.0/255.0, green: 204.0/255.0, blue: 204.0/255.0, alpha: 0.5)
     }

@@ -86,9 +86,6 @@ struct PasscodeManager {
 
 extension Error {
     var isBiometryLockout: Bool {
-        if #available(iOS 11.0, *), self._code == LAError.biometryLockout.rawValue {
-            return true
-        }
-        return self._code == LAError.touchIDLockout.rawValue
+        return self._code == LAError.biometryLockout.rawValue
     }
 }

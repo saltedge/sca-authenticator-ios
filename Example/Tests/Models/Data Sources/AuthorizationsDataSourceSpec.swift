@@ -65,8 +65,6 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                 it("should skip it and refresh existed models") {
                     expect(dataSource.rows).to(equal(2))
 
-                    let expiredAuthId = "1"
-
                     let authMessage = ["id": "3456311111111114",
                                        "connection_id": connection.id,
                                        "title": "Authorization",
