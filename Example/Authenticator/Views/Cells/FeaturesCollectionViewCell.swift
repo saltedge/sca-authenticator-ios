@@ -43,7 +43,7 @@ final class FeaturesCollectionViewCell: UICollectionViewCell {
     private let descriptionLabel = UILabel()
     private let pageControl = UIPageControl()
 
-    var viewModel: FeatureCellViewModel! {
+    var viewModel: OnboardingCellViewModel! {
         didSet {
             // TODO: Uncomment when images will be available
 //            imageView.image = viewModel.image

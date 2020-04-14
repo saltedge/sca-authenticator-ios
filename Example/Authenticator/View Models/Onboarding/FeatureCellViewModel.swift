@@ -22,16 +22,8 @@
 
 import UIKit
 
-typealias OnboardingItem = (UIImage, String, String)
-
-final class FeatureCellViewModel {
+struct OnboardingCellViewModel {
     let image: UIImage
     let title: String
     let description: String
-
-    init(item: OnboardingItem) {
-        image = item.0
-        title = item.1
-        description = item.2
-    }
 }

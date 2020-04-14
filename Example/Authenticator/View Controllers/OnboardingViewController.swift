@@ -49,7 +49,7 @@ final class OnboardingViewController: BaseViewController {
     }()
     private let contatiner = UIView()
 
-    private let viewModel = OnboardingViewControllerViewModel()
+    private let viewModel = OnboardingViewModel()
 
     var donePressedClosure: (() -> ())?
 
@@ -63,15 +63,7 @@ final class OnboardingViewController: BaseViewController {
         layout()
     }
 
-    @objc func getStartedPressed() {
-        donePressedClosure?()
-    }
-
-    @objc func nextPressed() {
-        viewModel.didPressedNext()
-    }
-
-    func handleState() {
+    private func handleState() {
         viewModel.state.valueChanged = { value in
             switch value {
             case .swipedAt(let number):
@@ -110,7 +102,7 @@ private extension OnboardingViewController {
         pageControl.numberOfPages = viewModel.numberOfPages
         pageControl.currentPage = 0
         pageControl.currentPageIndicatorTintColor = viewModel.indicatorColor
-        pageControl.pageIndicatorTintColor = viewModel.pageindicatorTintColor
+        pageControl.pageIndicatorTintColor = viewModel.pageIndicatorTintColor
     }
 
     func setupButtons() {
@@ -140,8 +132,7 @@ extension OnboardingViewController: UICollectionViewDataSource {
             for: indexPath
         ) as! FeaturesCollectionViewCell // swiftlint:disable:this force_cast
 
-        let cellViewModel = FeatureCellViewModel(item: viewModel.item(at: indexPath))
-        cell.viewModel = cellViewModel
+        cell.viewModel = viewModel.item(at: indexPath)
 
         return cell
     }
@@ -168,9 +159,33 @@ extension OnboardingViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - Actions
-extension OnboardingViewController {
-    @objc private func done() {
+private extension OnboardingViewController {
+    @objc func getStartedPressed() {
         donePressedClosure?()
+    }
+
+    @objc func nextPressed() {
+        viewModel.didPressedNext()
+    }
+
+    @objc func done() {
+        donePressedClosure?()
+    }
+
+    func swipedToLastPage() {
+        UIView.animate(
+            withDuration: 0.3,
+            delay: 0.0,
+            usingSpringWithDamping: 0.9,
+            initialSpringVelocity: 1.0,
+            options: [],
+            animations: {
+                self.skipButton.isHidden = true
+                self.actionButton.setTitle(l10n(.getStarted), for: .normal)
+            }
+        )
+        actionButton.removeTarget(self, action: #selector(nextPressed), for: .touchUpInside)
+        actionButton.addTarget(self, action: #selector(getStartedPressed), for: .touchUpInside)
     }
 }
 
@@ -197,25 +212,6 @@ extension OnboardingViewController: Layoutable {
         buttonsStackView.left(to: view, offset: Layout.buttonStackViewSideOffset)
         buttonsStackView.right(to: view, offset: -Layout.buttonStackViewSideOffset)
         buttonsStackView.height(Layout.buttonHeight)
-    }
-}
-
-// MARK: - FeaturesViewDelegate
-extension OnboardingViewController {
-    func swipedToLastPage() {
-        UIView.animate(
-            withDuration: 0.3,
-            delay: 0.0,
-            usingSpringWithDamping: 0.9,
-            initialSpringVelocity: 1.0,
-            options: [],
-            animations: {
-                self.skipButton.isHidden = true
-                self.actionButton.setTitle(l10n(.getStarted), for: .normal)
-            }
-        )
-        actionButton.removeTarget(self, action: #selector(nextPressed), for: .touchUpInside)
-        actionButton.addTarget(self, action: #selector(getStartedPressed), for: .touchUpInside)
     }
 }
 

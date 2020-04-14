@@ -1,5 +1,5 @@
 //
-//  OnboardingViewControllerViewModel
+//  OnboardingViewModel
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -22,13 +22,13 @@
 
 import UIKit
 
-enum OnboardingViewControllerViewState: Equatable {
+enum OnboardingViewState: Equatable {
     case showPage(_ pageNumber: Int)
     case swipedAt(_ pageNumber: Int)
     case finish
     case normal
 
-    static func == (lhs: OnboardingViewControllerViewState, rhs: OnboardingViewControllerViewState) -> Bool {
+    static func == (lhs: OnboardingViewState, rhs: OnboardingViewState) -> Bool {
         switch (lhs, rhs) {
         case (.finish, .finish), (.normal, .normal):
             return true
@@ -39,10 +39,15 @@ enum OnboardingViewControllerViewState: Equatable {
     }
 }
 
-class OnboardingViewControllerViewModel {
-    var state = Observable<OnboardingViewControllerViewState>(.normal)
+class OnboardingViewModel {
+    var state = Observable<OnboardingViewState>(.normal)
 
-    private let images = [#imageLiteral(resourceName: "paymentsSecurity"), #imageLiteral(resourceName: "absoluteControl"), #imageLiteral(resourceName: "oneApp")]
+    // TODO: Replace with correct images when available
+    private let images = [
+        UIImage(named: "absoluteControl", in: .authenticator_main, compatibleWith: nil)!,
+        UIImage(named: "oneApp", in: .authenticator_main, compatibleWith: nil)!,
+        UIImage(named: "paymentsSecurity", in: .authenticator_main, compatibleWith: nil)!
+    ]
     private let titles = [l10n(.firstFeature), l10n(.secondFeature), l10n(.thirdFeature)]
     private let descriptions = [
         l10n(.firstFeatureDescription),
@@ -52,9 +57,9 @@ class OnboardingViewControllerViewModel {
 
     private var currentPage: Int = 0
 
-    var features: [OnboardingItem] {
-        return images.enumerated().map { index, value in
-            return (value, titles[index], descriptions[index])
+    var features: [OnboardingCellViewModel] {
+        return images.enumerated().map { index, image in
+            return OnboardingCellViewModel(image: image, title: titles[index], description: descriptions[index])
         }
     }
 
@@ -64,7 +69,7 @@ class OnboardingViewControllerViewModel {
 
     var numberOfSections: Int = 1
 
-    func item(at indexPath: IndexPath) -> OnboardingItem {
+    func item(at indexPath: IndexPath) -> OnboardingCellViewModel {
         return features[indexPath.row]
     }
 
@@ -89,6 +94,8 @@ class OnboardingViewControllerViewModel {
 
         let page = Int(scrollViewContentXOffest / collectionViewWidth)
 
+        currentPage = page
+
         if page == numberOfPages - 1 {
             state.value = .finish
         } else {
@@ -96,11 +103,15 @@ class OnboardingViewControllerViewModel {
         }
     }
 
+    func resetCurrentPage() {
+        currentPage = 0
+    }
+
     // MARK: - Style
     let backgroundColor: UIColor = .backgroundColor
     let indicatorColor: UIColor = .lightBlue
-    let pageindicatorTintColor: UIColor = .lightGray
-
+    let pageIndicatorTintColor: UIColor = .lightGray
     let titleColor: UIColor = .lightBlue
+
     let buttonFont: UIFont = .systemFont(ofSize: 18.0, weight: .medium)
 }
