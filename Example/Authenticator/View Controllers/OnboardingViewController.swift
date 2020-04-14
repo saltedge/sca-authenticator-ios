@@ -28,7 +28,7 @@ private struct Layout {
     static let pageLeftOffset: CGFloat = 32.0
     static let pageControlHeight: CGFloat = 8.0
     static let buttonHeight: CGFloat = 48.0
-    static let buttonStackViewBottomOffset: CGFloat = 8.0
+    static let buttonStackViewBottomOffset: CGFloat = 40.0
     static let buttonStackViewSideOffset: CGFloat = 32.0
 }
 
@@ -206,7 +206,7 @@ extension OnboardingViewController: Layoutable {
         buttonsStackView.addArrangedSubviews(skipButton, actionButton)
 
         buttonsStackView.bottom(
-            to: view, view.safeAreaLayoutGuide.bottomAnchor,
+            to: view,
             offset: -Layout.buttonStackViewBottomOffset
         )
         buttonsStackView.left(to: view, offset: Layout.buttonStackViewSideOffset)
