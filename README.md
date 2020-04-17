@@ -34,15 +34,15 @@ You can download mobile application:
 ## Source code
 
 You can find related source code: 
-* [Authenticator Identity Service](https://github.com/saltedge/sca-identity-service-example);
+* [Authenticator Identity Service](https://github.com/saltedge/sca-identity-service-example)
 * [Authenticator Android app](https://github.com/saltedge/sca-authenticator-android).
 
 ## How it works
 
-* [Authenticator iOS SDK readme](docs/SDK_README.md)
-* [Authenticator iOS app workflow](docs/WORKFLOW.md)
-* [Authenticator Identity Service Wiki](https://github.com/saltedge/sca-identity-service-example/wiki)
-* [Authenticator Identity Service API](https://github.com/saltedge/sca-identity-service-example/blob/master/docs/IDENTITY_SERVICE_API.md)
+* ### [Authenticator iOS SDK](docs/SDK_README.md)
+* ### [Authenticator iOS app workflow](docs/WORKFLOW.md)
+* ### [Authenticator Identity Service Wiki](https://github.com/saltedge/sca-identity-service-example/wiki)
+* ### [Authenticator Identity Service API](https://github.com/saltedge/sca-identity-service-example/blob/master/docs/IDENTITY_SERVICE_API.md)
 
 ## Prerequisites
 
