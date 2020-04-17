@@ -22,38 +22,19 @@
 
 import UIKit
 
-class TaptileFeedbackButton: UIButton {
-    var shadowColor: CGColor {
-        return UIColor(red: 0, green: 0.485, blue: 0.85, alpha: 1).cgColor
+// TODO: Finish refactor
+class TaptileFeedbackButton: UIButton {    
+    override var isHighlighted: Bool {
+        didSet {
+            backgroundColor = isHighlighted ? .extraLightGray : .clear
+        }
     }
-
-    lazy var shadowLayer: CALayer = {
-        let layer = CALayer(layer: self.layer)
-        layer.frame = self.layer.bounds
-        layer.backgroundColor = self.shadowColor
-        layer.cornerRadius = self.layer.cornerRadius
-        return layer
-    }()
 
     init() {
         super.init(frame: .zero)
-        addTarget(self, action: #selector(highlight), for: [.touchDown, .touchDragInside, .touchDragEnter])
-        addTarget(
-            self,
-            action: #selector(unhighlight),
-            for: [.touchUpInside, .touchUpOutside, .touchDragOutside, .touchDragExit, .touchCancel]
-        )
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    @objc private func highlight() {
-        layer.addSublayer(self.shadowLayer)
-    }
-
-    @objc private func unhighlight() {
-        shadowLayer.removeFromSuperlayer()
     }
 }

@@ -47,6 +47,10 @@ extension UIColor {
         return UIColor(named: "lightGray", in: .authenticator_main, compatibleWith: nil)!
     }
 
+    static var extraLightGray: UIColor {
+        return UIColor(named: "extraLightGray", in: .authenticator_main, compatibleWith: nil)!
+    }
+
     static var primaryDark: UIColor {
         return UIColor(named: "primaryDark", in: .authenticator_main, compatibleWith: nil)!
     }

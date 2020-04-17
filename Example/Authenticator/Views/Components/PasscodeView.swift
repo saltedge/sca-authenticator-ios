@@ -26,8 +26,8 @@ import TinyConstraints
 private struct Layout {
     static let titleLabelSideOffset: CGFloat = 37.0
     static let titleLabelHeight: CGFloat = 24.0
-    static let interSymbolsSpacing: CGFloat = 30.0
-    static let passcodeSymbolSize: CGSize = CGSize(width: 18.0, height: 18.0)
+    static let interSymbolsSpacing: CGFloat = 25.0
+    static let passcodeSymbolSize: CGSize = CGSize(width: 15.0, height: 15.0)
     static let logoImageViewSize: CGSize = CGSize(width: 50.0, height: 50.0)
     static let logoImageBottomOffset: CGFloat = 50.0
     static let passcodeKeyboardTopOffset: CGFloat = 56.0
@@ -64,15 +64,17 @@ final class PasscodeView: UIView {
     private var passcodeKeyboard: PasscodeKeyboard
     private var passcode = ""
     private var confirmationPasscode = ""
-    private let logoImageView = UIImageView()
+
+    var viewModel: PasscodeViewModel
 
     init(purpose: Purpose) {
         self.purpose = purpose
         self.passcodeKeyboard = PasscodeKeyboard(shouldShowTouchID: purpose == .enter && PasscodeManager.isBiometricsEnabled)
+        viewModel = PasscodeViewModel(purpose: purpose)
         super.init(frame: .zero)
-        setupLogo()
+        titleLabel.text = viewModel.title
+
         setupPasscodeSymbolsView()
-        titleLabel.text = title
         passcodeKeyboard.delegate = self
         layout()
         stylize()
@@ -110,13 +112,6 @@ final class PasscodeView: UIView {
 
 // MARK: - Setup
 private extension PasscodeView {
-    func setupLogo() {
-        guard purpose == .enter else { return }
-
-        logoImageView.image = #imageLiteral(resourceName: "Logo")
-        logoImageView.contentMode = .scaleAspectFit
-    }
-
     func setupPasscodeSymbolsView() {
         for _ in 0...3 {
             let passcodeSymbol = PasscodeSymbolView()
@@ -160,14 +155,25 @@ private extension PasscodeView {
     }
 
     func animateLabel(with text: String) {
-        UIView.transition(with: titleLabel, duration: 0.6, options: .curveEaseOut, animations: {
-            self.titleLabel.alpha = 0.0
-        }, completion: { _ in
-            self.titleLabel.text = text
-            UIView.transition(with: self.titleLabel, duration: 0.6, options: .curveEaseOut, animations: {
-                self.titleLabel.alpha = 1.0
-            }, completion: nil)
-        })
+        UIView.transition(
+            with: titleLabel,
+            duration: 0.6,
+            options: .curveEaseOut,
+            animations: {
+                self.titleLabel.alpha = 0.0
+            },
+            completion: { _ in
+                self.titleLabel.text = text
+                UIView.transition(
+                    with: self.titleLabel,
+                    duration: 0.6,
+                    options: .curveEaseOut,
+                    animations: {
+                        self.titleLabel.alpha = 1.0
+                    }
+                )
+            }
+        )
     }
 }
 
@@ -233,23 +239,12 @@ extension PasscodeView: Layoutable {
     func layout() {
         addSubviews(titleLabel, passcodeSymbolsView, passcodeKeyboard)
 
-        if purpose == .enter {
-            addSubview(logoImageView)
-
-            logoImageView.top(to: self)
-            logoImageView.centerX(to: self)
-            logoImageView.size(Layout.logoImageViewSize)
-            titleLabel.topToBottom(of: logoImageView, offset: Layout.logoImageBottomOffset)
-        } else {
-            logoImageView.removeFromSuperview()
-            titleLabel.top(to: self)
-        }
-
+        titleLabel.topToSuperview()
         titleLabel.left(to: self, offset: Layout.titleLabelSideOffset)
         titleLabel.right(to: self, offset: -Layout.titleLabelSideOffset)
-        titleLabel.height(Layout.titleLabelHeight)
+        titleLabel.height(28.0)
 
-        passcodeSymbolsView.topToBottom(of: titleLabel, offset: Layout.passcodeSymbolsTopOffset)
+        passcodeSymbolsView.topToBottom(of: titleLabel, offset: 22.0)
         passcodeSymbolsView.height(Layout.passcodeSymbolSize.height)
         passcodeSymbolsView.centerX(to: self)
 
@@ -258,18 +253,17 @@ extension PasscodeView: Layoutable {
         passcodeSymbolsStackView.edges(to: passcodeSymbolsView)
         passcodeSymbolsStackView.spacing = Layout.interSymbolsSpacing
 
-        passcodeKeyboard.topToBottom(of: passcodeSymbolsView, offset: Layout.passcodeKeyboardTopOffset)
-        passcodeKeyboard.left(to: self)
-        passcodeKeyboard.right(to: self)
-        passcodeKeyboard.bottom(to: self)
+        passcodeKeyboard.topToBottom(of: passcodeSymbolsView, offset: 117.0)
+        passcodeKeyboard.left(to: self, offset: 16.0)
+        passcodeKeyboard.right(to: self, offset: -16.0)
     }
 }
 
 // MARK: - Styleable
 extension PasscodeView: Styleable {
     func stylize() {
-        titleLabel.font = .auth_15regular
+        titleLabel.font = .systemFont(ofSize: 19.0, weight: .regular)
         titleLabel.textAlignment = .center
-        titleLabel.textColor = .auth_darkGray
+        titleLabel.textColor = .textColor
     }
 }

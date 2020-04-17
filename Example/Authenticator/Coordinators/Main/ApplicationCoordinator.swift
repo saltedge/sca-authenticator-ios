@@ -48,8 +48,11 @@ final class ApplicationCoordinator: Coordinator {
 
             let onboardingVc = OnboardingViewController()
             onboardingVc.donePressedClosure = {
-                self.setupAppCoordinator = SetupAppCoordinator(rootViewController: onboardingVc)
-                self.setupAppCoordinator?.start()
+                let newPasscodeVc = NewPasscodeViewController(purpose: .create)
+                newPasscodeVc.modalPresentationStyle = .fullScreen
+                onboardingVc.present(newPasscodeVc, animated: true)
+//                self.setupAppCoordinator = SetupAppCoordinator(rootViewController: onboardingVc)
+//                self.setupAppCoordinator?.start()
             }
             let navController = UINavigationController(rootViewController: onboardingVc)
             navController.modalPresentationStyle = .fullScreen
