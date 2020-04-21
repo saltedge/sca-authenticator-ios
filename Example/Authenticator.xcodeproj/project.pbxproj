@@ -36,7 +36,7 @@
 		9D5AC68E23573553003B00E2 /* LibrariesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68C23573553003B00E2 /* LibrariesDataSource.swift */; };
 		9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */; };
 		9D6575FB232A9E8100DCC53E /* DateUtilsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6575FA232A9E8100DCC53E /* DateUtilsSpec.swift */; };
-		9D66E1A922D4C1C100BD59B6 /* DecryptedAuthorizationDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17B22D4C0AF00BD59B6 /* DecryptedAuthorizationDataSpec.swift */; };
+		9D66E1A922D4C1C100BD59B6 /* AuthorizationDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17B22D4C0AF00BD59B6 /* AuthorizationDataSpec.swift */; };
 		9D66E1AA22D4C1C600BD59B6 /* SetupStepSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E18522D4C0AF00BD59B6 /* SetupStepSpec.swift */; };
 		9D66E1AB22D4C1CA00BD59B6 /* CryptoErrorsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17122D4C0AF00BD59B6 /* CryptoErrorsSpec.swift */; };
 		9D66E1AC22D4C1CC00BD59B6 /* ApiErrorsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17222D4C0AF00BD59B6 /* ApiErrorsSpec.swift */; };
@@ -363,7 +363,7 @@
 		9D66E17522D4C0AF00BD59B6 /* ConnectionSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionSpec.swift; sourceTree = "<group>"; };
 		9D66E17722D4C0AF00BD59B6 /* ConnectionCollectorSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionCollectorSpec.swift; sourceTree = "<group>"; };
 		9D66E17922D4C0AF00BD59B6 /* ConnectionDataSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionDataSpec.swift; sourceTree = "<group>"; };
-		9D66E17B22D4C0AF00BD59B6 /* DecryptedAuthorizationDataSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecryptedAuthorizationDataSpec.swift; sourceTree = "<group>"; };
+		9D66E17B22D4C0AF00BD59B6 /* AuthorizationDataSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationDataSpec.swift; sourceTree = "<group>"; };
 		9D66E17D22D4C0AF00BD59B6 /* SettingsDataSourceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsDataSourceSpec.swift; sourceTree = "<group>"; };
 		9D66E17E22D4C0AF00BD59B6 /* TabBarDataSourceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarDataSourceSpec.swift; sourceTree = "<group>"; };
 		9D66E17F22D4C0AF00BD59B6 /* LanguagePickerDataSourceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguagePickerDataSourceSpec.swift; sourceTree = "<group>"; };
@@ -715,7 +715,7 @@
 			isa = PBXGroup;
 			children = (
 				9D66E17922D4C0AF00BD59B6 /* ConnectionDataSpec.swift */,
-				9D66E17B22D4C0AF00BD59B6 /* DecryptedAuthorizationDataSpec.swift */,
+				9D66E17B22D4C0AF00BD59B6 /* AuthorizationDataSpec.swift */,
 			);
 			path = Structures;
 			sourceTree = "<group>";
@@ -1744,7 +1744,7 @@
 				9DAAC0E3233A5341006D0758 /* TimeLeftLabel.swift in Sources */,
 				9D66E1E622D6146900BD59B6 /* RequestParametersBuilderSpec.swift in Sources */,
 				9DE3247B22D3998200EB162A /* AuthorizationsCoordinator.swift in Sources */,
-				9D66E1A922D4C1C100BD59B6 /* DecryptedAuthorizationDataSpec.swift in Sources */,
+				9D66E1A922D4C1C100BD59B6 /* AuthorizationDataSpec.swift in Sources */,
 				9D66E1B222D4C1E600BD59B6 /* TabBarDataSourceSpec.swift in Sources */,
 				9DE324DC22D39AC100EB162A /* TaptileFeedbackButton.swift in Sources */,
 				9D453CC223CCB56400702695 /* main.swift in Sources */,

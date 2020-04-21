@@ -24,7 +24,7 @@ import Quick
 import Nimble
 @testable import SEAuthenticator
 
-class DecryptedAuthorizationDataSpec: BaseSpec {
+class AuthorizationDataSpec: BaseSpec {
     override func spec() {
         describe("init?(_ dictionary:)") {
             context("when given dict contains all required parameters") {
@@ -36,7 +36,7 @@ class DecryptedAuthorizationDataSpec: BaseSpec {
                                        "created_at": "2019-05-20T09:30:40Z",
                                        "expires_at": "2019-05-20T09:30:45Z",
                                        "authorization_code": "11"]
-                    let expectedData = SEDecryptedAuthorizationData(authMessage)!
+                    let expectedData = SEAuthorizationData(authMessage)!
                     
                     expect(expectedData.id).to(equal("00000"))
                     expect(expectedData.connectionId).to(equal("12345"))
@@ -55,7 +55,7 @@ class DecryptedAuthorizationDataSpec: BaseSpec {
                                        "description": "Test authorization",
                                        "created_at": "2019-05-20T09:30:40Z",
                                        "expires_at": "2019-05-20T09:30:45.378Z"]
-                    let expectedData = SEDecryptedAuthorizationData(authMessage)
+                    let expectedData = SEAuthorizationData(authMessage)
 
                     expect(expectedData).to(beNil())
                 }
