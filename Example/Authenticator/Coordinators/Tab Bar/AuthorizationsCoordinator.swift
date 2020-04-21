@@ -72,7 +72,7 @@ final class AuthorizationsCoordinator: Coordinator {
         }
     }
 
-     private func updateDataSource(with authorizations: [SEDecryptedAuthorizationData]) {
+     private func updateDataSource(with authorizations: [SEAuthorizationData]) {
         if dataSource.update(with: authorizations) {
             rootViewController.reloadData()
         }
@@ -103,8 +103,8 @@ private extension AuthorizationsCoordinator {
                 guard let strongSelf = self else { return }
 
                 DispatchQueue.global(qos: .background).async {
-                    let decryptedAuthorizations = encryptedAuthorizations.compactMap { authorization in
-                        return AuthorizationsPresenter.decryptedData(from: authorization)
+                    let decryptedAuthorizations = encryptedAuthorizations.compactMap {
+                        AuthorizationsPresenter.decryptedData(from: $0)
                     }
 
                     DispatchQueue.main.async {

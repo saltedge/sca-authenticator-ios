@@ -135,12 +135,12 @@ final class ConnectViewCoordinator: Coordinator {
     }
 
     private func submitAction(for connection: Connection, connectUrl: URL, actionGuid: GUID, qrUrl: URL) {
-        let actionData = SEActionData(
+        let actionData = SEActionRequestData(
             url: connectUrl,
-            guid: actionGuid,
             connectionGuid: connection.guid,
             accessToken: connection.accessToken,
-            appLanguage: UserDefaultsHelper.applicationLanguage
+            appLanguage: UserDefaultsHelper.applicationLanguage,
+            guid: actionGuid
         )
 
         SEActionManager.submitAction(

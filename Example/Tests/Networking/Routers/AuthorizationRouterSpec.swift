@@ -55,14 +55,14 @@ class AuthorizationRouterSpec: BaseSpec {
                         encoding: .url
                     )
 
-                    let expectedData = SEBaseAuthorizationData(
+                    let expectedData = SEBaseAuthenticatedRequestData(
                         url: baseUrl,
                         connectionGuid: "tag",
                         accessToken: "token",
                         appLanguage: "en"
                     )
                 
-                    let request = SEAuthorizationRouter.list(expectedData, expiresAt).asURLRequest()
+                    let request = SEAuthorizationRouter.list(expectedData).asURLRequest()
 
                     expect(request).to(equal(expectedRequest))
                 }
@@ -70,17 +70,17 @@ class AuthorizationRouterSpec: BaseSpec {
 
             context("when it's .getAuthorization") {
                 it("should create a valid url request") {
-                    let data = SEAuthorizationData(
+                    let data = SEBaseAuthenticatedWithIdRequestData(
                         url: baseUrl,
                         connectionGuid: "123guid",
                         accessToken: "accessToken",
                         appLanguage: "en",
-                        authorizationId: "1"
+                        entityId: "1"
                     )
 
                     let signature = SignatureHelper.signedPayload(
                         method: .get,
-                        urlString: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.authorizationId)").absoluteString,
+                        urlString: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.entityId)").absoluteString,
                         guid: "123guid",
                         expiresAt: expiresAt,
                         params: nil
@@ -94,13 +94,13 @@ class AuthorizationRouterSpec: BaseSpec {
                     )
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
-                        with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.authorizationId)"),
+                        with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.entityId)"),
                         method: HTTPMethod.get.rawValue,
                         headers: headers,
                         encoding: .url
                     )
 
-                    let request = SEAuthorizationRouter.getAuthorization(data, expiresAt).asURLRequest()
+                    let request = SEAuthorizationRouter.getAuthorization(data).asURLRequest()
 
                     expect(request).to(equal(expectedRequest))
                 }
@@ -108,7 +108,7 @@ class AuthorizationRouterSpec: BaseSpec {
 
             context("when it's .confirm") {
                 it("should create a valid url request") {
-                    let data = SEConfirmAuthorizationData(
+                    let data = SEConfirmAuthorizationRequestData(
                         url: baseUrl,
                         connectionGuid: "123guid",
                         accessToken: "accessToken",
@@ -121,7 +121,7 @@ class AuthorizationRouterSpec: BaseSpec {
 
                     let signature = SignatureHelper.signedPayload(
                         method: .put,
-                        urlString: data.url.appendingPathComponent("\(baseUrlPath)/\(data.authorizationId)").absoluteString,
+                        urlString: data.url.appendingPathComponent("\(baseUrlPath)/\(data.entityId)").absoluteString,
                         guid: data.connectionGuid,
                         expiresAt: expiresAt,
                         params: params
@@ -135,14 +135,14 @@ class AuthorizationRouterSpec: BaseSpec {
                     )
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
-                        with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.authorizationId)"),
+                        with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.entityId)"),
                         method: HTTPMethod.put.rawValue,
                         headers: headers,
                         params: params,
                         encoding: .json
                     )
 
-                    let request = SEAuthorizationRouter.confirm(data, expiresAt).asURLRequest()
+                    let request = SEAuthorizationRouter.confirm(data).asURLRequest()
 
                     expect(request).to(equal(expectedRequest))
                 }
@@ -150,7 +150,7 @@ class AuthorizationRouterSpec: BaseSpec {
 
             context("when it's .deny") {
                 it("should create a valid url request") {
-                    let data = SEConfirmAuthorizationData(
+                    let data = SEConfirmAuthorizationRequestData(
                         url: baseUrl,
                         connectionGuid: "123guid",
                         accessToken: "accessToken",
@@ -163,7 +163,7 @@ class AuthorizationRouterSpec: BaseSpec {
                     
                     let signature = SignatureHelper.signedPayload(
                         method: .put,
-                        urlString: data.url.appendingPathComponent("\(baseUrlPath)/\(data.authorizationId)").absoluteString,
+                        urlString: data.url.appendingPathComponent("\(baseUrlPath)/\(data.entityId)").absoluteString,
                         guid: data.connectionGuid,
                         expiresAt: expiresAt,
                         params: params
@@ -177,14 +177,14 @@ class AuthorizationRouterSpec: BaseSpec {
                     )
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
-                        with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.authorizationId)"),
+                        with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.entityId)"),
                         method: HTTPMethod.put.rawValue,
                         headers: headers,
                         params: params,
                         encoding: .json
                     )
                     
-                    let request = SEAuthorizationRouter.deny(data, expiresAt).asURLRequest()
+                    let request = SEAuthorizationRouter.deny(data).asURLRequest()
                     
                     expect(request).to(equal(expectedRequest))
                 }

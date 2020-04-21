@@ -31,7 +31,7 @@ class ConnectionDataSpec: BaseSpec {
                 it("should return ConnectionData") {
                     let providerCode = "demobank"
                     let tag = providerCode
-                    let connectionData = SEConnectionData(code: providerCode, tag: tag)
+                    let connectionData = SECreateConnectionRequestData(code: providerCode, tag: tag)
                     let expectedPublicKeyData = try! SECryptoHelper.publicKeyData(for: SETagHelper.create(for: tag)).string
 
                     expect(connectionData).toNot(beNil())

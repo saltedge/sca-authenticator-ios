@@ -24,10 +24,10 @@ import UIKit
 import SEAuthenticator
 
 final class AuthorizationsDataSource {
-    private var authorizationResponses = [SEDecryptedAuthorizationData]()
+    private var authorizationResponses = [SEAuthorizationData]()
     private var viewModels = [AuthorizationViewModel]()
 
-    func update(with authorizationResponses: [SEDecryptedAuthorizationData]) -> Bool {
+    func update(with authorizationResponses: [SEAuthorizationData]) -> Bool {
         if authorizationResponses != self.authorizationResponses {
             self.authorizationResponses = authorizationResponses
             self.viewModels = authorizationResponses.compactMap { response in
@@ -77,12 +77,12 @@ final class AuthorizationsDataSource {
         return viewModels.filter({ $0.authorizationId == authorizationId }).first
     }
 
-    func confirmationData(for authorizationId: String) -> SEConfirmAuthorizationData? {
+    func confirmationData(for authorizationId: String) -> SEConfirmAuthorizationRequestData? {
         guard let viewModel = viewModel(with: authorizationId),
             let connection = ConnectionsCollector.with(id: viewModel.connectionId),
             let url = connection.baseUrl else { return nil }
 
-        return SEConfirmAuthorizationData(
+        return SEConfirmAuthorizationRequestData(
             url: url,
             connectionGuid: connection.guid,
             accessToken: connection.accessToken,

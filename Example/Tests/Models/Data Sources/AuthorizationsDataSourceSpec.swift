@@ -235,7 +235,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                              "description": "Not existed",
                                              "created_at": Date().iso8601string,
                                              "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
-                    let decryptedData = SEDecryptedAuthorizationData(secondAuthMessage)!
+                    let decryptedData = SEAuthorizationData(secondAuthMessage)!
                     
                     expect(dataSource.index(of: AuthorizationViewModel(decryptedData)!)).to(beNil())
                 }
@@ -258,7 +258,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
             return connection
         }
 
-        func createAuthResponse(with authMessage: [String: Any], id: ID, guid: GUID) -> SEDecryptedAuthorizationData {
+        func createAuthResponse(with authMessage: [String: Any], id: ID, guid: GUID) -> SEAuthorizationData {
             let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: guid))
 
             let dict = [
@@ -269,7 +269,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                 "algorithm": "AES-256-CBC"
             ]
 
-            let response = SEEncryptedAuthorizationResponse(dict)!
+            let response = SEEncryptedData(dict)!
 
             return AuthorizationsPresenter.decryptedData(from: response)!
         }

@@ -32,7 +32,7 @@ class ConnectionRouterSpec: BaseSpec {
         describe("ConnectionRouter") {
             context("when it's .createConnection") {
                 it("should create a valid url request") {
-                    let data = SEConnectionData(code: "code", tag: "guid")!
+                    let data = SECreateConnectionRequestData(code: "code", tag: "guid")!
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
                         with: baseUrl,
@@ -60,20 +60,26 @@ class ConnectionRouterSpec: BaseSpec {
 
             context("when it's .revoke") {
                 it("should create a valid url request") {
-                    let data = SERevokeConnectionData(id: "1", guid: "guid", token: "token")
+                    let data = SEBaseAuthenticatedWithIdRequestData(
+                        url: baseUrl,
+                        connectionGuid: "guid",
+                        accessToken: "token",
+                        appLanguage: "en",
+                        entityId: "1"
+                    )
 
                     let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
 
                     let signature = SignatureHelper.signedPayload(
                         method: .delete,
                         urlString: baseUrl.appendingPathComponent(baseUrlPath).absoluteString,
-                        guid: data.guid,
+                        guid: data.connectionGuid,
                         expiresAt: expiresAt,
                         params: nil
                     )
 
                     let headers = Headers.signedRequestHeaders(
-                        token: data.token,
+                        token: data.accessToken,
                         expiresAt: expiresAt,
                         signature: signature,
                         appLanguage: "en"
@@ -86,7 +92,7 @@ class ConnectionRouterSpec: BaseSpec {
                         encoding: .json
                     )
                     
-                    let request = SEConnectionRouter.revoke(baseUrl, data, expiresAt, "en").asURLRequest()
+                    let request = SEConnectionRouter.revoke(data).asURLRequest()
                     
                     expect(request).to(equal(expectedRequest))
                 }

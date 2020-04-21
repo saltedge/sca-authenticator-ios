@@ -1,5 +1,5 @@
 //
-//  SEConfirmAuthorizationResponse.swift
+//  SERevokeConsentResponse.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -22,16 +22,16 @@
 
 import Foundation
 
-public struct SEConfirmAuthorizationResponse: SerializableResponse {
-    public let id: String
+public struct SERevokeConsentResponse: SerializableResponse {
+    public let consentId: String
     public let success: Bool
 
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
             let data = dict[SENetKeys.data] as? [String: Any],
             let success = data[SENetKeys.success] as? Bool,
-            let id = data[SENetKeys.id] as? String {
-            self.id = id
+            let consentId = data[SENetKeys.consentId] as? String {
+            self.consentId = consentId
             self.success = success
         } else {
             return nil

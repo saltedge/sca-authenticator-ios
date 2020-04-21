@@ -1,8 +1,8 @@
 //
-//  SEAuthorizationData.swift
+//  BaseStructures.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,13 +22,18 @@
 
 import Foundation
 
-public class SEBaseAuthorizationData {
+public class SEBaseAuthenticatedRequestData {
     public let url: URL
     public let connectionGuid: GUID
     public let accessToken: AccessToken
     public let appLanguage: ApplicationLanguage
 
-    public init(url: URL, connectionGuid: GUID, accessToken: AccessToken, appLanguage: ApplicationLanguage) {
+    public init(
+        url: URL,
+        connectionGuid: GUID,
+        accessToken: AccessToken,
+        appLanguage: ApplicationLanguage
+    ) {
         self.url = url
         self.connectionGuid = connectionGuid
         self.accessToken = accessToken
@@ -36,32 +41,22 @@ public class SEBaseAuthorizationData {
     }
 }
 
-public class SEAuthorizationData: SEBaseAuthorizationData {
-    public let authorizationId: ID
+public class SEBaseAuthenticatedWithIdRequestData: SEBaseAuthenticatedRequestData {
+    public let entityId: ID
 
-    public init(url: URL, connectionGuid: GUID, accessToken: AccessToken, appLanguage: ApplicationLanguage, authorizationId: ID) {
-        self.authorizationId = authorizationId
-        super.init(url: url, connectionGuid: connectionGuid, accessToken: accessToken, appLanguage: appLanguage)
-    }
-}
-
-public class SEConfirmAuthorizationData: SEAuthorizationData {
-    public let authorizationCode: String?
-
-    public init(url: URL,
-                connectionGuid: GUID,
-                accessToken: AccessToken,
-                appLanguage: ApplicationLanguage,
-                authorizationId: ID,
-                authorizationCode: String?) {
-        self.authorizationCode = authorizationCode
+    public init(
+        url: URL,
+        connectionGuid: GUID,
+        accessToken: AccessToken,
+        appLanguage: ApplicationLanguage,
+        entityId: ID
+    ) {
+        self.entityId = entityId 
         super.init(
             url: url,
             connectionGuid: connectionGuid,
             accessToken: accessToken,
-            appLanguage: appLanguage,
-            authorizationId: authorizationId
+            appLanguage: appLanguage
         )
     }
 }
-

@@ -1,8 +1,8 @@
 //
-//  SEActionData
+//  SEConfirmAuthorizationRequestData.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2020 Salt Edge Inc.
+//  Copyright © 2019 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,18 +22,25 @@
 
 import Foundation
 
-public class SEActionData {
-    public let url: URL
-    public let guid: GUID
-    public let connectionGuid: GUID
-    public let accessToken: AccessToken
-    public let appLanguage: ApplicationLanguage
+public class SEConfirmAuthorizationRequestData: SEBaseAuthenticatedWithIdRequestData {
+    public let authorizationCode: String?
 
-    public init(url: URL, guid: GUID, connectionGuid: GUID, accessToken: AccessToken, appLanguage: ApplicationLanguage) {
-        self.url = url
-        self.guid = guid
-        self.connectionGuid = connectionGuid
-        self.accessToken = accessToken
-        self.appLanguage = appLanguage
+    public init(
+        url: URL,
+        connectionGuid: GUID,
+        accessToken: AccessToken,
+        appLanguage: ApplicationLanguage,
+        authorizationId: ID,
+        authorizationCode: String?
+    ) {
+        self.authorizationCode = authorizationCode
+        super.init(
+            url: url,
+            connectionGuid: connectionGuid,
+            accessToken: accessToken,
+            appLanguage: appLanguage,
+            entityId: authorizationId
+        )
     }
 }
+

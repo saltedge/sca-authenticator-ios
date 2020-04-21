@@ -23,10 +23,10 @@
 import Foundation
 
 enum SEAuthorizationRouter: Routable {
-    case list(SEBaseAuthorizationData, Int)
-    case getAuthorization(SEAuthorizationData, Int)
-    case confirm(SEConfirmAuthorizationData, Int)
-    case deny(SEConfirmAuthorizationData, Int)
+    case list(SEBaseAuthenticatedRequestData)
+    case getAuthorization(SEBaseAuthenticatedWithIdRequestData)
+    case confirm(SEConfirmAuthorizationRequestData)
+    case deny(SEConfirmAuthorizationRequestData)
 
     var method: HTTPMethod {
         switch self {
@@ -44,18 +44,20 @@ enum SEAuthorizationRouter: Routable {
 
     var url: URL {
         switch self {
-        case .list(let data, _):
+        case .list(let data):
             return data.url.appendingPathComponent(SENetPaths.authorizations.path)
-        case .getAuthorization(let data, _):
-            return data.url.appendingPathComponent("\(SENetPaths.authorizations.path)/\(data.authorizationId)")
-        case .confirm(let data, _), .deny(let data, _):
-            return data.url.appendingPathComponent("\(SENetPaths.authorizations.path)/\(data.authorizationId)")
+        case .getAuthorization(let data):
+            return data.url.appendingPathComponent("\(SENetPaths.authorizations.path)/\(data.entityId)")
+        case .confirm(let data), .deny(let data):
+            return data.url.appendingPathComponent("\(SENetPaths.authorizations.path)/\(data.entityId)")
         }
     }
 
     var headers: [String: String]? {
         switch self {
-        case .list(let data, let expiresAt):
+        case .list(let data):
+            let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+            
             let signature = SignatureHelper.signedPayload(
                 method: .get,
                 urlString: url.absoluteString,
@@ -70,11 +72,13 @@ enum SEAuthorizationRouter: Routable {
                 signature: signature,
                 appLanguage: data.appLanguage
             )
-        case .getAuthorization(let data, let expiresAt):
+        case .getAuthorization(let data):
+            let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+            
             let signature = SignatureHelper.signedPayload(
                 method: .get,
                 urlString: data.url.appendingPathComponent(
-                    "\(SENetPaths.authorizations.path)/\(data.authorizationId)"
+                    "\(SENetPaths.authorizations.path)/\(data.entityId)"
                     ).absoluteString,
                 guid: data.connectionGuid,
                 expiresAt: expiresAt,
@@ -87,11 +91,13 @@ enum SEAuthorizationRouter: Routable {
                 signature: signature,
                 appLanguage: data.appLanguage
             )
-        case .confirm(let data, let expiresAt), .deny(let data, let expiresAt):
+        case .confirm(let data), .deny(let data):
+            let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+            
             let signature = SignatureHelper.signedPayload(
                 method: .put,
                 urlString: data.url.appendingPathComponent(
-                    "\(SENetPaths.authorizations.path)/\(data.authorizationId)"
+                    "\(SENetPaths.authorizations.path)/\(data.entityId)"
                     ).absoluteString,
                 guid: data.connectionGuid,
                 expiresAt: expiresAt,
@@ -110,9 +116,9 @@ enum SEAuthorizationRouter: Routable {
     var parameters: [String: Any]? {
         switch self {
         case .list, .getAuthorization: return nil
-        case .confirm(let data, _):
+        case .confirm(let data):
             return RequestParametersBuilder.confirmAuthorization(true, authorizationCode: data.authorizationCode)
-        case .deny(let data, _):
+        case .deny(let data):
             return RequestParametersBuilder.confirmAuthorization(false, authorizationCode: data.authorizationCode)
         }
     }
