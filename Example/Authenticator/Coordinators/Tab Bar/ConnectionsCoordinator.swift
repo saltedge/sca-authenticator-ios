@@ -56,8 +56,7 @@ final class ConnectionsCoordinator: Coordinator {
             withTitle: l10n(.delete),
             message: l10n(.deleteConnectionDescription),
             confirmAction: { _ in
-                let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-                ConnectionsInteractor.revoke(connection, expiresAt: expiresAt)
+                ConnectionsInteractor.revoke(connection)
                 SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
                 ConnectionRepository.delete(connection)
             }

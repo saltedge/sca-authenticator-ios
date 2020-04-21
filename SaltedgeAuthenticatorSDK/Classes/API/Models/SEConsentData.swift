@@ -1,8 +1,8 @@
 //
-//  SEDecryptedAuthorizationData.swift
+//  SEConsentData
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,14 +22,13 @@
 
 import Foundation
 
-public struct SEDecryptedAuthorizationData {
+public struct SEConsentData {
     public let id: String
     public let connectionId: String
     public let title: String
     public let description: String
     public let createdAt: Date
     public let expiresAt: Date
-    public var authorizationCode: String?
 
     public init?(_ dictionary: [String: Any]) {
         if let id = dictionary[SENetKeys.id] as? String,
@@ -38,9 +37,6 @@ public struct SEDecryptedAuthorizationData {
             let description = dictionary[SENetKeys.description] as? String,
             let createdAt = (dictionary[SENetKeys.createdAt] as? String)?.iso8601date,
             let expiresAt = (dictionary[SENetKeys.expiresAt] as? String)?.iso8601date {
-            if let authorizationCode = dictionary[SENetKeys.authorizationCode] as? String {
-                self.authorizationCode = authorizationCode
-            }
             self.id = id
             self.connectionId = connectionId
             self.title = title
@@ -53,14 +49,13 @@ public struct SEDecryptedAuthorizationData {
     }
 }
 
-extension SEDecryptedAuthorizationData: Equatable {
-    public static func == (lhs: SEDecryptedAuthorizationData, rhs: SEDecryptedAuthorizationData) -> Bool {
+extension SEConsentData: Equatable {
+    public static func == (lhs: SEConsentData, rhs: SEConsentData) -> Bool {
         return lhs.id == rhs.id &&
             lhs.connectionId == rhs.connectionId &&
             lhs.title == rhs.title &&
             lhs.description == rhs.description &&
             lhs.createdAt == rhs.createdAt &&
-            lhs.expiresAt == rhs.expiresAt &&
-            lhs.authorizationCode == rhs.authorizationCode
+            lhs.expiresAt == rhs.expiresAt
     }
 }

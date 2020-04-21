@@ -1,8 +1,8 @@
 //
-//  SENetPaths.swift
+//  SEActionData
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,17 +22,22 @@
 
 import Foundation
 
-public enum SENetPaths: String {
-    case connections
-    case authorizations
-    case actions
-    case consents
+public class SEActionRequestData: SEBaseAuthenticatedRequestData {
+    public let guid: GUID
 
-    public var path: String {
-        return "/api/authenticator/v\(version)/\(rawValue)"
-    }
-
-    private var version: Int {
-        return 1
+    public init(
+        url: URL,
+        connectionGuid: GUID,
+        accessToken: AccessToken,
+        appLanguage: ApplicationLanguage,
+        guid: GUID
+    ) {
+        self.guid = guid
+        super.init(
+            url: url,
+            connectionGuid: connectionGuid,
+            accessToken: accessToken,
+            appLanguage: appLanguage
+        )
     }
 }

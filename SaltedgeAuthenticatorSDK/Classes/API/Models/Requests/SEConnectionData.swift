@@ -22,7 +22,7 @@
 
 import Foundation
 
-public struct SEConnectionData {
+public struct SECreateConnectionRequestData {
     public let providerCode: String
     public let publicKey: String
 
@@ -36,17 +36,5 @@ public struct SEConnectionData {
             print(error.localizedDescription)
             return nil
         }
-    }
-}
-
-public struct SERevokeConnectionData {
-    public let id: ID
-    public let guid: GUID
-    public let token: AccessToken
-
-    public init(id: ID, guid: GUID, token: AccessToken) {
-        self.id = id
-        self.guid = guid
-        self.token = token
     }
 }

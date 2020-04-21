@@ -22,45 +22,24 @@
 
 import Foundation
 
-public class SEBaseAuthorizationData {
-    public let url: URL
-    public let connectionGuid: GUID
-    public let accessToken: AccessToken
-    public let appLanguage: ApplicationLanguage
-
-    public init(url: URL, connectionGuid: GUID, accessToken: AccessToken, appLanguage: ApplicationLanguage) {
-        self.url = url
-        self.connectionGuid = connectionGuid
-        self.accessToken = accessToken
-        self.appLanguage = appLanguage
-    }
-}
-
-public class SEAuthorizationData: SEBaseAuthorizationData {
-    public let authorizationId: ID
-
-    public init(url: URL, connectionGuid: GUID, accessToken: AccessToken, appLanguage: ApplicationLanguage, authorizationId: ID) {
-        self.authorizationId = authorizationId
-        super.init(url: url, connectionGuid: connectionGuid, accessToken: accessToken, appLanguage: appLanguage)
-    }
-}
-
-public class SEConfirmAuthorizationData: SEAuthorizationData {
+public class SEConfirmAuthorizationRequestData: SEBaseAuthenticatedWithIdRequestData {
     public let authorizationCode: String?
 
-    public init(url: URL,
-                connectionGuid: GUID,
-                accessToken: AccessToken,
-                appLanguage: ApplicationLanguage,
-                authorizationId: ID,
-                authorizationCode: String?) {
+    public init(
+        url: URL,
+        connectionGuid: GUID,
+        accessToken: AccessToken,
+        appLanguage: ApplicationLanguage,
+        authorizationId: ID,
+        authorizationCode: String?
+    ) {
         self.authorizationCode = authorizationCode
         super.init(
             url: url,
             connectionGuid: connectionGuid,
             accessToken: accessToken,
             appLanguage: appLanguage,
-            authorizationId: authorizationId
+            entityId: authorizationId
         )
     }
 }

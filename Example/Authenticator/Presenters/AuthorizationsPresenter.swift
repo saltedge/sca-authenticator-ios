@@ -24,17 +24,17 @@ import Foundation
 import SEAuthenticator
 
 struct AuthorizationsPresenter {
-    static func decryptedData(from response: SEEncryptedAuthorizationResponse) -> SEDecryptedAuthorizationData? {
-        if let connectionId = response.connectionId,
+    static func decryptedData(from encryptedData: SEEncryptedData) -> SEAuthorizationData? {
+        if let connectionId = encryptedData.connectionId,
             let connection = ConnectionsCollector.with(id: connectionId) {
-            let encryptedData = SEEncryptedData(data: response.data, key: response.key, iv: response.iv)
+//            let encryptedData = SEEncryptedData(data: response.data, key: response.key, iv: response.iv)
 
             do {
                 let decryptedData = try SECryptoHelper.decrypt(encryptedData, tag: SETagHelper.create(for: connection.guid))
 
                 guard let decryptedDictionary = decryptedData.json else { return nil }
 
-                return SEDecryptedAuthorizationData(decryptedDictionary)
+                return SEAuthorizationData(decryptedDictionary)
             } catch {
                 return nil
             }

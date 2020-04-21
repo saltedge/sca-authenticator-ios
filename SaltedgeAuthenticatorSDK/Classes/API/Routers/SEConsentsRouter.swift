@@ -1,8 +1,8 @@
 //
-//  SEConnectionRouter.swift
+//  SEConsentsRouter
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,43 +22,49 @@
 
 import Foundation
 
-enum SEConnectionRouter: Routable {
-    case createConnection(URL, SECreateConnectionRequestData, PushToken, ConnectQuery?, ApplicationLanguage)
+enum SEConsentsRouter: Routable {
+    case list(SEBaseAuthenticatedRequestData)
     case revoke(SEBaseAuthenticatedWithIdRequestData)
 
     var method: HTTPMethod {
         switch self {
-        case .createConnection: return .post
+        case .list: return .get
         case .revoke: return .delete
         }
     }
 
     var encoding: Encoding {
         switch self {
-        case .createConnection: return .json
-        case .revoke: return .url
+        case .list, .revoke: return .url
         }
     }
 
     var url: URL {
         switch self {
-        case .createConnection(let url, _, _, _, _): return url
-        case .revoke(let data): return data.url.appendingPathComponent("\(SENetPaths.connections.path)")
+        case .list(let data):
+            return data.url.appendingPathComponent(SENetPaths.consents.path)
+        case .revoke(let data):
+            return data.url.appendingPathComponent("\(SENetPaths.consents.path)/\(data.entityId)")
+        }
+    }
+    
+    var parameters: [String: Any]? {
+        switch self {
+        case .list, .revoke: return nil
         }
     }
 
     var headers: [String: String]? {
         switch self {
-        case .createConnection(_, _, _, _, let appLanguage): return Headers.requestHeaders(with: appLanguage)
-        case .revoke(let data):
+        case .list(let data):
             let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
             
             let signature = SignatureHelper.signedPayload(
-                method: .delete,
-                urlString: url.absoluteString,
+                method: .get,
+                urlString: self.url.absoluteString,
                 guid: data.connectionGuid,
                 expiresAt: expiresAt,
-                params: parameters
+                params: self.parameters
             )
 
             return Headers.signedRequestHeaders(
@@ -67,18 +73,23 @@ enum SEConnectionRouter: Routable {
                 signature: signature,
                 appLanguage: data.appLanguage
             )
-        }
-    }
-
-    var parameters: [String: Any]? {
-        switch self {
-        case .createConnection(_, let data, let pushToken, let connectQuery, _):
-            return RequestParametersBuilder.parameters(
-                for: data,
-                pushToken: pushToken,
-                connectQuery: connectQuery
+        case .revoke(let data):
+            let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+            
+            let signature = SignatureHelper.signedPayload(
+                method: .delete,
+                urlString: self.url.absoluteString,
+                guid: data.connectionGuid,
+                expiresAt: expiresAt,
+                params: self.parameters
             )
-        case .revoke: return nil
+
+            return Headers.signedRequestHeaders(
+                token: data.accessToken,
+                expiresAt: expiresAt,
+                signature: signature,
+                appLanguage: data.appLanguage
+            )
         }
     }
 }

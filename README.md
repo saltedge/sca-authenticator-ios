@@ -108,4 +108,4 @@ If you modify this Program, or any covered work, by linking or combining it with
 [APP_STORE_NOTICE](docs/APP_STORE_NOTICE.md)  
 
 ___
-Copyright © 2019 Salt Edge. https://www.saltedge.com 
+Copyright © 2019 - 2020 Salt Edge. https://www.saltedge.com 
