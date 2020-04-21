@@ -29,6 +29,7 @@ final class ConnectViewCoordinator: Coordinator {
     private let qrCodeViewController = QRCodeViewController()
     private lazy var webViewController = ConnectorWebViewController()
     private var connectViewController = ConnectViewController()
+    private var connectionId: String?
     private var connection: Connection?
     private let connectionType: ConnectionType
     private let deepLinkUrl: URL?
@@ -36,10 +37,9 @@ final class ConnectViewCoordinator: Coordinator {
     init(rootViewController: UIViewController,
          connectionType: ConnectionType,
          deepLinkUrl: URL? = nil,
-         connection: Connection? = nil) {
+         connectionId: String? = nil) {
         self.deepLinkUrl = deepLinkUrl
         self.rootViewController = rootViewController
-        self.connection = connection
         self.connectionType = connectionType
     }
 
@@ -210,7 +210,7 @@ final class ConnectViewCoordinator: Coordinator {
     }
 
     private func reconnectConnection() {
-        guard let connection = connection else { return }
+        guard let connectionId = connectionId, let connection = ConnectionsCollector.with(id: connectionId) else { return }
 
         ConnectionsInteractor.submitConnection(
             for: connection,

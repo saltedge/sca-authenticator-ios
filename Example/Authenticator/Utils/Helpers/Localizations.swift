@@ -35,6 +35,7 @@ enum Localizations: String, Localizable {
     case ok = "actions.ok"
     case warning = "errors.warning"
     case done = "actions.done"
+    case next = "actions.next"
 
     // MARK: - Onboarding
     case getStarted = "actions.get_started"

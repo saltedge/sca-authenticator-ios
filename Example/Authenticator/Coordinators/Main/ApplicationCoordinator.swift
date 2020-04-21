@@ -25,7 +25,7 @@ import UIKit
 final class ApplicationCoordinator: Coordinator {
     private let window: UIWindow?
     private lazy var tabBarCoordinator = TabBarCoordinator()
-    private lazy var onboardingCoordinator = OnboardingCoordinator()
+    private var setupAppCoordinator: SetupAppCoordinator?
     private var passcodeCoordinator: PasscodeCoordinator?
     private var connectViewCoordinator: ConnectViewCoordinator?
 
@@ -46,11 +46,15 @@ final class ApplicationCoordinator: Coordinator {
             PasscodeManager.remove()
             UserDefaultsHelper.applicationLanguage = "en"
 
-            let navController = UINavigationController(rootViewController: onboardingCoordinator.onboardingViewController)
+            let onboardingVc = OnboardingViewController()
+            onboardingVc.donePressedClosure = {
+                self.setupAppCoordinator = SetupAppCoordinator(rootViewController: onboardingVc)
+                self.setupAppCoordinator?.start()
+            }
+            let navController = UINavigationController(rootViewController: onboardingVc)
             navController.modalPresentationStyle = .fullScreen
             navController.isNavigationBarHidden = true
             window?.rootViewController = navController
-            onboardingCoordinator.start()
         }
         window?.makeKeyAndVisible()
     }

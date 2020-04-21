@@ -1,8 +1,8 @@
 //
-//  OnboardingCoordinator.swift
+//  Observable
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,18 +22,17 @@
 
 import UIKit
 
-final class OnboardingCoordinator: Coordinator {
-    let onboardingViewController = OnboardingViewController()
+class Observable<ObservedType: Equatable> {
+    var value: ObservedType {
+        didSet {
+            guard value != oldValue else { return }
 
-    private var setupAppCoordinator: SetupAppCoordinator?
-
-    func start() {
-        setupAppCoordinator = SetupAppCoordinator(rootViewController: onboardingViewController)
-
-        onboardingViewController.donePressedClosure = {
-            self.setupAppCoordinator?.start()
+            self.valueChanged?(self.value)
         }
     }
+    var valueChanged: ((ObservedType) -> Void)?
 
-    func stop() {}
+    init(_ v: ObservedType) {
+        value = v
+    }
 }

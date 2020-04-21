@@ -30,7 +30,7 @@ class SetupStepSpec: BaseSpec {
                 expect(SetupStep.createPasscode.title).to(equal(l10n(.secureApp)))
                 expect(SetupStep.allowBiometricsUsage.title).to(equal(BiometricsPresenter.allowText))
                 expect(SetupStep.allowNotifications.title).to(equal(l10n(.allowNotifications)))
-                expect(SetupStep.signUpComplete.title).to(equal(""))
+                expect(SetupStep.signUpComplete.title).to(equal(l10n(.signUpComplete)))
             }
         }
 
@@ -39,7 +39,7 @@ class SetupStepSpec: BaseSpec {
                 expect(SetupStep.createPasscode.description).to(equal(l10n(.secureAppDescription)))
                 expect(SetupStep.allowBiometricsUsage.description).to(equal(BiometricsPresenter.usageDescription))
                 expect(SetupStep.allowNotifications.description).to(equal(l10n(.allowNotificationsDescription)))
-                expect(SetupStep.signUpComplete.description).to(equal(""))
+                expect(SetupStep.signUpComplete.description).to(equal(l10n(.signUpCompleteDescription)))
             }
         }
     }

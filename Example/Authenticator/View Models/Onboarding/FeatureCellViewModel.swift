@@ -1,5 +1,5 @@
 //
-//  ConnectionsDataSource
+//  FeatureCellViewModel
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -22,34 +22,8 @@
 
 import UIKit
 
-final class ConnectionsDataSource {
-    private var connectionListViewModel: ConnectionListViewModel!
-
-    init(viewModel: ConnectionListViewModel) {
-        self.connectionListViewModel = viewModel
-    }
-
-    var sections: Int {
-        return connectionListViewModel.count()
-    }
-
-    func rows(for section: Int) -> Int {
-        return 1
-    }
-
-    func height(for section: Int) -> CGFloat {
-        return 86.0
-    }
-
-    var hasDataToShow: Bool {
-        return connectionListViewModel.count() > 0
-    }
-
-    func cell(for indexPath: IndexPath) -> ConnectionCell {
-        let cell = ConnectionCell()
-
-        cell.connectionViewModel = connectionListViewModel.cellViewModel(at: indexPath)
-
-        return cell
-    }
+struct OnboardingCellViewModel {
+    let image: UIImage
+    let title: String
+    let description: String
 }

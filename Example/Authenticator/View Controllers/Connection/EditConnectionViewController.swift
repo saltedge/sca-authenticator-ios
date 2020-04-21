@@ -22,6 +22,7 @@
 
 import UIKit
 import TinyConstraints
+import RealmSwift
 
 private struct Layout {
     static let fieldHeight: CGFloat = 48.0
@@ -33,8 +34,8 @@ protocol EditConnectionViewControllerDelegate: class {
 }
 
 final class EditConnectionViewController: BaseViewController {
-    private let nameTextField: TextFieldWithOffset = {
-        let textField = TextFieldWithOffset(15.0)
+    private let nameTextField: UITextField = {
+        let textField = UITextField()
         textField.clearButtonMode = .whileEditing
         textField.placeholder = "Name"
         textField.backgroundColor = .white
@@ -42,19 +43,36 @@ final class EditConnectionViewController: BaseViewController {
         textField.tintColor = .auth_gray
         return textField
     }()
-    private var connection: Connection
+    let editConnectionVm: EditConnectionViewModel
 
-    weak var delegate: EditConnectionViewControllerDelegate?
+    init(connectionId: String) {
+        self.editConnectionVm = EditConnectionViewModel(connectionId: connectionId)
+        super.init(nibName: nil, bundle: .authenticator_main)
 
-    init(connection: Connection) {
-        self.connection = connection
-        super.init(nibName: nil, bundle: nil)
-        nameTextField.text = connection.name
+        editConnectionVm.state.valueChanged = { state in
+            switch state {
+            case .alert(let alert):
+                self.showConfirmationAlert(
+                    withTitle: alert,
+                    cancelAction: { _ in
+                        self.editConnectionVm.didDismissAlert()
+                    }
+                )
+            case .finish:
+                self.navigationController?.popViewController(animated: true)
+            case .edit(let defaultName):
+                if let name = defaultName {
+                    self.nameTextField.text = name
+                }
+            }
+        }
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    weak var delegate: EditConnectionViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +91,7 @@ final class EditConnectionViewController: BaseViewController {
     }
 
     @objc private func donePressed() {
-        delegate?.donePressed(text: nameTextField.text)
+        editConnectionVm.updateName(with: nameTextField.text)
     }
 
     @objc private func textFieldDidChange(_ textField: TextFieldWithOffset) {
