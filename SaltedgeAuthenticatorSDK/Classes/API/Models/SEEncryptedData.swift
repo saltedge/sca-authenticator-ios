@@ -1,5 +1,5 @@
 //
-//  SEEncryptedData
+//  SEEncryptedData.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.

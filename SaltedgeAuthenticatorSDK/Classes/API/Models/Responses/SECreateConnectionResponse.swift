@@ -1,5 +1,5 @@
 //
-//  CreateConnectionResponse.swift
+//  SECreateConnectionResponse.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
