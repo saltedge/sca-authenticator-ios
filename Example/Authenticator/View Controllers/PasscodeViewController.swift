@@ -104,7 +104,7 @@ extension PasscodeViewController: PasscodeViewDelegate {
             delegate?.completed()
             close()
         } else {
-            passcodeView.switchToCreate()
+//            passcodeView.switchToCreate()
         }
 
     }

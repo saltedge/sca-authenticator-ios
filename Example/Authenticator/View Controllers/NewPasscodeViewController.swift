@@ -26,6 +26,8 @@ final class NewPasscodeViewController: UIViewController {
     private let logoImageView = UIImageView()
     private var passcodeView: PasscodeView
 
+    var completeClosure: (() -> ())?
+
     init(purpose: PasscodeView.Purpose) {
         passcodeView = PasscodeView(purpose: .create)
         super.init(nibName: nil, bundle: .authenticator_main)
@@ -33,6 +35,7 @@ final class NewPasscodeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        passcodeView.delegate = self
         view.backgroundColor = .backgroundColor
         logoImageView.image = #imageLiteral(resourceName: "authenticatorLogo")
         layout()
@@ -43,11 +46,18 @@ final class NewPasscodeViewController: UIViewController {
     }
 }
 
+// MARK: - Actions
+extension NewPasscodeViewController {
+    @objc func close() {
+        dismiss(animated: true)
+    }
+}
+
 // MARK: - Layout
 extension NewPasscodeViewController: Layoutable {
     func layout() {
         view.addSubviews(logoImageView, passcodeView)
-     
+
         logoImageView.size(CGSize(width: 72.0, height: 72.0))
         logoImageView.centerXToSuperview()
         logoImageView.top(to: view, offset: 88.0)
@@ -56,5 +66,33 @@ extension NewPasscodeViewController: Layoutable {
         passcodeView.centerXToSuperview()
         passcodeView.widthToSuperview()
         passcodeView.bottomToSuperview()
+    }
+}
+
+// MARK: - PasscodeViewDelegate
+extension NewPasscodeViewController: PasscodeViewDelegate {
+    func completed() {
+        dismiss(animated: true)
+        self.completeClosure?()
+//        delegate?.completed()
+//        close()
+    }
+
+    func passwordCorrect() {
+        print("Completed")
+//        if purpose == .enter {
+//            delegate?.completed()
+//            close()
+//        } else {
+//            passcodeView.switchToCreate()
+//        }
+    }
+
+    func biometricsPressed() {
+//        delegate?.biometricsPressed()
+    }
+
+    func wrongPasscode() {
+//        delegate?.wrongPasswordEntered()
     }
 }

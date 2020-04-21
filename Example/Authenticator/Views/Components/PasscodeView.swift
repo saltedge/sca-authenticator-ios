@@ -56,14 +56,11 @@ final class PasscodeView: UIView {
     weak var delegate: PasscodeViewDelegate?
 
     private var purpose: Purpose
-    private var stage: Stage = .first
     private let titleLabel = UILabel(frame: .zero)
     private let passcodeSymbolsView = UIView(frame: .zero)
     private let passcodeSymbolsStackView = UIStackView(frame: .zero)
     private var passcodeSymbols = [PasscodeSymbolView]()
     private var passcodeKeyboard: PasscodeKeyboard
-    private var passcode = ""
-    private var confirmationPasscode = ""
 
     var viewModel: PasscodeViewModel
 
@@ -78,31 +75,27 @@ final class PasscodeView: UIView {
         passcodeKeyboard.delegate = self
         layout()
         stylize()
+        handleViewModelState()
     }
 
-    private var title: String {
-        switch purpose {
-        case .create: return l10n(.createPasscode)
-        case .edit: return l10n(.enterPasscode)
-        case .enter:
-            return PasscodeManager.isBiometricsEnabled ? BiometricsPresenter.passcodeDescriptionText : l10n(.enterPasscode)
+    func handleViewModelState() {
+        viewModel.state.valueChanged = { value in
+            switch value {
+            case .wrongPasscode:
+                self.wrongPasscodeAnimation()
+                HapticFeedbackHelper.produceErrorFeedback()
+//                self.delegate?.wrongPasscode()
+            case .switchToCreate:
+                self.animateLabel(with: l10n(.createPasscode))
+                self.passcodeSymbols.forEach { $0.animateEmpty() }
+            case .correctPasscode:
+                self.delegate?.completed()
+            case .switchToRepeat:
+                self.animateLabel(with: l10n(.repeatPasscode))
+                self.passcodeSymbols.forEach { $0.animateEmpty() }
+            default: break
+            }
         }
-    }
-
-    func wrongPasscode() {
-        wrongPasscodeAnimation()
-        HapticFeedbackHelper.produceErrorFeedback()
-        passcode = ""
-        confirmationPasscode = ""
-        delegate?.wrongPasscode()
-    }
-
-    func switchToCreate() {
-        purpose = .create
-        stage = .first
-        passcode = ""
-        animateLabel(with: l10n(.createPasscode))
-        passcodeSymbols.forEach { $0.animateEmpty() }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -119,39 +112,6 @@ private extension PasscodeView {
             passcodeSymbols.append(passcodeSymbol)
             passcodeSymbolsStackView.addArrangedSubview(passcodeSymbol)
         }
-    }
-
-    func stageCompleted() {
-        guard purpose == .create else { return checkPassword() }
-
-        stage == .first ? switchToRepeat() : comparePasswords()
-    }
-
-    func comparePasswords() {
-        guard passcode == confirmationPasscode else {
-            wrongPasscode()
-            switchToCreate()
-            return
-        }
-
-        PasscodeManager.set(passcode: passcode)
-        delegate?.completed()
-    }
-
-    func checkPassword() {
-        guard passcode == PasscodeManager.current else {
-            wrongPasscode()
-            passcodeSymbols.forEach { $0.animateEmpty() }
-            return
-        }
-
-        delegate?.passwordCorrect()
-    }
-
-    func switchToRepeat() {
-        stage = .second
-        animateLabel(with: l10n(.repeatPasscode))
-        passcodeSymbols.forEach { $0.animateEmpty() }
     }
 
     func animateLabel(with text: String) {
@@ -192,41 +152,14 @@ extension PasscodeView {
     }
 }
 
-// MARK: - Helpers
-extension PasscodeView {
-    var passcodeToFill: String {
-        get {
-            return stage == .first ? passcode : confirmationPasscode
-        }
-        set {
-            if stage == .first {
-                passcode = newValue
-            } else {
-                confirmationPasscode = newValue
-            }
-        }
-    }
-}
 // MARK: - PasscodeKeyboardDelegate
 extension PasscodeView: PasscodeKeyboardDelegate {
     func keyboard(_ keyboard: PasscodeKeyboard, didInputDigit digit: String) {
-        if passcodeToFill.count < 3 {
-            passcodeToFill.append(digit)
-            passcodeSymbols[passcodeToFill.count - 1].animateCircle()
-        } else {
-            passcodeToFill.append(digit)
-            if passcodeSymbols.indices.contains(passcodeToFill.count - 1) {
-                passcodeSymbols[passcodeToFill.count - 1].animateCircle()
-                after(0.1) { self.stageCompleted() }
-            }
-        }
+        viewModel.didInput(digit: digit, symbols: passcodeSymbols)
     }
 
     func clearPressed(on keyboard: PasscodeKeyboard) {
-        if passcodeToFill.count != 0 {
-            passcodeToFill = String(passcodeToFill.dropLast(1))
-            passcodeSymbols[passcodeToFill.count].animateEmpty()
-        }
+        viewModel.clearPressed(symbols: passcodeSymbols)
     }
 
     func biometricsPressed(on keyboard: PasscodeKeyboard) {

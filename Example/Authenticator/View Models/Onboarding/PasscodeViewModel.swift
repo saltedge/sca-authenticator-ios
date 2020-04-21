@@ -28,6 +28,7 @@ enum PasscodeViewModelState: Equatable {
     case switchToCreate
     case switchToRepeat
     case completedStage
+    case correctPasscode
     case normal
 
     static func == (lhs: PasscodeViewModelState, rhs: PasscodeViewModelState) -> Bool {
@@ -36,7 +37,8 @@ enum PasscodeViewModelState: Equatable {
              (.wrongPasscode, .wrongPasscode),
              (.switchToCreate, .switchToCreate),
              (.switchToRepeat, .switchToRepeat),
-             (.completedStage, .completedStage):
+             (.completedStage, .completedStage),
+             (.correctPasscode, .correctPasscode):
             return true
         default: return false
         }
@@ -55,12 +57,45 @@ class PasscodeViewModel {
         self.purpose = purpose
     }
 
+    var passcodeToFill: String {
+        get {
+            return stage == .first ? passcode : confirmationPasscode
+        }
+        set {
+            if stage == .first {
+                passcode = newValue
+            } else {
+                confirmationPasscode = newValue
+            }
+        }
+    }
+
     var title: String {
         switch purpose {
         case .create: return l10n(.createPasscode)
         case .edit: return l10n(.enterPasscode)
         case .enter:
             return PasscodeManager.isBiometricsEnabled ? BiometricsPresenter.passcodeDescriptionText : l10n(.enterPasscode)
+        }
+    }
+
+    func didInput(digit: String, symbols: [PasscodeSymbolView]) {
+        if passcodeToFill.count < 3 {
+            passcodeToFill.append(digit)
+            symbols[passcodeToFill.count - 1].animateCircle()
+        } else {
+            passcodeToFill.append(digit)
+            if symbols.indices.contains(passcodeToFill.count - 1) {
+                symbols[passcodeToFill.count - 1].animateCircle()
+                after(0.1) { self.stageCompleted() }
+            }
+        }
+    }
+
+    func clearPressed(symbols: [PasscodeSymbolView]) {
+        if passcodeToFill.count != 0 {
+            passcodeToFill = String(passcodeToFill.dropLast(1))
+            symbols[passcodeToFill.count].animateEmpty()
         }
     }
 
@@ -80,8 +115,9 @@ class PasscodeViewModel {
     func stageCompleted() {
         state.value = .completedStage
 
-//        guard purpose == .create else { return checkPassword() }
-    } 
+        stage == .first ? switchToRepeat() : comparePasswords()
+    }
+
     func switchToRepeat() {
         state.value = .switchToRepeat
 
@@ -93,8 +129,18 @@ class PasscodeViewModel {
             wrongPasscode()
             return
         }
+    }
 
-//        delegate?.passwordCorrect()
+    func comparePasswords() {
+        guard passcode == confirmationPasscode else {
+            wrongPasscode()
+            switchedToCreate()
+            return
+        }
+
+        PasscodeManager.set(passcode: passcode)
+
+        state.value = .correctPasscode
     }
 }
 
