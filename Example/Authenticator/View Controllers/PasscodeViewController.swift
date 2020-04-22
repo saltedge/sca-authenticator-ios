@@ -23,11 +23,6 @@
 import UIKit
 import TinyConstraints
 
-enum PasscodeType {
-    case authorize
-    case main
-}
-
 private struct Layout {
     static let passcodeViewTopOffset: CGFloat = 90.0
 }
@@ -43,15 +38,18 @@ final class PasscodeViewController: BaseViewController {
     private var passcodeView: PasscodeView
     private var purpose: PasscodeView.Purpose
 
+    private var viewModel: PasscodeViewModel
+
     weak var delegate: PasscodeViewControllerDelegate?
 
-    init(purpose: PasscodeView.Purpose, type: PasscodeType = .main) {
+    init(purpose: PasscodeView.Purpose) {
         self.purpose = purpose
-        passcodeView = PasscodeView(purpose: purpose)
+        viewModel = PasscodeViewModel(purpose: purpose)
+        passcodeView = PasscodeView(viewModel: viewModel)
         super.init(nibName: nil, bundle: nil)
         view.backgroundColor = .white
         passcodeView.delegate = self
-        if purpose == .edit || type == .authorize { setupLeftButton() }
+        if purpose == .edit { setupLeftButton() }
     }
 
     required init?(coder aDecoder: NSCoder) {

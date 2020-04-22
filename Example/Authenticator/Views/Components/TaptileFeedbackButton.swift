@@ -23,7 +23,7 @@
 import UIKit
 
 // TODO: Finish refactor
-class TaptileFeedbackButton: UIButton {    
+class TaptileFeedbackButton: UIButton {
     override var isHighlighted: Bool {
         didSet {
             backgroundColor = isHighlighted ? .extraLightGray : .clear

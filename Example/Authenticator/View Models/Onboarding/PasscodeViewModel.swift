@@ -46,15 +46,24 @@ enum PasscodeViewModelState: Equatable {
 }
 
 class PasscodeViewModel {
+    enum Stage {
+        case first
+        case second
+    }
+
     var state = Observable<PasscodeViewModelState>(.normal)
 
     private var purpose: PasscodeView.Purpose
-    private var stage: PasscodeView.Stage = .first
+    private var stage: Stage = .first
     private var passcode = ""
     private var confirmationPasscode = ""
 
     init(purpose: PasscodeView.Purpose) {
         self.purpose = purpose
+    }
+
+    var shouldShowTouchId: Bool {
+        return purpose == .enter && PasscodeManager.isBiometricsEnabled
     }
 
     var passcodeToFill: String {
@@ -87,7 +96,11 @@ class PasscodeViewModel {
             passcodeToFill.append(digit)
             if symbols.indices.contains(passcodeToFill.count - 1) {
                 symbols[passcodeToFill.count - 1].animateCircle()
-                after(0.1) { self.stageCompleted() }
+                if purpose == .enter {
+                    checkPassword()
+                } else {
+                    after(0.1) { self.stageCompleted() }
+                }
             }
         }
     }
@@ -129,6 +142,8 @@ class PasscodeViewModel {
             wrongPasscode()
             return
         }
+
+        state.value = .correctPasscode
     }
 
     func comparePasswords() {

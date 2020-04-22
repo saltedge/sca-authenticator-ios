@@ -131,7 +131,7 @@ final class ApplicationCoordinator: Coordinator {
 
         removeAlertControllerIfPresented()
 
-        if let passcodeVC = UIWindow.topViewController as? PasscodeViewController {
+        if let passcodeVC = UIWindow.topViewController as? NewPasscodeViewController {
             passcodeVC.dismiss(animated: false, completion: presentPasscode)
         } else {
             presentPasscode()
@@ -147,13 +147,11 @@ final class ApplicationCoordinator: Coordinator {
     private func presentPasscode() {
         guard let topController = UIWindow.topViewController else { return }
 
-        passcodeCoordinator = PasscodeCoordinator(
-            rootViewController: topController,
-            purpose: .enter,
-            type: .main
-        )
-        passcodeCoordinator?.start()
-        passcodeCoordinator?.onCompleteClosure = {
+        let passcodeViewController = NewPasscodeViewController(purpose: .enter)
+        passcodeViewController.modalPresentationStyle = .overFullScreen
+        topController.present(passcodeViewController, animated: false)
+
+        passcodeViewController.completeClosure = {
             TimerApplication.resetIdleTimer()
             self.registerTimerNotifications()
             if !self.passcodeShownDueToInactivity {

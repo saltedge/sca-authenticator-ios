@@ -41,8 +41,7 @@ struct PasscodeManager {
         }
     }
 
-    static func useBiometrics(type: PasscodeType = .main,
-                              reasonString: String,
+    static func useBiometrics(reasonString: String,
                               onSuccess: (() -> ())?,
                               onFailure: ((Error) -> ())?) {
         let context = LAContext()

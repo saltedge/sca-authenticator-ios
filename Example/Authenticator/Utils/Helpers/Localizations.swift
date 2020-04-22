@@ -156,6 +156,7 @@ enum Localizations: String, Localizable {
     case noInternetConnection = "errors.no_internet_connection"
     case pleaseTryAgain = "errors.no_internet_connection_try_again"
     case inactivityMessage = "warnings.inactivity_block_message"
+    case passcodeDontMatch = "errors.passcode_dont_match"
 
     // MARK: - Connection Options
     case reconnect = "actions.reconnect"

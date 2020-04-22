@@ -28,8 +28,11 @@ final class NewPasscodeViewController: UIViewController {
 
     var completeClosure: (() -> ())?
 
+    private var viewModel: PasscodeViewModel
+
     init(purpose: PasscodeView.Purpose) {
-        passcodeView = PasscodeView(purpose: .create)
+        viewModel = PasscodeViewModel(purpose: purpose)
+        passcodeView = PasscodeView(viewModel: viewModel)
         super.init(nibName: nil, bundle: .authenticator_main)
     }
 

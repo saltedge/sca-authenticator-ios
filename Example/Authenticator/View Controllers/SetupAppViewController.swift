@@ -61,7 +61,7 @@ final class SetupAppViewController: BaseViewController {
     }()
 
     private var currentView = UIView()
-    private let passcodeView = PasscodeView(purpose: .create)
+//    private let passcodeView = PasscodeView(purpose: .create)
     private var allowBiometricsView: InfoView
     private var allowNotificationView: InfoView
     private var signUpCompleteView: InfoView
@@ -88,8 +88,8 @@ final class SetupAppViewController: BaseViewController {
         )
         super.init(nibName: nil, bundle: nil)
 
-        views = [passcodeView, allowBiometricsView, allowNotificationView, signUpCompleteView]
-        passcodeView.delegate = self
+        views = [UIView(), allowBiometricsView, allowNotificationView, signUpCompleteView]
+//        passcodeView.delegate = self
         [allowBiometricsView, allowNotificationView, signUpCompleteView].forEach { $0.delegate = self }
         views.forEach { $0.alpha = 0.0 }
     }
@@ -117,7 +117,7 @@ final class SetupAppViewController: BaseViewController {
 private extension SetupAppViewController {
     func view(for step: SetupStep) -> UIView {
         switch step {
-        case .createPasscode: return passcodeView
+        case .createPasscode: return UIView()
         case .allowBiometricsUsage: return allowBiometricsView
         case .allowNotifications: return allowNotificationView
         case .signUpComplete: return signUpCompleteView

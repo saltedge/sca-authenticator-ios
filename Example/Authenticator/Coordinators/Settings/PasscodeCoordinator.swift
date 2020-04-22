@@ -28,18 +28,18 @@ final class PasscodeCoordinator: Coordinator, PasscodeViewControllerDelegate {
     private var passcodeVc: PasscodeViewController
     private var blockedTimer: Timer?
     private var purpose: PasscodeView.Purpose
-    private var type: PasscodeType
+//    private var type: PasscodeType
 
     private var blockedAlert: UIAlertController?
 
     var onCompleteClosure: (() -> ())?
     var onDismissClosure: (() -> ())?
 
-    init(rootViewController: UIViewController, purpose: PasscodeView.Purpose, type: PasscodeType) {
+    init(rootViewController: UIViewController, purpose: PasscodeView.Purpose) {
         self.purpose = purpose
-        self.type = type
+//        self.type = type
         self.rootViewController = rootViewController
-        self.passcodeVc = PasscodeViewController(purpose: purpose, type: type)
+        self.passcodeVc = PasscodeViewController(purpose: purpose)
     }
 
     func start() {
@@ -48,7 +48,7 @@ final class PasscodeCoordinator: Coordinator, PasscodeViewControllerDelegate {
 
         blockAppIfNeeded()
 
-        if purpose == .edit || type == .authorize {
+        if purpose == .edit {
             let navigationController = UINavigationController(rootViewController: passcodeVc)
             navigationController.modalPresentationStyle = .fullScreen
             rootViewController.present(navigationController, animated: true)

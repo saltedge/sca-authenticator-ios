@@ -48,29 +48,33 @@ final class PasscodeView: UIView {
         case enter
     }
 
-    enum Stage {
-        case first
-        case second
-    }
-
     weak var delegate: PasscodeViewDelegate?
 
-    private var purpose: Purpose
     private let titleLabel = UILabel(frame: .zero)
     private let passcodeSymbolsView = UIView(frame: .zero)
     private let passcodeSymbolsStackView = UIStackView(frame: .zero)
     private var passcodeSymbols = [PasscodeSymbolView]()
     private var passcodeKeyboard: PasscodeKeyboard
 
+    private let wrongPasscodeLabel: UILabel = {
+        let label = UILabel()
+        label.alpha = 0.0
+        label.backgroundColor = .extraLightGray
+        label.layer.cornerRadius = 22.0
+        label.font = .systemFont(ofSize: 14.0, weight: .regular)
+        label.layer.masksToBounds = true
+        label.text = l10n(.passcodeDontMatch)
+        label.textAlignment = .center
+        return label
+    }()
+
     var viewModel: PasscodeViewModel
 
-    init(purpose: Purpose) {
-        self.purpose = purpose
-        self.passcodeKeyboard = PasscodeKeyboard(shouldShowTouchID: purpose == .enter && PasscodeManager.isBiometricsEnabled)
-        viewModel = PasscodeViewModel(purpose: purpose)
+    init(viewModel: PasscodeViewModel) {
+        self.viewModel = viewModel
+        self.passcodeKeyboard = PasscodeKeyboard(shouldShowTouchID: viewModel.shouldShowTouchId)
         super.init(frame: .zero)
         titleLabel.text = viewModel.title
-
         setupPasscodeSymbolsView()
         passcodeKeyboard.delegate = self
         layout()
@@ -82,17 +86,18 @@ final class PasscodeView: UIView {
         viewModel.state.valueChanged = { value in
             switch value {
             case .wrongPasscode:
+                self.animateWrongPasscodeLabel(show: true)
                 self.wrongPasscodeAnimation()
                 HapticFeedbackHelper.produceErrorFeedback()
-//                self.delegate?.wrongPasscode()
             case .switchToCreate:
                 self.animateLabel(with: l10n(.createPasscode))
                 self.passcodeSymbols.forEach { $0.animateEmpty() }
-            case .correctPasscode:
-                self.delegate?.completed()
             case .switchToRepeat:
+                self.animateWrongPasscodeLabel(show: false)
                 self.animateLabel(with: l10n(.repeatPasscode))
                 self.passcodeSymbols.forEach { $0.animateEmpty() }
+            case .correctPasscode:
+                self.delegate?.completed()
             default: break
             }
         }
@@ -138,8 +143,17 @@ private extension PasscodeView {
 }
 
 // MARK: - Animations
-extension PasscodeView {
-    private func wrongPasscodeAnimation() {
+private extension PasscodeView {
+    func animateWrongPasscodeLabel(show: Bool) {
+        UIView.animate(
+            withDuration: 0.3,
+            animations: {
+                self.wrongPasscodeLabel.alpha = show ? 1.0 : 0.0
+            }
+        )
+    }
+
+    func wrongPasscodeAnimation() {
         let springAnimation = CASpringAnimation(keyPath: "position.x")
         springAnimation.duration = springAnimation.settlingDuration
         springAnimation.fromValue = passcodeSymbolsView.layer.position.x - 40.0
@@ -170,7 +184,7 @@ extension PasscodeView: PasscodeKeyboardDelegate {
 // MARK: - Layout
 extension PasscodeView: Layoutable {
     func layout() {
-        addSubviews(titleLabel, passcodeSymbolsView, passcodeKeyboard)
+        addSubviews(titleLabel, passcodeSymbolsView, wrongPasscodeLabel, passcodeKeyboard)
 
         titleLabel.topToSuperview()
         titleLabel.left(to: self, offset: Layout.titleLabelSideOffset)
@@ -186,7 +200,12 @@ extension PasscodeView: Layoutable {
         passcodeSymbolsStackView.edges(to: passcodeSymbolsView)
         passcodeSymbolsStackView.spacing = Layout.interSymbolsSpacing
 
-        passcodeKeyboard.topToBottom(of: passcodeSymbolsView, offset: 117.0)
+        wrongPasscodeLabel.topToBottom(of: passcodeSymbolsView, offset: 46.0)
+        wrongPasscodeLabel.left(to: self, offset: 86.0)
+        wrongPasscodeLabel.right(to: self, offset: -86.0)
+        wrongPasscodeLabel.height(44.0)
+
+        passcodeKeyboard.topToBottom(of: wrongPasscodeLabel, offset: 67.0)
         passcodeKeyboard.left(to: self, offset: 16.0)
         passcodeKeyboard.right(to: self, offset: -16.0)
     }
