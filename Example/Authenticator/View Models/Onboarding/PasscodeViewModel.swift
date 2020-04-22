@@ -99,7 +99,13 @@ class PasscodeViewModel {
                 if purpose == .enter {
                     checkPassword()
                 } else {
-                    after(0.1) { self.stageCompleted() }
+                    after(0.1) {
+                        if self.purpose == .edit {
+                            self.checkPassword()
+                        } else {
+                            self.stageCompleted()
+                        }
+                    }
                 }
             }
         }
@@ -143,7 +149,11 @@ class PasscodeViewModel {
             return
         }
 
-        state.value = .correctPasscode
+        if purpose == .edit {
+            switchedToCreate()
+        } else {
+            state.value = .correctPasscode
+        }
     }
 
     func comparePasswords() {
@@ -156,6 +166,10 @@ class PasscodeViewModel {
         PasscodeManager.set(passcode: passcode)
 
         state.value = .correctPasscode
+    }
+
+    func resetState() {
+        state.value = .normal
     }
 }
 

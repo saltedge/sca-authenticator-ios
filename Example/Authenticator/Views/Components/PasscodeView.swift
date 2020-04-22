@@ -87,6 +87,7 @@ final class PasscodeView: UIView {
             switch value {
             case .wrongPasscode:
                 self.animateWrongPasscodeLabel(show: true)
+                self.passcodeSymbols.forEach { $0.animateEmpty() }
                 self.wrongPasscodeAnimation()
                 HapticFeedbackHelper.produceErrorFeedback()
             case .switchToCreate:
@@ -100,6 +101,7 @@ final class PasscodeView: UIView {
                 self.delegate?.completed()
             default: break
             }
+            self.viewModel.resetState()
         }
     }
 
