@@ -23,11 +23,9 @@
 import UIKit
 
 enum PasscodeViewModelState: Equatable {
-    case didInputDigit
     case wrongPasscode
     case switchToCreate
     case switchToRepeat
-    case completedStage
     case correctPasscode
     case normal
 
@@ -37,7 +35,6 @@ enum PasscodeViewModelState: Equatable {
              (.wrongPasscode, .wrongPasscode),
              (.switchToCreate, .switchToCreate),
              (.switchToRepeat, .switchToRepeat),
-             (.completedStage, .completedStage),
              (.correctPasscode, .correctPasscode):
             return true
         default: return false
@@ -88,6 +85,13 @@ class PasscodeViewModel {
         }
     }
 
+    var wrongPasscodeLabelText: String {
+        switch purpose {
+        case .create, .edit: return l10n(.passcodeDontMatch)
+        case .enter: return l10n(.wrongPasscode)
+        }
+    }
+
     func didInput(digit: String, symbols: [PasscodeSymbolView]) {
         if passcodeToFill.count < 3 {
             passcodeToFill.append(digit)
@@ -96,17 +100,12 @@ class PasscodeViewModel {
             passcodeToFill.append(digit)
             if symbols.indices.contains(passcodeToFill.count - 1) {
                 symbols[passcodeToFill.count - 1].animateCircle()
-                if purpose == .enter {
-                    checkPassword()
-                } else {
-                    after(0.1) {
-                        if self.purpose == .edit {
-                            self.checkPassword()
-                        } else {
-                            self.stageCompleted()
-                        }
-                    }
-                }
+                stageCompleted()
+//                if purpose == .enter {
+//                    checkPassword()
+//                } else {
+//                    after(0.1) { self.stageCompleted() }
+//                }
             }
         }
     }
@@ -126,13 +125,15 @@ class PasscodeViewModel {
     }
 
     func switchedToCreate() {
+        purpose = .create
         state.value = .switchToCreate
+
         stage = .first
         passcode = ""
     }
 
     func stageCompleted() {
-        state.value = .completedStage
+        guard purpose == .create else { return checkPassword() }
 
         stage == .first ? switchToRepeat() : comparePasswords()
     }

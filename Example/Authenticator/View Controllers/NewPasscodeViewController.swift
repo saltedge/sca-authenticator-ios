@@ -77,25 +77,11 @@ extension NewPasscodeViewController: PasscodeViewDelegate {
     func completed() {
         dismiss(animated: true)
         self.completeClosure?()
-//        delegate?.completed()
-//        close()
-    }
-
-    func passwordCorrect() {
-        print("Completed")
-//        if purpose == .enter {
-//            delegate?.completed()
-//            close()
-//        } else {
-//            passcodeView.switchToCreate()
-//        }
     }
 
     func biometricsPressed() {
-//        delegate?.biometricsPressed()
     }
 
     func wrongPasscode() {
-//        delegate?.wrongPasswordEntered()
     }
 }

@@ -124,7 +124,6 @@ enum Localizations: String, Localizable {
     case faceID = "in_app.settings.face_id"
     case passcode = "in_app.settings.passcode"
     case changePasscode = "actions.change_passcode"
-    case wrongPasscode = "errors.passcode_ios"
     case wrongPasscodeSingular = "errors.passcode_ios_singular"
     case accountReset = "errors.account_reset"
 
@@ -157,6 +156,7 @@ enum Localizations: String, Localizable {
     case pleaseTryAgain = "errors.no_internet_connection_try_again"
     case inactivityMessage = "warnings.inactivity_block_message"
     case passcodeDontMatch = "errors.passcode_dont_match"
+    case wrongPasscode = "errors.wrong_passcode"
 
     // MARK: - Connection Options
     case reconnect = "actions.reconnect"

@@ -25,18 +25,19 @@ import TinyConstraints
 
 private struct Layout {
     static let titleLabelSideOffset: CGFloat = 37.0
-    static let titleLabelHeight: CGFloat = 24.0
+    static let titleLabelHeight: CGFloat = 28.0
     static let interSymbolsSpacing: CGFloat = 25.0
+    static let passcodeSymbolsTopOffset: CGFloat = 22.0
     static let passcodeSymbolSize: CGSize = CGSize(width: 15.0, height: 15.0)
-    static let logoImageViewSize: CGSize = CGSize(width: 50.0, height: 50.0)
-    static let logoImageBottomOffset: CGFloat = 50.0
-    static let passcodeKeyboardTopOffset: CGFloat = 56.0
-    static let passcodeSymbolsTopOffset: CGFloat = 40.0
+    static let wrongPasscodeLabelTopOffset: CGFloat = 46.0
+    static let wrongPasscodeLabelSideOffset: CGFloat = 86.0
+    static let wrongPasscodeLabelHeight: CGFloat = 44.0
+    static let passcodeKeyboardTopOffset: CGFloat = 67.0
+    static let passcodeKeyboardSideOffset: CGFloat = 16.0
 }
 
 protocol PasscodeViewDelegate: class {
     func completed()
-    func passwordCorrect()
     func biometricsPressed()
     func wrongPasscode()
 }
@@ -63,7 +64,6 @@ final class PasscodeView: UIView {
         label.layer.cornerRadius = 22.0
         label.font = .systemFont(ofSize: 14.0, weight: .regular)
         label.layer.masksToBounds = true
-        label.text = l10n(.passcodeDontMatch)
         label.textAlignment = .center
         return label
     }()
@@ -75,6 +75,7 @@ final class PasscodeView: UIView {
         self.passcodeKeyboard = PasscodeKeyboard(shouldShowTouchID: viewModel.shouldShowTouchId)
         super.init(frame: .zero)
         titleLabel.text = viewModel.title
+        wrongPasscodeLabel.text = viewModel.wrongPasscodeLabelText
         setupPasscodeSymbolsView()
         passcodeKeyboard.delegate = self
         layout()
@@ -179,6 +180,7 @@ extension PasscodeView: PasscodeKeyboardDelegate {
     }
 
     func biometricsPressed(on keyboard: PasscodeKeyboard) {
+        // TODO: Move to view model when biometrics permision will be available
         delegate?.biometricsPressed()
     }
 }
@@ -191,9 +193,9 @@ extension PasscodeView: Layoutable {
         titleLabel.topToSuperview()
         titleLabel.left(to: self, offset: Layout.titleLabelSideOffset)
         titleLabel.right(to: self, offset: -Layout.titleLabelSideOffset)
-        titleLabel.height(28.0)
+        titleLabel.height(Layout.titleLabelHeight)
 
-        passcodeSymbolsView.topToBottom(of: titleLabel, offset: 22.0)
+        passcodeSymbolsView.topToBottom(of: titleLabel, offset: Layout.passcodeSymbolsTopOffset)
         passcodeSymbolsView.height(Layout.passcodeSymbolSize.height)
         passcodeSymbolsView.centerX(to: self)
 
@@ -202,14 +204,14 @@ extension PasscodeView: Layoutable {
         passcodeSymbolsStackView.edges(to: passcodeSymbolsView)
         passcodeSymbolsStackView.spacing = Layout.interSymbolsSpacing
 
-        wrongPasscodeLabel.topToBottom(of: passcodeSymbolsView, offset: 46.0)
-        wrongPasscodeLabel.left(to: self, offset: 86.0)
-        wrongPasscodeLabel.right(to: self, offset: -86.0)
+        wrongPasscodeLabel.topToBottom(of: passcodeSymbolsView, offset: Layout.wrongPasscodeLabelTopOffset)
+        wrongPasscodeLabel.left(to: self, offset: Layout.wrongPasscodeLabelSideOffset)
+        wrongPasscodeLabel.right(to: self, offset: -Layout.wrongPasscodeLabelSideOffset)
         wrongPasscodeLabel.height(44.0)
 
-        passcodeKeyboard.topToBottom(of: wrongPasscodeLabel, offset: 67.0)
-        passcodeKeyboard.left(to: self, offset: 16.0)
-        passcodeKeyboard.right(to: self, offset: -16.0)
+        passcodeKeyboard.topToBottom(of: wrongPasscodeLabel, offset: Layout.passcodeKeyboardTopOffset)
+        passcodeKeyboard.left(to: self, offset: Layout.passcodeKeyboardSideOffset)
+        passcodeKeyboard.right(to: self, offset: -Layout.passcodeKeyboardSideOffset)
     }
 }
 
