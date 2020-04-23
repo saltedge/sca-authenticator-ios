@@ -48,7 +48,7 @@ final class ApplicationCoordinator: Coordinator {
 
             let onboardingVc = OnboardingViewController()
             onboardingVc.donePressedClosure = {
-                let newPasscodeVc = NewPasscodeViewController(purpose: .create)
+                let newPasscodeVc = PasscodeViewController(purpose: .create)
                 newPasscodeVc.modalPresentationStyle = .fullScreen
                 onboardingVc.present(newPasscodeVc, animated: true)
 
@@ -131,7 +131,7 @@ final class ApplicationCoordinator: Coordinator {
 
         removeAlertControllerIfPresented()
 
-        if let passcodeVC = UIWindow.topViewController as? NewPasscodeViewController {
+        if let passcodeVC = UIWindow.topViewController as? PasscodeViewController {
             passcodeVC.dismiss(animated: false, completion: presentPasscode)
         } else {
             presentPasscode()
@@ -147,7 +147,7 @@ final class ApplicationCoordinator: Coordinator {
     private func presentPasscode() {
         guard let topController = UIWindow.topViewController else { return }
 
-        let passcodeViewController = NewPasscodeViewController(purpose: .enter)
+        let passcodeViewController = PasscodeViewController(purpose: .enter)
         passcodeViewController.modalPresentationStyle = .overFullScreen
         topController.present(passcodeViewController, animated: false)
 

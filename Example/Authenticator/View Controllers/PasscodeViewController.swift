@@ -1,8 +1,8 @@
 //
-//  PasscodeViewController.swift
+//  PasscodeViewController
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,97 +21,67 @@
 //
 
 import UIKit
-import TinyConstraints
 
-private struct Layout {
-    static let passcodeViewTopOffset: CGFloat = 90.0
-}
-
-protocol PasscodeViewControllerDelegate: class {
-    func completed()
-    func wrongPasswordEntered()
-    func biometricsPressed()
-    func closePressed()
-}
-
-final class PasscodeViewController: BaseViewController {
+final class PasscodeViewController: UIViewController {
+    private let logoImageView = UIImageView()
     private var passcodeView: PasscodeView
-    private var purpose: PasscodeView.Purpose
+
+    var completeClosure: (() -> ())?
 
     private var viewModel: PasscodeViewModel
 
-    weak var delegate: PasscodeViewControllerDelegate?
-
     init(purpose: PasscodeView.Purpose) {
-        self.purpose = purpose
         viewModel = PasscodeViewModel(purpose: purpose)
         passcodeView = PasscodeView(viewModel: viewModel)
-        super.init(nibName: nil, bundle: nil)
-        view.backgroundColor = .white
-        passcodeView.delegate = self
-        if purpose == .edit { setupLeftButton() }
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(nibName: nil, bundle: .authenticator_main)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = l10n(.passcode)
+        passcodeView.delegate = self
+        view.backgroundColor = .backgroundColor
+        logoImageView.image = #imageLiteral(resourceName: "authenticatorLogo")
         layout()
     }
-}
 
-// MARK: - Setup
-private extension PasscodeViewController {
-    func setupLeftButton() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: l10n(.cancel),
-            style: .plain,
-            target: self,
-            action: #selector(close)
-        )
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: - Actions
 extension PasscodeViewController {
     @objc func close() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 }
 
 // MARK: - Layout
 extension PasscodeViewController: Layoutable {
     func layout() {
-        view.addSubview(passcodeView)
-        passcodeView.edges(to: view, insets: UIEdgeInsets(top: Layout.passcodeViewTopOffset, left: 0.0, bottom: 0.0, right: 0.0))
+        view.addSubviews(logoImageView, passcodeView)
+
+        logoImageView.size(CGSize(width: 72.0, height: 72.0))
+        logoImageView.centerXToSuperview()
+        logoImageView.top(to: view, offset: 88.0)
+
+        passcodeView.topToBottom(of: logoImageView, offset: 68.0)
+        passcodeView.centerXToSuperview()
+        passcodeView.widthToSuperview()
+        passcodeView.bottomToSuperview()
     }
 }
 
 // MARK: - PasscodeViewDelegate
 extension PasscodeViewController: PasscodeViewDelegate {
     func completed() {
-        delegate?.completed()
-        close()
-    }
-
-    func passwordCorrect() {
-        if purpose == .enter {
-            delegate?.completed()
-            close()
-        } else {
-//            passcodeView.switchToCreate()
-        }
-
+        dismiss(animated: true)
+        self.completeClosure?()
     }
 
     func biometricsPressed() {
-        delegate?.biometricsPressed()
     }
 
     func wrongPasscode() {
-        delegate?.wrongPasswordEntered()
     }
 }

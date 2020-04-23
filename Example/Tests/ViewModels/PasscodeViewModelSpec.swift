@@ -29,11 +29,11 @@ final class PasscodeViewModelSpec: BaseSpec {
             it("should set view model state to .wrongPasscode") {
                 let viewModel = PasscodeViewModel(purpose: .edit)
 
-                expect(viewModel.state.value).to(equal(PasscodeViewModelState.normal))
+                expect(viewModel.state.value).to(equal(PasscodeViewModelState.check))
 
                 viewModel.wrongPasscode()
 
-                expect(viewModel.state.value).to(equal(PasscodeViewModelState.wrongPasscode))
+                expect(viewModel.state.value).to(equal(PasscodeViewModelState.wrong))
             }
         }
 
@@ -41,36 +41,11 @@ final class PasscodeViewModelSpec: BaseSpec {
             it("should set view model state to .switchToCreate") {
                 let viewModel = PasscodeViewModel(purpose: .edit)
 
-                expect(viewModel.state.value).to(equal(PasscodeViewModelState.normal))
+                expect(viewModel.state.value).to(equal(PasscodeViewModelState.check))
 
                 viewModel.switchToCreate()
 
-                expect(viewModel.state.value).to(equal(PasscodeViewModelState.switchToCreate))
-            }
-        }
-
-        describe("stageCompleted") {
-//            context("when purpose is create and it's first stage") {
-//                it("should switch to repeat") {
-//                    let viewModel = PasscodeViewModel(purpose: .create)
-//
-//                    expect(viewModel.state.value).to(equal(PasscodeViewModelState.normal))
-//
-//                    viewModel.stageCompleted()
-//
-//                    expect(viewModel.state.value).to(equal(PasscodeViewModelState.repeat))
-//                }
-//            }
-
-            context("when purpose is create and it's second stage") {
-                it("should compare passwords") {
-                    let viewModel = PasscodeViewModel(purpose: .create)
-
-                    expect(viewModel.state.value).to(equal(PasscodeViewModelState.normal))
-
-                    viewModel.switchToRepeat()
-                    viewModel.stageCompleted()
-                }
+                expect(viewModel.state.value).to(equal(PasscodeViewModelState.create))
             }
         }
     }

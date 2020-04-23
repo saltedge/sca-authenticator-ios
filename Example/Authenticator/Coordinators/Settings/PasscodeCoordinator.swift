@@ -22,7 +22,7 @@
 
 import UIKit
 
-final class PasscodeCoordinator: Coordinator, PasscodeViewControllerDelegate {
+final class PasscodeCoordinator: Coordinator {
     private var rootViewController: UIViewController
 
     private var passcodeVc: PasscodeViewController
@@ -43,7 +43,7 @@ final class PasscodeCoordinator: Coordinator, PasscodeViewControllerDelegate {
     }
 
     func start() {
-        passcodeVc.delegate = self
+//        passcodeVc.delegate = self
         passcodeVc.modalPresentationStyle = .fullScreen
 
         blockAppIfNeeded()
