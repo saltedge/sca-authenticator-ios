@@ -83,26 +83,26 @@ final class PasscodeView: UIView {
         handleViewModelState()
     }
 
-    func handleViewModelState() {
+     func handleViewModelState() {
         viewModel.state.valueChanged = { value in
             switch value {
-            case .wrongPasscode:
+            case .wrong:
                 self.animateWrongPasscodeLabel(show: true)
                 self.passcodeSymbols.forEach { $0.animateEmpty() }
                 self.wrongPasscodeAnimation()
                 HapticFeedbackHelper.produceErrorFeedback()
-            case .switchToCreate:
+            case .create(let showLabel):
+                self.animateWrongPasscodeLabel(show: showLabel)
                 self.animateLabel(with: l10n(.createPasscode))
                 self.passcodeSymbols.forEach { $0.animateEmpty() }
-            case .switchToRepeat:
+            case .repeat:
                 self.animateWrongPasscodeLabel(show: false)
                 self.animateLabel(with: l10n(.repeatPasscode))
                 self.passcodeSymbols.forEach { $0.animateEmpty() }
-            case .correctPasscode:
+            case .correct:
                 self.delegate?.completed()
             default: break
             }
-            self.viewModel.resetState()
         }
     }
 

@@ -23,19 +23,20 @@
 import UIKit
 
 enum PasscodeViewModelState: Equatable {
-    case wrongPasscode
-    case switchToCreate
-    case switchToRepeat
-    case correctPasscode
-    case normal
+    case check
+    case wrong
+    case create(showLabel: Bool)
+    case correct
+    case `repeat`
 
     static func == (lhs: PasscodeViewModelState, rhs: PasscodeViewModelState) -> Bool {
         switch (lhs, rhs) {
-        case (.normal, .normal),
-             (.wrongPasscode, .wrongPasscode),
-             (.switchToCreate, .switchToCreate),
-             (.switchToRepeat, .switchToRepeat),
-             (.correctPasscode, .correctPasscode):
+        case let (.create(show1), .create(show2)):
+            return show1 == show2
+        case (.check, .check),
+             (.wrong, .wrong),
+             (.repeat, .repeat),
+             (.correct, .correct):
             return true
         default: return false
         }
@@ -43,20 +44,15 @@ enum PasscodeViewModelState: Equatable {
 }
 
 class PasscodeViewModel {
-    enum Stage {
-        case first
-        case second
-    }
-
-    var state = Observable<PasscodeViewModelState>(.normal)
+    var state: Observable<PasscodeViewModelState>
 
     private var purpose: PasscodeView.Purpose
-    private var stage: Stage = .first
     private var passcode = ""
     private var confirmationPasscode = ""
 
     init(purpose: PasscodeView.Purpose) {
         self.purpose = purpose
+        self.state = Observable<PasscodeViewModelState>(purpose == .create ? .create(showLabel: false) : .check)
     }
 
     var shouldShowTouchId: Bool {
@@ -65,13 +61,13 @@ class PasscodeViewModel {
 
     var passcodeToFill: String {
         get {
-            return stage == .first ? passcode : confirmationPasscode
+            return state.value == .repeat ? confirmationPasscode : passcode
         }
         set {
-            if stage == .first {
-                passcode = newValue
-            } else {
+            if state.value == .repeat {
                 confirmationPasscode = newValue
+            } else {
+                passcode = newValue
             }
         }
     }
@@ -100,12 +96,13 @@ class PasscodeViewModel {
             passcodeToFill.append(digit)
             if symbols.indices.contains(passcodeToFill.count - 1) {
                 symbols[passcodeToFill.count - 1].animateCircle()
-                stageCompleted()
-//                if purpose == .enter {
-//                    checkPassword()
-//                } else {
-//                    after(0.1) { self.stageCompleted() }
-//                }
+
+                switch state.value {
+                case .check: checkPassword()
+                case .create: switchToRepeat()
+                case .repeat: comparePasswords()
+                default: break
+                }
             }
         }
     }
@@ -117,60 +114,47 @@ class PasscodeViewModel {
         }
     }
 
-    func wrongPasscode() {
-        state.value = .wrongPasscode
-
-        passcode = ""
-        confirmationPasscode = ""
-    }
-
-    func switchedToCreate() {
-        purpose = .create
-        state.value = .switchToCreate
-
-        stage = .first
-        passcode = ""
-    }
-
-    func stageCompleted() {
-        guard purpose == .create else { return checkPassword() }
-
-        stage == .first ? switchToRepeat() : comparePasswords()
-    }
-
-    func switchToRepeat() {
-        state.value = .switchToRepeat
-
-        stage = .second
-    }
-
     func checkPassword() {
         guard passcode == PasscodeManager.current else {
             wrongPasscode()
+            state.value = .check
             return
         }
 
         if purpose == .edit {
-            switchedToCreate()
+            switchToCreate(showLabel: false)
         } else {
-            state.value = .correctPasscode
+            state.value = .correct
         }
     }
 
     func comparePasswords() {
         guard passcode == confirmationPasscode else {
             wrongPasscode()
-            switchedToCreate()
+            switchToCreate(showLabel: true)
             return
         }
 
         PasscodeManager.set(passcode: passcode)
 
-        state.value = .correctPasscode
+        state.value = .correct
     }
 
-    func resetState() {
-        state.value = .normal
+    func wrongPasscode() {
+        state.value = .wrong
+
+        passcode = ""
+        confirmationPasscode = ""
+    }
+
+    func switchToCreate(showLabel: Bool) {
+        state.value = .create(showLabel: showLabel)
+
+        passcode = ""
+    }
+
+    func switchToRepeat() {
+        state.value = .repeat
     }
 }
 

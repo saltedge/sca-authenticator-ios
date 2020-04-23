@@ -320,6 +320,7 @@
 		9DE324DF22D39AC800EB162A /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86322CE18270050ED3C /* CompleteView.swift */; };
 		9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86422CE18270050ED3C /* LoadingIndicator.swift */; };
 		9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED89022CE18280050ED3C /* AppDelegate.swift */; };
+		9DE5807E2450892E004AF19F /* PasscodeViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */; };
 		9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
@@ -546,6 +547,7 @@
 		9DE324E522D4773F00EB162A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9DE324E722D4774A00EB162A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9DE324E922D4775000EB162A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewModelSpec.swift; sourceTree = "<group>"; };
 		9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationStateView.swift; sourceTree = "<group>"; };
 		BE78B0BDB65BD9B80C655471 /* SaltedgeAuthenticatorSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SaltedgeAuthenticatorSDK.podspec; path = ../SaltedgeAuthenticatorSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -817,6 +819,7 @@
 			children = (
 				9DCBB2882435F1FF00DB3F85 /* EditConnectionViewModelSpec.swift */,
 				9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */,
+				9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1805,6 +1808,7 @@
 				9DE324A422D39A0F00EB162A /* Localizable.swift in Sources */,
 				9DE324D622D39AB100EB162A /* PasscodeKeyboard.swift in Sources */,
 				9D630BC7243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */,
+				9DE5807E2450892E004AF19F /* PasscodeViewModelSpec.swift in Sources */,
 				9DE324C522D39A7500EB162A /* QRCodeViewController.swift in Sources */,
 				9DE3248B22D399BB00EB162A /* LanguagePickerDataSource.swift in Sources */,
 				9DE324C822D39A8600EB162A /* TableViewCellDequeuable.swift in Sources */,
