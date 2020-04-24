@@ -1,8 +1,8 @@
 //
-//  SEConnectionData.swift
+//  SEActionRequestData.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,31 +22,22 @@
 
 import Foundation
 
-public struct SEConnectionData {
-    public let providerCode: String
-    public let publicKey: String
-
-    public init?(code: String, tag: String) {
-        self.providerCode = code
-        let tag = SETagHelper.create(for: tag)
-        _ = SECryptoHelper.createKeyPair(with: tag)
-        do {
-            self.publicKey = try SECryptoHelper.publicKeyData(for: tag).string
-        } catch {
-            print(error.localizedDescription)
-            return nil
-        }
-    }
-}
-
-public struct SERevokeConnectionData {
-    public let id: ID
+public class SEActionRequestData: SEBaseAuthenticatedRequestData {
     public let guid: GUID
-    public let token: AccessToken
 
-    public init(id: ID, guid: GUID, token: AccessToken) {
-        self.id = id
+    public init(
+        url: URL,
+        connectionGuid: GUID,
+        accessToken: AccessToken,
+        appLanguage: ApplicationLanguage,
+        guid: GUID
+    ) {
         self.guid = guid
-        self.token = token
+        super.init(
+            url: url,
+            connectionGuid: connectionGuid,
+            accessToken: accessToken,
+            appLanguage: appLanguage
+        )
     }
 }

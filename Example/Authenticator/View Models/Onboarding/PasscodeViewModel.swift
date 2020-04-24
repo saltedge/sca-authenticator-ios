@@ -43,7 +43,7 @@ enum PasscodeViewModelState: Equatable {
     }
 }
 
-class PasscodeViewModel {
+final class PasscodeViewModel {
     var state: Observable<PasscodeViewModelState>
 
     private var purpose: PasscodeView.Purpose

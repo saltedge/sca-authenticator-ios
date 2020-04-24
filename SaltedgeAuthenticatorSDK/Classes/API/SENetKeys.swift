@@ -57,6 +57,8 @@ public struct SENetKeys {
 
     public static let connectionId = "connection_id"
     public static let algorithm = "algorithm"
+    
+    public static let consentId = "consent_id"
 
     public static let errorClass = "error_class"
     public static let errorMessage = "error_message"

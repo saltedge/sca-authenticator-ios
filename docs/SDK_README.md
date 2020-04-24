@@ -3,7 +3,7 @@
 Authenticator iOS SDK - is a module for connecting to Salt Edge Authenticator API of Bank (Service Provider) System, that implements
 Strong Customer Authentication/Dynamic Linking process.  
 
-You can find source code of Authenticator Identity Service here: for [Authenticator Identity Service iOS](https://github.com/saltedge/sca-identity-service-example).
+You can find source code of Authenticator Identity Service here: [Authenticator Identity Service](https://github.com/saltedge/sca-identity-service-example).
 
 ## How Authenticator system works
 
@@ -34,10 +34,12 @@ Authenticator SDK provide next features:
 * [Confirm authorization](#confirm-authorization)
 * [Deny authorization](#deny-authorization)
 * [Send instant action](#send-instant-action)
+* [Get User Consents](#Get-User-Consents)
+* [Revoke Consent](#Revoke-Consent)
 
 ### Data models
 
-#### Connection model
+#### SEConnection
  * `guid` **[string]** - Alias to RSA keypair
  * `id` **[string]** - Unique id received from Authenticator API
  * `name` **[string]** - Provider's name from `SEProviderResponse`
@@ -47,24 +49,27 @@ Authenticator SDK provide next features:
  * `accessToken` **[string]** - Access token for accessing Authenticator API resources
  * `status` **[string]** - Connection Status. ACTIVE or INACTIVE
 
-### SEEncryptedData
+#### SEEncryptedData
+* `algorithm` **[string]** - encryption algorithm and block mode type
  * `iv` **[string]** - an initialization vector of encryption algorithm, this string is encrypted with public key linked to mobile client
  * `key` **[string]** - an secure key of encryption algorithm, this string is encrypted with public key linked to mobile client
- * `data` **[string]** - encrypted authorization payload with algorithm mentioned above
-
-#### SEEncryptedAuthorizationResponse
+ * `data` **[string]** - encrypted payload (Authorization/Consent) with algorithm mentioned above
  * `connection_id` **[string]** - Optional. A unique ID of Mobile Client (Service Connection). Used to decrypt models in the mobile application
- * `iv` **[string]** - an initialization vector of encryption algorithm, this string is encrypted with public key linked to mobile client
- * `key` **[string]** - an secure key of encryption algorithm, this string is encrypted with public key linked to mobile client
- * `algorithm` **[string]** - encryption algorithm and block mode type
- * `data` **[string]** - encrypted authorization payload with algorithm mentioned above
 
-#### SEDecryptedAuthorizationData
+#### SEAuthorizationData
  * `id` **[string]** - a unique id of authorization action
  * `connection_id` **[string]** - a unique ID of Connection. Used to decrypt models in the mobile application
  * `title` **[string]** - a human-readable title of authorization action
  * `description` **[string]** - a human-readable description of authorization action
  * `authorization_code` **[string]** - Optional. A unique code for each operation (e.g. payment transaction), specific to the attributes of operation, must be used once
+ * `created_at` **[datetime]** - time when the authorization was created
+ * `expires_at` **[datetime]** - time when the authorization should expire
+
+ #### SEConsentData
+ * `id` **[string]** - a unique id of Consent object
+ * `connection_id` **[string]** - a unique ID of Connection. Used to decrypt models in the mobile application
+ * `title` **[string]** - a human-readable title of Consent object
+ * `description` **[string]** - a human-readable description of Consent object (plain text, html, json, etc.)
  * `created_at` **[datetime]** - time when the authorization was created
  * `expires_at` **[datetime]** - time when the authorization should expire
 
@@ -77,8 +82,8 @@ Authenticator SDK provide next features:
  * `connectUrl` **[string]** - Base url of Authenticator API
 
 ##### SECreateConnectionResponse
- * `connect_url` ***[string]** - an url of Connect Web Page for future end-user authentication
- * `id` ***[string]*** - an ID of current connection
+ * `connect_url` **[string]** - an url of Connect Web Page for future end-user authentication
+ * `id` **[string]** - an ID of current connection
 
 ##### SEConfirmAuthorizationResponse
  * `id` **[string]** - a unique id of authorization
@@ -126,7 +131,7 @@ Use extraction method from `SEConnectHelper.swift`
         let connectionData = SEConnectionData(code: providerCode, tag: connectionGuid)
     ```
 
-6. Post `SEConnectionData` and receive authorization url (`connect_url`), using `SEConnectionManager.getConnectUrl` method.
+6. Post `SEConnectionData` and receive authorization url (`connect_url`), using `SEConnectionManager.createConnection` method.
     - parameters:
       - `url`: the url, which will be use to make request.
       - `data`: `SEConnectionData`
@@ -134,7 +139,7 @@ Use extraction method from `SEConnectHelper.swift`
       - `appLanguage`: Request header to identify preferred language.
 
     ```swift
-        SEConnectionManager.getConnectUrl(
+        SEConnectionManager.createConnection(
             by: connectionUrl,
             data: connectionData,
             pushToken: pushToken,
@@ -149,14 +154,14 @@ Use extraction method from `SEConnectHelper.swift`
         )
     ```
 
-7. Pass `connectUrl` to instance of `SEWebView`.
+7. Pass `connectUrl` to instance of `SEWebView` *(For OAuth authentication)*.
 
     ```swift
         let request = URLRequest(url: connectUrl)
         seWebView.load(request)
     ```
 
-8. After passing user authencation, webView will catch `accessToken` or `error`. Result will be returned through `SEWebViewDelegate`.
+8. After passing user authencation, webView will catch `accessToken` or `error`. Result will be returned through `SEWebViewDelegate` *(For OAuth authentication)*.
 
     ```swift
         func webView(_ webView: WKWebView, didReceiveCallback url: URL, accessToken: AccessToken) {
@@ -181,10 +186,16 @@ That's all, now you have connection to the Bank (Service Provider).
       - `appLanguage`: Request header to identify preferred language.
 
     ```swift
+        let data = SEBaseAuthenticatedWithIdRequestData(
+            url: baseUrl,
+            connectionGuid: connection.guid,
+            accessToken: connection.accessToken,
+            appLanguage: UserDefaultsHelper.applicationLanguage,
+            entityId: connection.id
+        )
+
         SEConnectionManager.revokeConnection(
-            by: url,
-            data: revokeConnectionData,
-            appLanguage: "language",
+            data: data,
             onSuccess: { response in
                 // handle success callback here
             },
@@ -231,7 +242,7 @@ To stop polling, just invalidate timer and set it to nil:
 
 2. Send request
     - parameters:
-      - `SEBaseAuthorizationData`:
+      - `SEBaseAuthenticatedRequestData`:
         - `url`: the url, which will be use to make request.
         - `connectionGuid`: the uniq guid of the connection.
         - `accessToken`: a unique token string for authenticated access to API resources.
@@ -239,7 +250,12 @@ To stop polling, just invalidate timer and set it to nil:
 
     ```swift
         SEAuthorizationManager.getEncryptedAuthorizations(
-            data: baseAuthorizationData,
+            data: SEBaseAuthenticatedRequestData(
+                url: baseUrl,
+                connectionGuid: connection.guid,
+                accessToken: accessToken,
+                appLanguage: UserDefaultsHelper.applicationLanguage
+            ),
             onSuccess: { response in
                 // handle encrypted authorizations response
             },
@@ -255,14 +271,15 @@ To stop polling, just invalidate timer and set it to nil:
         - `iv`: an initialization vector of encryption algorithm, this string is encrypted with public key linked to mobile client.
         - `key`: an secure key of encryption algorithm, this string is encrypted with public key linked to mobile client.
         - `data`: encrypted authorization payload with algorithm.
+        - `algorithm`: encryption algorithm and block mode type.
+        - `connectionId`: unique ID of connection
     
     ```swift
-        let encryptedData = SEEncryptedData(data: response.data, key: response.key, iv: response.iv)
         let decryptedData = try SECryptoHelper.decrypt(encryptedData, tag: SETagHelper.create(for: connection.guid))
 
         guard let decryptedDictionary = decryptedData.json else { return nil }
 
-        return SEDecryptedAuthorizationData(decryptedDictionary)
+        return SEAuthorizationData(decryptedDictionary)
     ```
 
 3. Show decrypted Authorizations to user
@@ -271,8 +288,8 @@ To stop polling, just invalidate timer and set it to nil:
 
 1. Send request
     - parameters:
-      - `SEAuthorizationData`:
-        - `authorizationId`: the id of authorization
+      - `SEBaseAuthenticatedWithIdRequestData`:
+        - `entityId`: the id of authorization
         - `url`: the url, which will be use to make request.
         - `connectionGuid`: the uniq guid of the connection.
         - `accessToken`: a unique token string for authenticated access to API resources.
@@ -296,14 +313,15 @@ To stop polling, just invalidate timer and set it to nil:
         - `iv`: an initialization vector of encryption algorithm, this string is encrypted with public key linked to mobile client.
         - `key`: an secure key of encryption algorithm, this string is encrypted with public key linked to mobile client.
         - `data`: encrypted authorization payload with algorithm.
+        - `algorithm`: encryption algorithm and block mode type.
+        - `connectionId`: unique ID of connection
     
     ```swift
-        let encryptedData = SEEncryptedData(data: response.data, key: response.key, iv: response.iv)
         let decryptedData = try SECryptoHelper.decrypt(encryptedData, tag: SETagHelper.create(for: connection.guid))
 
         guard let decryptedDictionary = decryptedData.json else { return nil }
 
-        return SEDecryptedAuthorizationData(decryptedDictionary)
+        return SEAuthorizationData(decryptedDictionary)
     ```
 
 3. Show decrypted Authorization to user
@@ -312,7 +330,7 @@ To stop polling, just invalidate timer and set it to nil:
 
 User can confirm authorization
 - parameters:
-    - `SEConfirmAuthorizationData`:
+    - `SEConfirmAuthorizationRequestData`:
         - `authorizationId`: the uniq id of authorization to confirm
         - `url`: the url, which will be use to make request.
         - `connectionGuid`: the uniq guid of the connection.
@@ -336,7 +354,7 @@ User can confirm authorization
 
 User can deny authorization
 - parameters:
-    - `SEConfirmAuthorizationData`:
+    - `SEConfirmAuthorizationRequestData`:
         - `authorizationId`: the uniq id of authorization to confirm
         - `url`: the url, which will be used to make request.
         - `connectionGuid`: the uniq guid of the connection.
@@ -346,7 +364,7 @@ User can deny authorization
 
 ```swift
     SEAuthorizationManager.denyAuthorization(
-        data: confirmAuthData,
+        data: denyAuthData,
         onSuccess: { response in
             // handle success here
         },
@@ -361,7 +379,7 @@ User can deny authorization
 Instant Action feature is designated to authenticate an action of Service Provider (e.g. Sign-In, Payment Order). Each Instant Action has unique code `actionGuid`. After receiving of `actionGuid`, Authenticator app should submit to selected by user Connection:
 
 - parameters:
-    - `SEActionData`:
+    - `SEActionRequestData`:
         - `url`: the url, which will be used to make request.
         - `guid`: the unique identifier af an action.
         - `connectionGuid`: the unique identifier af the Connection where action will be submitted.
@@ -389,3 +407,75 @@ Instant Action feature is designated to authenticate an action of Service Provid
 ```
 
 On success, Authenticator app receives `SESubmitActionResponse` which has optional fields `connectionId` and `authorizationId` (if additional confirmation is required).
+
+### Get User Consents
+
+1. Send request
+    - parameters:
+      - `SEBaseAuthenticatedRequestData`:
+        - `url`: the url, which will be use to make request.
+        - `connectionGuid`: the uniq guid of the connection.
+        - `accessToken`: a unique token string for authenticated access to API resources.
+        - `appLanguage`: request header to identify preferred language.
+
+    ```swift
+        SEAuthorizationManager.getEncryptedConsents(
+            data: SEBaseAuthenticatedRequestData(
+                url: baseUrl,
+                connectionGuid: connection.guid,
+                accessToken: accessToken,
+                appLanguage: UserDefaultsHelper.applicationLanguage
+            ),
+            onSuccess: { response in
+                // handle encrypted consents response
+            },
+            onFailure: { error in
+                // handle error
+            }
+        )
+    ```
+
+2. Decrypt authorization response, using `SECryptoHelper.decrypt` method.
+    - parameters:
+      - `SEEncryptedData`:
+        - `iv`: an initialization vector of encryption algorithm, this string is encrypted with public key linked to mobile client.
+        - `key`: an secure key of encryption algorithm, this string is encrypted with public key linked to mobile client.
+        - `data`: encrypted Consent object.
+        - `algorithm`: encryption algorithm and block mode type.
+        - `connectionId`: unique ID of connection
+    
+    ```swift
+        let decryptedData = try SECryptoHelper.decrypt(encryptedData, tag: SETagHelper.create(for: connection.guid))
+
+        guard let decryptedDictionary = decryptedData.json else { return nil }
+
+        return SEConsentData(decryptedDictionary)
+    ```
+
+3. Show decrypted Consents to user
+
+### Revoke Consent
+
+1. Send revoke request
+    - parameters:
+      - `SEBaseAuthenticatedWithIdRequestData`:
+        - `entityId`: the id of authorization
+        - `url`: the url, which will be use to make request.
+        - `connectionGuid`: the uniq guid of the connection.
+        - `accessToken`: a unique token string for authenticated access to API resources.
+        - `appLanguage`: request header to identify preferred language.
+
+    ```swift
+        SEAuthorizationManager.revokeConsent(
+            data: authorizationData,
+            onSuccess: { response in
+                // handle success result
+            },
+            onFailure: { error in
+                // handle error
+            }
+        )
+    ```
+  
+---
+Copyright © 2019 - 2020 Salt Edge. https://www.saltedge.com 

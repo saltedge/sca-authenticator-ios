@@ -1,8 +1,8 @@
 //
-//  SEEncryptedAuthorizationResponse.swift
+//  SEEncryptedData.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,38 +22,19 @@
 
 import Foundation
 
-public struct SEEncryptedData: SerializableResponse {
-    public let data: String
-    public let key: String
-    public let iv: String
-
-    public init(data: String, key: String, iv: String) {
-        self.data = data
-        self.key = key
-        self.iv = iv
-    }
-
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? String,
-            let key = dict[SENetKeys.key] as? String,
-            let iv = dict[SENetKeys.iv] as? String {
-            self.data = data
-            self.key = key
-            self.iv = iv
-        } else {
-            return nil
-        }
-    }
-}
-
-public struct SEEncryptedAuthorizationResponse: SerializableResponse, Equatable {
+public struct SEEncryptedData: SerializableResponse, Equatable {
     private let defaultAlgorithm = "AES-256-CBC"
 
     public let data: String
     public let key: String
     public let iv: String
     public var connectionId: String?
+    
+    public init(data: String, key: String, iv: String) {
+        self.data = data
+        self.key = key
+        self.iv = iv
+    }
 
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
@@ -73,35 +54,10 @@ public struct SEEncryptedAuthorizationResponse: SerializableResponse, Equatable 
         }
     }
 
-    public static func == (lhs: SEEncryptedAuthorizationResponse, rhs: SEEncryptedAuthorizationResponse) -> Bool {
+    public static func == (lhs: SEEncryptedData, rhs: SEEncryptedData) -> Bool {
         return lhs.data == rhs.data &&
             lhs.key == rhs.key &&
             lhs.iv == rhs.iv &&
             lhs.connectionId == rhs.connectionId
-    }
-}
-
-public struct SEAuthorizationResponse: SerializableResponse {
-    public var data: SEEncryptedAuthorizationResponse
-
-    public init?(_ value: Any) {
-        if let response = (value as AnyObject)[SENetKeys.data] as? [String: Any],
-            let data = SEEncryptedAuthorizationResponse(response) {
-            self.data = data
-        } else {
-            return nil
-        }
-    }
-}
-
-public struct SEAuthorizationsResponse: SerializableResponse {
-    public var data: [SEEncryptedAuthorizationResponse] = []
-
-    public init?(_ value: Any) {
-        if let responses = (value as AnyObject)[SENetKeys.data] as? [[String: Any]] {
-            self.data = responses.compactMap { SEEncryptedAuthorizationResponse($0) }
-        } else {
-            return nil
-        }
     }
 }

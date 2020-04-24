@@ -62,9 +62,7 @@ class ConnectionListViewModel {
     func remove(at indexPath: IndexPath) {
         guard let connection = item(for: indexPath) else { return }
 
-        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-
-        ConnectionsInteractor.revoke(connection, expiresAt: expiresAt)
+        ConnectionsInteractor.revoke(connection)
         SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
         ConnectionRepository.delete(connection)
     }

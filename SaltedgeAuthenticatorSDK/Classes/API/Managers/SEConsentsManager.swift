@@ -1,8 +1,8 @@
 //
-//  SEConnectionManager.swift
+//  SEConsentsManager.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,30 +22,26 @@
 
 import Foundation
 
-public struct SEConnectionManager {
-    public static func createConnection(
-        by url: URL,
-        data: SECreateConnectionRequestData,
-        pushToken: PushToken,
-        connectQuery: ConnectQuery? = nil,
-        appLanguage: ApplicationLanguage,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SECreateConnectionResponse>,
+public struct SEConsentsManager {
+    public static func getEncryptedConsents(
+        data: SEBaseAuthenticatedRequestData,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SEEncryptedListResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SECreateConnectionResponse>.execute(
-            request: SEConnectionRouter.createConnection(url, data, pushToken, connectQuery, appLanguage),
+        HTTPService<SEEncryptedListResponse>.execute(
+            request: SEConsentsRouter.list(data),
             success: success,
             failure: failure
         )
     }
-
-    public static func revokeConnection(
+    
+    public static func revokeConsent(
         data: SEBaseAuthenticatedWithIdRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConnectionResponse>,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConsentResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SERevokeConnectionResponse>.execute(
-            request: SEConnectionRouter.revoke(data),
+        HTTPService<SERevokeConsentResponse>.execute(
+            request: SEConsentsRouter.revoke(data),
             success: success,
             failure: failure
         )

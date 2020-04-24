@@ -38,7 +38,7 @@ class AuthorizationViewModel: Equatable {
     }
     var state = Observable<AuthorizationStateView.AuthorizationState>(.base)
 
-    init?(_ data: SEDecryptedAuthorizationData) {
+    init?(_ data: SEAuthorizationData) {
         self.authorizationId = data.id
         self.connectionId = data.connectionId
         self.authorizationCode = data.authorizationCode

@@ -1,5 +1,5 @@
 //
-//  SENetPaths.swift
+//  SECreateConnectionRequestData.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -22,17 +22,19 @@
 
 import Foundation
 
-public enum SENetPaths: String {
-    case connections
-    case authorizations
-    case actions
-    case consents
+public struct SECreateConnectionRequestData {
+    public let providerCode: String
+    public let publicKey: String
 
-    public var path: String {
-        return "/api/authenticator/v\(version)/\(rawValue)"
-    }
-
-    private var version: Int {
-        return 1
+    public init?(code: String, tag: String) {
+        self.providerCode = code
+        let tag = SETagHelper.create(for: tag)
+        _ = SECryptoHelper.createKeyPair(with: tag)
+        do {
+            self.publicKey = try SECryptoHelper.publicKeyData(for: tag).string
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
     }
 }
