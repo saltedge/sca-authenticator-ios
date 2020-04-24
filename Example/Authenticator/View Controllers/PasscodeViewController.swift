@@ -30,7 +30,7 @@ final class PasscodeViewController: UIViewController {
 
     private var viewModel: PasscodeViewModel
 
-    init(purpose: PasscodeView.Purpose) {
+    init(purpose: PasscodeViewModel.PasscodeViewMode) {
         viewModel = PasscodeViewModel(purpose: purpose)
         passcodeView = PasscodeView(viewModel: viewModel)
         super.init(nibName: nil, bundle: .authenticator_main)

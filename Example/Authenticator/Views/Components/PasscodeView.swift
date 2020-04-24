@@ -43,12 +43,6 @@ protocol PasscodeViewDelegate: class {
 }
 
 final class PasscodeView: UIView {
-    enum Purpose {
-        case create
-        case edit
-        case enter
-    }
-
     weak var delegate: PasscodeViewDelegate?
 
     private let titleLabel = UILabel(frame: .zero)
@@ -68,7 +62,7 @@ final class PasscodeView: UIView {
         return label
     }()
 
-    var viewModel: PasscodeViewModel
+    private var viewModel: PasscodeViewModel
 
     init(viewModel: PasscodeViewModel) {
         self.viewModel = viewModel
@@ -83,7 +77,7 @@ final class PasscodeView: UIView {
         handleViewModelState()
     }
 
-     func handleViewModelState() {
+     private func handleViewModelState() {
         viewModel.state.valueChanged = { value in
             switch value {
             case .wrong:

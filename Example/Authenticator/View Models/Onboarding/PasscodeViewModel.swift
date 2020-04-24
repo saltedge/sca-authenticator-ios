@@ -44,13 +44,19 @@ enum PasscodeViewModelState: Equatable {
 }
 
 final class PasscodeViewModel {
+    enum PasscodeViewMode {
+        case create
+        case edit
+        case enter
+    }
+
     var state: Observable<PasscodeViewModelState>
 
-    private var purpose: PasscodeView.Purpose
+    private var purpose: PasscodeViewModel.PasscodeViewMode
     private var passcode = ""
     private var confirmationPasscode = ""
 
-    init(purpose: PasscodeView.Purpose) {
+    init(purpose: PasscodeViewModel.PasscodeViewMode) {
         self.purpose = purpose
         self.state = Observable<PasscodeViewModelState>(purpose == .create ? .create(showLabel: false) : .check)
     }

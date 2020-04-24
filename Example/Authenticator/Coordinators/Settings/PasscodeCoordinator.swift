@@ -27,7 +27,7 @@ final class PasscodeCoordinator: Coordinator {
 
     private var passcodeVc: PasscodeViewController
     private var blockedTimer: Timer?
-    private var purpose: PasscodeView.Purpose
+    private var purpose: PasscodeViewModel.PasscodeViewMode
 //    private var type: PasscodeType
 
     private var blockedAlert: UIAlertController?
@@ -35,7 +35,7 @@ final class PasscodeCoordinator: Coordinator {
     var onCompleteClosure: (() -> ())?
     var onDismissClosure: (() -> ())?
 
-    init(rootViewController: UIViewController, purpose: PasscodeView.Purpose) {
+    init(rootViewController: UIViewController, purpose: PasscodeViewModel.PasscodeViewMode) {
         self.purpose = purpose
 //        self.type = type
         self.rootViewController = rootViewController
