@@ -98,9 +98,9 @@ final class PasscodeViewModel {
                 symbols[passcodeToFill.count - 1].animateCircle()
 
                 switch state.value {
-                case .check: checkPassword()
+                case .check: checkPasscode()
                 case .create: switchToRepeat()
-                case .repeat: comparePasswords()
+                case .repeat: comparePasscodes()
                 default: break
                 }
             }
@@ -114,7 +114,7 @@ final class PasscodeViewModel {
         }
     }
 
-    func checkPassword() {
+    func checkPasscode() {
         guard passcode == PasscodeManager.current else {
             wrongPasscode()
             state.value = .check
@@ -128,7 +128,7 @@ final class PasscodeViewModel {
         }
     }
 
-    func comparePasswords() {
+    func comparePasscodes() {
         guard passcode == confirmationPasscode else {
             wrongPasscode()
             switchToCreate(showLabel: true)
