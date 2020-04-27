@@ -74,34 +74,30 @@ final class PasscodeViewModel {
         }
     }
 
-    func didInput(digit: String, symbols: [PasscodeSymbolView]) {
-        guard passcodeToFill.count < symbols.count else { return }
+    func didInput(digit: String, indexToAnimate: (Int) -> ()) {
+        guard passcodeToFill.count < 4 else { return }
 
-        if passcodeToFill.count < 3 {
-            passcodeToFill.append(digit)
-            symbols[passcodeToFill.count - 1].animateCircle()
-        } else {
-            passcodeToFill.append(digit)
-            if symbols.indices.contains(passcodeToFill.count - 1) {
-                symbols[passcodeToFill.count - 1].animateCircle()
+        passcodeToFill.append(digit)
+        indexToAnimate(passcodeToFill.count - 1)
 
-                after(0.15) {
-                   switch self.state.value {
-                   case .check: self.checkPasscode()
-                   case .create: self.switchToRepeat()
-                   case .repeat: self.comparePasscodes()
-                   default: break
-                   }
-               }
+        if passcodeToFill.count > 3 {
+            after(0.15) {
+                switch self.state.value {
+                case .check: self.checkPasscode()
+                case .create: self.switchToRepeat()
+                case .repeat: self.comparePasscodes()
+                default: break
+                }
             }
         }
     }
 
-    func clearPressed(symbols: [PasscodeSymbolView]) {
-        if passcodeToFill.count != 0 {
-            passcodeToFill = String(passcodeToFill.dropLast(1))
-            symbols[passcodeToFill.count].animateEmpty()
-        }
+    func clearPressed(indexToAnimate: (Int) -> ()) {
+        guard passcodeToFill.count != 0 else { return }
+
+        passcodeToFill = String(passcodeToFill.dropLast(1))
+
+        indexToAnimate(passcodeToFill.count)
     }
 
     func checkPasscode() {

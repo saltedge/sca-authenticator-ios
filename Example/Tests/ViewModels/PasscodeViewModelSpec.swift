@@ -47,12 +47,15 @@ final class PasscodeViewModelSpec: BaseSpec {
 
         describe("didInput(digit:, symbols:)") {
             context("when entered passcode contains less than 3 digits") {
-                it("should sppend to passcode") {
+                it("should append to passcode") {
                     let viewModel = PasscodeViewModel(purpose: .create)
 
                     expect(viewModel.passcodeToFill).to(beEmpty())
 
-                    viewModel.didInput(digit: "11", symbols: [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()])
+                    viewModel.didInput(
+                        digit: "11",
+                        indexToAnimate: { _ in }
+                    )
 
                     expect(viewModel.passcodeToFill).to(equal("11"))
                 }
@@ -63,16 +66,14 @@ final class PasscodeViewModelSpec: BaseSpec {
                     it("it should call checkPasscode() and set state to .create") {
                         PasscodeManager.set(passcode: "1111")
 
-                        let symbols = [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()]
-
                         let viewModel = PasscodeViewModel(purpose: .edit)
                         
                         expect(viewModel.state.value).to(equal(PasscodeViewModelState.check))
                         
-                        viewModel.didInput(digit: "1", symbols: symbols)
-                        viewModel.didInput(digit: "1", symbols: symbols)
-                        viewModel.didInput(digit: "1", symbols: symbols)
-                        viewModel.didInput(digit: "1", symbols: symbols)
+                        viewModel.didInput(digit: "1", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "1", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "1", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "1", indexToAnimate: { _ in })
 
                         expect(viewModel.state.value).toEventually(equal(PasscodeViewModelState.create(showLabel: false)))
                     }
@@ -82,16 +83,14 @@ final class PasscodeViewModelSpec: BaseSpec {
                     it("it should switch to .repeat") {
                         PasscodeManager.set(passcode: "1111")
 
-                        let symbols = [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()]
-
                         let viewModel = PasscodeViewModel(purpose: .create)
                         
                         expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(showLabel: false)))
                         
-                        viewModel.didInput(digit: "1", symbols: symbols)
-                        viewModel.didInput(digit: "1", symbols: symbols)
-                        viewModel.didInput(digit: "1", symbols: symbols)
-                        viewModel.didInput(digit: "1", symbols: symbols)
+                        viewModel.didInput(digit: "1", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "1", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "1", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "1", indexToAnimate: { _ in })
 
                         expect(viewModel.state.value).toEventually(equal(PasscodeViewModelState.repeat))
                     }
@@ -99,44 +98,82 @@ final class PasscodeViewModelSpec: BaseSpec {
 
                 context("when state is .repeat") {
                     it("it should call comparePasscodes") {
-                        let symbols = [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()]
-
                         let viewModel = PasscodeViewModel(purpose: .create)
                         
                         expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(showLabel: false)))
                         
-                        viewModel.didInput(digit: "2", symbols: symbols)
-                        viewModel.didInput(digit: "2", symbols: symbols)
-                        viewModel.didInput(digit: "2", symbols: symbols)
-                        viewModel.didInput(digit: "2", symbols: symbols)
+                        viewModel.didInput(digit: "2", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "2", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "2", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "2", indexToAnimate: { _ in })
 
                         expect(viewModel.state.value).toEventually(equal(PasscodeViewModelState.repeat))
 
-                        viewModel.didInput(digit: "2", symbols: symbols)
-                        viewModel.didInput(digit: "2", symbols: symbols)
-                        viewModel.didInput(digit: "2", symbols: symbols)
-                        viewModel.didInput(digit: "2", symbols: symbols)
+                        viewModel.didInput(digit: "2", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "2", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "2", indexToAnimate: { _ in })
+                        viewModel.didInput(digit: "2", indexToAnimate: { _ in })
 
                         expect(PasscodeManager.current).toEventually(equal("2222"))
                         expect(viewModel.state.value).toEventually(equal(PasscodeViewModelState.correct))
+                    }
+                }
+
+                context("indexToAnimate") {
+                    it("should return correct index which is needed to animate") {
+                        let viewModel = PasscodeViewModel(purpose: .create)
+
+                        viewModel.didInput(
+                            digit: "2",
+                            indexToAnimate: { index in
+                                expect(index).to(equal(0))
+                            }
+                        )
+
+                        viewModel.didInput(
+                            digit: "3",
+                            indexToAnimate: { index in
+                                expect(index).to(equal(1))
+                            }
+                        )
                     }
                 }
             }
         }
         
         describe("clearPressed") {
-            it("should clear digits one by one") {
-                let symbols = [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()]
+            context("when clear pressed") {
+                it("should clear digits one by one") {
+                    let viewModel = PasscodeViewModel(purpose: .enter)
+                    
+                    viewModel.didInput(digit: "2222", indexToAnimate: { _ in })
+                    
+                    expect(viewModel.passcodeToFill).to(equal("2222"))
+                    
+                    viewModel.clearPressed(indexToAnimate: { _ in })
+                    
+                    expect(viewModel.passcodeToFill).to(equal("222"))
+                }
+            }
 
-                let viewModel = PasscodeViewModel(purpose: .enter)
-                
-                viewModel.didInput(digit: "2222", symbols: symbols)
+            context("indexToAnimate") {
+                it("should return correct index which is needed to animate") {
+                    let viewModel = PasscodeViewModel(purpose: .create)
 
-                expect(viewModel.passcodeToFill).to(equal("2222"))
+                    viewModel.didInput(digit: "22", indexToAnimate: { _ in })
 
-                viewModel.clearPressed(symbols: symbols)
+                    viewModel.clearPressed(
+                        indexToAnimate: { index in
+                            expect(index).to(equal(1))
+                        }
+                    )
 
-                expect(viewModel.passcodeToFill).to(equal("222"))
+                    viewModel.clearPressed(
+                        indexToAnimate: { index in
+                            expect(index).to(equal(0))
+                        }
+                    )
+                }
             }
         }
 
@@ -171,7 +208,7 @@ final class PasscodeViewModelSpec: BaseSpec {
 
                     PasscodeManager.set(passcode: "11")
 
-                    viewModel.didInput(digit: "11", symbols: [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()])
+                    viewModel.didInput(digit: "11", indexToAnimate: { _ in })
 
                     expect(viewModel.passcodeToFill).to(equal(PasscodeManager.current))
 
@@ -187,7 +224,7 @@ final class PasscodeViewModelSpec: BaseSpec {
 
                     PasscodeManager.set(passcode: "11")
 
-                    viewModel.didInput(digit: "11", symbols: [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()])
+                    viewModel.didInput(digit: "11", indexToAnimate: { _ in })
 
                     expect(viewModel.passcodeToFill).to(equal(PasscodeManager.current))
 
@@ -203,7 +240,7 @@ final class PasscodeViewModelSpec: BaseSpec {
 
                     PasscodeManager.set(passcode: "11")
 
-                    viewModel.didInput(digit: "55", symbols: [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()])
+                    viewModel.didInput(digit: "55", indexToAnimate: { _ in })
 
                     viewModel.checkPasscode()
 
@@ -217,11 +254,11 @@ final class PasscodeViewModelSpec: BaseSpec {
                 it("should set new passcode") {
                     let viewModel = PasscodeViewModel(purpose: .create)
 
-                    viewModel.didInput(digit: "11", symbols: [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()])
+                    viewModel.didInput(digit: "11", indexToAnimate: { _ in })
                     
                     viewModel.state.value = .repeat
 
-                    viewModel.didInput(digit: "11", symbols: [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()])
+                    viewModel.didInput(digit: "11", indexToAnimate: { _ in })
 
                     viewModel.comparePasscodes()
 
@@ -234,12 +271,12 @@ final class PasscodeViewModelSpec: BaseSpec {
                 it("should switch to .create") {
                     let viewModel = PasscodeViewModel(purpose: .create)
 
-                    viewModel.didInput(digit: "11", symbols: [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()])
+                    viewModel.didInput(digit: "11", indexToAnimate: { _ in })
 
                     
                     viewModel.state.value = .repeat
 
-                    viewModel.didInput(digit: "33", symbols: [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()])
+                    viewModel.didInput(digit: "33", indexToAnimate: { _ in })
 
                     viewModel.comparePasscodes()
 

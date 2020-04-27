@@ -24,9 +24,9 @@ import UIKit
 import TinyConstraints
 
 protocol PasscodeKeyboardDelegate: class {
-    func keyboard(_ keyboard: PasscodeKeyboard, didInputDigit digit: String)
-    func clearPressed(on keyboard: PasscodeKeyboard)
-    func biometricsPressed(on keyboard: PasscodeKeyboard)
+    func keyboard(didInputDigit digit: String)
+    func clearPressed()
+    func biometricsPressed()
 }
 
 final class PasscodeKeyboard: UIView {
@@ -99,12 +99,12 @@ private extension PasscodeKeyboard {
     @objc func buttonPressed(_ sender: TaptileFeedbackButton) {
         if let image = sender.image(for: .normal) {
             if image == clearButton {
-                self.delegate?.clearPressed(on: self)
+                self.delegate?.clearPressed()
             } else if image == biometricsButton {
-                self.delegate?.biometricsPressed(on: self)
+                self.delegate?.biometricsPressed()
             }
         } else if let title = sender.title(for: .normal), !title.isEmpty {
-            self.delegate?.keyboard(self, didInputDigit: title)
+            self.delegate?.keyboard(didInputDigit: title)
         }
     }
 }

@@ -165,15 +165,24 @@ private extension PasscodeView {
 
 // MARK: - PasscodeKeyboardDelegate
 extension PasscodeView: PasscodeKeyboardDelegate {
-    func keyboard(_ keyboard: PasscodeKeyboard, didInputDigit digit: String) {
-        viewModel.didInput(digit: digit, symbols: passcodeSymbols)
+    func keyboard(didInputDigit digit: String) {
+        viewModel.didInput(
+            digit: digit,
+            indexToAnimate: { index in
+                self.passcodeSymbols[index].animateCircle()
+            }
+        )
     }
 
-    func clearPressed(on keyboard: PasscodeKeyboard) {
-        viewModel.clearPressed(symbols: passcodeSymbols)
+    func clearPressed() {
+        viewModel.clearPressed(
+            indexToAnimate: { index in
+                self.passcodeSymbols[index].animateEmpty()
+            }
+        )
     }
 
-    func biometricsPressed(on keyboard: PasscodeKeyboard) {
+    func biometricsPressed() {
         // TODO: Move to view model when biometrics permision will be available
         delegate?.biometricsPressed()
     }
