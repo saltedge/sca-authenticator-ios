@@ -22,6 +22,12 @@
 
 import UIKit
 
+private struct Layout {
+    static let logoImageViewSize: CGSize = CGSize(width: 72.0, height: 72.0)
+    static let logoImageViewTopOffset: CGFloat = 88.0
+    static let passcodeViewTopOffset: CGFloat = 68.0
+}
+
 final class PasscodeViewController: UIViewController {
     private let logoImageView = UIImageView()
     private var passcodeView: PasscodeView
@@ -61,11 +67,11 @@ extension PasscodeViewController: Layoutable {
     func layout() {
         view.addSubviews(logoImageView, passcodeView)
 
-        logoImageView.size(CGSize(width: 72.0, height: 72.0))
+        logoImageView.size(Layout.logoImageViewSize)
         logoImageView.centerXToSuperview()
-        logoImageView.top(to: view, offset: 88.0)
+        logoImageView.top(to: view, offset: Layout.logoImageViewTopOffset)
 
-        passcodeView.topToBottom(of: logoImageView, offset: 68.0)
+        passcodeView.topToBottom(of: logoImageView, offset: Layout.passcodeViewTopOffset)
         passcodeView.centerXToSuperview()
         passcodeView.widthToSuperview()
         passcodeView.bottomToSuperview()

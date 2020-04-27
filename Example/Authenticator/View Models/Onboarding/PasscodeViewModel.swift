@@ -61,10 +61,6 @@ final class PasscodeViewModel {
         self.state = Observable<PasscodeViewModelState>(purpose == .create ? .create(showLabel: false) : .check)
     }
 
-    var shouldShowTouchId: Bool {
-        return purpose == .enter && PasscodeManager.isBiometricsEnabled
-    }
-
     var passcodeToFill: String {
         get {
             return state.value == .repeat ? confirmationPasscode : passcode
@@ -78,23 +74,9 @@ final class PasscodeViewModel {
         }
     }
 
-    var title: String {
-        switch purpose {
-        case .create: return l10n(.createPasscode)
-        case .edit: return l10n(.enterPasscode)
-        case .enter:
-            return PasscodeManager.isBiometricsEnabled ? BiometricsPresenter.passcodeDescriptionText : l10n(.enterPasscode)
-        }
-    }
-
-    var wrongPasscodeLabelText: String {
-        switch purpose {
-        case .create, .edit: return l10n(.passcodeDontMatch)
-        case .enter: return l10n(.wrongPasscode)
-        }
-    }
-
     func didInput(digit: String, symbols: [PasscodeSymbolView]) {
+        guard passcodeToFill.count < symbols.count else { return }
+
         if passcodeToFill.count < 3 {
             passcodeToFill.append(digit)
             symbols[passcodeToFill.count - 1].animateCircle()
@@ -103,12 +85,14 @@ final class PasscodeViewModel {
             if symbols.indices.contains(passcodeToFill.count - 1) {
                 symbols[passcodeToFill.count - 1].animateCircle()
 
-                switch state.value {
-                case .check: checkPasscode()
-                case .create: switchToRepeat()
-                case .repeat: comparePasscodes()
-                default: break
-                }
+                after(0.15) {
+                   switch self.state.value {
+                   case .check: self.checkPasscode()
+                   case .create: self.switchToRepeat()
+                   case .repeat: self.comparePasscodes()
+                   default: break
+                   }
+               }
             }
         }
     }
@@ -164,12 +148,25 @@ final class PasscodeViewModel {
     }
 }
 
-// MARK: - Setup
+// MARK: - Presentation
 extension PasscodeViewModel {
-    func setupLogo(for imageView: UIImageView) {
-        guard purpose == .enter else { return }
+    var shouldShowTouchId: Bool {
+        return purpose == .enter && PasscodeManager.isBiometricsEnabled
+    }
 
-        imageView.image = #imageLiteral(resourceName: "Logo")
-        imageView.contentMode = .scaleAspectFit
+    var title: String {
+        switch purpose {
+        case .create: return l10n(.createPasscode)
+        case .edit: return l10n(.enterPasscode)
+        case .enter:
+            return PasscodeManager.isBiometricsEnabled ? BiometricsPresenter.passcodeDescriptionText : l10n(.enterPasscode)
+        }
+    }
+
+    var wrongPasscodeLabelText: String {
+        switch purpose {
+        case .create, .edit: return l10n(.passcodeDontMatch)
+        case .enter: return l10n(.wrongPasscode)
+        }
     }
 }

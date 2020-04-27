@@ -22,6 +22,7 @@
 
 import UIKit
 
+// TODO: Move some logic to view model. Think about routing.
 final class PasscodeCoordinator: Coordinator {
     private var rootViewController: UIViewController
 

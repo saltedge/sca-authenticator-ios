@@ -201,7 +201,7 @@ extension PasscodeView: Layoutable {
         wrongPasscodeLabel.topToBottom(of: passcodeSymbolsView, offset: Layout.wrongPasscodeLabelTopOffset)
         wrongPasscodeLabel.left(to: self, offset: Layout.wrongPasscodeLabelSideOffset)
         wrongPasscodeLabel.right(to: self, offset: -Layout.wrongPasscodeLabelSideOffset)
-        wrongPasscodeLabel.height(44.0)
+        wrongPasscodeLabel.height(Layout.wrongPasscodeLabelHeight)
 
         passcodeKeyboard.topToBottom(of: wrongPasscodeLabel, offset: Layout.passcodeKeyboardTopOffset)
         passcodeKeyboard.left(to: self, offset: Layout.passcodeKeyboardSideOffset)

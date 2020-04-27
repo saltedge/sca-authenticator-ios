@@ -29,6 +29,22 @@ final class PasscodeViewModelSpec: BaseSpec {
             KeychainHelper.deleteObject(forKey: KeychainKeys.passcode.rawValue)
         }
 
+        describe("title") {
+            it("should return correct text depending on purpose") {
+                expect(PasscodeViewModel(purpose: .create).title).to(equal(l10n(.createPasscode)))
+                expect(PasscodeViewModel(purpose: .edit).title).to(equal(l10n(.enterPasscode)))
+                expect(PasscodeViewModel(purpose: .enter).title).to(equal(l10n(.enterPasscode)))
+            }
+        }
+
+        describe("wrongPasscodeLabelText") {
+            it("should return correct text depending on purpose") {
+                expect(PasscodeViewModel(purpose: .create).wrongPasscodeLabelText).to(equal(l10n(.passcodeDontMatch)))
+                expect(PasscodeViewModel(purpose: .edit).wrongPasscodeLabelText).to(equal(l10n(.passcodeDontMatch)))
+                expect(PasscodeViewModel(purpose: .enter).wrongPasscodeLabelText).to(equal(l10n(.wrongPasscode)))
+            }
+        }
+
         describe("didInput(digit:, symbols:)") {
             context("when entered passcode contains less than 3 digits") {
                 it("should sppend to passcode") {
@@ -58,7 +74,7 @@ final class PasscodeViewModelSpec: BaseSpec {
                         viewModel.didInput(digit: "1", symbols: symbols)
                         viewModel.didInput(digit: "1", symbols: symbols)
 
-                        expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(showLabel: false)))
+                        expect(viewModel.state.value).toEventually(equal(PasscodeViewModelState.create(showLabel: false)))
                     }
                 }
 
@@ -77,7 +93,7 @@ final class PasscodeViewModelSpec: BaseSpec {
                         viewModel.didInput(digit: "1", symbols: symbols)
                         viewModel.didInput(digit: "1", symbols: symbols)
 
-                        expect(viewModel.state.value).to(equal(PasscodeViewModelState.repeat))
+                        expect(viewModel.state.value).toEventually(equal(PasscodeViewModelState.repeat))
                     }
                 }
 
@@ -94,15 +110,15 @@ final class PasscodeViewModelSpec: BaseSpec {
                         viewModel.didInput(digit: "2", symbols: symbols)
                         viewModel.didInput(digit: "2", symbols: symbols)
 
-                        expect(viewModel.state.value).to(equal(PasscodeViewModelState.repeat))
+                        expect(viewModel.state.value).toEventually(equal(PasscodeViewModelState.repeat))
 
                         viewModel.didInput(digit: "2", symbols: symbols)
                         viewModel.didInput(digit: "2", symbols: symbols)
                         viewModel.didInput(digit: "2", symbols: symbols)
                         viewModel.didInput(digit: "2", symbols: symbols)
 
-                        expect(PasscodeManager.current).to(equal("2222"))
-                        expect(viewModel.state.value).to(equal(PasscodeViewModelState.correct))
+                        expect(PasscodeManager.current).toEventually(equal("2222"))
+                        expect(viewModel.state.value).toEventually(equal(PasscodeViewModelState.correct))
                     }
                 }
             }
@@ -219,6 +235,7 @@ final class PasscodeViewModelSpec: BaseSpec {
                     let viewModel = PasscodeViewModel(purpose: .create)
 
                     viewModel.didInput(digit: "11", symbols: [PasscodeSymbolView(), PasscodeSymbolView(), PasscodeSymbolView()])
+
                     
                     viewModel.state.value = .repeat
 
