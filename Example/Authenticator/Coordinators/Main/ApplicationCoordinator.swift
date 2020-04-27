@@ -48,8 +48,16 @@ final class ApplicationCoordinator: Coordinator {
 
             let onboardingVc = OnboardingViewController()
             onboardingVc.donePressedClosure = {
-                self.setupAppCoordinator = SetupAppCoordinator(rootViewController: onboardingVc)
-                self.setupAppCoordinator?.start()
+                let newPasscodeVc = PasscodeViewController(purpose: .create)
+                newPasscodeVc.modalPresentationStyle = .fullScreen
+                onboardingVc.present(newPasscodeVc, animated: true)
+
+                // TODO: Just for now we'll leave this implementation.
+                newPasscodeVc.completeClosure = {
+                    UserDefaultsHelper.didShowOnboarding = true
+                    self.window?.rootViewController = self.tabBarCoordinator.rootViewController
+                    self.tabBarCoordinator.start()
+                }
             }
             let navController = UINavigationController(rootViewController: onboardingVc)
             navController.modalPresentationStyle = .fullScreen
@@ -139,13 +147,11 @@ final class ApplicationCoordinator: Coordinator {
     private func presentPasscode() {
         guard let topController = UIWindow.topViewController else { return }
 
-        passcodeCoordinator = PasscodeCoordinator(
-            rootViewController: topController,
-            purpose: .enter,
-            type: .main
-        )
-        passcodeCoordinator?.start()
-        passcodeCoordinator?.onCompleteClosure = {
+        let passcodeViewController = PasscodeViewController(purpose: .enter)
+        passcodeViewController.modalPresentationStyle = .overFullScreen
+        topController.present(passcodeViewController, animated: false)
+
+        passcodeViewController.completeClosure = {
             TimerApplication.resetIdleTimer()
             self.registerTimerNotifications()
             if !self.passcodeShownDueToInactivity {

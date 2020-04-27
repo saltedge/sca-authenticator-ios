@@ -31,15 +31,15 @@ final class PasscodeSymbolView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .white
+        backgroundColor = .backgroundColor
     }
 
     func animateCircle() {
-        animateFillColor(to: .auth_blue)
+        animateFillColor(to: .lightBlue)
     }
 
     func animateEmpty() {
-        animateFillColor(to: .white)
+        animateFillColor(to: .lightGray)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -56,8 +56,7 @@ private extension PasscodeSymbolView {
     func drawCircle(in rect: CGRect) {
         shapeLayer.path = pathForCircle(in: rect)
         shapeLayer.borderWidth = 0.5
-        shapeLayer.strokeColor = UIColor.auth_blue.cgColor
-        shapeLayer.fillColor = UIColor.white.cgColor
+        shapeLayer.fillColor = UIColor.lightGray.cgColor
 
         layer.addSublayer(shapeLayer)
     }

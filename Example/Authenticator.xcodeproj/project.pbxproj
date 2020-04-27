@@ -100,7 +100,6 @@
 		9DCED8A322CE18280050ED3C /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EA22CE18270050ED3C /* WKWebViewController.swift */; };
 		9DCED8A422CE18280050ED3C /* ConnectorWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */; };
 		9DCED8A522CE18280050ED3C /* AuthorizationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EC22CE18270050ED3C /* AuthorizationsViewController.swift */; };
-		9DCED8A622CE18280050ED3C /* PasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7ED22CE18270050ED3C /* PasscodeViewController.swift */; };
 		9DCED8A722CE18280050ED3C /* CustomActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EF22CE18270050ED3C /* CustomActionSheetViewController.swift */; };
 		9DCED8A822CE18280050ED3C /* CustomActionSheetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F022CE18270050ED3C /* CustomActionSheetButton.swift */; };
 		9DCED8A922CE18280050ED3C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F122CE18270050ED3C /* OnboardingViewController.swift */; };
@@ -197,6 +196,10 @@
 		9DD8946022E9F4BD008F3130 /* NotificationsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */; };
 		9DD8946122E9F4BD008F3130 /* NotificationsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */; };
 		9DE308B92445BB05009EBD39 /* Authenticator.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED89522CE18280050ED3C /* Authenticator.strings */; };
+		9DE308BB2446287A009EBD39 /* PasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE308BA2446287A009EBD39 /* PasscodeViewController.swift */; };
+		9DE308BC2446287A009EBD39 /* PasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE308BA2446287A009EBD39 /* PasscodeViewController.swift */; };
+		9DE308BE24474D92009EBD39 /* PasscodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE308BD24474D92009EBD39 /* PasscodeViewModel.swift */; };
+		9DE308BF24474D92009EBD39 /* PasscodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE308BD24474D92009EBD39 /* PasscodeViewModel.swift */; };
 		9DE3242A22D396F200EB162A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3242922D396F200EB162A /* AppDelegate.swift */; };
 		9DE3245322D3986B00EB162A /* test_public.pem in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3243D22D3986B00EB162A /* test_public.pem */; };
 		9DE3245422D3986B00EB162A /* test_private.pem in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3243E22D3986B00EB162A /* test_private.pem */; };
@@ -285,7 +288,6 @@
 		9DE324BC22D39A5B00EB162A /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EA22CE18270050ED3C /* WKWebViewController.swift */; };
 		9DE324BD22D39A5D00EB162A /* ConnectorWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */; };
 		9DE324BE22D39A5F00EB162A /* AuthorizationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EC22CE18270050ED3C /* AuthorizationsViewController.swift */; };
-		9DE324BF22D39A6300EB162A /* PasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7ED22CE18270050ED3C /* PasscodeViewController.swift */; };
 		9DE324C022D39A6800EB162A /* CustomActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EF22CE18270050ED3C /* CustomActionSheetViewController.swift */; };
 		9DE324C122D39A6A00EB162A /* CustomActionSheetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F022CE18270050ED3C /* CustomActionSheetButton.swift */; };
 		9DE324C222D39A6D00EB162A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F122CE18270050ED3C /* OnboardingViewController.swift */; };
@@ -316,6 +318,7 @@
 		9DE324DF22D39AC800EB162A /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86322CE18270050ED3C /* CompleteView.swift */; };
 		9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86422CE18270050ED3C /* LoadingIndicator.swift */; };
 		9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED89022CE18280050ED3C /* AppDelegate.swift */; };
+		9DE5807E2450892E004AF19F /* PasscodeViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */; };
 		9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
@@ -413,7 +416,6 @@
 		9DCED7EA22CE18270050ED3C /* WKWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKWebViewController.swift; sourceTree = "<group>"; };
 		9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectorWebViewController.swift; sourceTree = "<group>"; };
 		9DCED7EC22CE18270050ED3C /* AuthorizationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationsViewController.swift; sourceTree = "<group>"; };
-		9DCED7ED22CE18270050ED3C /* PasscodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeViewController.swift; sourceTree = "<group>"; };
 		9DCED7EF22CE18270050ED3C /* CustomActionSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomActionSheetViewController.swift; sourceTree = "<group>"; };
 		9DCED7F022CE18270050ED3C /* CustomActionSheetButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomActionSheetButton.swift; sourceTree = "<group>"; };
 		9DCED7F122CE18270050ED3C /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -507,6 +509,8 @@
 		9DD8158A22DF746300B93BA8 /* Authenticator_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Authenticator_Example.entitlements; sourceTree = "<group>"; };
 		9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
 		9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsHelper.swift; sourceTree = "<group>"; };
+		9DE308BA2446287A009EBD39 /* PasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewController.swift; sourceTree = "<group>"; };
+		9DE308BD24474D92009EBD39 /* PasscodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewModel.swift; sourceTree = "<group>"; };
 		9DE3242722D396F100EB162A /* TestHost-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TestHost-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DE3242922D396F200EB162A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9DE3243522D396F300EB162A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -540,6 +544,7 @@
 		9DE324E522D4773F00EB162A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9DE324E722D4774A00EB162A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9DE324E922D4775000EB162A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewModelSpec.swift; sourceTree = "<group>"; };
 		9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationStateView.swift; sourceTree = "<group>"; };
 		BE78B0BDB65BD9B80C655471 /* SaltedgeAuthenticatorSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SaltedgeAuthenticatorSDK.podspec; path = ../SaltedgeAuthenticatorSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -674,6 +679,7 @@
 			children = (
 				9D630BC5243DC094000A9ACC /* FeatureCellViewModel.swift */,
 				9D630BC8243DC464000A9ACC /* OnboardingViewModel.swift */,
+				9DE308BD24474D92009EBD39 /* PasscodeViewModel.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -810,6 +816,7 @@
 			children = (
 				9DCBB2882435F1FF00DB3F85 /* EditConnectionViewModelSpec.swift */,
 				9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */,
+				9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -841,11 +848,11 @@
 				9DCED7E822CE18270050ED3C /* General */,
 				9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */,
 				9DCED7EC22CE18270050ED3C /* AuthorizationsViewController.swift */,
-				9DCED7ED22CE18270050ED3C /* PasscodeViewController.swift */,
 				9DCED7F122CE18270050ED3C /* OnboardingViewController.swift */,
 				9DCED7F222CE18270050ED3C /* MainTabBarViewController.swift */,
 				9DCED7F322CE18270050ED3C /* SetupAppViewController.swift */,
 				9DCED7F422CE18270050ED3C /* QRCodeViewController.swift */,
+				9DE308BA2446287A009EBD39 /* PasscodeViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1644,6 +1651,7 @@
 				9DCED92122CE18280050ED3C /* EntityResponse.swift in Sources */,
 				9DCED8A322CE18280050ED3C /* WKWebViewController.swift in Sources */,
 				9DCED8D722CE18280050ED3C /* LabelStyles.swift in Sources */,
+				9DE308BB2446287A009EBD39 /* PasscodeViewController.swift in Sources */,
 				9DCED90D22CE18280050ED3C /* SettingsCoordinator.swift in Sources */,
 				9DCED8A822CE18280050ED3C /* CustomActionSheetButton.swift in Sources */,
 				9DCED91622CE18280050ED3C /* ConnectionsCollector.swift in Sources */,
@@ -1683,6 +1691,7 @@
 				9DD4DF2823759767000A9B80 /* AVCaptureHelper.swift in Sources */,
 				9DCED8D422CE18280050ED3C /* DicitionaryExtensions.swift in Sources */,
 				9D772129231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */,
+				9DE308BE24474D92009EBD39 /* PasscodeViewModel.swift in Sources */,
 				9DCED8DB22CE18280050ED3C /* Constants.swift in Sources */,
 				9D630BC9243DC464000A9ACC /* OnboardingViewModel.swift in Sources */,
 				9DCED90322CE18280050ED3C /* TaptileFeedbackButton.swift in Sources */,
@@ -1695,7 +1704,6 @@
 				9DCED8EB22CE18280050ED3C /* ParametersSerializer.swift in Sources */,
 				9DCED91A22CE18280050ED3C /* TabBarDataSource.swift in Sources */,
 				9DCED8DC22CE18280050ED3C /* LocalizationHelper.swift in Sources */,
-				9DCED8A622CE18280050ED3C /* PasscodeViewController.swift in Sources */,
 				9D77213823264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */,
 				9DCED8FB22CE18280050ED3C /* SetupProgressBarCircle.swift in Sources */,
 				9DCED92622CE18280050ED3C /* AppDelegate.swift in Sources */,
@@ -1754,7 +1762,6 @@
 				9DE324D022D39A9F00EB162A /* ModalView.swift in Sources */,
 				9DE3249822D399EB00EB162A /* FontsExtensions.swift in Sources */,
 				9DE324B322D39A3700EB162A /* ParametersSerializer.swift in Sources */,
-				9DE324BF22D39A6300EB162A /* PasscodeViewController.swift in Sources */,
 				9DE324AF22D39A2D00EB162A /* PasscodeManger.swift in Sources */,
 				9D66E1E522D6146900BD59B6 /* HeadersSpec.swift in Sources */,
 				9DE3247122D398ED00EB162A /* SpecUtils.swift in Sources */,
@@ -1780,6 +1787,7 @@
 				9D66E1E622D6146900BD59B6 /* RequestParametersBuilderSpec.swift in Sources */,
 				9D87F4A8242A6BCD00F85D1F /* ConnectionListViewModel.swift in Sources */,
 				9DE3247B22D3998200EB162A /* AuthorizationsCoordinator.swift in Sources */,
+				9DE308BC2446287A009EBD39 /* PasscodeViewController.swift in Sources */,
 				9D66E1A922D4C1C100BD59B6 /* AuthorizationDataSpec.swift in Sources */,
 				9D66E1B222D4C1E600BD59B6 /* TabBarDataSourceSpec.swift in Sources */,
 				9DE324DC22D39AC100EB162A /* TaptileFeedbackButton.swift in Sources */,
@@ -1794,12 +1802,14 @@
 				9DE324A422D39A0F00EB162A /* Localizable.swift in Sources */,
 				9DE324D622D39AB100EB162A /* PasscodeKeyboard.swift in Sources */,
 				9D630BC7243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */,
+				9DE5807E2450892E004AF19F /* PasscodeViewModelSpec.swift in Sources */,
 				9DE324C522D39A7500EB162A /* QRCodeViewController.swift in Sources */,
 				9DE3248B22D399BB00EB162A /* LanguagePickerDataSource.swift in Sources */,
 				9DE324C822D39A8600EB162A /* TableViewCellDequeuable.swift in Sources */,
 				9DE324A022D399FE00EB162A /* ViewExtensions+Animations.swift in Sources */,
 				9DE324C322D39A7000EB162A /* MainTabBarViewController.swift in Sources */,
 				9D8E5BA22445A1E70081E60E /* OnboardingViewModelSpec.swift in Sources */,
+				9DE308BF24474D92009EBD39 /* PasscodeViewModel.swift in Sources */,
 				9DE324B522D39A4400EB162A /* LanguageViewController.swift in Sources */,
 				9DD8945E22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
 				9DD8946122E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,

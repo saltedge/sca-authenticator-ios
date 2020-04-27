@@ -27,7 +27,7 @@
                                 </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="saltedge" translatesAutoresizingMaskIntoConstraints="NO" id="E4t-3C-ktm">
-                                <rect key="frame" x="129" y="746" width="117" height="24"/>
+                                <rect key="frame" x="129" y="748" width="117" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="0iF-YF-jvs"/>
                                     <constraint firstAttribute="width" constant="117" id="b1I-UP-EPj"/>
@@ -38,7 +38,7 @@
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="Npg-97-4j3" secondAttribute="trailing" constant="24" id="8rx-6W-awQ"/>
                             <constraint firstItem="Npg-97-4j3" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="120" id="Lkv-kQ-fpZ"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="E4t-3C-ktm" secondAttribute="bottom" constant="8" id="Tam-X2-cUA"/>
+                            <constraint firstAttribute="bottom" secondItem="E4t-3C-ktm" secondAttribute="bottom" constant="40" id="Tam-X2-cUA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="E4t-3C-ktm" secondAttribute="trailing" constant="113" id="arW-Wg-bFZ"/>
                             <constraint firstItem="Npg-97-4j3" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="24" id="kTO-q9-jWC"/>
                             <constraint firstItem="E4t-3C-ktm" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="113" id="xMk-mb-pFh"/>

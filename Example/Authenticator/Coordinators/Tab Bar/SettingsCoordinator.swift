@@ -44,12 +44,9 @@ extension SettingsCoordinator: SettingsViewControllerDelegate {
         switch item {
         case .support: rootViewController.showSupportMailComposer()
         case .passcode:
-            passcodeCoordinator = PasscodeCoordinator(
-                rootViewController: rootViewController,
-                purpose: .edit,
-                type: .main
-            )
-            passcodeCoordinator?.start()
+            let newPasscodeViewController = PasscodeViewController(purpose: .edit)
+            newPasscodeViewController.hidesBottomBarWhenPushed = true
+            rootViewController.navigationController?.pushViewController(newPasscodeViewController, animated: true)
         case .language:
             languageCoordinator = LanguageCoordinator(rootViewController: rootViewController)
             languageCoordinator?.start()
