@@ -88,6 +88,7 @@ private extension PasscodeKeyboard {
             button.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
         } else if let image = value as? UIImage {
             button.setImage(image, for: .normal)
+            button.setImage(image, for: .highlighted)
         }
         button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
         return button
