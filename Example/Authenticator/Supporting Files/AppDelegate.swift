@@ -92,7 +92,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         guard SEConnectHelper.isValid(deepLinkUrl: url) else { return false }
 
         if UIWindow.topViewController is PasscodeViewController {
-            applicationCoordinator?.openConnectViewController(deepLinkUrl: url, connectionType: .deepLink)
+            applicationCoordinator?.openConnectViewController(url: url, connectionType: .deepLink)
         }
         return true
     }

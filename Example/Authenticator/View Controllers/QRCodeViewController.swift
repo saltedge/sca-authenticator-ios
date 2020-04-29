@@ -31,10 +31,16 @@ private struct Layout {
     static let yOffset: CGFloat = 100.0
 }
 
+protocol QRCodeViewControllerDelegate: class {
+    func metadataReceived(data: String)
+}
+
 final class QRCodeViewController: UIViewController {
     private var captureSession: AVCaptureSession!
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     private var qrCodeFrameView: UIView?
+
+    weak var delegate: QRCodeViewControllerDelegate?
 
     var metadataReceived: ((UIViewController, String) ->())?
     var cancelPressedClosure: (() -> ())?
@@ -233,6 +239,7 @@ extension QRCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
             }
 
             HapticFeedbackHelper.produceImpactFeedback(.heavy)
+            delegate?.metadataReceived(data: string)
             self.metadataReceived?(self, string)
         }
     }

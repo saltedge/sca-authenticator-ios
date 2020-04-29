@@ -23,10 +23,20 @@
 import UIKit
 import TinyConstraints
 
-enum ConnectionType {
+// TODO: Review
+enum ConnectionType: Equatable {
+    case firstConnect(String)
     case connect
     case reconnect
     case deepLink
+
+    static func == (lhs: ConnectionType, rhs: ConnectionType) -> Bool {
+        switch (lhs, rhs) {
+        case let (.firstConnect(url1), .firstConnect(url2)): return url1 == url2
+        case (.connect, .connect), (.reconnect, .reconnect), (.deepLink, .deepLink): return true
+        default: return false
+        }
+    }
 }
 
 final class ConnectViewController: BaseViewController {

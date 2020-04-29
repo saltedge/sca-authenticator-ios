@@ -53,6 +53,12 @@ final class ConnectViewCoordinator: Coordinator {
             } else {
                 showQrCodeViewController()
             }
+        case .firstConnect(let metadata):
+            if let qrUrl = URL(string: metadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
+                self.fetchConfiguration(deepLinkUrl: qrUrl)
+            } else {
+                self.connectViewController.dismiss(animated: true)
+            }
         }
 
         let navigationController = UINavigationController(rootViewController: connectViewController)

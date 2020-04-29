@@ -51,6 +51,12 @@ final class ApplicationCoordinator: Coordinator {
             onboardingVc.donePressedClosure = {
                 let setupVc = SetupAppViewController()
                 setupVc.modalPresentationStyle = .fullScreen
+                setupVc.receivedQrMetadata = { metadata in
+                    self.window?.rootViewController = self.tabBarCoordinator.rootViewController
+                    self.tabBarCoordinator.start()
+
+                    self.openConnectViewController(url: nil, connectionType: .firstConnect(metadata))
+                }
                 onboardingVc.present(setupVc, animated: true)
             }
 
@@ -93,7 +99,7 @@ final class ApplicationCoordinator: Coordinator {
         tabBarCoordinator.startAuthorizationsCoordinator(with: connectionId, authorizationId: authorizationId)
     }
 
-    func openConnectViewController(deepLinkUrl: URL? = nil, connectionType: ConnectionType) {
+    func openConnectViewController(url: URL? = nil, connectionType: ConnectionType) {
         if (tabBarCoordinator.rootViewController.presentedViewController as? UINavigationController) != nil {
             tabBarCoordinator.rootViewController.dismiss(animated: false, completion: nil)
         }
@@ -102,15 +108,15 @@ final class ApplicationCoordinator: Coordinator {
 
         guard let rootVc = window?.rootViewController else { return }
 
-        passcodeCoordinator?.onCompleteClosure = { [weak self] in
-            self?.connectViewCoordinator = ConnectViewCoordinator(
-                rootViewController: rootVc,
-                connectionType: connectionType,
-                deepLinkUrl: deepLinkUrl
-            )
+//        passcodeCoordinator?.onCompleteClosure = { [weak self] in
+        connectViewCoordinator = ConnectViewCoordinator(
+            rootViewController: rootVc,
+            connectionType: connectionType,
+            deepLinkUrl: url
+        )
 
-            self?.connectViewCoordinator?.start()
-        }
+        connectViewCoordinator?.start()
+//        }
     }
 
     func handleAuthorizationsFromPasscode(connectionId: String, authorizationId: String) {
