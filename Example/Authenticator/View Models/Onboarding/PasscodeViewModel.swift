@@ -61,6 +61,10 @@ final class PasscodeViewModel {
         self.state = Observable<PasscodeViewModelState>(purpose == .create ? .create(showLabel: false) : .check)
     }
 
+    var shouldDismiss: Bool {
+        return purpose == .enter
+    }
+
     var passcodeToFill: String {
         get {
             return state.value == .repeat ? confirmationPasscode : passcode

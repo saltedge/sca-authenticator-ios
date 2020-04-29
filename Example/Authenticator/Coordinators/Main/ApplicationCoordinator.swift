@@ -47,22 +47,15 @@ final class ApplicationCoordinator: Coordinator {
             UserDefaultsHelper.applicationLanguage = "en"
 
             let onboardingVc = OnboardingViewController()
-            onboardingVc.donePressedClosure = {
-                let newPasscodeVc = PasscodeViewController(purpose: .create)
-                newPasscodeVc.modalPresentationStyle = .fullScreen
-                onboardingVc.present(newPasscodeVc, animated: true)
 
-                // TODO: Just for now we'll leave this implementation.
-                newPasscodeVc.completeClosure = {
-                    UserDefaultsHelper.didShowOnboarding = true
-                    self.window?.rootViewController = self.tabBarCoordinator.rootViewController
-                    self.tabBarCoordinator.start()
-                }
+            onboardingVc.donePressedClosure = {
+                let setupVc = SetupAppViewController()
+                setupVc.modalPresentationStyle = .fullScreen
+                onboardingVc.present(setupVc, animated: true)
             }
-            let navController = UINavigationController(rootViewController: onboardingVc)
-            navController.modalPresentationStyle = .fullScreen
-            navController.isNavigationBarHidden = true
-            window?.rootViewController = navController
+
+            onboardingVc.modalPresentationStyle = .fullScreen
+            window?.rootViewController = onboardingVc
         }
         window?.makeKeyAndVisible()
     }

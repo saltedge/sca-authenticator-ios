@@ -116,3 +116,4 @@
 "onboarding.secure_app.touch_id_allow" = "Allow Touch ID";
 "onboarding.secure_app.touch_id_description" = "Use Touch ID to enter the App faster, but don’t worry, you’ll still have your passcode as backup.";
 "onboarding.splash_screen.name" = "Authenticator";
+"onboarding.qr.description" = "Scan the QR to make your \nfirst connection";

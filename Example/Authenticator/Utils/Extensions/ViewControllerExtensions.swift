@@ -179,4 +179,26 @@ extension UIViewController {
         removeFromParent()
         view.removeFromSuperview()
     }
+
+    func cycleFromViewController(oldViewController: UIViewController, toViewController newViewController: UIViewController) {
+        addChild(newViewController)
+        add(newViewController)
+
+        newViewController.view.alpha = 0
+        newViewController.view.layoutIfNeeded()
+
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0,
+            options: .transitionFlipFromLeft,
+            animations: {
+                newViewController.view.alpha = 1
+                oldViewController.view.alpha = 0
+            },
+            completion: { _ in
+                oldViewController.remove()
+                newViewController.didMove(toParent: self)
+            }
+        )
+    }
 }
