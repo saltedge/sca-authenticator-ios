@@ -130,6 +130,8 @@ final class QRCodeViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.backgroundColor = .clear
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.view.backgroundColor = .clear

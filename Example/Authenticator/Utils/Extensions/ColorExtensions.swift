@@ -27,6 +27,10 @@ extension UIColor {
         return UIColor(named: "actionColor", in: .authenticator_main, compatibleWith: nil)!
     }
 
+    static var selectedColor: UIColor {
+        return UIColor(named: "selectedColor", in: .authenticator_main, compatibleWith: nil)!
+    }
+
     static var backgroundColor: UIColor! {
         return UIColor(named: "background", in: .authenticator_main, compatibleWith: nil)!
     }

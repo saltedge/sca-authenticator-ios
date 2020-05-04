@@ -32,7 +32,11 @@ final class AuthorizationsViewController: BaseViewController {
     private let noDataView = NoDataView(
         image: #imageLiteral(resourceName: "no_authorizations"),
         title: l10n(.noAuthorizations),
-        description: l10n(.noAuthorizationsDescription)
+        description: l10n(.noAuthorizationsDescription),
+        ctaTitle: "No Connections",
+        onCTAPress: {
+            print("pressed")
+        }
     )
 
     private var messageBarView: MessageBarView?
@@ -44,7 +48,7 @@ final class AuthorizationsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.authenticator)
-        view.backgroundColor = .auth_backgroundColor
+        view.backgroundColor = .backgroundColor
         authorizationsView.backgroundColor = .white
         authorizationsView.delegate = self
         setupNavigationBarButtons()
@@ -177,10 +181,12 @@ extension AuthorizationsViewController: Layoutable {
         view.addSubviews(authorizationsView, noDataView)
 
         authorizationsView.edgesToSuperview()
+        noDataView.topToSuperview(offset: 100)
+        noDataView.widthToSuperview()
 
-        noDataView.left(to: view, offset: AppLayout.sideOffset)
-        noDataView.right(to: view, offset: -AppLayout.sideOffset)
-        noDataView.center(in: view)
+//        noDataView.left(to: view, offset: AppLayout.sideOffset)
+//        noDataView.right(to: view, offset: -AppLayout.sideOffset)
+//        noDataView.center(in: view)
     }
 }
 

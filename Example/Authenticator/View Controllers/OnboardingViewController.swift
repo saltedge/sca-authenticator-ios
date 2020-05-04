@@ -37,7 +37,7 @@ final class OnboardingViewController: BaseViewController {
     private var pageControl = UIPageControl()
 
     private let skipButton = UIButton(frame: .zero)
-    private let actionButton = CustomButton(.filled, text: l10n(.next))
+    private let actionButton = CustomButton(text: l10n(.next))
 
     private var buttonsStackView: UIStackView = {
         let stackView = UIStackView()

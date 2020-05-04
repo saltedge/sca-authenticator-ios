@@ -23,6 +23,13 @@
 import UIKit
 
 extension UILabel {
+    convenience init(font: UIFont, alignment: NSTextAlignment = .center, textColor: UIColor = .textColor) {
+        self.init()
+        self.font = font
+        self.textColor = textColor
+        self.textAlignment = alignment
+    }
+
     static var titleLabel: UILabel {
         let label = UILabel()
         label.font = .auth_19regular

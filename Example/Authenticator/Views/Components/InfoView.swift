@@ -40,10 +40,10 @@ class InfoView: UIView {
 
     private let imageView = UIImageView(frame: .zero)
     private var mainButton: CustomButton
-    private let secondaryButton = CustomButton(.bordered, text: "")
+    private let secondaryButton = CustomButton(text: "")
 
     init(image: UIImage, mainButtonText: String, secondaryButtonText: String? = nil) {
-        mainButton = CustomButton(.filled, text: mainButtonText)
+        mainButton = CustomButton(text: mainButtonText)
         super.init(frame: .zero)
         imageView.image = image
         mainButton.addTarget(self, action: #selector(mainButtonPressed), for: .touchUpInside)
