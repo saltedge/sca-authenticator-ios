@@ -32,7 +32,7 @@ private struct Layout {
 }
 
 protocol QRCodeViewControllerDelegate: class {
-    func metadataReceived(data: String)
+    func metadataReceived(data: String?)
 }
 
 final class QRCodeViewController: UIViewController {
@@ -146,6 +146,7 @@ final class QRCodeViewController: UIViewController {
     }
 
     @objc private func cancelPressed() {
+        delegate?.metadataReceived(data: nil)
         cancelPressedClosure?()
     }
 

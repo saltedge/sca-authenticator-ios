@@ -52,10 +52,11 @@ final class ApplicationCoordinator: Coordinator {
                 let setupVc = SetupAppViewController()
                 setupVc.modalPresentationStyle = .fullScreen
                 setupVc.receivedQrMetadata = { metadata in
-                    self.window?.rootViewController = self.tabBarCoordinator.rootViewController
-                    self.tabBarCoordinator.start()
+                    self.startTabBarController()
 
-                    self.openConnectViewController(url: nil, connectionType: .firstConnect(metadata))
+                    if let data = metadata {
+                        self.openConnectViewController(url: nil, connectionType: .firstConnect(data))
+                    }
                 }
                 onboardingVc.present(setupVc, animated: true)
             }
@@ -64,6 +65,14 @@ final class ApplicationCoordinator: Coordinator {
             window?.rootViewController = onboardingVc
         }
         window?.makeKeyAndVisible()
+    }
+
+    // TODO: Remove
+    private func startTabBarController() {
+        UserDefaultsHelper.didShowOnboarding = true
+
+        self.window?.rootViewController = self.tabBarCoordinator.rootViewController
+        self.tabBarCoordinator.start()
     }
 
     func registerTimerNotifications() {

@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "qr_light.pdf",
+      "filename" : "more_light.pdf",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "qr_dark.pdf",
+      "filename" : "more_dark.pdf",
       "idiom" : "universal"
     }
   ],

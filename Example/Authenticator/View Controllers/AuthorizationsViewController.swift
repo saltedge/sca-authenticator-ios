@@ -43,11 +43,11 @@ final class AuthorizationsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = l10n(.authorizations)
+        navigationItem.title = l10n(.authenticator)
         view.backgroundColor = .auth_backgroundColor
         authorizationsView.backgroundColor = .white
         authorizationsView.delegate = self
-        setupQrButton()
+        setupNavigationBarButtons()
         setupObservers()
         layout()
         noDataView.alpha = 1.0
@@ -83,13 +83,24 @@ final class AuthorizationsViewController: BaseViewController {
 
 // MARK: - Setup
 extension AuthorizationsViewController {
-    func setupQrButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "qr"),
-            style: .plain,
-            target: self,
-            action: #selector(scanQrPressed)
-        )
+    func setupNavigationBarButtons() {
+        let moreButton = UIButton()
+        moreButton.setImage(UIImage(named: "more"), for: .normal)
+        moreButton.addTarget(self, action: #selector(morePressed), for: .touchUpInside)
+
+        let qrButton = UIButton()
+        qrButton.setImage(UIImage(named: "qr"), for: .normal)
+        qrButton.addTarget(self, action: #selector(scanQrPressed), for: .touchUpInside)
+
+        navigationController?.navigationBar.addSubviews(moreButton, qrButton)
+
+        moreButton.size(CGSize(width: 22.0, height: 22.0))
+        moreButton.rightToSuperview(offset: -16.0)
+        moreButton.bottomToSuperview(offset: -12.0)
+
+        qrButton.size(CGSize(width: 22.0, height: 22.0))
+        qrButton.rightToLeft(of: moreButton, offset: -30.0)
+        qrButton.bottomToSuperview(offset: -12.0)
     }
 
     func setupObservers() {
@@ -125,6 +136,11 @@ extension AuthorizationsViewController {
 private extension AuthorizationsViewController {
     @objc func scanQrPressed() {
         delegate?.scanQrPressed()
+    }
+
+    // TODO: Replace with presenting action sheet
+    @objc func morePressed() {
+        print("More pressed")
     }
 
     func delete(section: Int) {

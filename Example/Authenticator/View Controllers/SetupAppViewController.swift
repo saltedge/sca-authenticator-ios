@@ -43,7 +43,7 @@ final class SetupAppViewController: BaseViewController {
     private let passcodeVc = PasscodeViewController(purpose: .create)
     private lazy var qrCodeViewController = QRCodeViewController()
 
-    var receivedQrMetadata: ((String) -> ())?
+    var receivedQrMetadata: ((String?) -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +70,7 @@ final class SetupAppViewController: BaseViewController {
 }
 
 extension SetupAppViewController: QRCodeViewControllerDelegate {
-    func metadataReceived(data: String) {
+    func metadataReceived(data: String?) {
         dismiss(
             animated: true,
             completion: {

@@ -27,10 +27,16 @@ struct AppearanceHelper {
         let navBarAppearance = UINavigationBar.appearance()
         let tabBarItemAppearance = UITabBarItem.appearance()
 
-        navBarAppearance.barStyle = .black
+        navBarAppearance.barStyle = .default
+        navBarAppearance.backgroundColor = .backgroundColor
         navBarAppearance.tintColor = .lightBlue
         navBarAppearance.isTranslucent = false
         navBarAppearance.shadowImage = UIImage()
+        navBarAppearance.prefersLargeTitles = true
+        navBarAppearance.largeTitleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.textColor,
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 30)
+        ]
 
         tabBarItemAppearance.setTitleTextAttributes([.foregroundColor: UIColor.white.withAlphaComponent(0.5)], for: .normal)
         tabBarItemAppearance.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
