@@ -44,11 +44,4 @@ struct AppLayout {
     static let loadingIndicatorSize: CGSize = CGSize(width: 80.0, height: 80.0)
     static let screenWidth: CGFloat = UIScreen.main.bounds.width
     static let screenHeight: CGFloat = UIScreen.main.bounds.height
-
-    static var tabBarHeight: CGFloat {
-        if let tabBarController = UIApplication.appDelegate.tabBarViewController {
-            return tabBarController.tabBar.frame.size.height
-        }
-        return 0.0
-    }
 }

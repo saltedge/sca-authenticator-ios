@@ -222,8 +222,6 @@ extension ConnectionsViewController {
 // MARK: - Actions
 private extension ConnectionsViewController {
     func showActionSheet(at indexPath: IndexPath) {
-        guard let tabBarVC = AppDelegate.main.tabBarViewController else { return }
-
         let actionSheet = CustomActionSheetViewController()
 
         let reconnectAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
@@ -263,7 +261,6 @@ private extension ConnectionsViewController {
         }
 
         actionSheet.actions = ConnectionActionSheetBuilder.createActions(from: actionsArray)
-        tabBarVC.present(actionSheet, animated: true)
     }
 
     func rename(_ id: String) {

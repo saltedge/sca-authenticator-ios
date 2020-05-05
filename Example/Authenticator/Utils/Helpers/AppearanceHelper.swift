@@ -25,7 +25,6 @@ import UIKit
 struct AppearanceHelper {
     static func setup() {
         let navBarAppearance = UINavigationBar.appearance()
-        let tabBarItemAppearance = UITabBarItem.appearance()
 
         navBarAppearance.barStyle = .default
         navBarAppearance.backgroundColor = .backgroundColor
@@ -37,8 +36,5 @@ struct AppearanceHelper {
             NSAttributedString.Key.foregroundColor: UIColor.textColor,
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 30)
         ]
-
-        tabBarItemAppearance.setTitleTextAttributes([.foregroundColor: UIColor.white.withAlphaComponent(0.5)], for: .normal)
-        tabBarItemAppearance.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
     }
 }

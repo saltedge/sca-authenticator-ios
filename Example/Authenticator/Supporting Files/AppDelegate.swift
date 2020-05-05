@@ -26,13 +26,6 @@ import SEAuthenticator
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     var window: UIWindow?
 
-    var tabBarViewController: MainTabBarViewController? {
-        if let tabBar = self.window?.rootViewController as? MainTabBarViewController {
-            return tabBar
-        }
-        return nil
-    }
-
     var applicationCoordinator: ApplicationCoordinator?
 
     func application(_ application: UIApplication,
