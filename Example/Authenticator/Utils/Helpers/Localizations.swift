@@ -161,6 +161,7 @@ enum Localizations: String, Localizable {
     case wrongPasscode = "errors.wrong_passcode"
 
     // MARK: - Connection Options
+    case connect = "actions.connect"
     case reconnect = "actions.reconnect"
     case rename = "actions.rename"
     case support = "in_app.settings.support"

@@ -66,10 +66,7 @@ final class ConnectionsViewController: BaseViewController {
             image: #imageLiteral(resourceName: "no_connections"),
             title: l10n(.noConnections),
             description: l10n(.noConnectionsDescription),
-            ctaTitle: l10n(.connectProvider),
-            onCTAPress: {
-                self.addPressed()
-            }
+            ctaTitle: l10n(.connectProvider)
         )
         layout()
         updateViewsHiddenState()

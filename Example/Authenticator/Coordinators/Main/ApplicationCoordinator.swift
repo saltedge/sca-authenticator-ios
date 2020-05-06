@@ -52,6 +52,8 @@ final class ApplicationCoordinator: Coordinator {
             UserDefaultsHelper.applicationLanguage = "en"
 
             let onboardingVc = OnboardingViewController()
+            onboardingVc.modalPresentationStyle = .fullScreen
+            window?.rootViewController = onboardingVc
 
             onboardingVc.donePressedClosure = {
                 let setupVc = SetupAppViewController()
@@ -65,9 +67,6 @@ final class ApplicationCoordinator: Coordinator {
                 }
                 onboardingVc.present(setupVc, animated: true)
             }
-
-            onboardingVc.modalPresentationStyle = .fullScreen
-            window?.rootViewController = onboardingVc
         }
         window?.makeKeyAndVisible()
     }

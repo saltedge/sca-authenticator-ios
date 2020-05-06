@@ -129,8 +129,10 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     func scanQrPressed() {
         AVCaptureHelper.requestAccess(
             success: {
+                guard let navController = self.rootViewController.navigationController else { return }
+
                 self.connectViewCoordinator = ConnectViewCoordinator(
-                    rootViewController: self.rootViewController,
+                    rootViewController: navController,
                     connectionType: .connect
                 )
                 self.connectViewCoordinator?.start()

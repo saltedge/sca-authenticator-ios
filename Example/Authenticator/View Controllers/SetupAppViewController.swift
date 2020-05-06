@@ -71,11 +71,6 @@ final class SetupAppViewController: BaseViewController {
 
 extension SetupAppViewController: QRCodeViewControllerDelegate {
     func metadataReceived(data: String?) {
-        dismiss(
-            animated: true,
-            completion: {
-                self.receivedQrMetadata?(data)
-            }
-        )
+        self.receivedQrMetadata?(data)
     }
 }

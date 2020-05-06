@@ -19,6 +19,8 @@
 		95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
 		9D03F3DB245717F600210563 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D03F3DA245717F600210563 /* Router.swift */; };
 		9D03F3DC245717F600210563 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D03F3DA245717F600210563 /* Router.swift */; };
+		9D0DC4132462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
+		9D0DC4142462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
 		9D1DEE7423D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */; };
 		9D1DEE7523D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */; };
 		9D1DEE7B23DB4FE5003C79AC /* valid_submit_action_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7A23DB4FE5003C79AC /* valid_submit_action_data.json */; };
@@ -78,6 +80,8 @@
 		9D87F4A22429393000F85D1F /* ConnectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A02429393000F85D1F /* ConnectionsDataSource.swift */; };
 		9D87F4A7242A6BCD00F85D1F /* ConnectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionListViewModel.swift */; };
 		9D87F4A8242A6BCD00F85D1F /* ConnectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionListViewModel.swift */; };
+		9D8DCD2924614A8A00FD6424 /* AuthorizationsNoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */; };
+		9D8DCD2A24614A8A00FD6424 /* AuthorizationsNoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */; };
 		9D8E5BA22445A1E70081E60E /* OnboardingViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */; };
 		9D940958235DDB900080EBB5 /* AboutDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D940957235DDB8F0080EBB5 /* AboutDataSourceSpec.swift */; };
 		9D94095A23618CF00080EBB5 /* CacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94095923618CF00080EBB5 /* CacheHelper.swift */; };
@@ -354,6 +358,7 @@
 		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
 		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
 		9D03F3DA245717F600210563 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		9D0DC4122462DD080039E62B /* ButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonExtensions.swift; sourceTree = "<group>"; };
 		9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionPickerViewController.swift; sourceTree = "<group>"; };
 		9D1DEE7A23DB4FE5003C79AC /* valid_submit_action_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = valid_submit_action_data.json; sourceTree = "<group>"; };
 		9D1DEE7C23DB503F003C79AC /* invalid_submit_action_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = invalid_submit_action_data.json; sourceTree = "<group>"; };
@@ -394,6 +399,7 @@
 		9D87F49D2429326800F85D1F /* ConnectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
 		9D87F4A02429393000F85D1F /* ConnectionsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsDataSource.swift; sourceTree = "<group>"; };
 		9D87F4A6242A6BCD00F85D1F /* ConnectionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionListViewModel.swift; sourceTree = "<group>"; };
+		9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsNoDataView.swift; sourceTree = "<group>"; };
 		9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModelSpec.swift; sourceTree = "<group>"; };
 		9D940957235DDB8F0080EBB5 /* AboutDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutDataSourceSpec.swift; sourceTree = "<group>"; };
 		9D94095923618CF00080EBB5 /* CacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHelper.swift; sourceTree = "<group>"; };
@@ -827,6 +833,7 @@
 				9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */,
 				9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */,
 				9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */,
+				9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */,
 			);
 			path = Authorizations;
 			sourceTree = "<group>";
@@ -953,6 +960,7 @@
 				9DCED82622CE18270050ED3C /* DicitionaryExtensions.swift */,
 				9DCED82722CE18270050ED3C /* ApplicationExtensions.swift */,
 				9DCED82822CE18270050ED3C /* ViewExtensions+Animations.swift */,
+				9D0DC4122462DD080039E62B /* ButtonExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1643,6 +1651,7 @@
 				9DCED8DF22CE18280050ED3C /* AppSettings.swift in Sources */,
 				9DCED90C22CE18280050ED3C /* AuthorizationsCoordinator.swift in Sources */,
 				95C1EFC322D5EAA200078A28 /* AboutDataSource.swift in Sources */,
+				9D8DCD2924614A8A00FD6424 /* AuthorizationsNoDataView.swift in Sources */,
 				9DCED8FF22CE18280050ED3C /* SeparatorView.swift in Sources */,
 				9DCED8FC22CE18280050ED3C /* CountdownProgressView.swift in Sources */,
 				9DCED91122CE18280050ED3C /* ApplicationCoordinator.swift in Sources */,
@@ -1691,6 +1700,7 @@
 				9DE308BE24474D92009EBD39 /* PasscodeViewModel.swift in Sources */,
 				9DCED8DB22CE18280050ED3C /* Constants.swift in Sources */,
 				9D630BC9243DC464000A9ACC /* OnboardingViewModel.swift in Sources */,
+				9D0DC4132462DD080039E62B /* ButtonExtensions.swift in Sources */,
 				9DCED90322CE18280050ED3C /* TaptileFeedbackButton.swift in Sources */,
 				9DCED8E022CE18280050ED3C /* UserDefaultsHelper.swift in Sources */,
 				9DCED8D522CE18280050ED3C /* ApplicationExtensions.swift in Sources */,
@@ -1822,6 +1832,7 @@
 				9DE324A322D39A0A00EB162A /* ConnectionsInteractor.swift in Sources */,
 				9D940958235DDB900080EBB5 /* AboutDataSourceSpec.swift in Sources */,
 				9DE324C122D39A6A00EB162A /* CustomActionSheetButton.swift in Sources */,
+				9D0DC4142462DD080039E62B /* ButtonExtensions.swift in Sources */,
 				9DE3245922D3986B00EB162A /* ConfirmAuthorizationResponseSpec.swift in Sources */,
 				9DE324DB22D39ABE00EB162A /* NoDataView.swift in Sources */,
 				9D66E1B622D4C1F700BD59B6 /* ConnectionRepositorySpec.swift in Sources */,
@@ -1863,6 +1874,7 @@
 				9D66E1B522D4C1F300BD59B6 /* AuthorizationsDataSourceSpec.swift in Sources */,
 				9DE3248722D399AC00EB162A /* ConnectionsCollector.swift in Sources */,
 				9DE3248C22D399BD00EB162A /* SettingsDataSource.swift in Sources */,
+				9D8DCD2A24614A8A00FD6424 /* AuthorizationsNoDataView.swift in Sources */,
 				9DE324BD22D39A5D00EB162A /* ConnectorWebViewController.swift in Sources */,
 				9DE324A822D39A1B00EB162A /* KeychainHelper.swift in Sources */,
 				9DE324BC22D39A5B00EB162A /* WKWebViewController.swift in Sources */,

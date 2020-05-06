@@ -28,22 +28,12 @@ protocol AuthorizationsViewControllerDelegate: class {
 
 final class AuthorizationsViewController: BaseViewController {
     private let authorizationsView = MainAuthorizationsView()
-
-    private let noDataView = NoDataView(
-        image: #imageLiteral(resourceName: "no_authorizations"),
-        title: l10n(.noAuthorizations),
-        description: l10n(.noAuthorizationsDescription),
-        ctaTitle: "No Connections",
-        onCTAPress: {
-            print("pressed")
-        }
-    )
-
     private var messageBarView: MessageBarView?
+    private var noDataView: AuthorizationsNoDataView?
 
     weak var delegate: AuthorizationsViewControllerDelegate?
 
-    var dataSource: AuthorizationsDataSource?
+    var dataSource: AuthorizationsDataSource!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,8 +43,15 @@ final class AuthorizationsViewController: BaseViewController {
         authorizationsView.delegate = self
         setupNavigationBarButtons()
         setupObservers()
+        setupNoDataView()
         layout()
-        noDataView.alpha = 1.0
+    }
+
+    private func setupNoDataView() {
+        noDataView = AuthorizationsNoDataView(
+            type: dataSource.hasConnections ? .noAuthorizations : .noConnections,
+            buttonAction: scanQrPressed
+        )
     }
 
     func reloadData(at index: Int) {
@@ -127,10 +124,11 @@ extension AuthorizationsViewController {
         UIView.animate(
             withDuration: 0.3,
             animations: { [weak self] in
-                guard let dataSource = self?.dataSource else { return }
+                guard let strongSelf = self else { return }
 
-                self?.noDataView.alpha = dataSource.hasDataToShow ? 0.0 : 1.0
-                self?.authorizationsView.alpha = !dataSource.hasDataToShow ? 0.0 : 1.0
+                strongSelf.noDataView?.type = strongSelf.dataSource.hasConnections ? .noAuthorizations : .noConnections
+                strongSelf.noDataView?.alpha = strongSelf.dataSource.hasDataToShow ? 0.0 : 1.0
+                strongSelf.authorizationsView.alpha = !strongSelf.dataSource.hasDataToShow ? 0.0 : 1.0
             }
         )
     }
@@ -152,22 +150,22 @@ private extension AuthorizationsViewController {
     }
 
     func confirmAuthorization(by authorizationId: String) {
-        guard let data = dataSource?.confirmationData(for: authorizationId),
-            let viewModel = dataSource?.viewModel(with: authorizationId),
-            let index = dataSource?.index(of: viewModel) else { return }
+        guard let data = dataSource.confirmationData(for: authorizationId),
+            let viewModel = dataSource.viewModel(with: authorizationId),
+            let index = dataSource.index(of: viewModel) else { return }
 
-        viewModel.state.value = .processing
+        viewModel.state = .processing
         authorizationsView.reloadData(at: index)
 
         AuthorizationsInteractor.confirm(
             data: data,
             success: { [weak self] in
-                viewModel.state.value = .success
+                viewModel.state = .success
                 viewModel.actionTime = Date()
                 self?.authorizationsView.reloadData(at: index)
             },
             failure: { [weak self] _ in
-                viewModel.state.value = .undefined
+                viewModel.state = .undefined
                 viewModel.actionTime = Date()
                 self?.authorizationsView.reloadData(at: index)
             }
@@ -178,37 +176,35 @@ private extension AuthorizationsViewController {
 // MARK: - Layout
 extension AuthorizationsViewController: Layoutable {
     func layout() {
+        guard let noDataView = noDataView else { return }
+
         view.addSubviews(authorizationsView, noDataView)
 
         authorizationsView.edgesToSuperview()
         noDataView.topToSuperview(offset: 100)
         noDataView.widthToSuperview()
-
-//        noDataView.left(to: view, offset: AppLayout.sideOffset)
-//        noDataView.right(to: view, offset: -AppLayout.sideOffset)
-//        noDataView.center(in: view)
     }
 }
 
 // MARK: - Network
 extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
     func denyPressed(authorizationId: String) {
-        guard let data = dataSource?.confirmationData(for: authorizationId),
-            let viewModel = dataSource?.viewModel(with: authorizationId),
-            let index = dataSource?.index(of: viewModel) else { return }
+        guard let data = dataSource.confirmationData(for: authorizationId),
+            let viewModel = dataSource.viewModel(with: authorizationId),
+            let index = dataSource.index(of: viewModel) else { return }
 
-        viewModel.state.value = .processing
+        viewModel.state = .processing
         authorizationsView.reloadData(at: index)
 
         AuthorizationsInteractor.deny(
             data: data,
             success: {
-                viewModel.state.value = .denied
+                viewModel.state = .denied
                 viewModel.actionTime = Date()
                 self.authorizationsView.reloadData(at: index)
             },
             failure: { _ in
-                viewModel.state.value = .undefined
+                viewModel.state = .undefined
                 viewModel.actionTime = Date()
                 self.authorizationsView.reloadData(at: index)
             }

@@ -93,7 +93,6 @@ final class ConnectViewCoordinator: Coordinator {
             }
         }
         connectViewController.add(qrCodeViewController)
-        connectViewController.title = l10n(.scanQr)
     }
 
     private func handleQr(url: URL) {
