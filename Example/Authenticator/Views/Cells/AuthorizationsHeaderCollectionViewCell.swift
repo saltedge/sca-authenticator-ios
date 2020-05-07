@@ -23,11 +23,12 @@
 import UIKit
 
 private struct Layout {
-    static let connectionImageViewSize: CGSize = CGSize(width: 24.0, height: 24.0)
-    static let connectionImageViewOffset: CGFloat = 16.0
-    static let nameLabelOffset: CGFloat = 8.0
+    static let connectionImageViewSize: CGSize = CGSize(width: 28.0, height: 28.0)
+    static let connectionImageViewOffset: CGFloat = 8.0
+    static let nameLabelLeftOffset: CGFloat = 6.0
+    static let nameLabelRightOffset: CGFloat = 4.0
     static let progressViewWidthOffset: CGFloat = -22.0
-    static let timeLeftLabelOffset: CGFloat = -8.0
+    static let timeLeftLabelOffset: CGFloat = -10.0
     static let timeLeftLabelHeight: CGFloat = 28.0
 }
 
@@ -37,12 +38,7 @@ protocol AuthorizationHeaderCollectionViewCellDelegate: class {
 
 final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
     private let connectionImageView = UIImageView()
-    private let connectionNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14.0, weight: .medium)
-        label.textColor = .auth_darkGray
-        return label
-    }()
+    private let connectionNameLabel = UILabel(font: .systemFont(ofSize: 14.0), textColor: .textColor)
     private let timeLeftLabel = TimeLeftLabel()
     private let progressView = CountdownProgressView()
 
@@ -50,7 +46,7 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = .secondaryButtonColor
         setupShadowAndCornerRadius()
         layout()
     }
@@ -83,12 +79,14 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
 // MARK: - Helpers
 private extension AuthorizationHeaderCollectionViewCell {
     func setupShadowAndCornerRadius() {
-        contentView.layer.cornerRadius = 21.0
+        connectionImageView.layer.masksToBounds = true
+        connectionImageView.layer.cornerRadius = 6.0
+        contentView.layer.cornerRadius = 4.0
         contentView.layer.masksToBounds = true
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowOpacity = 0.1
-        layer.shadowRadius = 4.0
+        layer.shadowOffset = CGSize(width: 0, height: 4)
+        layer.shadowOpacity = 1
+        layer.shadowRadius = 20
     }
 
     func setImage(from imageUrl: URL?) {
@@ -107,14 +105,14 @@ extension AuthorizationHeaderCollectionViewCell: Layoutable {
         connectionImageView.centerY(to: contentView)
         connectionImageView.size(Layout.connectionImageViewSize)
 
-        connectionNameLabel.leftToRight(of: connectionImageView, offset: Layout.nameLabelOffset)
+        connectionNameLabel.leftToRight(of: connectionImageView, offset: Layout.nameLabelLeftOffset)
         connectionNameLabel.centerY(to: connectionImageView)
-        connectionNameLabel.rightToLeft(of: timeLeftLabel, offset: -Layout.nameLabelOffset, relation: .equalOrLess)
+        connectionNameLabel.rightToLeft(of: timeLeftLabel, offset: -Layout.nameLabelRightOffset, relation: .equalOrLess)
         connectionNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         progressView.height(3.0)
         progressView.bottom(to: contentView)
-        progressView.width(to: contentView, offset: Layout.progressViewWidthOffset)
+        progressView.width(to: contentView)//., offset: Layout.progressViewWidthOffset)
         progressView.centerX(to: contentView)
 
         timeLeftLabel.right(to: contentView, offset: Layout.timeLeftLabelOffset)

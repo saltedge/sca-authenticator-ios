@@ -31,17 +31,19 @@ private struct Layout {
 class CustomButton: UIButton {
     override var isHighlighted: Bool {
         didSet {
+            guard backgroundColor != UIColor.secondaryButtonColor else { return }
+
             backgroundColor = isHighlighted ? .selectedColor : .darkBlue
         }
     }
 
-    init(text: String, height: CGFloat = Layout.height, backgroundColor: UIColor = .darkBlue) {
+    init(text: String, height: CGFloat = Layout.height, textColor: UIColor = .white, backgroundColor: UIColor = .darkBlue) {
         super.init(frame: .zero)
         self.backgroundColor = backgroundColor
         titleLabel?.font = .systemFont(ofSize: 18.0, weight: .medium)
         setTitle(text, for: .normal)
-        setTitleColor(.white, for: .normal)
-        setTitleColor(.white, for: .highlighted)
+        setTitleColor(textColor, for: .normal)
+        setTitleColor(textColor, for: .highlighted)
         layer.cornerRadius = Layout.cornerRadius
         self.height(height)
         setupShadow()

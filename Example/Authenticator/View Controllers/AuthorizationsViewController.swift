@@ -39,7 +39,7 @@ final class AuthorizationsViewController: BaseViewController {
         super.viewDidLoad()
         navigationItem.title = l10n(.authenticator)
         view.backgroundColor = .backgroundColor
-        authorizationsView.backgroundColor = .white
+        authorizationsView.backgroundColor = .backgroundColor
         authorizationsView.delegate = self
         setupNavigationBarButtons()
         setupObservers()
