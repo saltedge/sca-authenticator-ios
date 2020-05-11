@@ -44,6 +44,7 @@ final class SetupAppViewController: BaseViewController {
     private lazy var qrCodeViewController = QRCodeViewController()
 
     var receivedQrMetadata: ((String) -> ())?
+    var dismissClosure: (() -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,8 +59,8 @@ final class SetupAppViewController: BaseViewController {
 
     private func setupQrCodeViewController() {
         qrCodeViewController.delegate = self
-        qrCodeViewController.cancelPressedClosure = {
-            self.dismiss(animated: true)
+        qrCodeViewController.shouldDismissClosure = {
+            self.dismissClosure?()
         }
 
         cycleFromViewController(

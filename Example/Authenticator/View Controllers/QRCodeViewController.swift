@@ -43,7 +43,7 @@ final class QRCodeViewController: UIViewController {
     weak var delegate: QRCodeViewControllerDelegate?
 
     var metadataReceived: ((UIViewController, String) ->())?
-    var cancelPressedClosure: (() -> ())?
+    var shouldDismissClosure: (() -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +78,7 @@ final class QRCodeViewController: UIViewController {
                 self.layout()
             },
             failure: {
-                self.cancelPressedClosure?()
+                self.shouldDismissClosure?()
             }
         )
     }
@@ -146,7 +146,7 @@ final class QRCodeViewController: UIViewController {
     }
 
     @objc private func cancelPressed() {
-        cancelPressedClosure?()
+        shouldDismissClosure?()
     }
 
     private func labelsStackView() -> UIStackView {

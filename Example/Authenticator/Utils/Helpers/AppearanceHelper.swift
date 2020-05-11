@@ -27,7 +27,6 @@ struct AppearanceHelper {
         let navBarAppearance = UINavigationBar.appearance()
         let tabBarItemAppearance = UITabBarItem.appearance()
 
-        navBarAppearance.barStyle = .black
         navBarAppearance.tintColor = .lightBlue
         navBarAppearance.isTranslucent = false
         navBarAppearance.shadowImage = UIImage()

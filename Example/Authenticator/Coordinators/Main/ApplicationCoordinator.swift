@@ -52,10 +52,11 @@ final class ApplicationCoordinator: Coordinator {
                 let setupVc = SetupAppViewController()
                 setupVc.modalPresentationStyle = .fullScreen
                 setupVc.receivedQrMetadata = { metadata in
-                    self.window?.rootViewController = self.tabBarCoordinator.rootViewController
-                    self.tabBarCoordinator.start()
-
+                    self.setupTabBar()
                     self.openConnectViewController(url: nil, connectionType: .firstConnect(metadata))
+                }
+                setupVc.dismissClosure = {
+                    self.setupTabBar()
                 }
                 onboardingVc.present(setupVc, animated: true)
             }
@@ -64,6 +65,12 @@ final class ApplicationCoordinator: Coordinator {
             window?.rootViewController = onboardingVc
         }
         window?.makeKeyAndVisible()
+    }
+
+    // NOTE: Remove in next pr
+    func setupTabBar() {
+        window?.rootViewController = self.tabBarCoordinator.rootViewController
+        tabBarCoordinator.start()
     }
 
     func registerTimerNotifications() {
@@ -108,7 +115,6 @@ final class ApplicationCoordinator: Coordinator {
 
         guard let rootVc = window?.rootViewController else { return }
 
-//        passcodeCoordinator?.onCompleteClosure = { [weak self] in
         connectViewCoordinator = ConnectViewCoordinator(
             rootViewController: rootVc,
             connectionType: connectionType,
@@ -116,7 +122,6 @@ final class ApplicationCoordinator: Coordinator {
         )
 
         connectViewCoordinator?.start()
-//        }
     }
 
     func handleAuthorizationsFromPasscode(connectionId: String, authorizationId: String) {
