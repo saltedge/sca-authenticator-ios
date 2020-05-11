@@ -37,7 +37,7 @@ protocol AuthorizationCellDelegate: class {
 }
 
 final class AuthorizationCollectionViewCell: UICollectionViewCell {
-    private let stateView = AuthorizationStateView(state: .base)
+    private lazy var stateView = AuthorizationStateView(state: .base)
     private var isProcessing: Bool = false
 
     private let titleLabel = UILabel(font: .systemFont(ofSize: 24.0, weight: .regular), textColor: .textColor)
@@ -65,7 +65,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         descriptionTextView.isUserInteractionEnabled = false
-        descriptionTextView.backgroundColor = .backgroundColor
+//        descriptionTextView.backgroundColor = .backgroundColor
         setupButtons()
         layout()
     }
@@ -76,15 +76,15 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 
         guard viewModel.state == .base else {
             stateView.set(state: viewModel.state)
-            stateView.isHidden = false
+            stateView.alpha = 1.0
             return
         }
 
         if viewModel.expired && viewModel.state != .expired {
             stateView.set(state: .expired)
-            stateView.isHidden = false
+            stateView.alpha = 1.0
         } else {
-            stateView.isHidden = true
+            stateView.alpha = 0.0
             stateView.set(state: .base)
 
             if viewModel.description.htmlToAttributedString != nil {

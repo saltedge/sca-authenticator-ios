@@ -24,8 +24,8 @@ import UIKit
 
 final class AuthorizationStateView: UIView {
     private let topView = UIView()
-    private let titleLabel = UILabel.titleLabel
-    private let messageLabel = UILabel.descriptionLabel
+    private let titleLabel = UILabel(font: .systemFont(ofSize: 21.0, weight: .regular), textColor: .textColor)
+    private let messageLabel = UILabel(font: .systemFont(ofSize: 17.0, weight: .regular), textColor: .textColor)
     private var accessoryView: UIView?
 
     enum AuthorizationState: String {
@@ -60,10 +60,10 @@ final class AuthorizationStateView: UIView {
 
         var topAccessoryView: UIView {
             switch self {
-            case .success: return UIImageView(image: UIImage(named: "success"))
-            case .expired: return UIImageView(image: UIImage(named: "time_out"))
-            case .denied: return UIImageView(image: UIImage(named: "deny"))
-            case .undefined: return UIImageView(image: UIImage(named: "smth_wrong"))
+            case .success: return AspectFitImageView(imageName: "success")
+            case .expired: return AspectFitImageView(imageName: "time_out")
+            case .denied: return AspectFitImageView(imageName: "deny")
+            case .undefined: return AspectFitImageView(imageName: "smth_wrong")
             default: return LoadingIndicator()
             }
         }
@@ -71,7 +71,9 @@ final class AuthorizationStateView: UIView {
 
     init(state: AuthorizationState) {
         super.init(frame: .zero)
-        backgroundColor = .white
+        topView.layer.masksToBounds = true
+        topView.layer.cornerRadius = 16.0
+        topView.backgroundColor = .secondaryButtonColor
         layout()
     }
 
@@ -87,7 +89,7 @@ final class AuthorizationStateView: UIView {
         if let accessoryView = self.accessoryView {
             topView.addSubview(accessoryView)
             accessoryView.centerInSuperview()
-            accessoryView.size(AppLayout.loadingIndicatorSize)
+            accessoryView.size(CGSize(width: 55.0, height: 55.0))
         }
         if state == .processing, let loadingIndicator = accessoryView as? LoadingIndicator {
             loadingIndicator.start()
@@ -102,18 +104,31 @@ final class AuthorizationStateView: UIView {
 // MARK: Layout
 extension AuthorizationStateView: Layoutable {
     func layout() {
-        addSubviews(messageLabel, titleLabel, topView)
+        addSubviews(titleLabel, messageLabel, topView)
 
-        messageLabel.centerYToSuperview()
-        messageLabel.leftToSuperview()
-        messageLabel.rightToSuperview()
+        topView.topToSuperview(offset: 72.0)
+        topView.centerXToSuperview()
+        topView.size(CGSize(width: 75.0, height: 75.0))
 
+        titleLabel.topToBottom(of: topView, offset: 26.0)
+        titleLabel.centerXToSuperview()
         titleLabel.leftToSuperview()
         titleLabel.rightToSuperview()
-        titleLabel.bottomToTop(of: messageLabel, offset: -32)
 
-        topView.centerXToSuperview()
-        topView.bottomToTop(of: titleLabel, offset: -32)
-        topView.size(AppLayout.loadingIndicatorSize)
+        messageLabel.topToBottom(of: titleLabel, offset: 10.0)
+        messageLabel.centerXToSuperview()
+        messageLabel.leftToSuperview()
+        messageLabel.rightToSuperview()
+    }
+}
+
+private class AspectFitImageView: UIImageView {
+    init(imageName: String) {
+        super.init(image: UIImage(named: imageName))
+        contentMode = .scaleAspectFit
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

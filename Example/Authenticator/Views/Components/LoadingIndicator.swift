@@ -67,7 +67,7 @@ private extension LoadingIndicator {
     func drawArc(in Rect: CGRect) {
         shapeLayer.path = ovalLinePath
         shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.strokeColor = UIColor.auth_blue.cgColor
+        shapeLayer.strokeColor = UIColor.lightBlue.cgColor
         shapeLayer.lineWidth = 5.0
         shapeLayer.strokeEnd = 0.0
 
