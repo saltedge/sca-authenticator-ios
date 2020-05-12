@@ -53,6 +53,12 @@ final class ConnectViewCoordinator: Coordinator {
             } else {
                 showQrCodeViewController()
             }
+        case .firstConnect(let metadata):
+            if let qrUrl = URL(string: metadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
+                self.fetchConfiguration(deepLinkUrl: qrUrl)
+            } else {
+                self.connectViewController.dismiss(animated: true)
+            }
         }
 
         let navigationController = UINavigationController(rootViewController: connectViewController)
@@ -87,7 +93,6 @@ final class ConnectViewCoordinator: Coordinator {
             }
         }
         connectViewController.add(qrCodeViewController)
-        connectViewController.title = l10n(.scanQr)
     }
 
     private func handleQr(url: URL) {

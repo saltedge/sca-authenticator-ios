@@ -32,7 +32,7 @@ final class SetupAppCoordinator: Coordinator {
     }
 
     func start() {
-        setupAppViewController.delegate = self
+//        setupAppViewController.delegate = self
         setupAppViewController.modalPresentationStyle = .fullScreen
         rootViewController.navigationController?.present(setupAppViewController, animated: true)
     }
@@ -51,7 +51,7 @@ extension SetupAppCoordinator: SetupAppViewControllerDelegate {
             UIApplication.shared.open(
                 settingsUrl,
                 completionHandler: { [weak self] _ in
-                    self?.setupAppViewController.switchToNextStep()
+//                    self?.setupAppViewController.switchToNextStep()
                 }
             )
         } else {
@@ -59,7 +59,7 @@ extension SetupAppCoordinator: SetupAppViewControllerDelegate {
                 reasonString: "Authenticate app",
                 onSuccess: { [weak self] in
                     PasscodeManager.isBiometricsEnabled = true
-                    self?.setupAppViewController.switchToNextStep()
+//                    self?.setupAppViewController.switchToNextStep()
                 },
                 onFailure: { [weak self] error in
                     if error.isBiometryLockout {
@@ -68,7 +68,7 @@ extension SetupAppCoordinator: SetupAppViewControllerDelegate {
                             message: "You have to reconfigure your biometry in settings.",
                             cancelTitle: l10n(.ok),
                             cancelAction: { _ in
-                                self?.setupAppViewController.switchToNextStep()
+//                                self?.setupAppViewController.switchToNextStep()
                             }
                         )
                     }
@@ -81,7 +81,7 @@ extension SetupAppCoordinator: SetupAppViewControllerDelegate {
     func allowNotificationsViewAction() {
         NotificationsManager.registerForNotifications(
             success: { [weak self] _ in
-                DispatchQueue.main.async { self?.setupAppViewController.switchToNextStep() }
+//                DispatchQueue.main.async { self?.setupAppViewController.switchToNextStep() }
             },
             failure: { [weak self] in
                 DispatchQueue.main.async {

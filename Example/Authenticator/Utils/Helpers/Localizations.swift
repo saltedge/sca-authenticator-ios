@@ -47,6 +47,7 @@ enum Localizations: String, Localizable {
     case secondFeatureDescription = "onboarding.carousel_two.description"
     case thirdFeature = "onboarding.carousel_three.title"
     case thirdFeatureDescription = "onboarding.carousel_three.description"
+    case scanQrDescription = "onboarding.qr.description"
 
     // MARK: - Setup App
     case secureApp = "onboarding.secure_app.passcode_title"

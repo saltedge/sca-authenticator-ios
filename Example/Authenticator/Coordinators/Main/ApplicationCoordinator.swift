@@ -47,24 +47,30 @@ final class ApplicationCoordinator: Coordinator {
             UserDefaultsHelper.applicationLanguage = "en"
 
             let onboardingVc = OnboardingViewController()
-            onboardingVc.donePressedClosure = {
-                let newPasscodeVc = PasscodeViewController(purpose: .create)
-                newPasscodeVc.modalPresentationStyle = .fullScreen
-                onboardingVc.present(newPasscodeVc, animated: true)
 
-                // TODO: Just for now we'll leave this implementation.
-                newPasscodeVc.completeClosure = {
-                    UserDefaultsHelper.didShowOnboarding = true
-                    self.window?.rootViewController = self.tabBarCoordinator.rootViewController
-                    self.tabBarCoordinator.start()
+            onboardingVc.donePressedClosure = {
+                let setupVc = SetupAppViewController()
+                setupVc.modalPresentationStyle = .fullScreen
+                setupVc.receivedQrMetadata = { metadata in
+                    self.setupTabBar()
+                    self.openConnectViewController(url: nil, connectionType: .firstConnect(metadata))
                 }
+                setupVc.dismissClosure = {
+                    self.setupTabBar()
+                }
+                onboardingVc.present(setupVc, animated: true)
             }
-            let navController = UINavigationController(rootViewController: onboardingVc)
-            navController.modalPresentationStyle = .fullScreen
-            navController.isNavigationBarHidden = true
-            window?.rootViewController = navController
+
+            onboardingVc.modalPresentationStyle = .fullScreen
+            window?.rootViewController = onboardingVc
         }
         window?.makeKeyAndVisible()
+    }
+
+    // NOTE: Remove in next pr
+    func setupTabBar() {
+        window?.rootViewController = self.tabBarCoordinator.rootViewController
+        tabBarCoordinator.start()
     }
 
     func registerTimerNotifications() {
@@ -100,7 +106,7 @@ final class ApplicationCoordinator: Coordinator {
         tabBarCoordinator.startAuthorizationsCoordinator(with: connectionId, authorizationId: authorizationId)
     }
 
-    func openConnectViewController(deepLinkUrl: URL? = nil, connectionType: ConnectionType) {
+    func openConnectViewController(url: URL? = nil, connectionType: ConnectionType) {
         if (tabBarCoordinator.rootViewController.presentedViewController as? UINavigationController) != nil {
             tabBarCoordinator.rootViewController.dismiss(animated: false, completion: nil)
         }
@@ -109,15 +115,13 @@ final class ApplicationCoordinator: Coordinator {
 
         guard let rootVc = window?.rootViewController else { return }
 
-        passcodeCoordinator?.onCompleteClosure = { [weak self] in
-            self?.connectViewCoordinator = ConnectViewCoordinator(
-                rootViewController: rootVc,
-                connectionType: connectionType,
-                deepLinkUrl: deepLinkUrl
-            )
+        connectViewCoordinator = ConnectViewCoordinator(
+            rootViewController: rootVc,
+            connectionType: connectionType,
+            deepLinkUrl: url
+        )
 
-            self?.connectViewCoordinator?.start()
-        }
+        connectViewCoordinator?.start()
     }
 
     func handleAuthorizationsFromPasscode(connectionId: String, authorizationId: String) {
