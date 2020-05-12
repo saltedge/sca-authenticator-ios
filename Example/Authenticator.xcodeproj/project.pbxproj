@@ -17,8 +17,6 @@
 		95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
 		95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
 		95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
-		9D03F3DB245717F600210563 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D03F3DA245717F600210563 /* Router.swift */; };
-		9D03F3DC245717F600210563 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D03F3DA245717F600210563 /* Router.swift */; };
 		9D0DC4132462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
 		9D0DC4142462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
 		9D1DEE7423D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */; };
@@ -357,7 +355,6 @@
 		95CD02DC235864130085C52A /* SEConnectHelperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEConnectHelperSpec.swift; sourceTree = "<group>"; };
 		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
 		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
-		9D03F3DA245717F600210563 /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		9D0DC4122462DD080039E62B /* ButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonExtensions.swift; sourceTree = "<group>"; };
 		9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionPickerViewController.swift; sourceTree = "<group>"; };
 		9D1DEE7A23DB4FE5003C79AC /* valid_submit_action_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = valid_submit_action_data.json; sourceTree = "<group>"; };
@@ -605,7 +602,6 @@
 		607FACD21AFB9204008FA782 /* Example for SaltedgeAuthenticatorSDK */ = {
 			isa = PBXGroup;
 			children = (
-				9D03F3D9245717E400210563 /* Routers */,
 				9DCED86522CE18270050ED3C /* Coordinators */,
 				9DCED7F522CE18270050ED3C /* Database */,
 				9DCED80F22CE18270050ED3C /* Enumerations */,
@@ -671,14 +667,6 @@
 				95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */,
 			);
 			path = Migrations;
-			sourceTree = "<group>";
-		};
-		9D03F3D9245717E400210563 /* Routers */ = {
-			isa = PBXGroup;
-			children = (
-				9D03F3DA245717F600210563 /* Router.swift */,
-			);
-			path = Routers;
 			sourceTree = "<group>";
 		};
 		9D630BC4243DC076000A9ACC /* Onboarding */ = {
@@ -1633,7 +1621,6 @@
 			files = (
 				9DCED8F922CE18280050ED3C /* PasscodeSymbolView.swift in Sources */,
 				9DCED90222CE18280050ED3C /* NoDataView.swift in Sources */,
-				9D03F3DB245717F600210563 /* Router.swift in Sources */,
 				9DCED8E822CE18280050ED3C /* AmountFormatter.swift in Sources */,
 				9DCED8D922CE18280050ED3C /* ConnectionsInteractor.swift in Sources */,
 				9DCED8E422CE18280050ED3C /* AppearanceHelper.swift in Sources */,
@@ -1823,7 +1810,6 @@
 				9DE3249922D399ED00EB162A /* StringExtensions.swift in Sources */,
 				9DE324D822D39AB600EB162A /* SeparatorView.swift in Sources */,
 				9D66E1DE22D6146900BD59B6 /* ConnectionRouterSpec.swift in Sources */,
-				9D03F3DC245717F600210563 /* Router.swift in Sources */,
 				9DE324CE22D39A9800EB162A /* CustomSpacingLabel.swift in Sources */,
 				9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9DE3247F22D3998F00EB162A /* LanguageCoordinator.swift in Sources */,

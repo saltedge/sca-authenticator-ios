@@ -65,6 +65,9 @@ final class ApplicationCoordinator: Coordinator {
                         self.openConnectViewController(url: nil, connectionType: .firstConnect(data))
                     }
                 }
+                setupVc.dismissClosure = {
+                    self.startAuthorizationsViewController()
+                }
                 onboardingVc.present(setupVc, animated: true)
             }
         }
@@ -109,7 +112,6 @@ final class ApplicationCoordinator: Coordinator {
     func openConnectViewController(url: URL? = nil, connectionType: ConnectionType) {
         guard let rootVc = window?.rootViewController else { return }
 
-//        passcodeCoordinator?.onCompleteClosure = { [weak self] ins
         connectViewCoordinator = ConnectViewCoordinator(
             rootViewController: rootVc,
             connectionType: connectionType,
@@ -117,7 +119,6 @@ final class ApplicationCoordinator: Coordinator {
         )
 
         connectViewCoordinator?.start()
-//        }
     }
 
     func handleAuthorizationsFromPasscode(connectionId: String, authorizationId: String) {

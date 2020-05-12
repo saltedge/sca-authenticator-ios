@@ -22,6 +22,13 @@
 
 import UIKit
 
+private struct Layout {
+    static let topViewOffset: CGFloat = 72.0
+    static let topViewSize: CGSize = CGSize(width: 75.0, height: 75.0)
+    static let titleLabelTopOffset: CGFloat = 26.0
+    static let messageLabelTopOffset: CGFloat = 10.0
+}
+
 final class AuthorizationStateView: UIView {
     private let topView = UIView()
     private let titleLabel = UILabel(font: .systemFont(ofSize: 21.0, weight: .regular), textColor: .textColor)
@@ -71,6 +78,7 @@ final class AuthorizationStateView: UIView {
 
     init(state: AuthorizationState) {
         super.init(frame: .zero)
+        backgroundColor = .backgroundColor
         topView.layer.masksToBounds = true
         topView.layer.cornerRadius = 16.0
         topView.backgroundColor = .secondaryButtonColor
@@ -106,16 +114,16 @@ extension AuthorizationStateView: Layoutable {
     func layout() {
         addSubviews(titleLabel, messageLabel, topView)
 
-        topView.topToSuperview(offset: 72.0)
+        topView.topToSuperview(offset: Layout.topViewOffset)
         topView.centerXToSuperview()
-        topView.size(CGSize(width: 75.0, height: 75.0))
+        topView.size(Layout.topViewSize)
 
-        titleLabel.topToBottom(of: topView, offset: 26.0)
+        titleLabel.topToBottom(of: topView, offset: Layout.titleLabelTopOffset)
         titleLabel.centerXToSuperview()
         titleLabel.leftToSuperview()
         titleLabel.rightToSuperview()
 
-        messageLabel.topToBottom(of: titleLabel, offset: 10.0)
+        messageLabel.topToBottom(of: titleLabel, offset: Layout.messageLabelTopOffset)
         messageLabel.centerXToSuperview()
         messageLabel.leftToSuperview()
         messageLabel.rightToSuperview()

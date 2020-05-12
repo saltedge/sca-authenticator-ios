@@ -41,8 +41,6 @@ final class PasscodeCoordinator: Coordinator {
 //        self.type = type
         self.rootViewController = rootViewController
         self.passcodeVc = PasscodeViewController(purpose: purpose)
-
-        // create module builder
     }
 
     func start() {

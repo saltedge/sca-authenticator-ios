@@ -112,7 +112,7 @@ extension AuthorizationHeaderCollectionViewCell: Layoutable {
 
         progressView.height(3.0)
         progressView.bottom(to: contentView)
-        progressView.width(to: contentView)//., offset: Layout.progressViewWidthOffset)
+        progressView.width(to: contentView)
         progressView.centerX(to: contentView)
 
         timeLeftLabel.right(to: contentView, offset: Layout.timeLeftLabelOffset)

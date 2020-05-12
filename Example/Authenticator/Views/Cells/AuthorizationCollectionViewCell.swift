@@ -25,10 +25,10 @@ import TinyConstraints
 import WebKit
 
 private struct Layout {
-    static let sideOffset: CGFloat = AppLayout.sideOffset / 2
-    static let topOffset: CGFloat = 30.0
-    static let buttonHeight: CGFloat = 36.0
-    static let bottomOffset: CGFloat = -40.0
+    static let sideOffset: CGFloat = 16.0
+    static let titleLabelTopOffset: CGFloat = 30.0
+    static let contentTopOffset: CGFloat = 12.0
+    static let bottomOffset: CGFloat = 40.0
 }
 
 protocol AuthorizationCellDelegate: class {
@@ -65,7 +65,6 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         descriptionTextView.isUserInteractionEnabled = false
-//        descriptionTextView.backgroundColor = .backgroundColor
         setupButtons()
         layout()
     }
@@ -133,18 +132,18 @@ extension AuthorizationCollectionViewCell: Layoutable {
     func layout() {
         addSubviews(titleLabel, contentStackView, buttonsStackView, stateView)
 
-        titleLabel.top(to: self, offset: Layout.topOffset)
+        titleLabel.top(to: self, offset: Layout.titleLabelTopOffset)
         titleLabel.centerX(to: self)
 
-        contentStackView.topToBottom(of: titleLabel, offset: 12.0)
-        contentStackView.leftToSuperview(offset: 16.0)
-        contentStackView.rightToSuperview(offset: -16.0)
+        contentStackView.topToBottom(of: titleLabel, offset: Layout.contentTopOffset)
+        contentStackView.leftToSuperview(offset: Layout.sideOffset)
+        contentStackView.rightToSuperview(offset: -Layout.sideOffset)
         contentStackView.bottomToTop(of: buttonsStackView)
         contentStackView.centerXToSuperview()
 
-        buttonsStackView.leftToSuperview(offset: 16.0)
-        buttonsStackView.rightToSuperview(offset: -16.0)
-        buttonsStackView.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: Layout.bottomOffset)
+        buttonsStackView.leftToSuperview(offset: Layout.sideOffset)
+        buttonsStackView.rightToSuperview(offset: -Layout.sideOffset)
+        buttonsStackView.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: -Layout.bottomOffset)
         buttonsStackView.centerXToSuperview()
 
         stateView.edgesToSuperview()
