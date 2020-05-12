@@ -41,7 +41,7 @@ class NoDataView: UIView {
 
     init(image: UIImage, title: String, description: String, ctaTitle: String? = nil, action: (() -> ())? = nil) {
         super.init(frame: .zero)
-//        alpha = 0.0
+        // NOTE: uncomment, whe all images will be available
 //        imageView.image = image
         imageView.backgroundColor = .lightGray
         titleLabel.text = title
@@ -56,21 +56,6 @@ class NoDataView: UIView {
         }
         layout()
     }
-
-//    func setupButton(with title: String, action: @escaping (() -> ())) {
-//        let button = CustomButton(text: title)
-//
-//        button.on(.touchUpInside) { _, _ in
-//            action()
-//        }
-//
-//        addSubview(button)
-//
-//        button.topToBottom(of: descriptionLabel, offset: Layout.buttonTopOffset)
-//        button.centerX(to: self)
-//        button.widthToSuperview(offset: -128.0)
-//        button.bottom(to: self)
-//    }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

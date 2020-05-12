@@ -145,6 +145,7 @@ final class ApplicationCoordinator: Coordinator {
         }
     }
 
+    // NOTE: Review
     private func presentPasscode() {
         guard let topController = UIWindow.topViewController else { return }
 
@@ -153,12 +154,8 @@ final class ApplicationCoordinator: Coordinator {
         topController.present(passcodeViewController, animated: false)
 
         passcodeViewController.completeClosure = {
-//            TimerApplication.resetIdleTimer()
-//            self.registerTimerNotifications()
-//            if !self.passcodeShownDueToInactivity {
-//                self.startAuthorizationsViewController()
-//                self.tabBarCoordinator.startAuthorizationsCoordinator()
-//            }
+            TimerApplication.resetIdleTimer()
+            self.registerTimerNotifications()
         }
     }
 
@@ -168,31 +165,23 @@ final class ApplicationCoordinator: Coordinator {
         }
     }
 
+    // NOTE: Review
     @objc func applicationDidTimeout(notification: NSNotification) {
-//        guard let topController = UIWindow.topViewController,
-//            !topController.isKind(of: PasscodeViewController.self) else { return }
-//
-//        var visibleController: UIViewController
-//
-//        if let tabBarController = topController as? MainTabBarViewController,
-//            let selectedController = (tabBarController.selectedViewController as? UINavigationController)?.viewControllers.last {
-//            visibleController = selectedController
-//        } else {
-//            visibleController = topController
-//        }
-//
-//        messageBarView = visibleController.present(
-//            message: l10n(.inactivityMessage),
-//            style: .warning,
-//            completion: {
-//                if self.messageBarView != nil {
-//                    self.passcodeShownDueToInactivity = true
-//                    self.disableTimerNotifications()
-//                    self.openPasscodeIfNeeded()
-//                    self.showBiometricsIfEnabled()
-//                }
-//            }
-//        )
+        guard let topController = UIWindow.topViewController,
+            !topController.isKind(of: PasscodeViewController.self) else { return }
+
+        messageBarView = topController.present(
+            message: l10n(.inactivityMessage),
+            style: .warning,
+            completion: {
+                if self.messageBarView != nil {
+                    self.passcodeShownDueToInactivity = true
+                    self.disableTimerNotifications()
+                    self.openPasscodeIfNeeded()
+                    self.showBiometricsIfEnabled()
+                }
+            }
+        )
     }
 
     @objc private func dismissMessage() {
