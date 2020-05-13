@@ -28,27 +28,29 @@ private struct Layout {
     static let height: CGFloat = 48.0
 }
 
-// TODO: Remove bordered button type
 class CustomButton: UIButton {
-    enum Style {
-        case filled
-        case bordered
-    }
-
-    override open var isHighlighted: Bool {
+    override var isHighlighted: Bool {
         didSet {
-            backgroundColor = isHighlighted ? .primaryDark : .darkBlue
+            guard backgroundColor != UIColor.secondaryButtonColor else { return }
+
+            backgroundColor = isHighlighted ? .selectedColor : .darkBlue
         }
     }
 
-    init(_ style: CustomButton.Style, text: String, height: CGFloat = Layout.height) {
+    init(text: String, height: CGFloat = Layout.height, textColor: UIColor = .white, backgroundColor: UIColor = .darkBlue) {
         super.init(frame: .zero)
-        style == .filled ? setupFilledButton() : setupBorderedButton()
+        self.backgroundColor = backgroundColor
+        titleLabel?.font = .systemFont(ofSize: 18.0, weight: .medium)
         setTitle(text, for: .normal)
-        setTitleColor(.white, for: [.normal, .selected, .highlighted, .focused])
+        setTitleColor(textColor, for: .normal)
+        setTitleColor(textColor, for: .highlighted)
         layer.cornerRadius = Layout.cornerRadius
         self.height(height)
         setupShadow()
+    }
+
+    func updateTitle(text: String) {
+        setTitle(text, for: .normal)
     }
 
     private func setupShadow() {
@@ -58,20 +60,7 @@ class CustomButton: UIButton {
         layer.shadowRadius = 30.0
     }
 
-    private func setupFilledButton() {
-        backgroundColor = .darkBlue
-        titleLabel?.font = .systemFont(ofSize: 18.0, weight: .medium)
-    }
-
-    private func setupBorderedButton() {
-        setTitleColor(.white, for: .normal)
-        titleLabel?.font = .auth_15medium
-        layer.borderColor = UIColor.auth_blue.cgColor
-        layer.borderWidth = 1.0
-    }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }

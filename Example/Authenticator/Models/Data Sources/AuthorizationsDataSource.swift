@@ -51,6 +51,10 @@ final class AuthorizationsDataSource {
         return 1
     }
 
+    var hasConnections: Bool {
+        return ConnectionsCollector.activeConnections.count > 0
+    }
+
     var hasDataToShow: Bool {
         return viewModels.count > 0
     }
@@ -99,7 +103,7 @@ final class AuthorizationsDataSource {
 
     private func clearedViewModels() -> [AuthorizationViewModel] {
         return self.viewModels.compactMap { viewModel in
-            if viewModel.state.value != .base,
+            if viewModel.state != .base,
                 let actionTime = viewModel.actionTime, Date().timeIntervalSince1970 - actionTime.timeIntervalSince1970 >= 3 {
                 return nil
             }
@@ -114,7 +118,7 @@ final class AuthorizationsDataSource {
 private extension Array where Element == AuthorizationViewModel {
     func merge(array: [Element]) -> [AuthorizationViewModel] {
         let finalElements: [Element] = array.compactMap { element in
-            if element.expired || element.state.value != .base {
+            if element.expired || element.state != .base {
                 return element
             } else {
                 return nil

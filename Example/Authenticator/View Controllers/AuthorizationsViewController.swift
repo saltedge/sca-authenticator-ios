@@ -28,29 +28,30 @@ protocol AuthorizationsViewControllerDelegate: class {
 
 final class AuthorizationsViewController: BaseViewController {
     private let authorizationsView = MainAuthorizationsView()
-
-    private let noDataView = NoDataView(
-        image: #imageLiteral(resourceName: "no_authorizations"),
-        title: l10n(.noAuthorizations),
-        description: l10n(.noAuthorizationsDescription)
-    )
-
     private var messageBarView: MessageBarView?
+    private var noDataView: AuthorizationsNoDataView?
 
     weak var delegate: AuthorizationsViewControllerDelegate?
 
-    var dataSource: AuthorizationsDataSource?
+    var dataSource: AuthorizationsDataSource!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = l10n(.authorizations)
-        view.backgroundColor = .auth_backgroundColor
-        authorizationsView.backgroundColor = .white
+        navigationItem.title = l10n(.authenticator)
+        view.backgroundColor = .backgroundColor
+        authorizationsView.backgroundColor = .backgroundColor
         authorizationsView.delegate = self
-        setupQrButton()
+        setupNavigationBarButtons()
         setupObservers()
+        setupNoDataView()
         layout()
-        noDataView.alpha = 1.0
+    }
+
+    private func setupNoDataView() {
+        noDataView = AuthorizationsNoDataView(
+            type: dataSource.hasConnections ? .noAuthorizations : .noConnections,
+            buttonAction: scanQrPressed
+        )
     }
 
     func reloadData(at index: Int) {
@@ -83,13 +84,24 @@ final class AuthorizationsViewController: BaseViewController {
 
 // MARK: - Setup
 extension AuthorizationsViewController {
-    func setupQrButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "qr"),
-            style: .plain,
-            target: self,
-            action: #selector(scanQrPressed)
-        )
+    func setupNavigationBarButtons() {
+        let moreButton = UIButton()
+        moreButton.setImage(UIImage(named: "more"), for: .normal)
+        moreButton.addTarget(self, action: #selector(morePressed), for: .touchUpInside)
+
+        let qrButton = UIButton()
+        qrButton.setImage(UIImage(named: "qr"), for: .normal)
+        qrButton.addTarget(self, action: #selector(scanQrPressed), for: .touchUpInside)
+
+        navigationController?.navigationBar.addSubviews(moreButton, qrButton)
+
+        moreButton.size(CGSize(width: 22.0, height: 22.0))
+        moreButton.rightToSuperview(offset: -16.0)
+        moreButton.bottomToSuperview(offset: -12.0)
+
+        qrButton.size(CGSize(width: 22.0, height: 22.0))
+        qrButton.rightToLeft(of: moreButton, offset: -30.0)
+        qrButton.bottomToSuperview(offset: -12.0)
     }
 
     func setupObservers() {
@@ -112,10 +124,11 @@ extension AuthorizationsViewController {
         UIView.animate(
             withDuration: 0.3,
             animations: { [weak self] in
-                guard let dataSource = self?.dataSource else { return }
+                guard let strongSelf = self else { return }
 
-                self?.noDataView.alpha = dataSource.hasDataToShow ? 0.0 : 1.0
-                self?.authorizationsView.alpha = !dataSource.hasDataToShow ? 0.0 : 1.0
+                strongSelf.noDataView?.type = strongSelf.dataSource.hasConnections ? .noAuthorizations : .noConnections
+                strongSelf.noDataView?.alpha = strongSelf.dataSource.hasDataToShow ? 0.0 : 1.0
+                strongSelf.authorizationsView.alpha = !strongSelf.dataSource.hasDataToShow ? 0.0 : 1.0
             }
         )
     }
@@ -127,27 +140,32 @@ private extension AuthorizationsViewController {
         delegate?.scanQrPressed()
     }
 
+    // TODO: Replace with presenting action sheet
+    @objc func morePressed() {
+        print("More pressed")
+    }
+
     func delete(section: Int) {
         updateViewsHiddenState()
     }
 
     func confirmAuthorization(by authorizationId: String) {
-        guard let data = dataSource?.confirmationData(for: authorizationId),
-            let viewModel = dataSource?.viewModel(with: authorizationId),
-            let index = dataSource?.index(of: viewModel) else { return }
+        guard let data = dataSource.confirmationData(for: authorizationId),
+            let viewModel = dataSource.viewModel(with: authorizationId),
+            let index = dataSource.index(of: viewModel) else { return }
 
-        viewModel.state.value = .processing
+        viewModel.state = .processing
         authorizationsView.reloadData(at: index)
 
         AuthorizationsInteractor.confirm(
             data: data,
             success: { [weak self] in
-                viewModel.state.value = .success
+                viewModel.state = .success
                 viewModel.actionTime = Date()
                 self?.authorizationsView.reloadData(at: index)
             },
             failure: { [weak self] _ in
-                viewModel.state.value = .undefined
+                viewModel.state = .undefined
                 viewModel.actionTime = Date()
                 self?.authorizationsView.reloadData(at: index)
             }
@@ -158,35 +176,35 @@ private extension AuthorizationsViewController {
 // MARK: - Layout
 extension AuthorizationsViewController: Layoutable {
     func layout() {
+        guard let noDataView = noDataView else { return }
+
         view.addSubviews(authorizationsView, noDataView)
 
         authorizationsView.edgesToSuperview()
-
-        noDataView.left(to: view, offset: AppLayout.sideOffset)
-        noDataView.right(to: view, offset: -AppLayout.sideOffset)
-        noDataView.center(in: view)
+        noDataView.topToSuperview(offset: 100)
+        noDataView.widthToSuperview()
     }
 }
 
 // MARK: - Network
 extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
     func denyPressed(authorizationId: String) {
-        guard let data = dataSource?.confirmationData(for: authorizationId),
-            let viewModel = dataSource?.viewModel(with: authorizationId),
-            let index = dataSource?.index(of: viewModel) else { return }
+        guard let data = dataSource.confirmationData(for: authorizationId),
+            let viewModel = dataSource.viewModel(with: authorizationId),
+            let index = dataSource.index(of: viewModel) else { return }
 
-        viewModel.state.value = .processing
+        viewModel.state = .processing
         authorizationsView.reloadData(at: index)
 
         AuthorizationsInteractor.deny(
             data: data,
             success: {
-                viewModel.state.value = .denied
+                viewModel.state = .denied
                 viewModel.actionTime = Date()
                 self.authorizationsView.reloadData(at: index)
             },
             failure: { _ in
-                viewModel.state.value = .undefined
+                viewModel.state = .undefined
                 viewModel.actionTime = Date()
                 self.authorizationsView.reloadData(at: index)
             }

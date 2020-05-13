@@ -96,7 +96,7 @@ final class CompleteView: UIView {
 
     init(state: State, title: String, description: String = l10n(.connectedSuccessfullyDescription)) {
         self.state = state
-        proceedButton = CustomButton(.filled, text: state.mainActionTitle)
+        proceedButton = CustomButton(text: state.mainActionTitle)
         imageView = UIImageView(image: state.image)
         super.init(frame: .zero)
         imageView.contentMode = .scaleAspectFit

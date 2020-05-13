@@ -19,6 +19,7 @@
 "actions.ok" = "OK";
 "actions.proceed" = "Proceed";
 "action.connect_provider" = "Connect Provider";
+"actions.connect" = "Connect";
 "actions.reconnect" = "Reconnect";
 "actions.rename" = "Rename";
 "actions.report_problem" = "Report a Problem";
@@ -28,11 +29,12 @@
 "actions.try_again" = "Try Again";
 "actions.unlock_authenticator" = "Unlock Authenticator";
 "actions.view_more" = "View More";
-"authorization.active.title" = "Authorizing...";
-"authorization.success.title" = "Success!";
+"authorization.screen.name" = "Authenticator";
+"authorization.active.title" = "Authorizing";
+"authorization.success.title" = "Success";
 "authorization.time_out.title" = "Time Out";
 "authorization.denied.title" = "Denied";
-"authorization.active.message" = "Please wait while authorization in process...";
+"authorization.active.message" = "Please wait while authorization\nis processing";
 "authorization.success.message" = "Your action was successfully authorized";
 "authorization.time_out.message" = "Time to authorize your action is out";
 "authorization.denied.message" = "Your action was denied";
@@ -56,8 +58,8 @@
 "in_app.connections_list.delete_all_connections" = "Delete all connections and stop receiving authorizations for all connections.";
 "in_app.connections_list.delete_connection" = "Delete the connection and stop receiving authorizations for it.";
 "in_app.authorizations.authorization_expired" = "Authorization Expired";
-"in_app.authorizations.no_authorizations" = "Nothing to confirm";
-"in_app.authorizations.no_authorizations_description" = "You have no active authorizations. Once an action authorization is generated, it will be valid for a few minutes.";
+"in_app.authorizations.no_authorizations" = "Nothing to Authorize";
+"in_app.authorizations.no_authorizations_description" = "You don’t have any active authorization requests yet. Once you initiate an action, you will have few minutes to authorize it.";
 "in_app.connection.connected_on" = "Connected on";
 "in_app.connection.connection_failed" = "Connection Failed";
 "in_app.connect.scan_qr" = "Scan QR code";
@@ -65,7 +67,7 @@
 "in_app.connect.new_connection" = "New connection";
 "in_app.connect.in_progress" = "Connection in Progress. Please Wait...";
 "in_app.connect.no_connections" = "No Connections";
-"in_app.connect.no_connections_description" = "You have no currently connected service providers. Connect one to start receiving confirmations for your actions (e.g. payments).";
+"in_app.connect.no_connections_description" = "Seems like you didn’t connect to your provider yet. Add new connection to securely authorize your actions.";
 "in_app.connect.select" = "Select Connection";
 "in_app.connect.success_title" = "%@ was successfully connected!";
 "in_app.connect.success_description" = "Your Service Provider has been successfully connected to the Authenticator App. You will receive a authorization request every time you make an action.";
@@ -116,5 +118,4 @@
 "onboarding.secure_app.passcode_title" = "Secure your Authenticator";
 "onboarding.secure_app.touch_id_allow" = "Allow Touch ID";
 "onboarding.secure_app.touch_id_description" = "Use Touch ID to enter the App faster, but don’t worry, you’ll still have your passcode as backup.";
-"onboarding.splash_screen.name" = "Authenticator";
 "onboarding.qr.description" = "Scan the QR to make your \nfirst connection";

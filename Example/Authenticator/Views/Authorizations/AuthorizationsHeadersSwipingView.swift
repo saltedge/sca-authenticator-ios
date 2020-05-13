@@ -31,7 +31,7 @@ final class AuthorizationsHeadersSwipingView: UIView {
 
     init() {
         let flowLayout = AuthorizationsCollectionLayout()
-        flowLayout.itemSize = CGSize(width: AppLayout.screenWidth * 0.66, height: 42.0)
+        flowLayout.itemSize = CGSize(width: AppLayout.screenWidth * 0.66, height: 48.0)
         flowLayout.minimumLineSpacing = Layout.spacing
         flowLayout.scrollDirection = .horizontal
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
@@ -52,12 +52,12 @@ final class AuthorizationsHeadersSwipingView: UIView {
 // MARK: - Setup
 private extension AuthorizationsHeadersSwipingView {
     func setupCollectionView() {
-        collectionView.backgroundColor = .white
         collectionView.register(
             AuthorizationHeaderCollectionViewCell.self,
             forCellWithReuseIdentifier: String(describing: AuthorizationHeaderCollectionViewCell.self)
         )
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .backgroundColor
     }
 }
 

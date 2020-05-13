@@ -45,7 +45,7 @@ extension UIViewController {
                                confirmAction: ((UIAlertAction) -> ())? = nil,
                                cancelAction: ((UIAlertAction) -> ())? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.view.tintColor = UIColor.auth_blue
+        alert.view.tintColor = .lightBlue
         let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelAction)
         alert.addAction(cancelAction)
         if confirmAction != nil {
@@ -60,7 +60,7 @@ extension UIViewController {
                        actionTitle: String = l10n(.done),
                        completion: (() -> ())? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.view.tintColor = .auth_blue
+        alert.view.tintColor = .lightBlue
         let cancelAction = UIAlertAction(title: actionTitle, style: .cancel, handler: { _ in completion?() })
         alert.addAction(cancelAction)
         present(alert, animated: true)

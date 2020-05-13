@@ -36,6 +36,7 @@ enum Localizations: String, Localizable {
     case warning = "errors.warning"
     case done = "actions.done"
     case next = "actions.next"
+    case authenticator = "authorization.screen.name"
 
     // MARK: - Onboarding
     case getStarted = "actions.get_started"
@@ -160,6 +161,7 @@ enum Localizations: String, Localizable {
     case wrongPasscode = "errors.wrong_passcode"
 
     // MARK: - Connection Options
+    case connect = "actions.connect"
     case reconnect = "actions.reconnect"
     case rename = "actions.rename"
     case support = "in_app.settings.support"

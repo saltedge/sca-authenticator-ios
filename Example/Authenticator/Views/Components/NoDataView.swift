@@ -25,46 +25,56 @@ import TinyConstraints
 
 private struct Layout {
     static let imageViewSize: CGSize = CGSize(width: 104.0, height: 104.0)
-    static let titleLabelTopOffset: CGFloat = 40.0
-    static let descriptionLabelTopOffset: CGFloat = 15.0
+    static let titleLabelTopOffset: CGFloat = 30.0
+    static let descriptionLabelTopOffset: CGFloat = 10.0
     static let buttonSideOffset: CGFloat = 75.0
-    static let buttonTopOffset: CGFloat = 40.0
+    static let buttonTopOffset: CGFloat = 28.0
 }
 
 class NoDataView: UIView {
     private let imageView = UIImageView(frame: .zero)
-    private let titleLabel = UILabel.titleLabel
-    private let descriptionLabel = UILabel.descriptionLabel
-    private var onCTAPress: (() -> ())?
-    private let containerView = UIView()
+    private let titleLabel = UILabel(font: .systemFont(ofSize: 21.0))
+    private let descriptionLabel = UILabel(font: .systemFont(ofSize: 17.0))
+    private var button: CustomButton?
 
-    init(image: UIImage, title: String, description: String, ctaTitle: String? = nil, onCTAPress: (() -> ())? = nil) {
-        self.onCTAPress = onCTAPress
+    var onCTAPress: (() -> ())?
+
+    init(image: UIImage, title: String, description: String, ctaTitle: String? = nil, action: (() -> ())? = nil) {
         super.init(frame: .zero)
-        alpha = 0.0
-        imageView.image = image
+        // NOTE: uncomment, whe all images will be available
+//        imageView.image = image
+        imageView.backgroundColor = .lightGray
         titleLabel.text = title
         descriptionLabel.text = description
-        layout()
-        if let title = ctaTitle, onCTAPress != nil {
-            setupButton(with: title)
-        } else {
-            descriptionLabel.bottom(to: self)
+        descriptionLabel.numberOfLines = 0
+
+        if let title = ctaTitle {
+            button = CustomButton(text: title)
+            button?.on(.touchUpInside) { _, _ in
+                action?()
+            }
         }
+        layout()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupButton(with title: String) {
-        let button = CustomButton(.filled, text: title)
-        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        addSubview(button)
-        button.topToBottom(of: descriptionLabel, offset: Layout.buttonTopOffset)
-        button.centerX(to: self)
-        button.width(225.0)
-        button.bottom(to: self)
+    func updateContent(
+        image: UIImage,
+        title: String,
+        description: String,
+        buttonTitle: String? = nil
+    ) {
+        imageView.image = image
+        titleLabel.text = title
+        descriptionLabel.text = description
+        button?.isHidden = buttonTitle == nil
+
+        if let title = buttonTitle {
+            button?.updateTitle(text: title)
+        }
     }
 
     @objc private func buttonPressed() {
@@ -77,16 +87,26 @@ extension NoDataView: Layoutable {
     func layout() {
         addSubviews(imageView, titleLabel, descriptionLabel)
 
-        imageView.size(Layout.imageViewSize)
+        imageView.height(AppLayout.screenHeight * 0.246)
+        imageView.width(to: self, offset: -32.0)
         imageView.top(to: self)
         imageView.centerX(to: self)
 
-        titleLabel.left(to: self)
-        titleLabel.right(to: self)
+        titleLabel.widthToSuperview(offset: -64.0)
         titleLabel.topToBottom(of: imageView, offset: Layout.titleLabelTopOffset)
+        titleLabel.centerX(to: self)
 
-        descriptionLabel.left(to: self)
-        descriptionLabel.right(to: self)
+        descriptionLabel.widthToSuperview(offset: -54.0)
         descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionLabelTopOffset)
+        descriptionLabel.centerX(to: self)
+
+        if let button = button {
+            addSubview(button)
+
+            button.topToBottom(of: descriptionLabel, offset: Layout.buttonTopOffset)
+            button.centerX(to: self)
+            button.widthToSuperview(offset: -128.0)
+            button.bottom(to: self)
+        }
     }
 }

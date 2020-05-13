@@ -126,6 +126,7 @@ private extension MainAuthorizationsView {
     func setupSwipingViews() {
         headerSwipingView.collectionView.dataSource = self
         headerSwipingView.collectionView.delegate = self
+
         authorizationCollectionView.dataSource = self
         authorizationCollectionView.delegate = self
         authorizationCollectionView.backgroundColor = .clear
@@ -241,10 +242,7 @@ extension MainAuthorizationsView: Layoutable {
         headerSwipingView.centerX(to: self)
         sendSubviewToBack(headerSwipingView)
 
-        authorizationCollectionView.topToSuperview()
-        authorizationCollectionView.width(to: self)
-        authorizationCollectionView.bottom(to: self)
-        authorizationCollectionView.centerX(to: self)
+        authorizationCollectionView.edgesToSuperview()
     }
 }
 

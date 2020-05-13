@@ -25,10 +25,10 @@ import TinyConstraints
 import WebKit
 
 private struct Layout {
-    static let sideOffset: CGFloat = AppLayout.sideOffset / 2
-    static let topOffset: CGFloat = 20.0
-    static let buttonHeight: CGFloat = 36.0
-    static let bottomOffset: CGFloat = -24.0
+    static let sideOffset: CGFloat = 16.0
+    static let titleLabelTopOffset: CGFloat = 30.0
+    static let contentTopOffset: CGFloat = 12.0
+    static let bottomOffset: CGFloat = 40.0
 }
 
 protocol AuthorizationCellDelegate: class {
@@ -37,15 +37,10 @@ protocol AuthorizationCellDelegate: class {
 }
 
 final class AuthorizationCollectionViewCell: UICollectionViewCell {
-    private let stateView = AuthorizationStateView(state: .base)
+    private lazy var stateView = AuthorizationStateView(state: .base)
     private var isProcessing: Bool = false
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .auth_gray
-        label.font = UIFont.systemFont(ofSize: 14.0)
-        return label
-    }()
+    private let titleLabel = UILabel(font: .systemFont(ofSize: 24.0, weight: .regular), textColor: .textColor)
     private lazy var descriptionTextView = UITextView()
     private lazy var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
     private var contentStackView: UIStackView = {
@@ -59,7 +54,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         stackView.axis = .horizontal
         stackView.alignment = .center
         stackView.distribution = .fillEqually
-        stackView.spacing = Layout.sideOffset
+        stackView.spacing = 11.0
         return stackView
     }()
 
@@ -70,8 +65,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         descriptionTextView.isUserInteractionEnabled = false
-        setupLeftButton()
-        setupRightButton()
+        setupButtons()
         layout()
     }
 
@@ -79,31 +73,27 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         self.viewModel = viewModel
         titleLabel.text = viewModel.title
 
-        viewModel.state.valueChanged = { [weak self] changedState in
-            guard let strongSelf = self else { return }
+        guard viewModel.state == .base else {
+            stateView.set(state: viewModel.state)
+            stateView.alpha = 1.0
+            return
+        }
 
-            guard changedState == .base else {
-                strongSelf.stateView.set(state: changedState)
-                strongSelf.stateView.isHidden = false
-                return
-            }
+        if viewModel.expired && viewModel.state != .expired {
+            stateView.set(state: .expired)
+            stateView.alpha = 1.0
+        } else {
+            stateView.alpha = 0.0
+            stateView.set(state: .base)
 
-            if viewModel.expired && changedState != .expired {
-                strongSelf.stateView.set(state: .expired)
-                strongSelf.stateView.isHidden = false
+            if viewModel.description.htmlToAttributedString != nil {
+                contentStackView.removeArrangedSubview(descriptionTextView)
+                webView.loadHTMLString(viewModel.description, baseURL: nil)
+                contentStackView.addArrangedSubview(webView)
             } else {
-                strongSelf.stateView.isHidden = true
-                strongSelf.stateView.set(state: .base)
-
-                if viewModel.description.htmlToAttributedString != nil {
-                    strongSelf.contentStackView.removeArrangedSubview(strongSelf.descriptionTextView)
-                    strongSelf.webView.loadHTMLString(viewModel.description, baseURL: nil)
-                    strongSelf.contentStackView.addArrangedSubview(strongSelf.webView)
-                } else {
-                    strongSelf.contentStackView.removeArrangedSubview(strongSelf.webView)
-                    strongSelf.descriptionTextView.text = viewModel.description
-                    strongSelf.contentStackView.addArrangedSubview(strongSelf.descriptionTextView)
-                }
+                contentStackView.removeArrangedSubview(webView)
+                descriptionTextView.text = viewModel.description
+                contentStackView.addArrangedSubview(descriptionTextView)
             }
         }
     }
@@ -115,24 +105,14 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Setup
 private extension AuthorizationCollectionViewCell {
-    func setupLeftButton() {
-        setupButton(
-            .bordered,
-            title: l10n(.deny)
-        ).addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
-    }
+    func setupButtons() {
+        let leftButton = CustomButton(text: l10n(.deny), textColor: .textColor, backgroundColor: .secondaryButtonColor)
+        leftButton.addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
 
-    func setupRightButton() {
-        setupButton(
-            .filled,
-            title: l10n(.allow)
-        ).addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
-    }
+        let rightButton = CustomButton(text: l10n(.confirm), backgroundColor: .actionColor)
+        rightButton.addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
 
-    func setupButton(_ style: CustomButton.Style, title: String) -> UIButton {
-        let button = CustomButton(style, text: title, height: Layout.buttonHeight)
-        buttonsStackView.addArrangedSubview(button)
-        return button
+        buttonsStackView.addArrangedSubviews(leftButton, rightButton)
     }
 }
 
@@ -152,17 +132,19 @@ extension AuthorizationCollectionViewCell: Layoutable {
     func layout() {
         addSubviews(titleLabel, contentStackView, buttonsStackView, stateView)
 
-        titleLabel.top(to: self, offset: Layout.topOffset)
+        titleLabel.top(to: self, offset: Layout.titleLabelTopOffset)
         titleLabel.centerX(to: self)
 
-        contentStackView.topToBottom(of: titleLabel, offset: 12.0)
-        contentStackView.left(to: self, offset: AppLayout.sideOffset)
-        contentStackView.right(to: self, offset: -AppLayout.sideOffset)
+        contentStackView.topToBottom(of: titleLabel, offset: Layout.contentTopOffset)
+        contentStackView.leftToSuperview(offset: Layout.sideOffset)
+        contentStackView.rightToSuperview(offset: -Layout.sideOffset)
         contentStackView.bottomToTop(of: buttonsStackView)
+        contentStackView.centerXToSuperview()
 
-        buttonsStackView.left(to: self, offset: AppLayout.sideOffset / 2)
-        buttonsStackView.right(to: self, offset: -AppLayout.sideOffset / 2)
-        buttonsStackView.bottom(to: self, offset: Layout.bottomOffset)
+        buttonsStackView.leftToSuperview(offset: Layout.sideOffset)
+        buttonsStackView.rightToSuperview(offset: -Layout.sideOffset)
+        buttonsStackView.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: -Layout.bottomOffset)
+        buttonsStackView.centerXToSuperview()
 
         stateView.edgesToSuperview()
     }
