@@ -57,6 +57,7 @@ private extension AuthorizationsHeadersSwipingView {
             forCellWithReuseIdentifier: String(describing: AuthorizationHeaderCollectionViewCell.self)
         )
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = .backgroundColor
     }
 }
 

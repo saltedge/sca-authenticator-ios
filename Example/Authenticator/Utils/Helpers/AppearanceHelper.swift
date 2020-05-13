@@ -26,8 +26,18 @@ struct AppearanceHelper {
     static func setup() {
         let navBarAppearance = UINavigationBar.appearance()
 
+        if #available(iOS 13, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground()
+            appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.textColor]
+            appearance.backgroundColor = .backgroundColor
+            navBarAppearance.standardAppearance = appearance
+            navBarAppearance.scrollEdgeAppearance = appearance
+        }
+
         navBarAppearance.barStyle = .default
         navBarAppearance.backgroundColor = .backgroundColor
+        navBarAppearance.barTintColor = .backgroundColor
         navBarAppearance.tintColor = .lightBlue
         navBarAppearance.isTranslucent = false
         navBarAppearance.shadowImage = UIImage()

@@ -83,10 +83,11 @@ private extension AuthorizationHeaderCollectionViewCell {
         connectionImageView.layer.cornerRadius = 6.0
         contentView.layer.cornerRadius = 4.0
         contentView.layer.masksToBounds = true
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 4)
+
+        layer.shadowColor = UIColor(red: 0.374, green: 0.426, blue: 0.488, alpha: 0.1).cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowOpacity = 1
-        layer.shadowRadius = 20
+        layer.shadowRadius = 10
     }
 
     func setImage(from imageUrl: URL?) {
