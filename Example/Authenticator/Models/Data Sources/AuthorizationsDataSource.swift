@@ -25,7 +25,7 @@ import SEAuthenticator
 
 final class AuthorizationsDataSource {
     private var authorizationResponses = [SEAuthorizationData]()
-    private var viewModels = [AuthorizationViewModel]()
+    private var viewModels = [AuthorizationDetailViewModel]()
 
     func update(with authorizationResponses: [SEAuthorizationData]) -> Bool {
         if authorizationResponses != self.authorizationResponses {
@@ -33,7 +33,7 @@ final class AuthorizationsDataSource {
             self.viewModels = authorizationResponses.compactMap { response in
                 guard response.expiresAt >= Date() else { return nil }
 
-                return AuthorizationViewModel(response)
+                return AuthorizationDetailViewModel(response)
             }.merge(array: self.viewModels).sorted(by: { $0.createdAt < $1.createdAt })
             return true
         }
@@ -63,21 +63,21 @@ final class AuthorizationsDataSource {
         return viewModels.count
     }
 
-    func viewModel(at index: Int) -> AuthorizationViewModel? {
+    func viewModel(at index: Int) -> AuthorizationDetailViewModel? {
         guard viewModels.indices.contains(index) else { return nil }
 
         return viewModels[index]
     }
 
-    func viewModel(by connectionId: String?, authorizationId: String?) -> AuthorizationViewModel? {
+    func viewModel(by connectionId: String?, authorizationId: String?) -> AuthorizationDetailViewModel? {
         return viewModels.filter { $0.connectionId == connectionId && $0.authorizationId == authorizationId }.first
     }
 
-    func index(of viewModel: AuthorizationViewModel) -> Int? {
+    func index(of viewModel: AuthorizationDetailViewModel) -> Int? {
         return viewModels.firstIndex(of: viewModel)
     }
 
-    func viewModel(with authorizationId: String) -> AuthorizationViewModel? {
+    func viewModel(with authorizationId: String) -> AuthorizationDetailViewModel? {
         return viewModels.filter({ $0.authorizationId == authorizationId }).first
     }
 
@@ -101,7 +101,7 @@ final class AuthorizationsDataSource {
         viewModels.removeAll()
     }
 
-    private func clearedViewModels() -> [AuthorizationViewModel] {
+    private func clearedViewModels() -> [AuthorizationDetailViewModel] {
         return self.viewModels.compactMap { viewModel in
             if viewModel.state != .base,
                 let actionTime = viewModel.actionTime, Date().timeIntervalSince1970 - actionTime.timeIntervalSince1970 >= 3 {
@@ -115,8 +115,8 @@ final class AuthorizationsDataSource {
     }
 }
 
-private extension Array where Element == AuthorizationViewModel {
-    func merge(array: [Element]) -> [AuthorizationViewModel] {
+private extension Array where Element == AuthorizationDetailViewModel {
+    func merge(array: [Element]) -> [AuthorizationDetailViewModel] {
         let finalElements: [Element] = array.compactMap { element in
             if element.expired || element.state != .base {
                 return element

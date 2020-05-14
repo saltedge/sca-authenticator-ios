@@ -1,5 +1,5 @@
 //
-//  AuthorizationViewModel.swift
+//  AuthorizationDetailViewModel.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -23,7 +23,7 @@
 import Foundation
 import SEAuthenticator
 
-class AuthorizationViewModel: Equatable {
+class AuthorizationDetailViewModel: Equatable {
     var title: String = ""
     var authorizationId: String
     var connectionId: String
@@ -50,7 +50,7 @@ class AuthorizationViewModel: Equatable {
         self.state = data.expiresAt < Date() ? .expired : .base
     }
 
-    static func == (lhs: AuthorizationViewModel, rhs: AuthorizationViewModel) -> Bool {
+    static func == (lhs: AuthorizationDetailViewModel, rhs: AuthorizationDetailViewModel) -> Bool {
         return lhs.authorizationId == rhs.authorizationId &&
             lhs.connectionId == rhs.connectionId &&
             lhs.title == rhs.title &&

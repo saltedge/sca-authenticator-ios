@@ -58,7 +58,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
 
-    private(set) var viewModel: AuthorizationViewModel!
+    private(set) var viewModel: AuthorizationDetailViewModel!
 
     weak var delegate: AuthorizationCellDelegate?
 
@@ -69,7 +69,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         layout()
     }
 
-    func set(with viewModel: AuthorizationViewModel) {
+    func set(with viewModel: AuthorizationDetailViewModel) {
         self.viewModel = viewModel
         titleLabel.text = viewModel.title
 

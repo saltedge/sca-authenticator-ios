@@ -68,8 +68,6 @@
 		9D772130231E51200015BAC6 /* AuthorizationsCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */; };
 		9D772132231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */; };
 		9D772133231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */; };
-		9D77213823264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */; };
-		9D77213923264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */; };
 		9D87F49B2429302800F85D1F /* ConnectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */; };
 		9D87F49C2429302800F85D1F /* ConnectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */; };
 		9D87F49E2429326800F85D1F /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49D2429326800F85D1F /* ConnectionCell.swift */; };
@@ -143,7 +141,7 @@
 		9DCED8EA22CE18280050ED3C /* HapticFeedbackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */; };
 		9DCED8EB22CE18280050ED3C /* ParametersSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84122CE18270050ED3C /* ParametersSerializer.swift */; };
 		9DCED8EC22CE18280050ED3C /* BiometricsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84222CE18270050ED3C /* BiometricsHelper.swift */; };
-		9DCED8ED22CE18280050ED3C /* AuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84422CE18270050ED3C /* AuthorizationViewModel.swift */; };
+		9DCED8ED22CE18280050ED3C /* AuthorizationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */; };
 		9DCED8EE22CE18280050ED3C /* MessageBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84622CE18270050ED3C /* MessageBarView.swift */; };
 		9DCED8EF22CE18280050ED3C /* TableViewCellDequeuable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84822CE18270050ED3C /* TableViewCellDequeuable.swift */; };
 		9DCED8F022CE18280050ED3C /* FeaturesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */; };
@@ -291,7 +289,7 @@
 		9DE324C222D39A6D00EB162A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F122CE18270050ED3C /* OnboardingViewController.swift */; };
 		9DE324C422D39A7300EB162A /* SetupAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F322CE18270050ED3C /* SetupAppViewController.swift */; };
 		9DE324C522D39A7500EB162A /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F422CE18270050ED3C /* QRCodeViewController.swift */; };
-		9DE324C622D39A7B00EB162A /* AuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84422CE18270050ED3C /* AuthorizationViewModel.swift */; };
+		9DE324C622D39A7B00EB162A /* AuthorizationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */; };
 		9DE324C722D39A8300EB162A /* MessageBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84622CE18270050ED3C /* MessageBarView.swift */; };
 		9DE324C822D39A8600EB162A /* TableViewCellDequeuable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84822CE18270050ED3C /* TableViewCellDequeuable.swift */; };
 		9DE324C922D39A8900EB162A /* FeaturesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */; };
@@ -391,7 +389,6 @@
 		9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsHeadersSwipingView.swift; sourceTree = "<group>"; };
 		9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsCollectionLayout.swift; sourceTree = "<group>"; };
 		9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationCollectionViewCell.swift; sourceTree = "<group>"; };
-		9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAuthorizationsView.swift; sourceTree = "<group>"; };
 		9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionViewModel.swift; sourceTree = "<group>"; };
 		9D87F49D2429326800F85D1F /* ConnectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
 		9D87F4A02429393000F85D1F /* ConnectionsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsDataSource.swift; sourceTree = "<group>"; };
@@ -454,7 +451,7 @@
 		9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticFeedbackHelper.swift; sourceTree = "<group>"; };
 		9DCED84122CE18270050ED3C /* ParametersSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersSerializer.swift; sourceTree = "<group>"; };
 		9DCED84222CE18270050ED3C /* BiometricsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiometricsHelper.swift; sourceTree = "<group>"; };
-		9DCED84422CE18270050ED3C /* AuthorizationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationViewModel.swift; sourceTree = "<group>"; };
+		9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationDetailViewModel.swift; sourceTree = "<group>"; };
 		9DCED84622CE18270050ED3C /* MessageBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBarView.swift; sourceTree = "<group>"; };
 		9DCED84822CE18270050ED3C /* TableViewCellDequeuable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellDequeuable.swift; sourceTree = "<group>"; };
 		9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturesCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -820,7 +817,6 @@
 			children = (
 				9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */,
 				9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */,
-				9D77213723264DB50015BAC6 /* MainAuthorizationsView.swift */,
 				9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */,
 			);
 			path = Authorizations;
@@ -1009,7 +1005,7 @@
 			isa = PBXGroup;
 			children = (
 				9D630BC4243DC076000A9ACC /* Onboarding */,
-				9DCED84422CE18270050ED3C /* AuthorizationViewModel.swift */,
+				9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */,
 				9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */,
 				9DCBB2832435E9D900DB3F85 /* EditConnectionViewModel.swift */,
 			);
@@ -1697,7 +1693,6 @@
 				95C1EFC522D5ECAE00078A28 /* AboutViewController.swift in Sources */,
 				9DCED8EB22CE18280050ED3C /* ParametersSerializer.swift in Sources */,
 				9DCED8DC22CE18280050ED3C /* LocalizationHelper.swift in Sources */,
-				9D77213823264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */,
 				9DCED8FB22CE18280050ED3C /* SetupProgressBarCircle.swift in Sources */,
 				9DCED92622CE18280050ED3C /* AppDelegate.swift in Sources */,
 				9D87F49B2429302800F85D1F /* ConnectionViewModel.swift in Sources */,
@@ -1718,7 +1713,7 @@
 				9DD4DF252375969A000A9B80 /* QuickActionsHelper.swift in Sources */,
 				9DCED8A422CE18280050ED3C /* ConnectorWebViewController.swift in Sources */,
 				9DCED89E22CE18280050ED3C /* ConnectionsViewController.swift in Sources */,
-				9DCED8ED22CE18280050ED3C /* AuthorizationViewModel.swift in Sources */,
+				9DCED8ED22CE18280050ED3C /* AuthorizationDetailViewModel.swift in Sources */,
 				9DCED8F122CE18280050ED3C /* SettingsCell.swift in Sources */,
 				9DCED90422CE18280050ED3C /* ProgressBar.swift in Sources */,
 				9DCED91222CE18280050ED3C /* Coordinator.swift in Sources */,
@@ -1850,7 +1845,7 @@
 				9DE324CA22D39A8B00EB162A /* SettingsCell.swift in Sources */,
 				9DCBB2892435F1FF00DB3F85 /* EditConnectionViewModelSpec.swift in Sources */,
 				9DE324BB22D39A5800EB162A /* BaseViewController.swift in Sources */,
-				9DE324C622D39A7B00EB162A /* AuthorizationViewModel.swift in Sources */,
+				9DE324C622D39A7B00EB162A /* AuthorizationDetailViewModel.swift in Sources */,
 				9DE3247C22D3998600EB162A /* SettingsCoordinator.swift in Sources */,
 				9DE324B822D39A4E00EB162A /* ConnectionsViewController.swift in Sources */,
 				9DE324B222D39A3500EB162A /* HapticFeedbackHelper.swift in Sources */,
@@ -1906,7 +1901,6 @@
 				9DCBB2852435E9D900DB3F85 /* EditConnectionViewModel.swift in Sources */,
 				9DE3248D22D399C200EB162A /* ConnectionRepository.swift in Sources */,
 				9D66E1AF22D4C1D700BD59B6 /* ConnectionDataSpec.swift in Sources */,
-				9D77213923264DB60015BAC6 /* MainAuthorizationsView.swift in Sources */,
 				9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */,
 				9D1DEE8123DB5177003C79AC /* ActionRouterSpec.swift in Sources */,
 			);
