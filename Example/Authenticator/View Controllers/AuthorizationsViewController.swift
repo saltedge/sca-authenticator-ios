@@ -24,6 +24,7 @@ import UIKit
 
 protocol AuthorizationsViewControllerDelegate: class {
     func scanQrPressed()
+    func showMainNavigationMenu()
 }
 
 private struct Layout {
@@ -298,9 +299,8 @@ private extension AuthorizationsViewController {
         viewModel.scanQrPressed()
     }
 
-    // TODO: Replace with presenting action sheet
     @objc func morePressed() {
-        print("More pressed")
+        delegate?.showMainNavigationMenu()
     }
 
     func delete(section: Int) {

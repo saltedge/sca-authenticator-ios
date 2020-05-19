@@ -54,4 +54,26 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
         )
         connectViewCoordinator?.start()
     }
+
+    func showMainNavigationMenu() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let connections = UIAlertAction(title: l10n(.viewConnections), style: .default) { [weak self] _ in
+            guard let navController = self?.rootViewController.navigationController else { return }
+
+            let coordinator = ConnectionsCoordinator(rootViewController: navController)
+            coordinator.start()
+        }
+        let consents = UIAlertAction(title: l10n(.viewConsents), style: .default) { [weak self] _ in
+            print("Show Consents")
+        }
+        let settings = UIAlertAction(title: l10n(.viewSettings), style: .default) { [weak self] _ in
+            print("Show Settings")
+        }
+
+        [connections, consents, settings, cancel].forEach { actionSheet.addAction($0) }
+
+        rootViewController.present(actionSheet, animated: true)
+    }
 }

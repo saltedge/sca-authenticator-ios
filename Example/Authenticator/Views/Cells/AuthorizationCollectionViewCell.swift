@@ -107,7 +107,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 // MARK: - Setup
 private extension AuthorizationCollectionViewCell {
     func setupButtons() {
-        let leftButton = CustomButton(text: l10n(.deny), textColor: .textColor, backgroundColor: .secondaryButtonColor)
+        let leftButton = CustomButton(text: l10n(.deny), textColor: .textColor, backgroundColor: .secondaryBackground)
         leftButton.addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
 
         let rightButton = CustomButton(text: l10n(.confirm), backgroundColor: .actionColor)

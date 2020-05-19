@@ -17,6 +17,7 @@
 		95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
 		95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
 		95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
+		95F409002473C91000727095 /* ConnectionsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */; };
 		9D0DC4132462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
 		9D0DC4142462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
 		9D1DEE7423D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */; };
@@ -101,8 +102,6 @@
 		9DCED8A322CE18280050ED3C /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EA22CE18270050ED3C /* WKWebViewController.swift */; };
 		9DCED8A422CE18280050ED3C /* ConnectorWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */; };
 		9DCED8A522CE18280050ED3C /* AuthorizationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EC22CE18270050ED3C /* AuthorizationsViewController.swift */; };
-		9DCED8A722CE18280050ED3C /* CustomActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EF22CE18270050ED3C /* CustomActionSheetViewController.swift */; };
-		9DCED8A822CE18280050ED3C /* CustomActionSheetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F022CE18270050ED3C /* CustomActionSheetButton.swift */; };
 		9DCED8A922CE18280050ED3C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F122CE18270050ED3C /* OnboardingViewController.swift */; };
 		9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F322CE18270050ED3C /* SetupAppViewController.swift */; };
 		9DCED8AC22CE18280050ED3C /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F422CE18270050ED3C /* QRCodeViewController.swift */; };
@@ -146,7 +145,6 @@
 		9DCED8EF22CE18280050ED3C /* TableViewCellDequeuable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84822CE18270050ED3C /* TableViewCellDequeuable.swift */; };
 		9DCED8F022CE18280050ED3C /* FeaturesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */; };
 		9DCED8F122CE18280050ED3C /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84A22CE18270050ED3C /* SettingsCell.swift */; };
-		9DCED8F422CE18280050ED3C /* ConnectionActionSheetBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84E22CE18270050ED3C /* ConnectionActionSheetBuilder.swift */; };
 		9DCED8F522CE18280050ED3C /* CustomSpacingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85022CE18270050ED3C /* CustomSpacingLabel.swift */; };
 		9DCED8F722CE18280050ED3C /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85322CE18270050ED3C /* ModalView.swift */; };
 		9DCED8F922CE18280050ED3C /* PasscodeSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85622CE18270050ED3C /* PasscodeSymbolView.swift */; };
@@ -284,8 +282,6 @@
 		9DE324BC22D39A5B00EB162A /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EA22CE18270050ED3C /* WKWebViewController.swift */; };
 		9DE324BD22D39A5D00EB162A /* ConnectorWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */; };
 		9DE324BE22D39A5F00EB162A /* AuthorizationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EC22CE18270050ED3C /* AuthorizationsViewController.swift */; };
-		9DE324C022D39A6800EB162A /* CustomActionSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EF22CE18270050ED3C /* CustomActionSheetViewController.swift */; };
-		9DE324C122D39A6A00EB162A /* CustomActionSheetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F022CE18270050ED3C /* CustomActionSheetButton.swift */; };
 		9DE324C222D39A6D00EB162A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F122CE18270050ED3C /* OnboardingViewController.swift */; };
 		9DE324C422D39A7300EB162A /* SetupAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F322CE18270050ED3C /* SetupAppViewController.swift */; };
 		9DE324C522D39A7500EB162A /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F422CE18270050ED3C /* QRCodeViewController.swift */; };
@@ -294,7 +290,6 @@
 		9DE324C822D39A8600EB162A /* TableViewCellDequeuable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84822CE18270050ED3C /* TableViewCellDequeuable.swift */; };
 		9DE324C922D39A8900EB162A /* FeaturesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */; };
 		9DE324CA22D39A8B00EB162A /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84A22CE18270050ED3C /* SettingsCell.swift */; };
-		9DE324CD22D39A9500EB162A /* ConnectionActionSheetBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84E22CE18270050ED3C /* ConnectionActionSheetBuilder.swift */; };
 		9DE324CE22D39A9800EB162A /* CustomSpacingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85022CE18270050ED3C /* CustomSpacingLabel.swift */; };
 		9DE324D022D39A9F00EB162A /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85322CE18270050ED3C /* ModalView.swift */; };
 		9DE324D222D39AA700EB162A /* PasscodeSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85622CE18270050ED3C /* PasscodeSymbolView.swift */; };
@@ -357,6 +352,7 @@
 		95CD02DC235864130085C52A /* SEConnectHelperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEConnectHelperSpec.swift; sourceTree = "<group>"; };
 		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
 		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
+		95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsCoordinator.swift; sourceTree = "<group>"; };
 		9D0DC4122462DD080039E62B /* ButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonExtensions.swift; sourceTree = "<group>"; };
 		9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionPickerViewController.swift; sourceTree = "<group>"; };
 		9D1DEE7A23DB4FE5003C79AC /* valid_submit_action_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = valid_submit_action_data.json; sourceTree = "<group>"; };
@@ -415,8 +411,6 @@
 		9DCED7EA22CE18270050ED3C /* WKWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WKWebViewController.swift; sourceTree = "<group>"; };
 		9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectorWebViewController.swift; sourceTree = "<group>"; };
 		9DCED7EC22CE18270050ED3C /* AuthorizationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationsViewController.swift; sourceTree = "<group>"; };
-		9DCED7EF22CE18270050ED3C /* CustomActionSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomActionSheetViewController.swift; sourceTree = "<group>"; };
-		9DCED7F022CE18270050ED3C /* CustomActionSheetButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomActionSheetButton.swift; sourceTree = "<group>"; };
 		9DCED7F122CE18270050ED3C /* OnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		9DCED7F322CE18270050ED3C /* SetupAppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAppViewController.swift; sourceTree = "<group>"; };
 		9DCED7F422CE18270050ED3C /* QRCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
@@ -460,7 +454,6 @@
 		9DCED84822CE18270050ED3C /* TableViewCellDequeuable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCellDequeuable.swift; sourceTree = "<group>"; };
 		9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturesCollectionViewCell.swift; sourceTree = "<group>"; };
 		9DCED84A22CE18270050ED3C /* SettingsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
-		9DCED84E22CE18270050ED3C /* ConnectionActionSheetBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionActionSheetBuilder.swift; sourceTree = "<group>"; };
 		9DCED85022CE18270050ED3C /* CustomSpacingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSpacingLabel.swift; sourceTree = "<group>"; };
 		9DCED85322CE18270050ED3C /* ModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 		9DCED85622CE18270050ED3C /* PasscodeSymbolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeSymbolView.swift; sourceTree = "<group>"; };
@@ -841,7 +834,6 @@
 			children = (
 				9DCED7DF22CE18270050ED3C /* Settings */,
 				9DCED7E322CE18270050ED3C /* Connection */,
-				9DCED7EE22CE18270050ED3C /* Custom Action Sheet */,
 				9DCED7E822CE18270050ED3C /* General */,
 				9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */,
 				9DCED7EC22CE18270050ED3C /* AuthorizationsViewController.swift */,
@@ -883,15 +875,6 @@
 				9DCED7EA22CE18270050ED3C /* WKWebViewController.swift */,
 			);
 			path = General;
-			sourceTree = "<group>";
-		};
-		9DCED7EE22CE18270050ED3C /* Custom Action Sheet */ = {
-			isa = PBXGroup;
-			children = (
-				9DCED7EF22CE18270050ED3C /* CustomActionSheetViewController.swift */,
-				9DCED7F022CE18270050ED3C /* CustomActionSheetButton.swift */,
-			);
-			path = "Custom Action Sheet";
 			sourceTree = "<group>";
 		};
 		9DCED7F522CE18270050ED3C /* Database */ = {
@@ -1024,7 +1007,6 @@
 			children = (
 				9DCC1F3823292F4E00BF7B70 /* Authorizations */,
 				9DCED84722CE18270050ED3C /* Cells */,
-				9DCED84D22CE18270050ED3C /* Builders */,
 				9DCED84F22CE18270050ED3C /* General */,
 				9DCED85222CE18270050ED3C /* Modals */,
 				9DCED85522CE18270050ED3C /* Components */,
@@ -1043,14 +1025,6 @@
 				9D87F49D2429326800F85D1F /* ConnectionCell.swift */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		9DCED84D22CE18270050ED3C /* Builders */ = {
-			isa = PBXGroup;
-			children = (
-				9DCED84E22CE18270050ED3C /* ConnectionActionSheetBuilder.swift */,
-			);
-			path = Builders;
 			sourceTree = "<group>";
 		};
 		9DCED84F22CE18270050ED3C /* General */ = {
@@ -1098,9 +1072,11 @@
 			children = (
 				9DCED87122CE18270050ED3C /* Main */,
 				9DCED87422CE18280050ED3C /* Onboarding */,
-				9DCED86A22CE18270050ED3C /* Tab Bar */,
 				9DCED86622CE18270050ED3C /* Settings */,
 				9DCED86922CE18270050ED3C /* ConnectViewCoordinator.swift */,
+				9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */,
+				9DCED86D22CE18270050ED3C /* SettingsCoordinator.swift */,
+				95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -1113,15 +1089,6 @@
 				95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		9DCED86A22CE18270050ED3C /* Tab Bar */ = {
-			isa = PBXGroup;
-			children = (
-				9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */,
-				9DCED86D22CE18270050ED3C /* SettingsCoordinator.swift */,
-			);
-			path = "Tab Bar";
 			sourceTree = "<group>";
 		};
 		9DCED87122CE18270050ED3C /* Main */ = {
@@ -1637,9 +1604,7 @@
 				9DCED8E822CE18280050ED3C /* AmountFormatter.swift in Sources */,
 				9DCED8D922CE18280050ED3C /* ConnectionsInteractor.swift in Sources */,
 				9DCED8E422CE18280050ED3C /* AppearanceHelper.swift in Sources */,
-				9DCED8F422CE18280050ED3C /* ConnectionActionSheetBuilder.swift in Sources */,
 				9DCED8A522CE18280050ED3C /* AuthorizationsViewController.swift in Sources */,
-				9DCED8A722CE18280050ED3C /* CustomActionSheetViewController.swift in Sources */,
 				9DCED8C922CE18280050ED3C /* ViewExtensions+Utilitarian.swift in Sources */,
 				9DCED91C22CE18280050ED3C /* AuthorizationsDataSource.swift in Sources */,
 				9DE9410B246D7595000029A2 /* RealmConnectionsListener.swift in Sources */,
@@ -1661,7 +1626,6 @@
 				9DCED8D722CE18280050ED3C /* LabelStyles.swift in Sources */,
 				9DE308BB2446287A009EBD39 /* PasscodeViewController.swift in Sources */,
 				9DCED90D22CE18280050ED3C /* SettingsCoordinator.swift in Sources */,
-				9DCED8A822CE18280050ED3C /* CustomActionSheetButton.swift in Sources */,
 				9DCED91622CE18280050ED3C /* ConnectionsCollector.swift in Sources */,
 				9DCED8CE22CE18280050ED3C /* StringExtensions.swift in Sources */,
 				9DCED8C422CE18280050ED3C /* AuthorizationsPresenter.swift in Sources */,
@@ -1722,6 +1686,7 @@
 				9DCED8C322CE18280050ED3C /* BiometricsPresenter.swift in Sources */,
 				9D94095A23618CF00080EBB5 /* CacheHelper.swift in Sources */,
 				9DCED8EF22CE18280050ED3C /* TableViewCellDequeuable.swift in Sources */,
+				95F409002473C91000727095 /* ConnectionsCoordinator.swift in Sources */,
 				9DCED91F22CE18280050ED3C /* ConnectionRepository.swift in Sources */,
 				9DCED8AD22CE18280050ED3C /* RealmManager.swift in Sources */,
 				9DCBB28B243618B900DB3F85 /* Observable.swift in Sources */,
@@ -1783,7 +1748,6 @@
 				9DE324DF22D39AC800EB162A /* CompleteView.swift in Sources */,
 				9DE324B122D39A3200EB162A /* NotificationsManager.swift in Sources */,
 				9DE324A222D39A0800EB162A /* AuthorizationsInteractor.swift in Sources */,
-				9DE324CD22D39A9500EB162A /* ConnectionActionSheetBuilder.swift in Sources */,
 				9DE324C222D39A6D00EB162A /* OnboardingViewController.swift in Sources */,
 				9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */,
 				9DE3249D22D399F600EB162A /* StackViewExtensions.swift in Sources */,
@@ -1830,12 +1794,10 @@
 				9D66E1AA22D4C1C600BD59B6 /* SetupStepSpec.swift in Sources */,
 				9DE324A322D39A0A00EB162A /* ConnectionsInteractor.swift in Sources */,
 				9D940958235DDB900080EBB5 /* AboutDataSourceSpec.swift in Sources */,
-				9DE324C122D39A6A00EB162A /* CustomActionSheetButton.swift in Sources */,
 				9D0DC4142462DD080039E62B /* ButtonExtensions.swift in Sources */,
 				9DE3245922D3986B00EB162A /* ConfirmAuthorizationResponseSpec.swift in Sources */,
 				9DE324DB22D39ABE00EB162A /* NoDataView.swift in Sources */,
 				9D66E1B622D4C1F700BD59B6 /* ConnectionRepositorySpec.swift in Sources */,
-				9DE324C022D39A6800EB162A /* CustomActionSheetViewController.swift in Sources */,
 				9DE324D422D39AAC00EB162A /* SetupProgressBarCircle.swift in Sources */,
 				9DE3247E22D3998D00EB162A /* PasscodeCoordinator.swift in Sources */,
 				9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */,

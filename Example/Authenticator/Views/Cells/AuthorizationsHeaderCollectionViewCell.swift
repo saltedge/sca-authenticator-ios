@@ -56,8 +56,7 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .secondaryButtonColor
-        connectionImageView.contentMode = .scaleAspectFit
+        contentView.backgroundColor = .secondaryBackground
         connectionImageView.image = #imageLiteral(resourceName: "bankPlaceholderCyanSmall")
         setupShadowAndCornerRadius()
         layout()
