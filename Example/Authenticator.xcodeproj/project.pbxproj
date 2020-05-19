@@ -314,6 +314,10 @@
 		9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86422CE18270050ED3C /* LoadingIndicator.swift */; };
 		9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED89022CE18280050ED3C /* AppDelegate.swift */; };
 		9DE5807E2450892E004AF19F /* PasscodeViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */; };
+		9DE94108246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */; };
+		9DE94109246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */; };
+		9DE9410B246D7595000029A2 /* RealmConnectionsListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */; };
+		9DE9410C246D7595000029A2 /* RealmConnectionsListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */; };
 		9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
@@ -537,6 +541,8 @@
 		9DE324E722D4774A00EB162A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9DE324E922D4775000EB162A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewModelSpec.swift; sourceTree = "<group>"; };
+		9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsViewModel.swift; sourceTree = "<group>"; };
+		9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConnectionsListener.swift; sourceTree = "<group>"; };
 		9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationStateView.swift; sourceTree = "<group>"; };
 		BE78B0BDB65BD9B80C655471 /* SaltedgeAuthenticatorSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SaltedgeAuthenticatorSDK.podspec; path = ../SaltedgeAuthenticatorSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -997,6 +1003,7 @@
 				9DCED84222CE18270050ED3C /* BiometricsHelper.swift */,
 				9DD4DF242375969A000A9B80 /* QuickActionsHelper.swift */,
 				9DCBB28A243618B900DB3F85 /* Observable.swift */,
+				9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1004,8 +1011,8 @@
 		9DCED84322CE18270050ED3C /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				9DE94106246D4204000029A2 /* Authorizations */,
 				9D630BC4243DC076000A9ACC /* Onboarding */,
-				9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */,
 				9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */,
 				9DCBB2832435E9D900DB3F85 /* EditConnectionViewModel.swift */,
 			);
@@ -1283,6 +1290,15 @@
 				9DE3247022D398ED00EB162A /* DataFixtures.swift */,
 			);
 			path = "Spec Helpers";
+			sourceTree = "<group>";
+		};
+		9DE94106246D4204000029A2 /* Authorizations */ = {
+			isa = PBXGroup;
+			children = (
+				9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */,
+				9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */,
+			);
+			path = Authorizations;
 			sourceTree = "<group>";
 		};
 		BADDEE81704753764A99060E /* Pods */ = {
@@ -1616,6 +1632,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DCED8F922CE18280050ED3C /* PasscodeSymbolView.swift in Sources */,
+				9DE94108246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */,
 				9DCED90222CE18280050ED3C /* NoDataView.swift in Sources */,
 				9DCED8E822CE18280050ED3C /* AmountFormatter.swift in Sources */,
 				9DCED8D922CE18280050ED3C /* ConnectionsInteractor.swift in Sources */,
@@ -1625,6 +1642,7 @@
 				9DCED8A722CE18280050ED3C /* CustomActionSheetViewController.swift in Sources */,
 				9DCED8C922CE18280050ED3C /* ViewExtensions+Utilitarian.swift in Sources */,
 				9DCED91C22CE18280050ED3C /* AuthorizationsDataSource.swift in Sources */,
+				9DE9410B246D7595000029A2 /* RealmConnectionsListener.swift in Sources */,
 				9DCED8FD22CE18280050ED3C /* PasscodeKeyboard.swift in Sources */,
 				9DCED8E922CE18280050ED3C /* NotificationsManager.swift in Sources */,
 				9DCED8A222CE18280050ED3C /* BaseViewController.swift in Sources */,
@@ -1848,12 +1866,14 @@
 				9DE324C622D39A7B00EB162A /* AuthorizationDetailViewModel.swift in Sources */,
 				9DE3247C22D3998600EB162A /* SettingsCoordinator.swift in Sources */,
 				9DE324B822D39A4E00EB162A /* ConnectionsViewController.swift in Sources */,
+				9DE94109246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */,
 				9DE324B222D39A3500EB162A /* HapticFeedbackHelper.swift in Sources */,
 				9DE3247722D3997400EB162A /* Coordinator.swift in Sources */,
 				9DE3248322D3999B00EB162A /* RealmManager.swift in Sources */,
 				9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */,
 				9D66E1B522D4C1F300BD59B6 /* AuthorizationsDataSourceSpec.swift in Sources */,
 				9DE3248722D399AC00EB162A /* ConnectionsCollector.swift in Sources */,
+				9DE9410C246D7595000029A2 /* RealmConnectionsListener.swift in Sources */,
 				9DE3248C22D399BD00EB162A /* SettingsDataSource.swift in Sources */,
 				9D8DCD2A24614A8A00FD6424 /* AuthorizationsNoDataView.swift in Sources */,
 				9DE324BD22D39A5D00EB162A /* ConnectorWebViewController.swift in Sources */,

@@ -64,7 +64,7 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
     }
 
     func updateTime() {
-        guard viewModel.state == .base, viewModel.actionTime == nil else { return }
+        guard viewModel.state.value == .base, viewModel.actionTime == nil else { return }
 
         let secondsLeft = diffInSecondsFromNow(for: viewModel.authorizationExpiresAt)
 

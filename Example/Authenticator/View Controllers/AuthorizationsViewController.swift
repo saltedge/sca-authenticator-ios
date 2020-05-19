@@ -41,16 +41,17 @@ final class AuthorizationsViewController: BaseViewController {
         return UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     }()
     private var messageBarView: MessageBarView?
-    private var noDataView: AuthorizationsNoDataView?
+    private var noDataView: NoDataView?
 
     weak var delegate: AuthorizationsViewControllerDelegate?
 
-    var dataSource: AuthorizationsDataSource!
+    var viewModel: AuthorizationsViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.authenticator)
         view.backgroundColor = .backgroundColor
+        handleViewModelState()
         setupSwipingViews()
         setupNavigationBarButtons()
         setupObservers()
@@ -58,11 +59,46 @@ final class AuthorizationsViewController: BaseViewController {
         layout()
     }
 
+    func handleViewModelState() {
+        viewModel.state.valueChanged = { [weak self] value in
+            guard let strongSelf = self else { return }
+
+            switch value {
+            case .changedConnectionsData:
+                strongSelf.noDataView?.updateContent(data: strongSelf.viewModel.emptyViewData)
+            case .reloadData:
+                strongSelf.reloadData()
+                strongSelf.updateViewsHiddenState()
+            case let .scrollTo(index):
+                strongSelf.scroll(to: index)
+            case let .presentFail(message):
+                strongSelf.present(message: message, style: .error)
+            case let .scanQrPressed(success):
+                if success {
+                    strongSelf.delegate?.scanQrPressed()
+                } else {
+                    strongSelf.showConfirmationAlert(
+                        withTitle: l10n(.deniedCamera),
+                        message: l10n(.deniedCameraDescription),
+                        confirmActionTitle: l10n(.goToSettings),
+                        confirmActionStyle: .default,
+                        confirmAction: { _ in
+                            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+                            if UIApplication.shared.canOpenURL(settingsUrl) {
+                                UIApplication.shared.open(settingsUrl)
+                            }
+                        }
+                    )
+                }
+            default: break
+            }
+            strongSelf.viewModel.resetState()
+        }
+    }
+
     private func setupNoDataView() {
-        noDataView = AuthorizationsNoDataView(
-            type: dataSource.hasConnections ? .noAuthorizations : .noConnections,
-            buttonAction: scanQrPressed
-        )
+        noDataView = NoDataView(data: viewModel.emptyViewData, action: scanQrPressed)
     }
 
     func reloadData(at index: Int) {
@@ -97,22 +133,21 @@ final class AuthorizationsViewController: BaseViewController {
         }
     }
 
-    deinit {
-        NotificationsHelper.removeObserver(self)
-    }
-
-    func updateViewsHiddenState() {
+    private func updateViewsHiddenState() {
         UIView.animate(
             withDuration: 0.3,
             animations: { [weak self] in
                 guard let strongSelf = self else { return }
 
-                strongSelf.noDataView?.type = strongSelf.dataSource.hasConnections ? .noAuthorizations : .noConnections
-                strongSelf.noDataView?.alpha = strongSelf.dataSource.hasDataToShow ? 0.0 : 1.0
+                strongSelf.noDataView?.alpha = strongSelf.viewModel.hasDataToShow ? 0.0 : 1.0
                 [strongSelf.headerSwipingView, strongSelf.authorizationCollectionView]
-                    .forEach { $0.alpha = !strongSelf.dataSource.hasDataToShow ? 0.0 : 1.0 }
+                    .forEach { $0.alpha = !strongSelf.viewModel.hasDataToShow ? 0.0 : 1.0 }
             }
         )
+    }
+
+    deinit {
+        NotificationsHelper.removeObserver(self)
     }
 }
 
@@ -173,20 +208,15 @@ private extension AuthorizationsViewController {
 // MARK: - UICollectionViewDataSource
 extension AuthorizationsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let dataSource = self.dataSource else { return 0 }
-
-        return dataSource.rows
+        return viewModel.numberOfRows
     }
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        guard let dataSource = self.dataSource else { return 0 }
-
-        return dataSource.sections
+        return viewModel.numberOfSections
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let dataSource = self.dataSource,
-            let viewModel = dataSource.viewModel(at: indexPath.row) else { return UICollectionViewCell() }
+        guard let detailViewModel = viewModel.detailViewModel(at: indexPath.row) else { return UICollectionViewCell() }
 
         var cell: UICollectionViewCell
 
@@ -197,7 +227,7 @@ extension AuthorizationsViewController: UICollectionViewDataSource {
             ) as? AuthorizationHeaderCollectionViewCell else { return UICollectionViewCell() }
 
             headerCell.delegate = self
-            headerCell.viewModel = viewModel
+            headerCell.viewModel = detailViewModel
             cell = headerCell
         } else {
             guard let authorizationCell = collectionView.dequeueReusableCell(
@@ -205,7 +235,7 @@ extension AuthorizationsViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? AuthorizationCollectionViewCell else { return UICollectionViewCell() }
 
-            authorizationCell.set(with: viewModel)
+            authorizationCell.viewModel = detailViewModel
             authorizationCell.backgroundColor = .clear
             authorizationCell.delegate = self
             cell = authorizationCell
@@ -265,7 +295,7 @@ extension AuthorizationsViewController: UICollectionViewDelegate, UICollectionVi
 // MARK: - Actions
 private extension AuthorizationsViewController {
     @objc func scanQrPressed() {
-        delegate?.scanQrPressed()
+        viewModel.scanQrPressed()
     }
 
     // TODO: Replace with presenting action sheet
@@ -275,29 +305,6 @@ private extension AuthorizationsViewController {
 
     func delete(section: Int) {
         updateViewsHiddenState()
-    }
-
-    func confirmAuthorization(by authorizationId: String) {
-        guard let data = dataSource.confirmationData(for: authorizationId),
-            let viewModel = dataSource.viewModel(with: authorizationId),
-            let index = dataSource.index(of: viewModel) else { return }
-
-        viewModel.state = .processing
-        reloadData(at: index)
-
-        AuthorizationsInteractor.confirm(
-            data: data,
-            success: { [weak self] in
-                viewModel.state = .success
-                viewModel.actionTime = Date()
-                self?.reloadData(at: index)
-            },
-            failure: { [weak self] _ in
-                viewModel.state = .undefined
-                viewModel.actionTime = Date()
-                self?.reloadData(at: index)
-            }
-        )
     }
 }
 
@@ -324,30 +331,11 @@ extension AuthorizationsViewController: Layoutable {
 // MARK: - AuthorizationCellDelegate
 extension AuthorizationsViewController: AuthorizationCellDelegate {
     func confirmPressed(_ authorizationId: String) {
-        confirmAuthorization(by: authorizationId)
+        viewModel.confirmAuthorization(by: authorizationId)
     }
 
     func denyPressed(_ authorizationId: String) {
-        guard let data = dataSource.confirmationData(for: authorizationId),
-            let viewModel = dataSource.viewModel(with: authorizationId),
-            let index = dataSource.index(of: viewModel) else { return }
-
-        viewModel.state = .processing
-        reloadData(at: index)
-
-        AuthorizationsInteractor.deny(
-            data: data,
-            success: {
-                viewModel.state = .denied
-                viewModel.actionTime = Date()
-                self.reloadData(at: index)
-            },
-            failure: { _ in
-                viewModel.state = .undefined
-                viewModel.actionTime = Date()
-                self.reloadData(at: index)
-            }
-        )
+        viewModel.denyAuthorization(by: authorizationId)
     }
 }
 
