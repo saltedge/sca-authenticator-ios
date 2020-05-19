@@ -46,7 +46,7 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .secondaryButtonColor
+        contentView.backgroundColor = .secondaryBackground
         setupShadowAndCornerRadius()
         layout()
     }

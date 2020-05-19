@@ -22,10 +22,6 @@
 
 import UIKit
 
-protocol AuthorizationsViewControllerDelegate: class {
-    func scanQrPressed()
-}
-
 final class AuthorizationsViewController: BaseViewController {
     private let authorizationsView = MainAuthorizationsView()
     private var messageBarView: MessageBarView?
@@ -80,6 +76,11 @@ final class AuthorizationsViewController: BaseViewController {
     deinit {
         NotificationsHelper.removeObserver(self)
     }
+}
+
+protocol AuthorizationsViewControllerDelegate: class {
+    func scanQrPressed()
+    func showMainNavigationMenu()
 }
 
 // MARK: - Setup
@@ -140,9 +141,8 @@ private extension AuthorizationsViewController {
         delegate?.scanQrPressed()
     }
 
-    // TODO: Replace with presenting action sheet
     @objc func morePressed() {
-        print("More pressed")
+        delegate?.showMainNavigationMenu()
     }
 
     func delete(section: Int) {

@@ -31,7 +31,7 @@ private struct Layout {
 class CustomButton: UIButton {
     override var isHighlighted: Bool {
         didSet {
-            guard backgroundColor != UIColor.secondaryButtonColor else { return }
+            guard backgroundColor != UIColor.secondaryBackground else { return }
 
             backgroundColor = isHighlighted ? .selectedColor : .darkBlue
         }

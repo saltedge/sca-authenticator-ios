@@ -29,6 +29,9 @@
 "actions.try_again" = "Try Again";
 "actions.unlock_authenticator" = "Unlock Authenticator";
 "actions.view_more" = "View More";
+"actions.view_connections" = "View Connections";
+"actions.view_consents" = "View Consents";
+"actions.view_settings" = "View Settings";
 "authorization.screen.name" = "Authenticator";
 "authorization.active.title" = "Authorizing";
 "authorization.success.title" = "Success";
