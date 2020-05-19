@@ -187,6 +187,7 @@
 		9DD4DF262375969B000A9B80 /* QuickActionsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD4DF242375969A000A9B80 /* QuickActionsHelper.swift */; };
 		9DD4DF2823759767000A9B80 /* AVCaptureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD4DF2723759767000A9B80 /* AVCaptureHelper.swift */; };
 		9DD4DF2923759767000A9B80 /* AVCaptureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD4DF2723759767000A9B80 /* AVCaptureHelper.swift */; };
+		9DD5098F24742ED900CB188D /* ConnectionsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */; };
 		9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */; };
 		9DD8945E22E9D969008F3130 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */; };
 		9DD8946022E9F4BD008F3130 /* NotificationsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */; };
@@ -1794,6 +1795,7 @@
 				9D66E1AA22D4C1C600BD59B6 /* SetupStepSpec.swift in Sources */,
 				9DE324A322D39A0A00EB162A /* ConnectionsInteractor.swift in Sources */,
 				9D940958235DDB900080EBB5 /* AboutDataSourceSpec.swift in Sources */,
+				9DD5098F24742ED900CB188D /* ConnectionsCoordinator.swift in Sources */,
 				9D0DC4142462DD080039E62B /* ButtonExtensions.swift in Sources */,
 				9DE3245922D3986B00EB162A /* ConfirmAuthorizationResponseSpec.swift in Sources */,
 				9DE324DB22D39ABE00EB162A /* NoDataView.swift in Sources */,

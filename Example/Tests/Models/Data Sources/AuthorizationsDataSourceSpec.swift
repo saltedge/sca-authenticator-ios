@@ -26,7 +26,7 @@ import Nimble
 
 class AuthorizationsDataSourceSpec: BaseSpec {
     override func spec() {
-        var firstModel, secondModel: AuthorizationViewModel!
+        var firstModel, secondModel: AuthorizationDetailViewModel!
         let dataSource = AuthorizationsDataSource()
         var connection: Connection!
 
@@ -50,8 +50,8 @@ class AuthorizationsDataSourceSpec: BaseSpec {
             let firstDecryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
             let secondDecryptedData = createAuthResponse(with: secondAuthMessage, id: connection.id, guid: connection.guid)
 
-            firstModel = AuthorizationViewModel(firstDecryptedData)
-            secondModel = AuthorizationViewModel(secondDecryptedData)
+            firstModel = AuthorizationDetailViewModel(firstDecryptedData)
+            secondModel = AuthorizationDetailViewModel(secondDecryptedData)
 
             _ = dataSource.update(with: [firstDecryptedData, secondDecryptedData])
         }
@@ -125,7 +125,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                     
                     expect(dataSource.rows).to(equal(1))
 
-                    expect(dataSource.viewModel(with: validAuthId)).to(equal(AuthorizationViewModel(validDecryptedData)))
+                    expect(dataSource.viewModel(with: validAuthId)).to(equal(AuthorizationDetailViewModel(validDecryptedData)))
                     expect(dataSource.viewModel(with: expiredAuthId)).to(beNil())
                 }
             }
@@ -237,7 +237,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                              "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
                     let decryptedData = SEAuthorizationData(secondAuthMessage)!
                     
-                    expect(dataSource.index(of: AuthorizationViewModel(decryptedData)!)).to(beNil())
+                    expect(dataSource.index(of: AuthorizationDetailViewModel(decryptedData)!)).to(beNil())
                 }
             }
         }
