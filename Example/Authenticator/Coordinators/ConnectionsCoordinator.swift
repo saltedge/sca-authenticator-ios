@@ -24,13 +24,16 @@ import UIKit
 import SEAuthenticator
 
 final class ConnectionsCoordinator: Coordinator {
-    let rootViewController = ConnectionsViewController()
+    private var rootViewController: UIViewController
+    private let connectionsVC = ConnectionsViewController()
+
+    init(rootViewController: UIViewController) {
+        self.rootViewController = rootViewController
+    }
 
     func start() {
-        
+        rootViewController.present(connectionsVC, animated: true)
     }
 
-    func stop() {
-        
-    }
+    func stop() {}
 }

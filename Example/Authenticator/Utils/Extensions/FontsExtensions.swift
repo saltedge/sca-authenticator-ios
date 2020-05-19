@@ -54,12 +54,12 @@ extension UIFont {
     static var auth_19semibold: UIFont {
         return UIFont.systemFont(ofSize: 19.0, weight: .semibold)
     }
-    
+
     // MARK: - Font size 20
     static var auth_20regular: UIFont {
         return UIFont.systemFont(ofSize: 20.0, weight: .regular)
     }
-    
+
     static var auth_20semibold: UIFont {
         return UIFont.systemFont(ofSize: 20.0, weight: .semibold)
     }

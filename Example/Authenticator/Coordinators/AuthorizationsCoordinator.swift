@@ -156,34 +156,23 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     }
 
     func showMainNavigationMenu() {
-        let actionSheet = CustomActionSheetViewController()
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        let viewConnectionsAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
-            print("Show Connections")
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let connections = UIAlertAction(title: l10n(.viewConnections), style: .default) { [weak self] _ in
             guard let navController = self?.rootViewController.navigationController else { return }
 
-            let coordinator = ConnectionsCoordinator()
+            let coordinator = ConnectionsCoordinator(rootViewController: navController)
             coordinator.start()
-            }
         }
-
-        let viewConsentsAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
+        let consents = UIAlertAction(title: l10n(.viewConsents), style: .default) { [weak self] _ in
             print("Show Consents")
-            }
         }
-
-        let viewSettingsAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
+        let settings = UIAlertAction(title: l10n(.viewSettings), style: .default) { [weak self] _ in
             print("Show Settings")
-            }
         }
 
-        let actionsArray: [(actionSheetItem: ActionSheetAction, action: Action)] = [
-            (.connections, viewConnectionsAction),
-            (.consents, viewConsentsAction),
-            (.settings, viewSettingsAction)
-        ]
-
-        actionSheet.actions = ConnectionActionSheetBuilder.createActions(from: actionsArray)
+        for action in [connections, consents, settings, cancel] { actionSheet.addAction(action) }
 
         self.rootViewController.present(actionSheet, animated: true)
     }
