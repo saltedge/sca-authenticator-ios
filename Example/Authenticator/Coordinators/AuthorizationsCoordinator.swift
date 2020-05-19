@@ -172,7 +172,7 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
             print("Show Settings")
         }
 
-        for action in [connections, consents, settings, cancel] { actionSheet.addAction($0) }
+        [connections, consents, settings, cancel].forEach { actionSheet.addAction($0) }
 
         rootViewController.present(actionSheet, animated: true)
     }

@@ -81,7 +81,7 @@ final class AuthorizationStateView: UIView {
         backgroundColor = .backgroundColor
         topView.layer.masksToBounds = true
         topView.layer.cornerRadius = 16.0
-        topView.backgroundColor = .secondaryButtonColor
+        topView.backgroundColor = .secondaryBackground
         layout()
     }
 
