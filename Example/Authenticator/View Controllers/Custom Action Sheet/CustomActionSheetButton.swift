@@ -1,33 +1,39 @@
 //
 //  CustomActionSheetButton.swift
-//  Authenticator
-// 
-//  Copyright © 2019 Saltedge. All rights reserved.
+//  This file is part of the Salt Edge Authenticator distribution
+//  (https://github.com/saltedge/sca-authenticator-ios)
+//  Copyright © 2020 Salt Edge Inc.
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, version 3 or later.
+//
+//  This program is distributed in the hope that it will be useful, but
+//  WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+//  General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+//  For the additional permissions granted for Salt Edge Authenticator
+//  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
 import UIKit
 
-private struct CustomActionSheetButtonLayout {
-    static let logoSize: CGSize = CGSize(width: 25.0, height: 25.0)
-    static let logoLeftOffset: CGFloat = 15.0
-    static let logoTopOffset: CGFloat = 17.0
-    static let labelsOffset: CGFloat = 13.0
-}
-
 final class CustomActionSheetButton: TaptileFeedbackButton {
-    private let buttonLogo = UIImageView()
     private let buttonTitle: UILabel = {
         let label = UILabel()
-        label.textColor = .auth_darkGray
-        label.font = .auth_17regular
+        label.textColor = .lightBlue
+        label.font = .auth_20regular
         return label
     }()
 
     private var actionHandler: (() -> ()) = {}
 
-    init(logo: UIImage, title: String, action: @escaping (() -> ())) {
+    init(title: String, action: @escaping (() -> ())) {
         super.init()
-        buttonLogo.image = logo
         buttonTitle.text = title
         actionHandler = action
         setupElements()
@@ -38,11 +44,10 @@ final class CustomActionSheetButton: TaptileFeedbackButton {
     }
 }
 
-// MARK: - Setup
+// MARK: Setup
 extension CustomActionSheetButton {
     private func setupElements() {
-        addSubviews(buttonLogo, buttonTitle)
-        buttonLogo.contentMode = .scaleAspectFit
+        addSubviews(buttonTitle)
         layout()
         setBorders(for: [.bottom])
         addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
@@ -50,7 +55,7 @@ extension CustomActionSheetButton {
 
     private func setupBottomSeparator() {
         let bottomSeparator = SeparatorView(axis: .horizontal)
-        bottomSeparator.backgroundColor = .auth_lightGray50
+        bottomSeparator.backgroundColor = .lightGray
         addSubview(bottomSeparator)
         bottomSeparator.edges(to: self)
     }
@@ -63,14 +68,9 @@ extension CustomActionSheetButton {
     }
 }
 
-// MARK: - Layout
+// MARK: Layout
 extension CustomActionSheetButton: Layoutable {
     func layout() {
-        buttonLogo.size(CustomActionSheetButtonLayout.logoSize)
-        buttonLogo.left(to: self, offset: CustomActionSheetButtonLayout.logoLeftOffset)
-        buttonLogo.top(to: self, offset: CustomActionSheetButtonLayout.logoTopOffset)
-        buttonTitle.leftToRight(of: buttonLogo, offset: CustomActionSheetButtonLayout.labelsOffset)
-        buttonTitle.centerY(to: buttonLogo)
-        buttonTitle.right(to: self, offset: -CustomActionSheetButtonLayout.labelsOffset)
+        buttonTitle.center = self.center
     }
 }

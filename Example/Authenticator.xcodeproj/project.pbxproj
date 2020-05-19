@@ -17,6 +17,7 @@
 		95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
 		95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
 		95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
+		95F409002473C91000727095 /* ConnectionsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */; };
 		9D0DC4132462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
 		9D0DC4142462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
 		9D1DEE7423D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */; };
@@ -355,6 +356,7 @@
 		95CD02DC235864130085C52A /* SEConnectHelperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEConnectHelperSpec.swift; sourceTree = "<group>"; };
 		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
 		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
+		95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsCoordinator.swift; sourceTree = "<group>"; };
 		9D0DC4122462DD080039E62B /* ButtonExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonExtensions.swift; sourceTree = "<group>"; };
 		9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionPickerViewController.swift; sourceTree = "<group>"; };
 		9D1DEE7A23DB4FE5003C79AC /* valid_submit_action_data.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = valid_submit_action_data.json; sourceTree = "<group>"; };
@@ -1095,9 +1097,11 @@
 			children = (
 				9DCED87122CE18270050ED3C /* Main */,
 				9DCED87422CE18280050ED3C /* Onboarding */,
-				9DCED86A22CE18270050ED3C /* Tab Bar */,
 				9DCED86622CE18270050ED3C /* Settings */,
 				9DCED86922CE18270050ED3C /* ConnectViewCoordinator.swift */,
+				9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */,
+				9DCED86D22CE18270050ED3C /* SettingsCoordinator.swift */,
+				95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -1110,15 +1114,6 @@
 				95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		9DCED86A22CE18270050ED3C /* Tab Bar */ = {
-			isa = PBXGroup;
-			children = (
-				9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */,
-				9DCED86D22CE18270050ED3C /* SettingsCoordinator.swift */,
-			);
-			path = "Tab Bar";
 			sourceTree = "<group>";
 		};
 		9DCED87122CE18270050ED3C /* Main */ = {
@@ -1709,6 +1704,7 @@
 				9DCED8C322CE18280050ED3C /* BiometricsPresenter.swift in Sources */,
 				9D94095A23618CF00080EBB5 /* CacheHelper.swift in Sources */,
 				9DCED8EF22CE18280050ED3C /* TableViewCellDequeuable.swift in Sources */,
+				95F409002473C91000727095 /* ConnectionsCoordinator.swift in Sources */,
 				9DCED91F22CE18280050ED3C /* ConnectionRepository.swift in Sources */,
 				9DCED8AD22CE18280050ED3C /* RealmManager.swift in Sources */,
 				9DCBB28B243618B900DB3F85 /* Observable.swift in Sources */,

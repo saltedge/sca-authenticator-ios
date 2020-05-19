@@ -23,11 +23,6 @@
 import UIKit
 import TinyConstraints
 
-private struct ActionSheetButtonsHeight {
-    static let simpleActionSheetButtonHeight: CGFloat = 58.0
-    static let cancelButtonHeight: CGFloat = 68.0
-}
-
 class CustomActionSheetViewController: BaseViewController {
     private var topConstraint: Constraint?
     var actions = [CustomActionSheetButton]() {
@@ -46,14 +41,14 @@ class CustomActionSheetViewController: BaseViewController {
     }()
     private let actionSheetView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         return view
     }()
     private let cancelButton: TaptileFeedbackButton = {
         let button = TaptileFeedbackButton()
         button.setTitle(l10n(.cancel), for: .normal)
-        button.setTitleColor(.auth_blue, for: .normal)
-        button.titleLabel?.font = .auth_17regular
+        button.setTitleColor(.lightBlue, for: .normal)
+        button.titleLabel?.font = .auth_20semibold
         return button
     }()
 
@@ -149,6 +144,11 @@ class CustomActionSheetViewController: BaseViewController {
         stackView.addArrangedSubview(cancelButton)
         cancelButton.height(ActionSheetButtonsHeight.cancelButtonHeight)
     }
+}
+
+private struct ActionSheetButtonsHeight {
+    static let simpleActionSheetButtonHeight: CGFloat = 57.0
+    static let cancelButtonHeight: CGFloat = 57.0
 }
 
 extension CustomActionSheetViewController: Layoutable {

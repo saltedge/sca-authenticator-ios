@@ -1,8 +1,8 @@
 //
-//  BaseViewController.swift
+//  ConnectionsCoordinator.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,12 +21,16 @@
 //
 
 import UIKit
-import TinyConstraints
+import SEAuthenticator
 
-class BaseViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        edgesForExtendedLayout = []
-        view.backgroundColor = .backgroundColor
+final class ConnectionsCoordinator: Coordinator {
+    let rootViewController = ConnectionsViewController()
+
+    func start() {
+        
+    }
+
+    func stop() {
+        
     }
 }

@@ -154,4 +154,37 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
             }
         )
     }
+
+    func showMainNavigationMenu() {
+        let actionSheet = CustomActionSheetViewController()
+
+        let viewConnectionsAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
+            print("Show Connections")
+            guard let navController = self?.rootViewController.navigationController else { return }
+
+            let coordinator = ConnectionsCoordinator()
+            coordinator.start()
+            }
+        }
+
+        let viewConsentsAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
+            print("Show Consents")
+            }
+        }
+
+        let viewSettingsAction: Action = { [weak self] in actionSheet.dismissActionSheetWithCompletion {
+            print("Show Settings")
+            }
+        }
+
+        let actionsArray: [(actionSheetItem: ActionSheetAction, action: Action)] = [
+            (.connections, viewConnectionsAction),
+            (.consents, viewConsentsAction),
+            (.settings, viewSettingsAction)
+        ]
+
+        actionSheet.actions = ConnectionActionSheetBuilder.createActions(from: actionsArray)
+
+        self.rootViewController.present(actionSheet, animated: true)
+    }
 }

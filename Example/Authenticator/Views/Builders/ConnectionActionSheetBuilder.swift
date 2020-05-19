@@ -25,10 +25,9 @@ import UIKit
 typealias Action = (()->())
 
 enum ActionSheetAction {
-    case reconnect
-    case support
-    case rename
-    case delete
+    case connections
+    case consents
+    case settings
 }
 
 struct ConnectionActionSheetBuilder {
@@ -42,14 +41,12 @@ struct ConnectionActionSheetBuilder {
     private static func button(for type: ActionSheetAction, action: @escaping Action) -> CustomActionSheetButton {
         var button: CustomActionSheetButton
         switch type {
-        case .reconnect:
-            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "connections_normal"), title: l10n(.reconnect), action: action)
-        case .rename:
-            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "action_rename"), title: l10n(.rename), action: action)
-        case .support:
-            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "action_support"), title: l10n(.contactSupport), action: action)
-        case .delete:
-            button = CustomActionSheetButton(logo: #imageLiteral(resourceName: "action_delete"), title: l10n(.delete), action: action)
+        case .connections:
+            button = CustomActionSheetButton(title: l10n(.viewConnections), action: action)
+        case .consents:
+            button = CustomActionSheetButton(title: l10n(.viewConsents), action: action)
+        case .settings:
+            button = CustomActionSheetButton(title: l10n(.viewSettings), action: action)
         }
         return button
     }
