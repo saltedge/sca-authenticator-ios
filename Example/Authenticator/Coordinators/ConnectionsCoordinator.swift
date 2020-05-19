@@ -21,7 +21,6 @@
 //
 
 import UIKit
-import SEAuthenticator
 
 final class ConnectionsCoordinator: Coordinator {
     private var rootViewController: UIViewController
