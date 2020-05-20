@@ -223,6 +223,6 @@ extension PasscodeView: Styleable {
     func stylize() {
         titleLabel.font = .systemFont(ofSize: 19.0, weight: .regular)
         titleLabel.textAlignment = .center
-        titleLabel.textColor = .textColor
+        titleLabel.textColor = .titleColor
     }
 }

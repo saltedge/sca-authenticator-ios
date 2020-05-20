@@ -27,7 +27,7 @@ class ConnectionDataSourceSpec: BaseSpec {
     override func spec() {
         var firstConnection, secondConnection: Connection!
         var dataSource: ConnectionsDataSource!
-        var viewModel: ConnectionListViewModel!
+        var viewModel: ConnectionsListViewModel!
 
         beforeEach {
             firstConnection = Connection()
@@ -42,7 +42,7 @@ class ConnectionDataSourceSpec: BaseSpec {
 
             ConnectionRepository.save(secondConnection)
 
-            viewModel = ConnectionListViewModel()
+            viewModel = ConnectionsListViewModel()
             dataSource = ConnectionsDataSource(viewModel: viewModel)
         }
 
@@ -63,8 +63,8 @@ class ConnectionDataSourceSpec: BaseSpec {
         }
 
         describe("height(for)") {
-            it("should return 86") {
-                expect(dataSource.height(for: 0)).to(equal(86.0))
+            it("should return 96") {
+                expect(dataSource.height(for: 0)).to(equal(96.0))
             }
         }
 

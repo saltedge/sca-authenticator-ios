@@ -23,7 +23,7 @@
 import UIKit
 
 extension UILabel {
-    convenience init(font: UIFont, alignment: NSTextAlignment = .center, textColor: UIColor = .textColor) {
+    convenience init(font: UIFont, alignment: NSTextAlignment = .center, textColor: UIColor = .titleColor) {
         self.init()
         self.font = font
         self.textColor = textColor

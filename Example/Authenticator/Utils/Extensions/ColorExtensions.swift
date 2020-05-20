@@ -39,10 +39,6 @@ extension UIColor {
         return UIColor(named: "background", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var textColor: UIColor {
-        return UIColor(named: "textColor", in: .authenticator_main, compatibleWith: nil)!
-    }
-
     static var lightBlue: UIColor {
         return UIColor(named: "lightBlue", in: .authenticator_main, compatibleWith: nil)!
     }
@@ -63,6 +59,19 @@ extension UIColor {
         return UIColor(named: "primaryDark", in: .authenticator_main, compatibleWith: nil)!
     }
 
+    static var titleColor: UIColor {
+        return UIColor(named: "titleColor", in: .authenticator_main, compatibleWith: nil)!
+    }
+
+    static var dark60: UIColor {
+        return UIColor(named: "dark60", in: .authenticator_main, compatibleWith: nil)!
+    }
+
+    static var connectionDescriptionError: UIColor {
+        return UIColor(named: "connectionDescriptionError", in: .authenticator_main, compatibleWith: nil)!
+    }
+
+    // TODO: remove all auth_ colors
     static var auth_lightGray50: UIColor {
         return UIColor(red: 204.0/255.0, green: 204.0/255.0, blue: 204.0/255.0, alpha: 0.5)
     }

@@ -29,7 +29,7 @@ struct AppearanceHelper {
         if #available(iOS 13, *) {
             let appearance = UINavigationBarAppearance()
             appearance.configureWithTransparentBackground()
-            appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.textColor]
+            appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.titleColor]
             appearance.backgroundColor = .backgroundColor
             navBarAppearance.standardAppearance = appearance
             navBarAppearance.scrollEdgeAppearance = appearance
@@ -43,7 +43,7 @@ struct AppearanceHelper {
         navBarAppearance.shadowImage = UIImage()
         navBarAppearance.prefersLargeTitles = true
         navBarAppearance.largeTitleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: UIColor.textColor,
+            NSAttributedString.Key.foregroundColor: UIColor.titleColor,
             NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 30)
         ]
     }
