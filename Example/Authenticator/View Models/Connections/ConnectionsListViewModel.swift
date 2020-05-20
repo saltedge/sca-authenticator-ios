@@ -46,7 +46,7 @@ class ConnectionsListViewModel {
     }
 
     func count() -> Int {
-        return connections.count
+        return connections.count 
     }
 
     func cellViewModel(at indexPath: IndexPath) -> ConnectionCellViewModel {

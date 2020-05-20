@@ -26,10 +26,11 @@ import TinyConstraints
 final class ConnectionsViewController: BaseViewController {
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.sectionHeaderHeight = 30.0
+        tableView.sectionHeaderHeight = 0.0
         tableView.sectionFooterHeight = 0.0
         tableView.backgroundColor = .backgroundColor
-        tableView.rowHeight = Layout.cellHeight
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.register(ConnectionCell.self)
         tableView.separatorStyle = .none
         return tableView
@@ -83,7 +84,7 @@ protocol ConnectionsViewControllerDelegate: class {
     func addPressed()
 }
 
-private struct Layout {
+struct ConnectionsListLayout {
     static let cellHeight: CGFloat = 96.0
 }
 
@@ -140,7 +141,7 @@ private extension ConnectionsViewController {
 // MARK: UITableViewDataSource
 extension ConnectionsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Layout.cellHeight
+        return ConnectionsListLayout.cellHeight
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {

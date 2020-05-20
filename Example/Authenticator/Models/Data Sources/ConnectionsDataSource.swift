@@ -23,14 +23,14 @@
 import UIKit
 
 final class ConnectionsDataSource {
-    private var connectionListViewModel: ConnectionsListViewModel!
+    private var connectionsListViewModel: ConnectionsListViewModel!
 
     init(viewModel: ConnectionsListViewModel) {
-        self.connectionListViewModel = viewModel
+        self.connectionsListViewModel = viewModel
     }
 
     var sections: Int {
-        return connectionListViewModel.count()
+        return connectionsListViewModel.count()
     }
 
     func rows(for section: Int) -> Int {
@@ -38,17 +38,17 @@ final class ConnectionsDataSource {
     }
 
     func height(for section: Int) -> CGFloat {
-        return 86.0
+        return ConnectionsListLayout.cellHeight
     }
 
     var hasDataToShow: Bool {
-        return connectionListViewModel.count() > 0
+        return connectionsListViewModel.count() > 0
     }
 
     func cell(for indexPath: IndexPath) -> ConnectionCell {
         let cell = ConnectionCell()
 
-        cell.viewModel = connectionListViewModel.cellViewModel(at: indexPath)
+        cell.viewModel = connectionsListViewModel.cellViewModel(at: indexPath)
 
         return cell
     }
