@@ -1,5 +1,5 @@
 //
-//  ConnectionCell
+//  ConnectionCell.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -22,6 +22,19 @@
 
 import UIKit
 
+private struct Layout {
+    static let sideOffset: CGFloat = 16.0
+    static let titleLabelTopOffset: CGFloat = 20.0
+    static let descriptionLabelOffset: CGFloat = 4.0
+    static let imageViewSize: CGSize = CGSize(width: 36.0, height: 36.0)
+    static let connectionPlaceholderViewSize: CGSize = CGSize(width: 48.0, height: 48.0)
+    static let connectionPlaceholderViewRadius: CGFloat = 12.0
+    static let connectionImageOffset = sideOffset + 4.0
+    static let cardViewRadius: CGFloat = 6.0
+    static let cardViewLeftRightOffset: CGFloat = 16.0
+    static let cardViewTopBottomOffset: CGFloat = 8.0
+}
+
 final class ConnectionCell: UITableViewCell, Dequeuable {
     private let cardView: UIView = {
         let view = UIView()
@@ -37,7 +50,7 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
         view.backgroundColor = .extraLightGray
         return view
     }()
-    private let logoView: UIImageView = {
+    private let logoImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
         return view
@@ -66,7 +79,7 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
             descriptionLabel.textColor = viewModel.descriptionColor
 
             if let imageUrl = viewModel.logoUrl {
-                CacheHelper.setAnimatedCachedImage(from: imageUrl, for: logoView)
+                CacheHelper.setAnimatedCachedImage(from: imageUrl, for: logoImageView)
             }
         }
     }
@@ -82,17 +95,6 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
     }
 }
 
-private struct Layout {
-    static let sideOffset: CGFloat = 16.0
-    static let titleLabelTopOffset: CGFloat = 20.0
-    static let descriptionLabelOffset: CGFloat = 4.0
-    static let imageViewSize: CGSize = CGSize(width: 36.0, height: 36.0)
-    static let connectionPlaceholderViewSize: CGSize = CGSize(width: 48.0, height: 48.0)
-    static let connectionPlaceholderViewRadius: CGFloat = 12.0
-    static let connectionImageOffset = sideOffset + 4.0
-    static let cardViewRadius: CGFloat = 6.0
-}
-
 // MARK: - Setup
 private extension ConnectionCell {
     func setupContentContainer() {
@@ -101,7 +103,7 @@ private extension ConnectionCell {
         contentView.layer.shadowColor = UIColor(red: 0.374, green: 0.426, blue: 0.488, alpha: 0.3).cgColor
         contentView.layer.shadowOffset = CGSize(width: 0, height: 0)
         contentView.layer.shadowOpacity = 1
-        contentView.layer.shadowRadius = 8
+        contentView.layer.shadowRadius = Layout.cardViewTopBottomOffset
     }
 }
 
@@ -110,19 +112,19 @@ extension ConnectionCell: Layoutable {
     func layout() {
         contentView.addSubviews(cardView)
         cardView.addSubviews(logoPlaceholderView, titleLabel, descriptionLabel)
-        logoPlaceholderView.addSubview(logoView)
+        logoPlaceholderView.addSubview(logoImageView)
 
-        cardView.left(to: contentView, offset: 16.0)
-        cardView.top(to: contentView, offset: 8.0)
-        cardView.right(to: contentView, offset: -16.0)
-        cardView.bottom(to: contentView, offset: -8.0)
+        cardView.left(to: contentView, offset: Layout.cardViewLeftRightOffset)
+        cardView.top(to: contentView, offset: Layout.cardViewTopBottomOffset)
+        cardView.right(to: contentView, offset: -Layout.cardViewLeftRightOffset)
+        cardView.bottom(to: contentView, offset: -Layout.cardViewTopBottomOffset)
 
         logoPlaceholderView.size(Layout.connectionPlaceholderViewSize)
         logoPlaceholderView.left(to: cardView, offset: Layout.sideOffset)
         logoPlaceholderView.centerY(to: cardView)
 
-        logoView.size(Layout.connectionPlaceholderViewSize)
-        logoView.center(in: logoPlaceholderView)
+        logoImageView.size(Layout.connectionPlaceholderViewSize)
+        logoImageView.center(in: logoPlaceholderView)
 
         titleLabel.top(to: cardView, offset: Layout.titleLabelTopOffset)
         titleLabel.leftToRight(of: logoPlaceholderView, offset: Layout.sideOffset)

@@ -23,6 +23,18 @@
 import UIKit
 import TinyConstraints
 
+enum ConnectionMenuAction {
+    case delete
+    case edit
+    case reconnect
+    case support
+}
+
+protocol ConnectionsViewControllerDelegate: class {
+    func selected(_ connection: Connection, action: ConnectionMenuAction?)
+    func addPressed()
+}
+
 final class ConnectionsViewController: BaseViewController {
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -70,18 +82,6 @@ final class ConnectionsViewController: BaseViewController {
     @objc private func reloadData() {
         tableView.reloadData()
     }
-}
-
-enum ConnectionMenuAction {
-    case delete
-    case edit
-    case reconnect
-    case support
-}
-
-protocol ConnectionsViewControllerDelegate: class {
-    func selected(_ connection: Connection, action: ConnectionMenuAction?)
-    func addPressed()
 }
 
 struct ConnectionsListLayout {
@@ -220,7 +220,7 @@ extension ConnectionsViewController {
 // MARK: - Actions
 private extension ConnectionsViewController {
     @objc func close() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 
     func showActionSheet(at indexPath: IndexPath) {}

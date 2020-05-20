@@ -30,7 +30,7 @@ final class ConnectionsDataSource {
     }
 
     var sections: Int {
-        return connectionsListViewModel.count()
+        return connectionsListViewModel.count
     }
 
     func rows(for section: Int) -> Int {
@@ -42,7 +42,7 @@ final class ConnectionsDataSource {
     }
 
     var hasDataToShow: Bool {
-        return connectionsListViewModel.count() > 0
+        return connectionsListViewModel.count > 0
     }
 
     func cell(for indexPath: IndexPath) -> ConnectionCell {
