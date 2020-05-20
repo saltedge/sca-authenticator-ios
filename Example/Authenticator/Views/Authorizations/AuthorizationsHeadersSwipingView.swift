@@ -28,6 +28,7 @@ private struct Layout {
 
 final class AuthorizationsHeadersSwipingView: UIView {
     private(set) var collectionView: UICollectionView
+    private var timer: Timer?
 
     init() {
         let flowLayout = AuthorizationsCollectionLayout()
@@ -36,8 +37,13 @@ final class AuthorizationsHeadersSwipingView: UIView {
         flowLayout.scrollDirection = .horizontal
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         super.init(frame: .zero)
+        setTimer()
         setupCollectionView()
         layout()
+    }
+
+    deinit {
+        stopTimer()
     }
 
     func reloadData() {
@@ -58,6 +64,40 @@ private extension AuthorizationsHeadersSwipingView {
         )
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = .backgroundColor
+    }
+}
+
+// MARK: - Helpers
+private extension AuthorizationsHeadersSwipingView {
+    func setTimer() {
+        if timer == nil {
+            let timer = Timer(
+                timeInterval: 1.0,
+                target: self,
+                selector: #selector(updateTimer),
+                userInfo: nil,
+                repeats: true
+            )
+            RunLoop.current.add(timer, forMode: .common)
+
+            self.timer = timer
+        }
+    }
+
+    func stopTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+
+    @objc func updateTimer() {
+        let visibleCellsIndexPaths = collectionView.indexPathsForVisibleItems
+
+        for indexPath in visibleCellsIndexPaths {
+                if let cell = self.collectionView.cellForItem(at: indexPath)
+                    as? AuthorizationHeaderCollectionViewCell {
+                cell.updateTime()
+            }
+        }
     }
 }
 

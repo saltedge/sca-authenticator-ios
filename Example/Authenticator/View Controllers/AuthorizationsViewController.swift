@@ -22,45 +22,106 @@
 
 import UIKit
 
+protocol AuthorizationsViewControllerDelegate: class {
+    func scanQrPressed()
+    func showMainNavigationMenu()
+}
+
+private struct Layout {
+    static let headerSpacing: CGFloat = 16.0
+    static let headerSize: CGSize = CGSize(width: AppLayout.screenWidth * 0.66, height: 42.0)
+    static let headerSwipingViewHeight: CGFloat = 60.0
+}
+
 final class AuthorizationsViewController: BaseViewController {
-    private let authorizationsView = MainAuthorizationsView()
+    private let headerSwipingView = AuthorizationsHeadersSwipingView()
+    private let authorizationCollectionView: UICollectionView = {
+        let flowLayout = AuthorizationsCollectionLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumLineSpacing = 0.0
+        return UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+    }()
     private var messageBarView: MessageBarView?
-    private var noDataView: AuthorizationsNoDataView?
+    private var noDataView: NoDataView?
 
     weak var delegate: AuthorizationsViewControllerDelegate?
 
-    var dataSource: AuthorizationsDataSource!
+    var viewModel: AuthorizationsViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.authenticator)
         view.backgroundColor = .backgroundColor
-        authorizationsView.backgroundColor = .backgroundColor
-        authorizationsView.delegate = self
+        handleViewModelState()
+        setupSwipingViews()
         setupNavigationBarButtons()
         setupObservers()
         setupNoDataView()
         layout()
     }
 
+    func handleViewModelState() {
+        viewModel.state.valueChanged = { [weak self] value in
+            guard let strongSelf = self else { return }
+
+            switch value {
+            case .changedConnectionsData:
+                strongSelf.noDataView?.updateContent(data: strongSelf.viewModel.emptyViewData)
+            case .reloadData:
+                strongSelf.reloadData()
+                strongSelf.updateViewsHiddenState()
+            case let .scrollTo(index):
+                strongSelf.scroll(to: index)
+            case let .presentFail(message):
+                strongSelf.present(message: message, style: .error)
+            case let .scanQrPressed(success):
+                if success {
+                    strongSelf.delegate?.scanQrPressed()
+                } else {
+                    strongSelf.showConfirmationAlert(
+                        withTitle: l10n(.deniedCamera),
+                        message: l10n(.deniedCameraDescription),
+                        confirmActionTitle: l10n(.goToSettings),
+                        confirmActionStyle: .default,
+                        confirmAction: { _ in
+                            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+                            if UIApplication.shared.canOpenURL(settingsUrl) {
+                                UIApplication.shared.open(settingsUrl)
+                            }
+                        }
+                    )
+                }
+            default: break
+            }
+            strongSelf.viewModel.resetState()
+        }
+    }
+
     private func setupNoDataView() {
-        noDataView = AuthorizationsNoDataView(
-            type: dataSource.hasConnections ? .noAuthorizations : .noConnections,
-            buttonAction: scanQrPressed
-        )
+        noDataView = NoDataView(data: viewModel.emptyViewData, action: scanQrPressed)
     }
 
     func reloadData(at index: Int) {
-        authorizationsView.reloadData(at: index)
+        authorizationCollectionView.reloadItems(at: [IndexPath(item: index, section: 0)])
     }
 
     func reloadData() {
-        authorizationsView.dataSource = dataSource
-        authorizationsView.reloadData()
+        headerSwipingView.collectionView.reloadData()
+        authorizationCollectionView.reloadData()
     }
 
     func scroll(to index: Int) {
-        authorizationsView.scroll(to: index)
+        headerSwipingView.collectionView.scrollToItem(
+            at: IndexPath(item: index, section: 0),
+            at: .centeredHorizontally,
+            animated: false
+        )
+        authorizationCollectionView.scrollToItem(
+            at: IndexPath(item: index, section: 0),
+            at: .centeredHorizontally,
+            animated: false
+        )
     }
 
     @objc private func hasNoConnection() {
@@ -73,18 +134,41 @@ final class AuthorizationsViewController: BaseViewController {
         }
     }
 
+    private func updateViewsHiddenState() {
+        UIView.animate(
+            withDuration: 0.3,
+            animations: { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.noDataView?.alpha = strongSelf.viewModel.hasDataToShow ? 0.0 : 1.0
+                [strongSelf.headerSwipingView, strongSelf.authorizationCollectionView]
+                    .forEach { $0.alpha = !strongSelf.viewModel.hasDataToShow ? 0.0 : 1.0 }
+            }
+        )
+    }
+
     deinit {
         NotificationsHelper.removeObserver(self)
     }
 }
 
-protocol AuthorizationsViewControllerDelegate: class {
-    func scanQrPressed()
-    func showMainNavigationMenu()
-}
-
 // MARK: - Setup
-extension AuthorizationsViewController {
+private extension AuthorizationsViewController {
+    func setupSwipingViews() {
+        headerSwipingView.collectionView.dataSource = self
+        headerSwipingView.collectionView.delegate = self
+
+        authorizationCollectionView.dataSource = self
+        authorizationCollectionView.delegate = self
+        authorizationCollectionView.backgroundColor = .clear
+        authorizationCollectionView.register(
+            AuthorizationCollectionViewCell.self,
+            forCellWithReuseIdentifier: String(describing: AuthorizationCollectionViewCell.self)
+        )
+        authorizationCollectionView.isPagingEnabled = true
+        authorizationCollectionView.showsHorizontalScrollIndicator = false
+    }
+
     func setupNavigationBarButtons() {
         let moreButton = UIButton()
         moreButton.setImage(UIImage(named: "more"), for: .normal)
@@ -120,25 +204,99 @@ extension AuthorizationsViewController {
             object: nil
         )
     }
+}
 
-    func updateViewsHiddenState() {
-        UIView.animate(
-            withDuration: 0.3,
-            animations: { [weak self] in
-                guard let strongSelf = self else { return }
+// MARK: - UICollectionViewDataSource
+extension AuthorizationsViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.numberOfRows
+    }
 
-                strongSelf.noDataView?.type = strongSelf.dataSource.hasConnections ? .noAuthorizations : .noConnections
-                strongSelf.noDataView?.alpha = strongSelf.dataSource.hasDataToShow ? 0.0 : 1.0
-                strongSelf.authorizationsView.alpha = !strongSelf.dataSource.hasDataToShow ? 0.0 : 1.0
-            }
-        )
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return viewModel.numberOfSections
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let detailViewModel = viewModel.detailViewModel(at: indexPath.row) else { return UICollectionViewCell() }
+
+        var cell: UICollectionViewCell
+
+        if collectionView == headerSwipingView.collectionView {
+            guard let headerCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: String(describing: AuthorizationHeaderCollectionViewCell.self),
+                for: indexPath
+            ) as? AuthorizationHeaderCollectionViewCell else { return UICollectionViewCell() }
+
+            headerCell.delegate = self
+            headerCell.viewModel = detailViewModel
+            cell = headerCell
+        } else {
+            guard let authorizationCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: String(describing: AuthorizationCollectionViewCell.self),
+                for: indexPath
+            ) as? AuthorizationCollectionViewCell else { return UICollectionViewCell() }
+
+            authorizationCell.viewModel = detailViewModel
+            authorizationCell.backgroundColor = .clear
+            authorizationCell.delegate = self
+            cell = authorizationCell
+        }
+
+        return cell
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let authorizationCellWidth = AppLayout.screenWidth
+        let headerPlusSpace = Layout.headerSize.width + Layout.headerSpacing
+        let authorizationXOffset = authorizationCollectionView.contentOffset.x
+
+        let page = floor(authorizationXOffset / authorizationCellWidth)
+        let pagePercent = (authorizationXOffset - (page * authorizationCellWidth)) / authorizationCellWidth
+
+        headerSwipingView.collectionView.contentOffset.x = (page * headerPlusSpace - 8.0) + (headerPlusSpace * pagePercent)
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+extension AuthorizationsViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == headerSwipingView.collectionView {
+            headerSwipingView.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+            authorizationCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        if collectionView == headerSwipingView.collectionView {
+            let inset = 0.16 * AppLayout.screenWidth
+
+            return UIEdgeInsets(top: 0.0, left: inset, bottom: 0.0, right: inset)
+        } else {
+            return UIEdgeInsets(top: 60.0, left: 0.0, bottom: 0.0, right: 0.0)
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if collectionView == authorizationCollectionView {
+            return CGSize(width: collectionView.size.width, height: collectionView.size.height - 60.0)
+        } else {
+            return Layout.headerSize
+        }
     }
 }
 
 // MARK: - Actions
 private extension AuthorizationsViewController {
     @objc func scanQrPressed() {
-        delegate?.scanQrPressed()
+        viewModel.scanQrPressed()
     }
 
     @objc func morePressed() {
@@ -148,29 +306,6 @@ private extension AuthorizationsViewController {
     func delete(section: Int) {
         updateViewsHiddenState()
     }
-
-    func confirmAuthorization(by authorizationId: String) {
-        guard let data = dataSource.confirmationData(for: authorizationId),
-            let viewModel = dataSource.viewModel(with: authorizationId),
-            let index = dataSource.index(of: viewModel) else { return }
-
-        viewModel.state = .processing
-        authorizationsView.reloadData(at: index)
-
-        AuthorizationsInteractor.confirm(
-            data: data,
-            success: { [weak self] in
-                viewModel.state = .success
-                viewModel.actionTime = Date()
-                self?.authorizationsView.reloadData(at: index)
-            },
-            failure: { [weak self] _ in
-                viewModel.state = .undefined
-                viewModel.actionTime = Date()
-                self?.authorizationsView.reloadData(at: index)
-            }
-        )
-    }
 }
 
 // MARK: - Layout
@@ -178,40 +313,38 @@ extension AuthorizationsViewController: Layoutable {
     func layout() {
         guard let noDataView = noDataView else { return }
 
-        view.addSubviews(authorizationsView, noDataView)
+        view.addSubviews(headerSwipingView, authorizationCollectionView, noDataView)
 
-        authorizationsView.edgesToSuperview()
+        headerSwipingView.topToSuperview()
+        headerSwipingView.widthToSuperview()
+        headerSwipingView.height(Layout.headerSwipingViewHeight)
+        headerSwipingView.centerX(to: view)
+        view.sendSubviewToBack(headerSwipingView)
+
+        authorizationCollectionView.edgesToSuperview()
+
         noDataView.topToSuperview(offset: 100)
         noDataView.widthToSuperview()
     }
 }
 
-// MARK: - Network
-extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
-    func denyPressed(authorizationId: String) {
-        guard let data = dataSource.confirmationData(for: authorizationId),
-            let viewModel = dataSource.viewModel(with: authorizationId),
-            let index = dataSource.index(of: viewModel) else { return }
-
-        viewModel.state = .processing
-        authorizationsView.reloadData(at: index)
-
-        AuthorizationsInteractor.deny(
-            data: data,
-            success: {
-                viewModel.state = .denied
-                viewModel.actionTime = Date()
-                self.authorizationsView.reloadData(at: index)
-            },
-            failure: { _ in
-                viewModel.state = .undefined
-                viewModel.actionTime = Date()
-                self.authorizationsView.reloadData(at: index)
-            }
-        )
+// MARK: - AuthorizationCellDelegate
+extension AuthorizationsViewController: AuthorizationCellDelegate {
+    func confirmPressed(_ authorizationId: String) {
+        viewModel.confirmAuthorization(by: authorizationId)
     }
 
-    func confirmPressed(authorizationId: String) {
-        confirmAuthorization(by: authorizationId)
+    func denyPressed(_ authorizationId: String) {
+        viewModel.denyAuthorization(by: authorizationId)
+    }
+}
+
+// MARK: - AuthorizationHeaderCollectionViewCellDelegates
+extension AuthorizationsViewController: AuthorizationHeaderCollectionViewCellDelegate {
+    func timerExpired(_ cell: AuthorizationHeaderCollectionViewCell) {
+        guard let indexPath = headerSwipingView.collectionView.indexPath(for: cell) else { return }
+
+        headerSwipingView.collectionView.reloadItems(at: [indexPath])
+        authorizationCollectionView.reloadItems(at: [indexPath])
     }
 }

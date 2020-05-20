@@ -58,44 +58,45 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
 
-    private(set) var viewModel: AuthorizationViewModel!
+    var viewModel: AuthorizationDetailViewModel! {
+        didSet {
+            titleLabel.text = viewModel.title
+
+            guard viewModel.state.value == .base else {
+                stateView.set(state: viewModel.state.value)
+                return
+            }
+
+            if viewModel.expired && viewModel.state.value != .expired {
+                stateView.set(state: .expired)
+            } else {
+                stateView.set(state: .base)
+
+                if viewModel.description.htmlToAttributedString != nil {
+                    contentStackView.removeArrangedSubview(descriptionTextView)
+                    webView.loadHTMLString(viewModel.description, baseURL: nil)
+                    contentStackView.addArrangedSubview(webView)
+                } else {
+                    contentStackView.removeArrangedSubview(webView)
+                    descriptionTextView.text = viewModel.description
+                    contentStackView.addArrangedSubview(descriptionTextView)
+                }
+            }
+
+            viewModel.state.valueChanged = { value in
+                self.stateView.set(state: value)
+            }
+        }
+    }
 
     weak var delegate: AuthorizationCellDelegate?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        stateView.set(state: .base)
         descriptionTextView.isUserInteractionEnabled = false
         setupButtons()
         layout()
-    }
-
-    func set(with viewModel: AuthorizationViewModel) {
-        self.viewModel = viewModel
-        titleLabel.text = viewModel.title
-
-        guard viewModel.state == .base else {
-            stateView.set(state: viewModel.state)
-            stateView.alpha = 1.0
-            return
-        }
-
-        if viewModel.expired && viewModel.state != .expired {
-            stateView.set(state: .expired)
-            stateView.alpha = 1.0
-        } else {
-            stateView.alpha = 0.0
-            stateView.set(state: .base)
-
-            if viewModel.description.htmlToAttributedString != nil {
-                contentStackView.removeArrangedSubview(descriptionTextView)
-                webView.loadHTMLString(viewModel.description, baseURL: nil)
-                contentStackView.addArrangedSubview(webView)
-            } else {
-                contentStackView.removeArrangedSubview(webView)
-                descriptionTextView.text = viewModel.description
-                contentStackView.addArrangedSubview(descriptionTextView)
-            }
-        }
     }
 
     required init?(coder aDecoder: NSCoder) {

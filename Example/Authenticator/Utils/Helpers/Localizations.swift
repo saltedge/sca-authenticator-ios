@@ -168,7 +168,7 @@ enum Localizations: String, Localizable {
     case contactSupport = "in_app.settings.contact_support"
     case reportAProblem = "actions.report_problem"
     case reportABug = "actions.report_bug"
-    
+
     // MARK: - Main Menu Options
     case viewConnections = "actions.view_connections"
     case viewConsents = "actions.view_consents"

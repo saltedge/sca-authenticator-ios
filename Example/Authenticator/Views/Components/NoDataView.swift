@@ -31,6 +31,13 @@ private struct Layout {
     static let buttonTopOffset: CGFloat = 28.0
 }
 
+struct EmptyViewData {
+    let image: UIImage
+    let title: String
+    let description: String
+    let buttonTitle: String?
+}
+
 class NoDataView: UIView {
     private let imageView = UIImageView(frame: .zero)
     private let titleLabel = UILabel(font: .systemFont(ofSize: 21.0))
@@ -57,8 +64,35 @@ class NoDataView: UIView {
         layout()
     }
 
+    init(data: EmptyViewData, action: (() -> ())? = nil) {
+        super.init(frame: .zero)
+        imageView.backgroundColor = .lightGray
+        titleLabel.text = data.title
+        descriptionLabel.text = data.description
+        descriptionLabel.numberOfLines = 0
+
+        if let title = data.buttonTitle {
+            button = CustomButton(text: title)
+            button?.on(.touchUpInside) { _, _ in
+                action?()
+            }
+        }
+        layout()
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func updateContent(data: EmptyViewData) {
+        imageView.image = data.image
+        titleLabel.text = data.title
+        descriptionLabel.text = data.description
+        button?.isHidden = data.buttonTitle == nil
+
+        if let title = data.buttonTitle {
+            button?.updateTitle(text: title)
+        }
     }
 
     func updateContent(

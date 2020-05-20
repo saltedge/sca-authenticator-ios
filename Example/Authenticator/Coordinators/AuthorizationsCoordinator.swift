@@ -25,134 +25,34 @@ import SEAuthenticator
 
 final class AuthorizationsCoordinator: Coordinator {
     let rootViewController = AuthorizationsViewController()
-
+    private let viewModel = AuthorizationsViewModel()
     private var connectViewCoordinator: ConnectViewCoordinator?
-    private var passcodeCoordinator: PasscodeCoordinator?
-
-    private var poller: SEPoller?
-
-    private var connections = ConnectionsCollector.activeConnections
-
-    private var selectedViewModelIndex: Int?
-    private var selectedCell: AuthorizationCollectionViewCell?
-
-    private var authorizationFromPush: (connectionId: String, authorizationId: String)?
-
-    private let dataSource = AuthorizationsDataSource()
 
     func start() {
-        rootViewController.dataSource = dataSource
+        rootViewController.viewModel = viewModel
         rootViewController.delegate = self
-        setupPolling()
-        updateDataSource(with: [])
     }
 
     func start(with connectionId: String, authorizationId: String) {
-        refresh()
+        viewModel.authorizationFromPush = (connectionId: connectionId, authorizationId: authorizationId)
         start()
-        authorizationFromPush = (connectionId, authorizationId)
     }
 
     func stop() {
-        poller?.stopPolling()
-        poller = nil
-    }
-
-    private func setupPolling() {
-        poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationsIfAvailable))
-        getEncryptedAuthorizationsIfAvailable()
-        poller?.startPolling()
-    }
-
-    @objc private func getEncryptedAuthorizationsIfAvailable() {
-        if poller != nil, connections.count > 0 {
-            refresh()
-        } else {
-            updateDataSource(with: [])
-        }
-    }
-
-     private func updateDataSource(with authorizations: [SEAuthorizationData]) {
-        if dataSource.update(with: authorizations) {
-            rootViewController.reloadData()
-        }
-
-        if let authorizationToScroll = authorizationFromPush {
-            if let viewModel = dataSource.viewModel(
-                by: authorizationToScroll.connectionId,
-                authorizationId: authorizationToScroll.authorizationId
-            ),
-            let index = dataSource.index(of: viewModel) {
-                rootViewController.scroll(to: index)
-            } else {
-                rootViewController.present(message: l10n(.authorizationNotFound), style: .error)
-            }
-            authorizationFromPush = nil
-        }
-
-        rootViewController.updateViewsHiddenState()
-    }
-}
-
-// MARK: - Actions
-private extension AuthorizationsCoordinator {
-    @objc func refresh() {
-        AuthorizationsInteractor.refresh(
-            connections: Array(connections),
-            success: { [weak self] encryptedAuthorizations in
-                guard let strongSelf = self else { return }
-
-                DispatchQueue.global(qos: .background).async {
-                    let decryptedAuthorizations = encryptedAuthorizations.compactMap {
-                        AuthorizationsPresenter.decryptedData(from: $0)
-                    }
-
-                    DispatchQueue.main.async {
-                        strongSelf.updateDataSource(with: decryptedAuthorizations)
-                    }
-                }
-            },
-            failure: { error in
-                print(error)
-            },
-            connectionNotFoundFailure: { connectionId in
-                if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
-                    ConnectionRepository.setInactive(connection)
-                }
-            }
-        )
+        viewModel.stopPolling()
     }
 }
 
 // MARK: - AuthorizationsViewControllerDelegate
 extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     func scanQrPressed() {
-        AVCaptureHelper.requestAccess(
-            success: {
-                guard let navController = self.rootViewController.navigationController else { return }
+        guard let navController = self.rootViewController.navigationController else { return }
 
-                self.connectViewCoordinator = ConnectViewCoordinator(
-                    rootViewController: navController,
-                    connectionType: .connect
-                )
-                self.connectViewCoordinator?.start()
-            },
-            failure: {
-                self.rootViewController.showConfirmationAlert(
-                    withTitle: l10n(.deniedCamera),
-                    message: l10n(.deniedCameraDescription),
-                    confirmActionTitle: l10n(.goToSettings),
-                    confirmActionStyle: .default,
-                    confirmAction: { _ in
-                        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
-
-                        if UIApplication.shared.canOpenURL(settingsUrl) {
-                            UIApplication.shared.open(settingsUrl)
-                        }
-                    }
-                )
-            }
+        connectViewCoordinator = ConnectViewCoordinator(
+            rootViewController: navController,
+            connectionType: .connect
         )
+        connectViewCoordinator?.start()
     }
 
     func showMainNavigationMenu() {

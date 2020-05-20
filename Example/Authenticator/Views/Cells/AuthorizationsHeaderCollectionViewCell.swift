@@ -44,30 +44,30 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
 
     weak var delegate: AuthorizationHeaderCollectionViewCellDelegate?
 
+    var viewModel: AuthorizationDetailViewModel! {
+        didSet {
+            if let connection = ConnectionsCollector.with(id: viewModel.connectionId) {
+                setImage(from: connection.logoUrl)
+                connectionNameLabel.text = connection.name
+            }
+            updateTime()
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .secondaryBackground
+        connectionImageView.image = #imageLiteral(resourceName: "bankPlaceholderCyanSmall")
         setupShadowAndCornerRadius()
         layout()
     }
 
-    func configure(_ item: AuthorizationViewModel, at indexPath: IndexPath) {
-        connectionImageView.contentMode = .scaleAspectFit
-        connectionImageView.image = #imageLiteral(resourceName: "bankPlaceholderCyanSmall")
+    func updateTime() {
+        guard viewModel.state.value == .base, viewModel.actionTime == nil else { return }
 
-        if let connection = ConnectionsCollector.with(id: item.connectionId) {
-            setImage(from: connection.logoUrl)
-            connectionNameLabel.text = connection.name
-        }
-        updateTime(item)
-    }
+        let secondsLeft = diffInSecondsFromNow(for: viewModel.authorizationExpiresAt)
 
-    func updateTime(_ item: AuthorizationViewModel) {
-        guard item.state == .base, item.actionTime == nil else { return }
-
-        let secondsLeft = diffInSecondsFromNow(for: item.authorizationExpiresAt)
-
-        progressView.update(secondsLeft: secondsLeft, lifetime: item.lifetime)
+        progressView.update(secondsLeft: secondsLeft, lifetime: viewModel.lifetime)
         timeLeftLabel.update(secondsLeft: secondsLeft)
     }
 

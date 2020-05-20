@@ -35,7 +35,7 @@ final class AuthorizationStateView: UIView {
     private let messageLabel = UILabel(font: .systemFont(ofSize: 17.0, weight: .regular), textColor: .textColor)
     private var accessoryView: UIView?
 
-    enum AuthorizationState: String {
+    enum AuthorizationState: String, Equatable {
         case base
         case denied
         case expired
@@ -68,10 +68,18 @@ final class AuthorizationStateView: UIView {
         var topAccessoryView: UIView {
             switch self {
             case .success: return AspectFitImageView(imageName: "success")
-            case .expired: return AspectFitImageView(imageName: "time_out")
+            case .expired: return AspectFitImageView(imageName: "timeout")
             case .denied: return AspectFitImageView(imageName: "deny")
             case .undefined: return AspectFitImageView(imageName: "smth_wrong")
             default: return LoadingIndicator()
+            }
+        }
+
+        static func == (lhs: AuthorizationState, rhs: AuthorizationState) -> Bool {
+            switch (lhs, rhs) {
+            case (.base, .base), (.denied, .denied), (.expired, .expired),
+                 (.processing, .processing), (.success, .success), (.undefined, .undefined): return true
+            default: return false
             }
         }
     }
@@ -86,6 +94,12 @@ final class AuthorizationStateView: UIView {
     }
 
     func set(state: AuthorizationState) {
+        guard state != .base else {
+            self.alpha = 0.0
+            return
+        }
+
+        alpha = 1.0
         messageLabel.text = state.message
         titleLabel.text = state.title
         setTopView(state: state)
