@@ -23,35 +23,20 @@
 import UIKit
 import TinyConstraints
 
-enum ConnectionAction {
-    case delete
-    case edit
-    case reconnect
-    case support
-}
-
-protocol ConnectionsViewControllerDelegate: class {
-    func selected(_ connection: Connection, action: ConnectionAction?)
-    func addPressed()
-}
-
-private struct Layout {
-    static let cellHeight: CGFloat = 86.0
-}
-
 final class ConnectionsViewController: BaseViewController {
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.sectionHeaderHeight = 30.0
         tableView.sectionFooterHeight = 0.0
-        tableView.backgroundColor = .auth_backgroundColor
+        tableView.backgroundColor = .backgroundColor
         tableView.rowHeight = Layout.cellHeight
         tableView.register(ConnectionCell.self)
+        tableView.separatorStyle = .none
         return tableView
     }()
     private var noDataView: NoDataView!
 
-    private var viewControllerViewModel: ConnectionListViewModel!
+    private var viewControllerViewModel: ConnectionsListViewModel!
     private var dataSource: ConnectionsDataSource!
 
     weak var delegate: ConnectionsViewControllerDelegate?
@@ -59,18 +44,12 @@ final class ConnectionsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = l10n(.connections)
+        setupNavigationBar()
         setupViewModelAndDataSource()
         setupTableView()
-        noDataView = NoDataView(
-            image: #imageLiteral(resourceName: "no_connections"),
-            title: l10n(.noConnections),
-            description: l10n(.noConnectionsDescription),
-            ctaTitle: l10n(.connectProvider)
-        )
+        setupNoDataView()
         layout()
         updateViewsHiddenState()
-        updateNavigationButtonsState()
         NotificationsHelper.observe(
             self,
             selector: #selector(reloadData),
@@ -92,16 +71,41 @@ final class ConnectionsViewController: BaseViewController {
     }
 }
 
+enum ConnectionMenuAction {
+    case delete
+    case edit
+    case reconnect
+    case support
+}
+
+protocol ConnectionsViewControllerDelegate: class {
+    func selected(_ connection: Connection, action: ConnectionMenuAction?)
+    func addPressed()
+}
+
+private struct Layout {
+    static let cellHeight: CGFloat = 96.0
+}
+
 // MARK: - Setup
 private extension ConnectionsViewController {
+    func setupNavigationBar() {
+        navigationItem.title = l10n(.connections)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: l10n(.back),
+            style: .plain,
+            target: self,
+            action: #selector(close)
+        )
+    }
+
     func setupViewModelAndDataSource() {
-        viewControllerViewModel = ConnectionListViewModel(
+        viewControllerViewModel = ConnectionsListViewModel(
             onDataChange: { [weak self] in
                 guard let weakSelf = self else { return }
 
                 weakSelf.tableView.reloadData()
                 weakSelf.updateViewsHiddenState()
-                weakSelf.updateNavigationButtonsState()
             }
         )
 
@@ -113,6 +117,15 @@ private extension ConnectionsViewController {
         tableView.dataSource = self
     }
 
+    func setupNoDataView() {
+        noDataView = NoDataView(
+            image: #imageLiteral(resourceName: "no_connections"),
+            title: l10n(.noConnections),
+            description: l10n(.noConnectionsDescription),
+            ctaTitle: l10n(.connectProvider)
+        )
+    }
+
     func updateViewsHiddenState() {
         UIView.animate(
             withDuration: 0.3,
@@ -121,19 +134,6 @@ private extension ConnectionsViewController {
                 self.tableView.alpha = !self.dataSource.hasDataToShow ? 0.0 : 1.0
             }
         )
-    }
-
-    func updateNavigationButtonsState() {
-        if dataSource.hasDataToShow {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(
-                barButtonSystemItem: .add,
-                target: self,
-                action: #selector(addPressed)
-            )
-        } else {
-            navigationItem.leftBarButtonItem = nil
-            navigationItem.rightBarButtonItem = nil
-        }
     }
 }
 
@@ -217,8 +217,11 @@ extension ConnectionsViewController {
 }
 
 // MARK: - Actions
-// TODO: Add logic
 private extension ConnectionsViewController {
+    @objc func close() {
+        dismiss(animated: true, completion: nil)
+    }
+
     func showActionSheet(at indexPath: IndexPath) {}
 
     func rename(_ id: String) {
@@ -271,6 +274,7 @@ private extension ConnectionsViewController {
 // MARK: - Layout
 extension ConnectionsViewController: Layoutable {
     func layout() {
+        view.backgroundColor = .backgroundColor
         view.addSubviews(tableView, noDataView)
         tableView.edges(to: view)
         noDataView.left(to: view, offset: AppLayout.sideOffset)

@@ -22,17 +22,6 @@
 
 import UIKit
 
-protocol AuthorizationsViewControllerDelegate: class {
-    func scanQrPressed()
-    func showMainNavigationMenu()
-}
-
-private struct Layout {
-    static let headerSpacing: CGFloat = 16.0
-    static let headerSize: CGSize = CGSize(width: AppLayout.screenWidth * 0.66, height: 42.0)
-    static let headerSwipingViewHeight: CGFloat = 60.0
-}
-
 final class AuthorizationsViewController: BaseViewController {
     private let headerSwipingView = AuthorizationsHeadersSwipingView()
     private let authorizationCollectionView: UICollectionView = {
@@ -150,6 +139,17 @@ final class AuthorizationsViewController: BaseViewController {
     deinit {
         NotificationsHelper.removeObserver(self)
     }
+}
+
+protocol AuthorizationsViewControllerDelegate: class {
+    func scanQrPressed()
+    func showMainNavigationMenu()
+}
+
+private struct Layout {
+    static let headerSpacing: CGFloat = 16.0
+    static let headerSize: CGSize = CGSize(width: AppLayout.screenWidth * 0.66, height: 42.0)
+    static let headerSwipingViewHeight: CGFloat = 60.0
 }
 
 // MARK: - Setup

@@ -18,6 +18,7 @@
 		95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
 		95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
 		95F409002473C91000727095 /* ConnectionsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */; };
+		95F4090224751D7E00727095 /* ConnectionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */; };
 		9D0DC4132462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
 		9D0DC4142462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
 		9D1DEE7423D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */; };
@@ -69,14 +70,13 @@
 		9D772130231E51200015BAC6 /* AuthorizationsCollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */; };
 		9D772132231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */; };
 		9D772133231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */; };
-		9D87F49B2429302800F85D1F /* ConnectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */; };
-		9D87F49C2429302800F85D1F /* ConnectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */; };
+		9D87F49C2429302800F85D1F /* ConnectionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */; };
 		9D87F49E2429326800F85D1F /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49D2429326800F85D1F /* ConnectionCell.swift */; };
 		9D87F49F2429326800F85D1F /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49D2429326800F85D1F /* ConnectionCell.swift */; };
 		9D87F4A12429393000F85D1F /* ConnectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A02429393000F85D1F /* ConnectionsDataSource.swift */; };
 		9D87F4A22429393000F85D1F /* ConnectionsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A02429393000F85D1F /* ConnectionsDataSource.swift */; };
-		9D87F4A7242A6BCD00F85D1F /* ConnectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionListViewModel.swift */; };
-		9D87F4A8242A6BCD00F85D1F /* ConnectionListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionListViewModel.swift */; };
+		9D87F4A7242A6BCD00F85D1F /* ConnectionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionsListViewModel.swift */; };
+		9D87F4A8242A6BCD00F85D1F /* ConnectionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionsListViewModel.swift */; };
 		9D8DCD2924614A8A00FD6424 /* AuthorizationsNoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */; };
 		9D8DCD2A24614A8A00FD6424 /* AuthorizationsNoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */; };
 		9D8E5BA22445A1E70081E60E /* OnboardingViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */; };
@@ -390,10 +390,10 @@
 		9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsHeadersSwipingView.swift; sourceTree = "<group>"; };
 		9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsCollectionLayout.swift; sourceTree = "<group>"; };
 		9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationCollectionViewCell.swift; sourceTree = "<group>"; };
-		9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionViewModel.swift; sourceTree = "<group>"; };
+		9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCellViewModel.swift; sourceTree = "<group>"; };
 		9D87F49D2429326800F85D1F /* ConnectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
 		9D87F4A02429393000F85D1F /* ConnectionsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsDataSource.swift; sourceTree = "<group>"; };
-		9D87F4A6242A6BCD00F85D1F /* ConnectionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionListViewModel.swift; sourceTree = "<group>"; };
+		9D87F4A6242A6BCD00F85D1F /* ConnectionsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListViewModel.swift; sourceTree = "<group>"; };
 		9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsNoDataView.swift; sourceTree = "<group>"; };
 		9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModelSpec.swift; sourceTree = "<group>"; };
 		9D940957235DDB8F0080EBB5 /* AboutDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutDataSourceSpec.swift; sourceTree = "<group>"; };
@@ -666,6 +666,16 @@
 			path = Migrations;
 			sourceTree = "<group>";
 		};
+		95F409012475190500727095 /* Connections */ = {
+			isa = PBXGroup;
+			children = (
+				9D87F4A6242A6BCD00F85D1F /* ConnectionsListViewModel.swift */,
+				9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */,
+				9DCBB2832435E9D900DB3F85 /* EditConnectionViewModel.swift */,
+			);
+			path = Connections;
+			sourceTree = "<group>";
+		};
 		9D630BC4243DC076000A9ACC /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -864,7 +874,6 @@
 				9DCED7E522CE18270050ED3C /* ConnectViewController.swift */,
 				9DCED7E622CE18270050ED3C /* EditConnectionViewController.swift */,
 				9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */,
-				9D87F4A6242A6BCD00F85D1F /* ConnectionListViewModel.swift */,
 			);
 			path = Connection;
 			sourceTree = "<group>";
@@ -995,10 +1004,9 @@
 		9DCED84322CE18270050ED3C /* View Models */ = {
 			isa = PBXGroup;
 			children = (
+				95F409012475190500727095 /* Connections */,
 				9DE94106246D4204000029A2 /* Authorizations */,
 				9D630BC4243DC076000A9ACC /* Onboarding */,
-				9D87F49A2429302800F85D1F /* ConnectionViewModel.swift */,
-				9DCBB2832435E9D900DB3F85 /* EditConnectionViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -1648,7 +1656,7 @@
 				9DCED8D322CE18280050ED3C /* StackViewExtensions.swift in Sources */,
 				9DCED91522CE18280050ED3C /* Connection.swift in Sources */,
 				9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
-				9D87F4A7242A6BCD00F85D1F /* ConnectionListViewModel.swift in Sources */,
+				9D87F4A7242A6BCD00F85D1F /* ConnectionsListViewModel.swift in Sources */,
 				9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */,
 				9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */,
 				9D77212C231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */,
@@ -1678,7 +1686,6 @@
 				9DCED8DC22CE18280050ED3C /* LocalizationHelper.swift in Sources */,
 				9DCED8FB22CE18280050ED3C /* SetupProgressBarCircle.swift in Sources */,
 				9DCED92622CE18280050ED3C /* AppDelegate.swift in Sources */,
-				9D87F49B2429302800F85D1F /* ConnectionViewModel.swift in Sources */,
 				9DCED8CB22CE18280050ED3C /* WindowExtensions.swift in Sources */,
 				9D87F4A12429393000F85D1F /* ConnectionsDataSource.swift in Sources */,
 				9DCED8DA22CE18280050ED3C /* Localizable.swift in Sources */,
@@ -1720,6 +1727,7 @@
 				9DCED8CA22CE18280050ED3C /* ViewControllerExtensions.swift in Sources */,
 				9DCED90722CE18280050ED3C /* LoadingIndicator.swift in Sources */,
 				9DCED8CF22CE18280050ED3C /* ColorExtensions.swift in Sources */,
+				95F4090224751D7E00727095 /* ConnectionCellViewModel.swift in Sources */,
 				9DCED8F522CE18280050ED3C /* CustomSpacingLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1755,7 +1763,7 @@
 				9D77212A231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */,
 				9DAAC0E3233A5341006D0758 /* TimeLeftLabel.swift in Sources */,
 				9D66E1E622D6146900BD59B6 /* RequestParametersBuilderSpec.swift in Sources */,
-				9D87F4A8242A6BCD00F85D1F /* ConnectionListViewModel.swift in Sources */,
+				9D87F4A8242A6BCD00F85D1F /* ConnectionsListViewModel.swift in Sources */,
 				9DE3247B22D3998200EB162A /* AuthorizationsCoordinator.swift in Sources */,
 				9DE308BC2446287A009EBD39 /* PasscodeViewController.swift in Sources */,
 				9D66E1A922D4C1C100BD59B6 /* AuthorizationDataSpec.swift in Sources */,
@@ -1861,7 +1869,7 @@
 				9D66E1AB22D4C1CA00BD59B6 /* CryptoErrorsSpec.swift in Sources */,
 				9D630BCA243DC464000A9ACC /* OnboardingViewModel.swift in Sources */,
 				9DE324BA22D39A5300EB162A /* EditConnectionViewController.swift in Sources */,
-				9D87F49C2429302800F85D1F /* ConnectionViewModel.swift in Sources */,
+				9D87F49C2429302800F85D1F /* ConnectionCellViewModel.swift in Sources */,
 				9D77212D231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */,
 				9D4310F422D7661D004A7FCF /* AboutCoordinator.swift in Sources */,
 				9D66E1B122D4C1E000BD59B6 /* SettingsDataSourceSpec.swift in Sources */,

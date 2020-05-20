@@ -24,7 +24,7 @@ import Foundation
 import RealmSwift
 import SEAuthenticator
 
-class ConnectionListViewModel {
+class ConnectionsListViewModel {
     typealias OnDataChangeClosure = () -> ()
 
     private let connections = ConnectionsCollector.allConnections.sorted(

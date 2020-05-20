@@ -26,22 +26,24 @@ import UIKit
 class ConnectionCellViewModel {
     private let connection: Connection
 
-    var connectionName: String
-    let description: String
-    var descriptionColor: UIColor = .auth_gray
     var connectionStatus = Observable<ConnectionStatus>(.active)
+    var connectionName: String {
+        return connection.name
+    }
+    var description: String {
+        return connectionStatus.value == .inactive
+            ? l10n(.inactiveConnection)
+            : "\(l10n(.connectedOn)) \(connection.createdAt.dayMonthYearWithTimeString)"
+    }
+    var descriptionColor: UIColor {
+        return connectionStatus.value == .inactive
+            ? .connectionDescriptionError
+            : .dark60
+    }
 
     init(connection: Connection) {
         self.connection = connection
-
-        let inactiveDescription = l10n(.inactiveConnection)
-        let activeDescription = "\(l10n(.connectedOn)) \(connection.createdAt.dayMonthYearWithTimeString)"
-
-        self.description = connection.status == ConnectionStatus.inactive.rawValue ? inactiveDescription : activeDescription
-        self.descriptionColor = connection.status == ConnectionStatus.inactive.rawValue ? .auth_red : .auth_gray
-
         self.connectionStatus.value = ConnectionStatus(rawValue: connection.status)!
-        self.connectionName = connection.name
     }
 
     subscript<T>(dynamicMember keyPath: KeyPath<Connection, T>) -> T {

@@ -22,61 +22,58 @@
 
 import UIKit
 
-private struct Layout {
-    static let sideOffset: CGFloat = 16.0
-    static let titleLabelTopOffset: CGFloat = 20.0
-    static let descriptionLabelOffset: CGFloat = 5.0
-    static let imageViewSize: CGSize = CGSize(width: 30.0, height: 30.0)
-    static let connectionPlaceholderViewSize: CGSize = CGSize(width: 48.0, height: 48.0)
-    static let connectionPlaceholderViewRadius: CGFloat = 24.0
-    static let connectionImageOffset = sideOffset + 4.0
-}
-
 final class ConnectionCell: UITableViewCell, Dequeuable {
-    private let connectionPlaceholderView: UIView = {
+    private let cardView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = Layout.cardViewRadius
+        view.layer.masksToBounds = true
+        view.backgroundColor = .secondaryBackground
+        return view
+    }()
+    private let logoPlaceholderView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = Layout.connectionPlaceholderViewRadius
         view.clipsToBounds = true
-        view.backgroundColor = .auth_backgroundColor
+        view.backgroundColor = .extraLightGray
         return view
     }()
-    private let connectionImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
+    private let logoView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFit
+        return view
     }()
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .auth_19regular
-        label.textColor = .black
+        label.font = .auth_17regular
+        label.textColor = .titleColor
         label.textAlignment = .left
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .auth_15regular
-        label.textColor = .darkGray
+        label.font = .auth_13regular
+        label.textColor = .dark60
         label.textAlignment = .left
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
-    var connectionViewModel: ConnectionCellViewModel! {
+    var viewModel: ConnectionCellViewModel! {
         didSet {
-            titleLabel.text = connectionViewModel.connectionName
-            descriptionLabel.text = connectionViewModel.description
-            descriptionLabel.textColor = connectionViewModel.descriptionColor
+            titleLabel.text = viewModel.connectionName
+            descriptionLabel.text = viewModel.description
+            descriptionLabel.textColor = viewModel.descriptionColor
 
-            if let imageUrl = connectionViewModel.logoUrl {
-                CacheHelper.setAnimatedCachedImage(from: imageUrl, for: connectionImageView)
+            if let imageUrl = viewModel.logoUrl {
+                CacheHelper.setAnimatedCachedImage(from: imageUrl, for: logoView)
             }
         }
     }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .white
+        setupContentContainer()
         layout()
     }
 
@@ -85,26 +82,54 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
     }
 }
 
+private struct Layout {
+    static let sideOffset: CGFloat = 16.0
+    static let titleLabelTopOffset: CGFloat = 20.0
+    static let descriptionLabelOffset: CGFloat = 4.0
+    static let imageViewSize: CGSize = CGSize(width: 36.0, height: 36.0)
+    static let connectionPlaceholderViewSize: CGSize = CGSize(width: 48.0, height: 48.0)
+    static let connectionPlaceholderViewRadius: CGFloat = 12.0
+    static let connectionImageOffset = sideOffset + 4.0
+    static let cardViewRadius: CGFloat = 6.0
+}
+
+// MARK: - Setup
+private extension ConnectionCell {
+    func setupContentContainer() {
+        backgroundColor = .backgroundColor
+
+        contentView.layer.shadowColor = UIColor(red: 0.374, green: 0.426, blue: 0.488, alpha: 0.3).cgColor
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        contentView.layer.shadowOpacity = 1
+        contentView.layer.shadowRadius = 8
+    }
+}
+
 // MARK: - Layout
 extension ConnectionCell: Layoutable {
     func layout() {
-        contentView.addSubviews(connectionPlaceholderView, titleLabel, descriptionLabel)
+        contentView.addSubviews(cardView)
+        cardView.addSubviews(logoPlaceholderView, titleLabel, descriptionLabel)
+        logoPlaceholderView.addSubview(logoView)
 
-        connectionPlaceholderView.addSubview(connectionImageView)
+        cardView.left(to: contentView, offset: 16.0)
+        cardView.top(to: contentView, offset: 8.0)
+        cardView.right(to: contentView, offset: -16.0)
+        cardView.bottom(to: contentView, offset: -8.0)
 
-        connectionPlaceholderView.size(Layout.connectionPlaceholderViewSize)
-        connectionPlaceholderView.left(to: contentView, offset: Layout.sideOffset)
-        connectionPlaceholderView.centerY(to: contentView)
+        logoPlaceholderView.size(Layout.connectionPlaceholderViewSize)
+        logoPlaceholderView.left(to: cardView, offset: Layout.sideOffset)
+        logoPlaceholderView.centerY(to: cardView)
 
-        connectionImageView.size(Layout.connectionPlaceholderViewSize)
-        connectionImageView.center(in: connectionPlaceholderView)
+        logoView.size(Layout.connectionPlaceholderViewSize)
+        logoView.center(in: logoPlaceholderView)
 
-        titleLabel.top(to: contentView, offset: Layout.titleLabelTopOffset)
-        titleLabel.leftToRight(of: connectionPlaceholderView, offset: Layout.sideOffset)
-        titleLabel.right(to: contentView, offset: -Layout.sideOffset)
+        titleLabel.top(to: cardView, offset: Layout.titleLabelTopOffset)
+        titleLabel.leftToRight(of: logoPlaceholderView, offset: Layout.sideOffset)
+        titleLabel.right(to: cardView, offset: -Layout.sideOffset)
 
         descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionLabelOffset)
-        descriptionLabel.leftToRight(of: connectionPlaceholderView, offset: Layout.sideOffset)
-        descriptionLabel.right(to: contentView, offset: -Layout.descriptionLabelOffset)
+        descriptionLabel.leftToRight(of: logoPlaceholderView, offset: Layout.sideOffset)
+        descriptionLabel.right(to: cardView, offset: -Layout.descriptionLabelOffset)
     }
 }

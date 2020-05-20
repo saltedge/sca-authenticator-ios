@@ -97,12 +97,12 @@ extension FeaturesCollectionViewCell: Styleable {
     func stylize() {
         titleLabel.font = .systemFont(ofSize: 26.0, weight: .semibold)
         titleLabel.textAlignment = .left
-        titleLabel.textColor = .textColor
+        titleLabel.textColor = .titleColor
 
         descriptionLabel.font = .systemFont(ofSize: 17.0, weight: .regular)
         descriptionLabel.textAlignment = .left
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.textColor = .textColor
+        descriptionLabel.textColor = .titleColor
 
         imageView.contentMode = .scaleAspectFit
     }

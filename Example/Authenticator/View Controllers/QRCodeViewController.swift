@@ -157,13 +157,13 @@ final class QRCodeViewController: UIViewController {
         titleLabel.text = l10n(.scanQr)
         titleLabel.textAlignment = .center
         titleLabel.font = .systemFont(ofSize: 26.0, weight: .bold)
-        titleLabel.textColor = .textColor
+        titleLabel.textColor = .titleColor
 
         let descriptionLabel = UILabel()
         descriptionLabel.text = l10n(.scanQrDescription)
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = .systemFont(ofSize: 17.0, weight: .regular)
-        descriptionLabel.textColor = .textColor
+        descriptionLabel.textColor = .titleColor
         descriptionLabel.numberOfLines = 0
 
         let stackView = UIStackView(axis: .vertical, alignment: .fill, spacing: 8.0, distribution: .fillEqually)

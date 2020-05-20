@@ -23,9 +23,9 @@
 import UIKit
 
 final class ConnectionsDataSource {
-    private var connectionListViewModel: ConnectionListViewModel!
+    private var connectionListViewModel: ConnectionsListViewModel!
 
-    init(viewModel: ConnectionListViewModel) {
+    init(viewModel: ConnectionsListViewModel) {
         self.connectionListViewModel = viewModel
     }
 
@@ -48,7 +48,7 @@ final class ConnectionsDataSource {
     func cell(for indexPath: IndexPath) -> ConnectionCell {
         let cell = ConnectionCell()
 
-        cell.connectionViewModel = connectionListViewModel.cellViewModel(at: indexPath)
+        cell.viewModel = connectionListViewModel.cellViewModel(at: indexPath)
 
         return cell
     }
