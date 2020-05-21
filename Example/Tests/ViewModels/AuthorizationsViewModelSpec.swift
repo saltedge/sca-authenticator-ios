@@ -36,14 +36,13 @@ extension EmptyViewData: Equatable {
 
 final class AuthorizationsViewModelSpec: BaseSpec {
     override func spec() {
-        let dataSource = AuthorizationsDataSource()
-        let viewModel = AuthorizationsViewModel()
-
-        viewModel.dataSource = dataSource
-
         describe("emptyViewData") {
             context("when there is no connections") {
                 it("should return correct data") {
+                    let viewModel = AuthorizationsViewModel()
+                    let dataSource = AuthorizationsDataSource()
+                    viewModel.dataSource = dataSource
+
                     expect(Array(ConnectionsCollector.allConnections)).to(beEmpty())
 
                     let expectedEmptyViewData = EmptyViewData(
@@ -59,6 +58,10 @@ final class AuthorizationsViewModelSpec: BaseSpec {
 
             context("when there is at least one connection") {
                 it("should retun correct data") {
+                    let viewModel = AuthorizationsViewModel()
+                    let dataSource = AuthorizationsDataSource()
+                    viewModel.dataSource = dataSource
+                    
                     let expectedEmptyViewData = EmptyViewData(
                         image: UIImage(),
                         title: l10n(.noAuthorizations),
@@ -78,8 +81,12 @@ final class AuthorizationsViewModelSpec: BaseSpec {
         }
 
         describe("confirmAuthorization") {
-            it("should confirm authorization by id") {
-                let connection = createConnection(id: "123")
+            it("should set state to .processing, then to completion state") {
+                let viewModel = AuthorizationsViewModel()
+                let dataSource = AuthorizationsDataSource()
+                viewModel.dataSource = dataSource
+
+                let connection = SpecUtils.createConnection(id: "123")
 
                 let authMessage = ["id": "00000",
                                    "connection_id": connection.id,
@@ -87,18 +94,10 @@ final class AuthorizationsViewModelSpec: BaseSpec {
                                    "description": "Test authorization",
                                    "created_at": Date().iso8601string,
                                    "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
-
-                let secondAuthMessage = ["id": "00001",
-                                         "connection_id": connection.id,
-                                         "title": "Second Authorization",
-                                         "description": "Test authorization",
-                                         "created_at": Date().iso8601string,
-                                         "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
         
-                let firstDecryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
-                let secondDecryptedData = createAuthResponse(with: secondAuthMessage, id: connection.id, guid: connection.guid)
+                let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
 
-                _ = dataSource.update(with: [firstDecryptedData, secondDecryptedData])
+                _ = dataSource.update(with: [decryptedData])
     
                 let detailViewModel = dataSource.viewModel(with: "00000")
 
@@ -109,30 +108,32 @@ final class AuthorizationsViewModelSpec: BaseSpec {
             }
         }
 
-        func createConnection(id: ID) -> Connection {
-            let connection = Connection()
-            connection.id = id
-            connection.baseUrlString = "url.com"
-            ConnectionRepository.save(connection)
-            _ = SECryptoHelper.createKeyPair(with: SETagHelper.create(for: connection.guid))
+        describe("denyAuthorization") {
+            it("should set state to .processing, then to completion state") {
+                let viewModel = AuthorizationsViewModel()
+                let dataSource = AuthorizationsDataSource()
+                viewModel.dataSource = dataSource
 
-            return connection
-        }
+                let connection = SpecUtils.createConnection(id: "123")
 
-        func createAuthResponse(with authMessage: [String: Any], id: ID, guid: GUID) -> SEAuthorizationData {
-            let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: guid))
+                let authMessage = ["id": "00000",
+                                   "connection_id": connection.id,
+                                   "title": "Authorization",
+                                   "description": "Test authorization",
+                                   "created_at": Date().iso8601string,
+                                   "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
+        
+                let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
 
-            let dict = [
-                "data": encryptedData.data,
-                "key": encryptedData.key,
-                "iv": encryptedData.iv,
-                "connection_id": id,
-                "algorithm": "AES-256-CBC"
-            ]
+                _ = dataSource.update(with: [decryptedData])
+    
+                let detailViewModel = dataSource.viewModel(with: "00000")
 
-            let response = SEEncryptedData(dict)!
+                viewModel.denyAuthorization(by: "00000")
 
-            return AuthorizationsPresenter.decryptedData(from: response)!
+                expect(detailViewModel?.state.value).to(equal(AuthorizationStateView.AuthorizationState.processing))
+                expect(detailViewModel?.state.value).toEventually(equal(AuthorizationStateView.AuthorizationState.undefined))
+            }
         }
     }
 }

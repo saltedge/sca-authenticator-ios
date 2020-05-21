@@ -21,13 +21,32 @@
 //
 
 import Foundation
+import SEAuthenticator
 
-func iterateEnum<T: Hashable>(_: T.Type) -> AnyIterator<T> {
-    var i = 0
-    return AnyIterator {
-        let next = withUnsafeBytes(of: &i) { $0.load(as: T.self) }
-        if next.hashValue != i { return nil }
-        i += 1
-        return next
+struct SpecUtils {
+    static func createConnection(id: ID) -> Connection {
+        let connection = Connection()
+        connection.id = id
+        connection.baseUrlString = "url.com"
+        ConnectionRepository.save(connection)
+        _ = SECryptoHelper.createKeyPair(with: SETagHelper.create(for: connection.guid))
+
+        return connection
+    }
+
+    static func createAuthResponse(with authMessage: [String: Any], id: ID, guid: GUID) -> SEAuthorizationData {
+        let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: guid))
+
+        let dict = [
+            "data": encryptedData.data,
+            "key": encryptedData.key,
+            "iv": encryptedData.iv,
+            "connection_id": id,
+            "algorithm": "AES-256-CBC"
+        ]
+
+        let response = SEEncryptedData(dict)!
+
+        return AuthorizationsPresenter.decryptedData(from: response)!
     }
 }

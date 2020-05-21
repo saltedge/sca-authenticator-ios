@@ -60,6 +60,10 @@ class AuthorizationsViewModel {
         )
     }
 
+    func resetState() {
+        state.value = .normal
+    }
+
     var emptyViewData: EmptyViewData {
         if dataSource.hasConnections {
             return EmptyViewData(
@@ -116,21 +120,6 @@ class AuthorizationsViewModel {
         )
     }
 
-    func resetState() {
-        state.value = .normal
-    }
-
-    func setupPolling() {
-        poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationsIfAvailable))
-        getEncryptedAuthorizationsIfAvailable()
-        poller?.startPolling()
-    }
-
-    func stopPolling() {
-        poller?.stopPolling()
-        poller = nil
-    }
-
     private func updateDataSource(with authorizations: [SEAuthorizationData]) {
         if dataSource.update(with: authorizations) {
             state.value = .reloadData
@@ -148,6 +137,20 @@ class AuthorizationsViewModel {
             }
             authorizationFromPush = nil
         }
+    }
+}
+
+// MARK: - Polling
+extension AuthorizationsViewModel {
+    func setupPolling() {
+        poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationsIfAvailable))
+        getEncryptedAuthorizationsIfAvailable()
+        poller?.startPolling()
+    }
+
+    func stopPolling() {
+        poller?.stopPolling()
+        poller = nil
     }
 }
 
