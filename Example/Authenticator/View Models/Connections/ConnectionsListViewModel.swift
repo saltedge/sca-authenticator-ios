@@ -1,5 +1,5 @@
 //
-//  ConnectionListViewModel
+//  ConnectionsListViewModel.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -24,7 +24,7 @@ import Foundation
 import RealmSwift
 import SEAuthenticator
 
-class ConnectionListViewModel {
+class ConnectionsListViewModel {
     typealias OnDataChangeClosure = () -> ()
 
     private let connections = ConnectionsCollector.allConnections.sorted(
@@ -45,7 +45,7 @@ class ConnectionListViewModel {
         }
     }
 
-    func count() -> Int {
+    var count: Int {
         return connections.count
     }
 

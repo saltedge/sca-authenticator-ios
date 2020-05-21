@@ -40,7 +40,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
     private lazy var stateView = AuthorizationStateView(state: .base)
     private var isProcessing: Bool = false
 
-    private let titleLabel = UILabel(font: .systemFont(ofSize: 24.0, weight: .regular), textColor: .textColor)
+    private let titleLabel = UILabel(font: .systemFont(ofSize: 24.0, weight: .regular), textColor: .titleColor)
     private lazy var descriptionTextView = UITextView()
     private lazy var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
     private var contentStackView: UIStackView = {
@@ -107,7 +107,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 // MARK: - Setup
 private extension AuthorizationCollectionViewCell {
     func setupButtons() {
-        let leftButton = CustomButton(text: l10n(.deny), textColor: .textColor, backgroundColor: .secondaryBackground)
+        let leftButton = CustomButton(text: l10n(.deny), textColor: .titleColor, backgroundColor: .secondaryBackground)
         leftButton.addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
 
         let rightButton = CustomButton(text: l10n(.confirm), backgroundColor: .actionColor)

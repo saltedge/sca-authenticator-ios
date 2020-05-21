@@ -84,7 +84,7 @@ private extension PasscodeKeyboard {
 
         if let title = value as? String {
             button.setTitle(title, for: .normal)
-            button.setTitleColor(.textColor, for: .normal)
+            button.setTitleColor(.titleColor, for: .normal)
             button.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
         } else if let image = value as? UIImage {
             button.setImage(image, for: .normal)

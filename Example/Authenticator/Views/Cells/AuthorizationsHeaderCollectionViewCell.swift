@@ -38,7 +38,7 @@ protocol AuthorizationHeaderCollectionViewCellDelegate: class {
 
 final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
     private let connectionImageView = UIImageView()
-    private let connectionNameLabel = UILabel(font: .systemFont(ofSize: 14.0), textColor: .textColor)
+    private let connectionNameLabel = UILabel(font: .systemFont(ofSize: 14.0), textColor: .titleColor)
     private let timeLeftLabel = TimeLeftLabel()
     private let progressView = CountdownProgressView()
 
