@@ -25,10 +25,13 @@ import SEAuthenticator
 
 final class AuthorizationsCoordinator: Coordinator {
     let rootViewController = AuthorizationsViewController()
+    private let dataSource = AuthorizationsDataSource()
     private let viewModel = AuthorizationsViewModel()
     private var connectViewCoordinator: ConnectViewCoordinator?
 
     func start() {
+        viewModel.dataSource = dataSource
+        viewModel.setupPolling()
         rootViewController.viewModel = viewModel
         rootViewController.delegate = self
     }

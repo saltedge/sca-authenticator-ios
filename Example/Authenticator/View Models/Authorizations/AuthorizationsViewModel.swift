@@ -45,7 +45,7 @@ enum AuthorizationsViewModelState: Equatable {
 class AuthorizationsViewModel {
     var state = Observable<AuthorizationsViewModelState>(.normal)
 
-    private let dataSource = AuthorizationsDataSource()
+    var dataSource: AuthorizationsDataSource!
     private var connectionsListener: RealmConnectionsListener?
 
     private var poller: SEPoller?
@@ -58,7 +58,6 @@ class AuthorizationsViewModel {
                 self.state.value = .changedConnectionsData
             }
         )
-        setupPolling()
     }
 
     var emptyViewData: EmptyViewData {
@@ -121,6 +120,12 @@ class AuthorizationsViewModel {
         state.value = .normal
     }
 
+    func setupPolling() {
+        poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationsIfAvailable))
+        getEncryptedAuthorizationsIfAvailable()
+        poller?.startPolling()
+    }
+
     func stopPolling() {
         poller?.stopPolling()
         poller = nil
@@ -181,12 +186,6 @@ extension AuthorizationsViewModel {
 
 // MARK: - Networking
 private extension AuthorizationsViewModel {
-    func setupPolling() {
-        poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationsIfAvailable))
-        getEncryptedAuthorizationsIfAvailable()
-        poller?.startPolling()
-    }
-
     @objc func getEncryptedAuthorizationsIfAvailable() {
         if poller != nil, connections.count > 0 {
             refresh()
