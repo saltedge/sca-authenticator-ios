@@ -31,7 +31,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
         var connection: Connection!
 
         beforeEach {
-            connection = createConnection(id: "12345")
+            connection = SpecUtils.createConnection(id: "12345")
 
             let authMessage = ["id": "00000",
                                "connection_id": connection.id,
@@ -47,8 +47,8 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                      "created_at": Date().iso8601string,
                                      "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
     
-            let firstDecryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
-            let secondDecryptedData = createAuthResponse(with: secondAuthMessage, id: connection.id, guid: connection.guid)
+            let firstDecryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
+            let secondDecryptedData = SpecUtils.createAuthResponse(with: secondAuthMessage, id: connection.id, guid: connection.guid)
 
             firstModel = AuthorizationDetailViewModel(firstDecryptedData)
             secondModel = AuthorizationDetailViewModel(secondDecryptedData)
@@ -72,7 +72,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                        "created_at": Date().iso8601string,
                                        "expires_at": Date().addingTimeInterval(-3.0 * 60.0).iso8601string]
 
-                    let decryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
+                    let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
 
                     _ = dataSource.update(with: [decryptedData])
 
@@ -90,7 +90,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                        "description": "Test authorization",
                                        "created_at": Date().iso8601string,
                                        "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
-                    let decryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
+                    let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
 
                     _ = dataSource.update(with: [decryptedData])
 
@@ -111,7 +111,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                               "description": "Test expired authorization",
                                               "created_at": Date().iso8601string,
                                               "expires_at": Date().addingTimeInterval(-3.0 * 60.0).iso8601string]
-                    let expiredDecryptedData = createAuthResponse(with: expiredAuthMessage, id: connection.id, guid: connection.guid)
+                    let expiredDecryptedData = SpecUtils.createAuthResponse(with: expiredAuthMessage, id: connection.id, guid: connection.guid)
                     
                     let validAuthMessage = ["id": validAuthId,
                                             "connection_id": connection.id,
@@ -119,7 +119,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                             "description": "Test valid authorization",
                                             "created_at": Date().iso8601string,
                                             "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
-                    let validDecryptedData = createAuthResponse(with: validAuthMessage, id: connection.id, guid: connection.guid)
+                    let validDecryptedData = SpecUtils.createAuthResponse(with: validAuthMessage, id: connection.id, guid: connection.guid)
                     
                     _ = dataSource.update(with: [expiredDecryptedData, validDecryptedData])
                     
@@ -141,7 +141,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                            "description": "Test expired authorization",
                                            "created_at": Date().iso8601string,
                                            "expires_at": Date().addingTimeInterval(1.0).iso8601string]
-                        let decryptedData = createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
+                        let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
                         
                         _ = dataSource.update(with: [decryptedData])
                         sleep(1)
@@ -154,7 +154,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                               "description": "Test expired authorization",
                                               "created_at": Date().iso8601string,
                                               "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
-                        let newDecryptedData = createAuthResponse(with: newAuthMessage, id: connection.id, guid: connection.guid)
+                        let newDecryptedData = SpecUtils.createAuthResponse(with: newAuthMessage, id: connection.id, guid: connection.guid)
                         
                         _ = dataSource.update(with: [newDecryptedData])
                         
@@ -247,31 +247,6 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                 expect(dataSource.viewModel(at: 0)).to(equal(firstModel))
                 expect(dataSource.viewModel(at: 1)).to(equal(secondModel))
             }
-        }
-
-        func createConnection(id: ID) -> Connection {
-            let connection = Connection()
-            connection.id = id
-            ConnectionRepository.save(connection)
-            _ = SECryptoHelper.createKeyPair(with: SETagHelper.create(for: connection.guid))
-
-            return connection
-        }
-
-        func createAuthResponse(with authMessage: [String: Any], id: ID, guid: GUID) -> SEAuthorizationData {
-            let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: guid))
-
-            let dict = [
-                "data": encryptedData.data,
-                "key": encryptedData.key,
-                "iv": encryptedData.iv,
-                "connection_id": id,
-                "algorithm": "AES-256-CBC"
-            ]
-
-            let response = SEEncryptedData(dict)!
-
-            return AuthorizationsPresenter.decryptedData(from: response)!
         }
     }
 }
