@@ -28,7 +28,7 @@ private struct Layout {
     static let passcodeViewTopOffset: CGFloat = 68.0
 }
 
-final class PasscodeViewController: UIViewController {
+final class PasscodeViewController: BaseViewController {
     private let logoImageView = UIImageView()
     private var passcodeView: PasscodeView
 
@@ -45,20 +45,12 @@ final class PasscodeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         passcodeView.delegate = self
-        view.backgroundColor = .backgroundColor
         logoImageView.image = #imageLiteral(resourceName: "authenticatorLogo")
         layout()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - Actions
-extension PasscodeViewController {
-    @objc func close() {
-        dismiss(animated: true)
     }
 }
 
@@ -82,7 +74,7 @@ extension PasscodeViewController: Layoutable {
 extension PasscodeViewController: PasscodeViewDelegate {
     func completed() {
         if viewModel.shouldDismiss {
-            dismiss(animated: true)
+            close()
         }
         self.completeClosure?()
     }

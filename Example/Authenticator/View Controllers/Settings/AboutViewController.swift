@@ -42,6 +42,10 @@ final class AboutViewController: BaseViewController {
         super.init(nibName: nil, bundle: .authenticator_main)
     }
 
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.about)
@@ -57,10 +61,6 @@ final class AboutViewController: BaseViewController {
     func reloadData() {
         tableView.reloadData()
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
 // MARK: - Setup
@@ -70,7 +70,8 @@ private extension AboutViewController {
         tableView.dataSource = self
         tableView.sectionHeaderHeight = 30.0
         tableView.sectionFooterHeight = 0.0
-        tableView.backgroundColor = .auth_backgroundColor
+        tableView.backgroundColor = .backgroundColor
+        tableView.separatorStyle = .none
         tableView.register(SettingsCell.self)
     }
 }
@@ -100,7 +101,7 @@ extension AboutViewController: UITableViewDataSource {
         let footerView = UILabel(
             frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: AppLayout.cellDefaultHeight)
         )
-        footerView.backgroundColor = .auth_backgroundColor
+        footerView.backgroundColor = .backgroundColor
         footerView.text = l10n(.copyrightDescription)
         footerView.font = .auth_15regular
         footerView.numberOfLines = 0

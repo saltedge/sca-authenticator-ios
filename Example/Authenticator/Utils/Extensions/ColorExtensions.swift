@@ -67,8 +67,8 @@ extension UIColor {
         return UIColor(named: "dark60", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var connectionDescriptionError: UIColor {
-        return UIColor(named: "connectionDescriptionError", in: .authenticator_main, compatibleWith: nil)!
+    static var redAlert: UIColor {
+        return UIColor(named: "redAlert", in: .authenticator_main, compatibleWith: nil)!
     }
 
     // TODO: remove all auth_ colors

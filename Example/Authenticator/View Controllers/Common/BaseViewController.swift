@@ -30,3 +30,10 @@ class BaseViewController: UIViewController {
         view.backgroundColor = .backgroundColor
     }
 }
+
+// MARK: Close Action
+extension BaseViewController {
+    @objc func close() {
+        dismiss(animated: true)
+    }
+}

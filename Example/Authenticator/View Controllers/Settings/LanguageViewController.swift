@@ -47,7 +47,7 @@ final class LanguageViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = l10n(.language)
+        navigationItem.title = l10n(.language)
         setupTableView()
         layout()
     }
@@ -57,17 +57,28 @@ final class LanguageViewController: BaseViewController {
     }
 }
 
+// MARK: - Setup
+private extension LanguageViewController {
+    func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.backgroundColor = .backgroundColor
+        tableView.separatorStyle = .none
+    }
+}
+
 // MARK: - UITableViewDataSource
 extension LanguageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LanguagePickerDataSource.reuseIdentifier, for: indexPath)
         cell.textLabel?.text = dataSource.language(for: indexPath)
         cell.textLabel?.textAlignment = .left
-        cell.textLabel?.textColor = .auth_darkGray
+        cell.textLabel?.textColor = .titleColor
+        cell.textLabel?.font = .auth_17regular
         let convertedLanguage = LocalizationHelper.languageDisplayName(from: selectedLanguage)
         cell.accessoryType = convertedLanguage == dataSource.language(for: indexPath) ? .checkmark : .none
         cell.tintColor = .auth_blue
-        cell.backgroundColor = .auth_backgroundColor
+        cell.backgroundColor = .backgroundColor
         return cell
     }
 
@@ -90,14 +101,6 @@ extension LanguageViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         QuickActionsHelper.setupActions()
         delegate?.languagePicker(selected: selectedLanguage)
-    }
-}
-
-// MARK: - Setup
-private extension LanguageViewController {
-    func setupTableView() {
-        tableView.delegate = self
-        tableView.dataSource = self
     }
 }
 

@@ -2,7 +2,7 @@
 //  AboutCoordinator.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,18 +23,19 @@
 import UIKit
 
 final class AboutCoordinator: Coordinator {
-    private var rootViewController: UIViewController?
-    private var aboutViewController: AboutViewController
+    private var rootViewController: UIViewController
+    private var currentViewController: AboutViewController
     private var dataSource = AboutDataSource()
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
-        self.aboutViewController = AboutViewController(dataSource: dataSource)
+        self.currentViewController = AboutViewController(dataSource: dataSource)
     }
 
     func start() {
-        aboutViewController.delegate = self
-        rootViewController?.navigationController?.pushViewController(aboutViewController, animated: true)
+        currentViewController.delegate = self
+
+        rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
     func stop() {}
@@ -51,9 +52,9 @@ extension AboutCoordinator: AboutViewControllerDelegate {
             webViewController.displayType = .push
             webViewController.title = item.localizedLabel
             webViewController.hidesBottomBarWhenPushed = true
-            rootViewController?.navigationController?.pushViewController(webViewController, animated: true)
+            currentViewController.navigationController?.pushViewController(webViewController, animated: true)
         case .licenses:
-            aboutViewController.navigationController?.pushViewController(LicensesViewController(), animated: true)
+            currentViewController.navigationController?.pushViewController(LicensesViewController(), animated: true)
         default:break
         }
     }

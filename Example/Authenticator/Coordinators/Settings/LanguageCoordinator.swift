@@ -24,18 +24,18 @@ import UIKit
 
 final class LanguageCoordinator: Coordinator {
     private var rootViewController: UIViewController?
-    private var languageViewController: LanguageViewController
+    private var currentViewController: LanguageViewController
     private var dataSource = LanguagePickerDataSource()
     private var selectedLanguage = UserDefaultsHelper.applicationLanguage
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
-        self.languageViewController = LanguageViewController(dataSource: dataSource)
+        self.currentViewController = LanguageViewController(dataSource: dataSource)
     }
 
     func start() {
-        languageViewController.delegate = self
-        rootViewController?.navigationController?.pushViewController(languageViewController, animated: true)
+        currentViewController.delegate = self
+        rootViewController?.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
     func stop() {}

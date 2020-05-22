@@ -24,19 +24,17 @@ import UIKit
 
 final class ConnectionsCoordinator: Coordinator {
     private var rootViewController: UIViewController
-    private let connectionsVC = ConnectionsViewController()
+    private var currentViewController: ConnectionsViewController
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
+        self.currentViewController = ConnectionsViewController()
     }
 
     func start() {
-        let navigationController = UINavigationController(rootViewController: connectionsVC)
+        let navigationController = UINavigationController(rootViewController: currentViewController)
         navigationController.modalPresentationStyle = .fullScreen
-        rootViewController.present(
-            navigationController,
-            animated: true
-        )
+        rootViewController.present(navigationController, animated: true)
     }
 
     func stop() {}

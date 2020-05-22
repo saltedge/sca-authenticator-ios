@@ -113,6 +113,8 @@ enum Localizations: String, Localizable {
     case newConnection = "in_app.connect.new_connection"
 
     // MARK: - Settings
+    case general = "in_app.settings.general"
+    case info = "in_app.settings.info"
     case settings = "in_app.sidebar_menu.settings"
     case deleteAll = "actions.delete_all"
     case deleteAllDataDescription = "actions.confirm_delete_connections"

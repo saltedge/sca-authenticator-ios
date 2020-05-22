@@ -47,6 +47,18 @@ enum SettingsCellType: Localizable {
         }
     }
 
+    var icon: UIImage? {
+        switch self {
+        case .language: return UIImage(named: "settingsLanguage", in: Bundle.authenticator_main, compatibleWith: nil)
+        case .passcode: return UIImage(named: "settingsPasscode", in: Bundle.authenticator_main, compatibleWith: nil)
+        case .biometrics: return UIImage(named: "settingsBiometric", in: Bundle.authenticator_main, compatibleWith: nil)
+        case .about: return UIImage(named: "settingsAbout", in: Bundle.authenticator_main, compatibleWith: nil)
+        case .support: return UIImage(named: "settingsSupport", in: Bundle.authenticator_main, compatibleWith: nil)
+        case .clearData: return UIImage(named: "settingsClear", in: Bundle.authenticator_main, compatibleWith: nil)
+        default: return nil
+        }
+    }
+
     var detailString: String? {
         switch self {
         case .language: return LocalizationHelper.languageDisplayName(from: UserDefaultsHelper.applicationLanguage)
@@ -68,27 +80,23 @@ final class SettingsCell: UITableViewCell, Dequeuable {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .white
-        textLabel?.textColor = .auth_darkGray
-        detailTextLabel?.textColor = .auth_gray
-        contentView.tintColor = .auth_gray
+        backgroundColor = .backgroundColor
+        textLabel?.textColor = .titleColor
+        textLabel?.font = .auth_17regular
+        detailTextLabel?.textColor = .titleColor
+        detailTextLabel?.font = .auth_13regular
+        contentView.tintColor = .extraLightGray
     }
 
     func set(with item: SettingsCellType) {
+        imageView?.image = item.icon
         textLabel?.text = item.localizedLabel
         if let detailsText = item.detailString {
             detailTextLabel?.text = detailsText
         }
-
         switch item {
-        case .language:
-            accessoryType = .disclosureIndicator
-            detailTextLabel?.centerY(to: contentView)
-            detailTextLabel?.right(to: contentView, offset: -10.0)
-        case .passcode, .about, .licenses: accessoryType = .disclosureIndicator
         case .biometrics: accessoryView = biometricsSwitch
-        case .terms, .support: textLabel?.textColor = .auth_blue
-        case .clearData: textLabel?.textColor = .red
+        case .clearData: textLabel?.textColor = .redAlert
         default: break
         }
     }

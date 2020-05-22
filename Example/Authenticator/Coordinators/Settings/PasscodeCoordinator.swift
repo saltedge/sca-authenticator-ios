@@ -26,7 +26,7 @@ import UIKit
 final class PasscodeCoordinator: Coordinator {
     private var rootViewController: UIViewController
 
-    private var passcodeVc: PasscodeViewController
+    private var currentViewController: PasscodeViewController
     private var blockedTimer: Timer?
     private var purpose: PasscodeViewModel.PasscodeViewMode
 //    private var type: PasscodeType
@@ -40,21 +40,21 @@ final class PasscodeCoordinator: Coordinator {
         self.purpose = purpose
 //        self.type = type
         self.rootViewController = rootViewController
-        self.passcodeVc = PasscodeViewController(purpose: purpose)
+        self.currentViewController = PasscodeViewController(purpose: purpose)
     }
 
     func start() {
 //        passcodeVc.delegate = self
-        passcodeVc.modalPresentationStyle = .fullScreen
+        currentViewController.modalPresentationStyle = .fullScreen
 
         blockAppIfNeeded()
 
         if purpose == .edit {
-            let navigationController = UINavigationController(rootViewController: passcodeVc)
+            let navigationController = UINavigationController(rootViewController: currentViewController)
             navigationController.modalPresentationStyle = .fullScreen
             rootViewController.present(navigationController, animated: true)
         } else {
-            rootViewController.present(passcodeVc, animated: true)
+            rootViewController.present(currentViewController, animated: true)
         }
     }
 
@@ -67,12 +67,12 @@ final class PasscodeCoordinator: Coordinator {
             reasonString: l10n(.unlockAuthenticator),
             onSuccess: {
                 self.resetWrongPasscodeAttempts()
-                self.passcodeVc.dismiss(animated: true)
+                self.currentViewController.dismiss(animated: true)
                 self.onCompleteClosure?()
             },
             onFailure: { error in
                 if error.isBiometryLockout {
-                    self.passcodeVc.showConfirmationAlert(
+                    self.currentViewController.showConfirmationAlert(
                         withTitle: error.localizedDescription,
                         message: "You have to reconfigure your biometry in settings.",
                         cancelTitle: l10n(.ok)
@@ -105,7 +105,7 @@ private extension PasscodeCoordinator {
 
     func presentWrongPasscodeAlert(with message: String) {
         let alert = UIAlertController(title: message, message: nil, preferredStyle: .alert)
-        passcodeVc.present(alert, animated: true, completion: nil)
+        currentViewController.present(alert, animated: true, completion: nil)
         blockedAlert = alert
         blockedTimer = Timer.scheduledTimer(
             timeInterval: 10.0,
@@ -166,7 +166,7 @@ extension PasscodeCoordinator {
     }
 
     func completed() {
-        passcodeVc.dismiss(
+        currentViewController.dismiss(
             animated: true,
             completion: {
                 self.onCompleteClosure?()
