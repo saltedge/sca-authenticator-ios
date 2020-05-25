@@ -22,52 +22,6 @@
 
 import UIKit
 
-enum SettingsCellType: Localizable {
-    case language
-    case passcode
-    case biometrics
-    case appVersion
-    case terms
-    case support
-    case about
-    case licenses
-    case clearData
-
-    var localizedLabel: String {
-        switch self {
-        case .language: return l10n(.language)
-        case .passcode: return l10n(.changePasscode)
-        case .biometrics: return BiometricsPresenter.biometricTypeText
-        case .appVersion: return l10n(.applicationVersion)
-        case .terms: return l10n(.terms)
-        case .support: return l10n(.reportABug)
-        case .about: return l10n(.about)
-        case .licenses: return l10n(.licenses)
-        case .clearData: return l10n(.clearData)
-        }
-    }
-
-    var icon: UIImage? {
-        switch self {
-        case .language: return UIImage(named: "settingsLanguage", in: Bundle.authenticator_main, compatibleWith: nil)
-        case .passcode: return UIImage(named: "settingsPasscode", in: Bundle.authenticator_main, compatibleWith: nil)
-        case .biometrics: return UIImage(named: "settingsBiometric", in: Bundle.authenticator_main, compatibleWith: nil)
-        case .about: return UIImage(named: "settingsAbout", in: Bundle.authenticator_main, compatibleWith: nil)
-        case .support: return UIImage(named: "settingsSupport", in: Bundle.authenticator_main, compatibleWith: nil)
-        case .clearData: return UIImage(named: "settingsClear", in: Bundle.authenticator_main, compatibleWith: nil)
-        default: return nil
-        }
-    }
-
-    var detailString: String? {
-        switch self {
-        case .language: return LocalizationHelper.languageDisplayName(from: UserDefaultsHelper.applicationLanguage)
-        case .appVersion: return AppSettings.versionAndBuildNumber
-        default: return nil
-        }
-    }
-}
-
 final class SettingsCell: UITableViewCell, Dequeuable {
     private var biometricsSwitch: UISwitch {
         let toggler = UISwitch()
@@ -88,7 +42,7 @@ final class SettingsCell: UITableViewCell, Dequeuable {
         contentView.tintColor = .extraLightGray
     }
 
-    func set(with item: SettingsCellType) {
+    func set(with item: SettingCellModel) {
         imageView?.image = item.icon
         textLabel?.text = item.localizedLabel
         if let detailsText = item.detailString {

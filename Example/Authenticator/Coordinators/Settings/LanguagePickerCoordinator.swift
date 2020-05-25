@@ -1,8 +1,8 @@
 //
-//  LanguageCoordinator.swift
+//  LanguagePickerCoordinator.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,30 +22,29 @@
 
 import UIKit
 
-final class LanguageCoordinator: Coordinator {
+final class LanguagePickerCoordinator: Coordinator {
     private var rootViewController: UIViewController?
-    private var currentViewController: LanguageViewController
-    private var dataSource = LanguagePickerDataSource()
-    private var selectedLanguage = UserDefaultsHelper.applicationLanguage
+    private var currentViewController: LanguagePickerViewController
+    private var viewModel = LanguagePickerViewModel()
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
-        self.currentViewController = LanguageViewController(dataSource: dataSource)
+        self.currentViewController = LanguagePickerViewController(viewModel: viewModel)
     }
 
     func start() {
-        currentViewController.delegate = self
+        viewModel.delegate = self
         rootViewController?.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
-    func stop() {}
+    func stop() {
+        viewModel.delegate = nil
+    }
 }
 
-// MARK: - LanguagePickerDelegate
-extension LanguageCoordinator: LanguagePickerDelegate {
-    func languagePicker(selected language: String) {
-        selectedLanguage = language
-        UserDefaultsHelper.applicationLanguage = selectedLanguage
+// MARK: - LanguagePickerEventsDelegate
+extension LanguagePickerCoordinator: LanguagePickerEventsDelegate {
+    func languageSelected() {
         rootViewController?.navigationController?.popToRootViewController(animated: true)
     }
 }

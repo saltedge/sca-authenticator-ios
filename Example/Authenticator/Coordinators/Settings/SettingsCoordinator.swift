@@ -28,7 +28,7 @@ final class SettingsCoordinator: Coordinator {
     private let viewModel = SettingsViewModel()
 
     private var passcodeCoordinator: PasscodeCoordinator?
-    private var languageCoordinator: LanguageCoordinator?
+    private var languageCoordinator: LanguagePickerCoordinator?
     private var aboutCoordinator: AboutCoordinator?
 
     init(rootController: UIViewController) {
@@ -51,27 +51,27 @@ final class SettingsCoordinator: Coordinator {
 
 // MARK: - SettingsEventsDelegate
 extension SettingsCoordinator: SettingsEventsDelegate {
-    func showChangeLanguageView() {
-        languageCoordinator = LanguageCoordinator(rootViewController: currentViewController)
+    func languageItemSelected() {
+        languageCoordinator = LanguagePickerCoordinator(rootViewController: currentViewController)
         languageCoordinator?.start()
     }
 
-    func showChangePasscodeView() {
+    func passcodeItemSelected() {
         let newPasscodeViewController = PasscodeViewController(purpose: .edit)
         newPasscodeViewController.hidesBottomBarWhenPushed = true
         currentViewController.navigationController?.pushViewController(newPasscodeViewController, animated: true)
     }
 
-    func showSupportView() {
+    func supportItemSelected() {
         currentViewController.showSupportMailComposer()
     }
 
-    func showAboutView() {
+    func aboutItemSelected() {
         aboutCoordinator = AboutCoordinator(rootViewController: currentViewController)
         aboutCoordinator?.start()
     }
 
-    func askUserToConfirmClearData(confirmAction: @escaping ((UIAlertAction) -> ())) {
+    func clearDataItemSelected(confirmAction: @escaping ((UIAlertAction) -> ())) {
         currentViewController.showConfirmationAlert(
             withTitle: "\(l10n(.clearData))?",
             message: l10n(.clearDataDescription),

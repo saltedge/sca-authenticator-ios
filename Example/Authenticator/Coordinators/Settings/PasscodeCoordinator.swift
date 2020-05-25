@@ -45,7 +45,7 @@ final class PasscodeCoordinator: Coordinator {
 
     func start() {
 //        passcodeVc.delegate = self
-        currentViewController.modalPresentationStyle = .fullScreen
+//        currentViewController.modalPresentationStyle = .fullScreen//TODO: REMOVE
 
         blockAppIfNeeded()
 

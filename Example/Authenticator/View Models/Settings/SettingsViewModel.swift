@@ -23,15 +23,15 @@
 import UIKit
 
 protocol SettingsEventsDelegate: class {
-    func showChangeLanguageView()
-    func showChangePasscodeView()
-    func showSupportView()
-    func showAboutView()
-    func askUserToConfirmClearData(confirmAction: @escaping ((UIAlertAction) -> ()))
+    func languageItemSelected()
+    func passcodeItemSelected()
+    func supportItemSelected()
+    func aboutItemSelected()
+    func clearDataItemSelected(confirmAction: @escaping ((UIAlertAction) -> ()))
 }
 
 class SettingsViewModel {
-    private let data: [(String, [SettingsCellType])] = [
+    private let items: [(String, [SettingCellModel])] = [
         (l10n(.general), [.language, .passcode, .biometrics]),
         (l10n(.info), [.about, .support]),
         ("", [.clearData])
@@ -40,33 +40,35 @@ class SettingsViewModel {
     weak var delegate: SettingsEventsDelegate?
 
     var sections: Int {
-        return data.count
+        return items.count
     }
 
     func rows(for section: Int) -> Int {
-        return data[section].1.count
+        return items[section].1.count
     }
 
-    func item(for indexPath: IndexPath) -> SettingsCellType? {
-        return data[indexPath.section].1[indexPath.row]
+    func item(for indexPath: IndexPath) -> SettingCellModel? {
+        return items[indexPath.section].1[indexPath.row]
     }
 
     func title(for section: Int) -> String {
-        return data[section].0
+        return items[section].0
     }
-    
-    func selected(_ item: SettingsCellType, indexPath: IndexPath) {
+
+    func selected(indexPath: IndexPath) {
+        guard let item = item(for: indexPath) else { return }
+
         switch item {
         case .language:
-            delegate?.showChangeLanguageView()
+            delegate?.languageItemSelected()
         case .passcode:
-            delegate?.showChangePasscodeView()
+            delegate?.passcodeItemSelected()
         case .support:
-            delegate?.showSupportView()
+            delegate?.supportItemSelected()
         case .about:
-            delegate?.showAboutView()
+            delegate?.aboutItemSelected()
         case .clearData:
-            delegate?.askUserToConfirmClearData(confirmAction: { _ in
+            delegate?.clearDataItemSelected(confirmAction: { _ in
                 RealmManager.deleteAll()
                 CacheHelper.clearCache()
             })

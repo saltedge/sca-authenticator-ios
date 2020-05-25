@@ -23,22 +23,16 @@
 import UIKit
 import TinyConstraints
 
-protocol AboutViewControllerDelegate: class {
-    func selected(_ item: SettingsCellType, indexPath: IndexPath)
-}
-
 private struct Layout {
     static let footerHeight: CGFloat = 60.0
 }
 
 final class AboutViewController: BaseViewController {
     private let tableView = UITableView(frame: .zero, style: .grouped)
-    private var dataSource: AboutDataSource
+    private var viewModel: AboutViewModel
 
-    weak var delegate: AboutViewControllerDelegate?
-
-    init(dataSource: AboutDataSource) {
-        self.dataSource = dataSource
+    init(viewModel: AboutViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: .authenticator_main)
     }
 
@@ -83,17 +77,18 @@ extension AboutViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.sections
+        return viewModel.sections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.rows(for: section)
+        return viewModel.rows(for: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let item = viewModel.item(for: indexPath) else { return UITableViewCell() }
+        
         let cell: SettingsCell = tableView.dequeueReusableCell(for: indexPath)
-
-        cell.set(with: dataSource.item(for: indexPath))
+        cell.set(with: item)
         return cell
     }
 
@@ -120,8 +115,7 @@ extension AboutViewController: UITableViewDataSource {
 extension AboutViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
-        delegate?.selected(dataSource.item(for: indexPath), indexPath: indexPath)
+        viewModel.selected(indexPath: indexPath)
     }
 }
 
@@ -129,7 +123,6 @@ extension AboutViewController: UITableViewDelegate {
 extension AboutViewController: Layoutable {
     func layout() {
         view.addSubview(tableView)
-
         tableView.edges(to: view)
     }
 }

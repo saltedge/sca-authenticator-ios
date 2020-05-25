@@ -25,37 +25,37 @@ import UIKit
 final class AboutCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var currentViewController: AboutViewController
-    private var dataSource = AboutDataSource()
+    private var viewModel = AboutViewModel()
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
-        self.currentViewController = AboutViewController(dataSource: dataSource)
+        self.currentViewController = AboutViewController(viewModel: viewModel)
     }
 
     func start() {
-        currentViewController.delegate = self
+        self.viewModel.delegate = self
 
         rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
-    func stop() {}
+    func stop() {
+        self.viewModel.delegate = nil
+    }
 }
 
-// MARK: - AboutViewControllerDelegate
-extension AboutCoordinator: AboutViewControllerDelegate {
-    func selected(_ item: SettingsCellType, indexPath: IndexPath) {
-        switch item {
-        case .terms:
-            let webViewController = WKWebViewController()
+// MARK: - AboutEventsDelegate
+extension AboutCoordinator: AboutEventsDelegate {
+    func termsItemSelected(urlString: String, label: String) {
+        let webViewController = WKWebViewController()
+        webViewController.startLoading(with: urlString)
+        webViewController.displayType = .push
+        webViewController.title = label
+        webViewController.hidesBottomBarWhenPushed = true
+        currentViewController.navigationController?.pushViewController(webViewController, animated: true)
+    }
 
-            webViewController.startLoading(with: AppSettings.termsURL.absoluteString)
-            webViewController.displayType = .push
-            webViewController.title = item.localizedLabel
-            webViewController.hidesBottomBarWhenPushed = true
-            currentViewController.navigationController?.pushViewController(webViewController, animated: true)
-        case .licenses:
-            currentViewController.navigationController?.pushViewController(LicensesViewController(), animated: true)
-        default:break
-        }
+    func licensesItemSelected() {
+        let coordinator = LicensesCoordinator(rootViewController: currentViewController)
+        coordinator.start()
     }
 }

@@ -107,10 +107,7 @@ extension SettingsViewController: UITableViewDataSource {
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
-        guard let item = viewModel.item(for: indexPath) else { return }
-
-        viewModel.selected(item, indexPath: indexPath)
+        viewModel.selected(indexPath: indexPath)
     }
 }
 

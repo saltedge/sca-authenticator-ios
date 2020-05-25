@@ -1,8 +1,8 @@
 //
-//  LibrariesDataSource
+//  LicensesViewModel.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,9 +20,13 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import Foundation
+import UIKit
 
-struct LibrariesDataSource {
+protocol LicensesEventsDelegate: class {
+    func licenceSelected(with url: URL)
+}
+
+final class LicensesViewModel {
     typealias Library = (String, String)
 
     private let items: [Library] = {
@@ -38,11 +42,29 @@ struct LibrariesDataSource {
                 ("CryptoSwift", "https://raw.githubusercontent.com/krzyzanowskim/CryptoSwift/master/LICENSE")]
     }()
 
-    var numberOfItems: Int {
+    weak var delegate: LicensesEventsDelegate?
+
+    var sections: Int {
+        return 1
+    }
+
+    func rows(for section: Int) -> Int {
         return items.count
     }
 
-    func item(for index: Int) -> Library {
-        return items[index]
+    func item(for indexPath: IndexPath) -> Library {
+        return items[indexPath.row]
+    }
+
+    func cellTitle(for indexPath: IndexPath) -> String {
+        return item(for: indexPath).0
+    }
+
+    func selected(indexPath: IndexPath) {
+        print("selected \(indexPath.row)")
+        if let url = URL(string: item(for: indexPath).1) {
+            print("selected url \(url) [delegate \(delegate != nil)]")
+            delegate?.licenceSelected(with: url)
+        }
     }
 }

@@ -1,8 +1,8 @@
 //
-//  LanguageViewController.swift
+//  LanguagePickerViewController.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,26 +22,13 @@
 
 import UIKit
 
-protocol LanguagePickerDelegate: class {
-    func languagePicker(selected language: String)
-}
+final class LanguagePickerViewController: BaseViewController {
+    static let reuseIdentifier = "LanguagePickerCell"
+    private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
+    private var viewModel: LanguagePickerViewModel
 
-final class LanguageViewController: BaseViewController {
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: LanguagePickerDataSource.reuseIdentifier)
-        tableView.sectionHeaderHeight = 30.0
-        tableView.sectionFooterHeight = 0.0
-        tableView.backgroundColor = .auth_backgroundColor
-        return tableView
-    }()
-
-    private var dataSource: LanguagePickerDataSource
-    private var selectedLanguage = UserDefaultsHelper.applicationLanguage
-    weak var delegate: LanguagePickerDelegate?
-
-    init(dataSource: LanguagePickerDataSource) {
-        self.dataSource = dataSource
+    init(viewModel: LanguagePickerViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: .authenticator_main)
     }
 
@@ -58,36 +45,44 @@ final class LanguageViewController: BaseViewController {
 }
 
 // MARK: - Setup
-private extension LanguageViewController {
+private extension LanguagePickerViewController {
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.sectionHeaderHeight = 30.0
+        tableView.sectionFooterHeight = 0.0
         tableView.backgroundColor = .backgroundColor
         tableView.separatorStyle = .none
+        tableView.register(
+            UITableViewCell.self,
+            forCellReuseIdentifier: LanguagePickerViewController.reuseIdentifier
+        )
     }
 }
 
 // MARK: - UITableViewDataSource
-extension LanguageViewController: UITableViewDataSource {
+extension LanguagePickerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: LanguagePickerDataSource.reuseIdentifier, for: indexPath)
-        cell.textLabel?.text = dataSource.language(for: indexPath)
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: LanguagePickerViewController.reuseIdentifier,
+            for: indexPath
+        )
         cell.textLabel?.textAlignment = .left
         cell.textLabel?.textColor = .titleColor
         cell.textLabel?.font = .auth_17regular
-        let convertedLanguage = LocalizationHelper.languageDisplayName(from: selectedLanguage)
-        cell.accessoryType = convertedLanguage == dataSource.language(for: indexPath) ? .checkmark : .none
+        cell.textLabel?.text = viewModel.cellTitle(for: indexPath)
+        cell.accessoryType = viewModel.cellAccessoryType(for: indexPath)
         cell.tintColor = .auth_blue
         cell.backgroundColor = .backgroundColor
         return cell
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return viewModel.sections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.items.count
+        return viewModel.rows(for: section)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -96,16 +91,16 @@ extension LanguageViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate
-extension LanguageViewController: UITableViewDelegate {
+extension LanguagePickerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         QuickActionsHelper.setupActions()
-        delegate?.languagePicker(selected: selectedLanguage)
+        viewModel.selected(indexPath: indexPath)
     }
 }
 
 // MARK: - Layout
-extension LanguageViewController: Layoutable {
+extension LanguagePickerViewController: Layoutable {
     func layout() {
         view.addSubview(tableView)
         tableView.edges(to: view)
