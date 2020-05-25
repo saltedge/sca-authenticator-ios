@@ -37,15 +37,15 @@ final class SettingsCoordinator: Coordinator {
     }
 
     func start() {
-        self.viewModel.delegate = self
+        viewModel.delegate = self
 
         let navigationController = UINavigationController(rootViewController: self.currentViewController)
         navigationController.modalPresentationStyle = .fullScreen
-        self.rootViewController.present(navigationController, animated: true)
+        rootViewController.present(navigationController, animated: true)
     }
 
     func stop() {
-        self.viewModel.delegate = nil
+        viewModel.delegate = nil
     }
 }
 

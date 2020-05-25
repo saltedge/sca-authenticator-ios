@@ -23,76 +23,7 @@
 import Quick
 import Nimble
 
-final class AboutViewModelSpec: BaseSpec {
-    let viewModel = AboutViewModel()
-
-    override func spec() {
-        describe("sections") {
-            it("should return correct number of sections") {
-                expect(self.viewModel.sections).to(equal(1))
-            }
-        }
-
-        describe("rows(for)") {
-            it("should return correct number of rows") {
-                expect(self.viewModel.rows(for: 0)).to(equal(3))
-            }
-        }
-
-        describe("item(for)") {
-            it("should return SettingCellModel for given index") {
-                expect(self.viewModel.item(for: IndexPath(row: 0, section: 0)))
-                    .to(equal(SettingCellModel.appVersion))
-                expect(self.viewModel.item(for: IndexPath(row: 1, section: 0)))
-                    .to(equal(SettingCellModel.terms))
-                expect(self.viewModel.item(for: IndexPath(row: 2, section: 0)))
-                    .to(equal(SettingCellModel.licenses))
-            }
-        }
-        
-        describe("selected(indexPath)") {
-            it("should return do nothing for wrong index") {
-                let mockDelegate = MockAboutDelegate()
-                self.viewModel.delegate = mockDelegate
-                let indexPath = IndexPath(row: 0, section: 0)
-                
-                self.viewModel.selected(indexPath: indexPath)
-                
-                expect(mockDelegate.termsItemSelectedUrl).to(beNil())
-                expect(mockDelegate.termsItemSelectedLabel).to(beNil())
-                expect(mockDelegate.licensesItemSelectedCall).to(equal(false))
-            }
-            
-            it("should call delegate.termsItemSelected() for TERMS item") {
-                let mockDelegate = MockAboutDelegate()
-                self.viewModel.delegate = mockDelegate
-                let indexPath = IndexPath(row: 1, section: 0)
-                
-                self.viewModel.selected(indexPath: indexPath)
-                
-                expect(mockDelegate.termsItemSelectedUrl)
-                    .to(equal(AppSettings.termsURL.absoluteString))
-                expect(mockDelegate.termsItemSelectedLabel)
-                    .to(equal(SettingCellModel.terms.localizedLabel))
-                expect(mockDelegate.licensesItemSelectedCall).to(equal(false))
-            }
-            
-            it("should call delegate.licensesItemSelected() for LICENSES item") {
-                let mockDelegate = MockAboutDelegate()
-                self.viewModel.delegate = mockDelegate
-                let indexPath = IndexPath(row: 2, section: 0)
-                
-                self.viewModel.selected(indexPath: indexPath)
-                
-                expect(mockDelegate.termsItemSelectedUrl).to(beNil())
-                expect(mockDelegate.termsItemSelectedLabel).to(beNil())
-                expect(mockDelegate.licensesItemSelectedCall).to(equal(true))
-            }
-        }
-    }
-}
-
-final class MockAboutDelegate: AboutEventsDelegate {
+private final class MockAboutDelegate: AboutEventsDelegate {
     var termsItemSelectedUrl: String? = nil
     var termsItemSelectedLabel: String? = nil
     var licensesItemSelectedCall: Bool = false
@@ -104,5 +35,75 @@ final class MockAboutDelegate: AboutEventsDelegate {
     
     func licensesItemSelected() {
         licensesItemSelectedCall = true
+    }
+}
+
+final class AboutViewModelSpec: BaseSpec {
+
+    override func spec() {
+        let viewModel = AboutViewModel()
+        
+        describe("sections") {
+            it("should return correct number of sections") {
+                expect(viewModel.sections).to(equal(1))
+            }
+        }
+
+        describe("rows(for)") {
+            it("should return correct number of rows") {
+                expect(viewModel.rows(for: 0)).to(equal(3))
+            }
+        }
+
+        describe("item(for)") {
+            it("should return SettingCellModel for given index") {
+                expect(viewModel.item(for: IndexPath(row: 0, section: 0)))
+                    .to(equal(SettingCellModel.appVersion))
+                expect(viewModel.item(for: IndexPath(row: 1, section: 0)))
+                    .to(equal(SettingCellModel.terms))
+                expect(viewModel.item(for: IndexPath(row: 2, section: 0)))
+                    .to(equal(SettingCellModel.licenses))
+            }
+        }
+        
+        describe("selected(indexPath)") {
+            it("should return do nothing for wrong index") {
+                let mockDelegate = MockAboutDelegate()
+                viewModel.delegate = mockDelegate
+                let indexPath = IndexPath(row: 0, section: 0)
+                
+                viewModel.selected(indexPath: indexPath)
+                
+                expect(mockDelegate.termsItemSelectedUrl).to(beNil())
+                expect(mockDelegate.termsItemSelectedLabel).to(beNil())
+                expect(mockDelegate.licensesItemSelectedCall).to(beFalse())
+            }
+            
+            it("should call delegate.termsItemSelected() for TERMS item") {
+                let mockDelegate = MockAboutDelegate()
+                viewModel.delegate = mockDelegate
+                let indexPath = IndexPath(row: 1, section: 0)
+                
+                viewModel.selected(indexPath: indexPath)
+                
+                expect(mockDelegate.termsItemSelectedUrl)
+                    .to(equal(AppSettings.termsURL.absoluteString))
+                expect(mockDelegate.termsItemSelectedLabel)
+                    .to(equal(SettingCellModel.terms.localizedLabel))
+                expect(mockDelegate.licensesItemSelectedCall).to(beFalse())
+            }
+            
+            it("should call delegate.licensesItemSelected() for LICENSES item") {
+                let mockDelegate = MockAboutDelegate()
+                viewModel.delegate = mockDelegate
+                let indexPath = IndexPath(row: 2, section: 0)
+                
+                viewModel.selected(indexPath: indexPath)
+                
+                expect(mockDelegate.termsItemSelectedUrl).to(beNil())
+                expect(mockDelegate.termsItemSelectedLabel).to(beNil())
+                expect(mockDelegate.licensesItemSelectedCall).to(beTrue())
+            }
+        }
     }
 }

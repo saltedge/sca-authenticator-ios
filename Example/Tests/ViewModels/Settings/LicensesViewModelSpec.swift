@@ -23,43 +23,51 @@
 import Quick
 import Nimble
 
-class LicensesViewModelSpec: BaseSpec {
-    let viewModel = LicensesViewModel()
+private final class MockLicensesDelegate: LicensesEventsDelegate {
+    var licenceSelectedCall: URL? = nil
     
+    func licenceSelected(with url: URL) {
+        licenceSelectedCall = url
+    }
+}
+
+class LicensesViewModelSpec: BaseSpec {
     override func spec() {
+        let viewModel = LicensesViewModel()
+        
         describe("sections") {
             it("should return correct number of sections") {
-                expect(self.viewModel.sections).to(equal(1))
+                expect(viewModel.sections).to(equal(1))
             }
         }
         
         describe("rows") {
             it("should return correct number of rows") {
-                expect(self.viewModel.rows(for: 0)).to(equal(10))
+                expect(viewModel.rows(for: 0)).to(equal(10))
             }
         }
 
         describe("cellTitle(for indexPath)") {
             it("should return the proper cell title for index path") {
-                expect(self.viewModel.cellTitle(for: IndexPath(row: 0, section: 0)))
+                expect(viewModel.cellTitle(for: IndexPath(row: 0, section: 0)))
                 .to(equal("ReachabilitySwift"))
-                expect(self.viewModel.cellTitle(for: IndexPath(row: 1, section: 0)))
+                expect(viewModel.cellTitle(for: IndexPath(row: 1, section: 0)))
                 .to(equal("TinyConstraints"))
-                expect(self.viewModel.cellTitle(for: IndexPath(row: 2, section: 0)))
+                expect(viewModel.cellTitle(for: IndexPath(row: 2, section: 0)))
                 .to(equal("SDWebImage"))
-                expect(self.viewModel.cellTitle(for: IndexPath(row: 3, section: 0)))
+                expect(viewModel.cellTitle(for: IndexPath(row: 3, section: 0)))
                 .to(equal("Realm Swift"))
-                expect(self.viewModel.cellTitle(for: IndexPath(row: 4, section: 0)))
+                expect(viewModel.cellTitle(for: IndexPath(row: 4, section: 0)))
                 .to(equal("Square/Valet"))
-                expect(self.viewModel.cellTitle(for: IndexPath(row: 5, section: 0)))
+                expect(viewModel.cellTitle(for: IndexPath(row: 5, section: 0)))
                 .to(equal("Typist"))
-                expect(self.viewModel.cellTitle(for: IndexPath(row: 6, section: 0)))
+                expect(viewModel.cellTitle(for: IndexPath(row: 6, section: 0)))
                 .to(equal("Firebase"))
-                expect(self.viewModel.cellTitle(for: IndexPath(row: 7, section: 0)))
+                expect(viewModel.cellTitle(for: IndexPath(row: 7, section: 0)))
                 .to(equal("SwiftyAttributes"))
-                expect(self.viewModel.cellTitle(for: IndexPath(row: 8, section: 0)))
+                expect(viewModel.cellTitle(for: IndexPath(row: 8, section: 0)))
                 .to(equal("Quick/Nimble"))
-                expect(self.viewModel.cellTitle(for: IndexPath(row: 9, section: 0)))
+                expect(viewModel.cellTitle(for: IndexPath(row: 9, section: 0)))
                 .to(equal("CryptoSwift"))
             }
         }
@@ -67,22 +75,14 @@ class LicensesViewModelSpec: BaseSpec {
         describe("selected(for indexPath)") {
             it("should call delegate.licenceSelected()") {
                 let mockDelegate = MockLicensesDelegate()
-                self.viewModel.delegate = mockDelegate
+                viewModel.delegate = mockDelegate
                 let indexPath = IndexPath(row: 0, section: 0)
                 
-                self.viewModel.selected(indexPath: indexPath)
+                viewModel.selected(indexPath: indexPath)
 
                 expect(mockDelegate.licenceSelectedCall)
                 .to(equal(URL(string: "https://raw.githubusercontent.com/ashleymills/Reachability.swift/master/LICENSE")))
             }
         }
-    }
-}
-
-final class MockLicensesDelegate: LicensesEventsDelegate {
-    var licenceSelectedCall: URL? = nil
-    
-    func licenceSelected(with url: URL) {
-        licenceSelectedCall = url
     }
 }

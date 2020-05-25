@@ -33,13 +33,13 @@ final class AboutCoordinator: Coordinator {
     }
 
     func start() {
-        self.viewModel.delegate = self
+        viewModel.delegate = self
 
         rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
     func stop() {
-        self.viewModel.delegate = nil
+        viewModel.delegate = nil
     }
 }
 

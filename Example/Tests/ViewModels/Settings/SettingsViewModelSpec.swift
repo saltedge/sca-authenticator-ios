@@ -24,6 +24,34 @@ import Quick
 import Nimble
 import UIKit
 
+private final class MockSettingsDelegate: SettingsEventsDelegate {
+    var languageItemSelectedCall: Bool = false
+    var passcodeItemSelectedCall: Bool = false
+    var supportItemSelectedCall: Bool = false
+    var aboutItemSelectedCall: Bool = false
+    var clearDataItemSelectedCall: Bool = false
+    
+    func languageItemSelected() {
+        languageItemSelectedCall = true
+    }
+    
+    func passcodeItemSelected() {
+        passcodeItemSelectedCall = true
+    }
+    
+    func supportItemSelected() {
+        supportItemSelectedCall = true
+    }
+    
+    func aboutItemSelected() {
+        aboutItemSelectedCall = true
+    }
+    
+    func clearDataItemSelected(confirmAction: @escaping ((UIAlertAction) -> ())) {
+        clearDataItemSelectedCall = true
+    }
+}
+
 class SettingsViewModelSpec: BaseSpec {
     override func spec() {
         let viewModel = SettingsViewModel()
@@ -95,11 +123,11 @@ class SettingsViewModelSpec: BaseSpec {
 
                     viewModel.selected(indexPath: IndexPath(row: 0, section: 0))
 
-                    expect(mockDelegate.languageItemSelectedCall).to(equal(true))
-                    expect(mockDelegate.passcodeItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.supportItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.aboutItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.clearDataItemSelectedCall).to(equal(false))
+                    expect(mockDelegate.languageItemSelectedCall).to(beTrue())
+                    expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.supportItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())
                 }
 
                 it("should call corresponding delegate's method") {
@@ -108,11 +136,11 @@ class SettingsViewModelSpec: BaseSpec {
 
                     viewModel.selected(indexPath: IndexPath(row: 1, section: 0))
 
-                    expect(mockDelegate.languageItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.passcodeItemSelectedCall).to(equal(true))
-                    expect(mockDelegate.supportItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.aboutItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.clearDataItemSelectedCall).to(equal(false))
+                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.passcodeItemSelectedCall).to(beTrue())
+                    expect(mockDelegate.supportItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())
                 }
 
                 it("should call corresponding delegate's method") {
@@ -121,11 +149,11 @@ class SettingsViewModelSpec: BaseSpec {
 
                     viewModel.selected(indexPath: IndexPath(row: 0, section: 1))
 
-                    expect(mockDelegate.languageItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.passcodeItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.supportItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.aboutItemSelectedCall).to(equal(true))
-                    expect(mockDelegate.clearDataItemSelectedCall).to(equal(false))
+                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.supportItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.aboutItemSelectedCall).to(beTrue())
+                    expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())
                 }
 
                 it("should call corresponding delegate's method") {
@@ -134,11 +162,11 @@ class SettingsViewModelSpec: BaseSpec {
 
                     viewModel.selected(indexPath: IndexPath(row: 1, section: 1))
 
-                    expect(mockDelegate.languageItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.passcodeItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.supportItemSelectedCall).to(equal(true))
-                    expect(mockDelegate.aboutItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.clearDataItemSelectedCall).to(equal(false))
+                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.supportItemSelectedCall).to(beTrue())
+                    expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())
                 }
 
                 it("should call corresponding delegate's method") {
@@ -147,11 +175,11 @@ class SettingsViewModelSpec: BaseSpec {
 
                     viewModel.selected(indexPath: IndexPath(row: 0, section: 2))
 
-                    expect(mockDelegate.languageItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.passcodeItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.supportItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.aboutItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.clearDataItemSelectedCall).to(equal(true))
+                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.supportItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.clearDataItemSelectedCall).to(beTrue())
                 }
             }
 
@@ -162,41 +190,13 @@ class SettingsViewModelSpec: BaseSpec {
                     
                     viewModel.selected(indexPath: IndexPath(row: 0, section: 55))
                     
-                    expect(mockDelegate.languageItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.passcodeItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.supportItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.aboutItemSelectedCall).to(equal(false))
-                    expect(mockDelegate.clearDataItemSelectedCall).to(equal(false))
+                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.supportItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())
                 }
             }
         }
     }
-}
-
-final class MockSettingsDelegate: SettingsEventsDelegate {
-    func languageItemSelected() {
-        languageItemSelectedCall = true
-    }
-    
-    func passcodeItemSelected() {
-        passcodeItemSelectedCall = true
-    }
-    
-    func supportItemSelected() {
-        supportItemSelectedCall = true
-    }
-    
-    func aboutItemSelected() {
-        aboutItemSelectedCall = true
-    }
-    
-    func clearDataItemSelected(confirmAction: @escaping ((UIAlertAction) -> ())) {
-        clearDataItemSelectedCall = true
-    }
-    
-    var languageItemSelectedCall: Bool = false
-    var passcodeItemSelectedCall: Bool = false
-    var supportItemSelectedCall: Bool = false
-    var aboutItemSelectedCall: Bool = false
-    var clearDataItemSelectedCall: Bool = false
 }

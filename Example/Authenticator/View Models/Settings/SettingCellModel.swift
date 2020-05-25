@@ -49,12 +49,12 @@ enum SettingCellModel: Localizable {
 
     var icon: UIImage? {
         switch self {
-        case .language: return UIImage(named: "settingsLanguage", in: Bundle.authenticator_main, compatibleWith: nil)
-        case .passcode: return UIImage(named: "settingsPasscode", in: Bundle.authenticator_main, compatibleWith: nil)
-        case .biometrics: return UIImage(named: "settingsBiometric", in: Bundle.authenticator_main, compatibleWith: nil)
-        case .about: return UIImage(named: "settingsAbout", in: Bundle.authenticator_main, compatibleWith: nil)
-        case .support: return UIImage(named: "settingsSupport", in: Bundle.authenticator_main, compatibleWith: nil)
-        case .clearData: return UIImage(named: "settingsClear", in: Bundle.authenticator_main, compatibleWith: nil)
+        case .language: return UIImage(named: "settingsLanguage", in: .authenticator_main, compatibleWith: nil)
+        case .passcode: return UIImage(named: "settingsPasscode", in: .authenticator_main, compatibleWith: nil)
+        case .biometrics: return UIImage(named: "settingsBiometric", in: .authenticator_main, compatibleWith: nil)
+        case .about: return UIImage(named: "settingsAbout", in: .authenticator_main, compatibleWith: nil)
+        case .support: return UIImage(named: "settingsSupport", in: .authenticator_main, compatibleWith: nil)
+        case .clearData: return UIImage(named: "settingsClear", in: .authenticator_main, compatibleWith: nil)
         default: return nil
         }
     }

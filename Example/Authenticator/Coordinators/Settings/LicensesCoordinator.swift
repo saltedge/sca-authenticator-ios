@@ -46,7 +46,6 @@ final class LicensesCoordinator: Coordinator {
 // MARK: - LanguagePickerEventsDelegate
 extension LicensesCoordinator: LicensesEventsDelegate {
     func licenceSelected(with url: URL) {
-        print("licenceSelected \(url)")
         rootViewController?.navigationController?.pushViewController(
             SFSafariViewController(url: url),
             animated: true

@@ -24,19 +24,27 @@ import Quick
 import Nimble
 import UIKit
 
-class LanguagePickerViewModelSpec: BaseSpec {
-    let viewModel = LanguagePickerViewModel()
+private final class MockLanguageDelegate: LanguagePickerEventsDelegate {
+    var languageSelectedCalled: Bool = false
     
+    func languageSelected() {
+        languageSelectedCalled = true
+    }
+}
+
+class LanguagePickerViewModelSpec: BaseSpec {
     override func spec() {
+        let viewModel = LanguagePickerViewModel()
+        
         describe("sections") {
             it("should return correct number of sections") {
-                expect(self.viewModel.sections).to(equal(1))
+                expect(viewModel.sections).to(equal(1))
             }
         }
         
         describe("rows") {
             it("should return correct number of rows") {
-                expect(self.viewModel.rows(for: 0)).to(equal(1))
+                expect(viewModel.rows(for: 0)).to(equal(1))
             }
         }
 
@@ -44,7 +52,7 @@ class LanguagePickerViewModelSpec: BaseSpec {
             it("should return the proper language for index path") {
                 let indexPath = IndexPath(row: 0, section: 0)
 
-                expect(self.viewModel.cellTitle(for: indexPath)).to(equal("English"))
+                expect(viewModel.cellTitle(for: indexPath)).to(equal("English"))
             }
         }
         
@@ -52,29 +60,21 @@ class LanguagePickerViewModelSpec: BaseSpec {
             it("should return the AccessoryType.checked for index path") {
                 let indexPath = IndexPath(row: 0, section: 0)
 
-                expect(self.viewModel.cellAccessoryType(for: indexPath)).to(equal(UITableViewCell.AccessoryType.checkmark))
+                expect(viewModel.cellAccessoryType(for: indexPath)).to(equal(UITableViewCell.AccessoryType.checkmark))
             }
         }
         
         describe("selected(for indexPath)") {
             it("should set UserDefaults and call delegate.languageSelected()") {
                 let mockDelegate = MockLanguageDelegate()
-                self.viewModel.delegate = mockDelegate
+                viewModel.delegate = mockDelegate
                 let indexPath = IndexPath(row: 0, section: 0)
                 
-                self.viewModel.selected(indexPath: indexPath)
+                viewModel.selected(indexPath: indexPath)
 
                 expect(mockDelegate.languageSelectedCalled).to(equal(true))
                 expect(UserDefaultsHelper.applicationLanguage).to(equal("en"))
             }
         }
-    }
-}
-
-final class MockLanguageDelegate: LanguagePickerEventsDelegate {
-    var languageSelectedCalled: Bool = false
-    
-    func languageSelected() {
-        languageSelectedCalled = true
     }
 }

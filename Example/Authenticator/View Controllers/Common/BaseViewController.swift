@@ -31,7 +31,7 @@ class BaseViewController: UIViewController {
     }
 }
 
-// MARK: Close Action
+// MARK: - Close Action
 extension BaseViewController {
     @objc func close() {
         dismiss(animated: true)
