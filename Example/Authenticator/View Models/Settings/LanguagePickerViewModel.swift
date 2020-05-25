@@ -33,7 +33,7 @@ final class LanguagePickerViewModel {
     private var selectedLanguageCode = UserDefaultsHelper.applicationLanguage
 
     weak var delegate: LanguagePickerEventsDelegate?
-    
+
     var sections: Int {
         return 1
     }

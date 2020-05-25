@@ -61,9 +61,7 @@ final class LicensesViewModel {
     }
 
     func selected(indexPath: IndexPath) {
-        print("selected \(indexPath.row)")
         if let url = URL(string: item(for: indexPath).1) {
-            print("selected url \(url) [delegate \(delegate != nil)]")
             delegate?.licenceSelected(with: url)
         }
     }

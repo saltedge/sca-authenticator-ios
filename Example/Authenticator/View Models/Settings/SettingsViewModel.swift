@@ -44,15 +44,17 @@ class SettingsViewModel {
     }
 
     func rows(for section: Int) -> Int {
-        return items[section].1.count
+        return items.indices.contains(section) ? items[section].1.count : 0
     }
 
     func item(for indexPath: IndexPath) -> SettingCellModel? {
-        return items[indexPath.section].1[indexPath.row]
+        return items.indices.contains(indexPath.section)
+            ? items[indexPath.section].1[indexPath.row]
+            : nil
     }
 
     func title(for section: Int) -> String {
-        return items[section].0
+        return items.indices.contains(section) ? items[section].0 : ""
     }
 
     func selected(indexPath: IndexPath) {
