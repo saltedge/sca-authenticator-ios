@@ -1,5 +1,5 @@
 //
-//  LanguagePickerDataSource.swift
+//  BaseViewController.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -21,15 +21,19 @@
 //
 
 import UIKit
+import TinyConstraints
 
-final class LanguagePickerDataSource {
-    static let reuseIdentifier = "LanguagePickerCell"
-
-    func language(for indexPath: IndexPath) -> String {
-        return items[indexPath.row]
+class BaseViewController: UIViewController {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        edgesForExtendedLayout = []
+        view.backgroundColor = .backgroundColor
     }
+}
 
-    var items: [String] {
-        return LocalizationHelper.languageDisplayNamesForAvailableLocalizations()
+// MARK: - Close Action
+extension BaseViewController {
+    @objc func close() {
+        dismiss(animated: true)
     }
 }

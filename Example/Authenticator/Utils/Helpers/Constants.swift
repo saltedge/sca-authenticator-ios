@@ -40,7 +40,7 @@ struct AppLayout {
     static let sideOffset: CGFloat = 30.0
     static let cellSeparatorOffset: CGFloat = 47.0
     static let pickersLeftOffset: CGFloat = 50.0
-    static let cellDefaultHeight: CGFloat = 48.0
+    static let cellDefaultHeight: CGFloat = 54.0
     static let loadingIndicatorSize: CGSize = CGSize(width: 80.0, height: 80.0)
     static let screenWidth: CGFloat = UIScreen.main.bounds.width
     static let screenHeight: CGFloat = UIScreen.main.bounds.height

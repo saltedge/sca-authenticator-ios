@@ -2,7 +2,7 @@
 //  SettingsViewController.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,19 +23,22 @@
 import UIKit
 import TinyConstraints
 
-protocol SettingsViewControllerDelegate: class {
-    func selected(_ item: SettingsCellType, indexPath: IndexPath)
-}
-
 final class SettingsViewController: BaseViewController {
     private let tableView = UITableView(frame: .zero, style: .grouped)
-    private let dataSource = SettingsDataSource()
+    private var viewModel: SettingsViewModel
 
-    weak var delegate: SettingsViewControllerDelegate?
+    init(viewModel: SettingsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: .authenticator_main)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = l10n(.settings)
+        setupNavigationBar()
         setupTableView()
         layout()
     }
@@ -52,12 +55,23 @@ final class SettingsViewController: BaseViewController {
 
 // MARK: - Setup
 private extension SettingsViewController {
+    func setupNavigationBar() {
+        navigationItem.title = l10n(.settings)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: l10n(.back),
+            style: .plain,
+            target: self,
+            action: #selector(close)
+        )
+    }
+
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.sectionHeaderHeight = 30.0
         tableView.sectionFooterHeight = 0.0
-        tableView.backgroundColor = .auth_backgroundColor
+        tableView.backgroundColor = .backgroundColor
+        tableView.separatorStyle = .none
         tableView.register(SettingsCell.self)
     }
 }
@@ -69,18 +83,21 @@ extension SettingsViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.sections
+        return viewModel.sections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.rows(for: section)
+        return viewModel.rows(for: section)
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return viewModel.title(for: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let item = viewModel.item(for: indexPath) else { return UITableViewCell() }
+
         let cell: SettingsCell = tableView.dequeueReusableCell(for: indexPath)
-
-        guard let item = dataSource.item(for: indexPath) else { return UITableViewCell() }
-
         cell.set(with: item)
         return cell
     }
@@ -90,10 +107,7 @@ extension SettingsViewController: UITableViewDataSource {
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
-        guard let item = dataSource.item(for: indexPath) else { return }
-
-        delegate?.selected(item, indexPath: indexPath)
+        viewModel.selected(indexPath: indexPath)
     }
 }
 

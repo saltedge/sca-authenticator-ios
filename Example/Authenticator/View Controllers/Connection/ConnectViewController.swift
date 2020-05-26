@@ -76,10 +76,6 @@ private extension ConnectViewController {
 
 // MARK: - Actions
 extension ConnectViewController {
-    @objc func close() {
-        dismiss(animated: true, completion: nil)
-    }
-
     func showCompleteView(
         with state: CompleteView.State,
         title: String,

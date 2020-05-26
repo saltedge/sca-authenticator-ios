@@ -33,7 +33,7 @@ final class PasscodeKeyboard: UIView {
     weak var delegate: PasscodeKeyboardDelegate?
 
     private let mainStackView = UIStackView(frame: .zero)
-    private let clearButton = UIImage(named: "ClearButton", in: Bundle.authenticator_main, compatibleWith: nil)
+    private let clearButton = UIImage(named: "ClearButton", in: .authenticator_main, compatibleWith: nil)
     private let biometricsButton = BiometricsPresenter.keyboardImage ?? UIImage()
 
     init(shouldShowTouchID: Bool) {

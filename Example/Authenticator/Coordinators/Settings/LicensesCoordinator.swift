@@ -1,8 +1,8 @@
 //
-//  LanguageCoordinator.swift
+//  LicensesCoordinator.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,31 +21,34 @@
 //
 
 import UIKit
+import SafariServices
 
-final class LanguageCoordinator: Coordinator {
+final class LicensesCoordinator: Coordinator {
     private var rootViewController: UIViewController?
-    private var languageViewController: LanguageViewController
-    private var dataSource = LanguagePickerDataSource()
-    private var selectedLanguage = UserDefaultsHelper.applicationLanguage
+    private var currentViewController: LicensesViewController
+    private var viewModel = LicensesViewModel()
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
-        self.languageViewController = LanguageViewController(dataSource: dataSource)
+        self.currentViewController = LicensesViewController(viewModel: viewModel)
     }
 
     func start() {
-        languageViewController.delegate = self
-        rootViewController?.navigationController?.pushViewController(languageViewController, animated: true)
+        viewModel.delegate = self
+        rootViewController?.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
-    func stop() {}
+    func stop() {
+        viewModel.delegate = nil
+    }
 }
 
-// MARK: - LanguagePickerDelegate
-extension LanguageCoordinator: LanguagePickerDelegate {
-    func languagePicker(selected language: String) {
-        selectedLanguage = language
-        UserDefaultsHelper.applicationLanguage = selectedLanguage
-        rootViewController?.navigationController?.popToRootViewController(animated: true)
+// MARK: - LanguagePickerEventsDelegate
+extension LicensesCoordinator: LicensesEventsDelegate {
+    func licenceSelected(with url: URL) {
+        rootViewController?.navigationController?.pushViewController(
+            SFSafariViewController(url: url),
+            animated: true
+        )
     }
 }
