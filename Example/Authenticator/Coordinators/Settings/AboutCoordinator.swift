@@ -26,6 +26,7 @@ final class AboutCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var currentViewController: AboutViewController
     private var viewModel = AboutViewModel()
+    private var licensesCoordinator: LicensesCoordinator?
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
@@ -34,7 +35,6 @@ final class AboutCoordinator: Coordinator {
 
     func start() {
         viewModel.delegate = self
-
         rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
@@ -55,7 +55,7 @@ extension AboutCoordinator: AboutEventsDelegate {
     }
 
     func licensesItemSelected() {
-        let coordinator = LicensesCoordinator(rootViewController: currentViewController)
-        coordinator.start()
+        licensesCoordinator = LicensesCoordinator(rootViewController: currentViewController)
+        licensesCoordinator?.start()
     }
 }

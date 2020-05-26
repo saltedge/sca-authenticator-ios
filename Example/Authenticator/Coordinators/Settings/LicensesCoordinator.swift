@@ -21,7 +21,6 @@
 //
 
 import UIKit
-import SafariServices
 
 final class LicensesCoordinator: Coordinator {
     private var rootViewController: UIViewController?
@@ -43,12 +42,14 @@ final class LicensesCoordinator: Coordinator {
     }
 }
 
-// MARK: - LanguagePickerEventsDelegate
+// MARK: - LicensesEventsDelegate
 extension LicensesCoordinator: LicensesEventsDelegate {
-    func licenceSelected(with url: URL) {
-        rootViewController?.navigationController?.pushViewController(
-            SFSafariViewController(url: url),
-            animated: true
-        )
+    func licenceSelected(with urlString: String, title: String) {
+        let webViewController = WKWebViewController()
+        webViewController.startLoading(with: urlString)
+        webViewController.displayType = .push
+        webViewController.title = title
+        webViewController.hidesBottomBarWhenPushed = true
+        rootViewController?.navigationController?.pushViewController(webViewController, animated: true)
     }
 }

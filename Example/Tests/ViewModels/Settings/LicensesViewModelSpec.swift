@@ -24,10 +24,12 @@ import Quick
 import Nimble
 
 private final class MockLicensesDelegate: LicensesEventsDelegate {
-    var licenceSelectedCall: URL? = nil
+    var licenceSelectedUrl: String? = nil
+    var licenceSelectedTitle: String? = nil
     
-    func licenceSelected(with url: URL) {
-        licenceSelectedCall = url
+    func licenceSelected(with urlString: String, title: String) {
+        licenceSelectedUrl = urlString
+        licenceSelectedTitle = title
     }
 }
 
@@ -50,25 +52,25 @@ class LicensesViewModelSpec: BaseSpec {
         describe("cellTitle(for indexPath)") {
             it("should return the proper cell title for index path") {
                 expect(viewModel.cellTitle(for: IndexPath(row: 0, section: 0)))
-                .to(equal("ReachabilitySwift"))
+                    .to(equal("ReachabilitySwift"))
                 expect(viewModel.cellTitle(for: IndexPath(row: 1, section: 0)))
-                .to(equal("TinyConstraints"))
+                    .to(equal("TinyConstraints"))
                 expect(viewModel.cellTitle(for: IndexPath(row: 2, section: 0)))
-                .to(equal("SDWebImage"))
+                    .to(equal("SDWebImage"))
                 expect(viewModel.cellTitle(for: IndexPath(row: 3, section: 0)))
-                .to(equal("Realm Swift"))
+                    .to(equal("Realm Swift"))
                 expect(viewModel.cellTitle(for: IndexPath(row: 4, section: 0)))
-                .to(equal("Square/Valet"))
+                    .to(equal("Square/Valet"))
                 expect(viewModel.cellTitle(for: IndexPath(row: 5, section: 0)))
-                .to(equal("Typist"))
+                    .to(equal("Typist"))
                 expect(viewModel.cellTitle(for: IndexPath(row: 6, section: 0)))
-                .to(equal("Firebase"))
+                    .to(equal("Firebase"))
                 expect(viewModel.cellTitle(for: IndexPath(row: 7, section: 0)))
-                .to(equal("SwiftyAttributes"))
+                    .to(equal("SwiftyAttributes"))
                 expect(viewModel.cellTitle(for: IndexPath(row: 8, section: 0)))
-                .to(equal("Quick/Nimble"))
+                    .to(equal("Quick/Nimble"))
                 expect(viewModel.cellTitle(for: IndexPath(row: 9, section: 0)))
-                .to(equal("CryptoSwift"))
+                    .to(equal("CryptoSwift"))
             }
         }
         
@@ -80,8 +82,10 @@ class LicensesViewModelSpec: BaseSpec {
                 
                 viewModel.selected(indexPath: indexPath)
 
-                expect(mockDelegate.licenceSelectedCall)
-                .to(equal(URL(string: "https://raw.githubusercontent.com/ashleymills/Reachability.swift/master/LICENSE")))
+                expect(mockDelegate.licenceSelectedUrl)
+                    .to(equal("https://raw.githubusercontent.com/ashleymills/Reachability.swift/master/LICENSE"))
+                expect(mockDelegate.licenceSelectedTitle)
+                    .to(equal("ReachabilitySwift"))
             }
         }
     }

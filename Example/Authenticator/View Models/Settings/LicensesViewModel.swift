@@ -23,7 +23,7 @@
 import UIKit
 
 protocol LicensesEventsDelegate: class {
-    func licenceSelected(with url: URL)
+    func licenceSelected(with urlString: String, title: String)
 }
 
 final class LicensesViewModel {
@@ -61,8 +61,6 @@ final class LicensesViewModel {
     }
 
     func selected(indexPath: IndexPath) {
-        if let url = URL(string: item(for: indexPath).1) {
-            delegate?.licenceSelected(with: url)
-        }
+        delegate?.licenceSelected(with: item(for: indexPath).1, title: cellTitle(for: indexPath))
     }
 }
