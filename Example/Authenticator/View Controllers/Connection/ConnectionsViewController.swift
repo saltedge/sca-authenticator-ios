@@ -249,7 +249,7 @@ private extension ConnectionsViewController {
             success: {
                 self.connectViewCoordinator = ConnectViewCoordinator(
                     rootViewController: self,
-                    connectionType: .connect
+                    connectionType: .connect("")
                 )
                 self.connectViewCoordinator?.start()
             },

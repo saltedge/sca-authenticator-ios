@@ -51,11 +51,18 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     func scanQrPressed() {
         guard let navController = self.rootViewController.navigationController else { return }
 
-        connectViewCoordinator = ConnectViewCoordinator(
-            rootViewController: navController,
-            connectionType: .connect
-        )
-        connectViewCoordinator?.start()
+        let qrCodeViewController = QRCodeViewController()
+        qrCodeViewController.metadataReceived = { [weak self] vc, data in
+            vc.dismiss(animated: true)
+
+            self?.connectViewCoordinator = ConnectViewCoordinator(
+                rootViewController: navController,
+                connectionType: .connect(data)
+            )
+            self?.connectViewCoordinator?.start()
+        }
+        navController.present(qrCodeViewController, animated: true)
+
     }
 
     func showMainNavigationMenu() {

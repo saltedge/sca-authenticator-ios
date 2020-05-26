@@ -46,12 +46,12 @@ final class ConnectViewCoordinator: Coordinator {
     func start() {
         switch connectionType {
         case .reconnect: reconnectConnection()
-        case .connect: showQrCodeViewController()
+        case .connect(let metadata): showQrCodeViewController(qrMetadata: metadata)
         case .deepLink:
             if let url = deepLinkUrl {
                 handleQr(url: url)
             } else {
-                showQrCodeViewController()
+//                showQrCodeViewController()
             }
         case .firstConnect(let metadata):
             if let qrUrl = URL(string: metadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
@@ -80,19 +80,14 @@ final class ConnectViewCoordinator: Coordinator {
         createNewConnection(from: configurationUrl, with: connectQuery)
     }
 
-    private func showQrCodeViewController() {
-        qrCodeViewController.metadataReceived = { vc, qrMetadata in
-            vc.remove()
+    private func showQrCodeViewController(qrMetadata: String) {
+        self.checkInternetConnection()
 
-            self.checkInternetConnection()
-
-            if let qrUrl = URL(string: qrMetadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
-                self.handleQr(url: qrUrl)
-            } else {
-                self.connectViewController.dismiss(animated: true)
-            }
+        if let qrUrl = URL(string: qrMetadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
+            self.handleQr(url: qrUrl)
+        } else {
+            self.connectViewController.dismiss(animated: true)
         }
-        connectViewController.add(qrCodeViewController)
     }
 
     private func handleQr(url: URL) {
@@ -151,13 +146,13 @@ final class ConnectViewCoordinator: Coordinator {
         SEActionManager.submitAction(
             data: actionData,
             onSuccess: { response in
-                self.connectViewController.stopLoading()
+//                self.connectViewController.stopLoading()
 
                 self.handleActionResponse(response, qrUrl: qrUrl)
             },
             onFailure: { [weak self] _ in
                 DispatchQueue.main.async {
-                    self?.connectViewController.stopLoading()
+//                    self?.connectViewController.stopLoading()
                     self?.finishConnectWithError(l10n(.actionError))
                 }
             }

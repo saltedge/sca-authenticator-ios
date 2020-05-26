@@ -26,14 +26,15 @@ import TinyConstraints
 // TODO: Review
 enum ConnectionType: Equatable {
     case firstConnect(String)
-    case connect
+    case connect(String)
     case reconnect
     case deepLink
 
     static func == (lhs: ConnectionType, rhs: ConnectionType) -> Bool {
         switch (lhs, rhs) {
         case let (.firstConnect(url1), .firstConnect(url2)): return url1 == url2
-        case (.connect, .connect), (.reconnect, .reconnect), (.deepLink, .deepLink): return true
+        case let (.connect(data1), .connect(data2)): return data1 == data2
+        case (.reconnect, .reconnect), (.deepLink, .deepLink): return true
         default: return false
         }
     }

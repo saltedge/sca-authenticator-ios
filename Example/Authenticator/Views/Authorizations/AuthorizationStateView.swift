@@ -144,7 +144,7 @@ extension AuthorizationStateView: Layoutable {
     }
 }
 
-private class AspectFitImageView: UIImageView {
+class AspectFitImageView: UIImageView {
     init(imageName: String) {
         super.init(image: UIImage(named: imageName))
         contentMode = .scaleAspectFit

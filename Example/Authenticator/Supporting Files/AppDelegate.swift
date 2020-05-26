@@ -106,7 +106,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                      performActionFor shortcutItem: UIApplicationShortcutItem,
                      completionHandler: @escaping (Bool) -> Void) {
         if AVCaptureHelper.cameraIsAuthorized(), shortcutItem.type == QuickActionsType.openCamera.rawValue {
-            applicationCoordinator?.openConnectViewController(connectionType: .connect)
+            applicationCoordinator?.openConnectViewController(connectionType: .connect(""))
             completionHandler(true)
         }
     }

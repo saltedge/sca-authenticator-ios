@@ -35,7 +35,7 @@ protocol QRCodeViewControllerDelegate: class {
     func metadataReceived(data: String?)
 }
 
-final class QRCodeViewController: UIViewController {
+final class QRCodeViewController: BaseViewController {
     private var captureSession: AVCaptureSession!
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     private var qrCodeFrameView: UIView?
@@ -47,9 +47,7 @@ final class QRCodeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
-        setup()
-        cameraPermission()
+        requestCameraPermission()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -70,11 +68,12 @@ final class QRCodeViewController: UIViewController {
         }
     }
 
-    private func cameraPermission() {
+    private func requestCameraPermission() {
         AVCaptureHelper.requestAccess(
             success: {
                 self.instantiateSession()
                 self.createOverlay()
+                self.setupCancelButton()
                 self.layout()
             },
             failure: {
@@ -129,25 +128,20 @@ final class QRCodeViewController: UIViewController {
         captureSession.startRunning()
     }
 
-    private func setupNavigationBar() {
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationController?.navigationBar.backgroundColor = .clear
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.view.backgroundColor = .clear
-    }
+    private func setupCancelButton() {
+        let cancelButton = UIButton()
+        cancelButton.setTitle(l10n(.cancel), for: .normal)
+        cancelButton.setTitleColor(.lightBlue, for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancelPressed), for: .touchUpInside)
 
-    private func setup() {
-        view.backgroundColor = .backgroundColor
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: l10n(.cancel),
-            style: .plain,
-            target: self,
-            action: #selector(cancelPressed)
-        )
+        view.addSubview(cancelButton)
+
+        cancelButton.top(to: view, offset: 22.67)
+        cancelButton.left(to: view, offset: 16.0)
     }
 
     @objc private func cancelPressed() {
+        dismiss(animated: true)
         delegate?.metadataReceived(data: nil)
         shouldDismissClosure?()
     }

@@ -29,7 +29,7 @@ protocol ConnectorWebViewControllerDelegate: WKWebViewControllerDelegate {
     func showError(_ error: String)
 }
 
-final class ConnectorWebViewController: UIViewController {
+final class ConnectorWebViewController: BaseViewController {
     weak var delegate: ConnectorWebViewControllerDelegate?
 
     private var webView: SEWebView
