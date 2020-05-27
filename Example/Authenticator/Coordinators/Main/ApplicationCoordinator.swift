@@ -62,7 +62,7 @@ final class ApplicationCoordinator: Coordinator {
                     self.startAuthorizationsViewController()
 
                     if let data = metadata {
-                        self.openConnectViewController(url: nil, connectionType: .firstConnect(data))
+                        self.openConnectViewController(connectionType: .newConnection(data))
                     }
                 }
                 setupVc.dismissClosure = {
@@ -109,15 +109,13 @@ final class ApplicationCoordinator: Coordinator {
         authorizationsCoordinator.start(with: connectionId, authorizationId: authorizationId)
     }
 
-    func openConnectViewController(url: URL? = nil, connectionType: ConnectionType) {
+    func openConnectViewController(connectionType: ConnectionType) {
         guard let rootVc = window?.rootViewController else { return }
 
         connectViewCoordinator = ConnectViewCoordinator(
             rootViewController: rootVc,
-            connectionType: connectionType,
-            deepLinkUrl: url
+            connectionType: connectionType
         )
-
         connectViewCoordinator?.start()
     }
 

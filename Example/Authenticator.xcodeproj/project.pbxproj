@@ -89,6 +89,8 @@
 		9DB18ED722D4A35500BEF299 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87922CE18280050ED3C /* Connection.swift */; };
 		9DBAD79F247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBAD79E247E55BD0023F944 /* QRCodeCoordinator.swift */; };
 		9DBAD7A0247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBAD79E247E55BD0023F944 /* QRCodeCoordinator.swift */; };
+		9DBAD7A2247E65D30023F944 /* InstantActionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBAD7A1247E65D30023F944 /* InstantActionCoordinator.swift */; };
+		9DBAD7A3247E65D30023F944 /* InstantActionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBAD7A1247E65D30023F944 /* InstantActionCoordinator.swift */; };
 		9DCBB2842435E9D900DB3F85 /* EditConnectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCBB2832435E9D900DB3F85 /* EditConnectionViewModel.swift */; };
 		9DCBB2852435E9D900DB3F85 /* EditConnectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCBB2832435E9D900DB3F85 /* EditConnectionViewModel.swift */; };
 		9DCBB2892435F1FF00DB3F85 /* EditConnectionViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCBB2882435F1FF00DB3F85 /* EditConnectionViewModelSpec.swift */; };
@@ -403,6 +405,7 @@
 		9D94095923618CF00080EBB5 /* CacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHelper.swift; sourceTree = "<group>"; };
 		9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLeftLabel.swift; sourceTree = "<group>"; };
 		9DBAD79E247E55BD0023F944 /* QRCodeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeCoordinator.swift; sourceTree = "<group>"; };
+		9DBAD7A1247E65D30023F944 /* InstantActionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantActionCoordinator.swift; sourceTree = "<group>"; };
 		9DCBB2832435E9D900DB3F85 /* EditConnectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditConnectionViewModel.swift; sourceTree = "<group>"; };
 		9DCBB2882435F1FF00DB3F85 /* EditConnectionViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditConnectionViewModelSpec.swift; sourceTree = "<group>"; };
 		9DCBB28A243618B900DB3F85 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
@@ -821,6 +824,7 @@
 			isa = PBXGroup;
 			children = (
 				9DBAD79E247E55BD0023F944 /* QRCodeCoordinator.swift */,
+				9DBAD7A1247E65D30023F944 /* InstantActionCoordinator.swift */,
 			);
 			path = Connect;
 			sourceTree = "<group>";
@@ -1714,6 +1718,7 @@
 				9DCED91F22CE18280050ED3C /* ConnectionRepository.swift in Sources */,
 				9DCED8AD22CE18280050ED3C /* RealmManager.swift in Sources */,
 				9DCBB28B243618B900DB3F85 /* Observable.swift in Sources */,
+				9DBAD7A2247E65D30023F944 /* InstantActionCoordinator.swift in Sources */,
 				9DCED90122CE18280050ED3C /* SetupProgressBar.swift in Sources */,
 				95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */,
 				9D77212F231E51200015BAC6 /* AuthorizationsCollectionLayout.swift in Sources */,
@@ -1870,6 +1875,7 @@
 				9DE324A822D39A1B00EB162A /* KeychainHelper.swift in Sources */,
 				9DE324BC22D39A5B00EB162A /* WKWebViewController.swift in Sources */,
 				0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */,
+				9DBAD7A3247E65D30023F944 /* InstantActionCoordinator.swift in Sources */,
 				9DE3246622D3986B00EB162A /* CreateConnectionResponseSpec.swift in Sources */,
 				9D87F49F2429326800F85D1F /* ConnectionCell.swift in Sources */,
 				9DE324A622D39A1600EB162A /* LocalizationHelper.swift in Sources */,

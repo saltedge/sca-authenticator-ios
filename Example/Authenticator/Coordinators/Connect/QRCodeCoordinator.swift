@@ -21,11 +21,13 @@
 //
 
 import UIKit
+import SEAuthenticator
 
 final class QRCodeCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var qrCodeViewController: QRCodeViewController
     private var connectViewCoordinator: ConnectViewCoordinator?
+    private var instantActionCoordinator:  InstantActionCoordinator?
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
@@ -43,12 +45,24 @@ final class QRCodeCoordinator: Coordinator {
 // MARK: - QRCodeViewControllerDelegate
 extension QRCodeCoordinator: QRCodeViewControllerDelegate {
     func metadataReceived(data: String?) {
-        guard let data = data else { return }
+        guard let data = data, let url = URL(string: data),
+            SEConnectHelper.isValid(deepLinkUrl: url) else { return }
 
-        connectViewCoordinator = ConnectViewCoordinator(
-            rootViewController: rootViewController,
-            connectionType: .connect(data)
-        )
-        connectViewCoordinator?.start()
+        if let actionGuid = SEConnectHelper.actionGuid(from: url),
+            let connectUrl = SEConnectHelper.connectUrl(from: url) {
+            instantActionCoordinator = InstantActionCoordinator(
+                rootViewController: rootViewController,
+                qrUrl: url,
+                actionGuid: actionGuid,
+                connectUrl: connectUrl
+            )
+            instantActionCoordinator?.start()
+        } else {
+            connectViewCoordinator = ConnectViewCoordinator(
+                rootViewController: rootViewController,
+                connectionType: .newConnection(data)
+            )
+            connectViewCoordinator?.start()
+        }
     }
 }

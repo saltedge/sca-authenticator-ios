@@ -21,20 +21,17 @@
 //
 
 import UIKit
-import TinyConstraints
 
-// TODO: Review
 enum ConnectionType: Equatable {
-    case firstConnect(String)
-    case connect(String)
+    case newConnection(String)
+    case deepLink(URL)
     case reconnect
-    case deepLink
 
     static func == (lhs: ConnectionType, rhs: ConnectionType) -> Bool {
         switch (lhs, rhs) {
-        case let (.firstConnect(url1), .firstConnect(url2)): return url1 == url2
-        case let (.connect(data1), .connect(data2)): return data1 == data2
-        case (.reconnect, .reconnect), (.deepLink, .deepLink): return true
+        case let (.newConnection(url1), .newConnection(url2)): return url1 == url2
+        case let (.deepLink(url1), .deepLink(url2)): return url1 == url2
+        case (.reconnect, .reconnect): return true
         default: return false
         }
     }

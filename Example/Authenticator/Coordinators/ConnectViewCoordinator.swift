@@ -31,13 +31,10 @@ final class ConnectViewCoordinator: Coordinator {
     private var connectionId: String?
     private var connection: Connection?
     private let connectionType: ConnectionType
-    private let deepLinkUrl: URL?
 
     init(rootViewController: UIViewController,
          connectionType: ConnectionType,
-         deepLinkUrl: URL? = nil,
          connectionId: String? = nil) {
-        self.deepLinkUrl = deepLinkUrl
         self.rootViewController = rootViewController
         self.connectionType = connectionType
     }
@@ -45,16 +42,10 @@ final class ConnectViewCoordinator: Coordinator {
     func start() {
         switch connectionType {
         case .reconnect: reconnectConnection()
-        case .connect(let metadata): check(qrMetadata: metadata)
-        case .deepLink:
-            if let url = deepLinkUrl {
-                handleQr(url: url)
-            } else {
-//                check()
-            }
-        case .firstConnect(let metadata):
+        case .deepLink(let url): fetchConfiguration(url: url)
+        case .newConnection(let metadata):
             if let qrUrl = URL(string: metadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
-                self.fetchConfiguration(deepLinkUrl: qrUrl)
+                self.fetchConfiguration(url: qrUrl)
             } else {
                 self.connectViewController.dismiss(animated: true)
             }
@@ -68,115 +59,13 @@ final class ConnectViewCoordinator: Coordinator {
 
     func stop() {}
 
-    private func fetchConfiguration(deepLinkUrl: URL) {
-        guard let configurationUrl = SEConnectHelper.сonfiguration(from: deepLinkUrl) else { return }
+    private func fetchConfiguration(url: URL) {
+        guard let configurationUrl = SEConnectHelper.сonfiguration(from: url) else { return }
 
-        let connectQuery = SEConnectHelper.connectQuery(from: deepLinkUrl)
+        let connectQuery = SEConnectHelper.connectQuery(from: url)
 
         showWebViewController()
         createNewConnection(from: configurationUrl, with: connectQuery)
-    }
-
-    private func check(qrMetadata: String) {
-        checkInternetConnection()
-
-        if let qrUrl = URL(string: qrMetadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
-            handleQr(url: qrUrl)
-        } else {
-            connectViewController.dismiss(animated: true)
-        }
-    }
-
-    private func handleQr(url: URL) {
-        if let actionGuid = SEConnectHelper.actionGuid(from: url),
-            let connectUrl = SEConnectHelper.connectUrl(from: url) {
-            guard ConnectionsCollector.activeConnections.count > 0 else {
-                finishConnectWithError(l10n(.noActiveConnection))
-                return
-            }
-
-            connectViewController.title = l10n(.newAction)
-
-            let connections = ConnectionsCollector.activeConnections(by: connectUrl)
-
-            if connections.count > 1 {
-                presentConnectionPicker(with: connections, actionGuid: actionGuid, connectUrl: connectUrl, qrUrl: url)
-            } else if connections.count == 1 {
-                guard let connection = connections.first else { return }
-
-                submitAction(for: connection, connectUrl: connectUrl, actionGuid: actionGuid, qrUrl: url)
-            } else {
-                dismissConnectWithError(l10n(.noSuitableConnection))
-            }
-        } else {
-            fetchConfiguration(deepLinkUrl: url)
-        }
-    }
-
-    private func presentConnectionPicker(with connections: [Connection], actionGuid: GUID, connectUrl: URL, qrUrl: URL) {
-        let pickerVc = ConnectionPickerViewController(connections: connections)
-        pickerVc.modalPresentationStyle = .fullScreen
-
-        connectViewController.title = l10n(.selectConnection)
-        connectViewController.add(pickerVc)
-
-        pickerVc.selectedConnection = { connection in
-            pickerVc.remove()
-            self.connectViewController.title = l10n(.newAction)
-            self.submitAction(for: connection, connectUrl: connectUrl, actionGuid: actionGuid, qrUrl: qrUrl)
-        }
-        pickerVc.cancelPressedClosure = {
-            self.rootViewController.dismiss(animated: true)
-        }
-    }
-
-    private func submitAction(for connection: Connection, connectUrl: URL, actionGuid: GUID, qrUrl: URL) {
-        let actionData = SEActionRequestData(
-            url: connectUrl,
-            connectionGuid: connection.guid,
-            accessToken: connection.accessToken,
-            appLanguage: UserDefaultsHelper.applicationLanguage,
-            guid: actionGuid
-        )
-
-        SEActionManager.submitAction(
-            data: actionData,
-            onSuccess: { [weak self] response in
-                self?.handleActionResponse(response, qrUrl: qrUrl)
-            },
-            onFailure: { [weak self] _ in
-                DispatchQueue.main.async {
-                    self?.finishConnectWithError(l10n(.actionError))
-                }
-            }
-        )
-    }
-
-    private func handleActionResponse(_ response: SESubmitActionResponse, qrUrl: URL) {
-        if let connectionId = response.connectionId,
-            let authorizationId = response.authorizationId {
-            AppDelegate.main.applicationCoordinator?.showAuthorizations(
-                connectionId: connectionId,
-                authorizationId: authorizationId
-            )
-        } else {
-            if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
-                UIApplication.shared.open(returnTo)
-            } else {
-                connectViewController.dismiss(animated: true)
-            }
-
-//            connectViewController.showCompleteView(
-//                with: .success,
-//                title: l10n(.instantActionSuccessMessage),
-//                description: l10n(.instantActionSuccessDescription),
-//                completion: {
-//                    if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
-//                        UIApplication.shared.open(returnTo)
-//                    }
-//                }
-//            )
-        }
     }
 
     private func createNewConnection(from configurationUrl: URL, with connectQuery: String?) {

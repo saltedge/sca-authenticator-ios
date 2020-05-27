@@ -244,12 +244,13 @@ private extension ConnectionsViewController {
         connectViewCoordinator?.start()
     }
 
+    // TODO: Refactor to QR
     func addNewConnection() {
         AVCaptureHelper.requestAccess(
             success: {
                 self.connectViewCoordinator = ConnectViewCoordinator(
                     rootViewController: self,
-                    connectionType: .connect("")
+                    connectionType: .newConnection("")
                 )
                 self.connectViewCoordinator?.start()
             },
