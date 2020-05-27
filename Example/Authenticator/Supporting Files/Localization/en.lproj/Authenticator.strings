@@ -78,6 +78,8 @@
 "in_app.connect.success_description" = "You will receive an authorization request every time you make an action.";
 "in_app.passcode_confirmation.title" = "Enter Passcode or use Touch ID";
 "in_app.passcode_confirmation.title2" = "Enter Passcode or use Face ID";
+"in_app.settings.general" = "General";
+"in_app.settings.info" = "Info";
 "in_app.settings.about" = "About";
 "in_app.settings.licenses" = "Open-source licenses";
 "in_app.settings.copyright" = "Copyright";

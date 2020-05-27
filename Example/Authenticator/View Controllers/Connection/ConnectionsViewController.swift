@@ -36,17 +36,7 @@ protocol ConnectionsViewControllerDelegate: class {
 }
 
 final class ConnectionsViewController: BaseViewController {
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.sectionHeaderHeight = 0.0
-        tableView.sectionFooterHeight = 0.0
-        tableView.backgroundColor = .backgroundColor
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = UITableView.automaticDimension
-        tableView.register(ConnectionCell.self)
-        tableView.separatorStyle = .none
-        return tableView
-    }()
+    private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     private var noDataView: NoDataView!
 
     private var viewControllerViewModel: ConnectionsListViewModel!
@@ -116,6 +106,13 @@ private extension ConnectionsViewController {
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.sectionHeaderHeight = 0.0
+        tableView.sectionFooterHeight = 0.0
+        tableView.backgroundColor = .backgroundColor
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.register(ConnectionCell.self)
+        tableView.separatorStyle = .none
     }
 
     func setupNoDataView() {
@@ -219,10 +216,6 @@ extension ConnectionsViewController {
 
 // MARK: - Actions
 private extension ConnectionsViewController {
-    @objc func close() {
-        dismiss(animated: true)
-    }
-
     func showActionSheet(at indexPath: IndexPath) {}
 
     func rename(_ id: String) {

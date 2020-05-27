@@ -37,7 +37,7 @@ class ConnectionCellViewModel {
     }
     var descriptionColor: UIColor {
         return connectionStatus.value == .inactive
-            ? .connectionDescriptionError
+            ? .redAlert
             : .dark60
     }
 

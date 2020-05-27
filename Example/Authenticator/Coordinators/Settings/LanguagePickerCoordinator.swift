@@ -1,5 +1,5 @@
 //
-//  AboutCoordinator.swift
+//  LanguagePickerCoordinator.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -22,20 +22,19 @@
 
 import UIKit
 
-final class AboutCoordinator: Coordinator {
-    private var rootViewController: UIViewController
-    private var currentViewController: AboutViewController
-    private var viewModel = AboutViewModel()
-    private var licensesCoordinator: LicensesCoordinator?
+final class LanguagePickerCoordinator: Coordinator {
+    private var rootViewController: UIViewController?
+    private var currentViewController: LanguagePickerViewController
+    private var viewModel = LanguagePickerViewModel()
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
-        self.currentViewController = AboutViewController(viewModel: viewModel)
+        self.currentViewController = LanguagePickerViewController(viewModel: viewModel)
     }
 
     func start() {
         viewModel.delegate = self
-        rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
+        rootViewController?.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
     func stop() {
@@ -43,19 +42,9 @@ final class AboutCoordinator: Coordinator {
     }
 }
 
-// MARK: - AboutEventsDelegate
-extension AboutCoordinator: AboutEventsDelegate {
-    func termsItemSelected(urlString: String, label: String) {
-        let webViewController = WKWebViewController()
-        webViewController.startLoading(with: urlString)
-        webViewController.displayType = .push
-        webViewController.title = label
-        webViewController.hidesBottomBarWhenPushed = true
-        currentViewController.navigationController?.pushViewController(webViewController, animated: true)
-    }
-
-    func licensesItemSelected() {
-        licensesCoordinator = LicensesCoordinator(rootViewController: currentViewController)
-        licensesCoordinator?.start()
+// MARK: - LanguagePickerEventsDelegate
+extension LanguagePickerCoordinator: LanguagePickerEventsDelegate {
+    func languageSelected() {
+        rootViewController?.navigationController?.popToRootViewController(animated: true)
     }
 }

@@ -24,7 +24,7 @@ import UIKit
 
 protocol AuthorizationsViewControllerDelegate: class {
     func scanQrPressed()
-    func showMainNavigationMenu()
+    func showMoreOptionsMenu()
 }
 
 private struct Layout {
@@ -300,7 +300,7 @@ private extension AuthorizationsViewController {
     }
 
     @objc func morePressed() {
-        delegate?.showMainNavigationMenu()
+        delegate?.showMoreOptionsMenu()
     }
 
     func delete(section: Int) {

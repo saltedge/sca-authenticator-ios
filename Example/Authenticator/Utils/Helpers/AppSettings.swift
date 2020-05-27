@@ -40,15 +40,11 @@ class AppSettings {
     static var termsURL: URL { return urlWithPathForType(.terms) }
 
     static var bundleId: String {
-        guard let id = Bundle.authenticator_main.bundleIdentifier else { return "" }
-
-        return id
+        return Bundle.authenticator_main.bundleIdentifier ?? ""
     }
 
     static var supportEmail: String {
-        guard let supportEmail = environmentSettings["support_email"] as? String else { return "" }
-
-        return supportEmail
+        return (environmentSettings["support_email"] as? String) ?? ""
     }
 
     static var isNotInTestMode: Bool {

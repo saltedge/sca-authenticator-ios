@@ -27,7 +27,10 @@ final class AuthorizationsCoordinator: Coordinator {
     let rootViewController = AuthorizationsViewController()
     private let dataSource = AuthorizationsDataSource()
     private let viewModel = AuthorizationsViewModel()
+
     private var qrCoordinator: QRCodeCoordinator?
+    private var connectionsCoordinator: ConnectionsCoordinator?
+    private var settingsCoordinator: SettingsCoordinator?
 
     func start() {
         viewModel.dataSource = dataSource
@@ -53,21 +56,24 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
         qrCoordinator?.start()
     }
 
-    func showMainNavigationMenu() {
+    func showMoreOptionsMenu() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancel = UIAlertAction(title: l10n(.cancel), style: .cancel)
         let connections = UIAlertAction(title: l10n(.viewConnections), style: .default) { [weak self] _ in
-            guard let navController = self?.rootViewController.navigationController else { return }
+            guard let strongSelf = self else { return }
 
-            let coordinator = ConnectionsCoordinator(rootViewController: navController)
-            coordinator.start()
+            strongSelf.connectionsCoordinator = ConnectionsCoordinator(rootViewController: strongSelf.rootViewController)
+            strongSelf.connectionsCoordinator?.start()
         }
-        let consents = UIAlertAction(title: l10n(.viewConsents), style: .default) { [weak self] _ in
+        let consents = UIAlertAction(title: l10n(.viewConsents), style: .default) { _ in
             print("Show Consents")
         }
         let settings = UIAlertAction(title: l10n(.viewSettings), style: .default) { [weak self] _ in
-            print("Show Settings")
+            guard let strongSelf = self else { return }
+
+            strongSelf.settingsCoordinator = SettingsCoordinator(rootController: strongSelf.rootViewController)
+            strongSelf.settingsCoordinator?.start()
         }
 
         [connections, consents, settings, cancel].forEach { actionSheet.addAction($0) }

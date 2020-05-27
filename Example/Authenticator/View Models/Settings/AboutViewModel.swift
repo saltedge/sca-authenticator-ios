@@ -1,8 +1,8 @@
 //
-//  AboutDataSource.swift
+//  AboutViewModel.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,18 +22,37 @@
 
 import UIKit
 
-struct AboutDataSource {
-    private let data: [SettingsCellType] = [.appVersion, .terms, .licenses]
+protocol AboutEventsDelegate: class {
+    func termsItemSelected(urlString: String, label: String)
+    func licensesItemSelected()
+}
+
+class AboutViewModel {
+    private let items: [SettingCellModel] = [.appVersion, .terms, .licenses]
+
+    weak var delegate: AboutEventsDelegate?
 
     var sections: Int {
         return 1
     }
 
     func rows(for section: Int) -> Int {
-        return data.count
+        return items.count
     }
 
-    func item(for indexPath: IndexPath) -> SettingsCellType {
-        return data[indexPath.row]
+    func item(for indexPath: IndexPath) -> SettingCellModel? {
+        return items[indexPath.row]
+    }
+
+    func selected(indexPath: IndexPath) {
+        guard let item = item(for: indexPath) else { return }
+
+        switch item {
+        case .terms:
+            delegate?.termsItemSelected(urlString: AppSettings.termsURL.absoluteString, label: item.localizedLabel)
+        case .licenses:
+            delegate?.licensesItemSelected()
+        default:break
+        }
     }
 }

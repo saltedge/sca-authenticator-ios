@@ -86,10 +86,6 @@ class WKWebViewController: BaseViewController {
         }
     }
 
-    @objc func close() {
-        dismiss(animated: true, completion: nil)
-    }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
