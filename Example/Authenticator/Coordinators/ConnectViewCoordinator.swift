@@ -26,7 +26,6 @@ import SEAuthenticator
 final class ConnectViewCoordinator: Coordinator {
     private let rootViewController: UIViewController
 
-    private let qrCodeViewController = QRCodeViewController()
     private lazy var webViewController = ConnectorWebViewController()
     private var connectViewController = ConnectViewController()
     private var connectionId: String?
@@ -46,12 +45,12 @@ final class ConnectViewCoordinator: Coordinator {
     func start() {
         switch connectionType {
         case .reconnect: reconnectConnection()
-        case .connect(let metadata): showQrCodeViewController(qrMetadata: metadata)
+        case .connect(let metadata): check(qrMetadata: metadata)
         case .deepLink:
             if let url = deepLinkUrl {
                 handleQr(url: url)
             } else {
-//                showQrCodeViewController()
+//                check()
             }
         case .firstConnect(let metadata):
             if let qrUrl = URL(string: metadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
@@ -61,10 +60,8 @@ final class ConnectViewCoordinator: Coordinator {
             }
         }
 
-        let navigationController = UINavigationController(rootViewController: connectViewController)
-        navigationController.modalPresentationStyle = .fullScreen
         rootViewController.present(
-            navigationController,
+            UINavigationController(rootViewController: connectViewController),
             animated: true
         )
     }
@@ -80,13 +77,13 @@ final class ConnectViewCoordinator: Coordinator {
         createNewConnection(from: configurationUrl, with: connectQuery)
     }
 
-    private func showQrCodeViewController(qrMetadata: String) {
-        self.checkInternetConnection()
+    private func check(qrMetadata: String) {
+        checkInternetConnection()
 
         if let qrUrl = URL(string: qrMetadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
-            self.handleQr(url: qrUrl)
+            handleQr(url: qrUrl)
         } else {
-            self.connectViewController.dismiss(animated: true)
+            connectViewController.dismiss(animated: true)
         }
     }
 
@@ -99,7 +96,6 @@ final class ConnectViewCoordinator: Coordinator {
             }
 
             connectViewController.title = l10n(.newAction)
-            connectViewController.startLoading()
 
             let connections = ConnectionsCollector.activeConnections(by: connectUrl)
 
@@ -145,14 +141,11 @@ final class ConnectViewCoordinator: Coordinator {
 
         SEActionManager.submitAction(
             data: actionData,
-            onSuccess: { response in
-//                self.connectViewController.stopLoading()
-
-                self.handleActionResponse(response, qrUrl: qrUrl)
+            onSuccess: { [weak self] response in
+                self?.handleActionResponse(response, qrUrl: qrUrl)
             },
             onFailure: { [weak self] _ in
                 DispatchQueue.main.async {
-//                    self?.connectViewController.stopLoading()
                     self?.finishConnectWithError(l10n(.actionError))
                 }
             }
@@ -167,16 +160,22 @@ final class ConnectViewCoordinator: Coordinator {
                 authorizationId: authorizationId
             )
         } else {
-            connectViewController.showCompleteView(
-                with: .success,
-                title: l10n(.instantActionSuccessMessage),
-                description: l10n(.instantActionSuccessDescription),
-                completion: {
-                    if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
-                        UIApplication.shared.open(returnTo)
-                    }
-                }
-            )
+            if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
+                UIApplication.shared.open(returnTo)
+            } else {
+                connectViewController.dismiss(animated: true)
+            }
+
+//            connectViewController.showCompleteView(
+//                with: .success,
+//                title: l10n(.instantActionSuccessMessage),
+//                description: l10n(.instantActionSuccessDescription),
+//                completion: {
+//                    if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
+//                        UIApplication.shared.open(returnTo)
+//                    }
+//                }
+//            )
         }
     }
 
@@ -202,11 +201,6 @@ final class ConnectViewCoordinator: Coordinator {
         webViewController.delegate = self
         connectViewController.add(webViewController)
         connectViewController.title = connectionType == .reconnect ? l10n(.reconnect) : l10n(.newConnection)
-    }
-
-    private func startWebViewLoading(with url: String) {
-        showWebViewController()
-        webViewController.startLoading(with: url)
     }
 
     private func reconnectConnection() {

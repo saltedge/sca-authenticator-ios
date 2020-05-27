@@ -50,7 +50,20 @@ class AuthorizationsViewModel {
 
     private var poller: SEPoller?
     private var connections = ConnectionsCollector.activeConnections
-    var authorizationFromPush: (connectionId: String, authorizationId: String)?
+    var authorizationFromPush: (connectionId: String, authorizationId: String)? {
+        didSet {
+            if let detailViewModel = dataSource.viewModel(
+                by: authorizationFromPush?.connectionId,
+                authorizationId: authorizationFromPush?.authorizationId
+            ),
+            let index = dataSource.index(of: detailViewModel) {
+                state.value = .scrollTo(index)
+            } else {
+                state.value = .presentFail(l10n(.authorizationNotFound))
+            }
+            authorizationFromPush = nil
+        }
+    }
 
     init() {
         connectionsListener = RealmConnectionsListener(

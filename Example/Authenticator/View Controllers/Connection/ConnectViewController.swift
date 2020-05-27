@@ -41,25 +41,20 @@ enum ConnectionType: Equatable {
 }
 
 final class ConnectViewController: BaseViewController {
-    private lazy var loadingIndicator = LoadingIndicator()
+    private lazy var completeView = CompleteView(state: .processing, title: l10n(.processing))
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCancelButton()
+        layout()
     }
+}
 
-    func startLoading() {
-        view.addSubview(loadingIndicator)
-
-        loadingIndicator.center(in: view)
-        loadingIndicator.size(AppLayout.loadingIndicatorSize)
-
-        loadingIndicator.start()
-    }
-
-    func stopLoading() {
-        loadingIndicator.stop()
-        loadingIndicator.removeFromSuperview()
+// MARK: - Layout
+extension ConnectViewController: Layoutable {
+    func layout() {
+        view.addSubview(completeView)
+        completeView.edgesToSuperview()
     }
 }
 
@@ -87,17 +82,13 @@ extension ConnectViewController {
         description: String = l10n(.connectedSuccessfullyDescription),
         completion: (() -> ())? = nil
     ) {
-        let completeView = CompleteView(state: state, title: title, description: description)
+        completeView.set(state: state, title: title, description: description)
         completeView.proceedClosure = completion
         completeView.delegate = self
         completeView.alpha = 0.0
 
-        view.addSubview(completeView)
-        completeView.edges(to: view)
-        view.layoutIfNeeded()
-
-        UIView.animate(withDuration: 0.3) {
-            completeView.alpha = 1.0
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.completeView.alpha = 1.0
         }
     }
 }

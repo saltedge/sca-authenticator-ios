@@ -36,6 +36,7 @@ enum Localizations: String, Localizable {
     case warning = "errors.warning"
     case done = "actions.done"
     case next = "actions.next"
+    case retry = "actions.retry"
     case authenticator = "authorization.screen.name"
 
     // MARK: - Onboarding
@@ -99,6 +100,8 @@ enum Localizations: String, Localizable {
     case newAction = "instant_action.new_action"
     case instantActionSuccessMessage = "instant_action.success_message"
     case instantActionSuccessDescription = "instant_action.success_description"
+    case processing = "actions.processing"
+    case processingDescription = "actions.processing.description"
 
     // MARK: - Connections
     case noConnections = "in_app.connect.no_connections"
@@ -107,7 +110,6 @@ enum Localizations: String, Localizable {
     case connectProvider = "action.connect_provider"
     case connectedOn = "in_app.connection.connected_on"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
-    case processing = "in_app.connect.in_progress"
     case scanQr = "in_app.connect.scan_qr"
     case selectConnection = "in_app.connect.select"
     case newConnection = "in_app.connect.new_connection"

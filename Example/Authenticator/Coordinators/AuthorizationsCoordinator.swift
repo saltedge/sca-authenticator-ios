@@ -27,7 +27,7 @@ final class AuthorizationsCoordinator: Coordinator {
     let rootViewController = AuthorizationsViewController()
     private let dataSource = AuthorizationsDataSource()
     private let viewModel = AuthorizationsViewModel()
-    private var connectViewCoordinator: ConnectViewCoordinator?
+    private var qrCoordinator: QRCodeCoordinator?
 
     func start() {
         viewModel.dataSource = dataSource
@@ -49,20 +49,8 @@ final class AuthorizationsCoordinator: Coordinator {
 // MARK: - AuthorizationsViewControllerDelegate
 extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     func scanQrPressed() {
-        guard let navController = self.rootViewController.navigationController else { return }
-
-        let qrCodeViewController = QRCodeViewController()
-        qrCodeViewController.metadataReceived = { [weak self] vc, data in
-            vc.dismiss(animated: true)
-
-            self?.connectViewCoordinator = ConnectViewCoordinator(
-                rootViewController: navController,
-                connectionType: .connect(data)
-            )
-            self?.connectViewCoordinator?.start()
-        }
-        navController.present(qrCodeViewController, animated: true)
-
+        qrCoordinator = QRCodeCoordinator(rootViewController: rootViewController)
+        qrCoordinator?.start()
     }
 
     func showMainNavigationMenu() {

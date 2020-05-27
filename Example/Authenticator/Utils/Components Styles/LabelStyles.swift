@@ -28,6 +28,7 @@ extension UILabel {
         self.font = font
         self.textColor = textColor
         self.textAlignment = alignment
+        self.numberOfLines = 0
     }
 
     static var titleLabel: UILabel {

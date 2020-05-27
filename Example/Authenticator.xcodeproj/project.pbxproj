@@ -87,6 +87,8 @@
 		9DAAC0E3233A5341006D0758 /* TimeLeftLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */; };
 		9DB125F12445B3300012A74C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED93622D3389C0050ED3C /* Assets.xcassets */; };
 		9DB18ED722D4A35500BEF299 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87922CE18280050ED3C /* Connection.swift */; };
+		9DBAD79F247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBAD79E247E55BD0023F944 /* QRCodeCoordinator.swift */; };
+		9DBAD7A0247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DBAD79E247E55BD0023F944 /* QRCodeCoordinator.swift */; };
 		9DCBB2842435E9D900DB3F85 /* EditConnectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCBB2832435E9D900DB3F85 /* EditConnectionViewModel.swift */; };
 		9DCBB2852435E9D900DB3F85 /* EditConnectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCBB2832435E9D900DB3F85 /* EditConnectionViewModel.swift */; };
 		9DCBB2892435F1FF00DB3F85 /* EditConnectionViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCBB2882435F1FF00DB3F85 /* EditConnectionViewModelSpec.swift */; };
@@ -400,6 +402,7 @@
 		9D940957235DDB8F0080EBB5 /* AboutDataSourceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutDataSourceSpec.swift; sourceTree = "<group>"; };
 		9D94095923618CF00080EBB5 /* CacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHelper.swift; sourceTree = "<group>"; };
 		9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLeftLabel.swift; sourceTree = "<group>"; };
+		9DBAD79E247E55BD0023F944 /* QRCodeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeCoordinator.swift; sourceTree = "<group>"; };
 		9DCBB2832435E9D900DB3F85 /* EditConnectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditConnectionViewModel.swift; sourceTree = "<group>"; };
 		9DCBB2882435F1FF00DB3F85 /* EditConnectionViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditConnectionViewModelSpec.swift; sourceTree = "<group>"; };
 		9DCBB28A243618B900DB3F85 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
@@ -814,6 +817,14 @@
 			path = Responses;
 			sourceTree = "<group>";
 		};
+		9DBAD79D247E55A70023F944 /* Connect */ = {
+			isa = PBXGroup;
+			children = (
+				9DBAD79E247E55BD0023F944 /* QRCodeCoordinator.swift */,
+			);
+			path = Connect;
+			sourceTree = "<group>";
+		};
 		9DCBB2872435F1EF00DB3F85 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -1082,6 +1093,7 @@
 		9DCED86522CE18270050ED3C /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				9DBAD79D247E55A70023F944 /* Connect */,
 				9DCED87122CE18270050ED3C /* Main */,
 				9DCED87422CE18280050ED3C /* Onboarding */,
 				9DCED86622CE18270050ED3C /* Settings */,
@@ -1663,6 +1675,7 @@
 				9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */,
 				9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */,
 				9D77212C231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */,
+				9DBAD79F247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */,
 				9DCED90A22CE18280050ED3C /* ConnectViewCoordinator.swift in Sources */,
 				95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */,
 				9DCED8FE22CE18280050ED3C /* InfoView.swift in Sources */,
@@ -1824,6 +1837,7 @@
 				9DE3249A22D399EF00EB162A /* ColorExtensions.swift in Sources */,
 				9DE324B022D39A2F00EB162A /* AmountFormatter.swift in Sources */,
 				9D1DEE7523D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */,
+				9DBAD7A0247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */,
 				9DE3247922D3997B00EB162A /* SetupAppCoordinator.swift in Sources */,
 				9DE3245A22D3986B00EB162A /* RevokeConnectionResponseSpec.swift in Sources */,
 				9DE324DD22D39AC300EB162A /* ProgressBar.swift in Sources */,

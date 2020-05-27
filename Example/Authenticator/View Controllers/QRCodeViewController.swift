@@ -42,7 +42,6 @@ final class QRCodeViewController: BaseViewController {
 
     weak var delegate: QRCodeViewControllerDelegate?
 
-    var metadataReceived: ((UIViewController, String) ->())?
     var shouldDismissClosure: (() -> ())?
 
     override func viewDidLoad() {
@@ -236,8 +235,12 @@ extension QRCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
             }
 
             HapticFeedbackHelper.produceImpactFeedback(.heavy)
-            delegate?.metadataReceived(data: string)
-            self.metadataReceived?(self, string)
+            dismiss(
+                animated: true,
+                completion: {
+                    self.delegate?.metadataReceived(data: string)
+                }
+            )
         }
     }
 }

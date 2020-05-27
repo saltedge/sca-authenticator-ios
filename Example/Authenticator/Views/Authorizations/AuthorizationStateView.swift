@@ -105,7 +105,7 @@ final class AuthorizationStateView: UIView {
         setTopView(state: state)
     }
 
-    func setTopView(state: AuthorizationState) {
+    private func setTopView(state: AuthorizationState) {
         accessoryView?.removeFromSuperview()
         accessoryView = state.topAccessoryView
         if let accessoryView = self.accessoryView {

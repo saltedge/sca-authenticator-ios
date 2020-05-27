@@ -65,7 +65,7 @@ final class SetupAppViewController: BaseViewController {
 
         cycleFromViewController(
             oldViewController: passcodeVc,
-            toViewController: UINavigationController(rootViewController: qrCodeViewController)
+            toViewController: qrCodeViewController
         )
     }
 }
