@@ -65,6 +65,8 @@
 		9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
 		9D5BCFD9247FC91F009A6B40 /* ConnectionPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */; };
 		9D5BCFDA247FC91F009A6B40 /* ConnectionPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */; };
+		9D5BCFDC247FF595009A6B40 /* InstantActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFDB247FF595009A6B40 /* InstantActionHandler.swift */; };
+		9D5BCFDD247FF595009A6B40 /* InstantActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFDB247FF595009A6B40 /* InstantActionHandler.swift */; };
 		9D630BC6243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D630BC5243DC094000A9ACC /* FeatureCellViewModel.swift */; };
 		9D630BC7243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D630BC5243DC094000A9ACC /* FeatureCellViewModel.swift */; };
 		9D630BC9243DC464000A9ACC /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D630BC8243DC464000A9ACC /* OnboardingViewModel.swift */; };
@@ -383,6 +385,7 @@
 		9D5AC68923571958003B00E2 /* LicensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewController.swift; sourceTree = "<group>"; };
 		9D5AC68C23573553003B00E2 /* LicensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewModel.swift; sourceTree = "<group>"; };
 		9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionPickerViewModel.swift; sourceTree = "<group>"; };
+		9D5BCFDB247FF595009A6B40 /* InstantActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantActionHandler.swift; sourceTree = "<group>"; };
 		9D630BC5243DC094000A9ACC /* FeatureCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCellViewModel.swift; sourceTree = "<group>"; };
 		9D630BC8243DC464000A9ACC /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsSpec.swift; sourceTree = "<group>"; };
@@ -1061,6 +1064,7 @@
 				95F409012475190500727095 /* Connections */,
 				9DE94106246D4204000029A2 /* Authorizations */,
 				9D630BC4243DC076000A9ACC /* Onboarding */,
+				9D5BCFDB247FF595009A6B40 /* InstantActionHandler.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -1727,6 +1731,7 @@
 				9DE308BE24474D92009EBD39 /* PasscodeViewModel.swift in Sources */,
 				9DCED8DB22CE18280050ED3C /* Constants.swift in Sources */,
 				9581A9D82477D63A0066EF5E /* WKWebViewController.swift in Sources */,
+				9D5BCFDC247FF595009A6B40 /* InstantActionHandler.swift in Sources */,
 				9D630BC9243DC464000A9ACC /* OnboardingViewModel.swift in Sources */,
 				9D0DC4132462DD080039E62B /* ButtonExtensions.swift in Sources */,
 				9DCED90322CE18280050ED3C /* TaptileFeedbackButton.swift in Sources */,
@@ -1948,6 +1953,7 @@
 				9DE3249F22D399FC00EB162A /* ApplicationExtensions.swift in Sources */,
 				9DE3249322D399DE00EB162A /* ImageExtensions.swift in Sources */,
 				9DE324BE22D39A5F00EB162A /* AuthorizationsViewController.swift in Sources */,
+				9D5BCFDD247FF595009A6B40 /* InstantActionHandler.swift in Sources */,
 				9DCBB28C243618B900DB3F85 /* Observable.swift in Sources */,
 				9DE3247622D3997200EB162A /* ApplicationCoordinator.swift in Sources */,
 				9DB18ED722D4A35500BEF299 /* Connection.swift in Sources */,
