@@ -67,6 +67,8 @@
 		9D5BCFDA247FC91F009A6B40 /* ConnectionPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */; };
 		9D5BCFDC247FF595009A6B40 /* InstantActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFDB247FF595009A6B40 /* InstantActionHandler.swift */; };
 		9D5BCFDD247FF595009A6B40 /* InstantActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFDB247FF595009A6B40 /* InstantActionHandler.swift */; };
+		9D5BCFE024800307009A6B40 /* ConnectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFDF24800307009A6B40 /* ConnectHandler.swift */; };
+		9D5BCFE124800307009A6B40 /* ConnectHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFDF24800307009A6B40 /* ConnectHandler.swift */; };
 		9D630BC6243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D630BC5243DC094000A9ACC /* FeatureCellViewModel.swift */; };
 		9D630BC7243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D630BC5243DC094000A9ACC /* FeatureCellViewModel.swift */; };
 		9D630BC9243DC464000A9ACC /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D630BC8243DC464000A9ACC /* OnboardingViewModel.swift */; };
@@ -386,6 +388,7 @@
 		9D5AC68C23573553003B00E2 /* LicensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewModel.swift; sourceTree = "<group>"; };
 		9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionPickerViewModel.swift; sourceTree = "<group>"; };
 		9D5BCFDB247FF595009A6B40 /* InstantActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantActionHandler.swift; sourceTree = "<group>"; };
+		9D5BCFDF24800307009A6B40 /* ConnectHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectHandler.swift; sourceTree = "<group>"; };
 		9D630BC5243DC094000A9ACC /* FeatureCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCellViewModel.swift; sourceTree = "<group>"; };
 		9D630BC8243DC464000A9ACC /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsSpec.swift; sourceTree = "<group>"; };
@@ -724,6 +727,15 @@
 			path = Connections;
 			sourceTree = "<group>";
 		};
+		9D5BCFDE248002F5009A6B40 /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				9D5BCFDB247FF595009A6B40 /* InstantActionHandler.swift */,
+				9D5BCFDF24800307009A6B40 /* ConnectHandler.swift */,
+			);
+			path = Handlers;
+			sourceTree = "<group>";
+		};
 		9D630BC4243DC076000A9ACC /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
@@ -973,6 +985,7 @@
 		9DCED81422CE18270050ED3C /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				9D5BCFDE248002F5009A6B40 /* Handlers */,
 				9DCED81822CE18270050ED3C /* Extensions */,
 				9DCED82922CE18270050ED3C /* Components Styles */,
 				9DCED82B22CE18270050ED3C /* Interactors */,
@@ -1064,7 +1077,6 @@
 				95F409012475190500727095 /* Connections */,
 				9DE94106246D4204000029A2 /* Authorizations */,
 				9D630BC4243DC076000A9ACC /* Onboarding */,
-				9D5BCFDB247FF595009A6B40 /* InstantActionHandler.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -1758,6 +1770,7 @@
 				959E30A9247BD0160067354A /* LicensesViewModel.swift in Sources */,
 				9DCED91F22CE18280050ED3C /* ConnectionRepository.swift in Sources */,
 				9DCED8AD22CE18280050ED3C /* RealmManager.swift in Sources */,
+				9D5BCFE024800307009A6B40 /* ConnectHandler.swift in Sources */,
 				9DCBB28B243618B900DB3F85 /* Observable.swift in Sources */,
 				9DBAD7A2247E65D30023F944 /* InstantActionCoordinator.swift in Sources */,
 				959E309C247BBAD20067354A /* SettingCellModel.swift in Sources */,
@@ -1839,6 +1852,7 @@
 				9DE324DC22D39AC100EB162A /* TaptileFeedbackButton.swift in Sources */,
 				9D453CC223CCB56400702695 /* main.swift in Sources */,
 				9DE324AB22D39A2300EB162A /* Localizations.swift in Sources */,
+				9D5BCFE124800307009A6B40 /* ConnectHandler.swift in Sources */,
 				9DE3249422D399E000EB162A /* ViewExtensions+Utilitarian.swift in Sources */,
 				9DE3249222D399DB00EB162A /* BordersExtensions.swift in Sources */,
 				959E30B3247BDA250067354A /* AboutViewModelSpec.swift in Sources */,

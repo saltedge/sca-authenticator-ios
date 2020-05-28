@@ -229,11 +229,7 @@ private extension ConnectionsViewController {
     }
 
     func reconnect(_ connectionId: String) {
-        connectViewCoordinator = ConnectViewCoordinator(
-            rootViewController: self,
-            connectionType: .reconnect,
-            connectionId: connectionId
-        )
+        connectViewCoordinator = ConnectViewCoordinator(rootViewController: self, connectionType: .reconnect(connectionId))
         connectViewCoordinator?.start()
     }
 

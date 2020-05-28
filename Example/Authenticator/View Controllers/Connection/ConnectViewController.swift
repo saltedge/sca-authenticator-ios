@@ -25,13 +25,13 @@ import UIKit
 enum ConnectionType: Equatable {
     case newConnection(String)
     case deepLink(URL)
-    case reconnect
+    case reconnect(String)
 
     static func == (lhs: ConnectionType, rhs: ConnectionType) -> Bool {
         switch (lhs, rhs) {
         case let (.newConnection(url1), .newConnection(url2)): return url1 == url2
         case let (.deepLink(url1), .deepLink(url2)): return url1 == url2
-        case (.reconnect, .reconnect): return true
+        case let (.reconnect(connectionId1), .reconnect(connectionId2)): return connectionId1 == connectionId2
         default: return false
         }
     }

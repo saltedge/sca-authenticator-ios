@@ -33,8 +33,7 @@ final class ConnectorWebViewController: BaseViewController {
     weak var delegate: ConnectorWebViewControllerDelegate?
 
     private var webView: SEWebView
-//    private let loadingIndicator = LoadingIndicator()
-    private let completeView = CompleteView(state: .processing, title: "Processing")
+    private let completeView = CompleteView(state: .processing, title: l10n(.processing))
     private var messageBarView: MessageBarView?
 
     init() {
@@ -51,9 +50,7 @@ final class ConnectorWebViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .auth_backgroundColor
         layout()
-//        loadingIndicator.start()
         setupObservers()
     }
 
@@ -105,28 +102,22 @@ extension ConnectorWebViewController: Layoutable {
         view.addSubview(completeView)
 
         completeView.edgesToSuperview()
-//        view.addSubview(loadingIndicator)
-//
-//        loadingIndicator.center(in: view)
-//        loadingIndicator.size(AppLayout.loadingIndicatorSize)
     }
 }
 
+// MARK: - SEWebViewDelegate
 extension ConnectorWebViewController: SEWebViewDelegate {
     func webView(_ webView: WKWebView, didReceiveCallback url: URL, accessToken: AccessToken) {
-//        loadingIndicator.stop()
         completeView.isHidden = true
         delegate?.connectorConfirmed(url: url, accessToken: accessToken)
     }
 
     func webView(_ webView: WKWebView, didReceiveCallbackWithError error: String?) {
         completeView.isHidden = true
-//        loadingIndicator.stop()
         if let error = error { delegate?.showError(error) }
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         completeView.isHidden = true
-//        loadingIndicator.stop()
     }
 }
