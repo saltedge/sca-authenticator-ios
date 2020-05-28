@@ -35,6 +35,10 @@ protocol ConnectionsViewControllerDelegate: class {
     func addPressed()
 }
 
+private struct Layout {
+    static let cellHeight: CGFloat = 96.0
+}
+
 final class ConnectionsViewController: BaseViewController {
     private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     private var noDataView: NoDataView!
@@ -72,10 +76,6 @@ final class ConnectionsViewController: BaseViewController {
     @objc private func reloadData() {
         tableView.reloadData()
     }
-}
-
-struct ConnectionsListLayout {
-    static let cellHeight: CGFloat = 96.0
 }
 
 // MARK: - Setup
@@ -138,7 +138,7 @@ private extension ConnectionsViewController {
 // MARK: UITableViewDataSource
 extension ConnectionsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ConnectionsListLayout.cellHeight
+        return Layout.cellHeight
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {

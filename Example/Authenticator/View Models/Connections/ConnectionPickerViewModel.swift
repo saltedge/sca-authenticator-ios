@@ -1,5 +1,5 @@
 //
-//  ConnectionsDataSource
+//  ConnectionPickerViewModel
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -22,30 +22,25 @@
 
 import UIKit
 
-final class ConnectionsDataSource {
-    private var connectionsListViewModel: ConnectionsListViewModel!
+final class ConnectionPickerViewModel {
+    private var connections: [Connection]
 
-    init(viewModel: ConnectionsListViewModel) {
-        self.connectionsListViewModel = viewModel
+    var selectedConnectionClosure: ((String, String) -> ())?
+
+    init(connections: [Connection]) {
+        self.connections = connections
     }
 
-    var sections: Int {
-        return connectionsListViewModel.count
+    var numberOfRows: Int {
+        return connections.count
     }
 
-    func rows(for section: Int) -> Int {
-        return 1
+    func cellViewModel(at indexPath: IndexPath) -> ConnectionCellViewModel {
+        return ConnectionCellViewModel(connection: connections[indexPath.row])
     }
 
-    var hasDataToShow: Bool {
-        return connectionsListViewModel.count > 0
-    }
-
-    func cell(for indexPath: IndexPath) -> ConnectionCell {
-        let cell = ConnectionCell()
-
-        cell.viewModel = connectionsListViewModel.cellViewModel(at: indexPath)
-
-        return cell
+    func selectedConnection(at indexPath: IndexPath) {
+        let viewModel = ConnectionCellViewModel(connection: connections[indexPath.row])
+        selectedConnectionClosure?(viewModel.guid, viewModel.accessToken)
     }
 }

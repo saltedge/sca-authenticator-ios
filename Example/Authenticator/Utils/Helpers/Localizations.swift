@@ -111,7 +111,7 @@ enum Localizations: String, Localizable {
     case connectedOn = "in_app.connection.connected_on"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
     case scanQr = "in_app.connect.scan_qr"
-    case selectConnection = "in_app.connect.select"
+    case chooseConnection = "in_app.connect.choose"
     case newConnection = "in_app.connect.new_connection"
 
     // MARK: - Settings

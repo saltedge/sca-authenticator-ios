@@ -63,6 +63,8 @@
 		9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CCC23D06F0E00702695 /* TimerApplication.swift */; };
 		9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
 		9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
+		9D5BCFD9247FC91F009A6B40 /* ConnectionPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */; };
+		9D5BCFDA247FC91F009A6B40 /* ConnectionPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */; };
 		9D630BC6243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D630BC5243DC094000A9ACC /* FeatureCellViewModel.swift */; };
 		9D630BC7243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D630BC5243DC094000A9ACC /* FeatureCellViewModel.swift */; };
 		9D630BC9243DC464000A9ACC /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D630BC8243DC464000A9ACC /* OnboardingViewModel.swift */; };
@@ -380,6 +382,7 @@
 		9D453CCC23D06F0E00702695 /* TimerApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerApplication.swift; sourceTree = "<group>"; };
 		9D5AC68923571958003B00E2 /* LicensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewController.swift; sourceTree = "<group>"; };
 		9D5AC68C23573553003B00E2 /* LicensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewModel.swift; sourceTree = "<group>"; };
+		9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionPickerViewModel.swift; sourceTree = "<group>"; };
 		9D630BC5243DC094000A9ACC /* FeatureCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureCellViewModel.swift; sourceTree = "<group>"; };
 		9D630BC8243DC464000A9ACC /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsSpec.swift; sourceTree = "<group>"; };
@@ -713,6 +716,7 @@
 				9D87F4A6242A6BCD00F85D1F /* ConnectionsListViewModel.swift */,
 				9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */,
 				9DCBB2832435E9D900DB3F85 /* EditConnectionViewModel.swift */,
+				9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */,
 			);
 			path = Connections;
 			sourceTree = "<group>";
@@ -1772,6 +1776,7 @@
 				9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */,
 				9DCED89F22CE18280050ED3C /* ConnectViewController.swift in Sources */,
 				9D772132231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */,
+				9D5BCFD9247FC91F009A6B40 /* ConnectionPickerViewModel.swift in Sources */,
 				9DCED8D822CE18280050ED3C /* AuthorizationsInteractor.swift in Sources */,
 				9DCED8E722CE18280050ED3C /* PasscodeManger.swift in Sources */,
 				9DAAC0E2233A5341006D0758 /* TimeLeftLabel.swift in Sources */,
@@ -1862,6 +1867,7 @@
 				9581A9D72477D6370066EF5E /* BaseViewController.swift in Sources */,
 				9DD5098F24742ED900CB188D /* ConnectionsCoordinator.swift in Sources */,
 				9D0DC4142462DD080039E62B /* ButtonExtensions.swift in Sources */,
+				9D5BCFDA247FC91F009A6B40 /* ConnectionPickerViewModel.swift in Sources */,
 				9DD50992247527D800CB188D /* AuthorizationsViewModelSpec.swift in Sources */,
 				9DE3245922D3986B00EB162A /* ConfirmAuthorizationResponseSpec.swift in Sources */,
 				9DE324DB22D39ABE00EB162A /* NoDataView.swift in Sources */,

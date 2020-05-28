@@ -57,34 +57,45 @@ final class InstantActionCoordinator: Coordinator {
         } else if connections.count == 1 {
             guard let connection = connections.first else { return }
 
-            submitAction(for: connection, connectUrl: connectUrl, actionGuid: actionGuid, qrUrl: qrUrl)
+            submitAction(
+                for: connection.guid,
+                accessToken: connection.accessToken,
+                connectUrl: connectUrl,
+                actionGuid: actionGuid,
+                qrUrl: qrUrl
+            )
         } else {
             dismissConnectWithError(l10n(.noSuitableConnection))
         }
     }
 
     private func presentConnectionPicker(with connections: [Connection], actionGuid: GUID, connectUrl: URL, qrUrl: URL) {
-        let pickerVc = ConnectionPickerViewController(connections: connections)
-        pickerVc.modalPresentationStyle = .fullScreen
-
-        connectViewController.title = l10n(.selectConnection)
-        connectViewController.add(pickerVc)
-
-        pickerVc.selectedConnection = { connection in
-            pickerVc.remove()
-            self.connectViewController.title = l10n(.newAction)
-            self.submitAction(for: connection, connectUrl: connectUrl, actionGuid: actionGuid, qrUrl: qrUrl)
+        let pickerViewModel = ConnectionPickerViewModel(connections: connections)
+        let pickerViewController = ConnectionPickerViewController(viewModel: pickerViewModel)
+        connectViewController.title = l10n(.chooseConnection)
+        if #available(iOS 13.0, *) {
+            pickerViewController.isModalInPresentation = false
         }
-        pickerVc.cancelPressedClosure = {
-            self.rootViewController.dismiss(animated: true)
+        connectViewController.add(pickerViewController)
+
+        pickerViewModel.selectedConnectionClosure = { guid, accessToken in
+            pickerViewController.remove()
+            self.connectViewController.title = l10n(.newAction)
+            self.submitAction(
+                for: guid,
+                accessToken: accessToken,
+                connectUrl: connectUrl,
+                actionGuid: actionGuid,
+                qrUrl: qrUrl
+            )
         }
     }
 
-    private func submitAction(for connection: Connection, connectUrl: URL, actionGuid: GUID, qrUrl: URL) {
+    private func submitAction(for connectionGuid: GUID, accessToken: AccessToken, connectUrl: URL, actionGuid: GUID, qrUrl: URL) {
         let actionData = SEActionRequestData(
             url: connectUrl,
-            connectionGuid: connection.guid,
-            accessToken: connection.accessToken,
+            connectionGuid: connectionGuid,
+            accessToken: accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             guid: actionGuid
         )
