@@ -22,29 +22,30 @@
 
 import UIKit
 
-enum ConnectionType: Equatable {
-    case newConnection(String)
-    case deepLink(URL)
-    case reconnect(String)
-
-    static func == (lhs: ConnectionType, rhs: ConnectionType) -> Bool {
-        switch (lhs, rhs) {
-        case let (.newConnection(url1), .newConnection(url2)): return url1 == url2
-        case let (.deepLink(url1), .deepLink(url2)): return url1 == url2
-        case let (.reconnect(connectionId1), .reconnect(connectionId2)): return connectionId1 == connectionId2
-        default: return false
-        }
-    }
-}
-
 final class ConnectViewController: BaseViewController {
     private lazy var completeView = CompleteView(state: .processing, title: l10n(.processing))
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkInternetConnection()
         setupCancelButton()
         layout()
     }
+
+    private func checkInternetConnection() {
+        guard ReachabilityManager.shared.isReachable else {
+            self.showInfoAlert(
+                withTitle: l10n(.noInternetConnection),
+                message: l10n(.pleaseTryAgain),
+                actionTitle: l10n(.ok),
+                completion: {
+                    self.dismiss(animated: true)
+                }
+            )
+            return
+        }
+    }
+
 }
 
 // MARK: - Layout

@@ -25,10 +25,10 @@ import AVFoundation
 import AudioToolbox
 
 private struct Layout {
-    static let sideLength: CGFloat = UIScreen.main.bounds.width * 0.18
     static let qrWindowHeight: CGFloat = 232.0
     static let cornerRadius: CGFloat = 4.0
-    static let yOffset: CGFloat = 100.0
+    static let cancelButtonTopOfset: CGFloat = 24.0
+    static let cancelButtonLeftOffset: CGFloat = 16.0
 }
 
 protocol QRCodeViewControllerDelegate: class {
@@ -135,8 +135,8 @@ final class QRCodeViewController: BaseViewController {
 
         view.addSubview(cancelButton)
 
-        cancelButton.top(to: view, offset: 22.67)
-        cancelButton.left(to: view, offset: 16.0)
+        cancelButton.top(to: view, offset: Layout.cancelButtonTopOfset)
+        cancelButton.left(to: view, offset: Layout.cancelButtonLeftOffset)
     }
 
     @objc private func cancelPressed() {

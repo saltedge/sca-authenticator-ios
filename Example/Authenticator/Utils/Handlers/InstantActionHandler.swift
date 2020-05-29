@@ -31,10 +31,11 @@ protocol InstantActionEventsDelegate: class {
 }
 
 final class InstantActionHandler {
-    weak var delegate: InstantActionEventsDelegate?
     private var qrUrl: URL
     private var actionGuid: GUID
     private var connectUrl: URL
+
+    weak var delegate: InstantActionEventsDelegate?
 
     init(qrUrl: URL, actionGuid: GUID, connectUrl: URL) {
         self.qrUrl = qrUrl

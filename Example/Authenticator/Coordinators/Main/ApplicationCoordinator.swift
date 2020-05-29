@@ -24,6 +24,7 @@ import UIKit
 
 final class ApplicationCoordinator: Coordinator {
     private let window: UIWindow?
+    private var qrCodeCoordinator: QRCodeCoordinator?
     private var setupAppCoordinator: SetupAppCoordinator?
     private var passcodeCoordinator: PasscodeCoordinator?
     private var connectViewCoordinator: ConnectViewCoordinator?
@@ -107,6 +108,13 @@ final class ApplicationCoordinator: Coordinator {
 
     func showAuthorizations(connectionId: String, authorizationId: String) {
         authorizationsCoordinator.start(with: connectionId, authorizationId: authorizationId)
+    }
+
+    func openQrScanner() {
+        guard let rootVc = window?.rootViewController else { return }
+
+        qrCodeCoordinator = QRCodeCoordinator(rootViewController: rootVc)
+        qrCodeCoordinator?.start()
     }
 
     func openConnectViewController(connectionType: ConnectionType) {

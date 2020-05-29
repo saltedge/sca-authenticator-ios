@@ -36,12 +36,12 @@ final class InstantActionCoordinator: Coordinator {
 
     func start() {
         instantActionHandler.delegate = self
+        instantActionHandler.startHandling()
         connectViewController.title = l10n(.newAction)
         rootViewController.present(
             UINavigationController(rootViewController: connectViewController),
             animated: true
         )
-        instantActionHandler.startHandling()
     }
 
     func stop() {

@@ -1,8 +1,8 @@
 //
-//  LabelExtensions.swift
+//  AspectFitImageView
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,12 +22,13 @@
 
 import UIKit
 
-extension UILabel {
-    convenience init(font: UIFont, alignment: NSTextAlignment = .center, textColor: UIColor = .titleColor) {
-        self.init()
-        self.font = font
-        self.textColor = textColor
-        self.textAlignment = alignment
-        self.numberOfLines = 0
+final class AspectFitImageView: UIImageView {
+    init(imageName: String) {
+        super.init(image: UIImage(named: imageName))
+        contentMode = .scaleAspectFit
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

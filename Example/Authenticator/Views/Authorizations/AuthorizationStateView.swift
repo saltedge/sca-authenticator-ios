@@ -143,14 +143,3 @@ extension AuthorizationStateView: Layoutable {
         messageLabel.rightToSuperview()
     }
 }
-
-class AspectFitImageView: UIImageView {
-    init(imageName: String) {
-        super.init(image: UIImage(named: imageName))
-        contentMode = .scaleAspectFit
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}

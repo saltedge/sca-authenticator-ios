@@ -24,6 +24,9 @@ import UIKit
 
 private struct Layout {
     static let cellHeight: CGFloat = 96.0
+    static let tableViewBottomOffset: CGFloat = -5.0
+    static let buttonBottomOffset: CGFloat = -20.0
+    static let buttonWidthOffset: CGFloat = -64.0
 }
 
 final class ConnectionPickerViewController: BaseViewController {
@@ -127,10 +130,10 @@ extension ConnectionPickerViewController: Layoutable {
 
         tableView.topToSuperview()
         tableView.widthToSuperview()
-        tableView.bottomToTop(of: proceedButton, offset: -5.0)
+        tableView.bottomToTop(of: proceedButton, offset: Layout.tableViewBottomOffset)
 
         proceedButton.centerXToSuperview()
-        proceedButton.bottomToSuperview(offset: -20.0)
-        proceedButton.widthToSuperview(offset: -64.0)
+        proceedButton.bottomToSuperview(offset: Layout.buttonBottomOffset)
+        proceedButton.widthToSuperview(offset: Layout.buttonWidthOffset)
     }
 }

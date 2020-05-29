@@ -26,6 +26,7 @@ import TinyConstraints
 private struct Layout {
     static let imageContainerTopOffset: CGFloat = 120.0
     static let imageContainerViewSize: CGSize = CGSize(width: 75.0, height: 75.0)
+    static let accessoryViewSize: CGSize = CGSize(width: 55.0, height: 55.0)
     static let titleTopOffset: CGFloat = 26.0
     static let titleWidthOffset: CGFloat = -64.0
     static let descriptionTopOffset: CGFloat = 10.0
@@ -96,7 +97,7 @@ final class CompleteView: UIView {
         accessoryView = state.accessoryView
         if let accessoryView = accessoryView {
             imageContainerView.addSubview(accessoryView)
-            accessoryView.size(CGSize(width: 55.0, height: 55.0))
+            accessoryView.size(Layout.accessoryViewSize)
             accessoryView.centerInSuperview()
         }
 

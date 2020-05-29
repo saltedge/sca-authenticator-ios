@@ -23,6 +23,21 @@
 import UIKit
 import SEAuthenticator
 
+enum ConnectionType: Equatable {
+    case newConnection(String)
+    case deepLink(URL)
+    case reconnect(String)
+
+    static func == (lhs: ConnectionType, rhs: ConnectionType) -> Bool {
+        switch (lhs, rhs) {
+        case let (.newConnection(url1), .newConnection(url2)): return url1 == url2
+        case let (.deepLink(url1), .deepLink(url2)): return url1 == url2
+        case let (.reconnect(connectionId1), .reconnect(connectionId2)): return connectionId1 == connectionId2
+        default: return false
+        }
+    }
+}
+
 final class ConnectViewCoordinator: Coordinator {
     private let rootViewController: UIViewController
 
@@ -50,20 +65,6 @@ final class ConnectViewCoordinator: Coordinator {
     }
 
     func stop() {}
-
-    private func checkInternetConnection() {
-        guard ReachabilityManager.shared.isReachable else {
-            self.connectViewController.showInfoAlert(
-                withTitle: l10n(.noInternetConnection),
-                message: l10n(.pleaseTryAgain),
-                actionTitle: l10n(.ok),
-                completion: {
-                    self.connectViewController.dismiss(animated: true)
-                }
-            )
-            return
-        }
-    }
 }
 
 // MARK: - ConnectEventsDelegate
