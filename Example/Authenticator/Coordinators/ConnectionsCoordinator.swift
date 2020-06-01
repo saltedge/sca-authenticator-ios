@@ -25,17 +25,54 @@ import UIKit
 final class ConnectionsCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var currentViewController: ConnectionsViewController
+    private var connectViewCoordinator: ConnectViewCoordinator?
+    private var viewModel = ConnectionsListViewModel()
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
-        self.currentViewController = ConnectionsViewController()
+        self.currentViewController = ConnectionsViewController(viewModel: viewModel)
     }
 
     func start() {
+        viewModel.delegate = self
         let navigationController = UINavigationController(rootViewController: currentViewController)
         navigationController.modalPresentationStyle = .fullScreen
         rootViewController.present(navigationController, animated: true)
     }
 
-    func stop() {}
+    func stop() {
+        viewModel.delegate = nil
+    }
+}
+
+// MARK: - ConnectionsListEventsDelegate
+extension ConnectionsCoordinator: ConnectionsListEventsDelegate {
+    func updateViews() {
+        currentViewController.updateViewsHiddenState()
+    }
+
+    func showEditConnection(id: String) {
+        let editVc = EditConnectionViewController(connectionId: id)
+        editVc.hidesBottomBarWhenPushed = true
+        currentViewController.navigationController?.pushViewController(editVc, animated: true)
+    }
+
+    func showSupport(email: String) {
+        currentViewController.showSupportMailComposer(withEmail: email)
+    }
+
+    func deleteConnection(completion: @escaping () -> ()) {
+        currentViewController.navigationController?.showConfirmationAlert(
+            withTitle: l10n(.delete),
+            message: l10n(.deleteConnectionDescription),
+            confirmAction: { _ in
+                completion()
+            }
+        )
+    }
+
+    func reconnect(by id: String) {
+        connectViewCoordinator = ConnectViewCoordinator(rootViewController: currentViewController, connectionType: .reconnect(id))
+        connectViewCoordinator?.start()
+    }
 }

@@ -43,18 +43,21 @@ final class ConnectionsViewController: BaseViewController {
     private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     private var noDataView: NoDataView!
 
-    private var viewControllerViewModel: ConnectionsListViewModel!
-    private var dataSource: ConnectionsDataSource!
+    private var viewControllerViewModel: ConnectionsListViewModel
 
     weak var delegate: ConnectionsViewControllerDelegate?
     var connectViewCoordinator: ConnectViewCoordinator?
 
+    init(viewModel: ConnectionsListViewModel) {
+        viewControllerViewModel = viewModel
+        super.init(nibName: nil, bundle: .authenticator_main)
+        setupNoDataView()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        setupViewModelAndDataSource()
         setupTableView()
-        setupNoDataView()
         layout()
         updateViewsHiddenState()
         NotificationsHelper.observe(
@@ -76,6 +79,21 @@ final class ConnectionsViewController: BaseViewController {
     @objc private func reloadData() {
         tableView.reloadData()
     }
+
+    func updateViewsHiddenState() {
+        tableView.reloadData()
+        UIView.animate(
+            withDuration: 0.3,
+            animations: {
+                self.noDataView.alpha = self.viewControllerViewModel.hasDataToShow ? 0.0 : 1.0
+                self.tableView.alpha = !self.viewControllerViewModel.hasDataToShow ? 0.0 : 1.0
+            }
+        )
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 // MARK: - Setup
@@ -88,19 +106,6 @@ private extension ConnectionsViewController {
             target: self,
             action: #selector(close)
         )
-    }
-
-    func setupViewModelAndDataSource() {
-        viewControllerViewModel = ConnectionsListViewModel(
-            onDataChange: { [weak self] in
-                guard let weakSelf = self else { return }
-
-                weakSelf.tableView.reloadData()
-                weakSelf.updateViewsHiddenState()
-            }
-        )
-
-        dataSource = ConnectionsDataSource(viewModel: viewControllerViewModel)
     }
 
     func setupTableView() {
@@ -122,17 +127,7 @@ private extension ConnectionsViewController {
             description: l10n(.noConnectionsDescription),
             ctaTitle: l10n(.connectProvider)
         )
-        noDataView.alpha = dataSource.hasDataToShow ? 0 : 1
-    }
-
-    func updateViewsHiddenState() {
-        UIView.animate(
-            withDuration: 0.3,
-            animations: {
-                self.noDataView.alpha = self.dataSource.hasDataToShow ? 0.0 : 1.0
-                self.tableView.alpha = !self.dataSource.hasDataToShow ? 0.0 : 1.0
-            }
-        )
+        noDataView.alpha = viewControllerViewModel.hasDataToShow ? 0 : 1
     }
 }
 
@@ -143,19 +138,17 @@ extension ConnectionsViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.sections
+        return viewControllerViewModel.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.rows(for: section)
+        return 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = dataSource.cell(for: indexPath)
-        if #available(iOS 13.0, *) {
-            let interaction = UIContextMenuInteraction(delegate: self)
-            cell.addInteraction(interaction)
-        }
+        let cell: ConnectionCell = tableView.dequeueReusableCell(for: indexPath)
+        cell.viewModel = viewControllerViewModel.cellViewModel(at: indexPath)
+
         return cell
     }
 }
@@ -169,119 +162,32 @@ extension ConnectionsViewController: UITableViewDelegate {
 }
 
 @available(iOS 13.0, *)
-extension ConnectionsViewController: UIContextMenuInteractionDelegate {
-    func contextMenuInteraction(
-        _ interaction: UIContextMenuInteraction,
-        configurationForMenuAtLocation location: CGPoint
+extension ConnectionsViewController {
+    func tableView(
+        _ tableView: UITableView,
+        contextMenuConfigurationForRowAt indexPath: IndexPath,
+        point: CGPoint
     ) -> UIContextMenuConfiguration? {
-        guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }
-
-        let cellViewModel = viewControllerViewModel.cellViewModel(at: indexPath)
-
-        let configuration = UIContextMenuConfiguration(
-            identifier: nil,
-            previewProvider: nil) { _ -> UIMenu? in
-                let rename = UIAction(title: l10n(.rename), image: UIImage(named: "rename")) { _ in
-                    self.rename(cellViewModel.id)
-                }
-                let support = UIAction(title: l10n(.support), image: UIImage(named: "contact_support")) { _ in
-                    self.showSupport(email: cellViewModel.supportEmail)
-                }
-                let delete = UIAction(title: l10n(.delete), image: UIImage(named: "delete")) { _ in
-                    self.navigationController?.showConfirmationAlert(
-                        withTitle: l10n(.delete),
-                        message: l10n(.deleteConnectionDescription),
-                        confirmAction: { _ in
-                            self.viewControllerViewModel.remove(at: indexPath)
-                        }
-                    )
-                }
-
-                var actions: [UIAction] = [rename, support, delete]
-
-                if cellViewModel.status == ConnectionStatus.inactive.rawValue {
-                    let reconnect = UIAction(title: l10n(.reconnect), image: UIImage(named: "reconnect")) { _ in
-                        self.reconnect(cellViewModel.id)
-                    }
-                    actions.insert(reconnect, at: 0)
-                }
-
-                return UIMenu(title: "", image: nil, identifier: nil, options: .destructive, children: actions)
-        }
-        return configuration
+        return viewControllerViewModel.contextMenuConfiguration(for: indexPath)
     }
 }
 
 // MARK: UISwipeActionsConfiguration
-@available(iOS 11.0, *)
 extension ConnectionsViewController {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: l10n(.delete)) { _, _, completionHandler in
-            self.navigationController?.showConfirmationAlert(
-                withTitle: l10n(.delete),
-                message: l10n(.deleteConnectionDescription),
-                confirmAction: { _ in
-                    self.viewControllerViewModel.remove(at: indexPath)
-                }
-            )
-            completionHandler(true)
-        }
-
-        let rename = UIContextualAction(style: .normal, title: l10n(.rename)) { _, _, completionHandler in
-            guard let connectionId = self.viewControllerViewModel.connectionId(at: indexPath) else { return }
-
-            self.rename(connectionId)
-            completionHandler(true)
-        }
-
-        var actions: [UIContextualAction] = [delete, rename]
-
-        if viewControllerViewModel.cellViewModel(at: indexPath).status == ConnectionStatus.inactive.rawValue {
-            let reconnect = UIContextualAction(style: .normal, title: l10n(.reconnect)) { _, _, completionHandler in
-                guard let connectionId = self.viewControllerViewModel.connectionId(at: indexPath) else { return }
-
-                self.reconnect(connectionId)
-                completionHandler(true)
-            }
-            reconnect.backgroundColor = UIColor.auth_blue
-            actions.insert(reconnect, at: 1)
-        }
-
-        return UISwipeActionsConfiguration(actions: actions)
+        return viewControllerViewModel.rightSwipeActionsConfiguration(for: indexPath)
     }
 
     func tableView(_ tableView: UITableView,
                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let connectionViewModel = viewControllerViewModel.cellViewModel(at: indexPath)
-
-        let support = UIContextualAction(style: .normal, title: l10n(.support)) { _, _, completionHandler in
-            self.showSupport(email: connectionViewModel.supportEmail)
-            completionHandler(true)
-        }
-
-        return UISwipeActionsConfiguration(actions: [support])
+        return viewControllerViewModel.leftSwipeActionsConfiguration(for: indexPath)
     }
 }
 
 // MARK: - Actions
 private extension ConnectionsViewController {
     func showActionSheet(at indexPath: IndexPath) {}
-
-    func rename(_ id: String) {
-        let editVc = EditConnectionViewController(connectionId: id)
-        editVc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(editVc, animated: true)
-    }
-
-    func showSupport(email: String) {
-        showSupportMailComposer(withEmail: email)
-    }
-
-    func reconnect(_ connectionId: String) {
-        connectViewCoordinator = ConnectViewCoordinator(rootViewController: self, connectionType: .reconnect(connectionId))
-        connectViewCoordinator?.start()
-    }
 
     // TODO: Refactor to QR
     func addNewConnection() {
@@ -315,9 +221,10 @@ private extension ConnectionsViewController {
 // MARK: - Layout
 extension ConnectionsViewController: Layoutable {
     func layout() {
-        view.backgroundColor = .backgroundColor
         view.addSubviews(tableView, noDataView)
+
         tableView.edges(to: view)
+
         noDataView.left(to: view, offset: AppLayout.sideOffset)
         noDataView.right(to: view, offset: -AppLayout.sideOffset)
         noDataView.center(in: view)
