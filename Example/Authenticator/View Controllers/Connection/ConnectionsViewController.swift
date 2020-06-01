@@ -151,7 +151,12 @@ extension ConnectionsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return dataSource.cell(for: indexPath)
+        let cell = dataSource.cell(for: indexPath)
+        if #available(iOS 13.0, *) {
+            let interaction = UIContextMenuInteraction(delegate: self)
+            cell.addInteraction(interaction)
+        }
+        return cell
     }
 }
 
@@ -160,6 +165,50 @@ extension ConnectionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         showActionSheet(at: indexPath)
+    }
+}
+
+@available(iOS 13.0, *)
+extension ConnectionsViewController: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation location: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        guard let indexPath = tableView.indexPathForRow(at: location) else { return nil }
+
+        let cellViewModel = viewControllerViewModel.cellViewModel(at: indexPath)
+
+        let configuration = UIContextMenuConfiguration(
+            identifier: nil,
+            previewProvider: nil) { _ -> UIMenu? in
+                let rename = UIAction(title: l10n(.rename), image: UIImage(named: "rename")) { _ in
+                    self.rename(cellViewModel.id)
+                }
+                let support = UIAction(title: l10n(.support), image: UIImage(named: "contact_support")) { _ in
+                    self.showSupport(email: cellViewModel.supportEmail)
+                }
+                let delete = UIAction(title: l10n(.delete), image: UIImage(named: "delete")) { _ in
+                    self.navigationController?.showConfirmationAlert(
+                        withTitle: l10n(.delete),
+                        message: l10n(.deleteConnectionDescription),
+                        confirmAction: { _ in
+                            self.viewControllerViewModel.remove(at: indexPath)
+                        }
+                    )
+                }
+
+                var actions: [UIAction] = [rename, support, delete]
+
+                if cellViewModel.status == ConnectionStatus.inactive.rawValue {
+                    let reconnect = UIAction(title: l10n(.reconnect), image: UIImage(named: "reconnect")) { _ in
+                        self.reconnect(cellViewModel.id)
+                    }
+                    actions.insert(reconnect, at: 0)
+                }
+
+                return UIMenu(title: "", image: nil, identifier: nil, options: .destructive, children: actions)
+        }
+        return configuration
     }
 }
 
