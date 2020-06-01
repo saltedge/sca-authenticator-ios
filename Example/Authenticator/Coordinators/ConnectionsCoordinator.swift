@@ -36,9 +36,7 @@ final class ConnectionsCoordinator: Coordinator {
 
     func start() {
         viewModel.delegate = self
-        let navigationController = UINavigationController(rootViewController: currentViewController)
-        navigationController.modalPresentationStyle = .fullScreen
-        rootViewController.present(navigationController, animated: true)
+        rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
     func stop() {

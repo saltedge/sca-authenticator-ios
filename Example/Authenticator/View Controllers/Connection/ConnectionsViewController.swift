@@ -50,7 +50,7 @@ final class ConnectionsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
+        navigationItem.title = l10n(.connections)
         setupTableView()
         layout()
         updateViewsHiddenState()
