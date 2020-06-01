@@ -148,7 +148,11 @@ extension ConnectionsViewController: UITableViewDataSource {
 extension ConnectionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        showActionSheet(at: indexPath)
+
+        guard #available(iOS 13, *) else {
+            self.present(viewControllerViewModel.actionSheet(for: indexPath), animated: true)
+            return
+        }
     }
 }
 
