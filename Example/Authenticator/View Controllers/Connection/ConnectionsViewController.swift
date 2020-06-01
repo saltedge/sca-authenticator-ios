@@ -30,11 +30,6 @@ enum ConnectionMenuAction {
     case support
 }
 
-protocol ConnectionsViewControllerDelegate: class {
-    func selected(_ connection: Connection, action: ConnectionMenuAction?)
-    func addPressed()
-}
-
 private struct Layout {
     static let cellHeight: CGFloat = 96.0
 }
@@ -45,7 +40,6 @@ final class ConnectionsViewController: BaseViewController {
 
     private var viewControllerViewModel: ConnectionsListViewModel
 
-    weak var delegate: ConnectionsViewControllerDelegate?
     var connectViewCoordinator: ConnectViewCoordinator?
 
     init(viewModel: ConnectionsListViewModel) {
@@ -68,14 +62,6 @@ final class ConnectionsViewController: BaseViewController {
         )
     }
 
-    deinit {
-        NotificationsHelper.removeObserver(self)
-    }
-
-    @objc private func addPressed() {
-        addNewConnection()
-    }
-
     @objc private func reloadData() {
         tableView.reloadData()
     }
@@ -89,6 +75,10 @@ final class ConnectionsViewController: BaseViewController {
                 self.tableView.alpha = !self.viewControllerViewModel.hasDataToShow ? 0.0 : 1.0
             }
         )
+    }
+
+    deinit {
+        NotificationsHelper.removeObserver(self)
     }
 
     required init?(coder: NSCoder) {
@@ -125,7 +115,8 @@ private extension ConnectionsViewController {
             image: #imageLiteral(resourceName: "no_connections"),
             title: l10n(.noConnections),
             description: l10n(.noConnectionsDescription),
-            ctaTitle: l10n(.connectProvider)
+            ctaTitle: l10n(.connectProvider),
+            action: viewControllerViewModel.addPressed
         )
         noDataView.alpha = viewControllerViewModel.hasDataToShow ? 0 : 1
     }
@@ -188,34 +179,6 @@ extension ConnectionsViewController {
 // MARK: - Actions
 private extension ConnectionsViewController {
     func showActionSheet(at indexPath: IndexPath) {}
-
-    // TODO: Refactor to QR
-    func addNewConnection() {
-        AVCaptureHelper.requestAccess(
-            success: {
-                self.connectViewCoordinator = ConnectViewCoordinator(
-                    rootViewController: self,
-                    connectionType: .newConnection("")
-                )
-                self.connectViewCoordinator?.start()
-            },
-            failure: {
-                self.showConfirmationAlert(
-                    withTitle: l10n(.deniedCamera),
-                    message: l10n(.deniedCameraDescription),
-                    confirmActionTitle: l10n(.goToSettings),
-                    confirmActionStyle: .default,
-                    confirmAction: { _ in
-                        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
-
-                        if UIApplication.shared.canOpenURL(settingsUrl) {
-                            UIApplication.shared.open(settingsUrl)
-                        }
-                    }
-                )
-            }
-        )
-    }
 }
 
 // MARK: - Layout

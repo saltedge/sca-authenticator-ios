@@ -30,6 +30,7 @@ protocol ConnectionsListEventsDelegate: class {
     func deleteConnection(completion: @escaping () -> ())
     func reconnect(by id: String)
     func updateViews()
+    func addPressed()
 }
 
 final class ConnectionsListViewModel {
@@ -77,6 +78,10 @@ final class ConnectionsListViewModel {
         ConnectionsInteractor.revoke(connection)
         SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
         ConnectionRepository.delete(connection)
+    }
+
+    func addPressed() {
+        delegate?.addPressed()
     }
 
     private func item(for indexPath: IndexPath) -> Connection? {

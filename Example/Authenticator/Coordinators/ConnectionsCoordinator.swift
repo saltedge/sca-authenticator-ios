@@ -26,6 +26,7 @@ final class ConnectionsCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var currentViewController: ConnectionsViewController
     private var connectViewCoordinator: ConnectViewCoordinator?
+    private var qrCodeCoordinator: QRCodeCoordinator?
     private var viewModel = ConnectionsListViewModel()
 
     init(rootViewController: UIViewController) {
@@ -47,6 +48,11 @@ final class ConnectionsCoordinator: Coordinator {
 
 // MARK: - ConnectionsListEventsDelegate
 extension ConnectionsCoordinator: ConnectionsListEventsDelegate {
+    func addPressed() {
+        qrCodeCoordinator = QRCodeCoordinator(rootViewController: currentViewController)
+        qrCodeCoordinator?.start()
+    }
+
     func updateViews() {
         currentViewController.updateViewsHiddenState()
     }

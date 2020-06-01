@@ -84,7 +84,6 @@
 		9D66E1AD22D4C1D100BD59B6 /* ConnectionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17522D4C0AF00BD59B6 /* ConnectionSpec.swift */; };
 		9D66E1AE22D4C1D300BD59B6 /* ConnectionCollectorSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17722D4C0AF00BD59B6 /* ConnectionCollectorSpec.swift */; };
 		9D66E1AF22D4C1D700BD59B6 /* ConnectionDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17922D4C0AF00BD59B6 /* ConnectionDataSpec.swift */; };
-		9D66E1B422D4C1F000BD59B6 /* ConnectionDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E18022D4C0AF00BD59B6 /* ConnectionDataSourceSpec.swift */; };
 		9D66E1B522D4C1F300BD59B6 /* AuthorizationsDataSourceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E18122D4C0AF00BD59B6 /* AuthorizationsDataSourceSpec.swift */; };
 		9D66E1B622D4C1F700BD59B6 /* ConnectionRepositorySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E18322D4C0AF00BD59B6 /* ConnectionRepositorySpec.swift */; };
 		9D66E1DE22D6146900BD59B6 /* ConnectionRouterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E1D422D6146800BD59B6 /* ConnectionRouterSpec.swift */; };
@@ -402,7 +401,6 @@
 		9D66E17B22D4C0AF00BD59B6 /* AuthorizationDataSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationDataSpec.swift; sourceTree = "<group>"; };
 		9D66E17D22D4C0AF00BD59B6 /* SettingsViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewModelSpec.swift; sourceTree = "<group>"; };
 		9D66E17F22D4C0AF00BD59B6 /* LanguagePickerViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguagePickerViewModelSpec.swift; sourceTree = "<group>"; };
-		9D66E18022D4C0AF00BD59B6 /* ConnectionDataSourceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionDataSourceSpec.swift; sourceTree = "<group>"; };
 		9D66E18122D4C0AF00BD59B6 /* AuthorizationsDataSourceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationsDataSourceSpec.swift; sourceTree = "<group>"; };
 		9D66E18322D4C0AF00BD59B6 /* ConnectionRepositorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionRepositorySpec.swift; sourceTree = "<group>"; };
 		9D66E18522D4C0AF00BD59B6 /* SetupStepSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupStepSpec.swift; sourceTree = "<group>"; };
@@ -813,7 +811,6 @@
 		9D66E17C22D4C0AF00BD59B6 /* Data Sources */ = {
 			isa = PBXGroup;
 			children = (
-				9D66E18022D4C0AF00BD59B6 /* ConnectionDataSourceSpec.swift */,
 				9D66E18122D4C0AF00BD59B6 /* AuthorizationsDataSourceSpec.swift */,
 			);
 			path = "Data Sources";
@@ -1827,7 +1824,6 @@
 				9DE3247122D398ED00EB162A /* SpecUtils.swift in Sources */,
 				9DE3248A22D399B800EB162A /* AuthorizationsDataSource.swift in Sources */,
 				9DE3247222D398ED00EB162A /* SpecCryptoHelper.swift in Sources */,
-				9D66E1B422D4C1F000BD59B6 /* ConnectionDataSourceSpec.swift in Sources */,
 				9DE324B622D39A4700EB162A /* SettingsViewController.swift in Sources */,
 				959E3098247BBA190067354A /* SettingsViewModel.swift in Sources */,
 				9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */,
