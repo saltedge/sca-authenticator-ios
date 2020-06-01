@@ -22,20 +22,39 @@
 
 import UIKit
 
-final class ConnectionPickerViewController: UIViewController {
+private struct Layout {
+    static let cellHeight: CGFloat = 96.0
+    static let tableViewBottomOffset: CGFloat = -5.0
+    static let buttonBottomOffset: CGFloat = -20.0
+    static let buttonWidthOffset: CGFloat = -64.0
+}
+
+final class ConnectionPickerViewController: BaseViewController {
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "ConnectionPickerCell")
-        tableView.backgroundColor = .auth_backgroundColor
+        tableView.backgroundColor = .backgroundColor
+        tableView.separatorStyle = .none
+        tableView.register(ConnectionCell.self)
         return tableView
     }()
-    private var connections: [Connection]
+    private let proceedButton: CustomButton = {
+        let button = CustomButton(text: l10n(.proceed))
+        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        button.isEnabled = false
+        button.alpha = 0.5
+        return button
+    }()
+    private var viewModel: ConnectionPickerViewModel
 
-    var selectedConnection: ((Connection) -> ())?
-    var cancelPressedClosure: (() -> ())?
+    private var selectedIndex: Int? {
+        didSet {
+            proceedButton.isEnabled = true
+            proceedButton.alpha = 1.0
+        }
+    }
 
-    init(connections: [Connection]) {
-        self.connections = connections
+    init(viewModel: ConnectionPickerViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: .authenticator_main)
     }
 
@@ -43,7 +62,7 @@ final class ConnectionPickerViewController: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        title = l10n(.selectConnection)
+        title = l10n(.chooseConnection)
         navigationItem.leftBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .cancel,
             target: self,
@@ -52,13 +71,14 @@ final class ConnectionPickerViewController: UIViewController {
         layout()
     }
 
+    @objc private func buttonPressed() {
+        guard let selectedIndex = selectedIndex else { return }
+
+        viewModel.selectedConnection(at: IndexPath(row: selectedIndex, section: 0))
+    }
+
     @objc private func cancel() {
-        dismiss(
-            animated: true,
-            completion: {
-                self.cancelPressedClosure?()
-            }
-        )
+        close()
     }
 
     required init?(coder: NSCoder) {
@@ -69,8 +89,10 @@ final class ConnectionPickerViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension ConnectionPickerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ConnectionPickerCell", for: indexPath)
-        cell.textLabel?.text = connections[indexPath.row].name
+        let cell: ConnectionCell = tableView.dequeueReusableCell(for: indexPath)
+        cell.viewModel = viewModel.cellViewModel(at: indexPath)
+        cell.selectionStyle = .none
+        cell.picked = indexPath.row == selectedIndex
         return cell
     }
 
@@ -79,27 +101,39 @@ extension ConnectionPickerViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return connections.count
+        return viewModel.numberOfRows
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return AppLayout.cellDefaultHeight
+        return Layout.cellHeight
     }
 }
 
 // MARK: - UITableViewDelegate
 extension ConnectionPickerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? ConnectionCell else { return }
+
         tableView.deselectRow(at: indexPath, animated: true)
-        selectedConnection?(connections[indexPath.row])
-        dismiss(animated: true)
+
+        if indexPath.row != selectedIndex {
+            selectedIndex = indexPath.row
+            cell.picked = true
+        }
+        tableView.reloadData()
     }
 }
 
 extension ConnectionPickerViewController: Layoutable {
     func layout() {
-        view.addSubview(tableView)
+        view.addSubviews(tableView, proceedButton)
 
-        tableView.edgesToSuperview()
+        tableView.topToSuperview()
+        tableView.widthToSuperview()
+        tableView.bottomToTop(of: proceedButton, offset: Layout.tableViewBottomOffset)
+
+        proceedButton.centerXToSuperview()
+        proceedButton.bottomToSuperview(offset: Layout.buttonBottomOffset)
+        proceedButton.widthToSuperview(offset: Layout.buttonWidthOffset)
     }
 }

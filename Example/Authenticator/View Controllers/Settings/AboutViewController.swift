@@ -86,7 +86,7 @@ extension AboutViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let item = viewModel.item(for: indexPath) else { return UITableViewCell() }
-        
+
         let cell: SettingsCell = tableView.dequeueReusableCell(for: indexPath)
         cell.set(with: item)
         return cell

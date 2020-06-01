@@ -24,6 +24,7 @@ import UIKit
 
 final class ApplicationCoordinator: Coordinator {
     private let window: UIWindow?
+    private var qrCodeCoordinator: QRCodeCoordinator?
     private var setupAppCoordinator: SetupAppCoordinator?
     private var passcodeCoordinator: PasscodeCoordinator?
     private var connectViewCoordinator: ConnectViewCoordinator?
@@ -62,7 +63,7 @@ final class ApplicationCoordinator: Coordinator {
                     self.startAuthorizationsViewController()
 
                     if let data = metadata {
-                        self.openConnectViewController(url: nil, connectionType: .firstConnect(data))
+                        self.openConnectViewController(connectionType: .newConnection(data))
                     }
                 }
                 setupVc.dismissClosure = {
@@ -109,15 +110,20 @@ final class ApplicationCoordinator: Coordinator {
         authorizationsCoordinator.start(with: connectionId, authorizationId: authorizationId)
     }
 
-    func openConnectViewController(url: URL? = nil, connectionType: ConnectionType) {
+    func openQrScanner() {
+        guard let rootVc = window?.rootViewController else { return }
+
+        qrCodeCoordinator = QRCodeCoordinator(rootViewController: rootVc)
+        qrCodeCoordinator?.start()
+    }
+
+    func openConnectViewController(connectionType: ConnectionType) {
         guard let rootVc = window?.rootViewController else { return }
 
         connectViewCoordinator = ConnectViewCoordinator(
             rootViewController: rootVc,
-            connectionType: connectionType,
-            deepLinkUrl: url
+            connectionType: connectionType
         )
-
         connectViewCoordinator?.start()
     }
 

@@ -105,7 +105,7 @@ final class AuthorizationStateView: UIView {
         setTopView(state: state)
     }
 
-    func setTopView(state: AuthorizationState) {
+    private func setTopView(state: AuthorizationState) {
         accessoryView?.removeFromSuperview()
         accessoryView = state.topAccessoryView
         if let accessoryView = self.accessoryView {
@@ -141,16 +141,5 @@ extension AuthorizationStateView: Layoutable {
         messageLabel.centerXToSuperview()
         messageLabel.leftToSuperview()
         messageLabel.rightToSuperview()
-    }
-}
-
-private class AspectFitImageView: UIImageView {
-    init(imageName: String) {
-        super.init(image: UIImage(named: imageName))
-        contentMode = .scaleAspectFit
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

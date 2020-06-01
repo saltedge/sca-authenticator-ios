@@ -24,6 +24,7 @@
 "actions.rename" = "Rename";
 "actions.report_problem" = "Report a Problem";
 "actions.report_bug" = "Report a Bug";
+"actions.retry" = "Retry";
 "actions.search" = "Search";
 "actions.skip" = "Skip";
 "actions.try_again" = "Try Again";
@@ -32,6 +33,8 @@
 "actions.view_connections" = "View Connections";
 "actions.view_consents" = "View Consents";
 "actions.view_settings" = "View Settings";
+"actions.processing" = "Processing";
+"actions.processing.description" = "This may take some time";
 "authorization.screen.name" = "Authenticator";
 "authorization.active.title" = "Authorizing";
 "authorization.success.title" = "Success";
@@ -68,12 +71,11 @@
 "in_app.connect.scan_qr" = "Scan QR code";
 "in_app.connect.scan_qr_description" = "Scan the QR code to\ntake action";
 "in_app.connect.new_connection" = "New connection";
-"in_app.connect.in_progress" = "Connection in Progress. Please Wait...";
 "in_app.connect.no_connections" = "No Connections";
 "in_app.connect.no_connections_description" = "Seems like you didn’t connect to your provider yet. Add new connection to securely authorize your actions.";
-"in_app.connect.select" = "Select Connection";
+"in_app.connect.choose" = "Choose connection";
 "in_app.connect.success_title" = "%@ was successfully connected!";
-"in_app.connect.success_description" = "Your Service Provider has been successfully connected to the Authenticator App. You will receive a authorization request every time you make an action.";
+"in_app.connect.success_description" = "You will receive an authorization request every time you make an action.";
 "in_app.passcode_confirmation.title" = "Enter Passcode or use Touch ID";
 "in_app.passcode_confirmation.title2" = "Enter Passcode or use Face ID";
 "in_app.settings.general" = "General";

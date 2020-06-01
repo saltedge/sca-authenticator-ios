@@ -1,5 +1,5 @@
 //
-//  ConnectionsDataSource
+//  AspectFitImageView
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -22,30 +22,13 @@
 
 import UIKit
 
-final class ConnectionsDataSource {
-    private var connectionsListViewModel: ConnectionsListViewModel!
-
-    init(viewModel: ConnectionsListViewModel) {
-        self.connectionsListViewModel = viewModel
+final class AspectFitImageView: UIImageView {
+    init(imageName: String) {
+        super.init(image: UIImage(named: imageName))
+        contentMode = .scaleAspectFit
     }
 
-    var sections: Int {
-        return connectionsListViewModel.count
-    }
-
-    func rows(for section: Int) -> Int {
-        return 1
-    }
-
-    var hasDataToShow: Bool {
-        return connectionsListViewModel.count > 0
-    }
-
-    func cell(for indexPath: IndexPath) -> ConnectionCell {
-        let cell = ConnectionCell()
-
-        cell.viewModel = connectionsListViewModel.cellViewModel(at: indexPath)
-
-        return cell
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

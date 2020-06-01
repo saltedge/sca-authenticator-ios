@@ -1,0 +1,112 @@
+//
+//  ConnectHandler
+//  This file is part of the Salt Edge Authenticator distribution
+//  (https://github.com/saltedge/sca-authenticator-ios)
+//  Copyright © 2020 Salt Edge Inc.
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, version 3 or later.
+//
+//  This program is distributed in the hope that it will be useful, but
+//  WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+//  General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+//  For the additional permissions granted for Salt Edge Authenticator
+//  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
+//
+
+import Foundation
+import SEAuthenticator
+
+protocol ConnectEventsDelegate: class {
+    func showWebViewController()
+    func finishConnectWithSuccess(message: String)
+    func startWebViewLoading(with connectUrlString: String)
+    func dismiss()
+    func dismissConnectWithError(error: String)
+}
+
+final class ConnectHandler {
+    private var connection: Connection?
+    private var connectionType: ConnectionType?
+
+    weak var delegate: ConnectEventsDelegate?
+
+    init(connectionType: ConnectionType) {
+        self.connectionType = connectionType
+    }
+
+    func startHandling() {
+        switch connectionType {
+        case .reconnect(let connectionId): reconnectConnection(connectionId)
+        case .deepLink(let url): fetchConfiguration(url: url)
+        case .newConnection(let metadata):
+            if let qrUrl = URL(string: metadata), SEConnectHelper.isValid(deepLinkUrl: qrUrl) {
+                self.fetchConfiguration(url: qrUrl)
+            } else {
+                self.delegate?.dismiss()
+            }
+        default: break
+        }
+    }
+
+    func saveConnectionAndFinish(with accessToken: AccessToken) {
+        guard let connection = connection else { return }
+
+        ConnectionRepository.setAccessTokenAndActive(connection, accessToken: accessToken)
+        ConnectionRepository.save(connection)
+        delegate?.finishConnectWithSuccess(message: String(format: l10n(.connectedSuccessfullyTitle), connection.name))
+    }
+
+    private func fetchConfiguration(url: URL) {
+        guard let configurationUrl = SEConnectHelper.сonfiguration(from: url) else { return }
+
+        let connectQuery = SEConnectHelper.connectQuery(from: url)
+
+        delegate?.showWebViewController()
+        createNewConnection(from: configurationUrl, with: connectQuery)
+    }
+
+    private func createNewConnection(from configurationUrl: URL, with connectQuery: String?) {
+        ConnectionsInteractor.createNewConnection(
+            from: configurationUrl,
+            with: connectQuery,
+            success: { [weak self] connection, accessToken in
+                self?.connection = connection
+                self?.saveConnectionAndFinish(with: accessToken)
+            },
+            redirect: { [weak self]  connection, connectUrl in
+                self?.connection = connection
+                self?.delegate?.startWebViewLoading(with: connectUrl)
+            },
+            failure: { [weak self] error in
+                self?.delegate?.dismissConnectWithError(error: error)
+            }
+        )
+    }
+
+    private func reconnectConnection(_ connectionId: String) {
+        guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
+
+        ConnectionsInteractor.submitConnection(
+            for: connection,
+            connectQuery: nil,
+            success: { [weak self] connection, accessToken in
+                self?.connection = connection
+                self?.saveConnectionAndFinish(with: accessToken)
+            },
+            redirect: { [weak self]  connection, connectUrl in
+                self?.connection = connection
+                self?.delegate?.startWebViewLoading(with: connectUrl)
+            },
+            failure: { [weak self] error in
+                self?.delegate?.dismissConnectWithError(error: error)
+            }
+        )
+    }
+}

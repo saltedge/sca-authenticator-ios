@@ -21,44 +21,38 @@
 //
 
 import UIKit
-import TinyConstraints
-
-// TODO: Review
-enum ConnectionType: Equatable {
-    case firstConnect(String)
-    case connect
-    case reconnect
-    case deepLink
-
-    static func == (lhs: ConnectionType, rhs: ConnectionType) -> Bool {
-        switch (lhs, rhs) {
-        case let (.firstConnect(url1), .firstConnect(url2)): return url1 == url2
-        case (.connect, .connect), (.reconnect, .reconnect), (.deepLink, .deepLink): return true
-        default: return false
-        }
-    }
-}
 
 final class ConnectViewController: BaseViewController {
-    private lazy var loadingIndicator = LoadingIndicator()
+    private lazy var completeView = CompleteView(state: .processing, title: l10n(.processing))
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkInternetConnection()
         setupCancelButton()
+        layout()
     }
 
-    func startLoading() {
-        view.addSubview(loadingIndicator)
-
-        loadingIndicator.center(in: view)
-        loadingIndicator.size(AppLayout.loadingIndicatorSize)
-
-        loadingIndicator.start()
+    private func checkInternetConnection() {
+        guard ReachabilityManager.shared.isReachable else {
+            self.showInfoAlert(
+                withTitle: l10n(.noInternetConnection),
+                message: l10n(.pleaseTryAgain),
+                actionTitle: l10n(.ok),
+                completion: {
+                    self.dismiss(animated: true)
+                }
+            )
+            return
+        }
     }
 
-    func stopLoading() {
-        loadingIndicator.stop()
-        loadingIndicator.removeFromSuperview()
+}
+
+// MARK: - Layout
+extension ConnectViewController: Layoutable {
+    func layout() {
+        view.addSubview(completeView)
+        completeView.edgesToSuperview()
     }
 }
 
@@ -82,17 +76,13 @@ extension ConnectViewController {
         description: String = l10n(.connectedSuccessfullyDescription),
         completion: (() -> ())? = nil
     ) {
-        let completeView = CompleteView(state: state, title: title, description: description)
+        completeView.set(state: state, title: title, description: description)
         completeView.proceedClosure = completion
         completeView.delegate = self
         completeView.alpha = 0.0
 
-        view.addSubview(completeView)
-        completeView.edges(to: view)
-        view.layoutIfNeeded()
-
-        UIView.animate(withDuration: 0.3) {
-            completeView.alpha = 1.0
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            self?.completeView.alpha = 1.0
         }
     }
 }

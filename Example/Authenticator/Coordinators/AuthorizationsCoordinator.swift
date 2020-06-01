@@ -27,7 +27,8 @@ final class AuthorizationsCoordinator: Coordinator {
     let rootViewController = AuthorizationsViewController()
     private let dataSource = AuthorizationsDataSource()
     private let viewModel = AuthorizationsViewModel()
-    private var connectViewCoordinator: ConnectViewCoordinator?
+
+    private var qrCoordinator: QRCodeCoordinator?
     private var connectionsCoordinator: ConnectionsCoordinator?
     private var settingsCoordinator: SettingsCoordinator?
 
@@ -51,13 +52,8 @@ final class AuthorizationsCoordinator: Coordinator {
 // MARK: - AuthorizationsViewControllerDelegate
 extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     func scanQrPressed() {
-        guard let navController = self.rootViewController.navigationController else { return }
-
-        connectViewCoordinator = ConnectViewCoordinator(
-            rootViewController: navController,
-            connectionType: .connect
-        )
-        connectViewCoordinator?.start()
+        qrCoordinator = QRCodeCoordinator(rootViewController: rootViewController)
+        qrCoordinator?.start()
     }
 
     func showMoreOptionsMenu() {
@@ -70,7 +66,7 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
             strongSelf.connectionsCoordinator = ConnectionsCoordinator(rootViewController: strongSelf.rootViewController)
             strongSelf.connectionsCoordinator?.start()
         }
-        let consents = UIAlertAction(title: l10n(.viewConsents), style: .default) { [weak self] _ in
+        let consents = UIAlertAction(title: l10n(.viewConsents), style: .default) { _ in
             print("Show Consents")
         }
         let settings = UIAlertAction(title: l10n(.viewSettings), style: .default) { [weak self] _ in
