@@ -21,14 +21,6 @@
 //
 
 import UIKit
-import TinyConstraints
-
-enum ConnectionMenuAction {
-    case delete
-    case edit
-    case reconnect
-    case support
-}
 
 private struct Layout {
     static let cellHeight: CGFloat = 96.0
@@ -192,8 +184,7 @@ extension ConnectionsViewController: Layoutable {
 
         tableView.edges(to: view)
 
-        noDataView.left(to: view, offset: AppLayout.sideOffset)
-        noDataView.right(to: view, offset: -AppLayout.sideOffset)
+        noDataView.widthToSuperview()
         noDataView.center(in: view)
     }
 }
