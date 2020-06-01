@@ -28,23 +28,6 @@ extension UILabel {
         self.font = font
         self.textColor = textColor
         self.textAlignment = alignment
-    }
-
-    static var titleLabel: UILabel {
-        let label = UILabel()
-        label.font = .auth_19regular
-        label.textColor = .black
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
-    }
-
-    static var descriptionLabel: CustomSpacingLabel {
-        let label = CustomSpacingLabel()
-        label.font = .auth_15regular
-        label.textColor = .auth_darkGray
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
+        self.numberOfLines = 0
     }
 }

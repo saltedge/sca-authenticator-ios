@@ -24,18 +24,15 @@ import UIKit
 import TinyConstraints
 
 private struct Layout {
-    static let imageViewSize: CGSize = CGSize(width: 120.0, height: 120.0)
-    static let smallImageViewSize: CGSize = CGSize(width: 80.0, height: 80.0)
-    static let imageViewBottomOffset: CGFloat = 40.0
-    static let smallImageViewBottomOffset: CGFloat = 30.0
-    static let titleLabelHeight: CGFloat = 48.0
-    static let sideOffset: CGFloat = AppLayout.sideOffset
-    static let smallButtonSideOffset: CGFloat = 75.0
-    static let descriptionLabelTopOffset: CGFloat = 17.0
-    static let proceedButtonBottomOffset: CGFloat = 20.0
-    static let completeButtonBottomOffset: CGFloat = -35.0
-    static let descriptionLabelBottomOffset: CGFloat = 40.0
-    static let reportAProblemTopOffset: CGFloat = 20.0
+    static let imageContainerTopOffset: CGFloat = 120.0
+    static let imageContainerViewSize: CGSize = CGSize(width: 75.0, height: 75.0)
+    static let accessoryViewSize: CGSize = CGSize(width: 55.0, height: 55.0)
+    static let titleTopOffset: CGFloat = 26.0
+    static let titleWidthOffset: CGFloat = -64.0
+    static let descriptionTopOffset: CGFloat = 10.0
+    static let descriptionWidthOffset: CGFloat = -54.0
+    static let buttonTopOffset: CGFloat = 28.0
+    static let buttonWidthOffset: CGFloat = -128.0
 }
 
 protocol CompleteViewDelegate: class {
@@ -44,67 +41,73 @@ protocol CompleteViewDelegate: class {
 
 final class CompleteView: UIView {
     enum State {
-        case complete
+        case processing
         case success
         case fail
 
-        fileprivate var mainActionTitle: String {
+        var accessoryView: UIView {
             switch self {
-            case .success, .complete: return l10n(.proceed)
-            case .fail: return l10n(.ok)
+            case .success: return AspectFitImageView(imageName: "success")
+            case .fail: return AspectFitImageView(imageName: "smth_wrong")
+            default: return LoadingIndicator()
             }
         }
 
-        fileprivate var image: UIImage {
-            switch self {
-            case .success, .complete: return #imageLiteral(resourceName: "Success")
-            case .fail: return #imageLiteral(resourceName: "Error")
-            }
-        }
-
-        fileprivate var imageViewBottomOffset: CGFloat {
-            switch self {
-            case .complete: return Layout.imageViewBottomOffset
-            case .success, .fail: return Layout.smallImageViewBottomOffset
-            }
-        }
-
-        fileprivate var imageSize: CGSize {
-            switch self {
-            case .complete: return Layout.imageViewSize
-            case .success, .fail: return Layout.smallImageViewSize
-            }
-        }
-
-        fileprivate var buttonsOffset: CGFloat {
-            switch self {
-            case .complete: return Layout.sideOffset
-            case .success, .fail: return Layout.smallButtonSideOffset
-            }
+        var mainActionTitle: String {
+           switch self {
+           case .success: return l10n(.done)
+           case .fail: return l10n(.retry)
+           default: return ""
+           }
         }
     }
 
     weak var delegate: CompleteViewDelegate?
 
-    private let imageView: UIImageView
-    private let titleLabel = UILabel.titleLabel
-    private let descriptionLabel = UILabel.descriptionLabel
+    private let imageContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .secondaryBackground
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 16.0
+        return view
+    }()
+    private var accessoryView: UIView?
+    private let titleLabel = UILabel(font: .systemFont(ofSize: 21.0, weight: .regular), textColor: .titleColor)
+    private let descriptionLabel = UILabel(font: .systemFont(ofSize: 17.0, weight: .regular), textColor: .titleColor)
     private let proceedButton: CustomButton
     private var state: State
 
     var proceedClosure: (() -> ())?
 
-    init(state: State, title: String, description: String = l10n(.connectedSuccessfullyDescription)) {
+    init(state: State, title: String, description: String = l10n(.processingDescription)) {
         self.state = state
         proceedButton = CustomButton(text: state.mainActionTitle)
-        imageView = UIImageView(image: state.image)
         super.init(frame: .zero)
-        imageView.contentMode = .scaleAspectFit
-        titleLabel.text = title
-        descriptionLabel.text = description
-        descriptionLabel.textColor = .auth_gray
+        set(state: state, title: title, description: description)
+        backgroundColor = .backgroundColor
         proceedButton.addTarget(self, action: #selector(proceedPressed), for: .touchUpInside)
         layout()
+    }
+
+    func set(state: State, title: String, description: String) {
+        titleLabel.text = title
+        descriptionLabel.text = description
+
+        accessoryView?.removeFromSuperview()
+        accessoryView = state.accessoryView
+        if let accessoryView = accessoryView {
+            imageContainerView.addSubview(accessoryView)
+            accessoryView.size(Layout.accessoryViewSize)
+            accessoryView.centerInSuperview()
+        }
+
+        if state == .processing, let loadingIndicator = accessoryView as? LoadingIndicator {
+            proceedButton.isHidden = true
+            loadingIndicator.start()
+        } else {
+            proceedButton.updateTitle(text: state.mainActionTitle)
+            proceedButton.isHidden = false
+        }
     }
 
     @objc private func proceedPressed() {
@@ -120,27 +123,22 @@ final class CompleteView: UIView {
 // MARK: - Layout
 extension CompleteView: Layoutable {
     func layout() {
-        addSubviews(imageView, titleLabel, descriptionLabel, proceedButton)
+        addSubviews(imageContainerView, titleLabel, descriptionLabel, proceedButton)
 
-        imageView.bottomToTop(of: titleLabel, offset: -state.imageViewBottomOffset)
-        imageView.size(state.imageSize)
-        imageView.centerX(to: self)
+        imageContainerView.topToSuperview(offset: Layout.imageContainerTopOffset)
+        imageContainerView.size(Layout.imageContainerViewSize)
+        imageContainerView.centerXToSuperview()
 
-        titleLabel.bottomToTop(of: descriptionLabel, offset: -Layout.descriptionLabelTopOffset)
+        titleLabel.topToBottom(of: imageContainerView, offset: Layout.titleTopOffset)
         titleLabel.centerX(to: self)
-        titleLabel.left(to: self, offset: Layout.sideOffset)
-        titleLabel.right(to: self, offset: -Layout.sideOffset)
+        titleLabel.widthToSuperview(offset: Layout.titleWidthOffset)
 
-        descriptionLabel.centerY(to: self)
-        descriptionLabel.left(to: self, offset: Layout.sideOffset)
-        descriptionLabel.right(to: self, offset: -Layout.sideOffset)
+        descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionTopOffset)
+        descriptionLabel.centerX(to: self)
+        descriptionLabel.widthToSuperview(offset: Layout.descriptionWidthOffset)
 
-        proceedButton.left(to: self, offset: state.buttonsOffset)
-        proceedButton.right(to: self, offset: -state.buttonsOffset)
-        if state == .complete {
-            proceedButton.bottom(to: self, offset: Layout.completeButtonBottomOffset)
-        } else {
-            proceedButton.topToBottom(of: descriptionLabel, offset: Layout.descriptionLabelBottomOffset)
-        }
+        proceedButton.topToBottom(of: descriptionLabel, offset: Layout.buttonTopOffset)
+        proceedButton.centerX(to: self)
+        proceedButton.widthToSuperview(offset: Layout.buttonWidthOffset)
     }
 }

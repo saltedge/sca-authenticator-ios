@@ -62,12 +62,6 @@ class ConnectionDataSourceSpec: BaseSpec {
             }
         }
 
-        describe("height(for)") {
-            it("should return 96") {
-                expect(dataSource.height(for: 0)).to(equal(96.0))
-            }
-        }
-
         describe("hasDataToShow") {
             it("should return true") {
                 expect(dataSource.hasDataToShow).to(beTrue())

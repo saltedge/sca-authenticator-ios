@@ -25,31 +25,28 @@ import AVFoundation
 import AudioToolbox
 
 private struct Layout {
-    static let sideLength: CGFloat = UIScreen.main.bounds.width * 0.18
     static let qrWindowHeight: CGFloat = 232.0
     static let cornerRadius: CGFloat = 4.0
-    static let yOffset: CGFloat = 100.0
+    static let cancelButtonTopOfset: CGFloat = 24.0
+    static let cancelButtonLeftOffset: CGFloat = 16.0
 }
 
 protocol QRCodeViewControllerDelegate: class {
     func metadataReceived(data: String?)
 }
 
-final class QRCodeViewController: UIViewController {
+final class QRCodeViewController: BaseViewController {
     private var captureSession: AVCaptureSession!
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     private var qrCodeFrameView: UIView?
 
     weak var delegate: QRCodeViewControllerDelegate?
 
-    var metadataReceived: ((UIViewController, String) ->())?
     var shouldDismissClosure: (() -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
-        setup()
-        cameraPermission()
+        requestCameraPermission()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -70,11 +67,12 @@ final class QRCodeViewController: UIViewController {
         }
     }
 
-    private func cameraPermission() {
+    private func requestCameraPermission() {
         AVCaptureHelper.requestAccess(
             success: {
                 self.instantiateSession()
                 self.createOverlay()
+                self.setupCancelButton()
                 self.layout()
             },
             failure: {
@@ -129,25 +127,20 @@ final class QRCodeViewController: UIViewController {
         captureSession.startRunning()
     }
 
-    private func setupNavigationBar() {
-        navigationController?.navigationBar.prefersLargeTitles = false
-        navigationController?.navigationBar.backgroundColor = .clear
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.isTranslucent = true
-        navigationController?.view.backgroundColor = .clear
-    }
+    private func setupCancelButton() {
+        let cancelButton = UIButton()
+        cancelButton.setTitle(l10n(.cancel), for: .normal)
+        cancelButton.setTitleColor(.lightBlue, for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancelPressed), for: .touchUpInside)
 
-    private func setup() {
-        view.backgroundColor = .backgroundColor
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: l10n(.cancel),
-            style: .plain,
-            target: self,
-            action: #selector(cancelPressed)
-        )
+        view.addSubview(cancelButton)
+
+        cancelButton.top(to: view, offset: Layout.cancelButtonTopOfset)
+        cancelButton.left(to: view, offset: Layout.cancelButtonLeftOffset)
     }
 
     @objc private func cancelPressed() {
+        dismiss(animated: true)
         delegate?.metadataReceived(data: nil)
         shouldDismissClosure?()
     }
@@ -242,8 +235,12 @@ extension QRCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
             }
 
             HapticFeedbackHelper.produceImpactFeedback(.heavy)
-            delegate?.metadataReceived(data: string)
-            self.metadataReceived?(self, string)
+            dismiss(
+                animated: true,
+                completion: {
+                    self.delegate?.metadataReceived(data: string)
+                }
+            )
         }
     }
 }

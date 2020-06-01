@@ -29,15 +29,16 @@ protocol ConnectorWebViewControllerDelegate: WKWebViewControllerDelegate {
     func showError(_ error: String)
 }
 
-final class ConnectorWebViewController: UIViewController {
+final class ConnectorWebViewController: BaseViewController {
     weak var delegate: ConnectorWebViewControllerDelegate?
 
     private var webView: SEWebView
-    private let loadingIndicator = LoadingIndicator()
+    private let completeView = CompleteView(state: .processing, title: l10n(.processing))
     private var messageBarView: MessageBarView?
 
     init() {
         webView = SEWebView(frame: .zero)
+        webView.backgroundColor = .backgroundColor
         super.init(nibName: nil, bundle: .authenticator_main)
     }
 
@@ -49,9 +50,7 @@ final class ConnectorWebViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .auth_backgroundColor
         layout()
-        loadingIndicator.start()
         setupObservers()
     }
 
@@ -100,25 +99,25 @@ final class ConnectorWebViewController: UIViewController {
 // MARK: - Layout
 extension ConnectorWebViewController: Layoutable {
     func layout() {
-        view.addSubview(loadingIndicator)
+        view.addSubview(completeView)
 
-        loadingIndicator.center(in: view)
-        loadingIndicator.size(AppLayout.loadingIndicatorSize)
+        completeView.edgesToSuperview()
     }
 }
 
+// MARK: - SEWebViewDelegate
 extension ConnectorWebViewController: SEWebViewDelegate {
     func webView(_ webView: WKWebView, didReceiveCallback url: URL, accessToken: AccessToken) {
-        loadingIndicator.stop()
+        completeView.isHidden = true
         delegate?.connectorConfirmed(url: url, accessToken: accessToken)
     }
 
     func webView(_ webView: WKWebView, didReceiveCallbackWithError error: String?) {
-        loadingIndicator.stop()
+        completeView.isHidden = true
         if let error = error { delegate?.showError(error) }
     }
 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        loadingIndicator.stop()
+        completeView.isHidden = true
     }
 }
