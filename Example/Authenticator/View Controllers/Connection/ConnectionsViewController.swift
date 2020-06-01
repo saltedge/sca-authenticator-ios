@@ -122,6 +122,7 @@ private extension ConnectionsViewController {
             description: l10n(.noConnectionsDescription),
             ctaTitle: l10n(.connectProvider)
         )
+        noDataView.alpha = dataSource.hasDataToShow ? 0 : 1
     }
 
     func updateViewsHiddenState() {

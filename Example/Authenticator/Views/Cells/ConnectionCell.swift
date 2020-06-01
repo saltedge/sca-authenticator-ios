@@ -86,6 +86,7 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
         setupContentContainer()
         layout()
     }
