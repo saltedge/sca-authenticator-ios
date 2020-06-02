@@ -117,7 +117,7 @@ extension ConnectionsListViewModel {
 
         let cancel = UIAlertAction(title: l10n(.cancel), style: .cancel)
 
-        let delete = UIAlertAction(title: l10n(.delete), style: .default) { _ in
+        let delete = UIAlertAction(title: l10n(.delete), style: .destructive) { _ in
             self.delegate?.deleteConnection(
                 completion: {
                     self.remove(at: indexPath)
@@ -129,7 +129,7 @@ extension ConnectionsListViewModel {
             self.updateName(by: viewModel.id)
         }
 
-        var actions: [UIAlertAction] = [delete, rename, cancel]
+        var actions: [UIAlertAction] = [rename, delete, cancel]
 
         if viewModel.status == ConnectionStatus.inactive.rawValue {
             let reconnect = UIAlertAction(title: l10n(.reconnect), style: .default) { _ in
