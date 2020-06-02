@@ -25,7 +25,7 @@ import RealmSwift
 import SEAuthenticator
 
 protocol ConnectionsListEventsDelegate: class {
-    func showEditConnection(id: String)
+    func showEditConnectionAlert(placeholder: String, completion: @escaping (String) -> ())
     func showSupport(email: String)
     func deleteConnection(completion: @escaping () -> ())
     func reconnect(by id: String)
@@ -80,6 +80,19 @@ final class ConnectionsListViewModel {
         ConnectionRepository.delete(connection)
     }
 
+    func updateName(by id: String) {
+        guard let connection = ConnectionsCollector.with(id: id) else { return }
+
+        delegate?.showEditConnectionAlert(
+            placeholder: connection.name,
+            completion: { newName in
+                guard !ConnectionsCollector.connectionNames.contains(newName) else { return }
+
+                ConnectionRepository.updateName(connection, name: newName)
+            }
+        )
+    }
+
     func addPressed() {
         delegate?.addPressed()
     }
@@ -110,11 +123,10 @@ extension ConnectionsListViewModel {
                     self.remove(at: indexPath)
                 }
             )
-
         }
 
         let rename = UIAlertAction(title: l10n(.rename), style: .default) { _ in
-            self.delegate?.showEditConnection(id: viewModel.id)
+            self.updateName(by: viewModel.id)
         }
 
         var actions: [UIAlertAction] = [delete, rename, cancel]
@@ -144,7 +156,7 @@ extension ConnectionsListViewModel {
         delete.image = UIImage(named: "delete")
 
         let rename = UIContextualAction(style: .normal, title: "") { _, _, completionHandler in
-            self.delegate?.showEditConnection(id: viewModel.id)
+            self.updateName(by: viewModel.id)
             completionHandler(true)
         }
         rename.image = UIImage(named: "rename")
@@ -186,7 +198,7 @@ extension ConnectionsListViewModel {
             previewProvider: nil
         ) { [weak self] _ -> UIMenu? in
             let rename = UIAction(title: l10n(.rename), image: UIImage(named: "rename")) { _ in
-                self?.delegate?.showEditConnection(id: viewModel.id)
+                self?.updateName(by: viewModel.id)
             }
             let support = UIAction(title: l10n(.support), image: UIImage(named: "contact_support")) { _ in
                 self?.delegate?.showSupport(email: viewModel.supportEmail)

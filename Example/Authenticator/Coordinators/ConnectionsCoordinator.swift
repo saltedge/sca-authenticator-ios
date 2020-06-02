@@ -55,10 +55,15 @@ extension ConnectionsCoordinator: ConnectionsListEventsDelegate {
         currentViewController.updateViewsHiddenState()
     }
 
-    func showEditConnection(id: String) {
-        let editVc = EditConnectionViewController(connectionId: id)
-        editVc.hidesBottomBarWhenPushed = true
-        currentViewController.navigationController?.pushViewController(editVc, animated: true)
+    func showEditConnectionAlert(placeholder: String, completion: @escaping (String) -> ()) {
+        currentViewController.navigationController?.showAlertViewWithInput(
+            title: l10n(.rename),
+            placeholder: placeholder,
+            action: { text in
+                completion(text)
+            },
+            actionTitle: l10n(.rename)
+        )
     }
 
     func showSupport(email: String) {
@@ -78,5 +83,30 @@ extension ConnectionsCoordinator: ConnectionsListEventsDelegate {
     func reconnect(by id: String) {
         connectViewCoordinator = ConnectViewCoordinator(rootViewController: currentViewController, connectionType: .reconnect(id))
         connectViewCoordinator?.start()
+    }
+}
+
+final class InputAlertController: UIAlertController {
+    var text: String = ""
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        textFields?.forEach {
+            $0.text = text
+            if let contentView = $0.superview, let effectsView = contentView.superview?.subviews[0] {
+                contentView.backgroundColor = .clear
+
+                let bottomLine = SeparatorView(axis: .horizontal, thickness: 1.0)
+
+                contentView.addSubview(bottomLine)
+
+                bottomLine.centerX(to: contentView)
+                bottomLine.bottom(to: contentView)
+                bottomLine.width(120.0)
+
+                effectsView.isHidden = true
+            }
+        }
     }
 }

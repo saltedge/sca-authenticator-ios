@@ -43,6 +43,16 @@ struct ConnectionRepository {
     }
 
     @discardableResult
+    static func updateName(_ connection: Connection, name: String) -> Bool {
+        var result = false
+        try? RealmManager.performRealmWriteTransaction {
+            connection.name = name
+            result = true
+        }
+        return result
+    }
+
+    @discardableResult
     static func setInactive(_ connection: Connection) -> Bool {
         var result = false
         try? RealmManager.performRealmWriteTransaction {
