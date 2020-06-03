@@ -190,7 +190,6 @@
 		9DCED90C22CE18280050ED3C /* AuthorizationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */; };
 		9DCED91122CE18280050ED3C /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87222CE18270050ED3C /* ApplicationCoordinator.swift */; };
 		9DCED91222CE18280050ED3C /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87322CE18280050ED3C /* Coordinator.swift */; };
-		9DCED91422CE18280050ED3C /* SetupAppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87622CE18280050ED3C /* SetupAppCoordinator.swift */; };
 		9DCED91522CE18280050ED3C /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87922CE18280050ED3C /* Connection.swift */; };
 		9DCED91622CE18280050ED3C /* ConnectionsCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87B22CE18280050ED3C /* ConnectionsCollector.swift */; };
 		9DCED91C22CE18280050ED3C /* AuthorizationsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED88322CE18280050ED3C /* AuthorizationsDataSource.swift */; };
@@ -246,7 +245,6 @@
 		9DE3247522D398ED00EB162A /* DataFixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3247022D398ED00EB162A /* DataFixtures.swift */; };
 		9DE3247622D3997200EB162A /* ApplicationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87222CE18270050ED3C /* ApplicationCoordinator.swift */; };
 		9DE3247722D3997400EB162A /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87322CE18280050ED3C /* Coordinator.swift */; };
-		9DE3247922D3997B00EB162A /* SetupAppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87622CE18280050ED3C /* SetupAppCoordinator.swift */; };
 		9DE3247B22D3998200EB162A /* AuthorizationsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */; };
 		9DE3247E22D3998D00EB162A /* PasscodeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86722CE18270050ED3C /* PasscodeCoordinator.swift */; };
 		9DE3248022D3999200EB162A /* ConnectViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86922CE18270050ED3C /* ConnectViewCoordinator.swift */; };
@@ -496,7 +494,6 @@
 		9DCED86D22CE18270050ED3C /* SettingsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsCoordinator.swift; sourceTree = "<group>"; };
 		9DCED87222CE18270050ED3C /* ApplicationCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationCoordinator.swift; sourceTree = "<group>"; };
 		9DCED87322CE18280050ED3C /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
-		9DCED87622CE18280050ED3C /* SetupAppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAppCoordinator.swift; sourceTree = "<group>"; };
 		9DCED87922CE18280050ED3C /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
 		9DCED87B22CE18280050ED3C /* ConnectionsCollector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionsCollector.swift; sourceTree = "<group>"; };
 		9DCED88322CE18280050ED3C /* AuthorizationsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationsDataSource.swift; sourceTree = "<group>"; };
@@ -1138,7 +1135,6 @@
 			children = (
 				9DBAD79D247E55A70023F944 /* Connect */,
 				9DCED87122CE18270050ED3C /* Main */,
-				9DCED87422CE18280050ED3C /* Onboarding */,
 				9DCED86622CE18270050ED3C /* Settings */,
 				9DCED86922CE18270050ED3C /* ConnectViewCoordinator.swift */,
 				9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */,
@@ -1166,14 +1162,6 @@
 				9DCED87322CE18280050ED3C /* Coordinator.swift */,
 			);
 			path = Main;
-			sourceTree = "<group>";
-		};
-		9DCED87422CE18280050ED3C /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				9DCED87622CE18280050ED3C /* SetupAppCoordinator.swift */,
-			);
-			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		9DCED87722CE18280050ED3C /* Models */ = {
@@ -1702,7 +1690,6 @@
 				9D87F49E2429326800F85D1F /* ConnectionCell.swift in Sources */,
 				9DCED8EC22CE18280050ED3C /* BiometricsHelper.swift in Sources */,
 				9DCED90522CE18280050ED3C /* PasscodeView.swift in Sources */,
-				9DCED91422CE18280050ED3C /* SetupAppCoordinator.swift in Sources */,
 				9581A9D62477D6350066EF5E /* BaseViewController.swift in Sources */,
 				9DCED8C822CE18280050ED3C /* ImageExtensions.swift in Sources */,
 				9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */,
@@ -1888,7 +1875,6 @@
 				9DE324B022D39A2F00EB162A /* AmountFormatter.swift in Sources */,
 				9D1DEE7523D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */,
 				9DBAD7A0247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */,
-				9DE3247922D3997B00EB162A /* SetupAppCoordinator.swift in Sources */,
 				9DE3245A22D3986B00EB162A /* RevokeConnectionResponseSpec.swift in Sources */,
 				9DE324DD22D39AC300EB162A /* ProgressBar.swift in Sources */,
 				9D772133231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */,

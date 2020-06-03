@@ -25,7 +25,6 @@ import UIKit
 final class ApplicationCoordinator: Coordinator {
     private let window: UIWindow?
     private var qrCodeCoordinator: QRCodeCoordinator?
-    private var setupAppCoordinator: SetupAppCoordinator?
     private var passcodeCoordinator: PasscodeCoordinator?
     private var connectViewCoordinator: ConnectViewCoordinator?
 
@@ -137,22 +136,22 @@ final class ApplicationCoordinator: Coordinator {
 
     func showBiometricsIfEnabled() {
         if UserDefaultsHelper.blockedTill == nil, let passcodeCoordinator = passcodeCoordinator {
-            passcodeCoordinator.showBiometricsIfEnabled()
+            passcodeCoordinator.showBiometrics()
         }
     }
 
-    // NOTE: Review
     private func presentPasscode() {
         guard let topController = UIWindow.topViewController else { return }
 
-        let passcodeViewController = PasscodeViewController(purpose: .enter)
-        passcodeViewController.modalPresentationStyle = .overFullScreen
-        topController.present(passcodeViewController, animated: false)
-
-        passcodeViewController.completeClosure = {
+        passcodeCoordinator = PasscodeCoordinator(
+            rootViewController: topController,
+            purpose: .enter
+        )
+        passcodeCoordinator?.onCompleteClosure = {
             TimerApplication.resetIdleTimer()
             self.registerTimerNotifications()
         }
+        passcodeCoordinator?.start()
     }
 
     private func removeAlertControllerIfPresented() {

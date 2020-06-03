@@ -12,7 +12,7 @@
 "actions.confirm_authorization" = "Confirm authorization";
 "actions.deny" = "Deny";
 "actions.done" = "Done";
-"actions.enter_passcode" = "Enter Passcode";
+"actions.current_passcode" = "Your current passcode";
 "actions.get_started" = "Get Started";
 "actions.next" = "Next";
 "actions.not_now" = "Not Now";
@@ -98,6 +98,8 @@
 "in_app.settings.touch_id" = "Touch ID";
 "in_app.settings.clear_all_data" = "Clear all data";
 "in_app.settings.clear_all_data_description" = "All app data including service providers, user data and settings will be permanently deleted.";
+"in_app.settings.biometrics_not_available" = "Biometrics not available";
+"in_app.settings.biometrics_not_available_message" = "You have to reconfigure biometrics in phone settings";
 "in_app.navigation.authorizations" = "Authorizations";
 "in_app.navigation.connections" = "Connections";
 "in_app.sidebar_menu.settings" = "Settings";

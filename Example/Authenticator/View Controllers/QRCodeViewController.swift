@@ -27,7 +27,7 @@ import AudioToolbox
 private struct Layout {
     static let qrWindowHeight: CGFloat = 232.0
     static let cornerRadius: CGFloat = 4.0
-    static let cancelButtonTopOfset: CGFloat = 24.0
+    static let cancelButtonTopOfset: CGFloat = 16.0
     static let cancelButtonLeftOffset: CGFloat = 16.0
 }
 
@@ -142,7 +142,7 @@ final class QRCodeViewController: BaseViewController {
 
         view.addSubview(cancelButton)
 
-        cancelButton.top(to: view, offset: Layout.cancelButtonTopOfset)
+        cancelButton.top(to: view, view.safeAreaLayoutGuide.topAnchor, offset: Layout.cancelButtonTopOfset)
         cancelButton.left(to: view, offset: Layout.cancelButtonLeftOffset)
     }
 

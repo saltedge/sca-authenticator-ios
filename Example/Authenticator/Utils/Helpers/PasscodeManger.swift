@@ -53,21 +53,21 @@ struct PasscodeManager {
                 localizedReason: reasonString,
                 reply: { success, evaluateError in
                     if success {
+                        UserDefaultsHelper.isBiometricsEnabled = true
                         DispatchQueue.main.async { onSuccess?() }
                     } else {
                         guard let evError = evaluateError, evError._code != LAError.userCancel.rawValue else { return }
+
+                        UserDefaultsHelper.isBiometricsEnabled = false
 
                         DispatchQueue.main.async { onFailure?(evError) }
                     }
                 }
             )
         } else {
+            UserDefaultsHelper.isBiometricsEnabled = false
             DispatchQueue.main.async {
-                if #available(iOS 11.0, *) {
-                    onFailure?(LAError(LAError.biometryNotAvailable))
-                } else {
-                    onFailure?(LAError(LAError.touchIDNotAvailable))
-                }
+                onFailure?(LAError(LAError.biometryNotAvailable))
             }
         }
     }
