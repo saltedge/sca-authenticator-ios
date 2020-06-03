@@ -105,11 +105,13 @@ extension PasscodeViewController: PasscodeViewDelegate {
 
     func biometricsPressed() {
         if !BiometricsHelper.biometricsAvailable {
-            showInfoAlert(
-                withTitle: "Biometrics not available",
-                message: "You have to configure biometrics in phone settings",
-                actionTitle: l10n(.goToSettings),
-                completion: {
+            showConfirmationAlert(
+                withTitle: l10n(.biometricsNotAvailable),
+                message: l10n(.biometricsNotAvailableDescription),
+                confirmActionTitle: l10n(.goToSettings),
+                confirmActionStyle: .default,
+                cancelTitle: l10n(.cancel),
+                confirmAction: { _ in
                     self.viewModel.goToSettings()
                 }
             )

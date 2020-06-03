@@ -135,7 +135,7 @@ enum Localizations: String, Localizable {
 
     case createPasscode = "onboarding.secure_app.passcode_create"
     case repeatPasscode = "onboarding.secure_app.passcode_repeat"
-    case enterPasscode = "actions.enter_passcode"
+    case yourCurrentPasscode = "actions.current_passcode"
     case enterPasscodeOrUseTouchID = "in_app.passcode_confirmation.title"
     case enterPasscodeOrUseFaceID = "in_app.passcode_confirmation.title2"
     case unlockAuthenticator = "actions.unlock_authenticator"
@@ -163,6 +163,8 @@ enum Localizations: String, Localizable {
     case inactivityMessage = "warnings.inactivity_block_message"
     case passcodeDontMatch = "errors.passcode_dont_match"
     case wrongPasscode = "errors.wrong_passcode"
+    case biometricsNotAvailable = "in_app.settings.biometrics_not_available"
+    case biometricsNotAvailableDescription = "You have to reconfigure biometrics in phone settings"
 
     // MARK: - Connection Options
     case connect = "actions.connect"

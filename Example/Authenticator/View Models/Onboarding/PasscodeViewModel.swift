@@ -183,7 +183,7 @@ final class PasscodeViewModel {
             onFailure: { error in
                 if error.isBiometryLockout {
                     self.delegate?.presentWrongPasscodeAlert(
-                        with: "You have to reconfigure your biometry in settings.",
+                        with: l10n(.biometricsNotAvailableDescription),
                         title: error.localizedDescription,
                         buttonTitle: l10n(.ok)
                     )
@@ -233,9 +233,8 @@ extension PasscodeViewModel {
     var title: String {
         switch purpose {
         case .create: return l10n(.createPasscode)
-        case .edit: return l10n(.enterPasscode)
-        case .enter:
-            return PasscodeManager.isBiometricsEnabled ? BiometricsPresenter.passcodeDescriptionText : l10n(.enterPasscode)
+        case .edit: return l10n(.yourCurrentPasscode)
+        case .enter: return ""
         }
     }
 

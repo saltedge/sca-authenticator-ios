@@ -55,7 +55,7 @@ struct BiometricsPresenter {
         switch BiometricsHelper.biometryType {
         case .faceID: return l10n(.enterPasscodeOrUseFaceID)
         case .touchID: return l10n(.enterPasscodeOrUseTouchID)
-        default: return l10n(.enterPasscode)
+        default: return l10n(.yourCurrentPasscode)
         }
     }
 }
