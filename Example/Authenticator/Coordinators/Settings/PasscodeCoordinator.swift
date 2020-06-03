@@ -70,6 +70,10 @@ extension PasscodeCoordinator: PasscodeEventsDelegate {
         currentViewController.dismiss(animated: true)
     }
 
+    func popToRootViewController() {
+        currentViewController.navigationController?.popToViewController(rootViewController, animated: true)
+    }
+
     func presentWrongPasscodeAlert(with message: String, title: String?, buttonTitle: String?) {
         if let title = title, let buttonTitle = buttonTitle {
             currentViewController.showConfirmationAlert(withTitle: title, message: message, cancelTitle: buttonTitle)

@@ -46,6 +46,7 @@ enum PasscodeViewModelState: Equatable {
 protocol PasscodeEventsDelegate: class {
     func biometricsPressed()
     func dismiss()
+    func popToRootViewController()
     func presentWrongPasscodeAlert(with message: String, title: String?, buttonTitle: String?)
     func dismissWrongPasscodeAlert()
 }
@@ -149,6 +150,7 @@ final class PasscodeViewModel {
         PasscodeManager.set(passcode: passcode)
 
         state.value = .correct
+        delegate?.popToRootViewController()
     }
 
     func wrongPasscode() {
