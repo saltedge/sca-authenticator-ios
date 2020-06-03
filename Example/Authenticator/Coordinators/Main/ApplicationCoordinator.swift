@@ -146,7 +146,7 @@ final class ApplicationCoordinator: Coordinator {
 
     func showBiometricsIfEnabled() {
         if UserDefaultsHelper.blockedTill == nil, let passcodeCoordinator = passcodeCoordinator {
-            passcodeCoordinator.biometricsPressed()
+            passcodeCoordinator.showBiometrics()
         }
     }
 

@@ -30,7 +30,6 @@ final class PasscodeCoordinator: Coordinator {
     private var viewModel: PasscodeViewModel
 
     var onCompleteClosure: (() -> ())?
-    var onDismissClosure: (() -> ())?
 
     init(rootViewController: UIViewController, purpose: PasscodeViewModel.PasscodeViewMode) {
         self.purpose = purpose
@@ -58,7 +57,7 @@ final class PasscodeCoordinator: Coordinator {
 }
 
 extension PasscodeCoordinator: PasscodeEventsDelegate {
-    func biometricsPressed() {
+    func showBiometrics() {
         viewModel.showBiometrics(
             completion: {
                 self.onCompleteClosure?()
