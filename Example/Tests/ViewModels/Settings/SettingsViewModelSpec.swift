@@ -65,7 +65,7 @@ class SettingsViewModelSpec: BaseSpec {
         describe("rows(for:)") {
             context("when sections exists") {
                 it("should return number of rows") {
-                    expect(viewModel.rows(for: 0)).to(equal(3))
+                    expect(viewModel.rows(for: 0)).to(equal(2))
                     expect(viewModel.rows(for: 1)).to(equal(2))
                     expect(viewModel.rows(for: 2)).to(equal(1))
                 }
@@ -85,8 +85,6 @@ class SettingsViewModelSpec: BaseSpec {
                         .to(equal(SettingCellModel.language))
                     expect(viewModel.item(for: IndexPath(row: 1, section: 0)))
                         .to(equal(SettingCellModel.passcode))
-                    expect(viewModel.item(for: IndexPath(row: 2, section: 0)))
-                        .to(equal(SettingCellModel.biometrics))
                     
                     expect(viewModel.item(for: IndexPath(row: 0, section: 1)))
                         .to(equal(SettingCellModel.about))

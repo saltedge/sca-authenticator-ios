@@ -32,8 +32,8 @@ final class PasscodeViewModelSpec: BaseSpec {
         describe("title") {
             it("should return correct text depending on purpose") {
                 expect(PasscodeViewModel(purpose: .create).title).to(equal(l10n(.createPasscode)))
-                expect(PasscodeViewModel(purpose: .edit).title).to(equal(l10n(.enterPasscode)))
-                expect(PasscodeViewModel(purpose: .enter).title).to(equal(l10n(.enterPasscode)))
+                expect(PasscodeViewModel(purpose: .edit).title).to(equal(l10n(.yourCurrentPasscode)))
+                expect(PasscodeViewModel(purpose: .enter).title).to(equal(""))
             }
         }
 
