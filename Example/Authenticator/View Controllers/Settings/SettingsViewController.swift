@@ -38,6 +38,7 @@ final class SettingsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = l10n(.settings)
         setupTableView()
         layout()
     }
