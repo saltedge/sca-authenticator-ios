@@ -55,6 +55,62 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
+    func showAlertViewWithInput(title: String,
+                                message: String = "",
+                                placeholder: String = "",
+                                text: String = "",
+                                action: @escaping (String) -> (),
+                                actionTitle: String = l10n(.ok)
+    ) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        var okAction: UIAlertAction?
+
+        let observer = NotificationCenter.default.addObserver(
+            forName: UITextField.textDidChangeNotification,
+            object: alertController.textFields?.first,
+            queue: OperationQueue.main
+        ) { _ in
+            if let textField = alertController.textFields?.first,
+                let text = textField.text {
+                let trimmedText = text.trimmingCharacters(in: .whitespaces)
+                okAction?.isEnabled = !trimmedText.isEmpty
+            }
+        }
+
+        okAction = UIAlertAction(
+            title: actionTitle,
+            style: .default,
+            handler: { _ in
+                if let textField = alertController.textFields?.first, let text = textField.text, !text.isEmpty {
+                    action(text)
+                    NotificationCenter.default.removeObserver(observer)
+                }
+            }
+        )
+        okAction?.isEnabled = false
+
+        alertController.addTextField { textField in
+            textField.placeholder = placeholder
+            textField.textAlignment = .left
+            textField.font = UIFont.systemFont(ofSize: 14.0)
+        }
+
+        if let okAction = okAction {
+            alertController.addAction(okAction)
+        }
+
+        let action = UIAlertAction(
+            title: l10n(.cancel),
+            style: .cancel,
+            handler: { _ in
+                NotificationCenter.default.removeObserver(observer)
+            }
+        )
+        alertController.addAction(action)
+
+        present(alertController, animated: true)
+    }
+
     func showInfoAlert(withTitle title: String,
                        message: String? = nil,
                        actionTitle: String = l10n(.done),

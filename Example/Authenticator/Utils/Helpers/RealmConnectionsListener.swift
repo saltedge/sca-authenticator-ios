@@ -23,13 +23,25 @@
 import Realm
 import RealmSwift
 
+enum ConnectionsType {
+    case all
+    case active
+}
+
 class RealmConnectionsListener {
     typealias OnDataChangeClosure = () -> ()
-    private let activeConnections = ConnectionsCollector.activeConnections
+
+    private var connections: Results<Connection>?
     private var connectionsNotificationToken: NotificationToken?
 
-    init(onDataChange: OnDataChangeClosure? = nil) {
-        connectionsNotificationToken = activeConnections.observe { _ in
+    init(onDataChange: OnDataChangeClosure? = nil, type: ConnectionsType = .active) {
+        if type == .all {
+            connections = ConnectionsCollector.allConnections
+        } else {
+            connections = ConnectionsCollector.activeConnections
+        }
+
+        connectionsNotificationToken = connections?.observe { _ in
             onDataChange?()
         }
     }
