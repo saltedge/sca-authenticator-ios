@@ -41,6 +41,8 @@ final class AuthorizationsViewController: BaseViewController {
         flowLayout.minimumLineSpacing = 0.0
         return UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
     }()
+    private let moreButton = UIButton()
+    private let qrButton = UIButton()
     private var messageBarView: MessageBarView?
     private var noDataView: NoDataView?
 
@@ -54,10 +56,19 @@ final class AuthorizationsViewController: BaseViewController {
         view.backgroundColor = .backgroundColor
         handleViewModelState()
         setupSwipingViews()
-        setupNavigationBarButtons()
         setupObservers()
         setupNoDataView()
         layout()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setupNavigationBarButtons()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        [moreButton, qrButton].forEach { $0.removeFromSuperview() }
     }
 
     func handleViewModelState() {
@@ -170,11 +181,9 @@ private extension AuthorizationsViewController {
     }
 
     func setupNavigationBarButtons() {
-        let moreButton = UIButton()
         moreButton.setImage(UIImage(named: "more"), for: .normal)
         moreButton.addTarget(self, action: #selector(morePressed), for: .touchUpInside)
 
-        let qrButton = UIButton()
         qrButton.setImage(UIImage(named: "qr"), for: .normal)
         qrButton.addTarget(self, action: #selector(scanQrPressed), for: .touchUpInside)
 

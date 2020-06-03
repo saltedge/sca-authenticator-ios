@@ -25,17 +25,88 @@ import UIKit
 final class ConnectionsCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var currentViewController: ConnectionsViewController
+    private var connectViewCoordinator: ConnectViewCoordinator?
+    private var qrCodeCoordinator: QRCodeCoordinator?
+    private var viewModel = ConnectionsListViewModel()
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
-        self.currentViewController = ConnectionsViewController()
+        self.currentViewController = ConnectionsViewController(viewModel: viewModel)
     }
 
     func start() {
-        let navigationController = UINavigationController(rootViewController: currentViewController)
-        navigationController.modalPresentationStyle = .fullScreen
-        rootViewController.present(navigationController, animated: true)
+        viewModel.delegate = self
+        rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
-    func stop() {}
+    func stop() {
+        viewModel.delegate = nil
+    }
+}
+
+// MARK: - ConnectionsListEventsDelegate
+extension ConnectionsCoordinator: ConnectionsListEventsDelegate {
+    func addPressed() {
+        qrCodeCoordinator = QRCodeCoordinator(rootViewController: currentViewController)
+        qrCodeCoordinator?.start()
+    }
+
+    func updateViews() {
+        currentViewController.updateViewsHiddenState()
+    }
+
+    func showEditConnectionAlert(placeholder: String, completion: @escaping (String) -> ()) {
+        currentViewController.navigationController?.showAlertViewWithInput(
+            title: l10n(.rename),
+            placeholder: placeholder,
+            action: { text in
+                completion(text)
+            },
+            actionTitle: l10n(.rename)
+        )
+    }
+
+    func showSupport(email: String) {
+        currentViewController.showSupportMailComposer(withEmail: email)
+    }
+
+    func deleteConnection(completion: @escaping () -> ()) {
+        currentViewController.navigationController?.showConfirmationAlert(
+            withTitle: l10n(.delete),
+            message: l10n(.deleteConnectionDescription),
+            confirmAction: { _ in
+                completion()
+            }
+        )
+    }
+
+    func reconnect(by id: String) {
+        connectViewCoordinator = ConnectViewCoordinator(rootViewController: currentViewController, connectionType: .reconnect(id))
+        connectViewCoordinator?.start()
+    }
+}
+
+final class InputAlertController: UIAlertController {
+    var text: String = ""
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        textFields?.forEach {
+            $0.text = text
+            if let contentView = $0.superview, let effectsView = contentView.superview?.subviews[0] {
+                contentView.backgroundColor = .clear
+
+                let bottomLine = SeparatorView(axis: .horizontal, thickness: 1.0)
+
+                contentView.addSubview(bottomLine)
+
+                bottomLine.centerX(to: contentView)
+                bottomLine.bottom(to: contentView)
+                bottomLine.width(120.0)
+
+                effectsView.isHidden = true
+            }
+        }
+    }
 }
