@@ -40,7 +40,7 @@ protocol SetupAppViewControllerDelegate: class {
 }
 
 final class SetupAppViewController: BaseViewController {
-    private let passcodeVc = PasscodeViewController(purpose: .create)
+    private let passcodeVc = PasscodeViewController(viewModel: PasscodeViewModel(purpose: .create))
     private lazy var qrCodeViewController = QRCodeViewController()
 
     var receivedQrMetadata: ((String?) -> ())?

@@ -43,6 +43,13 @@ enum PasscodeViewModelState: Equatable {
     }
 }
 
+protocol PasscodeEventsDelegate: class {
+    func biometricsPressed()
+    func dismiss()
+    func presentWrongPasscodeAlert(with message: String, title: String?, buttonTitle: String?)
+    func dismissWrongPasscodeAlert()
+}
+
 final class PasscodeViewModel {
     enum PasscodeViewMode {
         case create
@@ -52,17 +59,30 @@ final class PasscodeViewModel {
 
     var state: Observable<PasscodeViewModelState>
 
+    private var blockedTimer: Timer?
+    private var blockedMessage = ""
+
     private var purpose: PasscodeViewModel.PasscodeViewMode
     private var passcode = ""
     private var confirmationPasscode = ""
+
+    weak var delegate: PasscodeEventsDelegate?
 
     init(purpose: PasscodeViewModel.PasscodeViewMode) {
         self.purpose = purpose
         self.state = Observable<PasscodeViewModelState>(purpose == .create ? .create(showLabel: false) : .check)
     }
 
+    var navigationItemTitle: String? {
+        return purpose == .edit ? l10n(.changePasscode) : nil
+    }
+
+    var shouldHideLogo: Bool {
+        return purpose == .edit
+    }
+
     var shouldDismiss: Bool {
-        return purpose == .enter
+        return purpose != .create
     }
 
     var passcodeToFill: String {
@@ -114,6 +134,7 @@ final class PasscodeViewModel {
         if purpose == .edit {
             switchToCreate(showLabel: false)
         } else {
+            resetWrongPasscodeAttempts()
             state.value = .correct
         }
     }
@@ -135,6 +156,10 @@ final class PasscodeViewModel {
 
         passcode = ""
         confirmationPasscode = ""
+
+        if purpose == .enter {
+            handleWrongPasscodeAttemts()
+        }
     }
 
     func switchToCreate(showLabel: Bool) {
@@ -146,12 +171,63 @@ final class PasscodeViewModel {
     func switchToRepeat() {
         state.value = .repeat
     }
+
+    func showBiometrics(completion: (()->())?) {
+        PasscodeManager.useBiometrics(
+            reasonString: l10n(.unlockAuthenticator),
+            onSuccess: {
+                self.resetWrongPasscodeAttempts()
+                completion?()
+                self.delegate?.dismiss()
+            },
+            onFailure: { error in
+                if error.isBiometryLockout {
+                    self.delegate?.presentWrongPasscodeAlert(
+                        with: "You have to reconfigure your biometry in settings.",
+                        title: error.localizedDescription,
+                        buttonTitle: l10n(.ok)
+                    )
+                }
+            }
+        )
+    }
+
+    func goToSettings() {
+        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+            return
+        }
+
+        if UIApplication.shared.canOpenURL(settingsUrl) {
+            UIApplication.shared.open(settingsUrl)
+        }
+    }
+
+    func blockAppIfNeeded() {
+        guard purpose == .enter else { return }
+
+        if let blockedTill = UserDefaultsHelper.blockedTill, Date() < blockedTill {
+            blockedTimer = Timer.scheduledTimer(
+                timeInterval: 10.0,
+                target: self,
+                selector: #selector(updateBlockedState),
+                userInfo: nil,
+                repeats: true
+            )
+            blockedMessage = blockedMessage(for: blockedTill)
+            delegate?.presentWrongPasscodeAlert(with: blockedMessage, title: nil, buttonTitle: nil)
+        } else {
+            UserDefaultsHelper.blockedTill = nil
+            blockedTimer?.invalidate()
+            blockedTimer = nil
+            delegate?.dismissWrongPasscodeAlert()
+        }
+    }
 }
 
 // MARK: - Presentation
 extension PasscodeViewModel {
     var shouldShowTouchId: Bool {
-        return purpose == .enter && PasscodeManager.isBiometricsEnabled
+        return purpose == .enter
     }
 
     var title: String {
@@ -168,5 +244,54 @@ extension PasscodeViewModel {
         case .create, .edit: return l10n(.passcodeDontMatch)
         case .enter: return l10n(.wrongPasscode)
         }
+    }
+}
+
+// MARK: - Actions
+private extension PasscodeViewModel {
+    func blockedMessage(for date: Date) -> String {
+        let secondsLeft = Int(date.timeIntervalSinceNow)
+        let minutesLeft = secondsLeft / 60 + 1
+        let message = minutesLeft > 1 ? l10n(.wrongPasscode) : l10n(.wrongPasscodeSingular)
+        return message.replacingOccurrences(of: "%{count}", with: "\(minutesLeft)")
+    }
+
+    @objc func updateBlockedState() {
+        if let blockedTill = UserDefaultsHelper.blockedTill, Date() < blockedTill {
+            blockedMessage = blockedMessage(for: blockedTill)
+        } else {
+            blockedTimer?.invalidate()
+            blockedTimer = nil
+            UserDefaultsHelper.blockedTill = nil
+            delegate?.dismissWrongPasscodeAlert()
+        }
+    }
+
+    func handleWrongPasscodeAttemts() {
+        UserDefaultsHelper.wrongPasscodeAttempts += 1
+        switch UserDefaultsHelper.wrongPasscodeAttempts {
+        case 6: UserDefaultsHelper.blockedTill = Date() + 60
+        case 7: UserDefaultsHelper.blockedTill = Date() + 5 * 60
+        case 8: UserDefaultsHelper.blockedTill = Date() + 15 * 60
+        case 9: UserDefaultsHelper.blockedTill = Date() + 60 * 60
+        case 10: UserDefaultsHelper.blockedTill = Date() + 60 * 60
+        case 11: deleteAllData()
+        default: break
+        }
+        blockAppIfNeeded()
+    }
+
+    func deleteAllData() {
+        RealmManager.deleteAll()
+        PasscodeManager.remove()
+        UserDefaultsHelper.clearDefaults()
+        CacheHelper.clearCache()
+        AppDelegate.main.showApplicationResetPopup()
+    }
+
+    func resetWrongPasscodeAttempts() {
+        UserDefaultsHelper.wrongPasscodeAttempts = 0
+        UserDefaultsHelper.blockedTill = nil
+        blockedTimer?.invalidate()
     }
 }

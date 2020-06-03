@@ -35,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         ReachabilityManager.shared.observeReachability()
         AppearanceHelper.setup()
         CacheHelper.setDefaultDiskAge()
+        UserDefaultsHelper.hasFaceId = BiometricsHelper.biometryType == .faceID
         configureFirebase()
         setupAppCoordinator()
         return true

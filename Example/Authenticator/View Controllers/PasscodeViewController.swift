@@ -25,28 +25,45 @@ import UIKit
 private struct Layout {
     static let logoImageViewSize: CGSize = CGSize(width: 72.0, height: 72.0)
     static let logoImageViewTopOffset: CGFloat = 88.0
-    static let passcodeViewTopOffset: CGFloat = 68.0
+    static let passcodeViewTopToLogoOffset: CGFloat = 68.0
+    static let passcodeViewTopToViewOffset: CGFloat = 130.0
 }
 
 final class PasscodeViewController: BaseViewController {
-    private let logoImageView = UIImageView()
+    private lazy var logoImageView = UIImageView()
+    private lazy var blockedAlert = UIAlertController()
     private var passcodeView: PasscodeView
 
     var completeClosure: (() -> ())?
 
     private var viewModel: PasscodeViewModel
 
-    init(purpose: PasscodeViewModel.PasscodeViewMode) {
-        viewModel = PasscodeViewModel(purpose: purpose)
+    init(viewModel: PasscodeViewModel) {
+        self.viewModel = viewModel
         passcodeView = PasscodeView(viewModel: viewModel)
         super.init(nibName: nil, bundle: .authenticator_main)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = viewModel.navigationItemTitle
         passcodeView.delegate = self
         logoImageView.image = #imageLiteral(resourceName: "authenticatorLogo")
         layout()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.blockAppIfNeeded()
+    }
+
+    func presentWrongPasscodeAlert(message: String) {
+        blockedAlert.message = message
+        present(blockedAlert, animated: true)
+    }
+
+    func dismissWrongPasscodeAlert() {
+        blockedAlert.dismiss(animated: true)
     }
 
     required init?(coder: NSCoder) {
@@ -57,13 +74,20 @@ final class PasscodeViewController: BaseViewController {
 // MARK: - Layout
 extension PasscodeViewController: Layoutable {
     func layout() {
-        view.addSubviews(logoImageView, passcodeView)
+        view.addSubview(passcodeView)
 
-        logoImageView.size(Layout.logoImageViewSize)
-        logoImageView.centerXToSuperview()
-        logoImageView.top(to: view, offset: Layout.logoImageViewTopOffset)
+        if !viewModel.shouldHideLogo {
+            view.addSubview(logoImageView)
 
-        passcodeView.topToBottom(of: logoImageView, offset: Layout.passcodeViewTopOffset)
+            logoImageView.size(Layout.logoImageViewSize)
+            logoImageView.centerXToSuperview()
+            logoImageView.top(to: view, view.safeAreaLayoutGuide.topAnchor, offset: Layout.logoImageViewTopOffset)
+
+            passcodeView.topToBottom(of: logoImageView, offset: Layout.passcodeViewTopToLogoOffset)
+        } else {
+            passcodeView.topToSuperview(offset: AppLayout.screenHeight * 0.16)
+        }
+
         passcodeView.centerXToSuperview()
         passcodeView.widthToSuperview()
         passcodeView.bottomToSuperview()
@@ -76,10 +100,26 @@ extension PasscodeViewController: PasscodeViewDelegate {
         if viewModel.shouldDismiss {
             close()
         }
-        self.completeClosure?()
+        completeClosure?()
     }
 
     func biometricsPressed() {
+        if !BiometricsHelper.biometricsAvailable {
+            showInfoAlert(
+                withTitle: "Biometrics not available",
+                message: "You have to configure biometrics in phone settings",
+                actionTitle: l10n(.goToSettings),
+                completion: {
+                    self.viewModel.goToSettings()
+                }
+            )
+        } else {
+            viewModel.showBiometrics(
+                completion: {
+                    self.completeClosure?()
+                }
+            )
+        }
     }
 
     func wrongPasscode() {

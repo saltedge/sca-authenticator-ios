@@ -32,7 +32,7 @@ protocol SettingsEventsDelegate: class {
 
 class SettingsViewModel {
     private let items: [(String, [SettingCellModel])] = [
-        (l10n(.general), [.language, .passcode, .biometrics]),
+        (l10n(.general), [.language, .passcode]),
         (l10n(.info), [.about, .support]),
         ("", [.clearData])
     ]

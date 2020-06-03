@@ -32,7 +32,7 @@ private struct Layout {
     static let wrongPasscodeLabelTopOffset: CGFloat = 46.0
     static let wrongPasscodeLabelSideOffset: CGFloat = 86.0
     static let wrongPasscodeLabelHeight: CGFloat = 44.0
-    static let passcodeKeyboardTopOffset: CGFloat = 67.0
+    static let passcodeKeyboardBottomOffset: CGFloat = -38.0
     static let passcodeKeyboardSideOffset: CGFloat = 16.0
 }
 
@@ -212,9 +212,9 @@ extension PasscodeView: Layoutable {
         wrongPasscodeLabel.right(to: self, offset: -Layout.wrongPasscodeLabelSideOffset)
         wrongPasscodeLabel.height(Layout.wrongPasscodeLabelHeight)
 
-        passcodeKeyboard.topToBottom(of: wrongPasscodeLabel, offset: Layout.passcodeKeyboardTopOffset)
         passcodeKeyboard.left(to: self, offset: Layout.passcodeKeyboardSideOffset)
         passcodeKeyboard.right(to: self, offset: -Layout.passcodeKeyboardSideOffset)
+        passcodeKeyboard.bottomToSuperview(offset: Layout.passcodeKeyboardBottomOffset)
     }
 }
 

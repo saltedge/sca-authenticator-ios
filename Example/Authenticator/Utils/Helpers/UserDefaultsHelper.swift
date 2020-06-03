@@ -25,6 +25,7 @@ import Foundation
 private enum DefaultsKeys: String {
     case didShowOnboarding
     case isBiometricsEnabled
+    case hasFaceId
     case applicationLanguage
     case blockedTill
     case wrongPasscodeAttempts
@@ -66,6 +67,26 @@ struct UserDefaultsHelper {
         }
         get {
             return defaults.bool(forKey: DefaultsKeys.isBiometricsEnabled.rawValue)
+        }
+    }
+
+    static var isBiometricsDisabledByUser: Bool {
+        set {
+            defaults.set(newValue, forKey: DefaultsKeys.isBiometricsEnabled.rawValue)
+            defaults.synchronize()
+        }
+        get {
+            return defaults.bool(forKey: DefaultsKeys.isBiometricsEnabled.rawValue)
+        }
+    }
+
+    static var hasFaceId: Bool {
+        set {
+            defaults.set(newValue, forKey: DefaultsKeys.hasFaceId.rawValue)
+            defaults.synchronize()
+        }
+        get {
+            return defaults.bool(forKey: DefaultsKeys.hasFaceId.rawValue)
         }
     }
 
