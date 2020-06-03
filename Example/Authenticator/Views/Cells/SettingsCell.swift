@@ -23,15 +23,6 @@
 import UIKit
 
 final class SettingsCell: UITableViewCell, Dequeuable {
-    private var biometricsSwitch: UISwitch {
-        let toggler = UISwitch()
-        toggler.addTarget(self, action: #selector(toggleBiometricsState(_:)), for: .valueChanged)
-        toggler.onTintColor = .auth_blue
-        toggler.tintColor = .auth_gray
-        toggler.isOn = PasscodeManager.isBiometricsEnabled
-        return toggler
-    }
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
         backgroundColor = .backgroundColor
@@ -49,7 +40,6 @@ final class SettingsCell: UITableViewCell, Dequeuable {
             detailTextLabel?.text = detailsText
         }
         switch item {
-        case .biometrics: accessoryView = biometricsSwitch
         case .clearData: textLabel?.textColor = .redAlert
         default: break
         }
@@ -57,19 +47,5 @@ final class SettingsCell: UITableViewCell, Dequeuable {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    @objc func toggleBiometricsState(_ toggler: UISwitch) {
-        if BiometricsHelper.biometryType == .none {
-            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                return
-            }
-
-            if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl)
-            }
-        } else {
-            PasscodeManager.isBiometricsEnabled = toggler.isOn
-        }
     }
 }

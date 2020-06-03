@@ -80,16 +80,6 @@ final class ConnectionsViewController: BaseViewController {
 
 // MARK: - Setup
 private extension ConnectionsViewController {
-    func setupNavigationBar() {
-        navigationItem.title = l10n(.connections)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: l10n(.back),
-            style: .plain,
-            target: self,
-            action: #selector(close)
-        )
-    }
-
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self

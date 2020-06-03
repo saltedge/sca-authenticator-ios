@@ -38,10 +38,7 @@ final class SettingsCoordinator: Coordinator {
 
     func start() {
         viewModel.delegate = self
-
-        let navigationController = UINavigationController(rootViewController: self.currentViewController)
-        navigationController.modalPresentationStyle = .fullScreen
-        rootViewController.present(navigationController, animated: true)
+        rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
     func stop() {
@@ -57,9 +54,11 @@ extension SettingsCoordinator: SettingsEventsDelegate {
     }
 
     func passcodeItemSelected() {
-        let newPasscodeViewController = PasscodeViewController(purpose: .edit)
-        newPasscodeViewController.hidesBottomBarWhenPushed = true
-        currentViewController.navigationController?.pushViewController(newPasscodeViewController, animated: true)
+        passcodeCoordinator = PasscodeCoordinator(
+            rootViewController: currentViewController,
+            purpose: .edit
+        )
+        passcodeCoordinator?.start()
     }
 
     func supportItemSelected() {

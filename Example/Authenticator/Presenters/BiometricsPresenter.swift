@@ -23,16 +23,8 @@
 import UIKit
 
 struct BiometricsPresenter {
-    static var onboardingImage: UIImage? {
-        guard BiometricsHelper.biometricsAvailable else { return UIImage() }
-
-        return BiometricsHelper.biometryType == .faceID ? UIImage(named: "Face ID") : UIImage(named: "Touch ID")
-    }
-
     static var keyboardImage: UIImage? {
-        guard BiometricsHelper.biometricsAvailable else { return UIImage() }
-
-        return BiometricsHelper.biometryType == .faceID ? UIImage(named: "Face ID Passcode") : UIImage(named: "Touch ID Passcode")
+        return BiometricsHelper.biometryType == .touchID ? UIImage(named: "touchId") : UIImage(named: "faceId")
     }
 
     static var biometricTypeText: String {
@@ -63,7 +55,7 @@ struct BiometricsPresenter {
         switch BiometricsHelper.biometryType {
         case .faceID: return l10n(.enterPasscodeOrUseFaceID)
         case .touchID: return l10n(.enterPasscodeOrUseTouchID)
-        default: return l10n(.enterPasscode)
+        default: return l10n(.yourCurrentPasscode)
         }
     }
 }

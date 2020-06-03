@@ -25,7 +25,6 @@ import UIKit
 enum SettingCellModel: Localizable {
     case language
     case passcode
-    case biometrics
     case appVersion
     case terms
     case support
@@ -37,7 +36,6 @@ enum SettingCellModel: Localizable {
         switch self {
         case .language: return l10n(.language)
         case .passcode: return l10n(.changePasscode)
-        case .biometrics: return BiometricsPresenter.biometricTypeText
         case .appVersion: return l10n(.applicationVersion)
         case .terms: return l10n(.terms)
         case .support: return l10n(.reportABug)
@@ -51,7 +49,6 @@ enum SettingCellModel: Localizable {
         switch self {
         case .language: return UIImage(named: "settingsLanguage", in: .authenticator_main, compatibleWith: nil)
         case .passcode: return UIImage(named: "settingsPasscode", in: .authenticator_main, compatibleWith: nil)
-        case .biometrics: return UIImage(named: "settingsBiometric", in: .authenticator_main, compatibleWith: nil)
         case .about: return UIImage(named: "settingsAbout", in: .authenticator_main, compatibleWith: nil)
         case .support: return UIImage(named: "settingsSupport", in: .authenticator_main, compatibleWith: nil)
         case .clearData: return UIImage(named: "settingsClear", in: .authenticator_main, compatibleWith: nil)
