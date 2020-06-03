@@ -164,7 +164,7 @@ enum Localizations: String, Localizable {
     case passcodeDontMatch = "errors.passcode_dont_match"
     case wrongPasscode = "errors.wrong_passcode"
     case biometricsNotAvailable = "in_app.settings.biometrics_not_available"
-    case biometricsNotAvailableDescription = "You have to reconfigure biometrics in phone settings"
+    case biometricsNotAvailableDescription = "in_app.settings.biometrics_not_available_message"
 
     // MARK: - Connection Options
     case connect = "actions.connect"

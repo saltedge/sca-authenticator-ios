@@ -38,7 +38,6 @@ final class SettingsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
         setupTableView()
         layout()
     }
@@ -55,16 +54,6 @@ final class SettingsViewController: BaseViewController {
 
 // MARK: - Setup
 private extension SettingsViewController {
-    func setupNavigationBar() {
-        navigationItem.title = l10n(.settings)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: l10n(.back),
-            style: .plain,
-            target: self,
-            action: #selector(close)
-        )
-    }
-
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
