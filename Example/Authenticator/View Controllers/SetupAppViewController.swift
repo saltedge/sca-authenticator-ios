@@ -33,18 +33,17 @@ private struct Layout {
     static let signUpCompleteViewTopOffset: CGFloat = 90.0
 }
 
-protocol SetupAppViewControllerDelegate: class {
-    func allowBiometricsPressed()
-    func allowNotificationsViewAction()
-    func procceedPressed()
+protocol SetupAppDelegate: class {
+    func receivedQrMetadata(data: String)
+    func dismiss()
 }
 
 final class SetupAppViewController: BaseViewController {
     private let passcodeVc = PasscodeViewController(purpose: .create)
     private lazy var qrCodeViewController = QRCodeViewController()
+    private var connectViewCoordinator: ConnectViewCoordinator?
 
-    var receivedQrMetadata: ((String?) -> ())?
-    var dismissClosure: (() -> ())?
+    weak var delegate: SetupAppDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +59,7 @@ final class SetupAppViewController: BaseViewController {
     private func setupQrCodeViewController() {
         qrCodeViewController.delegate = self
         qrCodeViewController.shouldDismissClosure = {
-            self.dismissClosure?()
+            self.delegate?.dismiss()
         }
 
         cycleFromViewController(
@@ -70,8 +69,11 @@ final class SetupAppViewController: BaseViewController {
     }
 }
 
+// MARK: - QRCodeViewControllerDelegate
 extension SetupAppViewController: QRCodeViewControllerDelegate {
     func metadataReceived(data: String?) {
-        self.receivedQrMetadata?(data)
+        guard let data = data else { return }
+
+        delegate?.receivedQrMetadata(data: data)
     }
 }

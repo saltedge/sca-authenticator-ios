@@ -41,59 +41,59 @@ final class SetupAppCoordinator: Coordinator {
 }
 
 // MARK: - SetupAppViewControllerDelegate
-extension SetupAppCoordinator: SetupAppViewControllerDelegate {
-    func allowBiometricsPressed() {
-        if BiometricsHelper.biometryType == .none {
-            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                return
-            }
-
-            UIApplication.shared.open(
-                settingsUrl,
-                completionHandler: { [weak self] _ in
-//                    self?.setupAppViewController.switchToNextStep()
-                }
-            )
-        } else {
-            PasscodeManager.useBiometrics(
-                reasonString: "Authenticate app",
-                onSuccess: { [weak self] in
-                    PasscodeManager.isBiometricsEnabled = true
-//                    self?.setupAppViewController.switchToNextStep()
-                },
-                onFailure: { [weak self] error in
-                    if error.isBiometryLockout {
-                        self?.setupAppViewController.showConfirmationAlert(
-                            withTitle: error.localizedDescription,
-                            message: "You have to reconfigure your biometry in settings.",
-                            cancelTitle: l10n(.ok),
-                            cancelAction: { _ in
-//                                self?.setupAppViewController.switchToNextStep()
-                            }
-                        )
-                    }
-                    print(error.localizedDescription)
-                }
-            )
-        }
-    }
-
-    func allowNotificationsViewAction() {
-        NotificationsManager.registerForNotifications(
-            success: { [weak self] _ in
-//                DispatchQueue.main.async { self?.setupAppViewController.switchToNextStep() }
-            },
-            failure: { [weak self] in
-                DispatchQueue.main.async {
-                    self?.setupAppViewController.showConfirmationAlert(withTitle: "Please, enable notifications in settings.")
-                }
-            }
-        )
-    }
-
-    func procceedPressed() {
-        UserDefaultsHelper.didShowOnboarding = true
-        appCoordinator = ApplicationCoordinator(window: AppDelegate.main.window)
-        appCoordinator?.start()
-    }
-}
+//extension SetupAppCoordinator: SetupAppViewControllerDelegate {
+//    func allowBiometricsPressed() {
+//        if BiometricsHelper.biometryType == .none {
+//            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+//                return
+//            }
+//
+//            UIApplication.shared.open(
+//                settingsUrl,
+//                completionHandler: { [weak self] _ in
+////                    self?.setupAppViewController.switchToNextStep()
+//                }
+//            )
+//        } else {
+//            PasscodeManager.useBiometrics(
+//                reasonString: "Authenticate app",
+//                onSuccess: { [weak self] in
+//                    PasscodeManager.isBiometricsEnabled = true
+////                    self?.setupAppViewController.switchToNextStep()
+//                },
+//                onFailure: { [weak self] error in
+//                    if error.isBiometryLockout {
+//                        self?.setupAppViewController.showConfirmationAlert(
+//                            withTitle: error.localizedDescription,
+//                            message: "You have to reconfigure your biometry in settings.",
+//                            cancelTitle: l10n(.ok),
+//                            cancelAction: { _ in
+////                                self?.setupAppViewController.switchToNextStep()
+//                            }
+//                        )
+//                    }
+//                    print(error.localizedDescription)
+//                }
+//            )
+//        }
+//    }
+//
+//    func allowNotificationsViewAction() {
+//        NotificationsManager.registerForNotifications(
+//            success: { [weak self] _ in
+////                DispatchQueue.main.async { self?.setupAppViewController.switchToNextStep() }
+//            },
+//            failure: { [weak self] in
+//                DispatchQueue.main.async {
+//                    self?.setupAppViewController.showConfirmationAlert(withTitle: "Please, enable notifications in settings.")
+//                }
+//            }
+//        )
+//    }
+//
+//    func procceedPressed() {
+//        UserDefaultsHelper.didShowOnboarding = true
+//        appCoordinator = ApplicationCoordinator(window: AppDelegate.main.window)
+//        appCoordinator?.start()
+//    }
+//}
