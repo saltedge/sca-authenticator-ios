@@ -45,7 +45,7 @@ enum PasscodeViewModelState: Equatable {
 
 protocol PasscodeEventsDelegate: class {
     func showBiometrics()
-    func dismiss()
+    func dismiss(completion: (() -> ())?)
     func popToRootViewController()
     func presentWrongPasscodeAlert(with message: String, title: String?, buttonTitle: String?)
     func dismissWrongPasscodeAlert()
@@ -179,8 +179,7 @@ final class PasscodeViewModel {
             reasonString: l10n(.unlockAuthenticator),
             onSuccess: {
                 self.resetWrongPasscodeAttempts()
-                completion?()
-                self.delegate?.dismiss()
+                self.delegate?.dismiss(completion: completion)
             },
             onFailure: { error in
                 if error.isBiometryLockout {

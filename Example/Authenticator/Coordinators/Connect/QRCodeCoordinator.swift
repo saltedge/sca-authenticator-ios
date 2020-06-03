@@ -51,8 +51,8 @@ final class QRCodeCoordinator: Coordinator {
 
 // MARK: - QRCodeViewControllerDelegate
 extension QRCodeCoordinator: QRCodeViewControllerDelegate {
-    func metadataReceived(data: String?) {
-        guard let data = data, let url = URL(string: data),
+    func metadataReceived(data: String) {
+        guard let url = URL(string: data),
             SEConnectHelper.isValid(deepLinkUrl: url) else { return }
 
         if let actionGuid = SEConnectHelper.actionGuid(from: url),

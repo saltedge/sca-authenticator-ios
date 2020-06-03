@@ -57,24 +57,14 @@ final class ApplicationCoordinator: Coordinator {
 
             onboardingVc.donePressedClosure = {
                 let setupVc = SetupAppViewController()
+                setupVc.delegate = self
                 setupVc.modalPresentationStyle = .fullScreen
-                setupVc.receivedQrMetadata = { metadata in
-                    self.startAuthorizationsViewController()
-
-                    if let data = metadata {
-                        self.openConnectViewController(connectionType: .newConnection(data))
-                    }
-                }
-                setupVc.dismissClosure = {
-                    self.startAuthorizationsViewController()
-                }
                 onboardingVc.present(setupVc, animated: true)
             }
         }
         window?.makeKeyAndVisible()
     }
 
-    // TODO: Remove
     private func startAuthorizationsViewController() {
         UserDefaultsHelper.didShowOnboarding = true
 
@@ -119,11 +109,13 @@ final class ApplicationCoordinator: Coordinator {
     func openConnectViewController(connectionType: ConnectionType) {
         guard let rootVc = window?.rootViewController else { return }
 
-        connectViewCoordinator = ConnectViewCoordinator(
-            rootViewController: rootVc,
-            connectionType: connectionType
-        )
-        connectViewCoordinator?.start()
+        passcodeCoordinator?.onCompleteClosure = {
+            self.connectViewCoordinator = ConnectViewCoordinator(
+                rootViewController: rootVc,
+                connectionType: connectionType
+            )
+            self.connectViewCoordinator?.start()
+        }
     }
 
     func handleAuthorizationsFromPasscode(connectionId: String, authorizationId: String) {
@@ -194,5 +186,22 @@ final class ApplicationCoordinator: Coordinator {
             topController.dismiss(messageBarView: messageView)
             messageBarView = nil
         }
+    }
+}
+
+// MARK: - SetupAppDelegate
+extension ApplicationCoordinator: SetupAppDelegate {
+    func receivedQrMetadata(data: String) {
+        startAuthorizationsViewController()
+
+        connectViewCoordinator = ConnectViewCoordinator(
+            rootViewController: authorizationsCoordinator.rootViewController,
+            connectionType: .newConnection(data)
+        )
+        connectViewCoordinator?.start()
+    }
+
+    func dismiss() {
+        startAuthorizationsViewController()
     }
 }

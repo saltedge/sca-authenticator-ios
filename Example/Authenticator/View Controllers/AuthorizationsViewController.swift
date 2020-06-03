@@ -48,13 +48,16 @@ final class AuthorizationsViewController: BaseViewController {
 
     weak var delegate: AuthorizationsViewControllerDelegate?
 
-    var viewModel: AuthorizationsViewModel!
+    var viewModel: AuthorizationsViewModel! {
+        didSet {
+            handleViewModelState()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.authenticator)
         view.backgroundColor = .backgroundColor
-        handleViewModelState()
         setupSwipingViews()
         setupObservers()
         setupNoDataView()
@@ -71,7 +74,7 @@ final class AuthorizationsViewController: BaseViewController {
         [moreButton, qrButton].forEach { $0.removeFromSuperview() }
     }
 
-    func handleViewModelState() {
+    private func handleViewModelState() {
         viewModel.state.valueChanged = { [weak self] value in
             guard let strongSelf = self else { return }
 
