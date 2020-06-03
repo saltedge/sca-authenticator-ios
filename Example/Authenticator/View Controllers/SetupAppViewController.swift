@@ -71,9 +71,7 @@ final class SetupAppViewController: BaseViewController {
 
 // MARK: - QRCodeViewControllerDelegate
 extension SetupAppViewController: QRCodeViewControllerDelegate {
-    func metadataReceived(data: String?) {
-        guard let data = data else { return }
-
+    func metadataReceived(data: String) {
         delegate?.receivedQrMetadata(data: data)
     }
 }

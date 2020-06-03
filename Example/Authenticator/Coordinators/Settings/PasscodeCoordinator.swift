@@ -65,8 +65,11 @@ extension PasscodeCoordinator: PasscodeEventsDelegate {
         )
     }
 
-    func dismiss() {
-        currentViewController.dismiss(animated: true)
+    func dismiss(completion: (() -> ())?) {
+        currentViewController.dismiss(
+            animated: true,
+            completion: completion
+        )
     }
 
     func popToRootViewController() {

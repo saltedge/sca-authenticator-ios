@@ -109,11 +109,13 @@ final class ApplicationCoordinator: Coordinator {
     func openConnectViewController(connectionType: ConnectionType) {
         guard let rootVc = window?.rootViewController else { return }
 
-        connectViewCoordinator = ConnectViewCoordinator(
-            rootViewController: rootVc,
-            connectionType: connectionType
-        )
-        connectViewCoordinator?.start()
+        passcodeCoordinator?.onCompleteClosure = {
+            self.connectViewCoordinator = ConnectViewCoordinator(
+                rootViewController: rootVc,
+                connectionType: connectionType
+            )
+            self.connectViewCoordinator?.start()
+        }
     }
 
     func handleAuthorizationsFromPasscode(connectionId: String, authorizationId: String) {

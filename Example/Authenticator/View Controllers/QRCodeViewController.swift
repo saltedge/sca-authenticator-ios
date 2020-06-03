@@ -31,13 +31,8 @@ private struct Layout {
     static let cancelButtonLeftOffset: CGFloat = 16.0
 }
 
-enum QRCodeType {
-    case firstConnect
-    case normal
-}
-
 protocol QRCodeViewControllerDelegate: class {
-    func metadataReceived(data: String?)
+    func metadataReceived(data: String)
 }
 
 final class QRCodeViewController: BaseViewController {
@@ -46,8 +41,6 @@ final class QRCodeViewController: BaseViewController {
     private var qrCodeFrameView: UIView?
 
     weak var delegate: QRCodeViewControllerDelegate?
-
-    var type: QRCodeType = .normal
 
     var shouldDismissClosure: (() -> ())?
 
@@ -148,7 +141,6 @@ final class QRCodeViewController: BaseViewController {
 
     @objc private func cancelPressed() {
         dismiss(animated: true)
-        delegate?.metadataReceived(data: nil)
         shouldDismissClosure?()
     }
 
