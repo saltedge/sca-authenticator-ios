@@ -335,7 +335,7 @@ extension AuthorizationsViewController: Layoutable {
 
         authorizationCollectionView.edgesToSuperview()
 
-        noDataView.topToSuperview(offset: 100)
+        noDataView.topToSuperview(offset: AppLayout.screenHeight * 0.11)
         noDataView.widthToSuperview()
     }
 }

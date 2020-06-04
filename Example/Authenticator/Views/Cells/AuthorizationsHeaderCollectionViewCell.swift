@@ -37,7 +37,7 @@ protocol AuthorizationHeaderCollectionViewCellDelegate: class {
 }
 
 final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
-    private let connectionImageView = UIImageView()
+    private let connectionImageView = AspectFitImageView(imageName: "")
     private let connectionNameLabel = UILabel(font: .systemFont(ofSize: 14.0), textColor: .titleColor)
     private let timeLeftLabel = TimeLeftLabel()
     private let progressView = CountdownProgressView()
@@ -57,7 +57,6 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .secondaryBackground
-        connectionImageView.image = #imageLiteral(resourceName: "bankPlaceholderCyanSmall")
         setupShadowAndCornerRadius()
         layout()
     }

@@ -25,10 +25,12 @@ import AVFoundation
 import AudioToolbox
 
 private struct Layout {
-    static let qrWindowHeight: CGFloat = 232.0
+    static let qrWindowHeight: CGFloat = AppLayout.screenHeight * 0.284
     static let cornerRadius: CGFloat = 4.0
-    static let cancelButtonTopOfset: CGFloat = 16.0
+    static let cancelButtonTopOfset: CGFloat = AppLayout.screenHeight * 0.028
     static let cancelButtonLeftOffset: CGFloat = 16.0
+    static let labelsStackViewTopOffset: CGFloat = AppLayout.screenHeight * 0.16
+    static let stackViewSpacing: CGFloat = AppLayout.screenHeight * 0.009
 }
 
 protocol QRCodeViewControllerDelegate: class {
@@ -158,7 +160,12 @@ final class QRCodeViewController: BaseViewController {
         descriptionLabel.textColor = .titleColor
         descriptionLabel.numberOfLines = 0
 
-        let stackView = UIStackView(axis: .vertical, alignment: .fill, spacing: 8.0, distribution: .fillEqually)
+        let stackView = UIStackView(
+            axis: .vertical,
+            alignment: .fill,
+            spacing: Layout.stackViewSpacing,
+            distribution: .fillEqually
+        )
         stackView.addArrangedSubviews(titleLabel, descriptionLabel)
 
         return stackView
@@ -173,7 +180,7 @@ extension QRCodeViewController: Layoutable {
 
         stackView.width(view.width - 76.0)
         stackView.centerX(to: view)
-        stackView.top(to: view, offset: view.height * 0.19)
+        stackView.topToSuperview(offset: Layout.labelsStackViewTopOffset)
     }
 
     private func createOverlay() {

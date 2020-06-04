@@ -29,6 +29,10 @@ protocol PasscodeKeyboardDelegate: class {
     func biometricsPressed()
 }
 
+private struct Layout {
+    static let buttonSize: CGSize = CGSize(width: AppLayout.screenWidth * 0.304, height: AppLayout.screenHeight * 0.086)
+}
+
 final class PasscodeKeyboard: UIView {
     weak var delegate: PasscodeKeyboardDelegate?
 
@@ -72,7 +76,7 @@ private extension PasscodeKeyboard {
         stackView.distribution = .fillProportionally
         for value in array {
             let button = createButton(with: value)
-            button.size(CGSize(width: 114.0, height: 70.0))
+            button.size(Layout.buttonSize)
             stackView.addArrangedSubview(button)
         }
         mainStackView.addArrangedSubview(stackView)
