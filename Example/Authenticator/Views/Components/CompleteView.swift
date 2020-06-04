@@ -24,7 +24,7 @@ import UIKit
 import TinyConstraints
 
 private struct Layout {
-    static let imageContainerTopOffset: CGFloat = 120.0
+    static let imageContainerTopOffset: CGFloat = AppLayout.screenHeight * 0.14
     static let imageContainerViewSize: CGSize = CGSize(width: 75.0, height: 75.0)
     static let accessoryViewSize: CGSize = CGSize(width: 55.0, height: 55.0)
     static let titleTopOffset: CGFloat = 26.0

@@ -27,12 +27,12 @@ private struct Layout {
     static let titleLabelSideOffset: CGFloat = 37.0
     static let titleLabelHeight: CGFloat = 28.0
     static let interSymbolsSpacing: CGFloat = 25.0
-    static let passcodeSymbolsTopOffset: CGFloat = 22.0
+    static let passcodeSymbolsTopOffset: CGFloat = AppLayout.screenHeight * 0.02
     static let passcodeSymbolSize: CGSize = CGSize(width: 15.0, height: 15.0)
-    static let wrongPasscodeLabelTopOffset: CGFloat = 46.0
+    static let wrongPasscodeLabelTopOffset: CGFloat = AppLayout.screenHeight * 0.05
     static let wrongPasscodeLabelSideOffset: CGFloat = 86.0
-    static let wrongPasscodeLabelHeight: CGFloat = 44.0
-    static let passcodeKeyboardBottomOffset: CGFloat = -38.0
+    static let wrongPasscodeLabelHeight: CGFloat = AppLayout.screenHeight * 0.054
+    static let passcodeKeyboardBottomOffset: CGFloat = -AppLayout.screenHeight * 0.06
     static let passcodeKeyboardSideOffset: CGFloat = 16.0
 }
 
@@ -55,7 +55,7 @@ final class PasscodeView: UIView {
         let label = UILabel()
         label.alpha = 0.0
         label.backgroundColor = .extraLightGray
-        label.layer.cornerRadius = 22.0
+        label.layer.cornerRadius = Layout.wrongPasscodeLabelHeight / 2
         label.font = .systemFont(ofSize: 14.0, weight: .regular)
         label.layer.masksToBounds = true
         label.textAlignment = .center

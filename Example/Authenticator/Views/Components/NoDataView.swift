@@ -24,7 +24,7 @@ import UIKit
 import TinyConstraints
 
 private struct Layout {
-    static let imageViewSize: CGSize = CGSize(width: 104.0, height: 104.0)
+    static let imageViewSize: CGSize = CGSize(width: AppLayout.screenWidth * 0.84, height: AppLayout.screenHeight * 0.24)
     static let titleLabelTopOffset: CGFloat = 30.0
     static let descriptionLabelTopOffset: CGFloat = 10.0
     static let buttonSideOffset: CGFloat = 75.0
@@ -121,7 +121,7 @@ extension NoDataView: Layoutable {
     func layout() {
         addSubviews(imageView, titleLabel, descriptionLabel)
 
-        imageView.height(AppLayout.screenHeight * 0.246)
+        imageView.size(Layout.imageViewSize)
         imageView.width(to: self, offset: -32.0)
         imageView.top(to: self)
         imageView.centerX(to: self)
