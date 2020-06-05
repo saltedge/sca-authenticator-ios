@@ -25,14 +25,14 @@ import UIKit
 enum PasscodeViewModelState: Equatable {
     case check
     case wrong
-    case create(showLabel: Bool)
+    case create(String)
     case correct
     case `repeat`
 
     static func == (lhs: PasscodeViewModelState, rhs: PasscodeViewModelState) -> Bool {
         switch (lhs, rhs) {
-        case let (.create(show1), .create(show2)):
-            return show1 == show2
+        case let (.create(text1), .create(text2)):
+            return text1 == text2
         case (.check, .check),
              (.wrong, .wrong),
              (.repeat, .repeat),
@@ -71,7 +71,7 @@ final class PasscodeViewModel {
 
     init(purpose: PasscodeViewModel.PasscodeViewMode) {
         self.purpose = purpose
-        self.state = Observable<PasscodeViewModelState>(purpose == .create ? .create(showLabel: false) : .check)
+        self.state = Observable<PasscodeViewModelState>(purpose == .create ? .create(l10n(.createPasscode)) : .check)
     }
 
     var navigationItemTitle: String? {
@@ -84,6 +84,10 @@ final class PasscodeViewModel {
 
     var shouldDismiss: Bool {
         return purpose != .create
+    }
+
+    var enteredDigitsCount: Int {
+        return passcodeToFill.count
     }
 
     var passcodeToFill: String {
@@ -133,7 +137,7 @@ final class PasscodeViewModel {
         }
 
         if purpose == .edit {
-            switchToCreate(showLabel: false)
+            switchToCreate()
         } else {
             resetWrongPasscodeAttempts()
             state.value = .correct
@@ -143,7 +147,7 @@ final class PasscodeViewModel {
     func comparePasscodes() {
         guard passcode == confirmationPasscode else {
             wrongPasscode()
-            switchToCreate(showLabel: true)
+            switchToCreate()
             return
         }
 
@@ -164,8 +168,10 @@ final class PasscodeViewModel {
         }
     }
 
-    func switchToCreate(showLabel: Bool) {
-        state.value = .create(showLabel: showLabel)
+    func switchToCreate() {
+        let text = purpose == .create ? l10n(.createPasscode) : l10n(.newPasscode)
+
+        state.value = .create(text)
 
         passcode = ""
     }
@@ -227,7 +233,11 @@ final class PasscodeViewModel {
 
 // MARK: - Presentation
 extension PasscodeViewModel {
-    var shouldShowTouchId: Bool {
+    var shouldShowIcon: Bool {
+        return purpose == .enter
+    }
+
+    var isInEnterMode: Bool {
         return purpose == .enter
     }
 

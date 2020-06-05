@@ -38,6 +38,7 @@ enum Localizations: String, Localizable {
     case next = "actions.next"
     case retry = "actions.retry"
     case authenticator = "authorization.screen.name"
+    case forgot = "actions.forgot"
 
     // MARK: - Onboarding
     case getStarted = "actions.get_started"
@@ -134,7 +135,8 @@ enum Localizations: String, Localizable {
     case accountReset = "errors.account_reset"
 
     case createPasscode = "onboarding.secure_app.passcode_create"
-    case repeatPasscode = "onboarding.secure_app.passcode_repeat"
+    case confirmPasscode = "onboarding.secure_app.passcode_confirm"
+    case newPasscode = "in_app.settings.new_passcode"
     case yourCurrentPasscode = "actions.current_passcode"
     case enterPasscodeOrUseTouchID = "in_app.passcode_confirmation.title"
     case enterPasscodeOrUseFaceID = "in_app.passcode_confirmation.title2"
