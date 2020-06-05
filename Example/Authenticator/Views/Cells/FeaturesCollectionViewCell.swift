@@ -26,7 +26,7 @@ import TinyConstraints
 private struct Layout {
     static let imageViewTopOffset: CGFloat = 58.0
     static let imageViewSideOffset: CGFloat = 16.0
-    static let imageViewHeight: CGFloat = AppLayout.screenHeight * 0.317
+    static let imageViewHeight: CGFloat = AppLayout.screenHeight * 0.307
 
     static let titleLabelTopOffset: CGFloat = 78.0
     static let titleLabelSideOffset: CGFloat = 32.0
@@ -45,8 +45,7 @@ final class FeaturesCollectionViewCell: UICollectionViewCell {
 
     var viewModel: OnboardingCellViewModel! {
         didSet {
-            // TODO: Uncomment when images will be available
-//            imageView.image = viewModel.image
+            imageView.image = viewModel.image
             titleLabel.text = viewModel.title
             descriptionLabel.text = viewModel.description
         }
@@ -55,7 +54,6 @@ final class FeaturesCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .backgroundColor
-        imageView.backgroundColor = .lightGray
         layout()
         stylize()
     }
