@@ -42,11 +42,10 @@ enum OnboardingViewState: Equatable {
 class OnboardingViewModel {
     var state = Observable<OnboardingViewState>(.normal)
 
-    // TODO: Replace with correct images when available
     private let images = [
-        UIImage(named: "absoluteControl", in: .authenticator_main, compatibleWith: nil)!,
-        UIImage(named: "oneApp", in: .authenticator_main, compatibleWith: nil)!,
-        UIImage(named: "paymentsSecurity", in: .authenticator_main, compatibleWith: nil)!
+        UIImage(named: "onboarding1", in: .authenticator_main, compatibleWith: nil)!,
+        UIImage(named: "onboarding2", in: .authenticator_main, compatibleWith: nil)!,
+        UIImage(named: "onboarding3", in: .authenticator_main, compatibleWith: nil)!
     ]
     private let titles = [l10n(.firstFeature), l10n(.secondFeature), l10n(.thirdFeature)]
     private let descriptions = [
