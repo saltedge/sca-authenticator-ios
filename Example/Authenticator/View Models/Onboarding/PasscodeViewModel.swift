@@ -86,6 +86,10 @@ final class PasscodeViewModel {
         return purpose != .create
     }
 
+    var enteredDigitsCount: Int {
+        return passcodeToFill.count
+    }
+
     var passcodeToFill: String {
         get {
             return state.value == .repeat ? confirmationPasscode : passcode
@@ -229,7 +233,11 @@ final class PasscodeViewModel {
 
 // MARK: - Presentation
 extension PasscodeViewModel {
-    var shouldShowTouchId: Bool {
+    var shouldShowIcon: Bool {
+        return purpose == .enter
+    }
+
+    var isInEnterMode: Bool {
         return purpose == .enter
     }
 

@@ -37,19 +37,45 @@ final class PasscodeKeyboard: UIView {
     weak var delegate: PasscodeKeyboardDelegate?
 
     private let mainStackView = UIStackView(frame: .zero)
-    private let clearImage = UIImage(named: "ClearButton", in: .authenticator_main, compatibleWith: nil)!
-//    private let biometricsButton = BiometricsPresenter.keyboardImage ?? UIImage()
-    private let actionButton = BiometricsPresenter.keyboardImage ?? UIImage()
+    private var actionButton = TaptileFeedbackButton()
+    private var actionButtonImage: UIImage
+
+    private struct Images {
+        static let clearImage: UIImage = UIImage(named: "ClearButton", in: .authenticator_main, compatibleWith: nil)!
+        static let biometricsImage: UIImage = BiometricsPresenter.keyboardImage!
+    }
+
+    var showClearButton: Bool = false {
+        didSet {
+            guard showClearButton != oldValue else { return }
+
+            if showClearButton {
+                UIView.transition(
+                    with: self.actionButton,
+                    duration: 0.4,
+                    options: .transitionFlipFromRight,
+                    animations: {
+                        self.actionButton.set(image: Images.clearImage)
+                    }
+                )
+            } else {
+                UIView.transition(
+                    with: self.actionButton,
+                    duration: 0.4,
+                    options: .transitionFlipFromRight,
+                    animations: {
+                        self.actionButton.set(image: Images.biometricsImage)
+                    }
+                )
+            }
+        }
+    }
 
     init(shouldShowTouchID: Bool) {
+        actionButtonImage = shouldShowTouchID ? Images.biometricsImage : Images.clearImage
         super.init(frame: .zero)
-//        let keyboardLayout: [[Any]] = [
-//            ["1", "4", "7", shouldShowTouchID ? biometricsButton : ""],
-//            ["2", "5", "8", "0"],
-//            ["3", "6", "9", clearButton ?? ""]
-//        ]
         let keyboardLayout: [[Any]] = [
-            ["1", "4", "7", "Forgot?"],
+            ["1", "4", "7", shouldShowTouchID ? l10n(.forgot) : ""],
             ["2", "5", "8", "0"],
             ["3", "6", "9", actionButton]
         ]
@@ -89,18 +115,24 @@ private extension PasscodeKeyboard {
     }
 
     func createButton(with value: Any) -> UIButton {
-        let button = TaptileFeedbackButton()
+        var button = TaptileFeedbackButton()
         button.layer.cornerRadius = 6.0
 
         if let title = value as? String {
             button.setTitle(title, for: .normal)
             button.setTitleColor(.titleColor, for: .normal)
-            button.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
-        } else if let image = value as? UIImage {
-            button.setImage(image, for: .normal)
-            button.setImage(image, for: .highlighted)
+            if title == l10n(.forgot) {
+                button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+            } else {
+                button.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
+            }
+            button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
+        } else {
+            actionButton.setImage(actionButtonImage, for: .normal)
+            actionButton.setImage(actionButtonImage, for: .highlighted)
+            actionButton.addTarget(self, action: #selector(actionButtonPressed(_:)), for: .touchUpInside)
+            button = actionButton
         }
-        button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
         return button
     }
 }
@@ -108,15 +140,18 @@ private extension PasscodeKeyboard {
 // MARK: - Actions
 private extension PasscodeKeyboard {
     @objc func buttonPressed(_ sender: TaptileFeedbackButton) {
+        if let title = sender.title(for: .normal), !title.isEmpty {
+            self.delegate?.keyboard(didInputDigit: title)
+        }
+    }
+
+    @objc func actionButtonPressed(_ sender: TaptileFeedbackButton) {
         if let image = sender.image(for: .normal) {
-            if image == clearImage {
+            if image == Images.clearImage {
                 self.delegate?.clearPressed()
-            } else if image == BiometricsPresenter.keyboardImage! {
+            } else {
                 self.delegate?.biometricsPressed()
             }
-        } else if let title = sender.title(for: .normal), !title.isEmpty {
-            
-            self.delegate?.keyboard(didInputDigit: title)
         }
     }
 }

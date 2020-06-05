@@ -22,7 +22,6 @@
 
 import UIKit
 
-// TODO: Finish refactor
 class TaptileFeedbackButton: UIButton {
     override var isHighlighted: Bool {
         didSet {
@@ -32,6 +31,11 @@ class TaptileFeedbackButton: UIButton {
 
     init() {
         super.init(frame: .zero)
+    }
+
+    func set(image: UIImage) {
+        setImage(image, for: .normal)
+        setImage(image, for: .highlighted)
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -66,7 +66,7 @@ final class PasscodeView: UIView {
 
     init(viewModel: PasscodeViewModel) {
         self.viewModel = viewModel
-        self.passcodeKeyboard = PasscodeKeyboard(shouldShowTouchID: viewModel.shouldShowTouchId)
+        self.passcodeKeyboard = PasscodeKeyboard(shouldShowTouchID: viewModel.shouldShowIcon)
         super.init(frame: .zero)
         titleLabel.text = viewModel.title
         wrongPasscodeLabel.text = viewModel.wrongPasscodeLabelText
@@ -180,6 +180,9 @@ extension PasscodeView: PasscodeKeyboardDelegate {
                 self.passcodeSymbols[index].animateCircle()
             }
         )
+        if viewModel.isInEnterMode, viewModel.enteredDigitsCount > 0 {
+            passcodeKeyboard.showClearButton = true
+        }
     }
 
     func clearPressed() {
@@ -188,6 +191,9 @@ extension PasscodeView: PasscodeKeyboardDelegate {
                 self.passcodeSymbols[index].animateEmpty()
             }
         )
+        if viewModel.isInEnterMode, viewModel.enteredDigitsCount == 0 {
+            passcodeKeyboard.showClearButton = false
+        }
     }
 
     func biometricsPressed() {
