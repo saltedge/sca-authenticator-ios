@@ -30,7 +30,7 @@ private struct Layout {
     static let passcodeSymbolsTopOffset: CGFloat = AppLayout.screenHeight * 0.02
     static let passcodeSymbolSize: CGSize = CGSize(width: 15.0, height: 15.0)
     static let wrongPasscodeLabelTopOffset: CGFloat = AppLayout.screenHeight * 0.05
-    static let wrongPasscodeLabelSideOffset: CGFloat = 86.0
+    static let wrongPasscodeLabelWidth: CGFloat = AppLayout.screenWidth * 0.54
     static let wrongPasscodeLabelHeight: CGFloat = AppLayout.screenHeight * 0.054
     static let passcodeKeyboardBottomOffset: CGFloat = -AppLayout.screenHeight * 0.06
     static let passcodeKeyboardSideOffset: CGFloat = 16.0
@@ -81,17 +81,15 @@ final class PasscodeView: UIView {
         viewModel.state.valueChanged = { value in
             switch value {
             case .wrong:
-                self.animateWrongPasscodeLabel(show: true)
+                self.animateWrongPasscodeLabel()
                 self.passcodeSymbols.forEach { $0.animateEmpty() }
                 self.wrongPasscodeAnimation()
                 HapticFeedbackHelper.produceErrorFeedback()
-            case .create(let showLabel):
-                self.animateWrongPasscodeLabel(show: showLabel)
-                self.animateLabel(with: l10n(.createPasscode))
+            case .create(let text):
+                self.animateLabel(with: text)
                 self.passcodeSymbols.forEach { $0.animateEmpty() }
             case .repeat:
-                self.animateWrongPasscodeLabel(show: false)
-                self.animateLabel(with: l10n(.repeatPasscode))
+                self.animateLabel(with: l10n(.confirmPasscode))
                 self.passcodeSymbols.forEach { $0.animateEmpty() }
             case .correct:
                 self.delegate?.completed()
@@ -141,11 +139,21 @@ private extension PasscodeView {
 
 // MARK: - Animations
 private extension PasscodeView {
-    func animateWrongPasscodeLabel(show: Bool) {
+    func animateWrongPasscodeLabel() {
         UIView.animate(
             withDuration: 0.3,
             animations: {
-                self.wrongPasscodeLabel.alpha = show ? 1.0 : 0.0
+                self.wrongPasscodeLabel.alpha = 1.0
+            },
+            completion: { _ in
+                after(3.0) {
+                    UIView.animate(
+                        withDuration: 0.3,
+                        animations: {
+                            self.wrongPasscodeLabel.alpha = 0.0
+                        }
+                    )
+                }
             }
         )
     }
@@ -208,8 +216,8 @@ extension PasscodeView: Layoutable {
         passcodeSymbolsStackView.spacing = Layout.interSymbolsSpacing
 
         wrongPasscodeLabel.topToBottom(of: passcodeSymbolsView, offset: Layout.wrongPasscodeLabelTopOffset)
-        wrongPasscodeLabel.left(to: self, offset: Layout.wrongPasscodeLabelSideOffset)
-        wrongPasscodeLabel.right(to: self, offset: -Layout.wrongPasscodeLabelSideOffset)
+        wrongPasscodeLabel.centerX(to: self)
+        wrongPasscodeLabel.width(Layout.wrongPasscodeLabelWidth)
         wrongPasscodeLabel.height(Layout.wrongPasscodeLabelHeight)
 
         passcodeKeyboard.left(to: self, offset: Layout.passcodeKeyboardSideOffset)

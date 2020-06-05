@@ -37,15 +37,21 @@ final class PasscodeKeyboard: UIView {
     weak var delegate: PasscodeKeyboardDelegate?
 
     private let mainStackView = UIStackView(frame: .zero)
-    private let clearButton = UIImage(named: "ClearButton", in: .authenticator_main, compatibleWith: nil)
-    private let biometricsButton = BiometricsPresenter.keyboardImage ?? UIImage()
+    private let clearImage = UIImage(named: "ClearButton", in: .authenticator_main, compatibleWith: nil)!
+//    private let biometricsButton = BiometricsPresenter.keyboardImage ?? UIImage()
+    private let actionButton = BiometricsPresenter.keyboardImage ?? UIImage()
 
     init(shouldShowTouchID: Bool) {
         super.init(frame: .zero)
+//        let keyboardLayout: [[Any]] = [
+//            ["1", "4", "7", shouldShowTouchID ? biometricsButton : ""],
+//            ["2", "5", "8", "0"],
+//            ["3", "6", "9", clearButton ?? ""]
+//        ]
         let keyboardLayout: [[Any]] = [
-            ["1", "4", "7", shouldShowTouchID ? biometricsButton : ""],
+            ["1", "4", "7", "Forgot?"],
             ["2", "5", "8", "0"],
-            ["3", "6", "9", clearButton ?? ""]
+            ["3", "6", "9", actionButton]
         ]
         setupMainStackView()
         for column in keyboardLayout {
@@ -103,12 +109,13 @@ private extension PasscodeKeyboard {
 private extension PasscodeKeyboard {
     @objc func buttonPressed(_ sender: TaptileFeedbackButton) {
         if let image = sender.image(for: .normal) {
-            if image == clearButton {
+            if image == clearImage {
                 self.delegate?.clearPressed()
-            } else if image == biometricsButton {
+            } else if image == BiometricsPresenter.keyboardImage! {
                 self.delegate?.biometricsPressed()
             }
         } else if let title = sender.title(for: .normal), !title.isEmpty {
+            
             self.delegate?.keyboard(didInputDigit: title)
         }
     }

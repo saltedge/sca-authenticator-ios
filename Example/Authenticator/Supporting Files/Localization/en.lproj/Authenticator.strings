@@ -2,7 +2,7 @@
 "actions.allow" = "Allow";
 "actions.back" = "Back";
 "actions.cancel" = "Cancel";
-"actions.change_passcode" = "Change Passcode";
+"actions.change_passcode" = "Change passcode";
 "actions.close" = "Close";
 "actions.delete" = "Delete";
 "actions.delete_all" = "Delete All";
@@ -55,7 +55,7 @@
 "errors.no_suitable_connection" = "You have no suitable connection for this action";
 "errors.no_internet_connection" = "No Internet connection.";
 "errors.no_internet_connection_try_again" = "Please try again later.";
-"errors.passcode_dont_match" = "Passcodes don't mach";
+"errors.passcode_dont_match" = "Passcodes don't match";
 "errors.wrong_passcode" = "Wrong passcode";
 "errors.passcode_ios_singular" = "You entered the wrong Passcode. Please try again in %{count} minute.";
 "errors.try_again" = "Please try again";
@@ -90,6 +90,7 @@
 "in_app.settings.contact_support" = "Contact Support";
 "in_app.settings.contact_support_failed" = "Could not send message. Please check your Email configuration and try again.";
 "in_app.settings.contact_support_message" = "Thank you for your feedback!";
+"in_app.settings.new_passcode" = "New passcode";
 "in_app.settings.device_id" = "Device ID";
 "in_app.settings.face_id" = "Face ID";
 "in_app.settings.language" = "Language";
@@ -121,9 +122,9 @@
 "onboarding.secure_app.face_id_allow" = "Allow Face ID";
 "onboarding.secure_app.face_id_description" = "Use Face ID to enter the App faster, but don’t worry, you’ll still have your passcode as backup.";
 "onboarding.secure_app.go_to_settings" = "Go to Settings";
-"onboarding.secure_app.passcode_create" = "Create Passcode";
+"onboarding.secure_app.passcode_create" = "Create passcode";
 "onboarding.secure_app.passcode_description" = "Create a passcode to keep all your data safe from prying eyes";
-"onboarding.secure_app.passcode_repeat" = "Repeat Passcode";
+"onboarding.secure_app.passcode_confirm" = "Confirm passcode";
 "onboarding.secure_app.passcode_title" = "Secure your Authenticator";
 "onboarding.secure_app.touch_id_allow" = "Allow Touch ID";
 "onboarding.secure_app.touch_id_description" = "Use Touch ID to enter the App faster, but don’t worry, you’ll still have your passcode as backup.";

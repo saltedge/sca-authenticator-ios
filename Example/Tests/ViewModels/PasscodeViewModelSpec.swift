@@ -75,7 +75,7 @@ final class PasscodeViewModelSpec: BaseSpec {
                         viewModel.didInput(digit: "1", indexToAnimate: { _ in })
                         viewModel.didInput(digit: "1", indexToAnimate: { _ in })
 
-                        expect(viewModel.state.value).toEventually(equal(PasscodeViewModelState.create(showLabel: false)))
+                        expect(viewModel.state.value).toEventually(equal(PasscodeViewModelState.create(l10n(.newPasscode))))
                     }
                 }
 
@@ -85,7 +85,7 @@ final class PasscodeViewModelSpec: BaseSpec {
 
                         let viewModel = PasscodeViewModel(purpose: .create)
                         
-                        expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(showLabel: false)))
+                        expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(l10n(.createPasscode))))
                         
                         viewModel.didInput(digit: "1", indexToAnimate: { _ in })
                         viewModel.didInput(digit: "1", indexToAnimate: { _ in })
@@ -100,7 +100,7 @@ final class PasscodeViewModelSpec: BaseSpec {
                     it("it should call comparePasscodes") {
                         let viewModel = PasscodeViewModel(purpose: .create)
                         
-                        expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(showLabel: false)))
+                        expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(l10n(.createPasscode))))
                         
                         viewModel.didInput(digit: "2", indexToAnimate: { _ in })
                         viewModel.didInput(digit: "2", indexToAnimate: { _ in })
@@ -195,9 +195,9 @@ final class PasscodeViewModelSpec: BaseSpec {
 
                 expect(viewModel.state.value).to(equal(PasscodeViewModelState.check))
 
-                viewModel.switchToCreate(showLabel: false)
+                viewModel.switchToCreate()
 
-                expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(showLabel: false)))
+                expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(l10n(.newPasscode))))
             }
         }
 
@@ -214,7 +214,7 @@ final class PasscodeViewModelSpec: BaseSpec {
 
                     viewModel.checkPasscode()
 
-                    expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(showLabel: false)))
+                    expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(l10n(.newPasscode))))
                 }
             }
 
@@ -281,7 +281,7 @@ final class PasscodeViewModelSpec: BaseSpec {
                     viewModel.comparePasscodes()
 
                     expect(PasscodeManager.current).to(beEmpty())
-                    expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(showLabel: true)))
+                    expect(viewModel.state.value).to(equal(PasscodeViewModelState.create(l10n(.createPasscode))))
                 }
             }
         }
