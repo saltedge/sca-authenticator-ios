@@ -39,34 +39,20 @@ struct EmptyViewData {
 }
 
 class NoDataView: UIView {
-    private let imageView = UIImageView(frame: .zero)
+    private let imageView: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
     private let titleLabel = UILabel(font: .systemFont(ofSize: 21.0))
     private let descriptionLabel = UILabel(font: .systemFont(ofSize: 17.0))
     private var button: CustomButton?
 
     var onCTAPress: (() -> ())?
 
-    init(image: UIImage, title: String, description: String, ctaTitle: String? = nil, action: (() -> ())? = nil) {
-        super.init(frame: .zero)
-        // NOTE: uncomment, whe all images will be available
-//        imageView.image = image
-        imageView.backgroundColor = .lightGray
-        titleLabel.text = title
-        descriptionLabel.text = description
-        descriptionLabel.numberOfLines = 0
-
-        if let title = ctaTitle {
-            button = CustomButton(text: title)
-            button?.on(.touchUpInside) { _, _ in
-                action?()
-            }
-        }
-        layout()
-    }
-
     init(data: EmptyViewData, action: (() -> ())? = nil) {
         super.init(frame: .zero)
-        imageView.backgroundColor = .lightGray
+        imageView.image = data.image
         titleLabel.text = data.title
         descriptionLabel.text = data.description
         descriptionLabel.numberOfLines = 0

@@ -43,6 +43,11 @@ enum AuthorizationsViewModelState: Equatable {
 }
 
 class AuthorizationsViewModel {
+    private struct Images {
+        static let noAuthorizations: UIImage = UIImage(named: "noAuthorizations", in: .authenticator_main, compatibleWith: nil)!
+        static let noConnections: UIImage = UIImage(named: "noConnections", in: .authenticator_main, compatibleWith: nil)!
+    }
+
     var state = Observable<AuthorizationsViewModelState>(.normal)
 
     var dataSource: AuthorizationsDataSource!
@@ -80,14 +85,14 @@ class AuthorizationsViewModel {
     var emptyViewData: EmptyViewData {
         if dataSource.hasConnections {
             return EmptyViewData(
-                image: UIImage(),
+                image: Images.noAuthorizations,
                 title: l10n(.noAuthorizations),
                 description: l10n(.noAuthorizationsDescription),
                 buttonTitle: nil
             )
         } else {
             return EmptyViewData(
-                image: UIImage(),
+                image: Images.noConnections,
                 title: l10n(.noConnections),
                 description: l10n(.noConnectionsDescription),
                 buttonTitle: l10n(.connect)
