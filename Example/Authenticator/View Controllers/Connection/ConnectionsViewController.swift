@@ -93,13 +93,7 @@ private extension ConnectionsViewController {
     }
 
     func setupNoDataView() {
-        noDataView = NoDataView(
-            image: #imageLiteral(resourceName: "no_connections"),
-            title: l10n(.noConnections),
-            description: l10n(.noConnectionsDescription),
-            ctaTitle: l10n(.connectProvider),
-            action: viewControllerViewModel.addPressed
-        )
+        noDataView = NoDataView(data: viewControllerViewModel.emptyViewData, action: viewControllerViewModel.addPressed)
         noDataView.alpha = viewControllerViewModel.hasDataToShow ? 0 : 1
     }
 }

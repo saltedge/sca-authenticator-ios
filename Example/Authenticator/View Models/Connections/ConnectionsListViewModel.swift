@@ -97,6 +97,15 @@ final class ConnectionsListViewModel {
         delegate?.addPressed()
     }
 
+    var emptyViewData: EmptyViewData {
+        return EmptyViewData(
+            image: #imageLiteral(resourceName: "noConnections"),
+            title: l10n(.noConnections),
+            description: l10n(.noConnections),
+            buttonTitle: l10n(.connectProvider)
+        )
+    }
+
     private func item(for indexPath: IndexPath) -> Connection? {
         if indexPath.row == 0 && connections.indices.contains(indexPath.section) {
             return connections[indexPath.section]

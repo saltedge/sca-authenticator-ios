@@ -104,8 +104,6 @@
 		9D87F49E2429326800F85D1F /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49D2429326800F85D1F /* ConnectionCell.swift */; };
 		9D87F49F2429326800F85D1F /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49D2429326800F85D1F /* ConnectionCell.swift */; };
 		9D87F4A7242A6BCD00F85D1F /* ConnectionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionsListViewModel.swift */; };
-		9D8DCD2924614A8A00FD6424 /* AuthorizationsNoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */; };
-		9D8DCD2A24614A8A00FD6424 /* AuthorizationsNoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */; };
 		9D8E5BA22445A1E70081E60E /* OnboardingViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */; };
 		9D94095A23618CF00080EBB5 /* CacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94095923618CF00080EBB5 /* CacheHelper.swift */; };
 		9D94095B23618CF00080EBB5 /* CacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94095923618CF00080EBB5 /* CacheHelper.swift */; };
@@ -410,7 +408,6 @@
 		9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCellViewModel.swift; sourceTree = "<group>"; };
 		9D87F49D2429326800F85D1F /* ConnectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
 		9D87F4A6242A6BCD00F85D1F /* ConnectionsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListViewModel.swift; sourceTree = "<group>"; };
-		9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsNoDataView.swift; sourceTree = "<group>"; };
 		9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModelSpec.swift; sourceTree = "<group>"; };
 		9D940957235DDB8F0080EBB5 /* AboutViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModelSpec.swift; sourceTree = "<group>"; };
 		9D94095923618CF00080EBB5 /* CacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHelper.swift; sourceTree = "<group>"; };
@@ -879,7 +876,6 @@
 			children = (
 				9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */,
 				9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */,
-				9D8DCD2824614A8A00FD6424 /* AuthorizationsNoDataView.swift */,
 			);
 			path = Authorizations;
 			sourceTree = "<group>";
@@ -1669,7 +1665,6 @@
 				9DCED8DF22CE18280050ED3C /* AppSettings.swift in Sources */,
 				959E30A0247BC78C0067354A /* LanguagePickerViewModel.swift in Sources */,
 				9DCED90C22CE18280050ED3C /* AuthorizationsCoordinator.swift in Sources */,
-				9D8DCD2924614A8A00FD6424 /* AuthorizationsNoDataView.swift in Sources */,
 				9DCED8FF22CE18280050ED3C /* SeparatorView.swift in Sources */,
 				9DCED8FC22CE18280050ED3C /* CountdownProgressView.swift in Sources */,
 				9DCED91122CE18280050ED3C /* ApplicationCoordinator.swift in Sources */,
@@ -1898,7 +1893,6 @@
 				9D66E1B522D4C1F300BD59B6 /* AuthorizationsDataSourceSpec.swift in Sources */,
 				9DE3248722D399AC00EB162A /* ConnectionsCollector.swift in Sources */,
 				9DE9410C246D7595000029A2 /* RealmConnectionsListener.swift in Sources */,
-				9D8DCD2A24614A8A00FD6424 /* AuthorizationsNoDataView.swift in Sources */,
 				9DE324BD22D39A5D00EB162A /* ConnectorWebViewController.swift in Sources */,
 				9DE324A822D39A1B00EB162A /* KeychainHelper.swift in Sources */,
 				0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */,
