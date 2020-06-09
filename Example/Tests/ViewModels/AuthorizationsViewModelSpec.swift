@@ -46,7 +46,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
                     expect(Array(ConnectionsCollector.allConnections)).to(beEmpty())
 
                     let expectedEmptyViewData = EmptyViewData(
-                        image: UIImage(),
+                        image: UIImage(named: "noConnections", in: .authenticator_main, compatibleWith: nil)!,
                         title: l10n(.noConnections),
                         description: l10n(.noConnectionsDescription),
                         buttonTitle: l10n(.connect)
@@ -63,7 +63,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
                     viewModel.dataSource = dataSource
                     
                     let expectedEmptyViewData = EmptyViewData(
-                        image: UIImage(),
+                        image: UIImage(named: "noAuthorizations", in: .authenticator_main, compatibleWith: nil)!,
                         title: l10n(.noAuthorizations),
                         description: l10n(.noAuthorizationsDescription),
                         buttonTitle: nil

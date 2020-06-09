@@ -41,11 +41,10 @@ final class OnboardingViewModelSpec: BaseSpec {
 
         describe("features") {
             it("should return correct array of onboarding features") {
-                // TODO: Replace with correct images when available
                 let images = [
-                    UIImage(named: "absoluteControl", in: .authenticator_main, compatibleWith: nil)!,
-                    UIImage(named: "oneApp", in: .authenticator_main, compatibleWith: nil)!,
-                    UIImage(named: "paymentsSecurity", in: .authenticator_main, compatibleWith: nil)!
+                    UIImage(named: "onboarding1", in: .authenticator_main, compatibleWith: nil)!,
+                    UIImage(named: "onboarding2", in: .authenticator_main, compatibleWith: nil)!,
+                    UIImage(named: "onboarding3", in: .authenticator_main, compatibleWith: nil)!
                 ]
                 let titles = [l10n(.firstFeature), l10n(.secondFeature), l10n(.thirdFeature)]
                 let descriptions = [
@@ -77,17 +76,17 @@ final class OnboardingViewModelSpec: BaseSpec {
         describe("item(at indexPath)") {
             it("should return correct Onboarding feature at given IndexPath") {
                 let firstItem = OnboardingCellViewModel(
-                    image: UIImage(named: "absoluteControl", in: .authenticator_main, compatibleWith: nil)!,
+                    image: UIImage(named: "onboarding1", in: .authenticator_main, compatibleWith: nil)!,
                     title: l10n(.firstFeature),
                     description: l10n(.firstFeatureDescription)
                 )
                 let secondItem = OnboardingCellViewModel(
-                    image: UIImage(named: "oneApp", in: .authenticator_main, compatibleWith: nil)!,
+                    image: UIImage(named: "onboarding2", in: .authenticator_main, compatibleWith: nil)!,
                     title: l10n(.secondFeature),
                     description: l10n(.secondFeatureDescription)
                 )
                 let thirdItem = OnboardingCellViewModel(
-                    image: UIImage(named: "paymentsSecurity", in: .authenticator_main, compatibleWith: nil)!,
+                    image: UIImage(named: "onboarding3", in: .authenticator_main, compatibleWith: nil)!,
                     title: l10n(.thirdFeature),
                     description: l10n(.thirdFeatureDescription)
                 )
