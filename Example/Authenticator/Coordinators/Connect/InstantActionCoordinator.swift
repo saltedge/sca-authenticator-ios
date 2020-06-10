@@ -67,6 +67,14 @@ extension InstantActionCoordinator: InstantActionEventsDelegate {
         }
     }
 
+    func showAuthorization(connectionId: String, authorizationId: String) {
+        let authorizationViewController = SingleAuthorizationViewController(
+            connectionId: connectionId,
+            authorizationId: authorizationId
+        )
+        connectViewController.add(authorizationViewController)
+    }
+
     func shouldDismiss() {
         connectViewController.dismiss(animated: true)
     }

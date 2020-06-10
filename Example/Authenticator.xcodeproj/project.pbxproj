@@ -61,6 +61,10 @@
 		9D453CC223CCB56400702695 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CC023CCB56400702695 /* main.swift */; };
 		9D453CCD23D06F0E00702695 /* TimerApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CCC23D06F0E00702695 /* TimerApplication.swift */; };
 		9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CCC23D06F0E00702695 /* TimerApplication.swift */; };
+		9D59DAF52490C11500117CD7 /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59DAF42490C11500117CD7 /* AuthorizationView.swift */; };
+		9D59DAF62490C11500117CD7 /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59DAF42490C11500117CD7 /* AuthorizationView.swift */; };
+		9D59DAF82490C4A800117CD7 /* SingleAuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59DAF72490C4A800117CD7 /* SingleAuthorizationViewController.swift */; };
+		9D59DAF92490C4A800117CD7 /* SingleAuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59DAF72490C4A800117CD7 /* SingleAuthorizationViewController.swift */; };
 		9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
 		9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
 		9D5BCFD9247FC91F009A6B40 /* ConnectionPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */; };
@@ -374,6 +378,8 @@
 		9D1DEE8023DB5177003C79AC /* ActionRouterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRouterSpec.swift; sourceTree = "<group>"; };
 		9D453CC023CCB56400702695 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9D453CCC23D06F0E00702695 /* TimerApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerApplication.swift; sourceTree = "<group>"; };
+		9D59DAF42490C11500117CD7 /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
+		9D59DAF72490C4A800117CD7 /* SingleAuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAuthorizationViewController.swift; sourceTree = "<group>"; };
 		9D5AC68923571958003B00E2 /* LicensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewController.swift; sourceTree = "<group>"; };
 		9D5AC68C23573553003B00E2 /* LicensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewModel.swift; sourceTree = "<group>"; };
 		9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionPickerViewModel.swift; sourceTree = "<group>"; };
@@ -875,6 +881,7 @@
 			isa = PBXGroup;
 			children = (
 				9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */,
+				9D59DAF42490C11500117CD7 /* AuthorizationView.swift */,
 				9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */,
 			);
 			path = Authorizations;
@@ -896,6 +903,7 @@
 				9DCED7E822CE18270050ED3C /* Common */,
 				9DCED7EB22CE18270050ED3C /* ConnectorWebViewController.swift */,
 				9DCED7EC22CE18270050ED3C /* AuthorizationsViewController.swift */,
+				9D59DAF72490C4A800117CD7 /* SingleAuthorizationViewController.swift */,
 				9DCED7F122CE18270050ED3C /* OnboardingViewController.swift */,
 				9DCED7F322CE18270050ED3C /* SetupAppViewController.swift */,
 				9DCED7F422CE18270050ED3C /* QRCodeViewController.swift */,
@@ -1673,6 +1681,7 @@
 				9DCED8D722CE18280050ED3C /* LabelStyles.swift in Sources */,
 				9DE308BB2446287A009EBD39 /* PasscodeViewController.swift in Sources */,
 				9DCED91622CE18280050ED3C /* ConnectionsCollector.swift in Sources */,
+				9D59DAF52490C11500117CD7 /* AuthorizationView.swift in Sources */,
 				9DCED8CE22CE18280050ED3C /* StringExtensions.swift in Sources */,
 				9DCED8C422CE18280050ED3C /* AuthorizationsPresenter.swift in Sources */,
 				9DCED90822CE18280050ED3C /* PasscodeCoordinator.swift in Sources */,
@@ -1698,6 +1707,7 @@
 				9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */,
 				9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */,
 				9D77212C231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */,
+				9D59DAF82490C4A800117CD7 /* SingleAuthorizationViewController.swift in Sources */,
 				9DBAD79F247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */,
 				9DCED90A22CE18280050ED3C /* ConnectViewCoordinator.swift in Sources */,
 				95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */,
@@ -1779,6 +1789,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D59DAF62490C11500117CD7 /* AuthorizationView.swift in Sources */,
 				959E30A3247BC7930067354A /* LanguagePickerCoordinator.swift in Sources */,
 				95CD02DD235864130085C52A /* SEConnectHelperSpec.swift in Sources */,
 				9DE324AA22D39A2000EB162A /* UserDefaultsHelper.swift in Sources */,
@@ -1922,6 +1933,7 @@
 				9DE3249622D399E500EB162A /* WindowExtensions.swift in Sources */,
 				9DE324A122D39A0400EB162A /* LabelStyles.swift in Sources */,
 				9DE324D522D39AAF00EB162A /* CountdownProgressView.swift in Sources */,
+				9D59DAF92490C4A800117CD7 /* SingleAuthorizationViewController.swift in Sources */,
 				9DE324A922D39A1E00EB162A /* AppSettings.swift in Sources */,
 				9DE3248F22D399CD00EB162A /* EntityResponse.swift in Sources */,
 				9D66E1E022D6146900BD59B6 /* ProviderRouterSpec.swift in Sources */,
