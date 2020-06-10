@@ -139,7 +139,7 @@ final class AuthorizationsViewController: BaseViewController {
     }
 
     @objc private func hasNoConnection() {
-        messageBarView = present(message: l10n(.noInternetConnection), style: .warning, height: 60.0, hide: false)
+        messageBarView = present(message: l10n(.noInternetConnection), style: .warning, hide: false)
     }
 
     @objc private func hasConnection() {
