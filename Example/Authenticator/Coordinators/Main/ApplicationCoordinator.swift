@@ -64,11 +64,9 @@ final class ApplicationCoordinator: Coordinator {
             duration: 0.3,
             options: .transitionCrossDissolve,
             animations: {
-                self.setOnboardingAsRootController()
-            },
-            completion: { _ in
                 UserDefaultsHelper.didShowOnboarding = false
                 PasscodeManager.remove()
+                self.setOnboardingAsRootController()
             }
         )
     }
