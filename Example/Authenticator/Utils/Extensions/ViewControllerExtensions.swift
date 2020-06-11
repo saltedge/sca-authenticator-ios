@@ -154,11 +154,12 @@ extension UIViewController: MFMailComposeViewControllerDelegate {
 // MARK: - Message Bar View Presentation
 extension UIViewController {
     @discardableResult
-    func present(message: String,
-                 style: MessageBarView.Style,
-                 height: CGFloat? = nil,
-                 hide: Bool = true,
-                 completion: (() ->())? = nil) -> MessageBarView? {
+    func present(
+        message: String,
+        style: MessageBarView.Style,
+        hide: Bool = true,
+        completion: (() ->())? = nil
+    ) -> MessageBarView? {
         guard isViewLoaded && view.window != nil else { return nil } // View is not loaded or not on screen at the moment
 
         let messageView = MessageBarView(description: message, style: style)
@@ -166,16 +167,13 @@ extension UIViewController {
         view.addSubview(messageView)
         messageView.addGestureRecognizer(gesture)
         messageView.alpha = 0.0
-        messageView.left(to: view)
-        messageView.width(to: view)
+        messageView.left(to: view, offset: 27.0)
+        messageView.right(to: view, offset: -27.0)
+        messageView.bottom(to: view, view.safeAreaLayoutGuide.bottomAnchor, offset: -24.0)
         messageView.heightConstraint?.constant = 0.0
-        if #available(iOS 11.0, *) {
-            messageView.top(to: view, view.safeAreaLayoutGuide.topAnchor)
-        } else {
-            messageView.top(to: view)
-        }
+
         view.layoutIfNeeded()
-        animateMessageView(messageView, height: height ?? messageView.defaultHeight, hide: hide, completion: completion)
+        animateMessageView(messageView, height: messageView.defaultHeight, hide: hide, completion: completion)
 
         return messageView
     }
