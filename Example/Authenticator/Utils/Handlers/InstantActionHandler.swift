@@ -26,6 +26,7 @@ import SEAuthenticator
 protocol InstantActionEventsDelegate: class {
     func shouldPresentConnectionPicker(connections: [Connection])
     func shouldDismiss()
+    func showAuthorization(connectionId: String, authorizationId: String)
     func shouldDismiss(with error: String)
     func errorReceived(error: String)
 }
@@ -96,7 +97,7 @@ final class InstantActionHandler {
     private func handleActionResponse(_ response: SESubmitActionResponse, qrUrl: URL) {
         if let connectionId = response.connectionId,
             let authorizationId = response.authorizationId {
-            delegate?.shouldDismiss()
+            delegate?.showAuthorization(connectionId: connectionId, authorizationId: authorizationId)
         } else {
             if let returnTo = SEConnectHelper.returnToUrl(from: qrUrl) {
                 UIApplication.shared.open(returnTo)

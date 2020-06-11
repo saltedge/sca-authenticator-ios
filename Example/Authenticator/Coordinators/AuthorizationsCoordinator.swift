@@ -40,7 +40,7 @@ final class AuthorizationsCoordinator: Coordinator {
     }
 
     func start(with connectionId: String, authorizationId: String) {
-        viewModel.authorizationFromPush = (connectionId: connectionId, authorizationId: authorizationId)
+        viewModel.singleAuthorization = (connectionId: connectionId, authorizationId: authorizationId)
         start()
     }
 
