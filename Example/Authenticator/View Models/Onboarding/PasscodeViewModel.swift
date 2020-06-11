@@ -49,6 +49,7 @@ protocol PasscodeEventsDelegate: class {
     func popToRootViewController()
     func presentWrongPasscodeAlert(with message: String, title: String?, buttonTitle: String?)
     func dismissWrongPasscodeAlert()
+    func showForgotViewController()
 }
 
 final class PasscodeViewModel {
@@ -127,6 +128,10 @@ final class PasscodeViewModel {
         passcodeToFill = String(passcodeToFill.dropLast(1))
 
         indexToAnimate(passcodeToFill.count)
+    }
+
+    func forgotPressed() {
+        delegate?.showForgotViewController()
     }
 
     func checkPasscode() {

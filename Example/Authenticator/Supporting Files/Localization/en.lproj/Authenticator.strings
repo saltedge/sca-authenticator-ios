@@ -3,6 +3,8 @@
 "actions.back" = "Back";
 "actions.cancel" = "Cancel";
 "actions.change_passcode" = "Change passcode";
+"actions.clear" = "Clear";
+"actions.clear_data" = "Clear data";
 "actions.close" = "Close";
 "actions.delete" = "Delete";
 "actions.delete_all" = "Delete All";
@@ -13,7 +15,7 @@
 "actions.deny" = "Deny";
 "actions.done" = "Done";
 "actions.current_passcode" = "Your current passcode";
-"actions.forgot" = "Forgot";
+"actions.forgot" = "Forgot?";
 "actions.get_started" = "Get Started";
 "actions.next" = "Next";
 "actions.not_now" = "Not Now";
@@ -45,6 +47,8 @@
 "authorization.success.message" = "Your action was successfully authorized";
 "authorization.time_out.message" = "Time to authorize your action is out";
 "authorization.denied.message" = "Your action was denied";
+"no_data.forgot_passcode" = "Forgot passcode?";
+"no_data.forgot_passcode_description" = "Please clear app data and establish new connection with your provider";
 "errors.account_reset" = "Your Account Was Reset Due to Multiple Failed Attempts.";
 "errors.instant_action.error" = "Action error";
 "errors.authorization_not_found" = "Authorization request was either processed, canceled or expired";

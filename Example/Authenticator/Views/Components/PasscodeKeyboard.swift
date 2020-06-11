@@ -25,6 +25,7 @@ import TinyConstraints
 
 protocol PasscodeKeyboardDelegate: class {
     func keyboard(didInputDigit digit: String)
+    func forgotPressed()
     func clearPressed()
     func biometricsPressed()
 }
@@ -141,16 +142,20 @@ private extension PasscodeKeyboard {
 private extension PasscodeKeyboard {
     @objc func buttonPressed(_ sender: TaptileFeedbackButton) {
         if let title = sender.title(for: .normal), !title.isEmpty {
-            self.delegate?.keyboard(didInputDigit: title)
+            if title == l10n(.forgot) {
+                delegate?.forgotPressed()
+            } else {
+                delegate?.keyboard(didInputDigit: title)
+            }
         }
     }
 
     @objc func actionButtonPressed(_ sender: TaptileFeedbackButton) {
         if let image = sender.image(for: .normal) {
             if image == Images.clearImage {
-                self.delegate?.clearPressed()
+                delegate?.clearPressed()
             } else {
-                self.delegate?.biometricsPressed()
+                delegate?.biometricsPressed()
             }
         }
     }

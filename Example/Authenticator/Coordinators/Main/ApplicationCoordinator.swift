@@ -40,6 +40,7 @@ final class ApplicationCoordinator: Coordinator {
 
     init(window: UIWindow?) {
         self.window = window
+        UserDefaultsHelper.applicationLanguage = "en"
     }
 
     func start() {
@@ -49,24 +50,44 @@ final class ApplicationCoordinator: Coordinator {
             authorizationsCoordinator.start()
         } else {
             PasscodeManager.remove()
-            UserDefaultsHelper.applicationLanguage = "en"
 
-            let onboardingVc = OnboardingViewController()
-            onboardingVc.modalPresentationStyle = .fullScreen
-            window?.rootViewController = onboardingVc
-
-            onboardingVc.donePressedClosure = {
-                let setupVc = SetupAppViewController()
-                setupVc.delegate = self
-                setupVc.modalPresentationStyle = .fullScreen
-                onboardingVc.present(setupVc, animated: true)
-            }
+            setOnboardingAsRootController()
         }
         window?.makeKeyAndVisible()
     }
 
+    func swapToOnboarding() {
+        guard let window = window else { return }
+
+        UIView.transition(
+            with: window,
+            duration: 0.3,
+            options: .transitionCrossDissolve,
+            animations: {
+                UserDefaultsHelper.didShowOnboarding = false
+                PasscodeManager.remove()
+                self.disableTimerNotifications()
+                self.setOnboardingAsRootController()
+            }
+        )
+    }
+
+    private func setOnboardingAsRootController() {
+        let onboardingVc = OnboardingViewController()
+        onboardingVc.modalPresentationStyle = .fullScreen
+        window?.rootViewController = onboardingVc
+
+        onboardingVc.donePressedClosure = {
+            let setupVc = SetupAppViewController()
+            setupVc.delegate = self
+            setupVc.modalPresentationStyle = .fullScreen
+            onboardingVc.present(setupVc, animated: true)
+        }
+    }
+
     private func startAuthorizationsViewController() {
         UserDefaultsHelper.didShowOnboarding = true
+        registerTimerNotifications()
 
         window?.rootViewController = authorizationsNavController
         authorizationsCoordinator.start()

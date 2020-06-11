@@ -31,6 +31,8 @@ enum Localizations: String, Localizable {
     case allow = "actions.allow"
     case back = "actions.back"
     case cancel = "actions.cancel"
+    case clear = "actions.clear"
+    case clearData = "actions.clear_data"
     case delete = "actions.delete"
     case ok = "actions.ok"
     case warning = "errors.warning"
@@ -97,6 +99,9 @@ enum Localizations: String, Localizable {
     case deniedMessage = "authorization.denied.message"
     case timeOutMessage = "authorization.time_out.message"
 
+    case forgotPasscode = "no_data.forgot_passcode"
+    case forgotPasscodeDescription = "no_data.forgot_passcode_description"
+
     // MARK: - Actions
     case newAction = "instant_action.new_action"
     case instantActionSuccessMessage = "instant_action.success_message"
@@ -123,7 +128,7 @@ enum Localizations: String, Localizable {
     case deleteAllDataDescription = "actions.confirm_delete_connections"
     case search = "actions.search"
     case licenses = "in_app.settings.licenses"
-    case clearData = "in_app.settings.clear_all_data"
+    case clearAllData = "in_app.settings.clear_all_data"
     case clearDataDescription = "in_app.settings.clear_all_data_description"
 
     // MARK: - Security

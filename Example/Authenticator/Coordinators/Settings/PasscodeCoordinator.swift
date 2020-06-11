@@ -48,15 +48,22 @@ final class PasscodeCoordinator: Coordinator {
         if purpose == .edit {
             rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
         } else {
-            currentViewController.modalPresentationStyle = .overFullScreen
-            rootViewController.present(currentViewController, animated: true)
+            let navController = UINavigationController(rootViewController: currentViewController)
+            navController.isNavigationBarHidden = true
+            navController.modalPresentationStyle = .overFullScreen
+            rootViewController.present(navController, animated: true)
         }
     }
 
     func stop() {}
 }
 
+// MARK: - PasscodeEventsDelegate
 extension PasscodeCoordinator: PasscodeEventsDelegate {
+    func showForgotViewController() {
+        currentViewController.navigationController?.pushViewController(ForgotPasscodeViewController(), animated: true)
+    }
+
     func showBiometrics() {
         viewModel.showBiometrics(
             completion: {
