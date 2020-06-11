@@ -60,6 +60,8 @@
 		9D453CC123CCB56400702695 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CC023CCB56400702695 /* main.swift */; };
 		9D453CC223CCB56400702695 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CC023CCB56400702695 /* main.swift */; };
 		9D453CCD23D06F0E00702695 /* TimerApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CCC23D06F0E00702695 /* TimerApplication.swift */; };
+		9D49FF7C24922F9900778AC4 /* ForgotPasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D49FF7B24922F9900778AC4 /* ForgotPasscodeViewController.swift */; };
+		9D49FF7D24922F9900778AC4 /* ForgotPasscodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D49FF7B24922F9900778AC4 /* ForgotPasscodeViewController.swift */; };
 		9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D453CCC23D06F0E00702695 /* TimerApplication.swift */; };
 		9D59DAF52490C11500117CD7 /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59DAF42490C11500117CD7 /* AuthorizationView.swift */; };
 		9D59DAF62490C11500117CD7 /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59DAF42490C11500117CD7 /* AuthorizationView.swift */; };
@@ -378,6 +380,7 @@
 		9D1DEE8023DB5177003C79AC /* ActionRouterSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRouterSpec.swift; sourceTree = "<group>"; };
 		9D453CC023CCB56400702695 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		9D453CCC23D06F0E00702695 /* TimerApplication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimerApplication.swift; sourceTree = "<group>"; };
+		9D49FF7B24922F9900778AC4 /* ForgotPasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasscodeViewController.swift; sourceTree = "<group>"; };
 		9D59DAF42490C11500117CD7 /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
 		9D59DAF72490C4A800117CD7 /* SingleAuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAuthorizationViewController.swift; sourceTree = "<group>"; };
 		9D5AC68923571958003B00E2 /* LicensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewController.swift; sourceTree = "<group>"; };
@@ -908,6 +911,7 @@
 				9DCED7F322CE18270050ED3C /* SetupAppViewController.swift */,
 				9DCED7F422CE18270050ED3C /* QRCodeViewController.swift */,
 				9DE308BA2446287A009EBD39 /* PasscodeViewController.swift */,
+				9D49FF7B24922F9900778AC4 /* ForgotPasscodeViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1746,6 +1750,7 @@
 				9DCED8EF22CE18280050ED3C /* TableViewCellDequeuable.swift in Sources */,
 				95F409002473C91000727095 /* ConnectionsCoordinator.swift in Sources */,
 				959E30A9247BD0160067354A /* LicensesViewModel.swift in Sources */,
+				9D49FF7C24922F9900778AC4 /* ForgotPasscodeViewController.swift in Sources */,
 				9DCED91F22CE18280050ED3C /* ConnectionRepository.swift in Sources */,
 				9DCED8AD22CE18280050ED3C /* RealmManager.swift in Sources */,
 				9D5BCFE024800307009A6B40 /* ConnectHandler.swift in Sources */,
@@ -1831,6 +1836,7 @@
 				9DE324AB22D39A2300EB162A /* Localizations.swift in Sources */,
 				9D5BCFE124800307009A6B40 /* ConnectHandler.swift in Sources */,
 				9DE3249422D399E000EB162A /* ViewExtensions+Utilitarian.swift in Sources */,
+				9D49FF7D24922F9900778AC4 /* ForgotPasscodeViewController.swift in Sources */,
 				9DE3249222D399DB00EB162A /* BordersExtensions.swift in Sources */,
 				959E30B3247BDA250067354A /* AboutViewModelSpec.swift in Sources */,
 				9DE3248022D3999200EB162A /* ConnectViewCoordinator.swift in Sources */,

@@ -70,10 +70,12 @@ class SettingsViewModel {
         case .about:
             delegate?.aboutItemSelected()
         case .clearData:
-            delegate?.clearDataItemSelected(confirmAction: { _ in
-                RealmManager.deleteAll()
-                CacheHelper.clearCache()
-            })
+            delegate?.clearDataItemSelected(
+                confirmAction: { _ in
+                    RealmManager.deleteAll()
+                    CacheHelper.clearCache()
+                }
+            )
         default: break
         }
     }

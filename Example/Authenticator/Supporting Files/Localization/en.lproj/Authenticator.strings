@@ -13,7 +13,7 @@
 "actions.deny" = "Deny";
 "actions.done" = "Done";
 "actions.current_passcode" = "Your current passcode";
-"actions.forgot" = "Forgot";
+"actions.forgot" = "Forgot?";
 "actions.get_started" = "Get Started";
 "actions.next" = "Next";
 "actions.not_now" = "Not Now";
