@@ -27,6 +27,7 @@ final class ForgotPasscodeViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.prefersLargeTitles = false
         setupNoDataView()
         layout()
     }
@@ -44,15 +45,25 @@ final class ForgotPasscodeViewController: BaseViewController {
     private func setupNoDataView() {
         let emptyData = EmptyViewData(
             image: UIImage(named: "forgotPasscode")!,
-            title: "Forgot passcode?",
-            description: "Please clear app data and establish new connection with your provider.",
+            title: l10n(.forgotPasscode),
+            description: l10n(.forgotPasscodeDescription),
             buttonTitle: l10n(.clearData)
         )
         noDataView = NoDataView(data: emptyData, action: clearDataPressed)
     }
 
     @objc private func clearDataPressed() {
-        print("clear pressed")
+        showConfirmationAlert(
+            withTitle: l10n(.clearData),
+            message: l10n(.clearDataDescription),
+            confirmActionTitle: l10n(.clear),
+            confirmActionStyle: .destructive,
+            confirmAction: { _ in
+                RealmManager.deleteAll()
+                CacheHelper.clearCache()
+                AppDelegate.main.applicationCoordinator?.swapToOnboarding()
+            }
+        )
     }
 }
 
@@ -62,7 +73,7 @@ extension ForgotPasscodeViewController: Layoutable {
 
         view.addSubview(noDataView)
 
-        noDataView.topToSuperview(offset: AppLayout.screenHeight * 0.24)
+        noDataView.top(to: view, offset: AppLayout.screenHeight * 0.20)
         noDataView.widthToSuperview()
     }
 }
