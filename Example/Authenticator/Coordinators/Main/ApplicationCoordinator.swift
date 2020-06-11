@@ -66,6 +66,7 @@ final class ApplicationCoordinator: Coordinator {
             animations: {
                 UserDefaultsHelper.didShowOnboarding = false
                 PasscodeManager.remove()
+                self.disableTimerNotifications()
                 self.setOnboardingAsRootController()
             }
         )
@@ -86,6 +87,7 @@ final class ApplicationCoordinator: Coordinator {
 
     private func startAuthorizationsViewController() {
         UserDefaultsHelper.didShowOnboarding = true
+        registerTimerNotifications()
 
         window?.rootViewController = authorizationsNavController
         authorizationsCoordinator.start()
