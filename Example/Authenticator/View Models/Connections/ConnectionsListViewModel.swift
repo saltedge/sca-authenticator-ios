@@ -203,7 +203,7 @@ extension ConnectionsListViewModel {
         let viewModel = cellViewModel(at: indexPath)
 
         let configuration = UIContextMenuConfiguration(
-            identifier: nil,
+            identifier: "\(indexPath.row)" as NSString,
             previewProvider: nil
         ) { [weak self] _ -> UIMenu? in
             let rename = UIAction(title: l10n(.rename), image: UIImage(named: "rename")) { _ in

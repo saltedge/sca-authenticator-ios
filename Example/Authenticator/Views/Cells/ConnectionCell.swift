@@ -36,7 +36,7 @@ private struct Layout {
 }
 
 final class ConnectionCell: UITableViewCell, Dequeuable {
-    private let cardView: UIView = {
+    let cardView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = Layout.cardViewRadius
         view.layer.masksToBounds = true
