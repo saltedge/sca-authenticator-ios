@@ -42,6 +42,7 @@ final class SetupAppViewController: BaseViewController {
         passcodeVc.completeClosure = { [weak self] in
             guard let strongSelf = self else { return }
 
+            UserDefaultsHelper.didShowOnboarding = true
             strongSelf.setupQrCodeViewController()
         }
     }

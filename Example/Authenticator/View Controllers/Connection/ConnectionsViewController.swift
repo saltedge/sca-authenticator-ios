@@ -136,6 +136,17 @@ extension ConnectionsViewController: UITableViewDelegate {
 extension ConnectionsViewController {
     func tableView(
         _ tableView: UITableView,
+        previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration
+    ) -> UITargetedPreview? {
+      guard let identifier = configuration.identifier as? String,
+        let index = Int(identifier),
+        let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? ConnectionCell else { return nil }
+
+      return UITargetedPreview(view: cell.cardView)
+    }
+
+    func tableView(
+        _ tableView: UITableView,
         contextMenuConfigurationForRowAt indexPath: IndexPath,
         point: CGPoint
     ) -> UIContextMenuConfiguration? {

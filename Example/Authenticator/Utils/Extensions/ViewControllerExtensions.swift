@@ -45,7 +45,6 @@ extension UIViewController {
                                confirmAction: ((UIAlertAction) -> ())? = nil,
                                cancelAction: ((UIAlertAction) -> ())? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.view.backgroundColor = .secondaryBackground
         alert.view.tintColor = .lightBlue
         let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelAction)
         alert.addAction(cancelAction)

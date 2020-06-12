@@ -120,11 +120,19 @@ final class ApplicationCoordinator: Coordinator {
         authorizationsCoordinator.start(with: connectionId, authorizationId: authorizationId)
     }
 
-    func openQrScanner() {
-        guard let rootVc = window?.rootViewController else { return }
+    func openQrScannerIfNoConnections() {
+        if ConnectionsCollector.activeConnections.isEmpty {
+            openQrScanner()
+        }
+    }
 
-        qrCodeCoordinator = QRCodeCoordinator(rootViewController: rootVc)
-        qrCodeCoordinator?.start()
+    func openQrScanner() {
+        passcodeCoordinator?.onCompleteClosure = {
+            guard let rootVc = self.window?.rootViewController, !rootVc.isKind(of: OnboardingViewController.self) else { return }
+
+            self.qrCodeCoordinator = QRCodeCoordinator(rootViewController: rootVc)
+            self.qrCodeCoordinator?.start()
+        }
     }
 
     func openConnectViewController(connectionType: ConnectionType) {
