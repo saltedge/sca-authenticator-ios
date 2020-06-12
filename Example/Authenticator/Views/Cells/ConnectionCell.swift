@@ -114,8 +114,8 @@ private extension ConnectionCell {
         backgroundColor = .backgroundColor
 
         contentView.layer.shadowColor = UIColor(red: 0.374, green: 0.426, blue: 0.488, alpha: 0.3).cgColor
-        contentView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        contentView.layer.shadowOpacity = 1
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 6)
+        contentView.layer.shadowOpacity = 0.8
         contentView.layer.shadowRadius = Layout.cardViewTopBottomOffset
     }
 }
@@ -136,7 +136,7 @@ extension ConnectionCell: Layoutable {
         logoPlaceholderView.left(to: cardView, offset: Layout.sideOffset)
         logoPlaceholderView.centerY(to: cardView)
 
-        logoImageView.size(Layout.connectionPlaceholderViewSize)
+        logoImageView.size(Layout.imageViewSize)
         logoImageView.center(in: logoPlaceholderView)
 
         titleLabel.top(to: cardView, offset: Layout.titleLabelTopOffset)

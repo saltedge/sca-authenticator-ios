@@ -72,7 +72,7 @@ extension LanguagePickerViewController: UITableViewDataSource {
         cell.textLabel?.font = .auth_17regular
         cell.textLabel?.text = viewModel.cellTitle(for: indexPath)
         cell.accessoryType = viewModel.cellAccessoryType(for: indexPath)
-        cell.tintColor = .auth_blue
+        cell.tintColor = .lightBlue
         cell.backgroundColor = .backgroundColor
         return cell
     }

@@ -60,7 +60,7 @@ final class AuthorizationStateView: UIView {
             case .success: return l10n(.successfulAuthorizationMessage)
             case .expired: return l10n(.timeOutMessage)
             case .denied: return l10n(.deniedMessage)
-            case .undefined: return l10n(.pleaseTryAgain)
+            case .undefined: return l10n(.errorOccuredPleaseTryAgain)
             default: return ""
             }
         }

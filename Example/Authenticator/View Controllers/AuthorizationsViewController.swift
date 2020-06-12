@@ -27,10 +27,18 @@ protocol AuthorizationsViewControllerDelegate: class {
     func showMoreOptionsMenu()
 }
 
+private struct Layout {
+    static let navigationBarImageSize: CGSize = CGSize(width: 22.0, height: 22.0)
+    static let qrButtonRightOffset: CGFloat = -31.0
+    static let moreButtonRightOffset: CGFloat = -16.0
+    static let buttonBottomOffset: CGFloat = -15.0
+    static let noDataViewTopOffset: CGFloat = AppLayout.screenHeight * 0.11
+}
+
 final class AuthorizationsViewController: BaseViewController {
     private let authorizationView = AuthorizationView()
-    private let moreButton = UIButton()
-    private let qrButton = UIButton()
+    private let moreButton = CustomNavigationBarButton()
+    private let qrButton = CustomNavigationBarButton()
     private var messageBarView: MessageBarView?
     private var noDataView: NoDataView?
 
@@ -142,13 +150,13 @@ private extension AuthorizationsViewController {
 
         navigationController?.navigationBar.addSubviews(moreButton, qrButton)
 
-        moreButton.size(CGSize(width: 22.0, height: 22.0))
-        moreButton.rightToSuperview(offset: -16.0)
-        moreButton.bottomToSuperview(offset: -12.0)
+        qrButton.size(Layout.navigationBarImageSize)
+        qrButton.rightToLeft(of: moreButton, offset: Layout.qrButtonRightOffset)
+        qrButton.bottomToSuperview(offset: Layout.buttonBottomOffset)
 
-        qrButton.size(CGSize(width: 22.0, height: 22.0))
-        qrButton.rightToLeft(of: moreButton, offset: -30.0)
-        qrButton.bottomToSuperview(offset: -12.0)
+        moreButton.size(Layout.navigationBarImageSize)
+        moreButton.rightToSuperview(offset: Layout.moreButtonRightOffset)
+        moreButton.bottomToSuperview(offset: Layout.buttonBottomOffset)
     }
 
     func setupObservers() {
@@ -192,7 +200,19 @@ extension AuthorizationsViewController: Layoutable {
 
         authorizationView.edgesToSuperview()
 
-        noDataView.topToSuperview(offset: AppLayout.screenHeight * 0.11)
+        noDataView.topToSuperview(offset: Layout.noDataViewTopOffset)
         noDataView.widthToSuperview()
+    }
+}
+
+private class CustomNavigationBarButton: UIButton {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let newArea = CGRect(
+            x: bounds.origin.x - 5.0,
+            y: bounds.origin.y - 5.0,
+            width: bounds.size.width + 10.0,
+            height: bounds.size.height + 20.0
+        )
+        return newArea.contains(point)
     }
 }

@@ -209,7 +209,7 @@ extension ConnectionsListViewModel {
             let rename = UIAction(title: l10n(.rename), image: UIImage(named: "rename")) { _ in
                 self?.updateName(by: viewModel.id)
             }
-            let support = UIAction(title: l10n(.support), image: UIImage(named: "contact_support")) { _ in
+            let support = UIAction(title: l10n(.contactSupport), image: UIImage(named: "contact_support")) { _ in
                 self?.delegate?.showSupport(email: viewModel.supportEmail)
             }
             let delete = UIAction(title: l10n(.delete), image: UIImage(named: "delete")) { _ in

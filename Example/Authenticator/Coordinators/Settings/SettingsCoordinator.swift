@@ -72,10 +72,9 @@ extension SettingsCoordinator: SettingsEventsDelegate {
 
     func clearDataItemSelected(confirmAction: @escaping ((UIAlertAction) -> ())) {
         currentViewController.showConfirmationAlert(
-            withTitle: "\(l10n(.clearData))?",
+            withTitle: l10n(.clearAppData),
             message: l10n(.clearDataDescription),
-            confirmActionTitle: l10n(.ok),
-            confirmActionStyle: .default,
+            confirmActionTitle: l10n(.clear),
             confirmAction: confirmAction
         )
     }

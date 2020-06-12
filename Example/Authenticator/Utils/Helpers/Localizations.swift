@@ -52,7 +52,8 @@ enum Localizations: String, Localizable {
     case secondFeatureDescription = "onboarding.carousel_two.description"
     case thirdFeature = "onboarding.carousel_three.title"
     case thirdFeatureDescription = "onboarding.carousel_three.description"
-    case scanQrDescription = "onboarding.qr.description"
+    case scanQrFirstDescription = "onboarding.qr.first_scan_description"
+    case scanQrToTakeAnAction = "onboarding.qr.take_action_description"
 
     // MARK: - Setup App
     case secureApp = "onboarding.secure_app.passcode_title"
@@ -115,6 +116,7 @@ enum Localizations: String, Localizable {
     case connections = "in_app.navigation.connections"
     case connectProvider = "action.connect_provider"
     case connectedOn = "in_app.connection.connected_on"
+    case deleteConnection = "actions.confirm_delete_connection"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
     case scanQr = "in_app.connect.scan_qr"
     case chooseConnection = "in_app.connect.choose"
@@ -129,7 +131,8 @@ enum Localizations: String, Localizable {
     case search = "actions.search"
     case licenses = "in_app.settings.licenses"
     case clearAllData = "in_app.settings.clear_all_data"
-    case clearDataDescription = "in_app.settings.clear_all_data_description"
+    case clearAppData = "in_app.settings.clear_app_data"
+    case clearDataDescription = "in_app.settings.clear_app_data_description"
 
     // MARK: - Security
     case touchID = "in_app.settings.touch_id"
@@ -166,6 +169,7 @@ enum Localizations: String, Localizable {
     case deniedCameraDescription = "errors.denied_camera_description"
     case inactiveConnection = "errors.inactive_connection"
     case noInternetConnection = "errors.no_internet_connection"
+    case errorOccuredPleaseTryAgain = "Error occurred. Please try again"
     case pleaseTryAgain = "errors.no_internet_connection_try_again"
     case inactivityMessage = "warnings.inactivity_block_message"
     case passcodeDontMatch = "errors.passcode_dont_match"
@@ -177,7 +181,6 @@ enum Localizations: String, Localizable {
     case connect = "actions.connect"
     case reconnect = "actions.reconnect"
     case rename = "actions.rename"
-    case support = "in_app.settings.support"
     case contactSupport = "in_app.settings.contact_support"
     case reportAProblem = "actions.report_problem"
     case reportABug = "actions.report_bug"

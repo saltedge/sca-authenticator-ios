@@ -29,6 +29,17 @@ private struct Layout {
 
 final class AboutViewController: BaseViewController {
     private let tableView = UITableView(frame: .zero, style: .grouped)
+    private let footerViewLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .backgroundColor
+        label.text = l10n(.copyrightDescription)
+        label.font = .systemFont(ofSize: 15.0)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textColor = .titleColor
+        label.textAlignment = .center
+        return label
+    }()
     private var viewModel: AboutViewModel
 
     init(viewModel: AboutViewModel) {
@@ -91,24 +102,6 @@ extension AboutViewController: UITableViewDataSource {
         cell.set(with: item)
         return cell
     }
-
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = UILabel(
-            frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: AppLayout.cellDefaultHeight)
-        )
-        footerView.backgroundColor = .backgroundColor
-        footerView.text = l10n(.copyrightDescription)
-        footerView.font = .auth_15regular
-        footerView.numberOfLines = 0
-        footerView.lineBreakMode = .byWordWrapping
-        footerView.textColor = .auth_darkGray
-        footerView.textAlignment = .center
-        return footerView
-    }
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return Layout.footerHeight
-    }
 }
 
 // MARK: UITableViewDelegate
@@ -122,7 +115,12 @@ extension AboutViewController: UITableViewDelegate {
 // MARK: - Layout
 extension AboutViewController: Layoutable {
     func layout() {
-        view.addSubview(tableView)
+        view.addSubviews(tableView, footerViewLabel)
+
         tableView.edges(to: view)
+
+        footerViewLabel.height(AppLayout.cellDefaultHeight)
+        footerViewLabel.widthToSuperview()
+        footerViewLabel.bottom(to: view, view.safeAreaLayoutGuide.bottomAnchor, offset: -16.0)
     }
 }

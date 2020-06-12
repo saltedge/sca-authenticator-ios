@@ -55,8 +55,8 @@ class CustomButton: UIButton {
 
     private func setupShadow() {
         layer.shadowColor = UIColor(red: 0.051, green: 0.576, blue: 0.973, alpha: 0.2).cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 12)
-        layer.shadowOpacity = 1
+        layer.shadowOffset = CGSize(width: 0, height: 6)
+        layer.shadowOpacity = 0.7
         layer.shadowRadius = 30.0
     }
 

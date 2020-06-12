@@ -30,6 +30,7 @@ private struct Layout {
     static let progressViewWidthOffset: CGFloat = -22.0
     static let timeLeftLabelOffset: CGFloat = -10.0
     static let timeLeftLabelHeight: CGFloat = 28.0
+    static let imagePlaceholderViewRadius: CGFloat = 6.0
 }
 
 protocol AuthorizationHeaderCollectionViewCellDelegate: class {
@@ -37,6 +38,13 @@ protocol AuthorizationHeaderCollectionViewCellDelegate: class {
 }
 
 final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
+    private let logoPlaceholderView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = Layout.imagePlaceholderViewRadius
+        view.clipsToBounds = true
+        view.backgroundColor = .extraLightGray
+        return view
+    }()
     private let connectionImageView = AspectFitImageView(imageName: "")
     private let connectionNameLabel = UILabel(font: .systemFont(ofSize: 14.0), textColor: .titleColor)
     private let timeLeftLabel = TimeLeftLabel()
@@ -99,10 +107,14 @@ private extension AuthorizationHeaderCollectionViewCell {
 // MARK: - Layout
 extension AuthorizationHeaderCollectionViewCell: Layoutable {
     func layout() {
-        contentView.addSubviews(connectionImageView, connectionNameLabel, progressView, timeLeftLabel)
+        contentView.addSubviews(logoPlaceholderView, connectionNameLabel, progressView, timeLeftLabel)
+        logoPlaceholderView.addSubview(connectionImageView)
 
-        connectionImageView.left(to: contentView, offset: Layout.connectionImageViewOffset)
-        connectionImageView.centerY(to: contentView)
+        logoPlaceholderView.size(Layout.connectionImageViewSize)
+        logoPlaceholderView.left(to: contentView, offset: Layout.connectionImageViewOffset)
+        logoPlaceholderView.centerY(to: contentView)
+
+        connectionImageView.center(in: logoPlaceholderView)
         connectionImageView.size(Layout.connectionImageViewSize)
 
         connectionNameLabel.leftToRight(of: connectionImageView, offset: Layout.nameLabelLeftOffset)

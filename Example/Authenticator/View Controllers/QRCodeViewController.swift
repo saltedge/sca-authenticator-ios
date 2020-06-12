@@ -154,7 +154,8 @@ final class QRCodeViewController: BaseViewController {
         titleLabel.textColor = .titleColor
 
         let descriptionLabel = UILabel()
-        descriptionLabel.text = l10n(.scanQrDescription)
+        descriptionLabel.text = ConnectionsCollector.allConnections.isEmpty
+            ? l10n(.scanQrFirstDescription) : l10n(.scanQrToTakeAnAction)
         descriptionLabel.textAlignment = .center
         descriptionLabel.font = .systemFont(ofSize: 17.0, weight: .regular)
         descriptionLabel.textColor = .titleColor
