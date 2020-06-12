@@ -102,7 +102,7 @@ final class ConnectionsListViewModel {
             image: #imageLiteral(resourceName: "noConnections"),
             title: l10n(.noConnections),
             description: l10n(.noConnections),
-            buttonTitle: l10n(.connectProvider)
+            buttonTitle: l10n(.connect)
         )
     }
 

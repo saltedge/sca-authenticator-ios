@@ -66,17 +66,14 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
             strongSelf.connectionsCoordinator = ConnectionsCoordinator(rootViewController: strongSelf.rootViewController)
             strongSelf.connectionsCoordinator?.start()
         }
-        let consents = UIAlertAction(title: l10n(.viewConsents), style: .default) { _ in
-            print("Show Consents")
-        }
-        let settings = UIAlertAction(title: l10n(.viewSettings), style: .default) { [weak self] _ in
+        let settings = UIAlertAction(title: l10n(.goToSettings), style: .default) { [weak self] _ in
             guard let strongSelf = self else { return }
 
             strongSelf.settingsCoordinator = SettingsCoordinator(rootController: strongSelf.rootViewController)
             strongSelf.settingsCoordinator?.start()
         }
 
-        [connections, consents, settings, cancel].forEach { actionSheet.addAction($0) }
+        [connections, settings, cancel].forEach { actionSheet.addAction($0) }
 
         rootViewController.present(actionSheet, animated: true)
     }

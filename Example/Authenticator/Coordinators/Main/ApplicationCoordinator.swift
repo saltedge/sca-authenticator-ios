@@ -186,9 +186,25 @@ final class ApplicationCoordinator: Coordinator {
     // NOTE: Review
     @objc func applicationDidTimeout(notification: NSNotification) {
         guard let topController = UIWindow.topViewController,
-            !topController.isKind(of: PasscodeViewController.self) else { return }
+            !topController.isKind(of: PasscodeViewController.self),
+            !topController.isKind(of: ForgotPasscodeViewController.self) else { return }
 
-        messageBarView = topController.present(
+        if topController.isKind(of: UIAlertController.self) {
+            topController.dismiss(
+                animated: true,
+                completion: {
+                    self.presentInactivityMessage(from: self.window?.rootViewController)
+                }
+            )
+        } else {
+            presentInactivityMessage(from: topController)
+        }
+    }
+
+    private func presentInactivityMessage(from controller: UIViewController?) {
+        guard let controller = controller else { return }
+
+        messageBarView = controller.present(
             message: l10n(.inactivityMessage),
             style: .warning,
             completion: {
