@@ -84,7 +84,6 @@
 		9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */; };
 		9D6575FB232A9E8100DCC53E /* DateUtilsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6575FA232A9E8100DCC53E /* DateUtilsSpec.swift */; };
 		9D66E1A922D4C1C100BD59B6 /* AuthorizationDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17B22D4C0AF00BD59B6 /* AuthorizationDataSpec.swift */; };
-		9D66E1AA22D4C1C600BD59B6 /* SetupStepSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E18522D4C0AF00BD59B6 /* SetupStepSpec.swift */; };
 		9D66E1AB22D4C1CA00BD59B6 /* CryptoErrorsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17122D4C0AF00BD59B6 /* CryptoErrorsSpec.swift */; };
 		9D66E1AC22D4C1CC00BD59B6 /* ApiErrorsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17222D4C0AF00BD59B6 /* ApiErrorsSpec.swift */; };
 		9D66E1AD22D4C1D100BD59B6 /* ConnectionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17522D4C0AF00BD59B6 /* ConnectionSpec.swift */; };
@@ -133,10 +132,8 @@
 		9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F322CE18270050ED3C /* SetupAppViewController.swift */; };
 		9DCED8AC22CE18280050ED3C /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F422CE18270050ED3C /* QRCodeViewController.swift */; };
 		9DCED8AD22CE18280050ED3C /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F622CE18270050ED3C /* RealmManager.swift */; };
-		9DCED8C222CE18280050ED3C /* SetupStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81022CE18270050ED3C /* SetupStep.swift */; };
 		9DCED8C322CE18280050ED3C /* BiometricsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81222CE18270050ED3C /* BiometricsPresenter.swift */; };
 		9DCED8C422CE18280050ED3C /* AuthorizationsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81322CE18270050ED3C /* AuthorizationsPresenter.swift */; };
-		9DCED8C722CE18280050ED3C /* BordersExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81922CE18270050ED3C /* BordersExtensions.swift */; };
 		9DCED8C822CE18280050ED3C /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81A22CE18270050ED3C /* ImageExtensions.swift */; };
 		9DCED8C922CE18280050ED3C /* ViewExtensions+Utilitarian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81B22CE18270050ED3C /* ViewExtensions+Utilitarian.swift */; };
 		9DCED8CA22CE18280050ED3C /* ViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81C22CE18270050ED3C /* ViewControllerExtensions.swift */; };
@@ -162,7 +159,6 @@
 		9DCED8E122CE18280050ED3C /* Localizations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83722CE18270050ED3C /* Localizations.swift */; };
 		9DCED8E422CE18280050ED3C /* AppearanceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83A22CE18270050ED3C /* AppearanceHelper.swift */; };
 		9DCED8E722CE18280050ED3C /* PasscodeManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83D22CE18270050ED3C /* PasscodeManger.swift */; };
-		9DCED8E822CE18280050ED3C /* AmountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83E22CE18270050ED3C /* AmountFormatter.swift */; };
 		9DCED8E922CE18280050ED3C /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83F22CE18270050ED3C /* NotificationsManager.swift */; };
 		9DCED8EA22CE18280050ED3C /* HapticFeedbackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */; };
 		9DCED8EB22CE18280050ED3C /* ParametersSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84122CE18270050ED3C /* ParametersSerializer.swift */; };
@@ -175,17 +171,11 @@
 		9DCED8F522CE18280050ED3C /* CustomSpacingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85022CE18270050ED3C /* CustomSpacingLabel.swift */; };
 		9DCED8F722CE18280050ED3C /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85322CE18270050ED3C /* ModalView.swift */; };
 		9DCED8F922CE18280050ED3C /* PasscodeSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85622CE18270050ED3C /* PasscodeSymbolView.swift */; };
-		9DCED8FA22CE18280050ED3C /* TimeLeftIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85722CE18270050ED3C /* TimeLeftIndicator.swift */; };
-		9DCED8FB22CE18280050ED3C /* SetupProgressBarCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85822CE18270050ED3C /* SetupProgressBarCircle.swift */; };
 		9DCED8FC22CE18280050ED3C /* CountdownProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85922CE18270050ED3C /* CountdownProgressView.swift */; };
 		9DCED8FD22CE18280050ED3C /* PasscodeKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85A22CE18270050ED3C /* PasscodeKeyboard.swift */; };
-		9DCED8FE22CE18280050ED3C /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85B22CE18270050ED3C /* InfoView.swift */; };
-		9DCED8FF22CE18280050ED3C /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85C22CE18270050ED3C /* SeparatorView.swift */; };
 		9DCED90022CE18280050ED3C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85D22CE18270050ED3C /* CustomButton.swift */; };
-		9DCED90122CE18280050ED3C /* SetupProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85E22CE18270050ED3C /* SetupProgressBar.swift */; };
 		9DCED90222CE18280050ED3C /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85F22CE18270050ED3C /* NoDataView.swift */; };
 		9DCED90322CE18280050ED3C /* TaptileFeedbackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86022CE18270050ED3C /* TaptileFeedbackButton.swift */; };
-		9DCED90422CE18280050ED3C /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86122CE18270050ED3C /* ProgressBar.swift */; };
 		9DCED90522CE18280050ED3C /* PasscodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86222CE18270050ED3C /* PasscodeView.swift */; };
 		9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86322CE18270050ED3C /* CompleteView.swift */; };
 		9DCED90722CE18280050ED3C /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86422CE18270050ED3C /* LoadingIndicator.swift */; };
@@ -253,7 +243,6 @@
 		9DE3247E22D3998D00EB162A /* PasscodeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86722CE18270050ED3C /* PasscodeCoordinator.swift */; };
 		9DE3248022D3999200EB162A /* ConnectViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86922CE18270050ED3C /* ConnectViewCoordinator.swift */; };
 		9DE3248322D3999B00EB162A /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7F622CE18270050ED3C /* RealmManager.swift */; };
-		9DE3248422D3999F00EB162A /* SetupStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81022CE18270050ED3C /* SetupStep.swift */; };
 		9DE3248522D399A300EB162A /* APIErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7DD22CE18270050ED3C /* APIErrors.swift */; };
 		9DE3248722D399AC00EB162A /* ConnectionsCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED87B22CE18280050ED3C /* ConnectionsCollector.swift */; };
 		9DE3248A22D399B800EB162A /* AuthorizationsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED88322CE18280050ED3C /* AuthorizationsDataSource.swift */; };
@@ -261,7 +250,6 @@
 		9DE3248F22D399CD00EB162A /* EntityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED88A22CE18280050ED3C /* EntityResponse.swift */; };
 		9DE3249022D399D200EB162A /* BiometricsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81222CE18270050ED3C /* BiometricsPresenter.swift */; };
 		9DE3249122D399D500EB162A /* AuthorizationsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81322CE18270050ED3C /* AuthorizationsPresenter.swift */; };
-		9DE3249222D399DB00EB162A /* BordersExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81922CE18270050ED3C /* BordersExtensions.swift */; };
 		9DE3249322D399DE00EB162A /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81A22CE18270050ED3C /* ImageExtensions.swift */; };
 		9DE3249422D399E000EB162A /* ViewExtensions+Utilitarian.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81B22CE18270050ED3C /* ViewExtensions+Utilitarian.swift */; };
 		9DE3249522D399E300EB162A /* ViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81C22CE18270050ED3C /* ViewControllerExtensions.swift */; };
@@ -287,7 +275,6 @@
 		9DE324AB22D39A2300EB162A /* Localizations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83722CE18270050ED3C /* Localizations.swift */; };
 		9DE324AC22D39A2500EB162A /* AppearanceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83A22CE18270050ED3C /* AppearanceHelper.swift */; };
 		9DE324AF22D39A2D00EB162A /* PasscodeManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83D22CE18270050ED3C /* PasscodeManger.swift */; };
-		9DE324B022D39A2F00EB162A /* AmountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83E22CE18270050ED3C /* AmountFormatter.swift */; };
 		9DE324B122D39A3200EB162A /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83F22CE18270050ED3C /* NotificationsManager.swift */; };
 		9DE324B222D39A3500EB162A /* HapticFeedbackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */; };
 		9DE324B322D39A3700EB162A /* ParametersSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84122CE18270050ED3C /* ParametersSerializer.swift */; };
@@ -308,17 +295,11 @@
 		9DE324CE22D39A9800EB162A /* CustomSpacingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85022CE18270050ED3C /* CustomSpacingLabel.swift */; };
 		9DE324D022D39A9F00EB162A /* ModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85322CE18270050ED3C /* ModalView.swift */; };
 		9DE324D222D39AA700EB162A /* PasscodeSymbolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85622CE18270050ED3C /* PasscodeSymbolView.swift */; };
-		9DE324D322D39AAA00EB162A /* TimeLeftIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85722CE18270050ED3C /* TimeLeftIndicator.swift */; };
-		9DE324D422D39AAC00EB162A /* SetupProgressBarCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85822CE18270050ED3C /* SetupProgressBarCircle.swift */; };
 		9DE324D522D39AAF00EB162A /* CountdownProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85922CE18270050ED3C /* CountdownProgressView.swift */; };
 		9DE324D622D39AB100EB162A /* PasscodeKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85A22CE18270050ED3C /* PasscodeKeyboard.swift */; };
-		9DE324D722D39AB300EB162A /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85B22CE18270050ED3C /* InfoView.swift */; };
-		9DE324D822D39AB600EB162A /* SeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85C22CE18270050ED3C /* SeparatorView.swift */; };
 		9DE324D922D39AB900EB162A /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85D22CE18270050ED3C /* CustomButton.swift */; };
-		9DE324DA22D39ABB00EB162A /* SetupProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85E22CE18270050ED3C /* SetupProgressBar.swift */; };
 		9DE324DB22D39ABE00EB162A /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED85F22CE18270050ED3C /* NoDataView.swift */; };
 		9DE324DC22D39AC100EB162A /* TaptileFeedbackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86022CE18270050ED3C /* TaptileFeedbackButton.swift */; };
-		9DE324DD22D39AC300EB162A /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86122CE18270050ED3C /* ProgressBar.swift */; };
 		9DE324DE22D39AC500EB162A /* PasscodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86222CE18270050ED3C /* PasscodeView.swift */; };
 		9DE324DF22D39AC800EB162A /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86322CE18270050ED3C /* CompleteView.swift */; };
 		9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86422CE18270050ED3C /* LoadingIndicator.swift */; };
@@ -403,7 +384,6 @@
 		9D66E17F22D4C0AF00BD59B6 /* LanguagePickerViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguagePickerViewModelSpec.swift; sourceTree = "<group>"; };
 		9D66E18122D4C0AF00BD59B6 /* AuthorizationsDataSourceSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationsDataSourceSpec.swift; sourceTree = "<group>"; };
 		9D66E18322D4C0AF00BD59B6 /* ConnectionRepositorySpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionRepositorySpec.swift; sourceTree = "<group>"; };
-		9D66E18522D4C0AF00BD59B6 /* SetupStepSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupStepSpec.swift; sourceTree = "<group>"; };
 		9D66E1D422D6146800BD59B6 /* ConnectionRouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionRouterSpec.swift; sourceTree = "<group>"; };
 		9D66E1D522D6146800BD59B6 /* AuthorizationRouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationRouterSpec.swift; sourceTree = "<group>"; };
 		9D66E1D622D6146800BD59B6 /* ProviderRouterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProviderRouterSpec.swift; sourceTree = "<group>"; };
@@ -437,10 +417,8 @@
 		9DCED7F322CE18270050ED3C /* SetupAppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupAppViewController.swift; sourceTree = "<group>"; };
 		9DCED7F422CE18270050ED3C /* QRCodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		9DCED7F622CE18270050ED3C /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
-		9DCED81022CE18270050ED3C /* SetupStep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupStep.swift; sourceTree = "<group>"; };
 		9DCED81222CE18270050ED3C /* BiometricsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiometricsPresenter.swift; sourceTree = "<group>"; };
 		9DCED81322CE18270050ED3C /* AuthorizationsPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationsPresenter.swift; sourceTree = "<group>"; };
-		9DCED81922CE18270050ED3C /* BordersExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BordersExtensions.swift; sourceTree = "<group>"; };
 		9DCED81A22CE18270050ED3C /* ImageExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
 		9DCED81B22CE18270050ED3C /* ViewExtensions+Utilitarian.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ViewExtensions+Utilitarian.swift"; sourceTree = "<group>"; };
 		9DCED81C22CE18270050ED3C /* ViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtensions.swift; sourceTree = "<group>"; };
@@ -466,7 +444,6 @@
 		9DCED83722CE18270050ED3C /* Localizations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizations.swift; sourceTree = "<group>"; };
 		9DCED83A22CE18270050ED3C /* AppearanceHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppearanceHelper.swift; sourceTree = "<group>"; };
 		9DCED83D22CE18270050ED3C /* PasscodeManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeManger.swift; sourceTree = "<group>"; };
-		9DCED83E22CE18270050ED3C /* AmountFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmountFormatter.swift; sourceTree = "<group>"; };
 		9DCED83F22CE18270050ED3C /* NotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticFeedbackHelper.swift; sourceTree = "<group>"; };
 		9DCED84122CE18270050ED3C /* ParametersSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersSerializer.swift; sourceTree = "<group>"; };
@@ -479,17 +456,11 @@
 		9DCED85022CE18270050ED3C /* CustomSpacingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomSpacingLabel.swift; sourceTree = "<group>"; };
 		9DCED85322CE18270050ED3C /* ModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalView.swift; sourceTree = "<group>"; };
 		9DCED85622CE18270050ED3C /* PasscodeSymbolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeSymbolView.swift; sourceTree = "<group>"; };
-		9DCED85722CE18270050ED3C /* TimeLeftIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLeftIndicator.swift; sourceTree = "<group>"; };
-		9DCED85822CE18270050ED3C /* SetupProgressBarCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupProgressBarCircle.swift; sourceTree = "<group>"; };
 		9DCED85922CE18270050ED3C /* CountdownProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CountdownProgressView.swift; sourceTree = "<group>"; };
 		9DCED85A22CE18270050ED3C /* PasscodeKeyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeKeyboard.swift; sourceTree = "<group>"; };
-		9DCED85B22CE18270050ED3C /* InfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
-		9DCED85C22CE18270050ED3C /* SeparatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeparatorView.swift; sourceTree = "<group>"; };
 		9DCED85D22CE18270050ED3C /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		9DCED85E22CE18270050ED3C /* SetupProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupProgressBar.swift; sourceTree = "<group>"; };
 		9DCED85F22CE18270050ED3C /* NoDataView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
 		9DCED86022CE18270050ED3C /* TaptileFeedbackButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaptileFeedbackButton.swift; sourceTree = "<group>"; };
-		9DCED86122CE18270050ED3C /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		9DCED86222CE18270050ED3C /* PasscodeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeView.swift; sourceTree = "<group>"; };
 		9DCED86322CE18270050ED3C /* CompleteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompleteView.swift; sourceTree = "<group>"; };
 		9DCED86422CE18270050ED3C /* LoadingIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
@@ -621,7 +592,6 @@
 			children = (
 				9DCED86522CE18270050ED3C /* Coordinators */,
 				9DCED7F522CE18270050ED3C /* Database */,
-				9DCED80F22CE18270050ED3C /* Enumerations */,
 				9DCED7DC22CE18270050ED3C /* Errors */,
 				9DCED87722CE18280050ED3C /* Models */,
 				9DCED81122CE18270050ED3C /* Presenters */,
@@ -642,7 +612,6 @@
 			children = (
 				9DCBB2872435F1EF00DB3F85 /* ViewModels */,
 				9D66E1D222D6146800BD59B6 /* Networking */,
-				9D66E18422D4C0AF00BD59B6 /* Enumerations */,
 				9D66E17022D4C0AF00BD59B6 /* Errors */,
 				9D6575F6232A9AED00DCC53E /* Extensions */,
 				9D66E17322D4C0AF00BD59B6 /* Models */,
@@ -818,14 +787,6 @@
 			path = Repositories;
 			sourceTree = "<group>";
 		};
-		9D66E18422D4C0AF00BD59B6 /* Enumerations */ = {
-			isa = PBXGroup;
-			children = (
-				9D66E18522D4C0AF00BD59B6 /* SetupStepSpec.swift */,
-			);
-			path = Enumerations;
-			sourceTree = "<group>";
-		};
 		9D66E1D222D6146800BD59B6 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -956,14 +917,6 @@
 			path = Database;
 			sourceTree = "<group>";
 		};
-		9DCED80F22CE18270050ED3C /* Enumerations */ = {
-			isa = PBXGroup;
-			children = (
-				9DCED81022CE18270050ED3C /* SetupStep.swift */,
-			);
-			path = Enumerations;
-			sourceTree = "<group>";
-		};
 		9DCED81122CE18270050ED3C /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
@@ -989,7 +942,6 @@
 		9DCED81822CE18270050ED3C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				9DCED81922CE18270050ED3C /* BordersExtensions.swift */,
 				9DCED81A22CE18270050ED3C /* ImageExtensions.swift */,
 				9DCED81B22CE18270050ED3C /* ViewExtensions+Utilitarian.swift */,
 				9DCED81C22CE18270050ED3C /* ViewControllerExtensions.swift */,
@@ -1047,7 +999,6 @@
 				9DCED83722CE18270050ED3C /* Localizations.swift */,
 				9DCED83A22CE18270050ED3C /* AppearanceHelper.swift */,
 				9DCED83D22CE18270050ED3C /* PasscodeManger.swift */,
-				9DCED83E22CE18270050ED3C /* AmountFormatter.swift */,
 				9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */,
 				9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */,
 				9DCED83F22CE18270050ED3C /* NotificationsManager.swift */,
@@ -1118,18 +1069,12 @@
 			isa = PBXGroup;
 			children = (
 				9DCED85622CE18270050ED3C /* PasscodeSymbolView.swift */,
-				9DCED85722CE18270050ED3C /* TimeLeftIndicator.swift */,
-				9DCED85822CE18270050ED3C /* SetupProgressBarCircle.swift */,
 				9DCED85922CE18270050ED3C /* CountdownProgressView.swift */,
 				9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */,
 				9DCED85A22CE18270050ED3C /* PasscodeKeyboard.swift */,
-				9DCED85B22CE18270050ED3C /* InfoView.swift */,
-				9DCED85C22CE18270050ED3C /* SeparatorView.swift */,
 				9DCED85D22CE18270050ED3C /* CustomButton.swift */,
-				9DCED85E22CE18270050ED3C /* SetupProgressBar.swift */,
 				9DCED85F22CE18270050ED3C /* NoDataView.swift */,
 				9DCED86022CE18270050ED3C /* TaptileFeedbackButton.swift */,
-				9DCED86122CE18270050ED3C /* ProgressBar.swift */,
 				9DCED86222CE18270050ED3C /* PasscodeView.swift */,
 				9DCED86322CE18270050ED3C /* CompleteView.swift */,
 				9DCED86422CE18270050ED3C /* LoadingIndicator.swift */,
@@ -1662,7 +1607,6 @@
 				9DCED8F922CE18280050ED3C /* PasscodeSymbolView.swift in Sources */,
 				9DE94108246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */,
 				9DCED90222CE18280050ED3C /* NoDataView.swift in Sources */,
-				9DCED8E822CE18280050ED3C /* AmountFormatter.swift in Sources */,
 				9DCED8D922CE18280050ED3C /* ConnectionsInteractor.swift in Sources */,
 				9DCED8E422CE18280050ED3C /* AppearanceHelper.swift in Sources */,
 				9DCED8A522CE18280050ED3C /* AuthorizationsViewController.swift in Sources */,
@@ -1671,13 +1615,11 @@
 				9DE9410B246D7595000029A2 /* RealmConnectionsListener.swift in Sources */,
 				9DCED8FD22CE18280050ED3C /* PasscodeKeyboard.swift in Sources */,
 				9DCED8E922CE18280050ED3C /* NotificationsManager.swift in Sources */,
-				9DCED8C222CE18280050ED3C /* SetupStep.swift in Sources */,
 				9DCED8F722CE18280050ED3C /* ModalView.swift in Sources */,
 				9DCED8E122CE18280050ED3C /* Localizations.swift in Sources */,
 				9DCED8DF22CE18280050ED3C /* AppSettings.swift in Sources */,
 				959E30A0247BC78C0067354A /* LanguagePickerViewModel.swift in Sources */,
 				9DCED90C22CE18280050ED3C /* AuthorizationsCoordinator.swift in Sources */,
-				9DCED8FF22CE18280050ED3C /* SeparatorView.swift in Sources */,
 				9DCED8FC22CE18280050ED3C /* CountdownProgressView.swift in Sources */,
 				9DCED91122CE18280050ED3C /* ApplicationCoordinator.swift in Sources */,
 				959E30A5247BCBB90067354A /* LicensesCoordinator.swift in Sources */,
@@ -1703,7 +1645,6 @@
 				9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9DD8946022E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,
 				9D453CCD23D06F0E00702695 /* TimerApplication.swift in Sources */,
-				9DCED8C722CE18280050ED3C /* BordersExtensions.swift in Sources */,
 				9DCED8D322CE18280050ED3C /* StackViewExtensions.swift in Sources */,
 				9DCED91522CE18280050ED3C /* Connection.swift in Sources */,
 				9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
@@ -1715,7 +1656,6 @@
 				9DBAD79F247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */,
 				9DCED90A22CE18280050ED3C /* ConnectViewCoordinator.swift in Sources */,
 				95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */,
-				9DCED8FE22CE18280050ED3C /* InfoView.swift in Sources */,
 				9DCED8EE22CE18280050ED3C /* MessageBarView.swift in Sources */,
 				9D1DEE7423D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */,
 				9D630BC6243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */,
@@ -1738,7 +1678,6 @@
 				95C1EFC522D5ECAE00078A28 /* AboutViewController.swift in Sources */,
 				9DCED8EB22CE18280050ED3C /* ParametersSerializer.swift in Sources */,
 				9DCED8DC22CE18280050ED3C /* LocalizationHelper.swift in Sources */,
-				9DCED8FB22CE18280050ED3C /* SetupProgressBarCircle.swift in Sources */,
 				9DCED92622CE18280050ED3C /* AppDelegate.swift in Sources */,
 				9DCED8CB22CE18280050ED3C /* WindowExtensions.swift in Sources */,
 				9DCED8DA22CE18280050ED3C /* Localizable.swift in Sources */,
@@ -1757,7 +1696,6 @@
 				9DCBB28B243618B900DB3F85 /* Observable.swift in Sources */,
 				9DBAD7A2247E65D30023F944 /* InstantActionCoordinator.swift in Sources */,
 				959E309C247BBAD20067354A /* SettingCellModel.swift in Sources */,
-				9DCED90122CE18280050ED3C /* SetupProgressBar.swift in Sources */,
 				95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */,
 				9D77212F231E51200015BAC6 /* AuthorizationsCollectionLayout.swift in Sources */,
 				9DD4DF252375969A000A9B80 /* QuickActionsHelper.swift in Sources */,
@@ -1766,12 +1704,10 @@
 				9DCED8ED22CE18280050ED3C /* AuthorizationDetailViewModel.swift in Sources */,
 				9DCED8F122CE18280050ED3C /* SettingsCell.swift in Sources */,
 				959E3097247BBA190067354A /* SettingsViewModel.swift in Sources */,
-				9DCED90422CE18280050ED3C /* ProgressBar.swift in Sources */,
 				9DCED91222CE18280050ED3C /* Coordinator.swift in Sources */,
 				9DCED8F022CE18280050ED3C /* FeaturesCollectionViewCell.swift in Sources */,
 				9DCED89A22CE18280050ED3C /* APIErrors.swift in Sources */,
 				9DCED8DE22CE18280050ED3C /* KeychainHelper.swift in Sources */,
-				9DCED8FA22CE18280050ED3C /* TimeLeftIndicator.swift in Sources */,
 				9DCED8EA22CE18280050ED3C /* HapticFeedbackHelper.swift in Sources */,
 				9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */,
 				9DCED89F22CE18280050ED3C /* ConnectViewController.swift in Sources */,
@@ -1837,7 +1773,6 @@
 				9D5BCFE124800307009A6B40 /* ConnectHandler.swift in Sources */,
 				9DE3249422D399E000EB162A /* ViewExtensions+Utilitarian.swift in Sources */,
 				9D49FF7D24922F9900778AC4 /* ForgotPasscodeViewController.swift in Sources */,
-				9DE3249222D399DB00EB162A /* BordersExtensions.swift in Sources */,
 				959E30B3247BDA250067354A /* AboutViewModelSpec.swift in Sources */,
 				9DE3248022D3999200EB162A /* ConnectViewCoordinator.swift in Sources */,
 				9DE324C422D39A7300EB162A /* SetupAppViewController.swift in Sources */,
@@ -1858,13 +1793,11 @@
 				9DE3249022D399D200EB162A /* BiometricsPresenter.swift in Sources */,
 				9DD4DF2923759767000A9B80 /* AVCaptureHelper.swift in Sources */,
 				9DE3249922D399ED00EB162A /* StringExtensions.swift in Sources */,
-				9DE324D822D39AB600EB162A /* SeparatorView.swift in Sources */,
 				9D66E1DE22D6146900BD59B6 /* ConnectionRouterSpec.swift in Sources */,
 				9DE324CE22D39A9800EB162A /* CustomSpacingLabel.swift in Sources */,
 				9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9581A9DB2477DFE50066EF5E /* SettingsCoordinator.swift in Sources */,
 				9DE324AC22D39A2500EB162A /* AppearanceHelper.swift in Sources */,
-				9D66E1AA22D4C1C600BD59B6 /* SetupStepSpec.swift in Sources */,
 				9DE324A322D39A0A00EB162A /* ConnectionsInteractor.swift in Sources */,
 				9581A9D72477D6370066EF5E /* BaseViewController.swift in Sources */,
 				9DD5098F24742ED900CB188D /* ConnectionsCoordinator.swift in Sources */,
@@ -1874,27 +1807,22 @@
 				9DE3245922D3986B00EB162A /* ConfirmAuthorizationResponseSpec.swift in Sources */,
 				9DE324DB22D39ABE00EB162A /* NoDataView.swift in Sources */,
 				9D66E1B622D4C1F700BD59B6 /* ConnectionRepositorySpec.swift in Sources */,
-				9DE324D422D39AAC00EB162A /* SetupProgressBarCircle.swift in Sources */,
 				959E30A1247BC78D0067354A /* LanguagePickerViewModel.swift in Sources */,
 				9DE3247E22D3998D00EB162A /* PasscodeCoordinator.swift in Sources */,
 				9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */,
 				9DE3249E22D399F900EB162A /* DicitionaryExtensions.swift in Sources */,
-				9DE3248422D3999F00EB162A /* SetupStep.swift in Sources */,
 				9DE3247422D398ED00EB162A /* BaseSpec.swift in Sources */,
 				95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */,
 				9DE3249A22D399EF00EB162A /* ColorExtensions.swift in Sources */,
 				959E30B2247BDA250067354A /* LanguagePickerViewModelSpec.swift in Sources */,
-				9DE324B022D39A2F00EB162A /* AmountFormatter.swift in Sources */,
 				9D1DEE7523D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */,
 				9DBAD7A0247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */,
 				9DE3245A22D3986B00EB162A /* RevokeConnectionResponseSpec.swift in Sources */,
-				9DE324DD22D39AC300EB162A /* ProgressBar.swift in Sources */,
 				9D772133231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift in Sources */,
 				9D772130231E51200015BAC6 /* AuthorizationsCollectionLayout.swift in Sources */,
 				9D66E1AE22D4C1D300BD59B6 /* ConnectionCollectorSpec.swift in Sources */,
 				959E30B1247BDA250067354A /* SettingsViewModelSpec.swift in Sources */,
 				9DE3247322D398ED00EB162A /* URLRequestBuilder.swift in Sources */,
-				9DE324D322D39AAA00EB162A /* TimeLeftIndicator.swift in Sources */,
 				9DE3247522D398ED00EB162A /* DataFixtures.swift in Sources */,
 				9D66E1DF22D6146900BD59B6 /* AuthorizationRouterSpec.swift in Sources */,
 				9DE324D222D39AA700EB162A /* PasscodeSymbolView.swift in Sources */,
@@ -1919,14 +1847,12 @@
 				9DE324A622D39A1600EB162A /* LocalizationHelper.swift in Sources */,
 				9D1DEE7F23DB5071003C79AC /* SubmitActionResponseSpec.swift in Sources */,
 				9DE324D922D39AB900EB162A /* CustomButton.swift in Sources */,
-				9DE324DA22D39ABB00EB162A /* SetupProgressBar.swift in Sources */,
 				9DE3246A22D398B300EB162A /* AuthorizationsPresenterSpec.swift in Sources */,
 				9DE324B422D39A3A00EB162A /* BiometricsHelper.swift in Sources */,
 				9DD4DF262375969B000A9B80 /* QuickActionsHelper.swift in Sources */,
 				9DE324DE22D39AC500EB162A /* PasscodeView.swift in Sources */,
 				9DE3249722D399E800EB162A /* ViewsExtensions.swift in Sources */,
 				9DE3249522D399E300EB162A /* ViewControllerExtensions.swift in Sources */,
-				9DE324D722D39AB300EB162A /* InfoView.swift in Sources */,
 				95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */,
 				959E30B4247BE56C0067354A /* SettingCellModel.swift in Sources */,
 				9D66E1AB22D4C1CA00BD59B6 /* CryptoErrorsSpec.swift in Sources */,

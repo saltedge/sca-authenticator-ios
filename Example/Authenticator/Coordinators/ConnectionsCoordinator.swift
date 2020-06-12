@@ -85,28 +85,3 @@ extension ConnectionsCoordinator: ConnectionsListEventsDelegate {
         connectViewCoordinator?.start()
     }
 }
-
-final class InputAlertController: UIAlertController {
-    var text: String = ""
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        textFields?.forEach {
-            $0.text = text
-            if let contentView = $0.superview, let effectsView = contentView.superview?.subviews[0] {
-                contentView.backgroundColor = .clear
-
-                let bottomLine = SeparatorView(axis: .horizontal, thickness: 1.0)
-
-                contentView.addSubview(bottomLine)
-
-                bottomLine.centerX(to: contentView)
-                bottomLine.bottom(to: contentView)
-                bottomLine.width(120.0)
-
-                effectsView.isHidden = true
-            }
-        }
-    }
-}

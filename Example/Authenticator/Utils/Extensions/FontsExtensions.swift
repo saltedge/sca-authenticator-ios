@@ -27,7 +27,7 @@ extension UIFont {
     static var auth_13regular: UIFont {
         return UIFont.systemFont(ofSize: 13.0, weight: .regular)
     }
-    
+
     static var auth_13semibold: UIFont {
         return UIFont.systemFont(ofSize: 13.0, weight: .semibold)
     }

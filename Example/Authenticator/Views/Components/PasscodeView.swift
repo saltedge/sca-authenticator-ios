@@ -188,7 +188,7 @@ extension PasscodeView: PasscodeKeyboardDelegate {
     func forgotPressed() {
         viewModel.forgotPressed()
     }
-    
+
     func clearPressed() {
         viewModel.clearPressed(
             indexToAnimate: { index in
