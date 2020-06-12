@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         CacheHelper.setDefaultDiskAge()
         configureFirebase()
         setupAppCoordinator()
+        applicationCoordinator?.openQrScannerIfNoConnections()
         return true
     }
 
@@ -73,6 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         applicationCoordinator?.showBiometricsIfEnabled()
+        applicationCoordinator?.openQrScannerIfNoConnections()
     }
 
     static var main: AppDelegate {
