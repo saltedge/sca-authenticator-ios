@@ -23,16 +23,6 @@
 import UIKit
 import TinyConstraints
 
-private struct Layout {
-    static let progressBarTopOffset: CGFloat = 52.0
-    static let progressBarSideOffset: CGFloat = 30.0
-    static let titleLabelTopOffset: CGFloat = 43.0
-    static let labelsSideOffset: CGFloat = 30.0
-    static let descriptionLabelTopOffset: CGFloat = 17.0
-    static let infoViewsTopOffset: CGFloat = 15.0
-    static let signUpCompleteViewTopOffset: CGFloat = 90.0
-}
-
 protocol SetupAppDelegate: class {
     func receivedQrMetadata(data: String)
     func dismiss()

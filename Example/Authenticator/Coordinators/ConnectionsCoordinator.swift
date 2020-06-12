@@ -72,7 +72,7 @@ extension ConnectionsCoordinator: ConnectionsListEventsDelegate {
 
     func deleteConnection(completion: @escaping () -> ()) {
         currentViewController.navigationController?.showConfirmationAlert(
-            withTitle: l10n(.delete),
+            withTitle: l10n(.deleteConnection),
             message: l10n(.deleteConnectionDescription),
             confirmAction: { _ in
                 completion()

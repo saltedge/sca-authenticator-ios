@@ -73,6 +73,7 @@ extension LicensesViewController: UITableViewDataSource {
             withIdentifier: LicensesViewController.reuseIdentifier,
             for: indexPath
         )
+        cell.backgroundColor = .backgroundColor
         cell.textLabel?.text = viewModel.cellTitle(for: indexPath)
         return cell
     }

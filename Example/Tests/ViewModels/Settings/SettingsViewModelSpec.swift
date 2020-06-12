@@ -82,9 +82,9 @@ class SettingsViewModelSpec: BaseSpec {
             context("when sections exists") {
                 it("should return corresponding item") {
                     expect(viewModel.item(for: IndexPath(row: 0, section: 0)))
-                        .to(equal(SettingCellModel.language))
-                    expect(viewModel.item(for: IndexPath(row: 1, section: 0)))
                         .to(equal(SettingCellModel.passcode))
+                    expect(viewModel.item(for: IndexPath(row: 1, section: 0)))
+                        .to(equal(SettingCellModel.language))
                     
                     expect(viewModel.item(for: IndexPath(row: 0, section: 1)))
                         .to(equal(SettingCellModel.about))
@@ -121,8 +121,8 @@ class SettingsViewModelSpec: BaseSpec {
 
                     viewModel.selected(indexPath: IndexPath(row: 0, section: 0))
 
-                    expect(mockDelegate.languageItemSelectedCall).to(beTrue())
-                    expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.passcodeItemSelectedCall).to(beTrue())
+                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
                     expect(mockDelegate.supportItemSelectedCall).to(beFalse())
                     expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
                     expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())
@@ -134,8 +134,8 @@ class SettingsViewModelSpec: BaseSpec {
 
                     viewModel.selected(indexPath: IndexPath(row: 1, section: 0))
 
-                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
-                    expect(mockDelegate.passcodeItemSelectedCall).to(beTrue())
+                    expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.languageItemSelectedCall).to(beTrue())
                     expect(mockDelegate.supportItemSelectedCall).to(beFalse())
                     expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
                     expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())
@@ -147,8 +147,8 @@ class SettingsViewModelSpec: BaseSpec {
 
                     viewModel.selected(indexPath: IndexPath(row: 0, section: 1))
 
-                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
                     expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
                     expect(mockDelegate.supportItemSelectedCall).to(beFalse())
                     expect(mockDelegate.aboutItemSelectedCall).to(beTrue())
                     expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())
@@ -160,8 +160,8 @@ class SettingsViewModelSpec: BaseSpec {
 
                     viewModel.selected(indexPath: IndexPath(row: 1, section: 1))
 
-                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
                     expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
                     expect(mockDelegate.supportItemSelectedCall).to(beTrue())
                     expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
                     expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())
@@ -173,8 +173,8 @@ class SettingsViewModelSpec: BaseSpec {
 
                     viewModel.selected(indexPath: IndexPath(row: 0, section: 2))
 
-                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
                     expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
                     expect(mockDelegate.supportItemSelectedCall).to(beFalse())
                     expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
                     expect(mockDelegate.clearDataItemSelectedCall).to(beTrue())
@@ -188,8 +188,8 @@ class SettingsViewModelSpec: BaseSpec {
                     
                     viewModel.selected(indexPath: IndexPath(row: 0, section: 55))
                     
-                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
                     expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
                     expect(mockDelegate.supportItemSelectedCall).to(beFalse())
                     expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
                     expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())

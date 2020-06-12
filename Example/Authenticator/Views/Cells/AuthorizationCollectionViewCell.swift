@@ -110,7 +110,7 @@ private extension AuthorizationCollectionViewCell {
         let leftButton = CustomButton(text: l10n(.deny), textColor: .titleColor, backgroundColor: .secondaryBackground)
         leftButton.addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
 
-        let rightButton = CustomButton(text: l10n(.confirm), backgroundColor: .actionColor)
+        let rightButton = CustomButton(text: l10n(.allow), backgroundColor: .actionColor)
         rightButton.addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
 
         buttonsStackView.addArrangedSubviews(leftButton, rightButton)
