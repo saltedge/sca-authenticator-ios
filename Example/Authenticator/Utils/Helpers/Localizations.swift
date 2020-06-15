@@ -102,6 +102,7 @@ enum Localizations: String, Localizable {
 
     case forgotPasscode = "no_data.forgot_passcode"
     case forgotPasscodeDescription = "no_data.forgot_passcode_description"
+    case forgotPasscodeClearDataDescription = "no_data.forgot_passcode_clear_data_description"
 
     // MARK: - Actions
     case newAction = "instant_action.new_action"
@@ -119,6 +120,7 @@ enum Localizations: String, Localizable {
     case deleteConnection = "actions.confirm_delete_connection"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
     case scanQr = "in_app.connect.scan_qr"
+    case scanQrCode = "in_app.connect.scan_qr_code"
     case chooseConnection = "in_app.connect.choose"
     case newConnection = "in_app.connect.new_connection"
 

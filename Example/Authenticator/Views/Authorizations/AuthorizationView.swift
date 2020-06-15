@@ -165,9 +165,11 @@ extension AuthorizationView: UICollectionViewDelegate, UICollectionViewDelegateF
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
         if collectionView == headerSwipingView.collectionView {
             let inset = 0.16 * AppLayout.screenWidth
 

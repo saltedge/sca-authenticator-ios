@@ -74,7 +74,6 @@ class SettingsViewModel {
                 confirmAction: { _ in
                     RealmManager.deleteAll()
                     CacheHelper.clearCache()
-                    AppDelegate.main.applicationCoordinator?.swapToOnboarding()
                 }
             )
         default: break

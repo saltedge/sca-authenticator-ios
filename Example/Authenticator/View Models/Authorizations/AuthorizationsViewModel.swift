@@ -42,6 +42,11 @@ enum AuthorizationsViewModelState: Equatable {
     }
 }
 
+enum AuthorizationType {
+    case list
+    case single
+}
+
 protocol AuthorizationsViewModelEventsDelegate: class {
     func reloadData()
     func shouldDismiss()
@@ -63,6 +68,8 @@ class AuthorizationsViewModel {
     private var poller: SEPoller?
     private var connections = ConnectionsCollector.activeConnections
 
+    private var type: AuthorizationType
+
     var singleAuthorization: (connectionId: String, authorizationId: String)? {
         willSet {
             setupPolling()
@@ -72,7 +79,8 @@ class AuthorizationsViewModel {
         }
     }
 
-    init() {
+    init(type: AuthorizationType = .list) {
+        self.type = type
         connectionsListener = RealmConnectionsListener(
             onDataChange: {
                 self.state.value = .changedConnectionsData
@@ -90,7 +98,7 @@ class AuthorizationsViewModel {
                 image: Images.noAuthorizations,
                 title: l10n(.noAuthorizations),
                 description: l10n(.noAuthorizationsDescription),
-                buttonTitle: nil
+                buttonTitle: l10n(.scanQr)
             )
         } else {
             return EmptyViewData(

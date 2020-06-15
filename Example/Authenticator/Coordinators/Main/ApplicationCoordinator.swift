@@ -21,11 +21,13 @@
 //
 
 import UIKit
+import SEAuthenticator
 
 final class ApplicationCoordinator: Coordinator {
     private let window: UIWindow?
     private var qrCodeCoordinator: QRCodeCoordinator?
     private var passcodeCoordinator: PasscodeCoordinator?
+    private var instantActionCoordinator: InstantActionCoordinator?
     private var connectViewCoordinator: ConnectViewCoordinator?
 
     private lazy var authorizationsCoordinator = AuthorizationsCoordinator()
@@ -128,22 +130,37 @@ final class ApplicationCoordinator: Coordinator {
 
     func openQrScanner() {
         passcodeCoordinator?.onCompleteClosure = {
-            guard let rootVc = self.window?.rootViewController, !rootVc.isKind(of: OnboardingViewController.self) else { return }
+            guard let rootNavVc = self.window?.rootViewController as? UINavigationController,
+                !rootNavVc.isKind(of: OnboardingViewController.self),
+                let topControler = UIWindow.topViewController,
+                !topControler.isKind(of: QRCodeViewController.self) else { return }
 
-            self.qrCodeCoordinator = QRCodeCoordinator(rootViewController: rootVc)
+            rootNavVc.setViewControllers([self.authorizationsCoordinator.rootViewController], animated: true)
+            self.qrCodeCoordinator = QRCodeCoordinator(rootViewController: rootNavVc)
             self.qrCodeCoordinator?.start()
         }
     }
 
-    func openConnectViewController(connectionType: ConnectionType) {
-        guard let rootVc = window?.rootViewController else { return }
-
+    func openConnectViewController(url: URL) {
         passcodeCoordinator?.onCompleteClosure = {
-            self.connectViewCoordinator = ConnectViewCoordinator(
-                rootViewController: rootVc,
-                connectionType: connectionType
-            )
-            self.connectViewCoordinator?.start()
+            guard let topController = UIWindow.topViewController, SEConnectHelper.isValid(deepLinkUrl: url) else { return }
+
+            if let actionGuid = SEConnectHelper.actionGuid(from: url),
+                let connectUrl = SEConnectHelper.connectUrl(from: url) {
+                self.instantActionCoordinator = InstantActionCoordinator(
+                    rootViewController: topController,
+                    qrUrl: url,
+                    actionGuid: actionGuid,
+                    connectUrl: connectUrl
+                )
+                self.instantActionCoordinator?.start()
+            } else {
+                self.connectViewCoordinator = ConnectViewCoordinator(
+                    rootViewController: topController,
+                    connectionType: .deepLink(url)
+                )
+                self.connectViewCoordinator?.start()
+            }
         }
     }
 
@@ -191,7 +208,6 @@ final class ApplicationCoordinator: Coordinator {
         }
     }
 
-    // NOTE: Review
     @objc func applicationDidTimeout(notification: NSNotification) {
         guard let topController = UIWindow.topViewController,
             !topController.isKind(of: PasscodeViewController.self),

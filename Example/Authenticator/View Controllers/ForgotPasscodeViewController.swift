@@ -55,7 +55,7 @@ final class ForgotPasscodeViewController: BaseViewController {
     @objc private func clearDataPressed() {
         showConfirmationAlert(
             withTitle: l10n(.clearData),
-            message: l10n(.clearDataDescription),
+            message: l10n(.forgotPasscodeClearDataDescription),
             confirmActionTitle: l10n(.clear),
             confirmActionStyle: .destructive,
             confirmAction: { _ in

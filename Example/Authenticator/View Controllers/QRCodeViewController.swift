@@ -148,7 +148,7 @@ final class QRCodeViewController: BaseViewController {
 
     private func labelsStackView() -> UIStackView {
         let titleLabel = UILabel()
-        titleLabel.text = l10n(.scanQr)
+        titleLabel.text = l10n(.scanQrCode)
         titleLabel.textAlignment = .center
         titleLabel.font = .systemFont(ofSize: 26.0, weight: .bold)
         titleLabel.textColor = .titleColor
