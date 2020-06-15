@@ -66,7 +66,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
                         image: UIImage(named: "noAuthorizations", in: .authenticator_main, compatibleWith: nil)!,
                         title: l10n(.noAuthorizations),
                         description: l10n(.noAuthorizationsDescription),
-                        buttonTitle: nil
+                        buttonTitle: l10n(.scanQr)
                     )
 
                     let connection = Connection()

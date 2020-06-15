@@ -24,6 +24,7 @@ import UIKit
 
 private struct Layout {
     static let cellHeight: CGFloat = 96.0
+    static let noDataViewTopOffset: CGFloat = AppLayout.screenHeight * 0.11
 }
 
 final class ConnectionsViewController: BaseViewController {
@@ -140,7 +141,7 @@ extension ConnectionsViewController {
     ) -> UITargetedPreview? {
       guard let identifier = configuration.identifier as? String,
         let index = Int(identifier),
-        let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? ConnectionCell else { return nil }
+        let cell = tableView.cellForRow(at: IndexPath(row: 0, section: index)) as? ConnectionCell else { return nil }
 
       return UITargetedPreview(view: cell.cardView)
     }
@@ -179,7 +180,7 @@ extension ConnectionsViewController: Layoutable {
 
         tableView.edges(to: view)
 
+        noDataView.topToSuperview(offset: Layout.noDataViewTopOffset)
         noDataView.widthToSuperview()
-        noDataView.center(in: view)
     }
 }

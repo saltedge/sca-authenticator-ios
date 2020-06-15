@@ -90,7 +90,7 @@ class AuthorizationsViewModel {
                 image: Images.noAuthorizations,
                 title: l10n(.noAuthorizations),
                 description: l10n(.noAuthorizationsDescription),
-                buttonTitle: nil
+                buttonTitle: l10n(.scanQr)
             )
         } else {
             return EmptyViewData(

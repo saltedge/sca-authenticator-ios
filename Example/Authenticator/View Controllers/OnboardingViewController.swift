@@ -194,12 +194,12 @@ extension OnboardingViewController: Layoutable {
     func layout() {
         view.addSubviews(collectionView, pageControl, buttonsStackView)
 
-        collectionView.top(to: view)
+        collectionView.top(to: view, view.safeAreaLayoutGuide.topAnchor)
         collectionView.width(to: view)
         collectionView.centerX(to: view)
         collectionView.bottomToTop(of: buttonsStackView)
 
-        pageControl.top(to: collectionView, offset: Layout.pageControlTopOffset)
+        pageControl.top(to: view, offset: Layout.pageControlTopOffset)
         pageControl.left(to: collectionView, offset: Layout.pageLeftOffset)
         pageControl.height(Layout.pageControlHeight)
 

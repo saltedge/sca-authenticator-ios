@@ -64,13 +64,7 @@ final class CompleteView: UIView {
 
     weak var delegate: CompleteViewDelegate?
 
-    private let imageContainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .secondaryBackground
-        view.layer.masksToBounds = true
-        view.layer.cornerRadius = 16.0
-        return view
-    }()
+    private let imageContainerView = RoundedShadowView()
     private var accessoryView: UIView?
     private let titleLabel = UILabel(font: .systemFont(ofSize: 21.0, weight: .regular), textColor: .titleColor)
     private let descriptionLabel = UILabel(font: .systemFont(ofSize: 17.0, weight: .regular), textColor: .titleColor)

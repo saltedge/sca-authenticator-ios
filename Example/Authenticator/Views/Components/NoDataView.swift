@@ -74,7 +74,6 @@ class NoDataView: UIView {
         imageView.image = data.image
         titleLabel.text = data.title
         descriptionLabel.text = data.description
-        button?.isHidden = data.buttonTitle == nil
 
         if let title = data.buttonTitle {
             button?.updateTitle(text: title)

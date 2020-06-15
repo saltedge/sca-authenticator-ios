@@ -48,6 +48,7 @@
 "authorization.denied.message" = "Your action was denied";
 "no_data.forgot_passcode" = "Forgot passcode?";
 "no_data.forgot_passcode_description" = "Please clear app data and establish new connection with your provider";
+"no_data.forgot_passcode_clear_data_description" = "All app data including connected providers, user data and settings will be permanently deleted";
 "errors.account_reset" = "Your Account Was Reset Due to Multiple Failed Attempts.";
 "errors.instant_action.error" = "Action error";
 "errors.authorization_not_found" = "Authorization request was either processed, canceled or expired";
@@ -73,7 +74,8 @@
 "in_app.authorizations.no_authorizations_description" = "You don’t have any active authorization requests yet. Scan QR code for instant action or to connect new provider.";
 "in_app.connection.connected_on" = "Connected on";
 "in_app.connection.connection_failed" = "Connection failed";
-"in_app.connect.scan_qr" = "Scan QR code";
+"in_app.connect.scan_qr" = "Scan QR";
+"in_app.connect.scan_qr_code" = "Scan QR code";
 "in_app.connect.scan_qr_description" = "Scan the QR code to\ntake action";
 "in_app.connect.new_connection" = "New connection";
 "in_app.connect.no_connections" = "No connections";

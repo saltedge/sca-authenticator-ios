@@ -101,7 +101,7 @@ final class ConnectionsListViewModel {
         return EmptyViewData(
             image: #imageLiteral(resourceName: "noConnections"),
             title: l10n(.noConnections),
-            description: l10n(.noConnections),
+            description: l10n(.noConnectionsDescription),
             buttonTitle: l10n(.connect)
         )
     }
@@ -203,7 +203,7 @@ extension ConnectionsListViewModel {
         let viewModel = cellViewModel(at: indexPath)
 
         let configuration = UIContextMenuConfiguration(
-            identifier: "\(indexPath.row)" as NSString,
+            identifier: "\(indexPath.section)" as NSString,
             previewProvider: nil
         ) { [weak self] _ -> UIMenu? in
             let rename = UIAction(title: l10n(.rename), image: UIImage(named: "rename")) { _ in
