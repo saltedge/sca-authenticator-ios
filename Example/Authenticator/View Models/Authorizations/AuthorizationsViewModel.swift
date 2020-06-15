@@ -63,6 +63,8 @@ class AuthorizationsViewModel {
     private var poller: SEPoller?
     private var connections = ConnectionsCollector.activeConnections
 
+    var singleAuthorizationDetailViewModel: AuthorizationDetailViewModel?
+
     var singleAuthorization: (connectionId: String, authorizationId: String)? {
         willSet {
             setupPolling()

@@ -22,15 +22,21 @@
 
 import UIKit
 
-final class RoundedShadowView: UIView {
+class RoundedShadowView: UIView {
     private var shadowLayer: CAShapeLayer!
+    private var cornerRadius: CGFloat
+
+    init(cornerRadius: CGFloat) {
+        self.cornerRadius = cornerRadius
+        super.init(frame: .zero)
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
 
         if shadowLayer == nil {
             shadowLayer = CAShapeLayer()
-            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 16).cgPath
+            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
             shadowLayer.fillColor = UIColor.secondaryBackground.cgColor
 
             shadowLayer.shadowColor = UIColor(red: 0.056, green: 0.126, blue: 0.179, alpha: 0.12).cgColor
@@ -41,5 +47,9 @@ final class RoundedShadowView: UIView {
 
             layer.insertSublayer(shadowLayer, at: 0)
         }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

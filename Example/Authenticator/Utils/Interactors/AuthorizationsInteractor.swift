@@ -52,6 +52,38 @@ struct AuthorizationsInteractor {
         )
     }
 
+    static func refresh(
+        connection: Connection,
+        authorizationId: ID,
+        success: @escaping (SEEncryptedData) -> (),
+        failure: ((String) -> ())? = nil,
+        connectionNotFoundFailure: @escaping ((String?) -> ())
+    ) {
+        let accessToken = connection.accessToken
+
+        guard let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
+
+        SEAuthorizationManager.getEncryptedAuthorization(
+            data: SEBaseAuthenticatedWithIdRequestData(
+                url: baseUrl,
+                connectionGuid: connection.guid,
+                accessToken: accessToken,
+                appLanguage: UserDefaultsHelper.applicationLanguage,
+                entityId: authorizationId
+            ),
+            onSuccess: { response in
+                success(response.data)
+            },
+            onFailure: { error in
+                if SEAPIError.connectionNotFound.isConnectionNotFound(error) {
+                    connectionNotFoundFailure(connection.id)
+                } else {
+                    failure?("\(l10n(.somethingWentWrong)) (\(connection.name))")
+                }
+            }
+        )
+    }
+
     static func refresh(connections: [Connection],
                         success: @escaping ([SEEncryptedData]) -> (),
                         failure: ((String) -> ())? = nil,
