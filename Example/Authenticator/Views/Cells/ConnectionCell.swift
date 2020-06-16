@@ -26,7 +26,7 @@ private struct Layout {
     static let sideOffset: CGFloat = 16.0
     static let titleLabelTopOffset: CGFloat = 20.0
     static let descriptionLabelOffset: CGFloat = 4.0
-    static let imageViewSize: CGSize = CGSize(width: 42.0, height: 24.0)
+    static let imageViewSize: CGSize = CGSize(width: 42.0, height: 42.0)
     static let connectionPlaceholderViewSize: CGSize = CGSize(width: 52.0, height: 52.0)
     static let connectionPlaceholderViewRadius: CGFloat = 12.0
     static let connectionImageOffset = sideOffset + 4.0
