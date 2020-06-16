@@ -83,8 +83,12 @@ final class CompleteView: UIView {
         layout()
     }
 
-    func set(state: State, title: String, description: String) {
-        titleLabel.text = title
+    func set(state: State, title: String, attributedString: NSMutableAttributedString? = nil, description: String) {
+        if let attributedString = attributedString {
+            titleLabel.attributedText = attributedString
+        } else {
+            titleLabel.text = title
+        }
         descriptionLabel.text = description
 
         accessoryView?.removeFromSuperview()

@@ -25,7 +25,7 @@ import SEAuthenticator
 
 protocol ConnectEventsDelegate: class {
     func showWebViewController()
-    func finishConnectWithSuccess(message: String)
+    func finishConnectWithSuccess(attributedMessage: NSMutableAttributedString)
     func startWebViewLoading(with connectUrlString: String)
     func dismiss()
     func dismissConnectWithError(error: String)
@@ -60,7 +60,15 @@ final class ConnectHandler {
 
         ConnectionRepository.setAccessTokenAndActive(connection, accessToken: accessToken)
         ConnectionRepository.save(connection)
-        delegate?.finishConnectWithSuccess(message: String(format: l10n(.connectedSuccessfullyTitle), connection.name))
+        let attributedConnectionName = NSAttributedString(
+            string: connection.name,
+            attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 21.0)]
+        )
+        let description = NSAttributedString(string: " \(l10n(.connectedSuccessfullyTitle))")
+        let finalString = NSMutableAttributedString()
+        finalString.append(attributedConnectionName)
+        finalString.append(description)
+        delegate?.finishConnectWithSuccess(attributedMessage: finalString)
     }
 
     private func fetchConfiguration(url: URL) {

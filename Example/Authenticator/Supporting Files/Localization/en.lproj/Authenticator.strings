@@ -81,7 +81,7 @@
 "in_app.connect.no_connections" = "No connections";
 "in_app.connect.no_connections_description" = "Seems like you didn’t connect to your provider yet. Add new connection to securely authorize your actions.";
 "in_app.connect.choose" = "Choose connection";
-"in_app.connect.success_title" = "%@ was successfully connected!";
+"in_app.connect.success_title" = "was successfully connected!";
 "in_app.connect.success_description" = "You will receive an authorization request every time you make an action.";
 "in_app.passcode_confirmation.title" = "Enter Passcode or use Touch ID";
 "in_app.passcode_confirmation.title2" = "Enter Passcode or use Face ID";
