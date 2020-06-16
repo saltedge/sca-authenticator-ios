@@ -2068,7 +2068,7 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 112;
+				CURRENT_PROJECT_VERSION = 114;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
@@ -2093,7 +2093,7 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 112;
+				CURRENT_PROJECT_VERSION = 114;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";

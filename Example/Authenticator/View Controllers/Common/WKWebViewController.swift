@@ -34,7 +34,7 @@ class WKWebViewController: BaseViewController {
     var displayType: Presentation = .modal
 
     private var webView: WKWebView
-    private let loadingIndicator = LoadingIndicator()
+    private let loadingIndicator = LoadingIndicatorView()
 
     init() {
         webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())

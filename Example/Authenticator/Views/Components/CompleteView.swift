@@ -49,7 +49,7 @@ final class CompleteView: UIView {
             switch self {
             case .success: return AspectFitImageView(imageName: "success")
             case .fail: return AspectFitImageView(imageName: "smth_wrong")
-            default: return LoadingIndicator()
+            default: return LoadingIndicatorView()
             }
         }
 
@@ -95,7 +95,7 @@ final class CompleteView: UIView {
             accessoryView.centerInSuperview()
         }
 
-        if state == .processing, let loadingIndicator = accessoryView as? LoadingIndicator {
+        if state == .processing, let loadingIndicator = accessoryView as? LoadingIndicatorView {
             proceedButton.isHidden = true
             loadingIndicator.start()
         } else {

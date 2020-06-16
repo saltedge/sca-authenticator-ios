@@ -26,8 +26,8 @@ private struct Layout {
     static let sideOffset: CGFloat = 16.0
     static let titleLabelTopOffset: CGFloat = 20.0
     static let descriptionLabelOffset: CGFloat = 4.0
-    static let imageViewSize: CGSize = CGSize(width: 36.0, height: 36.0)
-    static let connectionPlaceholderViewSize: CGSize = CGSize(width: 48.0, height: 48.0)
+    static let imageViewSize: CGSize = CGSize(width: 42.0, height: 24.0)
+    static let connectionPlaceholderViewSize: CGSize = CGSize(width: 52.0, height: 52.0)
     static let connectionPlaceholderViewRadius: CGFloat = 12.0
     static let connectionImageOffset = sideOffset + 4.0
     static let cardViewRadius: CGFloat = 6.0
@@ -46,7 +46,6 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
     private let logoPlaceholderView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = Layout.connectionPlaceholderViewRadius
-        view.clipsToBounds = true
         view.backgroundColor = .extraLightGray
         return view
     }()
@@ -123,8 +122,10 @@ private extension ConnectionCell {
 // MARK: - Layout
 extension ConnectionCell: Layoutable {
     func layout() {
-        contentView.addSubviews(cardView)
+        contentView.addSubview(cardView)
+
         cardView.addSubviews(logoPlaceholderView, titleLabel, descriptionLabel)
+
         logoPlaceholderView.addSubview(logoImageView)
 
         cardView.left(to: contentView, offset: Layout.cardViewLeftRightOffset)

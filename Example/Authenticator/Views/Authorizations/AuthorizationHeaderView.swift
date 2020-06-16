@@ -88,7 +88,7 @@ private extension AuthorizationHeaderView {
         layer.shadowColor = UIColor(red: 0.374, green: 0.426, blue: 0.488, alpha: 0.1).cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowOpacity = 1
-        layer.shadowRadius = 10
+        layer.shadowRadius = 6
     }
 
     func setImage(from imageUrl: URL?) {
