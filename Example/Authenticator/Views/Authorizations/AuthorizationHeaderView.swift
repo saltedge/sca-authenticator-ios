@@ -46,8 +46,6 @@ final class AuthorizationHeaderView: RoundedShadowView {
     private let timeLeftLabel = TimeLeftLabel()
     private let progressView = CountdownProgressView()
 
-    weak var delegate: AuthorizationHeaderCollectionViewCellDelegate?
-
     var viewModel: AuthorizationDetailViewModel! {
         didSet {
             if let connection = ConnectionsCollector.with(id: viewModel.connectionId) {
@@ -82,13 +80,6 @@ private extension AuthorizationHeaderView {
     func setupShadowAndCornerRadius() {
         connectionImageView.layer.masksToBounds = true
         connectionImageView.layer.cornerRadius = 6.0
-        layer.cornerRadius = 4.0
-        layer.masksToBounds = true
-
-        layer.shadowColor = UIColor(red: 0.374, green: 0.426, blue: 0.488, alpha: 0.1).cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowOpacity = 1
-        layer.shadowRadius = 6
     }
 
     func setImage(from imageUrl: URL?) {
