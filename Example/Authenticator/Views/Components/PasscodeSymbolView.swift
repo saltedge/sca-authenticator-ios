@@ -31,7 +31,15 @@ final class PasscodeSymbolView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .backgroundColor
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if #available(iOS 13.0, *),
+            traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            shapeLayer.fillColor = UIColor.backgroundColor.cgColor
+        }
     }
 
     func animateCircle() {

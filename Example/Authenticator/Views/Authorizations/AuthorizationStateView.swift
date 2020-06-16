@@ -87,7 +87,6 @@ final class AuthorizationStateView: UIView {
     init(state: AuthorizationState) {
         super.init(frame: .zero)
         backgroundColor = .backgroundColor
-        topView.backgroundColor = .secondaryBackground
         layout()
     }
 
