@@ -310,6 +310,10 @@
 		9DE9410C246D7595000029A2 /* RealmConnectionsListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */; };
 		9DF7964324978A2F001290DA /* RoundedShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF7964224978A2F001290DA /* RoundedShadowView.swift */; };
 		9DF7964424978A2F001290DA /* RoundedShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF7964224978A2F001290DA /* RoundedShadowView.swift */; };
+		9DF796462497C1F7001290DA /* AuthorizationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF796452497C1F7001290DA /* AuthorizationHeaderView.swift */; };
+		9DF796472497C1F7001290DA /* AuthorizationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF796452497C1F7001290DA /* AuthorizationHeaderView.swift */; };
+		9DF796492497C2D2001290DA /* AuthorizationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF796482497C2D2001290DA /* AuthorizationContentView.swift */; };
+		9DF7964A2497C2D2001290DA /* AuthorizationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF796482497C2D2001290DA /* AuthorizationContentView.swift */; };
 		9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
@@ -531,6 +535,8 @@
 		9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsViewModel.swift; sourceTree = "<group>"; };
 		9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConnectionsListener.swift; sourceTree = "<group>"; };
 		9DF7964224978A2F001290DA /* RoundedShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedShadowView.swift; sourceTree = "<group>"; };
+		9DF796452497C1F7001290DA /* AuthorizationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationHeaderView.swift; sourceTree = "<group>"; };
+		9DF796482497C2D2001290DA /* AuthorizationContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationContentView.swift; sourceTree = "<group>"; };
 		9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationStateView.swift; sourceTree = "<group>"; };
 		BE78B0BDB65BD9B80C655471 /* SaltedgeAuthenticatorSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SaltedgeAuthenticatorSDK.podspec; path = ../SaltedgeAuthenticatorSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -849,6 +855,8 @@
 			children = (
 				9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */,
 				9D59DAF42490C11500117CD7 /* AuthorizationView.swift */,
+				9DF796452497C1F7001290DA /* AuthorizationHeaderView.swift */,
+				9DF796482497C2D2001290DA /* AuthorizationContentView.swift */,
 				9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */,
 			);
 			path = Authorizations;
@@ -1686,6 +1694,7 @@
 				9DCED8CB22CE18280050ED3C /* WindowExtensions.swift in Sources */,
 				9DCED8DA22CE18280050ED3C /* Localizable.swift in Sources */,
 				9DCED90022CE18280050ED3C /* CustomButton.swift in Sources */,
+				9DF796492497C2D2001290DA /* AuthorizationContentView.swift in Sources */,
 				959E309E247BC7870067354A /* LanguagePickerViewController.swift in Sources */,
 				9DCED8AC22CE18280050ED3C /* QRCodeViewController.swift in Sources */,
 				9DCED8C322CE18280050ED3C /* BiometricsPresenter.swift in Sources */,
@@ -1710,6 +1719,7 @@
 				9DCED8F122CE18280050ED3C /* SettingsCell.swift in Sources */,
 				959E3097247BBA190067354A /* SettingsViewModel.swift in Sources */,
 				9DCED91222CE18280050ED3C /* Coordinator.swift in Sources */,
+				9DF796462497C1F7001290DA /* AuthorizationHeaderView.swift in Sources */,
 				9DCED8F022CE18280050ED3C /* FeaturesCollectionViewCell.swift in Sources */,
 				9DCED89A22CE18280050ED3C /* APIErrors.swift in Sources */,
 				9DCED8DE22CE18280050ED3C /* KeychainHelper.swift in Sources */,
@@ -1745,6 +1755,7 @@
 				9DE324B322D39A3700EB162A /* ParametersSerializer.swift in Sources */,
 				9DE324AF22D39A2D00EB162A /* PasscodeManger.swift in Sources */,
 				9581A9D92477D63C0066EF5E /* WKWebViewController.swift in Sources */,
+				9DF7964A2497C2D2001290DA /* AuthorizationContentView.swift in Sources */,
 				9D66E1E522D6146900BD59B6 /* HeadersSpec.swift in Sources */,
 				95F409032475620600727095 /* ConnectionsListViewModel.swift in Sources */,
 				9DE3247122D398ED00EB162A /* SpecUtils.swift in Sources */,
@@ -1838,6 +1849,7 @@
 				9DE94109246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */,
 				9DE324B222D39A3500EB162A /* HapticFeedbackHelper.swift in Sources */,
 				9DE3247722D3997400EB162A /* Coordinator.swift in Sources */,
+				9DF796472497C1F7001290DA /* AuthorizationHeaderView.swift in Sources */,
 				9DE3248322D3999B00EB162A /* RealmManager.swift in Sources */,
 				9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */,
 				9D66E1B522D4C1F300BD59B6 /* AuthorizationsDataSourceSpec.swift in Sources */,
@@ -2056,7 +2068,7 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 112;
+				CURRENT_PROJECT_VERSION = 114;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
@@ -2081,7 +2093,7 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 112;
+				CURRENT_PROJECT_VERSION = 114;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";

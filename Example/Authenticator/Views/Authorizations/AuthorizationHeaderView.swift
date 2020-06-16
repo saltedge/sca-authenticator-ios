@@ -1,8 +1,8 @@
 //
-//  AuthorizationsHeaderCollectionViewCell
+//  AuthorizationHeaderView
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -33,11 +33,7 @@ private struct Layout {
     static let imagePlaceholderViewRadius: CGFloat = 6.0
 }
 
-protocol AuthorizationHeaderCollectionViewCellDelegate: class {
-    func timerExpired(_ cell: AuthorizationHeaderCollectionViewCell)
-}
-
-final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
+final class AuthorizationHeaderView: RoundedShadowView {
     private let logoPlaceholderView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = Layout.imagePlaceholderViewRadius
@@ -62,11 +58,13 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        contentView.backgroundColor = .secondaryBackground
-        setupShadowAndCornerRadius()
+    init() {
+        super.init(cornerRadius: 4.0)
         layout()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     func updateTime() {
@@ -77,19 +75,15 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
         progressView.update(secondsLeft: secondsLeft, lifetime: viewModel.lifetime)
         timeLeftLabel.update(secondsLeft: secondsLeft)
     }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
 // MARK: - Helpers
-private extension AuthorizationHeaderCollectionViewCell {
+private extension AuthorizationHeaderView {
     func setupShadowAndCornerRadius() {
         connectionImageView.layer.masksToBounds = true
         connectionImageView.layer.cornerRadius = 6.0
-        contentView.layer.cornerRadius = 4.0
-        contentView.layer.masksToBounds = true
+        layer.cornerRadius = 4.0
+        layer.masksToBounds = true
 
         layer.shadowColor = UIColor(red: 0.374, green: 0.426, blue: 0.488, alpha: 0.1).cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -105,14 +99,14 @@ private extension AuthorizationHeaderCollectionViewCell {
 }
 
 // MARK: - Layout
-extension AuthorizationHeaderCollectionViewCell: Layoutable {
+extension AuthorizationHeaderView: Layoutable {
     func layout() {
-        contentView.addSubviews(logoPlaceholderView, connectionNameLabel, progressView, timeLeftLabel)
+        addSubviews(logoPlaceholderView, connectionNameLabel, progressView, timeLeftLabel)
         logoPlaceholderView.addSubview(connectionImageView)
 
         logoPlaceholderView.size(Layout.connectionImageViewSize)
-        logoPlaceholderView.left(to: contentView, offset: Layout.connectionImageViewOffset)
-        logoPlaceholderView.centerY(to: contentView)
+        logoPlaceholderView.left(to: self, offset: Layout.connectionImageViewOffset)
+        logoPlaceholderView.centerY(to: self)
 
         connectionImageView.center(in: logoPlaceholderView)
         connectionImageView.size(Layout.connectionImageViewSize)
@@ -123,18 +117,18 @@ extension AuthorizationHeaderCollectionViewCell: Layoutable {
         connectionNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         progressView.height(3.0)
-        progressView.bottom(to: contentView)
-        progressView.width(to: contentView)
-        progressView.centerX(to: contentView)
+        progressView.bottom(to: self)
+        progressView.width(to: self)
+        progressView.centerX(to: self)
 
-        timeLeftLabel.right(to: contentView, offset: Layout.timeLeftLabelOffset)
+        timeLeftLabel.right(to: self, offset: Layout.timeLeftLabelOffset)
         timeLeftLabel.centerY(to: connectionImageView)
         timeLeftLabel.height(Layout.timeLeftLabelHeight)
         timeLeftLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     }
 }
 
-private extension AuthorizationHeaderCollectionViewCell {
+private extension AuthorizationHeaderView {
     func diffInSecondsFromNow(for date: Date) -> Int {
         let currentDate = Date()
         let diffDateComponents = Calendar.current.dateComponents([.minute, .second], from: currentDate, to: date)

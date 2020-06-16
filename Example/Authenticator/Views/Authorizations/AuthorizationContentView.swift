@@ -1,8 +1,8 @@
 //
-//  AuthorizationCollectionViewCell
+//  AuthorizationContentView
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -30,12 +30,7 @@ private struct Layout {
     static let bottomOffset: CGFloat = 40.0
 }
 
-protocol AuthorizationCellDelegate: class {
-    func confirmPressed(_ authorizationId: String)
-    func denyPressed(_ authorizationId: String)
-}
-
-final class AuthorizationCollectionViewCell: UICollectionViewCell {
+final class AuthorizationContentView: UICollectionViewCell {
     private lazy var stateView = AuthorizationStateView(state: .base)
     private var isProcessing: Bool = false
 
@@ -106,7 +101,7 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - Setup
-private extension AuthorizationCollectionViewCell {
+private extension AuthorizationContentView {
     func setupButtons() {
         let leftButton = CustomButton(text: l10n(.deny), textColor: .titleColor, backgroundColor: .secondaryBackground)
         leftButton.addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
@@ -119,7 +114,7 @@ private extension AuthorizationCollectionViewCell {
 }
 
 // MARK: - Actions
-private extension AuthorizationCollectionViewCell {
+private extension AuthorizationContentView {
     @objc func denyButtonPressed(_ sender: CustomButton) {
         delegate?.denyPressed(viewModel.authorizationId)
     }
@@ -130,7 +125,7 @@ private extension AuthorizationCollectionViewCell {
 }
 
 // MARK: - Layout
-extension AuthorizationCollectionViewCell: Layoutable {
+extension AuthorizationContentView: Layoutable {
     func layout() {
         addSubviews(titleLabel, contentStackView, buttonsStackView, stateView)
 

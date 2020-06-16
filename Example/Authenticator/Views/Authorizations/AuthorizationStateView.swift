@@ -30,7 +30,7 @@ private struct Layout {
 }
 
 final class AuthorizationStateView: UIView {
-    private let topView = RoundedShadowView()
+    private let topView = RoundedShadowView(cornerRadius: 16.0)
     private let titleLabel = UILabel(font: .systemFont(ofSize: 21.0, weight: .regular), textColor: .titleColor)
     private let messageLabel = UILabel(font: .systemFont(ofSize: 17.0, weight: .regular), textColor: .titleColor)
     private var accessoryView: UIView?
@@ -71,7 +71,7 @@ final class AuthorizationStateView: UIView {
             case .expired: return AspectFitImageView(imageName: "timeout")
             case .denied: return AspectFitImageView(imageName: "deny")
             case .undefined: return AspectFitImageView(imageName: "smth_wrong")
-            default: return LoadingIndicator()
+            default: return LoadingIndicatorView()
             }
         }
 
@@ -87,8 +87,6 @@ final class AuthorizationStateView: UIView {
     init(state: AuthorizationState) {
         super.init(frame: .zero)
         backgroundColor = .backgroundColor
-        topView.layer.masksToBounds = true
-        topView.layer.cornerRadius = 16.0
         topView.backgroundColor = .secondaryBackground
         layout()
     }
@@ -113,7 +111,7 @@ final class AuthorizationStateView: UIView {
             accessoryView.centerInSuperview()
             accessoryView.size(CGSize(width: 55.0, height: 55.0))
         }
-        if state == .processing, let loadingIndicator = accessoryView as? LoadingIndicator {
+        if state == .processing, let loadingIndicator = accessoryView as? LoadingIndicatorView {
             loadingIndicator.start()
         }
     }

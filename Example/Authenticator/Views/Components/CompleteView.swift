@@ -49,7 +49,7 @@ final class CompleteView: UIView {
             switch self {
             case .success: return AspectFitImageView(imageName: "success")
             case .fail: return AspectFitImageView(imageName: "smth_wrong")
-            default: return LoadingIndicator()
+            default: return LoadingIndicatorView()
             }
         }
 
@@ -64,7 +64,7 @@ final class CompleteView: UIView {
 
     weak var delegate: CompleteViewDelegate?
 
-    private let imageContainerView = RoundedShadowView()
+    private let imageContainerView = RoundedShadowView(cornerRadius: 16.0)
     private var accessoryView: UIView?
     private let titleLabel = UILabel(font: .systemFont(ofSize: 21.0, weight: .regular), textColor: .titleColor)
     private let descriptionLabel = UILabel(font: .systemFont(ofSize: 17.0, weight: .regular), textColor: .titleColor)
@@ -95,7 +95,7 @@ final class CompleteView: UIView {
             accessoryView.centerInSuperview()
         }
 
-        if state == .processing, let loadingIndicator = accessoryView as? LoadingIndicator {
+        if state == .processing, let loadingIndicator = accessoryView as? LoadingIndicatorView {
             proceedButton.isHidden = true
             loadingIndicator.start()
         } else {

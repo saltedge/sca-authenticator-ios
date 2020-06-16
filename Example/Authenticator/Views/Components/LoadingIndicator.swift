@@ -28,6 +28,35 @@ private struct AnimationKeys {
     static let strokeEnd: String = "strokeEnd"
 }
 
+final class LoadingIndicatorView: UIView {
+    private let loadingIndicator = LoadingIndicator()
+
+    override init(frame: CGRect) {
+        super.init(frame: .zero)
+        backgroundColor = .clear
+        layout()
+    }
+
+    func start() {
+        loadingIndicator.start()
+    }
+
+    func stop() {
+        loadingIndicator.stop()
+    }
+
+    private func layout() {
+        addSubview(loadingIndicator)
+
+        loadingIndicator.size(CGSize(width: 48.0, height: 48.0))
+        loadingIndicator.centerInSuperview()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 final class LoadingIndicator: UIView {
     private var shapeLayer = CAShapeLayer()
 
