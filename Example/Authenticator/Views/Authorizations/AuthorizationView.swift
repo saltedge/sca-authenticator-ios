@@ -124,7 +124,6 @@ extension AuthorizationView: UICollectionViewDataSource {
                 for: indexPath
             ) as? AuthorizationHeaderCollectionViewCell else { return UICollectionViewCell() }
 
-//            headerCell.delegate = self
             headerCell.viewModel = detailViewModel
             cell = headerCell
         } else {
@@ -135,7 +134,6 @@ extension AuthorizationView: UICollectionViewDataSource {
 
             authorizationCell.viewModel = detailViewModel
             authorizationCell.backgroundColor = .clear
-//            authorizationCell.delegate = self
             cell = authorizationCell
         }
 
