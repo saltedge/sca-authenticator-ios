@@ -31,6 +31,16 @@ class RoundedShadowView: UIView {
         super.init(frame: .zero)
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if #available(iOS 13.0, *),
+            traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection),
+            let shadowLayer = shadowLayer {
+            shadowLayer.fillColor = UIColor.secondaryBackground.cgColor
+        }
+    }
+
     override func layoutSubviews() {
         super.layoutSubviews()
 

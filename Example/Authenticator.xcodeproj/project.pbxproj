@@ -46,7 +46,7 @@
 		95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
 		95F409002473C91000727095 /* ConnectionsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */; };
 		95F4090224751D7E00727095 /* ConnectionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */; };
-		95F409032475620600727095 /* ConnectionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionsListViewModel.swift */; };
+		95F409032475620600727095 /* ConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionsViewModel.swift */; };
 		9D0DC4132462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
 		9D0DC4142462DD080039E62B /* ButtonExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0DC4122462DD080039E62B /* ButtonExtensions.swift */; };
 		9D1DEE7423D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */; };
@@ -108,7 +108,7 @@
 		9D87F49C2429302800F85D1F /* ConnectionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */; };
 		9D87F49E2429326800F85D1F /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49D2429326800F85D1F /* ConnectionCell.swift */; };
 		9D87F49F2429326800F85D1F /* ConnectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F49D2429326800F85D1F /* ConnectionCell.swift */; };
-		9D87F4A7242A6BCD00F85D1F /* ConnectionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionsListViewModel.swift */; };
+		9D87F4A7242A6BCD00F85D1F /* ConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D87F4A6242A6BCD00F85D1F /* ConnectionsViewModel.swift */; };
 		9D8E5BA22445A1E70081E60E /* OnboardingViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */; };
 		9D94095A23618CF00080EBB5 /* CacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94095923618CF00080EBB5 /* CacheHelper.swift */; };
 		9D94095B23618CF00080EBB5 /* CacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94095923618CF00080EBB5 /* CacheHelper.swift */; };
@@ -314,6 +314,8 @@
 		9DF796472497C1F7001290DA /* AuthorizationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF796452497C1F7001290DA /* AuthorizationHeaderView.swift */; };
 		9DF796492497C2D2001290DA /* AuthorizationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF796482497C2D2001290DA /* AuthorizationContentView.swift */; };
 		9DF7964A2497C2D2001290DA /* AuthorizationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF796482497C2D2001290DA /* AuthorizationContentView.swift */; };
+		9DF7964C2498EFC6001290DA /* SingleAuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF7964B2498EFC6001290DA /* SingleAuthorizationViewModel.swift */; };
+		9DF7964D2498EFC6001290DA /* SingleAuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF7964B2498EFC6001290DA /* SingleAuthorizationViewModel.swift */; };
 		9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
@@ -402,7 +404,7 @@
 		9D772131231E51E40015BAC6 /* AuthorizationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationCollectionViewCell.swift; sourceTree = "<group>"; };
 		9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCellViewModel.swift; sourceTree = "<group>"; };
 		9D87F49D2429326800F85D1F /* ConnectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionCell.swift; sourceTree = "<group>"; };
-		9D87F4A6242A6BCD00F85D1F /* ConnectionsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsListViewModel.swift; sourceTree = "<group>"; };
+		9D87F4A6242A6BCD00F85D1F /* ConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModel.swift; sourceTree = "<group>"; };
 		9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModelSpec.swift; sourceTree = "<group>"; };
 		9D940957235DDB8F0080EBB5 /* AboutViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModelSpec.swift; sourceTree = "<group>"; };
 		9D94095923618CF00080EBB5 /* CacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHelper.swift; sourceTree = "<group>"; };
@@ -537,6 +539,7 @@
 		9DF7964224978A2F001290DA /* RoundedShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedShadowView.swift; sourceTree = "<group>"; };
 		9DF796452497C1F7001290DA /* AuthorizationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationHeaderView.swift; sourceTree = "<group>"; };
 		9DF796482497C2D2001290DA /* AuthorizationContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationContentView.swift; sourceTree = "<group>"; };
+		9DF7964B2498EFC6001290DA /* SingleAuthorizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAuthorizationViewModel.swift; sourceTree = "<group>"; };
 		9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationStateView.swift; sourceTree = "<group>"; };
 		BE78B0BDB65BD9B80C655471 /* SaltedgeAuthenticatorSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SaltedgeAuthenticatorSDK.podspec; path = ../SaltedgeAuthenticatorSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -690,7 +693,7 @@
 		95F409012475190500727095 /* Connections */ = {
 			isa = PBXGroup;
 			children = (
-				9D87F4A6242A6BCD00F85D1F /* ConnectionsListViewModel.swift */,
+				9D87F4A6242A6BCD00F85D1F /* ConnectionsViewModel.swift */,
 				9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */,
 				9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */,
 			);
@@ -1281,6 +1284,7 @@
 			children = (
 				9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */,
 				9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */,
+				9DF7964B2498EFC6001290DA /* SingleAuthorizationViewModel.swift */,
 			);
 			path = Authorizations;
 			sourceTree = "<group>";
@@ -1657,10 +1661,11 @@
 				9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9DD8946022E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,
 				9D453CCD23D06F0E00702695 /* TimerApplication.swift in Sources */,
+				9DF7964C2498EFC6001290DA /* SingleAuthorizationViewModel.swift in Sources */,
 				9DCED8D322CE18280050ED3C /* StackViewExtensions.swift in Sources */,
 				9DCED91522CE18280050ED3C /* Connection.swift in Sources */,
 				9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
-				9D87F4A7242A6BCD00F85D1F /* ConnectionsListViewModel.swift in Sources */,
+				9D87F4A7242A6BCD00F85D1F /* ConnectionsViewModel.swift in Sources */,
 				9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */,
 				9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */,
 				9D77212C231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */,
@@ -1757,7 +1762,7 @@
 				9581A9D92477D63C0066EF5E /* WKWebViewController.swift in Sources */,
 				9DF7964A2497C2D2001290DA /* AuthorizationContentView.swift in Sources */,
 				9D66E1E522D6146900BD59B6 /* HeadersSpec.swift in Sources */,
-				95F409032475620600727095 /* ConnectionsListViewModel.swift in Sources */,
+				95F409032475620600727095 /* ConnectionsViewModel.swift in Sources */,
 				9DE3247122D398ED00EB162A /* SpecUtils.swift in Sources */,
 				9DE3248A22D399B800EB162A /* AuthorizationsDataSource.swift in Sources */,
 				9DE3247222D398ED00EB162A /* SpecCryptoHelper.swift in Sources */,
@@ -1804,6 +1809,7 @@
 				9DE308BF24474D92009EBD39 /* PasscodeViewModel.swift in Sources */,
 				9DD8945E22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
 				9DD8946122E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,
+				9DF7964D2498EFC6001290DA /* SingleAuthorizationViewModel.swift in Sources */,
 				9DE3249B22D399F200EB162A /* BundleExtensions.swift in Sources */,
 				9D94095B23618CF00080EBB5 /* CacheHelper.swift in Sources */,
 				9DE3249022D399D200EB162A /* BiometricsPresenter.swift in Sources */,
@@ -2068,7 +2074,7 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 114;
+				CURRENT_PROJECT_VERSION = 115;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
@@ -2093,7 +2099,7 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 114;
+				CURRENT_PROJECT_VERSION = 115;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";

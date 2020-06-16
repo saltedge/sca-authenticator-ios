@@ -66,9 +66,9 @@ final class AuthorizationContentView: UICollectionViewCell {
             } else {
                 stateView.set(state: .base)
 
-                let supportDarkCSS = "<style>:root { color-scheme: light dark; }</style>"
-
                 if viewModel.description.htmlToAttributedString != nil {
+                    let supportDarkCSS = "<style>:root { color-scheme: light dark; }</style>"
+
                     contentStackView.removeArrangedSubview(descriptionTextView)
                     webView.loadHTMLString(viewModel.description + supportDarkCSS, baseURL: nil)
                     contentStackView.addArrangedSubview(webView)
@@ -85,11 +85,10 @@ final class AuthorizationContentView: UICollectionViewCell {
         }
     }
 
-    weak var delegate: AuthorizationCellDelegate?
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         stateView.set(state: .base)
+        descriptionTextView.backgroundColor = .backgroundColor
         descriptionTextView.isUserInteractionEnabled = false
         setupButtons()
         layout()
@@ -116,11 +115,11 @@ private extension AuthorizationContentView {
 // MARK: - Actions
 private extension AuthorizationContentView {
     @objc func denyButtonPressed(_ sender: CustomButton) {
-        delegate?.denyPressed(viewModel.authorizationId)
+        viewModel.denyPressed()
     }
 
     @objc func confirmButtonPressed(_ sender: CustomButton) {
-        delegate?.confirmPressed(viewModel.authorizationId)
+        viewModel.confirmPressed()
     }
 }
 

@@ -33,7 +33,6 @@ final class LoadingIndicatorView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        backgroundColor = .clear
         layout()
     }
 
@@ -62,7 +61,6 @@ final class LoadingIndicator: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .clear
         alpha = 0.0
     }
 

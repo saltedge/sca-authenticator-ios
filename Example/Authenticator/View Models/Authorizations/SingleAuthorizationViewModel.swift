@@ -1,0 +1,144 @@
+//
+//  SingleAuthorizationViewModel
+//  This file is part of the Salt Edge Authenticator distribution
+//  (https://github.com/saltedge/sca-authenticator-ios)
+//  Copyright © 2020 Salt Edge Inc.
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, version 3 or later.
+//
+//  This program is distributed in the hope that it will be useful, but
+//  WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+//  General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+//  For the additional permissions granted for Salt Edge Authenticator
+//  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
+//
+
+import Foundation
+import SEAuthenticator
+
+protocol SingleAuthorizationViewModelEventsDelegate: class {
+    func receivedDetailViewModel(_ detailViewModel: AuthorizationDetailViewModel)
+    func shouldClose()
+}
+
+final class SingleAuthorizationViewModel {
+    private var connection: Connection?
+    private var detailViewModel: AuthorizationDetailViewModel?
+
+    weak var delegate: SingleAuthorizationViewModelEventsDelegate?
+
+    init(connectionId: String, authorizationId: String) {
+        guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
+
+        self.connection = connection
+        getAuthorization(connection: connection, authorizationId: authorizationId)
+    }
+
+    private func getAuthorization(connection: Connection, authorizationId: String) {
+        AuthorizationsInteractor.refresh(
+            connection: connection,
+            authorizationId: authorizationId,
+            success: { [weak self] encryptedAuthorization in
+                guard let strongSelf = self else { return }
+
+                DispatchQueue.global(qos: .background).async {
+                    guard let decryptedAuthorizationData =
+                        AuthorizationsPresenter.decryptedData(from: encryptedAuthorization) else { return }
+
+                    DispatchQueue.main.async {
+                        guard let detailViewModel = AuthorizationDetailViewModel(decryptedAuthorizationData) else { return }
+
+                        strongSelf.detailViewModel = detailViewModel
+                        strongSelf.detailViewModel?.delegate = self
+
+                        strongSelf.delegate?.receivedDetailViewModel(detailViewModel)
+                    }
+                }
+            },
+            failure: { error in
+                print(error)
+            },
+            connectionNotFoundFailure: { connectionId in
+                if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
+                    ConnectionRepository.setInactive(connection)
+                }
+            }
+        )
+    }
+}
+
+// MARK: - AuthorizationDetailEventsDelegate
+extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
+    func confirmPressed(_ authorizationId: String) {
+        guard let detailViewModel = detailViewModel, let connection = connection, let url = connection.baseUrl else { return }
+
+        let confirmData = SEConfirmAuthorizationRequestData(
+            url: url,
+            connectionGuid: connection.guid,
+            accessToken: connection.accessToken,
+            appLanguage: UserDefaultsHelper.applicationLanguage,
+            authorizationId: authorizationId,
+            authorizationCode: detailViewModel.authorizationCode
+        )
+
+        detailViewModel.state.value = .processing
+
+        AuthorizationsInteractor.confirm(
+            data: confirmData,
+            success: {
+                detailViewModel.state.value = .success
+                detailViewModel.actionTime = Date()
+                after(3.0) {
+                    self.delegate?.shouldClose()
+                }
+            },
+            failure: { _ in
+                detailViewModel.state.value = .undefined
+                detailViewModel.actionTime = Date()
+                after(3.0) {
+                    self.delegate?.shouldClose()
+                }
+            }
+        )
+    }
+
+    func denyPressed(_ authorizationId: String) {
+        guard let detailViewModel = detailViewModel, let connection = connection, let url = connection.baseUrl else { return }
+
+        let confirmData = SEConfirmAuthorizationRequestData(
+            url: url,
+            connectionGuid: connection.guid,
+            accessToken: connection.accessToken,
+            appLanguage: UserDefaultsHelper.applicationLanguage,
+            authorizationId: authorizationId,
+            authorizationCode: detailViewModel.authorizationCode
+        )
+
+        detailViewModel.state.value = .processing
+
+        AuthorizationsInteractor.deny(
+            data: confirmData,
+            success: {
+                detailViewModel.state.value = .denied
+                detailViewModel.actionTime = Date()
+                after(3.0) {
+                    self.delegate?.shouldClose()
+                }
+            },
+            failure: { _ in
+                detailViewModel.state.value = .undefined
+                detailViewModel.actionTime = Date()
+                after(3.0) {
+                    self.delegate?.shouldClose()
+                }
+            }
+        )
+    }
+}

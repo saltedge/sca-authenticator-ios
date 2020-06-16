@@ -23,61 +23,23 @@
 import UIKit
 import SEAuthenticator
 
-// TODO: REFACTOR
 final class SingleAuthorizationViewController: BaseViewController {
     private let authorizationHeaderView = AuthorizationHeaderView()
     private let contentView = AuthorizationContentView()
 
-    private var detailViewModel: AuthorizationDetailViewModel?
-    private var authorizationData: SEAuthorizationData?
-    private var connection: Connection?
+    private var viewModel: SingleAuthorizationViewModel
     private var headerTimer: Timer?
 
     init(connectionId: String, authorizationId: String) {
+        viewModel = SingleAuthorizationViewModel(connectionId: connectionId, authorizationId: authorizationId)
         super.init(nibName: nil, bundle: .authenticator_main)
-
-        guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
-
-        self.connection = connection
-
-        AuthorizationsInteractor.refresh(
-            connection: connection,
-            authorizationId: authorizationId,
-            success: { [weak self] encryptedAuthorization in
-                guard let strongSelf = self else { return }
-
-                DispatchQueue.global(qos: .background).async {
-                    guard let decryptedAuthorizationData =
-                        AuthorizationsPresenter.decryptedData(from: encryptedAuthorization) else { return }
-
-                    strongSelf.authorizationData = decryptedAuthorizationData
-
-                    DispatchQueue.main.async {
-                        let detailViewModel = AuthorizationDetailViewModel(decryptedAuthorizationData)
-
-                        strongSelf.detailViewModel = detailViewModel
-                        strongSelf.authorizationHeaderView.viewModel = detailViewModel
-                        strongSelf.contentView.viewModel = detailViewModel
-                        strongSelf.setTimer()
-                    }
-                }
-            },
-            failure: { error in
-                print(error)
-            },
-            connectionNotFoundFailure: { connectionId in
-                if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
-                    ConnectionRepository.setInactive(connection)
-                }
-            }
-        )
+        viewModel.delegate = self
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         authorizationHeaderView.backgroundColor = .backgroundColor
         contentView.backgroundColor = .clear
-        contentView.delegate = self
         layout()
     }
 
@@ -114,6 +76,13 @@ final class SingleAuthorizationViewController: BaseViewController {
         authorizationHeaderView.updateTime()
     }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - Layoutable
+extension SingleAuthorizationViewController: Layoutable {
     func layout() {
         view.addSubviews(authorizationHeaderView, contentView)
 
@@ -126,80 +95,17 @@ final class SingleAuthorizationViewController: BaseViewController {
         contentView.widthToSuperview()
         contentView.bottomToSuperview()
     }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
-extension SingleAuthorizationViewController: AuthorizationCellDelegate {
-    func confirmPressed(_ authorizationId: String) {
-        guard let detailViewModel = detailViewModel,
-            let connection = connection,
-            let url = connection.baseUrl else { return }
-
-        let confirmData = SEConfirmAuthorizationRequestData(
-            url: url,
-            connectionGuid: connection.guid,
-            accessToken: connection.accessToken,
-            appLanguage: UserDefaultsHelper.applicationLanguage,
-            authorizationId: authorizationId,
-            authorizationCode: detailViewModel.authorizationCode
-        )
-
-        detailViewModel.state.value = .processing
-
-        AuthorizationsInteractor.confirm(
-            data: confirmData,
-            success: {
-                detailViewModel.state.value = .success
-                detailViewModel.actionTime = Date()
-                after(3.0) {
-                    self.close()
-                }
-            },
-            failure: { _ in
-                detailViewModel.state.value = .undefined
-                detailViewModel.actionTime = Date()
-                after(3.0) {
-                    self.close()
-                }
-            }
-        )
+// MARK: - SingleAuthorizationViewModelEventsDelegate
+extension SingleAuthorizationViewController: SingleAuthorizationViewModelEventsDelegate {
+    func receivedDetailViewModel(_ detailViewModel: AuthorizationDetailViewModel) {
+        authorizationHeaderView.viewModel = detailViewModel
+        contentView.viewModel = detailViewModel
+        setTimer()
     }
-    
-    func denyPressed(_ authorizationId: String) {
-        guard let detailViewModel = detailViewModel,
-            let connection = connection,
-            let url = connection.baseUrl else { return }
-        
-        let confirmData = SEConfirmAuthorizationRequestData(
-            url: url,
-            connectionGuid: connection.guid,
-            accessToken: connection.accessToken,
-            appLanguage: UserDefaultsHelper.applicationLanguage,
-            authorizationId: authorizationId,
-            authorizationCode: detailViewModel.authorizationCode
-        )
 
-        detailViewModel.state.value = .processing
-
-        AuthorizationsInteractor.deny(
-            data: confirmData,
-            success: {
-                detailViewModel.state.value = .denied
-                detailViewModel.actionTime = Date()
-                after(3.0) {
-                    self.close()
-                }
-            },
-            failure: { _ in
-                detailViewModel.state.value = .undefined
-                detailViewModel.actionTime = Date()
-                after(3.0) {
-                    self.close()
-                }
-            }
-        )
+    func shouldClose() {
+        close()
     }
 }

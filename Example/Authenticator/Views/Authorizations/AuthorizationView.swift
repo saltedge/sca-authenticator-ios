@@ -114,6 +114,8 @@ extension AuthorizationView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let detailViewModel = viewModel.detailViewModel(at: indexPath.row) else { return UICollectionViewCell() }
 
+        detailViewModel.delegate = self
+
         var cell: UICollectionViewCell
 
         if collectionView == headerSwipingView.collectionView {
@@ -122,7 +124,6 @@ extension AuthorizationView: UICollectionViewDataSource {
                 for: indexPath
             ) as? AuthorizationHeaderCollectionViewCell else { return UICollectionViewCell() }
 
-            headerCell.delegate = self
             headerCell.viewModel = detailViewModel
             cell = headerCell
         } else {
@@ -133,7 +134,6 @@ extension AuthorizationView: UICollectionViewDataSource {
 
             authorizationCell.viewModel = detailViewModel
             authorizationCell.backgroundColor = .clear
-            authorizationCell.delegate = self
             cell = authorizationCell
         }
 
@@ -191,7 +191,7 @@ extension AuthorizationView: UICollectionViewDelegate, UICollectionViewDelegateF
 }
 
 // MARK: - AuthorizationCellDelegate
-extension AuthorizationView: AuthorizationCellDelegate {
+extension AuthorizationView: AuthorizationDetailEventsDelegate {
     func confirmPressed(_ authorizationId: String) {
         viewModel.confirmAuthorization(by: authorizationId)
     }
