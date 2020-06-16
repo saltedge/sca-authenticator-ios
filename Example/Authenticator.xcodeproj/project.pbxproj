@@ -314,6 +314,8 @@
 		9DF796472497C1F7001290DA /* AuthorizationHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF796452497C1F7001290DA /* AuthorizationHeaderView.swift */; };
 		9DF796492497C2D2001290DA /* AuthorizationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF796482497C2D2001290DA /* AuthorizationContentView.swift */; };
 		9DF7964A2497C2D2001290DA /* AuthorizationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF796482497C2D2001290DA /* AuthorizationContentView.swift */; };
+		9DF7964C2498EFC6001290DA /* SingleAuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF7964B2498EFC6001290DA /* SingleAuthorizationViewModel.swift */; };
+		9DF7964D2498EFC6001290DA /* SingleAuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DF7964B2498EFC6001290DA /* SingleAuthorizationViewModel.swift */; };
 		9DFD634823BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */; };
 		A43E8346A8353D058746DC78 /* Pods_Authenticator_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */; };
@@ -537,6 +539,7 @@
 		9DF7964224978A2F001290DA /* RoundedShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedShadowView.swift; sourceTree = "<group>"; };
 		9DF796452497C1F7001290DA /* AuthorizationHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationHeaderView.swift; sourceTree = "<group>"; };
 		9DF796482497C2D2001290DA /* AuthorizationContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationContentView.swift; sourceTree = "<group>"; };
+		9DF7964B2498EFC6001290DA /* SingleAuthorizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAuthorizationViewModel.swift; sourceTree = "<group>"; };
 		9DFD634723BF366C0060B29F /* AuthorizationStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationStateView.swift; sourceTree = "<group>"; };
 		BE78B0BDB65BD9B80C655471 /* SaltedgeAuthenticatorSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SaltedgeAuthenticatorSDK.podspec; path = ../SaltedgeAuthenticatorSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1281,6 +1284,7 @@
 			children = (
 				9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */,
 				9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */,
+				9DF7964B2498EFC6001290DA /* SingleAuthorizationViewModel.swift */,
 			);
 			path = Authorizations;
 			sourceTree = "<group>";
@@ -1657,6 +1661,7 @@
 				9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9DD8946022E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,
 				9D453CCD23D06F0E00702695 /* TimerApplication.swift in Sources */,
+				9DF7964C2498EFC6001290DA /* SingleAuthorizationViewModel.swift in Sources */,
 				9DCED8D322CE18280050ED3C /* StackViewExtensions.swift in Sources */,
 				9DCED91522CE18280050ED3C /* Connection.swift in Sources */,
 				9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
@@ -1804,6 +1809,7 @@
 				9DE308BF24474D92009EBD39 /* PasscodeViewModel.swift in Sources */,
 				9DD8945E22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
 				9DD8946122E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,
+				9DF7964D2498EFC6001290DA /* SingleAuthorizationViewModel.swift in Sources */,
 				9DE3249B22D399F200EB162A /* BundleExtensions.swift in Sources */,
 				9D94095B23618CF00080EBB5 /* CacheHelper.swift in Sources */,
 				9DE3249022D399D200EB162A /* BiometricsPresenter.swift in Sources */,

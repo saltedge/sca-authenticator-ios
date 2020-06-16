@@ -67,20 +67,20 @@ class ConnectionCellViewModel {
         ) { [weak self] _ -> UIMenu? in
             guard let strongSelf = self else { return nil }
 
-            let rename = UIAction(title: l10n(.rename), image: UIImage(named: "rename")) { _ in
+            let rename = UIAction(title: l10n(.rename), image: UIImage(systemName: "square.and.pencil")) { _ in
                 strongSelf.delegate?.renamePressed(id: strongSelf.connection.id)
             }
-            let support = UIAction(title: l10n(.contactSupport), image: UIImage(named: "contact_support")) { _ in
+            let support = UIAction(title: l10n(.contactSupport), image: UIImage(systemName: "envelope")) { _ in
                 strongSelf.delegate?.supportPressed(email: strongSelf.connection.supportEmail)
             }
-            let delete = UIAction(title: l10n(.delete), image: UIImage(named: "delete")) { _ in
+            let delete = UIAction(title: l10n(.delete), image: UIImage(systemName: "trash")) { _ in
                 strongSelf.delegate?.deletePressed(id: strongSelf.connection.id)
             }
 
             var actions: [UIAction] = [rename, support, delete]
 
             if self?.connection.status == ConnectionStatus.inactive.rawValue {
-                let reconnect = UIAction(title: l10n(.reconnect), image: UIImage(named: "reconnect")) { _ in
+                let reconnect = UIAction(title: l10n(.reconnect), image: UIImage(systemName: "arrow.clockwise")) { _ in
                     strongSelf.delegate?.reconnectPreseed(id: strongSelf.connection.id)
                 }
                 actions.insert(reconnect, at: 0)

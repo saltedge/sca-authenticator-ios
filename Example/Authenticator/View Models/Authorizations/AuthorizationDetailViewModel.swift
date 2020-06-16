@@ -23,7 +23,12 @@
 import Foundation
 import SEAuthenticator
 
-class AuthorizationDetailViewModel: Equatable {
+protocol AuthorizationDetailEventsDelegate: class {
+    func confirmPressed(_ authorizationId: String)
+    func denyPressed(_ authorizationId: String)
+}
+
+final class AuthorizationDetailViewModel: Equatable {
     var title: String = ""
     var authorizationId: String
     var connectionId: String
@@ -37,6 +42,8 @@ class AuthorizationDetailViewModel: Equatable {
         authorizationExpiresAt < Date()
     }
     var state = Observable<AuthorizationStateView.AuthorizationState>(.base)
+
+    weak var delegate: AuthorizationDetailEventsDelegate?
 
     init?(_ data: SEAuthorizationData) {
         self.authorizationId = data.id
@@ -56,5 +63,13 @@ class AuthorizationDetailViewModel: Equatable {
             lhs.title == rhs.title &&
             lhs.description == rhs.description &&
             lhs.createdAt == rhs.createdAt
+    }
+
+    func confirmPressed() {
+        delegate?.confirmPressed(authorizationId)
+    }
+
+    func denyPressed() {
+        delegate?.denyPressed(authorizationId)
     }
 }
