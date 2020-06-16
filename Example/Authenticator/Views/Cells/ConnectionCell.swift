@@ -99,11 +99,34 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         setupContentContainer()
+        if #available(iOS 13.0, *) {
+            let interaction = UIContextMenuInteraction(delegate: self)
+            addInteraction(interaction)
+        }
         layout()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - UIContextMenuInteractionDelegate
+@available(iOS 13.0, *)
+extension ConnectionCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        previewForHighlightingMenuWithConfiguration
+        configuration: UIContextMenuConfiguration
+    ) -> UITargetedPreview? {
+        return UITargetedPreview(view: cardView)
+    }
+
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation location: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        return viewModel.contextMenuConfiguration
     }
 }
 

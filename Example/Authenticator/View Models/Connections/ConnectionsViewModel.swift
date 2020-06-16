@@ -1,5 +1,5 @@
 //
-//  ConnectionsListViewModel.swift
+//  ConnectionsViewModel.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -24,7 +24,7 @@ import Foundation
 import RealmSwift
 import SEAuthenticator
 
-protocol ConnectionsListEventsDelegate: class {
+protocol ConnectionsEventsDelegate: class {
     func showEditConnectionAlert(placeholder: String, completion: @escaping (String) -> ())
     func showSupport(email: String)
     func deleteConnection(completion: @escaping () -> ())
@@ -33,8 +33,8 @@ protocol ConnectionsListEventsDelegate: class {
     func addPressed()
 }
 
-final class ConnectionsListViewModel {
-    weak var delegate: ConnectionsListEventsDelegate?
+final class ConnectionsViewModel {
+    weak var delegate: ConnectionsEventsDelegate?
 
     private let connections = ConnectionsCollector.allConnections.sorted(
         byKeyPath: #keyPath(Connection.createdAt),
@@ -42,7 +42,6 @@ final class ConnectionsListViewModel {
     )
 
     private var connectionsNotificationToken: NotificationToken?
-
     private var connectionsListener: RealmConnectionsListener?
 
     init() {
@@ -72,31 +71,6 @@ final class ConnectionsListViewModel {
         return connection.id
     }
 
-    func remove(at indexPath: IndexPath) {
-        guard let connection = item(for: indexPath) else { return }
-
-        ConnectionsInteractor.revoke(connection)
-        SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
-        ConnectionRepository.delete(connection)
-    }
-
-    func updateName(by id: String) {
-        guard let connection = ConnectionsCollector.with(id: id) else { return }
-
-        delegate?.showEditConnectionAlert(
-            placeholder: connection.name,
-            completion: { newName in
-                guard !ConnectionsCollector.connectionNames.contains(newName) else { return }
-
-                ConnectionRepository.updateName(connection, name: newName)
-            }
-        )
-    }
-
-    func addPressed() {
-        delegate?.addPressed()
-    }
-
     var emptyViewData: EmptyViewData {
         return EmptyViewData(
             image: #imageLiteral(resourceName: "noConnections"),
@@ -104,6 +78,12 @@ final class ConnectionsListViewModel {
             description: l10n(.noConnectionsDescription),
             buttonTitle: l10n(.connect)
         )
+    }
+
+    private func remove(connection: Connection) {
+        ConnectionsInteractor.revoke(connection)
+        SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
+        ConnectionRepository.delete(connection)
     }
 
     private func item(for indexPath: IndexPath) -> Connection? {
@@ -118,8 +98,48 @@ final class ConnectionsListViewModel {
     }
 }
 
+// MARK: - Delegate actions
+extension ConnectionsViewModel {
+    func remove(at indexPath: IndexPath) {
+        guard let connection = item(for: indexPath) else { return }
+
+        remove(connection: connection)
+    }
+
+    func remove(by id: ID) {
+        guard let connection = ConnectionsCollector.with(id: id) else { return }
+
+        remove(connection: connection)
+    }
+
+    func updateName(by id: ID) {
+        guard let connection = ConnectionsCollector.with(id: id) else { return }
+
+        delegate?.showEditConnectionAlert(
+            placeholder: connection.name,
+            completion: { newName in
+                guard !ConnectionsCollector.connectionNames.contains(newName) else { return }
+
+                ConnectionRepository.updateName(connection, name: newName)
+            }
+        )
+    }
+
+    func showSupport(email: String) {
+        delegate?.showSupport(email: email)
+    }
+
+    func addPressed() {
+        delegate?.addPressed()
+    }
+
+    func reconnect(id: ID) {
+        delegate?.reconnect(by: id)
+    }
+}
+
 // MARK: - Actions
-extension ConnectionsListViewModel {
+extension ConnectionsViewModel {
     func actionSheet(for indexPath: IndexPath) -> UIAlertController {
         let viewModel = cellViewModel(at: indexPath)
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -196,41 +216,5 @@ extension ConnectionsListViewModel {
         support.backgroundColor = .backgroundColor
 
         return UISwipeActionsConfiguration(actions: [support])
-    }
-
-    @available(iOS 13.0, *)
-    func contextMenuConfiguration(for indexPath: IndexPath) -> UIContextMenuConfiguration {
-        let viewModel = cellViewModel(at: indexPath)
-
-        let configuration = UIContextMenuConfiguration(
-            identifier: "\(indexPath.section)" as NSString,
-            previewProvider: nil
-        ) { [weak self] _ -> UIMenu? in
-            let rename = UIAction(title: l10n(.rename), image: UIImage(named: "rename")) { _ in
-                self?.updateName(by: viewModel.id)
-            }
-            let support = UIAction(title: l10n(.contactSupport), image: UIImage(named: "contact_support")) { _ in
-                self?.delegate?.showSupport(email: viewModel.supportEmail)
-            }
-            let delete = UIAction(title: l10n(.delete), image: UIImage(named: "delete")) { _ in
-                self?.delegate?.deleteConnection(
-                    completion: {
-                        self?.remove(at: indexPath)
-                    }
-                )
-            }
-
-            var actions: [UIAction] = [rename, support, delete]
-
-            if viewModel.status == ConnectionStatus.inactive.rawValue {
-                let reconnect = UIAction(title: l10n(.reconnect), image: UIImage(named: "reconnect")) { _ in
-                    self?.delegate?.reconnect(by: viewModel.id)
-                }
-                actions.insert(reconnect, at: 0)
-            }
-
-            return UIMenu(title: "", image: nil, identifier: nil, options: .destructive, children: actions)
-        }
-        return configuration
     }
 }

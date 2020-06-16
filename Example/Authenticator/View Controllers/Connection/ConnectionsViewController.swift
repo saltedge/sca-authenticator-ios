@@ -31,11 +31,11 @@ final class ConnectionsViewController: BaseViewController {
     private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     private var noDataView: NoDataView!
 
-    private var viewControllerViewModel: ConnectionsListViewModel
+    private var viewControllerViewModel: ConnectionsViewModel
 
     var connectViewCoordinator: ConnectViewCoordinator?
 
-    init(viewModel: ConnectionsListViewModel) {
+    init(viewModel: ConnectionsViewModel) {
         viewControllerViewModel = viewModel
         super.init(nibName: nil, bundle: .authenticator_main)
         setupNoDataView()
@@ -115,7 +115,10 @@ extension ConnectionsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ConnectionCell = tableView.dequeueReusableCell(for: indexPath)
-        cell.viewModel = viewControllerViewModel.cellViewModel(at: indexPath)
+
+        let cellViewModel = viewControllerViewModel.cellViewModel(at: indexPath)
+        cellViewModel.delegate = self
+        cell.viewModel = cellViewModel
 
         return cell
     }
@@ -130,28 +133,6 @@ extension ConnectionsViewController: UITableViewDelegate {
             self.present(viewControllerViewModel.actionSheet(for: indexPath), animated: true)
             return
         }
-    }
-}
-
-@available(iOS 13.0, *)
-extension ConnectionsViewController {
-    func tableView(
-        _ tableView: UITableView,
-        previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration
-    ) -> UITargetedPreview? {
-      guard let identifier = configuration.identifier as? String,
-        let index = Int(identifier),
-        let cell = tableView.cellForRow(at: IndexPath(row: 0, section: index)) as? ConnectionCell else { return nil }
-
-      return UITargetedPreview(view: cell.cardView)
-    }
-
-    func tableView(
-        _ tableView: UITableView,
-        contextMenuConfigurationForRowAt indexPath: IndexPath,
-        point: CGPoint
-    ) -> UIContextMenuConfiguration? {
-        return viewControllerViewModel.contextMenuConfiguration(for: indexPath)
     }
 }
 
@@ -182,5 +163,24 @@ extension ConnectionsViewController: Layoutable {
 
         noDataView.topToSuperview(offset: Layout.noDataViewTopOffset)
         noDataView.widthToSuperview()
+    }
+}
+
+// MARK: - ConnectionCellEventsDelegate
+extension ConnectionsViewController: ConnectionCellEventsDelegate {
+    func renamePressed(id: String) {
+        viewControllerViewModel.updateName(by: id)
+    }
+
+    func supportPressed(email: String) {
+        viewControllerViewModel.showSupport(email: email)
+    }
+
+    func deletePressed(id: String) {
+        viewControllerViewModel.remove(by: id)
+    }
+
+    func reconnectPreseed(id: String) {
+        viewControllerViewModel.reconnect(id: id)
     }
 }

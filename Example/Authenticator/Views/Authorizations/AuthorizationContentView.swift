@@ -66,9 +66,9 @@ final class AuthorizationContentView: UICollectionViewCell {
             } else {
                 stateView.set(state: .base)
 
-                let supportDarkCSS = "<style>:root { color-scheme: light dark; }</style>"
-
                 if viewModel.description.htmlToAttributedString != nil {
+                    let supportDarkCSS = "<style>:root { color-scheme: light dark; }</style>"
+
                     contentStackView.removeArrangedSubview(descriptionTextView)
                     webView.loadHTMLString(viewModel.description + supportDarkCSS, baseURL: nil)
                     contentStackView.addArrangedSubview(webView)
