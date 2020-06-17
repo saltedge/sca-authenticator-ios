@@ -30,7 +30,7 @@ private struct Layout {
     static let bottomOffset: CGFloat = 40.0
 }
 
-final class AuthorizationContentView: UICollectionViewCell {
+final class AuthorizationContentView: UIView {
     private lazy var stateView = AuthorizationStateView(state: .base)
     private var isProcessing: Bool = false
 

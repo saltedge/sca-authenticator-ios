@@ -33,6 +33,9 @@ final class InstantActionCoordinator: Coordinator {
         self.rootViewController = rootViewController
         self.connectViewController = ConnectViewController()
         self.instantActionHandler = InstantActionHandler(qrUrl: qrUrl, actionGuid: actionGuid, connectUrl: connectUrl)
+        if #available(iOS 13.0, *) {
+            connectViewController.isModalInPresentation = true
+        }
     }
 
     func start() {

@@ -27,7 +27,7 @@ private struct Layout {
     static let headerTopOffset: CGFloat = 16.0
     static let headerSideOffset: CGFloat = 32.0
     static let headerHeight: CGFloat = 48.0
-    static let contentTopOffset: CGFloat = 16.0
+    static let contentTopOffset: CGFloat = 10.0
 }
 
 final class SingleAuthorizationViewController: BaseViewController {
@@ -100,16 +100,16 @@ extension SingleAuthorizationViewController: Layoutable {
 
         contentView.topToBottom(of: authorizationHeaderView, offset: Layout.contentTopOffset)
         contentView.widthToSuperview()
-        contentView.bottomToSuperview()
+        contentView.bottom(to: view, view.safeAreaLayoutGuide.bottomAnchor)
     }
 }
 
 // MARK: - SingleAuthorizationViewModelEventsDelegate
 extension SingleAuthorizationViewController: SingleAuthorizationViewModelEventsDelegate {
     func receivedDetailViewModel(_ detailViewModel: AuthorizationDetailViewModel) {
+        setTimer()
         authorizationHeaderView.viewModel = detailViewModel
         contentView.viewModel = detailViewModel
-        setTimer()
     }
 
     func shouldClose() {
