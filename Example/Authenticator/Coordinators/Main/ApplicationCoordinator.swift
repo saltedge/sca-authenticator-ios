@@ -230,7 +230,6 @@ final class ApplicationCoordinator: Coordinator {
 
         messageBarView = controller.present(
             message: l10n(.inactivityMessage),
-            style: .warning,
             completion: {
                 if self.messageBarView != nil {
                     self.passcodeShownDueToInactivity = true

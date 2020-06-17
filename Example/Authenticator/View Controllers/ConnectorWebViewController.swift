@@ -82,7 +82,7 @@ final class ConnectorWebViewController: BaseViewController {
     }
 
     @objc private func hasNoConnection() {
-        messageBarView = present(message: l10n(.noInternetConnection), style: .warning, hide: false)
+        messageBarView = present(message: l10n(.noInternetConnection), hide: false)
     }
 
     @objc private func hasConnection() {

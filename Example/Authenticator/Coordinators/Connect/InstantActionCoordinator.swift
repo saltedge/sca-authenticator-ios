@@ -27,6 +27,7 @@ final class InstantActionCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var connectViewController: ConnectViewController
     private var instantActionHandler: InstantActionHandler
+    private var qrCodeCoordinator: QRCodeCoordinator?
 
     init(rootViewController: UIViewController, qrUrl: URL, actionGuid: GUID, connectUrl: URL) {
         self.rootViewController = rootViewController
@@ -83,12 +84,24 @@ extension InstantActionCoordinator: InstantActionEventsDelegate {
         connectViewController.dismiss(
             animated: true,
             completion: {
-                self.rootViewController.present(message: error, style: .error)
+                self.rootViewController.present(message: error)
             }
         )
     }
 
     func errorReceived(error: String) {
-        connectViewController.showCompleteView(with: .fail, title: error, description: l10n(.tryAgain))
+        connectViewController.showCompleteView(
+            with: .fail,
+            title: l10n(.somethingWentWrong),
+            description: error,
+            completion: { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.connectViewController.dismiss(animated: true) {
+                    strongSelf.qrCodeCoordinator = QRCodeCoordinator(rootViewController: strongSelf.rootViewController)
+                    strongSelf.qrCodeCoordinator?.start()
+                }
+            }
+        )
     }
 }

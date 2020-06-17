@@ -80,7 +80,12 @@ extension PasscodeCoordinator: PasscodeEventsDelegate {
     }
 
     func popToRootViewController() {
-        currentViewController.navigationController?.popToViewController(rootViewController, animated: true)
+        currentViewController.navigationController?.popViewControllerWithHandler(
+            controller: rootViewController,
+            completion: {
+                self.rootViewController.present(message: l10n(.newPasscodeSetSuccessMessage))
+            }
+        )
     }
 
     func presentWrongPasscodeAlert(with message: String, title: String?, buttonTitle: String?) {

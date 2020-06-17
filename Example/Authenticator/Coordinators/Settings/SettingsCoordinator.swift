@@ -70,12 +70,15 @@ extension SettingsCoordinator: SettingsEventsDelegate {
         aboutCoordinator?.start()
     }
 
-    func clearDataItemSelected(confirmAction: @escaping ((UIAlertAction) -> ())) {
+    func clearDataItemSelected(confirmAction: @escaping (() -> ())) {
         currentViewController.showConfirmationAlert(
             withTitle: l10n(.clearAppData),
             message: l10n(.clearDataDescription),
             confirmActionTitle: l10n(.clear),
-            confirmAction: confirmAction
+            confirmAction: { _ in
+                confirmAction()
+                self.currentViewController.present(message: l10n(.clearDataSuccessDescription))
+            }
         )
     }
 }

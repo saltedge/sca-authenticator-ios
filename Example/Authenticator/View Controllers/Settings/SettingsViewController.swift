@@ -72,27 +72,12 @@ extension SettingsViewController: UITableViewDataSource {
         return AppLayout.cellDefaultHeight
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return AppLayout.cellDefaultHeight
-    }
-
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.sections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.rows(for: section)
-    }
-
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return viewModel.title(for: section)
-    }
-
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        guard let header = view as? UITableViewHeaderFooterView else { return }
-
-        header.textLabel?.text = viewModel.title(for: section)
-        header.textLabel?.font = .systemFont(ofSize: 17.0, weight: .regular)
+        return viewModel.rows
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -96,7 +96,7 @@ extension ConnectViewCoordinator: ConnectEventsDelegate {
         connectViewController.dismiss(
             animated: true,
             completion: {
-                self.rootViewController.present(message: error, style: .error)
+                self.rootViewController.present(message: error)
             }
         )
     }

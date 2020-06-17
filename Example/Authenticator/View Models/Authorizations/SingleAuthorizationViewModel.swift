@@ -95,14 +95,14 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             success: {
                 detailViewModel.state.value = .success
                 detailViewModel.actionTime = Date()
-                after(3.0) {
+                after(4.0) {
                     self.delegate?.shouldClose()
                 }
             },
             failure: { _ in
                 detailViewModel.state.value = .undefined
                 detailViewModel.actionTime = Date()
-                after(3.0) {
+                after(4.0) {
                     self.delegate?.shouldClose()
                 }
             }
@@ -128,14 +128,14 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             success: {
                 detailViewModel.state.value = .denied
                 detailViewModel.actionTime = Date()
-                after(3.0) {
+                after(4.0) {
                     self.delegate?.shouldClose()
                 }
             },
             failure: { _ in
                 detailViewModel.state.value = .undefined
                 detailViewModel.actionTime = Date()
-                after(3.0) {
+                after(4.0) {
                     self.delegate?.shouldClose()
                 }
             }

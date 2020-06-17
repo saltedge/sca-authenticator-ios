@@ -156,13 +156,12 @@ extension UIViewController {
     @discardableResult
     func present(
         message: String,
-        style: MessageBarView.Style,
         hide: Bool = true,
         completion: (() ->())? = nil
     ) -> MessageBarView? {
         guard isViewLoaded && view.window != nil else { return nil } // View is not loaded or not on screen at the moment
 
-        let messageView = MessageBarView(description: message, style: style)
+        let messageView = MessageBarView(description: message)
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissView))
         view.addSubview(messageView)
         messageView.addGestureRecognizer(gesture)
@@ -254,5 +253,15 @@ extension UIViewController {
                 newViewController.didMove(toParent: self)
             }
         )
+    }
+}
+
+// MARK: - Pop to view controller with completion
+extension UINavigationController {
+    func popViewControllerWithHandler(controller: UIViewController, completion: (() -> Void)?) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        popToViewController(controller, animated: true)
+        CATransaction.commit()
     }
 }

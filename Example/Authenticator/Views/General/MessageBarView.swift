@@ -28,12 +28,6 @@ private struct Layout {
 }
 
 final class MessageBarView: UIView {
-    enum Style {
-        case success
-        case warning
-        case error
-    }
-
     var heightConstraint: Constraint?
 
     static let defaultDuration: TimeInterval = 5.0
@@ -49,11 +43,9 @@ final class MessageBarView: UIView {
         label.textColor = .titleColor
         return label
     }()
-    private var style: Style = .success
-
-    init(description: String, style: Style) {
+   
+    init(description: String) {
         super.init(frame: .zero)
-        self.style = style
         layer.masksToBounds = true
         layer.cornerRadius = 6.0
         alertLabel.text = description

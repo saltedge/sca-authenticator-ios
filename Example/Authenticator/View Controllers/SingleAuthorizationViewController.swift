@@ -23,6 +23,13 @@
 import UIKit
 import SEAuthenticator
 
+private struct Layout {
+    static let headerTopOffset: CGFloat = 16.0
+    static let headerSideOffset: CGFloat = 32.0
+    static let headerHeight: CGFloat = 48.0
+    static let contentTopOffset: CGFloat = 16.0
+}
+
 final class SingleAuthorizationViewController: BaseViewController {
     private let authorizationHeaderView = AuthorizationHeaderView()
     private let contentView = AuthorizationContentView()
@@ -86,12 +93,12 @@ extension SingleAuthorizationViewController: Layoutable {
     func layout() {
         view.addSubviews(authorizationHeaderView, contentView)
 
-        authorizationHeaderView.topToSuperview(offset: 30.0)
-        authorizationHeaderView.leftToSuperview(offset: 32.0)
-        authorizationHeaderView.rightToSuperview(offset: -32.0)
-        authorizationHeaderView.height(48.0)
+        authorizationHeaderView.topToSuperview(offset: Layout.headerTopOffset)
+        authorizationHeaderView.leftToSuperview(offset: Layout.headerSideOffset)
+        authorizationHeaderView.rightToSuperview(offset: -Layout.headerSideOffset)
+        authorizationHeaderView.height(Layout.headerHeight)
 
-        contentView.topToBottom(of: authorizationHeaderView, offset: 30.0)
+        contentView.topToBottom(of: authorizationHeaderView, offset: Layout.contentTopOffset)
         contentView.widthToSuperview()
         contentView.bottomToSuperview()
     }
