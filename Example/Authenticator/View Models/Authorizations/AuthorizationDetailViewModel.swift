@@ -26,6 +26,7 @@ import SEAuthenticator
 protocol AuthorizationDetailEventsDelegate: class {
     func confirmPressed(_ authorizationId: String)
     func denyPressed(_ authorizationId: String)
+    func authorizationExpired()
 }
 
 final class AuthorizationDetailViewModel: Equatable {
@@ -63,6 +64,14 @@ final class AuthorizationDetailViewModel: Equatable {
             lhs.title == rhs.title &&
             lhs.description == rhs.description &&
             lhs.createdAt == rhs.createdAt
+    }
+
+    var authorizationExpired: Bool = false {
+        didSet {
+            if authorizationExpired {
+                delegate?.authorizationExpired()
+            }
+        }
     }
 
     func confirmPressed() {

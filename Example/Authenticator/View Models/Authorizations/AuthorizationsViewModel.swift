@@ -82,6 +82,10 @@ class AuthorizationsViewModel {
         )
     }
 
+    deinit {
+        stopPolling()
+    }
+
     func resetState() {
         state.value = .normal
     }

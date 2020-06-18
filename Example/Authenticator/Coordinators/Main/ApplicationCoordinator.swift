@@ -171,8 +171,6 @@ final class ApplicationCoordinator: Coordinator {
     }
 
     func openPasscodeIfNeeded() {
-        guard PasscodeManager.hasPasscode else { return }
-
         removeAlertControllerIfPresented()
 
         if let passcodeVC = UIWindow.topViewController as? PasscodeViewController {

@@ -199,6 +199,8 @@ extension AuthorizationView: AuthorizationDetailEventsDelegate {
     func denyPressed(_ authorizationId: String) {
         viewModel.denyAuthorization(by: authorizationId)
     }
+
+    func authorizationExpired() {}
 }
 
 // MARK: - AuthorizationHeaderCollectionViewCellDelegates

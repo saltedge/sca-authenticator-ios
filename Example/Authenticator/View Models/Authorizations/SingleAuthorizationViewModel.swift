@@ -141,4 +141,11 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             }
         )
     }
+
+    func authorizationExpired() {
+        detailViewModel?.state.value = .expired
+        after(4.0) {
+            self.delegate?.shouldClose()
+        }
+    }
 }

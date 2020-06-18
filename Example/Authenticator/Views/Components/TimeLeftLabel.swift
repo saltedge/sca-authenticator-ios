@@ -25,6 +25,8 @@ import UIKit
 final class TimeLeftLabel: UILabel {
     private var secondsLeft: Int = 0
 
+    var completion: (() -> ())?
+
     init() {
         super.init(frame: .zero)
         textColor = .lightBlue
@@ -38,6 +40,9 @@ final class TimeLeftLabel: UILabel {
     func update(secondsLeft: Int) {
         self.secondsLeft = secondsLeft
         setTimeLeft(secondsLeft)
+        if secondsLeft <= 0 {
+            completion?()
+        }
     }
 
     private func setTimeLeft(_ timeLeft: Int) {

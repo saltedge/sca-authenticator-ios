@@ -60,6 +60,11 @@ final class AuthorizationsViewController: BaseViewController {
         layout()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.setupPolling()
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupNavigationBarButtons()
@@ -67,6 +72,7 @@ final class AuthorizationsViewController: BaseViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        viewModel.stopPolling()
         [moreButton, qrButton].forEach { $0.removeFromSuperview() }
     }
 
