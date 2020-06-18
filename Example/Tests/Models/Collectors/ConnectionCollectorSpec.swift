@@ -54,7 +54,7 @@ class ConnectionCollectorSpec: BaseSpec {
 
         describe("allConnections") {
             it("should return array of all connections") {
-                expect(Array(ConnectionsCollector.allConnections)).to(equal([firstConnection, secondConnection]))
+                expect(Set(ConnectionsCollector.allConnections)).to(equal(Set([firstConnection, secondConnection])))
             }
         }
 
@@ -98,7 +98,7 @@ class ConnectionCollectorSpec: BaseSpec {
 
         describe("connectionNames") {
             it("should return array of connection names") {
-                expect(ConnectionsCollector.connectionNames).to(equal(["First", "Second"]))
+                expect(Set(ConnectionsCollector.connectionNames)).to(equal(Set(["First", "Second"])))
             }
         }
 
