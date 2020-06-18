@@ -25,7 +25,7 @@ import UIKit
 protocol ConnectionCellEventsDelegate: class {
     func renamePressed(id: String)
     func supportPressed(email: String)
-    func deletePressed(id: String)
+    func deletePressed(id: String, showConfirmation: Bool)
     func reconnectPreseed(id: String)
 }
 
@@ -74,16 +74,23 @@ class ConnectionCellViewModel {
                 strongSelf.delegate?.supportPressed(email: strongSelf.connection.supportEmail)
             }
             let delete = UIAction(title: l10n(.delete), image: UIImage(systemName: "trash")) { _ in
-                strongSelf.delegate?.deletePressed(id: strongSelf.connection.id)
+                strongSelf.delegate?.deletePressed(id: strongSelf.connection.id, showConfirmation: true)
             }
 
             var actions: [UIAction] = [rename, support, delete]
 
             if self?.connection.status == ConnectionStatus.inactive.rawValue {
+                actions.remove(at: 2)
+
                 let reconnect = UIAction(title: l10n(.reconnect), image: UIImage(systemName: "arrow.clockwise")) { _ in
                     strongSelf.delegate?.reconnectPreseed(id: strongSelf.connection.id)
                 }
                 actions.insert(reconnect, at: 0)
+
+                let remove = UIAction(title: l10n(.remove), image: UIImage(systemName: "xmark")) { _ in
+                    strongSelf.delegate?.deletePressed(id: strongSelf.connection.id, showConfirmation: false)
+                }
+                actions.insert(remove, at: 3)
             }
 
             return UIMenu(title: "", image: nil, identifier: nil, options: .destructive, children: actions)

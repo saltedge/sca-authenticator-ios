@@ -41,6 +41,7 @@ enum Localizations: String, Localizable {
     case retry = "actions.retry"
     case authenticator = "authorization.screen.name"
     case forgot = "actions.forgot"
+    case remove = "actions.remove"
 
     // MARK: - Onboarding
     case getStarted = "actions.get_started"
@@ -125,8 +126,6 @@ enum Localizations: String, Localizable {
     case newConnection = "in_app.connect.new_connection"
 
     // MARK: - Settings
-    case general = "in_app.settings.general"
-    case info = "in_app.settings.info"
     case settings = "in_app.sidebar_menu.settings"
     case deleteAll = "actions.delete_all"
     case deleteAllDataDescription = "actions.confirm_delete_connections"
@@ -134,6 +133,7 @@ enum Localizations: String, Localizable {
     case licenses = "in_app.settings.licenses"
     case clearAllData = "in_app.settings.clear_all_data"
     case clearAppData = "in_app.settings.clear_app_data"
+    case clearDataSuccessDescription = "in_app.settings.clear_app_data_success_message"
     case clearDataDescription = "in_app.settings.clear_app_data_description"
 
     // MARK: - Security
@@ -150,6 +150,7 @@ enum Localizations: String, Localizable {
     case yourCurrentPasscode = "actions.current_passcode"
     case enterPasscodeOrUseTouchID = "in_app.passcode_confirmation.title"
     case enterPasscodeOrUseFaceID = "in_app.passcode_confirmation.title2"
+    case newPasscodeSetSuccessMessage = "in_app.passcode_new_passcode_success_message"
     case unlockAuthenticator = "actions.unlock_authenticator"
 
     // MARK: - About
@@ -184,8 +185,7 @@ enum Localizations: String, Localizable {
     case reconnect = "actions.reconnect"
     case rename = "actions.rename"
     case contactSupport = "in_app.settings.contact_support"
-    case reportAProblem = "actions.report_problem"
-    case reportABug = "actions.report_bug"
+    case reportAnIssue = "actions.report_an_issue"
 
     // MARK: - Main Menu Options
     case viewConnections = "actions.view_connections"

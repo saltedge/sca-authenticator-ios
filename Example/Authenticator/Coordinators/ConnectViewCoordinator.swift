@@ -78,10 +78,10 @@ extension ConnectViewCoordinator: ConnectEventsDelegate {
         }
     }
 
-    func finishConnectWithSuccess(message: String) {
+    func finishConnectWithSuccess(attributedMessage: NSMutableAttributedString) {
         webViewController.remove()
         connectViewController.navigationItem.leftBarButtonItem = nil
-        connectViewController.showCompleteView(with: .success, title: message)
+        connectViewController.showCompleteView(with: .success, title: "", attributedTitle: attributedMessage)
     }
 
     func startWebViewLoading(with connectUrlString: String) {
@@ -96,7 +96,7 @@ extension ConnectViewCoordinator: ConnectEventsDelegate {
         connectViewController.dismiss(
             animated: true,
             completion: {
-                self.rootViewController.present(message: error, style: .error)
+                self.rootViewController.present(message: error)
             }
         )
     }

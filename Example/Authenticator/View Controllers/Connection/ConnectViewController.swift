@@ -73,10 +73,11 @@ extension ConnectViewController {
     func showCompleteView(
         with state: CompleteView.State,
         title: String,
+        attributedTitle: NSMutableAttributedString? = nil,
         description: String = l10n(.connectedSuccessfullyDescription),
         completion: (() -> ())? = nil
     ) {
-        completeView.set(state: state, title: title, description: description)
+        completeView.set(state: state, title: title, attributedString: attributedTitle, description: description)
         completeView.proceedClosure = completion
         completeView.delegate = self
         completeView.alpha = 0.0

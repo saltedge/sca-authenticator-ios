@@ -47,7 +47,7 @@ private final class MockSettingsDelegate: SettingsEventsDelegate {
         aboutItemSelectedCall = true
     }
     
-    func clearDataItemSelected(confirmAction: @escaping ((UIAlertAction) -> ())) {
+    func clearDataItemSelected(confirmAction: @escaping (() -> ())) {
         clearDataItemSelectedCall = true
     }
 }
@@ -58,23 +58,13 @@ class SettingsViewModelSpec: BaseSpec {
 
         describe("sections") {
             it("should return number of sections") {
-                expect(viewModel.sections).to(equal(3))
+                expect(viewModel.sections).to(equal(1))
             }
         }
 
         describe("rows(for:)") {
-            context("when sections exists") {
-                it("should return number of rows") {
-                    expect(viewModel.rows(for: 0)).to(equal(2))
-                    expect(viewModel.rows(for: 1)).to(equal(2))
-                    expect(viewModel.rows(for: 2)).to(equal(1))
-                }
-            }
-
-            context("when section doesn't exists") {
-                it("should return 0") {
-                    expect(viewModel.rows(for: 53)).to(equal(0))
-                }
+            it("should return number of rows") {
+                expect(viewModel.rows).to(equal(5))
             }
         }
 
@@ -85,30 +75,18 @@ class SettingsViewModelSpec: BaseSpec {
                         .to(equal(SettingCellModel.passcode))
                     expect(viewModel.item(for: IndexPath(row: 1, section: 0)))
                         .to(equal(SettingCellModel.language))
-                    
-                    expect(viewModel.item(for: IndexPath(row: 0, section: 1)))
+                    expect(viewModel.item(for: IndexPath(row: 2, section: 0)))
                         .to(equal(SettingCellModel.about))
-                    expect(viewModel.item(for: IndexPath(row: 1, section: 1)))
+                    expect(viewModel.item(for: IndexPath(row: 3, section: 0)))
                         .to(equal(SettingCellModel.support))
-
-                    expect(viewModel.item(for: IndexPath(row: 0, section: 2)))
+                    expect(viewModel.item(for: IndexPath(row: 4, section: 0)))
                         .to(equal(SettingCellModel.clearData))
                 }                                         
             }
 
             context("when section doesn't exists") {
                 it("should return nil") {
-                    expect(viewModel.item(for: IndexPath(row: 0, section: 5))).to(beNil())
-                }
-            }
-        }
-        
-        describe("title(for:)") {
-            context("when sections exists") {
-                it("should return corresponding item") {
-                    expect(viewModel.title(for: 0)).to(equal(l10n(.general)))
-                    expect(viewModel.title(for: 1)).to(equal(l10n(.info)))
-                    expect(viewModel.title(for: 2)).to(equal(""))
+//                    expect(viewModel.item(for: IndexPath(row: 5, section: 1))).to(beNil())
                 }
             }
         }
@@ -145,7 +123,7 @@ class SettingsViewModelSpec: BaseSpec {
                     let mockDelegate = MockSettingsDelegate()
                     viewModel.delegate = mockDelegate
 
-                    viewModel.selected(indexPath: IndexPath(row: 0, section: 1))
+                    viewModel.selected(indexPath: IndexPath(row: 2, section: 0))
 
                     expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
                     expect(mockDelegate.languageItemSelectedCall).to(beFalse())
@@ -158,7 +136,7 @@ class SettingsViewModelSpec: BaseSpec {
                     let mockDelegate = MockSettingsDelegate()
                     viewModel.delegate = mockDelegate
 
-                    viewModel.selected(indexPath: IndexPath(row: 1, section: 1))
+                    viewModel.selected(indexPath: IndexPath(row: 3, section: 0))
 
                     expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
                     expect(mockDelegate.languageItemSelectedCall).to(beFalse())
@@ -171,7 +149,7 @@ class SettingsViewModelSpec: BaseSpec {
                     let mockDelegate = MockSettingsDelegate()
                     viewModel.delegate = mockDelegate
 
-                    viewModel.selected(indexPath: IndexPath(row: 0, section: 2))
+                    viewModel.selected(indexPath: IndexPath(row: 4, section: 0))
 
                     expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
                     expect(mockDelegate.languageItemSelectedCall).to(beFalse())
@@ -181,20 +159,20 @@ class SettingsViewModelSpec: BaseSpec {
                 }
             }
 
-            context("when index doesn't exists") {
-                it("should not call nothing") {
-                    let mockDelegate = MockSettingsDelegate()
-                    viewModel.delegate = mockDelegate
-                    
-                    viewModel.selected(indexPath: IndexPath(row: 0, section: 55))
-                    
-                    expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
-                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
-                    expect(mockDelegate.supportItemSelectedCall).to(beFalse())
-                    expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
-                    expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())
-                }
-            }
+//            context("when index doesn't exists") {
+//                it("should not call nothing") {
+//                    let mockDelegate = MockSettingsDelegate()
+//                    viewModel.delegate = mockDelegate
+//
+//                    viewModel.selected(indexPath: IndexPath(row: 55, section: 0))
+//
+//                    expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
+//                    expect(mockDelegate.languageItemSelectedCall).to(beFalse())
+//                    expect(mockDelegate.supportItemSelectedCall).to(beFalse())
+//                    expect(mockDelegate.aboutItemSelectedCall).to(beFalse())
+//                    expect(mockDelegate.clearDataItemSelectedCall).to(beFalse())
+//                }
+//            }
         }
     }
 }

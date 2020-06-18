@@ -30,7 +30,7 @@ private struct Layout {
     static let bottomOffset: CGFloat = 40.0
 }
 
-final class AuthorizationContentView: UICollectionViewCell {
+final class AuthorizationContentView: UIView {
     private lazy var stateView = AuthorizationStateView(state: .base)
     private var isProcessing: Bool = false
 
@@ -88,6 +88,8 @@ final class AuthorizationContentView: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         stateView.set(state: .base)
+        contentStackView.layer.masksToBounds = true
+        contentStackView.layer.cornerRadius = 6.0
         descriptionTextView.backgroundColor = .backgroundColor
         descriptionTextView.isUserInteractionEnabled = false
         setupButtons()
@@ -134,7 +136,7 @@ extension AuthorizationContentView: Layoutable {
         contentStackView.topToBottom(of: titleLabel, offset: Layout.contentTopOffset)
         contentStackView.leftToSuperview(offset: Layout.sideOffset)
         contentStackView.rightToSuperview(offset: -Layout.sideOffset)
-        contentStackView.bottomToTop(of: buttonsStackView)
+        contentStackView.bottomToTop(of: buttonsStackView, offset: -Layout.sideOffset)
         contentStackView.centerXToSuperview()
 
         buttonsStackView.leftToSuperview(offset: Layout.sideOffset)

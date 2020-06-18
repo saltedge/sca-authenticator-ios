@@ -38,7 +38,7 @@ enum SettingCellModel: Localizable {
         case .passcode: return l10n(.changePasscode)
         case .appVersion: return l10n(.applicationVersion)
         case .terms: return l10n(.terms)
-        case .support: return l10n(.reportABug)
+        case .support: return l10n(.reportAnIssue)
         case .about: return l10n(.about)
         case .licenses: return l10n(.licenses)
         case .clearData: return l10n(.clearAllData)

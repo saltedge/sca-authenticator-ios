@@ -83,7 +83,7 @@ final class AuthorizationsViewController: BaseViewController {
             case let .scrollTo(index):
                 strongSelf.authorizationView.scroll(to: index)
             case let .presentFail(message):
-                strongSelf.present(message: message, style: .error)
+                strongSelf.present(message: message)
             case let .scanQrPressed(success):
                 if success {
                     strongSelf.delegate?.scanQrPressed()
@@ -113,7 +113,7 @@ final class AuthorizationsViewController: BaseViewController {
     }
 
     @objc private func hasNoConnection() {
-        messageBarView = present(message: l10n(.noInternetConnection), style: .warning, hide: false)
+        messageBarView = present(message: l10n(.noInternetConnection), hide: false)
     }
 
     @objc private func hasConnection() {

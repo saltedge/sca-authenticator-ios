@@ -82,7 +82,7 @@ class WKWebViewController: BaseViewController {
         }
 
         if error.code == -1009 { // error code for no Internet connection
-            messageBar = present(message: error.localizedDescription, style: .error, hide: false)
+            messageBar = present(message: error.localizedDescription, hide: false)
         }
     }
 

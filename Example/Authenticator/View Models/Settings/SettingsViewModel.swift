@@ -27,34 +27,24 @@ protocol SettingsEventsDelegate: class {
     func passcodeItemSelected()
     func supportItemSelected()
     func aboutItemSelected()
-    func clearDataItemSelected(confirmAction: @escaping ((UIAlertAction) -> ()))
+    func clearDataItemSelected(confirmAction: @escaping (() -> ()))
 }
 
 class SettingsViewModel {
-    private let items: [(String, [SettingCellModel])] = [
-        (l10n(.general), [.passcode, .language]),
-        (l10n(.info), [.about, .support]),
-        ("", [.clearData])
-    ]
+    private let items: [SettingCellModel] = [.passcode, .language, .about, .support, .clearData]
 
     weak var delegate: SettingsEventsDelegate?
 
     var sections: Int {
+        return 1
+    }
+
+    var rows: Int {
         return items.count
     }
 
-    func rows(for section: Int) -> Int {
-        return items.indices.contains(section) ? items[section].1.count : 0
-    }
-
     func item(for indexPath: IndexPath) -> SettingCellModel? {
-        return items.indices.contains(indexPath.section)
-            ? items[indexPath.section].1[indexPath.row]
-            : nil
-    }
-
-    func title(for section: Int) -> String {
-        return items.indices.contains(section) ? items[section].0 : ""
+        return items[indexPath.row]
     }
 
     func selected(indexPath: IndexPath) {
@@ -71,7 +61,7 @@ class SettingsViewModel {
             delegate?.aboutItemSelected()
         case .clearData:
             delegate?.clearDataItemSelected(
-                confirmAction: { _ in
+                confirmAction: {
                     RealmManager.deleteAll()
                     CacheHelper.clearCache()
                 }
