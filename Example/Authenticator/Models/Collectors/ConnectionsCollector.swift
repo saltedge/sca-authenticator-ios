@@ -55,5 +55,6 @@ struct ConnectionsCollector {
 
     static func `where`(_ format: String, _ args: Any...) -> Results<Connection> {
         return ConnectionsCollector.allConnections.filter(NSPredicate(format: format, argumentArray: args))
+            .sorted(byKeyPath: #keyPath(Connection.createdAt))
     }
 }
