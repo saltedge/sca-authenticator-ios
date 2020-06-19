@@ -43,7 +43,7 @@ final class MessageBarView: UIView {
         label.textColor = .titleColor
         return label
     }()
-   
+
     init(description: String) {
         super.init(frame: .zero)
         layer.masksToBounds = true
