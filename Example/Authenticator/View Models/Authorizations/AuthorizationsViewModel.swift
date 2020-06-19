@@ -42,19 +42,12 @@ enum AuthorizationsViewModelState: Equatable {
     }
 }
 
-protocol AuthorizationsViewModelEventsDelegate: class {
-    func reloadData()
-    func shouldDismiss()
-    func scroll(to index: Int)
-}
-
 class AuthorizationsViewModel {
     private struct Images {
         static let noAuthorizations: UIImage = UIImage(named: "noAuthorizations", in: .authenticator_main, compatibleWith: nil)!
         static let noConnections: UIImage = UIImage(named: "noConnections", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    weak var delegate: AuthorizationsViewModelEventsDelegate?
     var state = Observable<AuthorizationsViewModelState>(.normal)
 
     var dataSource: AuthorizationsDataSource!
@@ -119,16 +112,10 @@ class AuthorizationsViewModel {
             success: {
                 detailViewModel.state.value = .success
                 detailViewModel.actionTime = Date()
-                after(3.0) {
-                    self.delegate?.shouldDismiss()
-                }
             },
             failure: { _ in
                 detailViewModel.state.value = .undefined
                 detailViewModel.actionTime = Date()
-                after(3.0) {
-                    self.delegate?.shouldDismiss()
-                }
             }
         )
     }
@@ -144,23 +131,16 @@ class AuthorizationsViewModel {
             success: {
                 detailViewModel.state.value = .denied
                 detailViewModel.actionTime = Date()
-                after(3.0) {
-                    self.delegate?.shouldDismiss()
-                }
             },
             failure: { _ in
                 detailViewModel.state.value = .undefined
                 detailViewModel.actionTime = Date()
-                after(3.0) {
-                    self.delegate?.shouldDismiss()
-                }
             }
         )
     }
 
     private func updateDataSource(with authorizations: [SEAuthorizationData]) {
         if dataSource.update(with: authorizations) {
-            delegate?.reloadData()
             state.value = .reloadData
         }
 
@@ -170,7 +150,6 @@ class AuthorizationsViewModel {
                 authorizationId: authorizationToScroll.authorizationId
             ),
             let index = dataSource.index(of: detailViewModel) {
-                delegate?.scroll(to: index)
                 state.value = .scrollTo(index)
             } else {
                 state.value = .presentFail(l10n(.authorizationNotFound))

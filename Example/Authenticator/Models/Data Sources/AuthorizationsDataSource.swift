@@ -104,10 +104,13 @@ final class AuthorizationsDataSource {
     private func clearedViewModels() -> [AuthorizationDetailViewModel] {
         return self.viewModels.compactMap { viewModel in
             if viewModel.state.value != .base,
-                let actionTime = viewModel.actionTime, Date().timeIntervalSince1970 - actionTime.timeIntervalSince1970 >= 4 {
+                let actionTime = viewModel.actionTime,
+                Date().timeIntervalSince1970 - actionTime.timeIntervalSince1970 >= finalAuthorizationTimeToLive {
                 return nil
             }
-            if viewModel.expired, Date().timeIntervalSince1970 - viewModel.authorizationExpiresAt.timeIntervalSince1970 >= 4 {
+            if viewModel.expired,
+                Date().timeIntervalSince1970 - viewModel.authorizationExpiresAt.timeIntervalSince1970
+                    >= finalAuthorizationTimeToLive {
                 return nil
             }
             return viewModel
