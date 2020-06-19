@@ -54,7 +54,6 @@ final class AuthorizationsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.authenticator)
-        view.backgroundColor = .backgroundColor
         setupObservers()
         setupNoDataView()
         layout()

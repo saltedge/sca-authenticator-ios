@@ -53,7 +53,7 @@
 "errors.instant_action.error" = "Action error";
 "errors.authorization_not_found" = "Authorization request was either processed, canceled or expired";
 "errors.authorization_error" = "Error occurred. Please try again";
-"errors.contact_support" = "Something went wrong. Please contact our Support team.";
+"errors.contact_support" = "Something went wrong";
 "errors.denied_camera" = "Camera access denied";
 "errors.denied_camera_description" = "Please allow camera usage in phone settings. Without camera you won't be able to connect provider.";
 "errors.inactive_connection" = "Inactive. Please reconnect.";
