@@ -52,6 +52,24 @@ final class AuthorizationsCoordinator: Coordinator {
 // MARK: - AuthorizationsViewControllerDelegate
 extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
     func scanQrPressed() {
+        guard AVCaptureHelper.cameraIsAuthorized() else {
+            self.rootViewController.showConfirmationAlert(
+                withTitle: l10n(.deniedCamera),
+                message: l10n(.deniedCameraDescription),
+                confirmActionTitle: l10n(.goToSettings),
+                confirmActionStyle: .default,
+                cancelTitle: l10n(.cancel),
+                confirmAction: { _ in
+                    guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+                    if UIApplication.shared.canOpenURL(settingsUrl) {
+                        UIApplication.shared.open(settingsUrl)
+                    }
+                }
+            )
+            return
+        }
+
         qrCoordinator = QRCodeCoordinator(rootViewController: rootViewController)
         qrCoordinator?.start()
     }

@@ -24,16 +24,10 @@ import UIKit
 import UserNotifications
 
 struct NotificationsManager {
-    static func registerForNotifications(success: @escaping (Bool) -> (), failure: @escaping () -> ()) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { granted, error in
+    static func registerForNotifications() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { granted, _ in
             if granted {
                 DispatchQueue.main.async(execute: UIApplication.shared.registerForRemoteNotifications)
-                success(granted)
-            } else {
-                if let err = error {
-                    print(err.localizedDescription)
-                }
-                failure()
             }
         }
     }

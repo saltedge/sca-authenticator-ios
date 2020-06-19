@@ -47,6 +47,24 @@ final class ConnectionsCoordinator: Coordinator {
 // MARK: - ConnectionsListEventsDelegate
 extension ConnectionsCoordinator: ConnectionsEventsDelegate {
     func addPressed() {
+        guard AVCaptureHelper.cameraIsAuthorized() else {
+            self.currentViewController.showConfirmationAlert(
+                withTitle: l10n(.deniedCamera),
+                message: l10n(.deniedCameraDescription),
+                confirmActionTitle: l10n(.goToSettings),
+                confirmActionStyle: .default,
+                cancelTitle: l10n(.cancel),
+                confirmAction: { _ in
+                    guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+                    if UIApplication.shared.canOpenURL(settingsUrl) {
+                        UIApplication.shared.open(settingsUrl)
+                    }
+                }
+            )
+            return
+        }
+
         qrCodeCoordinator = QRCodeCoordinator(rootViewController: currentViewController)
         qrCodeCoordinator?.start()
     }

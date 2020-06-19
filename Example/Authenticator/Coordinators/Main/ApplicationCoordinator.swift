@@ -89,6 +89,8 @@ final class ApplicationCoordinator: Coordinator {
 
     private func startAuthorizationsViewController() {
         UserDefaultsHelper.didShowOnboarding = true
+
+        NotificationsManager.registerForNotifications()
         registerTimerNotifications()
 
         window?.rootViewController = authorizationsNavController
@@ -136,6 +138,9 @@ final class ApplicationCoordinator: Coordinator {
                 !topControler.isKind(of: QRCodeViewController.self) else { return }
 
             rootNavVc.setViewControllers([self.authorizationsCoordinator.rootViewController], animated: true)
+
+            guard AVCaptureHelper.cameraIsAuthorized() else { return }
+
             self.qrCodeCoordinator = QRCodeCoordinator(rootViewController: rootNavVc)
             self.qrCodeCoordinator?.start()
         }
@@ -187,7 +192,7 @@ final class ApplicationCoordinator: Coordinator {
     }
 
     private func presentPasscode() {
-        guard let topController = UIWindow.topViewController else { return }
+        guard let topController = UIWindow.topViewController, UserDefaultsHelper.didShowOnboarding else { return }
 
         passcodeCoordinator = PasscodeCoordinator(
             rootViewController: topController,
