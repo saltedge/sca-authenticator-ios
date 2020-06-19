@@ -76,6 +76,9 @@ extension InstantActionCoordinator: InstantActionEventsDelegate {
             connectionId: connectionId,
             authorizationId: authorizationId
         )
+        authorizationViewController.timerExpiredClosure = {
+            self.connectViewController.dismiss(animated: true)
+        }
         connectViewController.add(authorizationViewController)
     }
 

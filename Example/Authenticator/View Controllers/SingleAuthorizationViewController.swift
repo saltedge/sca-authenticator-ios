@@ -37,6 +37,8 @@ final class SingleAuthorizationViewController: BaseViewController {
     private var viewModel: SingleAuthorizationViewModel
     private var headerTimer: Timer?
 
+    var timerExpiredClosure: (() -> ())?
+
     init(connectionId: String, authorizationId: String) {
         viewModel = SingleAuthorizationViewModel(connectionId: connectionId, authorizationId: authorizationId)
         super.init(nibName: nil, bundle: .authenticator_main)

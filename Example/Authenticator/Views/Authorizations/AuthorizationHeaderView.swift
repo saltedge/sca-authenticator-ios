@@ -58,6 +58,9 @@ final class AuthorizationHeaderView: RoundedShadowView {
 
     init() {
         super.init(cornerRadius: 4.0)
+        timeLeftLabel.completion = {
+            self.viewModel.authorizationExpired = true
+        }
         layout()
     }
 

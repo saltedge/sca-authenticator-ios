@@ -125,6 +125,7 @@ extension AuthorizationView: UICollectionViewDataSource {
             ) as? AuthorizationHeaderCollectionViewCell else { return UICollectionViewCell() }
 
             headerCell.viewModel = detailViewModel
+            headerCell.backgroundColor = .backgroundColor
             cell = headerCell
         } else {
             guard let authorizationCell = collectionView.dequeueReusableCell(
@@ -133,7 +134,6 @@ extension AuthorizationView: UICollectionViewDataSource {
             ) as? AuthorizationCollectionViewCell else { return UICollectionViewCell() }
 
             authorizationCell.viewModel = detailViewModel
-            authorizationCell.backgroundColor = .clear
             cell = authorizationCell
         }
 
@@ -199,6 +199,8 @@ extension AuthorizationView: AuthorizationDetailEventsDelegate {
     func denyPressed(_ authorizationId: String) {
         viewModel.denyAuthorization(by: authorizationId)
     }
+
+    func authorizationExpired() {}
 }
 
 // MARK: - AuthorizationHeaderCollectionViewCellDelegates

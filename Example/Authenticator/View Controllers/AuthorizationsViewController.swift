@@ -54,10 +54,14 @@ final class AuthorizationsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.authenticator)
-        view.backgroundColor = .backgroundColor
         setupObservers()
         setupNoDataView()
         layout()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.setupPolling()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -67,6 +71,7 @@ final class AuthorizationsViewController: BaseViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        viewModel.stopPolling()
         [moreButton, qrButton].forEach { $0.removeFromSuperview() }
     }
 

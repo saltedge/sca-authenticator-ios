@@ -45,14 +45,15 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
     }()
     private let logoPlaceholderView: UIView = {
         let view = UIView()
+        view.layer.masksToBounds =  true
         view.layer.cornerRadius = Layout.connectionPlaceholderViewRadius
         view.backgroundColor = .extraLightGray
         return view
     }()
     private let logoImageView: UIImageView = {
-        let view = UIImageView()
-        view.contentMode = .scaleAspectFit
-        return view
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -160,7 +161,7 @@ extension ConnectionCell: Layoutable {
         logoPlaceholderView.left(to: cardView, offset: Layout.sideOffset)
         logoPlaceholderView.centerY(to: cardView)
 
-        logoImageView.size(Layout.imageViewSize)
+        logoImageView.size(Layout.connectionPlaceholderViewSize)
         logoImageView.center(in: logoPlaceholderView)
 
         titleLabel.top(to: cardView, offset: Layout.titleLabelTopOffset)
