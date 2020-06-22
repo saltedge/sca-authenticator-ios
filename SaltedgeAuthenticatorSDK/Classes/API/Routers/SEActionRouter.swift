@@ -23,7 +23,7 @@
 import Foundation
 
 enum SEActionRouter: Routable {
-    case submit(SEActionData)
+    case submit(SEActionRequestData)
 
     var method: HTTPMethod {
         return .put

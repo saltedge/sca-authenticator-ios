@@ -23,9 +23,10 @@
 import Foundation
 
 public enum SENetPaths: String {
-    case actions
-    case authorizations
     case connections
+    case authorizations
+    case actions
+    case consents
 
     public var path: String {
         return "/api/authenticator/v\(version)/\(rawValue)"

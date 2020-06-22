@@ -37,7 +37,7 @@ struct ParametersKeys {
 }
 
 struct RequestParametersBuilder {
-    static func parameters(for connectionData: SEConnectionData, pushToken: PushToken, connectQuery: String?) -> [String: Any] {
+    static func parameters(for connectionData: SECreateConnectionRequestData, pushToken: PushToken, connectQuery: String?) -> [String: Any] {
         return [
             ParametersKeys.data: [
                 ParametersKeys.providerCode: connectionData.providerCode,

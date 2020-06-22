@@ -22,57 +22,26 @@
 
 import UIKit
 
-private struct Layout {
-    static let connectionImageViewSize: CGSize = CGSize(width: 24.0, height: 24.0)
-    static let connectionImageViewOffset: CGFloat = 16.0
-    static let nameLabelOffset: CGFloat = 8.0
-    static let progressViewWidthOffset: CGFloat = -22.0
-    static let timeLeftLabelOffset: CGFloat = -8.0
-    static let timeLeftLabelHeight: CGFloat = 28.0
-}
-
 protocol AuthorizationHeaderCollectionViewCellDelegate: class {
     func timerExpired(_ cell: AuthorizationHeaderCollectionViewCell)
 }
 
 final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
-    private let connectionImageView = UIImageView()
-    private let connectionNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14.0, weight: .medium)
-        label.textColor = .auth_darkGray
-        return label
-    }()
-    private let timeLeftLabel = TimeLeftLabel()
-    private let progressView = CountdownProgressView()
+    private var headerView = AuthorizationHeaderView()
 
-    weak var delegate: AuthorizationHeaderCollectionViewCellDelegate?
+    var viewModel: AuthorizationDetailViewModel! {
+        didSet {
+            headerView.viewModel = viewModel
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .white
-        setupShadowAndCornerRadius()
         layout()
     }
 
-    func configure(_ item: AuthorizationViewModel, at indexPath: IndexPath) {
-        connectionImageView.contentMode = .scaleAspectFit
-        connectionImageView.image = #imageLiteral(resourceName: "bankPlaceholderCyanSmall")
-
-        if let connection = ConnectionsCollector.with(id: item.connectionId) {
-            setImage(from: connection.logoUrl)
-            connectionNameLabel.text = connection.name
-        }
-        updateTime(item)
-    }
-
-    func updateTime(_ item: AuthorizationViewModel) {
-        guard item.state == .base, item.actionTime == nil else { return }
-
-        let secondsLeft = diffInSecondsFromNow(for: item.authorizationExpiresAt)
-
-        progressView.update(secondsLeft: secondsLeft, lifetime: item.lifetime)
-        timeLeftLabel.update(secondsLeft: secondsLeft)
+    func updateTime() {
+        headerView.updateTime()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -80,57 +49,11 @@ final class AuthorizationHeaderCollectionViewCell: UICollectionViewCell {
     }
 }
 
-// MARK: - Helpers
-private extension AuthorizationHeaderCollectionViewCell {
-    func setupShadowAndCornerRadius() {
-        contentView.layer.cornerRadius = 21.0
-        contentView.layer.masksToBounds = true
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowOpacity = 0.1
-        layer.shadowRadius = 4.0
-    }
-
-    func setImage(from imageUrl: URL?) {
-        guard let url = imageUrl else { return }
-
-        CacheHelper.setAnimatedCachedImage(from: url, for: connectionImageView)
-    }
-}
-
 // MARK: - Layout
 extension AuthorizationHeaderCollectionViewCell: Layoutable {
     func layout() {
-        contentView.addSubviews(connectionImageView, connectionNameLabel, progressView, timeLeftLabel)
+        addSubview(headerView)
 
-        connectionImageView.left(to: contentView, offset: Layout.connectionImageViewOffset)
-        connectionImageView.centerY(to: contentView)
-        connectionImageView.size(Layout.connectionImageViewSize)
-
-        connectionNameLabel.leftToRight(of: connectionImageView, offset: Layout.nameLabelOffset)
-        connectionNameLabel.centerY(to: connectionImageView)
-        connectionNameLabel.rightToLeft(of: timeLeftLabel, offset: -Layout.nameLabelOffset, relation: .equalOrLess)
-        connectionNameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-
-        progressView.height(3.0)
-        progressView.bottom(to: contentView)
-        progressView.width(to: contentView, offset: Layout.progressViewWidthOffset)
-        progressView.centerX(to: contentView)
-
-        timeLeftLabel.right(to: contentView, offset: Layout.timeLeftLabelOffset)
-        timeLeftLabel.centerY(to: connectionImageView)
-        timeLeftLabel.height(Layout.timeLeftLabelHeight)
-        timeLeftLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-    }
-}
-
-private extension AuthorizationHeaderCollectionViewCell {
-    func diffInSecondsFromNow(for date: Date) -> Int {
-        let currentDate = Date()
-        let diffDateComponents = Calendar.current.dateComponents([.minute, .second], from: currentDate, to: date)
-
-        guard let minutes = diffDateComponents.minute, let seconds = diffDateComponents.second else { return 0 }
-
-        return 60 * minutes + seconds
+        headerView.edgesToSuperview()
     }
 }

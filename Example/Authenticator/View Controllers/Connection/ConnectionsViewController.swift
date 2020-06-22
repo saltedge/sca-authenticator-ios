@@ -21,55 +21,32 @@
 //
 
 import UIKit
-import TinyConstraints
-
-enum ConnectionAction {
-    case delete
-    case edit
-    case reconnect
-    case support
-}
-
-protocol ConnectionsViewControllerDelegate: class {
-    func selected(_ connection: Connection, action: ConnectionAction?)
-    func addPressed()
-}
 
 private struct Layout {
-    static let cellHeight: CGFloat = 86.0
+    static let cellHeight: CGFloat = 96.0
+    static let noDataViewTopOffset: CGFloat = AppLayout.screenHeight * 0.11
 }
 
 final class ConnectionsViewController: BaseViewController {
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.sectionHeaderHeight = 30.0
-        tableView.sectionFooterHeight = 0.0
-        tableView.backgroundColor = .auth_backgroundColor
-        tableView.register(ConnectionCell.self)
-        return tableView
-    }()
+    private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     private var noDataView: NoDataView!
-    private var dataSource: ConnectionsDataSource!
 
-    weak var delegate: ConnectionsViewControllerDelegate?
+    private var viewControllerViewModel: ConnectionsViewModel
+
+    var connectViewCoordinator: ConnectViewCoordinator?
+
+    init(viewModel: ConnectionsViewModel) {
+        viewControllerViewModel = viewModel
+        super.init(nibName: nil, bundle: .authenticator_main)
+        setupNoDataView()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.connections)
-        setupDataSource()
         setupTableView()
-        noDataView = NoDataView(
-            image: #imageLiteral(resourceName: "no_connections"),
-            title: l10n(.noConnections),
-            description: l10n(.noConnectionsDescription),
-            ctaTitle: l10n(.connectProvider),
-            onCTAPress: {
-                self.addPressed()
-            }
-        )
         layout()
         updateViewsHiddenState()
-        updateNavigationButtonsState()
         NotificationsHelper.observe(
             self,
             selector: #selector(reloadData),
@@ -78,59 +55,47 @@ final class ConnectionsViewController: BaseViewController {
         )
     }
 
+    @objc private func reloadData() {
+        tableView.reloadData()
+    }
+
+    func updateViewsHiddenState() {
+        tableView.reloadData()
+        UIView.animate(
+            withDuration: 0.3,
+            animations: {
+                self.noDataView.alpha = self.viewControllerViewModel.hasDataToShow ? 0.0 : 1.0
+                self.tableView.alpha = !self.viewControllerViewModel.hasDataToShow ? 0.0 : 1.0
+            }
+        )
+    }
+
     deinit {
         NotificationsHelper.removeObserver(self)
     }
 
-    @objc private func addPressed() {
-        delegate?.addPressed()
-    }
-
-    @objc private func reloadData() {
-        tableView.reloadData()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
 // MARK: - Setup
 private extension ConnectionsViewController {
-    func setupDataSource() {
-        dataSource = ConnectionsDataSource(
-            onDataChange: { [weak self] in
-                guard let weakSelf = self else { return }
-
-                weakSelf.tableView.reloadData()
-                weakSelf.updateViewsHiddenState()
-                weakSelf.updateNavigationButtonsState()
-            }
-        )
-    }
-
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.sectionHeaderHeight = 0.0
+        tableView.sectionFooterHeight = 0.0
+        tableView.backgroundColor = .backgroundColor
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.register(ConnectionCell.self)
+        tableView.separatorStyle = .none
     }
 
-    func updateViewsHiddenState() {
-        UIView.animate(
-            withDuration: 0.3,
-            animations: {
-                self.noDataView.alpha = self.dataSource.hasDataToShow ? 0.0 : 1.0
-                self.tableView.alpha = !self.dataSource.hasDataToShow ? 0.0 : 1.0
-            }
-        )
-    }
-
-    func updateNavigationButtonsState() {
-        if dataSource.hasDataToShow {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(
-                barButtonSystemItem: .add,
-                target: self,
-                action: #selector(addPressed)
-            )
-        } else {
-            navigationItem.leftBarButtonItem = nil
-            navigationItem.rightBarButtonItem = nil
-        }
+    func setupNoDataView() {
+        noDataView = NoDataView(data: viewControllerViewModel.emptyViewData, action: viewControllerViewModel.addPressed)
+        noDataView.alpha = viewControllerViewModel.hasDataToShow ? 0 : 1
     }
 }
 
@@ -141,15 +106,21 @@ extension ConnectionsViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dataSource.sections
+        return viewControllerViewModel.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.rows(for: section)
+        return 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return dataSource.cell(for: indexPath)
+        let cell: ConnectionCell = tableView.dequeueReusableCell(for: indexPath)
+
+        let cellViewModel = viewControllerViewModel.cellViewModel(at: indexPath)
+        cellViewModel.delegate = self
+        cell.viewModel = cellViewModel
+
+        return cell
     }
 }
 
@@ -158,63 +129,71 @@ extension ConnectionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        guard let connection = dataSource.item(for: indexPath) else { return }
-
-        delegate?.selected(connection, action: nil)
+        guard #available(iOS 13, *) else {
+            self.present(viewControllerViewModel.actionSheet(for: indexPath), animated: true)
+            return
+        }
     }
 }
 
 // MARK: UISwipeActionsConfiguration
-@available(iOS 11.0, *)
 extension ConnectionsViewController {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let connection = dataSource.item(for: indexPath) else { return nil }
-
-        let delete = UIContextualAction(style: .destructive, title: l10n(.delete)) { _, _, completionHandler in
-            self.delegate?.selected(connection, action: .delete)
-            completionHandler(true)
-        }
-
-        let rename = UIContextualAction(style: .normal, title: l10n(.rename)) { _, _, completionHandler in
-            self.delegate?.selected(connection, action: .edit)
-            completionHandler(true)
-        }
-
-        var actions: [UIContextualAction] = [delete, rename]
-
-        if connection.status == ConnectionStatus.inactive.rawValue {
-            let reconnect = UIContextualAction(style: .normal, title: l10n(.reconnect)) { action, _, completionHandler in
-                self.delegate?.selected(connection, action: .reconnect)
-                completionHandler(true)
-            }
-            reconnect.backgroundColor = UIColor.auth_blue
-            actions.insert(reconnect, at: 1)
-        }
-
-        return UISwipeActionsConfiguration(actions: actions)
+        return viewControllerViewModel.rightSwipeActionsConfiguration(for: indexPath)
     }
 
     func tableView(_ tableView: UITableView,
                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let connection = dataSource.item(for: indexPath) else { return nil }
-
-        let support = UIContextualAction(style: .normal, title: l10n(.support)) { _, _, completionHandler in
-            self.delegate?.selected(connection, action: .support)
-            completionHandler(true)
-        }
-
-        return UISwipeActionsConfiguration(actions: [support])
+        return viewControllerViewModel.leftSwipeActionsConfiguration(for: indexPath)
     }
+}
+
+// MARK: - Actions
+private extension ConnectionsViewController {
+    func showActionSheet(at indexPath: IndexPath) {}
 }
 
 // MARK: - Layout
 extension ConnectionsViewController: Layoutable {
     func layout() {
         view.addSubviews(tableView, noDataView)
+
         tableView.edges(to: view)
-        noDataView.left(to: view, offset: AppLayout.sideOffset)
-        noDataView.right(to: view, offset: -AppLayout.sideOffset)
-        noDataView.center(in: view)
+
+        noDataView.topToSuperview(offset: Layout.noDataViewTopOffset)
+        noDataView.widthToSuperview()
+    }
+}
+
+// MARK: - ConnectionCellEventsDelegate
+extension ConnectionsViewController: ConnectionCellEventsDelegate {
+    func renamePressed(id: String) {
+        viewControllerViewModel.updateName(by: id)
+    }
+
+    func supportPressed(email: String) {
+        viewControllerViewModel.showSupport(email: email)
+    }
+
+    func deletePressed(id: String, showConfirmation: Bool) {
+        if showConfirmation {
+            showConfirmationAlert(
+                withTitle: l10n(.deleteConnection),
+                message: l10n(.deleteConnectionDescription),
+                confirmActionTitle: l10n(.delete),
+                confirmActionStyle: .destructive,
+                cancelTitle: l10n(.cancel),
+                confirmAction: { _ in
+                    self.viewControllerViewModel.remove(by: id)
+                }
+            )
+        } else {
+            viewControllerViewModel.remove(by: id)
+        }
+    }
+
+    func reconnectPreseed(id: String) {
+        viewControllerViewModel.reconnect(id: id)
     }
 }

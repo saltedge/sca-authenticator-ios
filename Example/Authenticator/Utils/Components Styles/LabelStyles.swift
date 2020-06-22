@@ -23,21 +23,11 @@
 import UIKit
 
 extension UILabel {
-    static var titleLabel: UILabel {
-        let label = UILabel()
-        label.font = .auth_19regular
-        label.textColor = .black
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
-    }
-
-    static var descriptionLabel: CustomSpacingLabel {
-        let label = CustomSpacingLabel()
-        label.font = .auth_15regular
-        label.textColor = .auth_darkGray
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
+    convenience init(font: UIFont, alignment: NSTextAlignment = .center, textColor: UIColor = .titleColor) {
+        self.init()
+        self.font = font
+        self.textColor = textColor
+        self.textAlignment = alignment
+        self.numberOfLines = 0
     }
 }

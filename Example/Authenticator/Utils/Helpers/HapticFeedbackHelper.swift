@@ -27,8 +27,6 @@ struct HapticFeedbackHelper {
     static func produceErrorFeedback() {
         DispatchQueue.main.async {
             if isFeedbackSupport {
-                guard #available(iOS 10.0, *) else { return }
-
                 let generator = UINotificationFeedbackGenerator()
                 generator.prepare()
                 generator.notificationOccurred(.error)
@@ -39,8 +37,6 @@ struct HapticFeedbackHelper {
     }
 
     static func produceSelectionChangedFeedback() {
-        guard #available(iOS 10.0, *) else { return }
-
         DispatchQueue.main.async {
             let generator = UISelectionFeedbackGenerator()
             generator.prepare()
@@ -49,8 +45,6 @@ struct HapticFeedbackHelper {
     }
 
     static func produceImpactFeedback(_ style: UIImpactFeedbackGenerator.FeedbackStyle = .light) {
-        guard #available(iOS 10.0, *) else { return }
-
         let generator = UIImpactFeedbackGenerator(style: style)
         generator.prepare()
         generator.impactOccurred()

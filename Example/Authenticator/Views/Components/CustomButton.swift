@@ -24,42 +24,43 @@ import UIKit
 import TinyConstraints
 
 private struct Layout {
-    static let cornerRadius: CGFloat = 8.0
-    static let height: CGFloat = 42.0
+    static let cornerRadius: CGFloat = 4.0
+    static let height: CGFloat = 48.0
 }
 
-class CustomButton: TaptileFeedbackButton {
-    enum Style {
-        case filled
-        case bordered
+class CustomButton: UIButton {
+    override var isHighlighted: Bool {
+        didSet {
+            guard backgroundColor != UIColor.secondaryBackground else { return }
+
+            backgroundColor = isHighlighted ? .selectedColor : .darkBlue
+        }
     }
 
-    override var shadowColor: CGColor {
-        return UIColor.auth_blue.withAlphaComponent(0.3).cgColor
-    }
-
-    init(_ style: CustomButton.Style, text: String, height: CGFloat = Layout.height) {
-        super.init()
-        style == .filled ? setupFilledButton() : setupBorderedButton()
+    init(text: String, height: CGFloat = Layout.height, textColor: UIColor = .white, backgroundColor: UIColor = .darkBlue) {
+        super.init(frame: .zero)
+        self.backgroundColor = backgroundColor
+        titleLabel?.font = .systemFont(ofSize: 18.0, weight: .medium)
         setTitle(text, for: .normal)
+        setTitleColor(textColor, for: .normal)
+        setTitleColor(textColor, for: .highlighted)
         layer.cornerRadius = Layout.cornerRadius
         self.height(height)
+        setupShadow()
     }
 
-    private func setupFilledButton() {
-        backgroundColor = .auth_blue
-        titleLabel?.font = .auth_15regular
+    func updateTitle(text: String) {
+        setTitle(text, for: .normal)
     }
 
-    private func setupBorderedButton() {
-        setTitleColor(.auth_blue, for: .normal)
-        titleLabel?.font = .auth_15medium
-        layer.borderColor = UIColor.auth_blue.cgColor
-        layer.borderWidth = 1.0
+    private func setupShadow() {
+        layer.shadowColor = UIColor(red: 0.051, green: 0.576, blue: 0.973, alpha: 0.2).cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 6)
+        layer.shadowOpacity = 0.7
+        layer.shadowRadius = 30.0
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }

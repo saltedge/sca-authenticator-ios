@@ -21,87 +21,19 @@
 //
 
 import UIKit
-import TinyConstraints
-import WebKit
-
-private struct Layout {
-    static let sideOffset: CGFloat = AppLayout.sideOffset / 2
-    static let topOffset: CGFloat = 20.0
-    static let buttonHeight: CGFloat = 36.0
-    static let bottomOffset: CGFloat = -24.0
-}
-
-protocol AuthorizationCellDelegate: class {
-    func confirmPressed(_ authorizationId: String)
-    func denyPressed(_ authorizationId: String)
-}
 
 final class AuthorizationCollectionViewCell: UICollectionViewCell {
-    private let stateView = AuthorizationStateView(state: .base)
-    private var isProcessing: Bool = false
+    private var authorizationContentView = AuthorizationContentView()
 
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .auth_gray
-        label.font = UIFont.systemFont(ofSize: 14.0)
-        return label
-    }()
-    private lazy var descriptionTextView = UITextView()
-    private lazy var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
-    private var contentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = Layout.sideOffset
-        return stackView
-    }()
-    private var buttonsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.spacing = Layout.sideOffset
-        return stackView
-    }()
-
-    private(set) var viewModel: AuthorizationViewModel!
-
-    weak var delegate: AuthorizationCellDelegate?
+    var viewModel: AuthorizationDetailViewModel! {
+        didSet {
+            authorizationContentView.viewModel = viewModel
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        descriptionTextView.isUserInteractionEnabled = false
-        setupLeftButton()
-        setupRightButton()
         layout()
-    }
-
-    func set(with viewModel: AuthorizationViewModel) {
-        self.viewModel = viewModel
-        titleLabel.text = viewModel.title
-
-        guard viewModel.state == .base else {
-            stateView.set(state: viewModel.state)
-            stateView.isHidden = false
-            return
-        }
-
-        if viewModel.expired && viewModel.state != .expired {
-            stateView.set(state: .expired)
-            stateView.isHidden = false
-        } else {
-            stateView.isHidden = true
-            stateView.set(state: .base)
-
-            if viewModel.description.htmlToAttributedString != nil {
-                contentStackView.removeArrangedSubview(descriptionTextView)
-                webView.loadHTMLString(viewModel.description, baseURL: nil)
-                contentStackView.addArrangedSubview(webView)
-            } else {
-                contentStackView.removeArrangedSubview(webView)
-                descriptionTextView.text = viewModel.description
-                contentStackView.addArrangedSubview(descriptionTextView)
-            }
-        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -109,57 +41,11 @@ final class AuthorizationCollectionViewCell: UICollectionViewCell {
     }
 }
 
-// MARK: - Setup
-private extension AuthorizationCollectionViewCell {
-    func setupLeftButton() {
-        setupButton(
-            .bordered,
-            title: l10n(.deny)
-        ).addTarget(self, action: #selector(denyButtonPressed(_:)), for: .touchUpInside)
-    }
-
-    func setupRightButton() {
-        setupButton(
-            .filled,
-            title: l10n(.allow)
-        ).addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
-    }
-
-    func setupButton(_ style: CustomButton.Style, title: String) -> UIButton {
-        let button = CustomButton(style, text: title, height: Layout.buttonHeight)
-        buttonsStackView.addArrangedSubview(button)
-        return button
-    }
-}
-
-// MARK: - Actions
-private extension AuthorizationCollectionViewCell {
-    @objc func denyButtonPressed(_ sender: CustomButton) {
-        delegate?.denyPressed(viewModel.authorizationId)
-    }
-
-    @objc func confirmButtonPressed(_ sender: CustomButton) {
-        delegate?.confirmPressed(viewModel.authorizationId)
-    }
-}
-
 // MARK: - Layout
 extension AuthorizationCollectionViewCell: Layoutable {
     func layout() {
-        addSubviews(titleLabel, contentStackView, buttonsStackView, stateView)
+        addSubview(authorizationContentView)
 
-        titleLabel.top(to: self, offset: Layout.topOffset)
-        titleLabel.centerX(to: self)
-
-        contentStackView.topToBottom(of: titleLabel, offset: 12.0)
-        contentStackView.left(to: self, offset: AppLayout.sideOffset)
-        contentStackView.right(to: self, offset: -AppLayout.sideOffset)
-        contentStackView.bottomToTop(of: buttonsStackView)
-
-        buttonsStackView.left(to: self, offset: AppLayout.sideOffset / 2)
-        buttonsStackView.right(to: self, offset: -AppLayout.sideOffset / 2)
-        buttonsStackView.bottom(to: self, offset: Layout.bottomOffset)
-
-        stateView.edgesToSuperview()
+        authorizationContentView.edgesToSuperview()
     }
 }

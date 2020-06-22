@@ -55,12 +55,12 @@ class ActionRouterSpec: BaseSpec {
                     encoding: .json
                 )
 
-                let expectedActionData = SEActionData(
+                let expectedActionData = SEActionRequestData(
                     url: baseUrl,
-                    guid: actionGuid,
                     connectionGuid: "tag",
                     accessToken: "token",
-                    appLanguage: "en"
+                    appLanguage: "en",
+                    guid: actionGuid
                 )
 
                 let request = SEActionRouter.submit(expectedActionData).asURLRequest()

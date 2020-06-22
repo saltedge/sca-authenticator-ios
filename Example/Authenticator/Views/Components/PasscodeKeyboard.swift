@@ -24,24 +24,61 @@ import UIKit
 import TinyConstraints
 
 protocol PasscodeKeyboardDelegate: class {
-    func keyboard(_ keyboard: PasscodeKeyboard, didInputDigit digit: String)
-    func clearPressed(on keyboard: PasscodeKeyboard)
-    func biometricsPressed(on keyboard: PasscodeKeyboard)
+    func keyboard(didInputDigit digit: String)
+    func forgotPressed()
+    func clearPressed()
+    func biometricsPressed()
+}
+
+private struct Layout {
+    static let buttonSize: CGSize = CGSize(width: AppLayout.screenWidth * 0.304, height: AppLayout.screenHeight * 0.086)
 }
 
 final class PasscodeKeyboard: UIView {
     weak var delegate: PasscodeKeyboardDelegate?
 
     private let mainStackView = UIStackView(frame: .zero)
-    private let clearButton = UIImage(named: "ClearButton", in: Bundle.authenticator_main, compatibleWith: nil)
-    private let biometricsButton = BiometricsPresenter.keyboardImage ?? UIImage()
+    private var actionButton = TaptileFeedbackButton()
+    private var actionButtonImage: UIImage
+
+    private struct Images {
+        static let clearImage: UIImage = UIImage(named: "ClearButton", in: .authenticator_main, compatibleWith: nil)!
+        static let biometricsImage: UIImage = BiometricsPresenter.keyboardImage!
+    }
+
+    var showClearButton: Bool = false {
+        didSet {
+            guard showClearButton != oldValue else { return }
+
+            if showClearButton {
+                UIView.transition(
+                    with: self.actionButton,
+                    duration: 0.4,
+                    options: .transitionFlipFromRight,
+                    animations: {
+                        self.actionButton.set(image: Images.clearImage)
+                    }
+                )
+            } else {
+                UIView.transition(
+                    with: self.actionButton,
+                    duration: 0.4,
+                    options: .transitionFlipFromRight,
+                    animations: {
+                        self.actionButton.set(image: Images.biometricsImage)
+                    }
+                )
+            }
+        }
+    }
 
     init(shouldShowTouchID: Bool) {
+        actionButtonImage = shouldShowTouchID ? Images.biometricsImage : Images.clearImage
         super.init(frame: .zero)
         let keyboardLayout: [[Any]] = [
-            ["1", "4", "7", shouldShowTouchID ? biometricsButton : ""],
+            ["1", "4", "7", shouldShowTouchID ? l10n(.forgot) : ""],
             ["2", "5", "8", "0"],
-            ["3", "6", "9", clearButton ?? ""]
+            ["3", "6", "9", actionButton]
         ]
         setupMainStackView()
         for column in keyboardLayout {
@@ -59,7 +96,7 @@ final class PasscodeKeyboard: UIView {
 private extension PasscodeKeyboard {
     func setupMainStackView() {
         mainStackView.axis = .horizontal
-        mainStackView.alignment = .fill
+        mainStackView.alignment = .center
         mainStackView.spacing = 0.0
         mainStackView.distribution = .fillEqually
     }
@@ -67,26 +104,36 @@ private extension PasscodeKeyboard {
     func setupVerticalButtonsStackView(with array: [Any]) {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.spacing = 0.0
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         for value in array {
-            stackView.addArrangedSubview(createButton(with: value))
+            let button = createButton(with: value)
+            button.size(Layout.buttonSize)
+            stackView.addArrangedSubview(button)
         }
         mainStackView.addArrangedSubview(stackView)
     }
 
     func createButton(with value: Any) -> UIButton {
-        let button = PasscodeKeyboardButton()
+        var button = TaptileFeedbackButton()
+        button.layer.cornerRadius = 6.0
 
         if let title = value as? String {
             button.setTitle(title, for: .normal)
-            button.setTitleColor(.auth_darkGray, for: .normal)
-            button.titleLabel?.font = .auth_26regular
-        } else if let image = value as? UIImage {
-            button.setImage(image, for: .normal)
+            button.setTitleColor(.titleColor, for: .normal)
+            if title == l10n(.forgot) {
+                button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+            } else {
+                button.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
+            }
+            button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
+        } else {
+            actionButton.setImage(actionButtonImage, for: .normal)
+            actionButton.setImage(actionButtonImage, for: .highlighted)
+            actionButton.addTarget(self, action: #selector(actionButtonPressed(_:)), for: .touchUpInside)
+            button = actionButton
         }
-        button.addTarget(self, action: #selector(buttonPressed(_:)), for: .touchUpInside)
         return button
     }
 }
@@ -94,14 +141,22 @@ private extension PasscodeKeyboard {
 // MARK: - Actions
 private extension PasscodeKeyboard {
     @objc func buttonPressed(_ sender: TaptileFeedbackButton) {
-        if let image = sender.image(for: .normal) {
-            if image == clearButton {
-                self.delegate?.clearPressed(on: self)
-            } else if image == biometricsButton {
-                self.delegate?.biometricsPressed(on: self)
+        if let title = sender.title(for: .normal), !title.isEmpty {
+            if title == l10n(.forgot) {
+                delegate?.forgotPressed()
+            } else {
+                delegate?.keyboard(didInputDigit: title)
             }
-        } else if let title = sender.title(for: .normal), !title.isEmpty {
-            self.delegate?.keyboard(self, didInputDigit: title)
+        }
+    }
+
+    @objc func actionButtonPressed(_ sender: TaptileFeedbackButton) {
+        if let image = sender.image(for: .normal) {
+            if image == Images.clearImage {
+                delegate?.clearPressed()
+            } else {
+                delegate?.biometricsPressed()
+            }
         }
     }
 }
@@ -110,16 +165,7 @@ private extension PasscodeKeyboard {
 extension PasscodeKeyboard: Layoutable {
     func layout() {
         addSubview(mainStackView)
+
         mainStackView.edges(to: self)
-    }
-}
-
-private final class PasscodeKeyboardButton: TaptileFeedbackButton {
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: 320.0, height: 100.0)
-    }
-
-    override var shadowColor: CGColor {
-        return UIColor.auth_blue20.cgColor
     }
 }

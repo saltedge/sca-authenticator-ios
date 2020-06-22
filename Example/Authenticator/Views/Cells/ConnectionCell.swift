@@ -2,7 +2,7 @@
 //  ConnectionCell.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -25,57 +25,86 @@ import UIKit
 private struct Layout {
     static let sideOffset: CGFloat = 16.0
     static let titleLabelTopOffset: CGFloat = 20.0
-    static let descriptionLabelOffset: CGFloat = 5.0
-    static let imageViewSize: CGSize = CGSize(width: 30.0, height: 30.0)
-    static let connectionPlaceholderViewSize: CGSize = CGSize(width: 48.0, height: 48.0)
-    static let connectionPlaceholderViewRadius: CGFloat = 24.0
+    static let descriptionLabelOffset: CGFloat = 4.0
+    static let imageViewSize: CGSize = CGSize(width: 42.0, height: 42.0)
+    static let connectionPlaceholderViewSize: CGSize = CGSize(width: 52.0, height: 52.0)
+    static let connectionPlaceholderViewRadius: CGFloat = 12.0
     static let connectionImageOffset = sideOffset + 4.0
+    static let cardViewRadius: CGFloat = 6.0
+    static let cardViewLeftRightOffset: CGFloat = 16.0
+    static let cardViewTopBottomOffset: CGFloat = 8.0
 }
 
 final class ConnectionCell: UITableViewCell, Dequeuable {
-    private let connectionPlaceholderView: UIView = {
+    let cardView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = Layout.connectionPlaceholderViewRadius
-        view.clipsToBounds = true
-        view.backgroundColor = .auth_backgroundColor
+        view.layer.cornerRadius = Layout.cardViewRadius
+        view.layer.masksToBounds = true
+        view.backgroundColor = .secondaryBackground
         return view
     }()
-    private let connectionImageView: UIImageView = {
+    private let logoPlaceholderView: UIView = {
+        let view = UIView()
+        view.layer.masksToBounds =  true
+        view.layer.cornerRadius = Layout.connectionPlaceholderViewRadius
+        view.backgroundColor = .extraLightGray
+        return view
+    }()
+    private let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .auth_19regular
-        label.textColor = .black
+        label.font = .auth_17regular
+        label.textColor = .titleColor
         label.textAlignment = .left
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .auth_15regular
-        label.textColor = .darkGray
+        label.font = .auth_13regular
+        label.textColor = .dark60
         label.textAlignment = .left
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
 
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .white
-        layout()
+    var viewModel: ConnectionCellViewModel! {
+        didSet {
+            titleLabel.text = viewModel.connectionName
+            descriptionLabel.text = viewModel.description
+            descriptionLabel.textColor = viewModel.descriptionColor
+
+            if let imageUrl = viewModel.logoUrl {
+                CacheHelper.setAnimatedCachedImage(from: imageUrl, for: logoImageView)
+            }
+        }
     }
 
-    func set(bankName: String, description: String, descriptionColor: UIColor = .auth_gray, imageUrl: URL?) {
-        titleLabel.text = bankName
-        descriptionLabel.text = description
-        descriptionLabel.textColor = descriptionColor
+    var picked: Bool = false {
+        didSet {
+            if picked {
+                cardView.layer.borderWidth = 2.0
+                cardView.layer.borderColor = UIColor.lightBlue.cgColor
+            } else {
+                cardView.layer.borderWidth = 0.0
+                cardView.layer.borderColor = nil
+            }
+        }
+    }
 
-        guard let imageUrl = imageUrl else { return }
-
-        CacheHelper.setAnimatedCachedImage(from: imageUrl, for: connectionImageView)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
+        setupContentContainer()
+        if #available(iOS 13.0, *) {
+            let interaction = UIContextMenuInteraction(delegate: self)
+            addInteraction(interaction)
+        }
+        layout()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -83,26 +112,64 @@ final class ConnectionCell: UITableViewCell, Dequeuable {
     }
 }
 
+// MARK: - UIContextMenuInteractionDelegate
+@available(iOS 13.0, *)
+extension ConnectionCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        previewForHighlightingMenuWithConfiguration
+        configuration: UIContextMenuConfiguration
+    ) -> UITargetedPreview? {
+        return UITargetedPreview(view: cardView)
+    }
+
+    func contextMenuInteraction(
+        _ interaction: UIContextMenuInteraction,
+        configurationForMenuAtLocation location: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        return viewModel.contextMenuConfiguration
+    }
+}
+
+// MARK: - Setup
+private extension ConnectionCell {
+    func setupContentContainer() {
+        backgroundColor = .backgroundColor
+
+        contentView.layer.shadowColor = UIColor(red: 0.374, green: 0.426, blue: 0.488, alpha: 0.3).cgColor
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 6)
+        contentView.layer.shadowOpacity = 0.8
+        contentView.layer.shadowRadius = Layout.cardViewTopBottomOffset
+    }
+}
+
 // MARK: - Layout
 extension ConnectionCell: Layoutable {
     func layout() {
-        contentView.addSubviews(connectionPlaceholderView, titleLabel, descriptionLabel)
+        contentView.addSubview(cardView)
 
-        connectionPlaceholderView.addSubview(connectionImageView)
+        cardView.addSubviews(logoPlaceholderView, titleLabel, descriptionLabel)
 
-        connectionPlaceholderView.size(Layout.connectionPlaceholderViewSize)
-        connectionPlaceholderView.left(to: contentView, offset: Layout.sideOffset)
-        connectionPlaceholderView.centerY(to: contentView)
+        logoPlaceholderView.addSubview(logoImageView)
 
-        connectionImageView.size(Layout.connectionPlaceholderViewSize)
-        connectionImageView.center(in: connectionPlaceholderView)
+        cardView.left(to: contentView, offset: Layout.cardViewLeftRightOffset)
+        cardView.top(to: contentView, offset: Layout.cardViewTopBottomOffset)
+        cardView.right(to: contentView, offset: -Layout.cardViewLeftRightOffset)
+        cardView.bottom(to: contentView, offset: -Layout.cardViewTopBottomOffset)
 
-        titleLabel.top(to: contentView, offset: Layout.titleLabelTopOffset)
-        titleLabel.leftToRight(of: connectionPlaceholderView, offset: Layout.sideOffset)
-        titleLabel.right(to: contentView, offset: -Layout.sideOffset)
+        logoPlaceholderView.size(Layout.connectionPlaceholderViewSize)
+        logoPlaceholderView.left(to: cardView, offset: Layout.sideOffset)
+        logoPlaceholderView.centerY(to: cardView)
+
+        logoImageView.size(Layout.connectionPlaceholderViewSize)
+        logoImageView.center(in: logoPlaceholderView)
+
+        titleLabel.top(to: cardView, offset: Layout.titleLabelTopOffset)
+        titleLabel.leftToRight(of: logoPlaceholderView, offset: Layout.sideOffset)
+        titleLabel.right(to: cardView, offset: -Layout.sideOffset)
 
         descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionLabelOffset)
-        descriptionLabel.leftToRight(of: connectionPlaceholderView, offset: Layout.sideOffset)
-        descriptionLabel.right(to: contentView, offset: -Layout.descriptionLabelOffset)
+        descriptionLabel.leftToRight(of: logoPlaceholderView, offset: Layout.sideOffset)
+        descriptionLabel.right(to: cardView, offset: -Layout.descriptionLabelOffset)
     }
 }

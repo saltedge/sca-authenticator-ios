@@ -31,10 +31,17 @@ enum Localizations: String, Localizable {
     case allow = "actions.allow"
     case back = "actions.back"
     case cancel = "actions.cancel"
+    case clear = "actions.clear"
+    case clearData = "actions.clear_data"
     case delete = "actions.delete"
     case ok = "actions.ok"
     case warning = "errors.warning"
     case done = "actions.done"
+    case next = "actions.next"
+    case retry = "actions.retry"
+    case authenticator = "authorization.screen.name"
+    case forgot = "actions.forgot"
+    case remove = "actions.remove"
 
     // MARK: - Onboarding
     case getStarted = "actions.get_started"
@@ -46,6 +53,8 @@ enum Localizations: String, Localizable {
     case secondFeatureDescription = "onboarding.carousel_two.description"
     case thirdFeature = "onboarding.carousel_three.title"
     case thirdFeatureDescription = "onboarding.carousel_three.description"
+    case scanQrFirstDescription = "onboarding.qr.first_scan_description"
+    case scanQrToTakeAnAction = "onboarding.qr.take_action_description"
 
     // MARK: - Setup App
     case secureApp = "onboarding.secure_app.passcode_title"
@@ -92,10 +101,16 @@ enum Localizations: String, Localizable {
     case deniedMessage = "authorization.denied.message"
     case timeOutMessage = "authorization.time_out.message"
 
+    case forgotPasscode = "no_data.forgot_passcode"
+    case forgotPasscodeDescription = "no_data.forgot_passcode_description"
+    case forgotPasscodeClearDataDescription = "no_data.forgot_passcode_clear_data_description"
+
     // MARK: - Actions
     case newAction = "instant_action.new_action"
     case instantActionSuccessMessage = "instant_action.success_message"
     case instantActionSuccessDescription = "instant_action.success_description"
+    case processing = "actions.processing"
+    case processingDescription = "actions.processing.description"
 
     // MARK: - Connections
     case noConnections = "in_app.connect.no_connections"
@@ -103,10 +118,11 @@ enum Localizations: String, Localizable {
     case connections = "in_app.navigation.connections"
     case connectProvider = "action.connect_provider"
     case connectedOn = "in_app.connection.connected_on"
+    case deleteConnection = "actions.confirm_delete_connection"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
-    case processing = "in_app.connect.in_progress"
     case scanQr = "in_app.connect.scan_qr"
-    case selectConnection = "in_app.connect.select"
+    case scanQrCode = "in_app.connect.scan_qr_code"
+    case chooseConnection = "in_app.connect.choose"
     case newConnection = "in_app.connect.new_connection"
 
     // MARK: - Settings
@@ -115,23 +131,26 @@ enum Localizations: String, Localizable {
     case deleteAllDataDescription = "actions.confirm_delete_connections"
     case search = "actions.search"
     case licenses = "in_app.settings.licenses"
-    case clearData = "in_app.settings.clear_all_data"
-    case clearDataDescription = "in_app.settings.clear_all_data_description"
+    case clearAllData = "in_app.settings.clear_all_data"
+    case clearAppData = "in_app.settings.clear_app_data"
+    case clearDataSuccessDescription = "in_app.settings.clear_app_data_success_message"
+    case clearDataDescription = "in_app.settings.clear_app_data_description"
 
     // MARK: - Security
     case touchID = "in_app.settings.touch_id"
     case faceID = "in_app.settings.face_id"
     case passcode = "in_app.settings.passcode"
     case changePasscode = "actions.change_passcode"
-    case wrongPasscode = "errors.passcode_ios"
     case wrongPasscodeSingular = "errors.passcode_ios_singular"
     case accountReset = "errors.account_reset"
 
     case createPasscode = "onboarding.secure_app.passcode_create"
-    case repeatPasscode = "onboarding.secure_app.passcode_repeat"
-    case enterPasscode = "actions.enter_passcode"
+    case confirmPasscode = "onboarding.secure_app.passcode_confirm"
+    case newPasscode = "in_app.settings.new_passcode"
+    case yourCurrentPasscode = "actions.current_passcode"
     case enterPasscodeOrUseTouchID = "in_app.passcode_confirmation.title"
     case enterPasscodeOrUseFaceID = "in_app.passcode_confirmation.title2"
+    case newPasscodeSetSuccessMessage = "in_app.passcode_new_passcode_success_message"
     case unlockAuthenticator = "actions.unlock_authenticator"
 
     // MARK: - About
@@ -153,16 +172,25 @@ enum Localizations: String, Localizable {
     case deniedCameraDescription = "errors.denied_camera_description"
     case inactiveConnection = "errors.inactive_connection"
     case noInternetConnection = "errors.no_internet_connection"
+    case errorOccuredPleaseTryAgain = "Error occurred. Please try again"
     case pleaseTryAgain = "errors.no_internet_connection_try_again"
     case inactivityMessage = "warnings.inactivity_block_message"
+    case passcodeDontMatch = "errors.passcode_dont_match"
+    case wrongPasscode = "errors.wrong_passcode"
+    case biometricsNotAvailable = "in_app.settings.biometrics_not_available"
+    case biometricsNotAvailableDescription = "in_app.settings.biometrics_not_available_message"
 
     // MARK: - Connection Options
+    case connect = "actions.connect"
     case reconnect = "actions.reconnect"
     case rename = "actions.rename"
-    case support = "in_app.settings.support"
     case contactSupport = "in_app.settings.contact_support"
-    case reportAProblem = "actions.report_problem"
-    case reportABug = "actions.report_bug"
+    case reportAnIssue = "actions.report_an_issue"
+
+    // MARK: - Main Menu Options
+    case viewConnections = "actions.view_connections"
+    case viewConsents = "actions.view_consents"
+    case viewSettings = "actions.view_settings"
 
     var localizedLabel: String { return self.rawValue }
 }

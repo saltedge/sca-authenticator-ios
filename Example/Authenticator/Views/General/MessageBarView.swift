@@ -23,50 +23,34 @@
 import UIKit
 import TinyConstraints
 
-private struct MessageBarStyle {
-    static let successColor: UIColor = .auth_green
-    static let warningColor: UIColor = .auth_yellow
-    static let errorColor: UIColor = .auth_red
-    static let messageFont: UIFont = .auth_13semibold
-}
-
 private struct Layout {
     static let labelOffset: CGFloat = 13.0
-    static var defaultHeight: CGFloat = 47.0
 }
 
 final class MessageBarView: UIView {
-    enum Style {
-        case success
-        case warning
-        case error
-    }
-
     var heightConstraint: Constraint?
 
     static let defaultDuration: TimeInterval = 5.0
 
-    var defaultHeight: CGFloat {
-        let neededHeight = alertLabel.intrinsicContentSize.height + 2.0 * Layout.labelOffset
-        return max(neededHeight, Layout.defaultHeight)
-    }
+    var defaultHeight: CGFloat = 60.0
 
     let alertLabel: UILabel = {
         let label = UILabel()
+        label.font = .systemFont(ofSize: 14.0)
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.textAlignment = .center
+        label.textColor = .titleColor
         return label
     }()
-    private var style: Style = .success
 
-    init(description: String, style: Style) {
+    init(description: String) {
         super.init(frame: .zero)
-        self.style = style
-        addSubview(alertLabel)
+        layer.masksToBounds = true
+        layer.cornerRadius = 6.0
         alertLabel.text = description
+        backgroundColor = .lightGray
         layout()
-        stylize()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -77,23 +61,12 @@ final class MessageBarView: UIView {
 // MARK: - Layout
 extension MessageBarView: Layoutable {
     func layout() {
+        addSubview(alertLabel)
+
         alertLabel.top(to: self, offset: Layout.labelOffset)
         alertLabel.left(to: self, offset: Layout.labelOffset)
         alertLabel.right(to: self, offset: -Layout.labelOffset)
         alertLabel.bottom(to: self, offset: -Layout.labelOffset)
         alertLabel.center(in: self)
-    }
-}
-
-// MARK: - Style
-extension MessageBarView: Styleable {
-    func stylize() {
-        switch style {
-        case .success: backgroundColor = MessageBarStyle.successColor
-        case .warning: backgroundColor = MessageBarStyle.warningColor
-        case .error:   backgroundColor = MessageBarStyle.errorColor
-        }
-        alertLabel.font = MessageBarStyle.messageFont
-        alertLabel.textColor = .white
     }
 }

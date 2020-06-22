@@ -21,13 +21,20 @@
 //
 
 import UIKit
+import SEAuthenticator
 
 final class ApplicationCoordinator: Coordinator {
     private let window: UIWindow?
-    private lazy var tabBarCoordinator = TabBarCoordinator()
-    private lazy var onboardingCoordinator = OnboardingCoordinator()
+    private var qrCodeCoordinator: QRCodeCoordinator?
     private var passcodeCoordinator: PasscodeCoordinator?
+    private var instantActionCoordinator: InstantActionCoordinator?
     private var connectViewCoordinator: ConnectViewCoordinator?
+
+    private lazy var authorizationsCoordinator = AuthorizationsCoordinator()
+
+    private var authorizationsNavController: UINavigationController {
+        return UINavigationController(rootViewController: authorizationsCoordinator.rootViewController)
+    }
 
     private var passcodeShownDueToInactivity: Bool = false
 
@@ -35,24 +42,59 @@ final class ApplicationCoordinator: Coordinator {
 
     init(window: UIWindow?) {
         self.window = window
+        UserDefaultsHelper.applicationLanguage = "en"
     }
 
     func start() {
         if UserDefaultsHelper.didShowOnboarding {
             registerTimerNotifications()
-            window?.rootViewController = tabBarCoordinator.rootViewController
-            tabBarCoordinator.start()
+            window?.rootViewController = authorizationsNavController
+            authorizationsCoordinator.start()
         } else {
             PasscodeManager.remove()
-            UserDefaultsHelper.applicationLanguage = "en"
 
-            let navController = UINavigationController(rootViewController: onboardingCoordinator.onboardingViewController)
-            navController.modalPresentationStyle = .fullScreen
-            navController.isNavigationBarHidden = true
-            window?.rootViewController = navController
-            onboardingCoordinator.start()
+            setOnboardingAsRootController()
         }
         window?.makeKeyAndVisible()
+    }
+
+    func swapToOnboarding() {
+        guard let window = window else { return }
+
+        UIView.transition(
+            with: window,
+            duration: 0.3,
+            options: .transitionCrossDissolve,
+            animations: {
+                UserDefaultsHelper.didShowOnboarding = false
+                PasscodeManager.remove()
+                self.disableTimerNotifications()
+                self.setOnboardingAsRootController()
+            }
+        )
+    }
+
+    private func setOnboardingAsRootController() {
+        let onboardingVc = OnboardingViewController()
+        onboardingVc.modalPresentationStyle = .fullScreen
+        window?.rootViewController = onboardingVc
+
+        onboardingVc.donePressedClosure = {
+            let setupVc = SetupAppViewController()
+            setupVc.delegate = self
+            setupVc.modalPresentationStyle = .fullScreen
+            onboardingVc.present(setupVc, animated: true)
+        }
+    }
+
+    private func startAuthorizationsViewController() {
+        UserDefaultsHelper.didShowOnboarding = true
+
+        NotificationsManager.registerForNotifications()
+        registerTimerNotifications()
+
+        window?.rootViewController = authorizationsNavController
+        authorizationsCoordinator.start()
     }
 
     func registerTimerNotifications() {
@@ -79,32 +121,51 @@ final class ApplicationCoordinator: Coordinator {
     func stop() {}
 
     func showAuthorizations(connectionId: String, authorizationId: String) {
-        if (tabBarCoordinator.rootViewController.presentedViewController as? UINavigationController) != nil {
-            tabBarCoordinator.rootViewController.dismiss(animated: false, completion: nil)
-        }
-
-        tabBarCoordinator.rootViewController.selectedIndex = TabBarControllerType.authorizations.rawValue
-
-        tabBarCoordinator.startAuthorizationsCoordinator(with: connectionId, authorizationId: authorizationId)
+        authorizationsCoordinator.start(with: connectionId, authorizationId: authorizationId)
     }
 
-    func openConnectViewController(deepLinkUrl: URL? = nil, connectionType: ConnectionType) {
-        if (tabBarCoordinator.rootViewController.presentedViewController as? UINavigationController) != nil {
-            tabBarCoordinator.rootViewController.dismiss(animated: false, completion: nil)
+    func openQrScannerIfNoConnections() {
+        if ConnectionsCollector.activeConnections.isEmpty {
+            openQrScanner()
         }
+    }
 
-        tabBarCoordinator.rootViewController.selectedIndex = TabBarControllerType.connections.rawValue
+    func openQrScanner() {
+        passcodeCoordinator?.onCompleteClosure = {
+            guard let rootNavVc = self.window?.rootViewController as? UINavigationController,
+                !rootNavVc.isKind(of: OnboardingViewController.self),
+                let topControler = UIWindow.topViewController,
+                !topControler.isKind(of: QRCodeViewController.self) else { return }
 
-        guard let rootVc = window?.rootViewController else { return }
+            rootNavVc.setViewControllers([self.authorizationsCoordinator.rootViewController], animated: true)
 
-        passcodeCoordinator?.onCompleteClosure = { [weak self] in
-            self?.connectViewCoordinator = ConnectViewCoordinator(
-                rootViewController: rootVc,
-                connectionType: connectionType,
-                deepLinkUrl: deepLinkUrl
-            )
+            guard AVCaptureHelper.cameraIsAuthorized() else { return }
 
-            self?.connectViewCoordinator?.start()
+            self.qrCodeCoordinator = QRCodeCoordinator(rootViewController: rootNavVc)
+            self.qrCodeCoordinator?.start()
+        }
+    }
+
+    func openConnectViewController(url: URL) {
+        passcodeCoordinator?.onCompleteClosure = {
+            guard let topController = UIWindow.topViewController, SEConnectHelper.isValid(deepLinkUrl: url) else { return }
+
+            if let actionGuid = SEConnectHelper.actionGuid(from: url),
+                let connectUrl = SEConnectHelper.connectUrl(from: url) {
+                self.instantActionCoordinator = InstantActionCoordinator(
+                    rootViewController: topController,
+                    qrUrl: url,
+                    actionGuid: actionGuid,
+                    connectUrl: connectUrl
+                )
+                self.instantActionCoordinator?.start()
+            } else {
+                self.connectViewCoordinator = ConnectViewCoordinator(
+                    rootViewController: topController,
+                    connectionType: .deepLink(url)
+                )
+                self.connectViewCoordinator?.start()
+            }
         }
     }
 
@@ -115,8 +176,6 @@ final class ApplicationCoordinator: Coordinator {
     }
 
     func openPasscodeIfNeeded() {
-        guard PasscodeManager.hasPasscode else { return }
-
         removeAlertControllerIfPresented()
 
         if let passcodeVC = UIWindow.topViewController as? PasscodeViewController {
@@ -128,26 +187,22 @@ final class ApplicationCoordinator: Coordinator {
 
     func showBiometricsIfEnabled() {
         if UserDefaultsHelper.blockedTill == nil, let passcodeCoordinator = passcodeCoordinator {
-            passcodeCoordinator.showBiometricsIfEnabled()
+            passcodeCoordinator.showBiometrics()
         }
     }
 
     private func presentPasscode() {
-        guard let topController = UIWindow.topViewController else { return }
+        guard let topController = UIWindow.topViewController, UserDefaultsHelper.didShowOnboarding else { return }
 
         passcodeCoordinator = PasscodeCoordinator(
             rootViewController: topController,
-            purpose: .enter,
-            type: .main
+            purpose: .enter
         )
-        passcodeCoordinator?.start()
         passcodeCoordinator?.onCompleteClosure = {
             TimerApplication.resetIdleTimer()
             self.registerTimerNotifications()
-            if !self.passcodeShownDueToInactivity {
-                self.tabBarCoordinator.startAuthorizationsCoordinator()
-            }
         }
+        passcodeCoordinator?.start()
     }
 
     private func removeAlertControllerIfPresented() {
@@ -158,20 +213,26 @@ final class ApplicationCoordinator: Coordinator {
 
     @objc func applicationDidTimeout(notification: NSNotification) {
         guard let topController = UIWindow.topViewController,
-            !topController.isKind(of: PasscodeViewController.self) else { return }
+            !topController.isKind(of: PasscodeViewController.self),
+            !topController.isKind(of: ForgotPasscodeViewController.self) else { return }
 
-        var visibleController: UIViewController
-
-        if let tabBarController = topController as? MainTabBarViewController,
-            let selectedController = (tabBarController.selectedViewController as? UINavigationController)?.viewControllers.last {
-            visibleController = selectedController
+        if topController.isKind(of: UIAlertController.self) {
+            topController.dismiss(
+                animated: true,
+                completion: {
+                    self.presentInactivityMessage(from: self.window?.rootViewController)
+                }
+            )
         } else {
-            visibleController = topController
+            presentInactivityMessage(from: topController)
         }
+    }
 
-        messageBarView = visibleController.present(
+    private func presentInactivityMessage(from controller: UIViewController?) {
+        guard let controller = controller else { return }
+
+        messageBarView = controller.present(
             message: l10n(.inactivityMessage),
-            style: .warning,
             completion: {
                 if self.messageBarView != nil {
                     self.passcodeShownDueToInactivity = true
@@ -188,5 +249,22 @@ final class ApplicationCoordinator: Coordinator {
             topController.dismiss(messageBarView: messageView)
             messageBarView = nil
         }
+    }
+}
+
+// MARK: - SetupAppDelegate
+extension ApplicationCoordinator: SetupAppDelegate {
+    func receivedQrMetadata(data: String) {
+        startAuthorizationsViewController()
+
+        connectViewCoordinator = ConnectViewCoordinator(
+            rootViewController: authorizationsCoordinator.rootViewController,
+            connectionType: .newConnection(data)
+        )
+        connectViewCoordinator?.start()
+    }
+
+    func dismiss() {
+        startAuthorizationsViewController()
     }
 }

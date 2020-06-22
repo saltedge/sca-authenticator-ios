@@ -24,50 +24,101 @@ import UIKit
 
 protocol AuthorizationsViewControllerDelegate: class {
     func scanQrPressed()
+    func showMoreOptionsMenu()
+}
+
+private struct Layout {
+    static let navigationBarImageSize: CGSize = CGSize(width: 22.0, height: 22.0)
+    static let qrButtonRightOffset: CGFloat = -31.0
+    static let moreButtonRightOffset: CGFloat = -16.0
+    static let buttonBottomOffset: CGFloat = -15.0
+    static let noDataViewTopOffset: CGFloat = AppLayout.screenHeight * 0.11
 }
 
 final class AuthorizationsViewController: BaseViewController {
-    private let authorizationsView = MainAuthorizationsView()
-
-    private let noDataView = NoDataView(
-        image: #imageLiteral(resourceName: "no_authorizations"),
-        title: l10n(.noAuthorizations),
-        description: l10n(.noAuthorizationsDescription)
-    )
-
+    private let authorizationView = AuthorizationView()
+    private let moreButton = CustomNavigationBarButton()
+    private let qrButton = CustomNavigationBarButton()
     private var messageBarView: MessageBarView?
+    private var noDataView: NoDataView?
 
     weak var delegate: AuthorizationsViewControllerDelegate?
 
-    var dataSource: AuthorizationsDataSource?
+    var viewModel: AuthorizationsViewModel! {
+        didSet {
+            authorizationView.viewModel = viewModel
+            handleViewModelState()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = l10n(.authorizations)
-        view.backgroundColor = .auth_backgroundColor
-        authorizationsView.backgroundColor = .white
-        authorizationsView.delegate = self
-        setupQrButton()
+        navigationItem.title = l10n(.authenticator)
         setupObservers()
+        setupNoDataView()
         layout()
-        noDataView.alpha = 1.0
     }
 
-    func reloadData(at index: Int) {
-        authorizationsView.reloadData(at: index)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.setupPolling()
     }
 
-    func reloadData() {
-        authorizationsView.dataSource = dataSource
-        authorizationsView.reloadData()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setupNavigationBarButtons()
     }
 
-    func scroll(to index: Int) {
-        authorizationsView.scroll(to: index)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.stopPolling()
+        [moreButton, qrButton].forEach { $0.removeFromSuperview() }
+    }
+
+    private func handleViewModelState() {
+        viewModel.state.valueChanged = { [weak self] value in
+            guard let strongSelf = self else { return }
+
+            switch value {
+            case .changedConnectionsData:
+                strongSelf.noDataView?.updateContent(data: strongSelf.viewModel.emptyViewData)
+            case .reloadData:
+                strongSelf.authorizationView.reloadData()
+                strongSelf.updateViewsHiddenState()
+            case let .scrollTo(index):
+                strongSelf.authorizationView.scroll(to: index)
+            case let .presentFail(message):
+                strongSelf.present(message: message)
+            case let .scanQrPressed(success):
+                if success {
+                    strongSelf.delegate?.scanQrPressed()
+                } else {
+                    strongSelf.showConfirmationAlert(
+                        withTitle: l10n(.deniedCamera),
+                        message: l10n(.deniedCameraDescription),
+                        confirmActionTitle: l10n(.goToSettings),
+                        confirmActionStyle: .default,
+                        confirmAction: { _ in
+                            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+                            if UIApplication.shared.canOpenURL(settingsUrl) {
+                                UIApplication.shared.open(settingsUrl)
+                            }
+                        }
+                    )
+                }
+            default: break
+            }
+            strongSelf.viewModel.resetState()
+        }
+    }
+
+    private func setupNoDataView() {
+        noDataView = NoDataView(data: viewModel.emptyViewData, action: scanQrPressed)
     }
 
     @objc private func hasNoConnection() {
-        messageBarView = present(message: l10n(.noInternetConnection), style: .warning, height: 60.0, hide: false)
+        messageBarView = present(message: l10n(.noInternetConnection), hide: false)
     }
 
     @objc private func hasConnection() {
@@ -76,20 +127,41 @@ final class AuthorizationsViewController: BaseViewController {
         }
     }
 
+    private func updateViewsHiddenState() {
+        UIView.animate(
+            withDuration: 0.3,
+            animations: { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.noDataView?.alpha = strongSelf.viewModel.hasDataToShow ? 0.0 : 1.0
+                strongSelf.authorizationView.alpha = !strongSelf.viewModel.hasDataToShow ? 0.0 : 1.0
+            }
+        )
+    }
+
     deinit {
         NotificationsHelper.removeObserver(self)
     }
 }
 
 // MARK: - Setup
-extension AuthorizationsViewController {
-    func setupQrButton() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "qr"),
-            style: .plain,
-            target: self,
-            action: #selector(scanQrPressed)
-        )
+private extension AuthorizationsViewController {
+    func setupNavigationBarButtons() {
+        moreButton.setImage(UIImage(named: "more"), for: .normal)
+        moreButton.addTarget(self, action: #selector(morePressed), for: .touchUpInside)
+
+        qrButton.setImage(UIImage(named: "qr"), for: .normal)
+        qrButton.addTarget(self, action: #selector(scanQrPressed), for: .touchUpInside)
+
+        navigationController?.navigationBar.addSubviews(moreButton, qrButton)
+
+        qrButton.size(Layout.navigationBarImageSize)
+        qrButton.rightToLeft(of: moreButton, offset: Layout.qrButtonRightOffset)
+        qrButton.bottomToSuperview(offset: Layout.buttonBottomOffset)
+
+        moreButton.size(Layout.navigationBarImageSize)
+        moreButton.rightToSuperview(offset: Layout.moreButtonRightOffset)
+        moreButton.bottomToSuperview(offset: Layout.buttonBottomOffset)
     }
 
     func setupObservers() {
@@ -107,93 +179,45 @@ extension AuthorizationsViewController {
             object: nil
         )
     }
-
-    func updateViewsHiddenState() {
-        UIView.animate(
-            withDuration: 0.3,
-            animations: { [weak self] in
-                guard let dataSource = self?.dataSource else { return }
-
-                self?.noDataView.alpha = dataSource.hasDataToShow ? 0.0 : 1.0
-                self?.authorizationsView.alpha = !dataSource.hasDataToShow ? 0.0 : 1.0
-            }
-        )
-    }
 }
 
 // MARK: - Actions
 private extension AuthorizationsViewController {
     @objc func scanQrPressed() {
-        delegate?.scanQrPressed()
+        viewModel.scanQrPressed()
+    }
+
+    @objc func morePressed() {
+        delegate?.showMoreOptionsMenu()
     }
 
     func delete(section: Int) {
         updateViewsHiddenState()
-    }
-
-    func confirmAuthorization(by authorizationId: String) {
-        guard let data = dataSource?.confirmationData(for: authorizationId),
-            let viewModel = dataSource?.viewModel(with: authorizationId),
-            let index = dataSource?.index(of: viewModel) else { return }
-
-        viewModel.state = .processing
-        authorizationsView.reloadData(at: index)
-
-        AuthorizationsInteractor.confirm(
-            data: data,
-            success: { [weak self] in
-                viewModel.state = .success
-                viewModel.actionTime = Date()
-                self?.authorizationsView.reloadData(at: index)
-            },
-            failure: { [weak self] _ in
-                viewModel.state = .undefined
-                viewModel.actionTime = Date()
-                self?.authorizationsView.reloadData(at: index)
-            }
-        )
     }
 }
 
 // MARK: - Layout
 extension AuthorizationsViewController: Layoutable {
     func layout() {
-        view.addSubviews(authorizationsView, noDataView)
+        guard let noDataView = noDataView else { return }
 
-        authorizationsView.edgesToSuperview()
+        view.addSubviews(authorizationView, noDataView)
 
-        noDataView.left(to: view, offset: AppLayout.sideOffset)
-        noDataView.right(to: view, offset: -AppLayout.sideOffset)
-        noDataView.center(in: view)
+        authorizationView.edgesToSuperview()
+
+        noDataView.topToSuperview(offset: Layout.noDataViewTopOffset)
+        noDataView.widthToSuperview()
     }
 }
 
-// MARK: - Network
-extension AuthorizationsViewController: MainAuthorizationsViewDelegate {
-    func denyPressed(authorizationId: String) {
-        guard let data = dataSource?.confirmationData(for: authorizationId),
-            let viewModel = dataSource?.viewModel(with: authorizationId),
-            let index = dataSource?.index(of: viewModel) else { return }
-
-        viewModel.state = .processing
-        authorizationsView.reloadData(at: index)
-
-        AuthorizationsInteractor.deny(
-            data: data,
-            success: {
-                viewModel.state = .denied
-                viewModel.actionTime = Date()
-                self.authorizationsView.reloadData(at: index)
-            },
-            failure: { _ in
-                viewModel.state = .undefined
-                viewModel.actionTime = Date()
-                self.authorizationsView.reloadData(at: index)
-            }
+private class CustomNavigationBarButton: UIButton {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        let newArea = CGRect(
+            x: bounds.origin.x - 5.0,
+            y: bounds.origin.y - 5.0,
+            width: bounds.size.width + 10.0,
+            height: bounds.size.height + 20.0
         )
-    }
-
-    func confirmPressed(authorizationId: String) {
-        confirmAuthorization(by: authorizationId)
+        return newArea.contains(point)
     }
 }

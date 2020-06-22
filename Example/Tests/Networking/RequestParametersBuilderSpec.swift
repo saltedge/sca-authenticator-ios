@@ -45,7 +45,7 @@ class RequestParametersBuilderSpec: BaseSpec {
             it("should return parameters from providerData to obtain token") {
                 let connectionGuid = "connection_guid"
                 let connectionCode = "demobank"
-                let connectionData = SEConnectionData(code: connectionCode, tag: connectionGuid)!
+                let connectionData = SECreateConnectionRequestData(code: connectionCode, tag: connectionGuid)!
 
                 let pushToken = "abcd1234"
                 UserDefaultsHelper.pushToken = pushToken

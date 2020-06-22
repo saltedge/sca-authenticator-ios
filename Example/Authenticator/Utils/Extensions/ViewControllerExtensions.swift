@@ -45,7 +45,7 @@ extension UIViewController {
                                confirmAction: ((UIAlertAction) -> ())? = nil,
                                cancelAction: ((UIAlertAction) -> ())? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.view.tintColor = UIColor.auth_blue
+        alert.view.tintColor = .lightBlue
         let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel, handler: cancelAction)
         alert.addAction(cancelAction)
         if confirmAction != nil {
@@ -55,12 +55,68 @@ extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
 
+    func showAlertViewWithInput(title: String,
+                                message: String = "",
+                                placeholder: String = "",
+                                text: String = "",
+                                action: @escaping (String) -> (),
+                                actionTitle: String = l10n(.ok)
+    ) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        var okAction: UIAlertAction?
+
+        let observer = NotificationCenter.default.addObserver(
+            forName: UITextField.textDidChangeNotification,
+            object: alertController.textFields?.first,
+            queue: OperationQueue.main
+        ) { _ in
+            if let textField = alertController.textFields?.first,
+                let text = textField.text {
+                let trimmedText = text.trimmingCharacters(in: .whitespaces)
+                okAction?.isEnabled = !trimmedText.isEmpty
+            }
+        }
+
+        okAction = UIAlertAction(
+            title: actionTitle,
+            style: .default,
+            handler: { _ in
+                if let textField = alertController.textFields?.first, let text = textField.text, !text.isEmpty {
+                    action(text)
+                    NotificationCenter.default.removeObserver(observer)
+                }
+            }
+        )
+        okAction?.isEnabled = false
+
+        alertController.addTextField { textField in
+            textField.placeholder = placeholder
+            textField.textAlignment = .left
+            textField.font = UIFont.systemFont(ofSize: 14.0)
+        }
+
+        if let okAction = okAction {
+            alertController.addAction(okAction)
+        }
+
+        let action = UIAlertAction(
+            title: l10n(.cancel),
+            style: .cancel,
+            handler: { _ in
+                NotificationCenter.default.removeObserver(observer)
+            }
+        )
+        alertController.addAction(action)
+
+        present(alertController, animated: true)
+    }
+
     func showInfoAlert(withTitle title: String,
                        message: String? = nil,
                        actionTitle: String = l10n(.done),
                        completion: (() -> ())? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.view.tintColor = .auth_blue
+        alert.view.tintColor = .lightBlue
         let cancelAction = UIAlertAction(title: actionTitle, style: .cancel, handler: { _ in completion?() })
         alert.addAction(cancelAction)
         present(alert, animated: true)
@@ -98,28 +154,25 @@ extension UIViewController: MFMailComposeViewControllerDelegate {
 // MARK: - Message Bar View Presentation
 extension UIViewController {
     @discardableResult
-    func present(message: String,
-                 style: MessageBarView.Style,
-                 height: CGFloat? = nil,
-                 hide: Bool = true,
-                 completion: (() ->())? = nil) -> MessageBarView? {
+    func present(
+        message: String,
+        hide: Bool = true,
+        completion: (() ->())? = nil
+    ) -> MessageBarView? {
         guard isViewLoaded && view.window != nil else { return nil } // View is not loaded or not on screen at the moment
 
-        let messageView = MessageBarView(description: message, style: style)
+        let messageView = MessageBarView(description: message)
         let gesture = UITapGestureRecognizer(target: self, action: #selector(dismissView))
         view.addSubview(messageView)
         messageView.addGestureRecognizer(gesture)
         messageView.alpha = 0.0
-        messageView.left(to: view)
-        messageView.width(to: view)
+        messageView.left(to: view, offset: 27.0)
+        messageView.right(to: view, offset: -27.0)
+        messageView.bottom(to: view, view.safeAreaLayoutGuide.bottomAnchor, offset: -24.0)
         messageView.heightConstraint?.constant = 0.0
-        if #available(iOS 11.0, *) {
-            messageView.top(to: view, view.safeAreaLayoutGuide.topAnchor)
-        } else {
-            messageView.top(to: view)
-        }
+
         view.layoutIfNeeded()
-        animateMessageView(messageView, height: height ?? messageView.defaultHeight, hide: hide, completion: completion)
+        animateMessageView(messageView, height: messageView.defaultHeight, hide: hide, completion: completion)
 
         return messageView
     }
@@ -178,5 +231,37 @@ extension UIViewController {
         willMove(toParent: nil)
         removeFromParent()
         view.removeFromSuperview()
+    }
+
+    func cycleFromViewController(oldViewController: UIViewController, toViewController newViewController: UIViewController) {
+        addChild(newViewController)
+        add(newViewController)
+
+        newViewController.view.alpha = 0
+        newViewController.view.layoutIfNeeded()
+
+        UIView.animate(
+            withDuration: 0.5,
+            delay: 0,
+            options: .transitionFlipFromLeft,
+            animations: {
+                newViewController.view.alpha = 1
+                oldViewController.view.alpha = 0
+            },
+            completion: { _ in
+                oldViewController.remove()
+                newViewController.didMove(toParent: self)
+            }
+        )
+    }
+}
+
+// MARK: - Pop to view controller with completion
+extension UINavigationController {
+    func popViewControllerWithHandler(controller: UIViewController, completion: (() -> Void)?) {
+        CATransaction.begin()
+        CATransaction.setCompletionBlock(completion)
+        popToViewController(controller, animated: true)
+        CATransaction.commit()
     }
 }

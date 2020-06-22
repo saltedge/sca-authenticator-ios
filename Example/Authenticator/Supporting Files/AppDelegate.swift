@@ -26,13 +26,6 @@ import SEAuthenticator
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     var window: UIWindow?
 
-    var tabBarViewController: MainTabBarViewController? {
-        if let tabBar = self.window?.rootViewController as? MainTabBarViewController {
-            return tabBar
-        }
-        return nil
-    }
-
     var applicationCoordinator: ApplicationCoordinator?
 
     func application(_ application: UIApplication,
@@ -44,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         CacheHelper.setDefaultDiskAge()
         configureFirebase()
         setupAppCoordinator()
+        applicationCoordinator?.openQrScannerIfNoConnections()
         return true
     }
 
@@ -80,6 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         applicationCoordinator?.showBiometricsIfEnabled()
+        applicationCoordinator?.openQrScannerIfNoConnections()
     }
 
     static var main: AppDelegate {
@@ -92,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         guard SEConnectHelper.isValid(deepLinkUrl: url) else { return false }
 
         if UIWindow.topViewController is PasscodeViewController {
-            applicationCoordinator?.openConnectViewController(deepLinkUrl: url, connectionType: .deepLink)
+            applicationCoordinator?.openConnectViewController(url: url)
         }
         return true
     }
@@ -113,7 +108,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                      performActionFor shortcutItem: UIApplicationShortcutItem,
                      completionHandler: @escaping (Bool) -> Void) {
         if AVCaptureHelper.cameraIsAuthorized(), shortcutItem.type == QuickActionsType.openCamera.rawValue {
-            applicationCoordinator?.openConnectViewController(connectionType: .connect)
+            applicationCoordinator?.openQrScanner()
             completionHandler(true)
         }
     }
