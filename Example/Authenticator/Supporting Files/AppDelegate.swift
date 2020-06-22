@@ -116,12 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-
-        guard let apsDict = userInfo[SENetKeys.aps] as? [String: Any],
-            let dataDict = apsDict[SENetKeys.data] as? [String: Any],
-            let connectionId = dataDict[SENetKeys.connectionId] as? String,
-            let authorizationId = dataDict[SENetKeys.authorizationId] as? String else { completionHandler(); return }
+        guard let (connectionId, authorizationId) = extractIds(from: response.notification.request) else { completionHandler(); return }
 
         if UIWindow.topViewController is PasscodeViewController {
             applicationCoordinator?.handleAuthorizationsFromPasscode(connectionId: connectionId, authorizationId: authorizationId)
@@ -133,7 +128,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.badge, .alert, .sound])
+        guard let (connectionId, _) = extractIds(from: notification.request) else { return }
+
+        if let _ = ConnectionsCollector.active(by: connectionId) {
+            completionHandler([.badge, .alert, .sound])
+        }
     }
 
     func showApplicationResetPopup() {
@@ -150,5 +149,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         applicationCoordinator?.start()
         applicationCoordinator?.openPasscodeIfNeeded()
         applicationCoordinator?.showBiometricsIfEnabled()
+    }
+
+    private func extractIds(from request: UNNotificationRequest) -> (String, String)? {
+        let userInfo = request.content.userInfo
+
+        guard let apsDict = userInfo[SENetKeys.aps] as? [String: Any],
+            let dataDict = apsDict[SENetKeys.data] as? [String: Any],
+            let connectionId = dataDict[SENetKeys.connectionId] as? String,
+            let authorizationId = dataDict[SENetKeys.authorizationId] as? String else { return nil }
+        return (connectionId, authorizationId)
     }
 }
