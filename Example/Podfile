@@ -8,7 +8,7 @@ def shared_pods
   pod 'SDWebImage', '5.1.0'
   pod 'RealmSwift'
   pod 'Realm'  
-  pod 'Valet'
+  pod 'Valet', '~> 3.2.8'
   pod 'Crashlytics'
   pod 'Firebase/Core'
   pod 'Fabric'

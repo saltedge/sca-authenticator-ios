@@ -43,10 +43,10 @@ final class RealmManager {
             return key
         }
         let key = generateKey()
-
-        KeychainHelper.setObject(key, forKey: KeychainKeys.db.rawValue)
-
-        return key
+        if KeychainHelper.setObject(key, forKey: KeychainKeys.db.rawValue) {
+            return key
+        }
+        return nil
     }
 
     private static func constructRealm() -> Realm {
