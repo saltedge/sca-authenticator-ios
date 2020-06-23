@@ -34,25 +34,27 @@ struct KeychainHelper {
     @discardableResult
     static func object(forKey key: String) -> String? {
         if let identifier = Identifier(nonEmpty: kValetIdentifier) {
-            let valet = Valet.valet(with: identifier, accessibility: .afterFirstUnlock)
-            return try? valet.string(forKey: key)
+            let valet = Valet.valet(with: identifier, accessibility: .always)
+            return valet.string(forKey: key)
         }
         return nil
     }
 
-    static func setObject(_ object: String, forKey key: String) {
-        guard let identifier = Identifier(nonEmpty: kValetIdentifier) else { return }
-
-        let valet = Valet.valet(with: identifier, accessibility: .afterFirstUnlock)
-
-        try? valet.setString(object, forKey: key)
+    @discardableResult
+    static func setObject(_ object: String, forKey key: String) -> Bool {
+        if let identifier = Identifier(nonEmpty: kValetIdentifier) {
+            let valet = Valet.valet(with: identifier, accessibility: .always)
+            return valet.set(string: object, forKey: key)
+        }
+        return false
     }
 
-    static func deleteObject(forKey key: String) {
-        guard let identifier = Identifier(nonEmpty: kValetIdentifier) else { return }
-
-        let valet = Valet.valet(with: identifier, accessibility: .afterFirstUnlock)
-
-        try? valet.removeObject(forKey: key)
+    @discardableResult
+    static func deleteObject(forKey key: String) -> Bool {
+        if let identifier = Identifier(nonEmpty: kValetIdentifier) {
+            let valet = Valet.valet(with: identifier, accessibility: .always)
+            return valet.removeObject(forKey: key)
+        }
+        return false
     }
 }
