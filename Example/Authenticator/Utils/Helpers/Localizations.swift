@@ -118,6 +118,7 @@ enum Localizations: String, Localizable {
     case connections = "in_app.navigation.connections"
     case connectProvider = "action.connect_provider"
     case connectedOn = "in_app.connection.connected_on"
+    case consents = "in_app.connection.consents"
     case deleteConnection = "actions.confirm_delete_connection"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
     case scanQr = "in_app.connect.scan_qr"

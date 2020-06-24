@@ -225,9 +225,7 @@ private extension AuthorizationsViewModel {
                 guard let strongSelf = self else { return }
 
                 DispatchQueue.global(qos: .background).async {
-                    let decryptedAuthorizations = encryptedAuthorizations.compactMap {
-                        AuthorizationsPresenter.decryptedData(from: $0)
-                    }
+                    let decryptedAuthorizations = encryptedAuthorizations.compactMap { $0.decryptAuthorizationData() }
 
                     DispatchQueue.main.async {
                         strongSelf.updateDataSource(with: decryptedAuthorizations)

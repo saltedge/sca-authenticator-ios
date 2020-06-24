@@ -30,6 +30,7 @@ private struct Layout {
 final class ConnectionsViewController: BaseViewController {
     private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     private var noDataView: NoDataView!
+    private var refreshControl: UIRefreshControl!
 
     private var viewControllerViewModel: ConnectionsViewModel
 
@@ -45,6 +46,7 @@ final class ConnectionsViewController: BaseViewController {
         super.viewDidLoad()
         navigationItem.title = l10n(.connections)
         setupTableView()
+        setupRefreshControl()
         layout()
         updateViewsHiddenState()
         NotificationsHelper.observe(
@@ -53,6 +55,7 @@ final class ConnectionsViewController: BaseViewController {
             name: NSLocale.currentLocaleDidChangeNotification,
             object: nil
         )
+        viewControllerViewModel.refreshConsents()
     }
 
     @objc private func reloadData() {
@@ -96,6 +99,13 @@ private extension ConnectionsViewController {
     func setupNoDataView() {
         noDataView = NoDataView(data: viewControllerViewModel.emptyViewData, action: viewControllerViewModel.addPressed)
         noDataView.alpha = viewControllerViewModel.hasDataToShow ? 0 : 1
+    }
+    
+    func setupRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        tableView.addSubview(refreshControl)
     }
 }
 
@@ -152,6 +162,11 @@ extension ConnectionsViewController {
 // MARK: - Actions
 private extension ConnectionsViewController {
     func showActionSheet(at indexPath: IndexPath) {}
+
+    @objc func refresh(_ sender: AnyObject) {
+        viewControllerViewModel.refreshConsents()
+        refreshControl.endRefreshing()
+    }
 }
 
 // MARK: - Layout

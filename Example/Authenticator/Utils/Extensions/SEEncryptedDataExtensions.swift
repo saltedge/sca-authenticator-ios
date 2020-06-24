@@ -1,8 +1,8 @@
 //
-//  AuthorizationsPresenter.swift
+//  DecryptHelper.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,16 +23,32 @@
 import Foundation
 import SEAuthenticator
 
-struct AuthorizationsPresenter {
-    static func decryptedData(from encryptedData: SEEncryptedData) -> SEAuthorizationData? {
-        if let connectionId = encryptedData.connectionId,
+ extension SEEncryptedData {
+    func decryptAuthorizationData() -> SEAuthorizationData? {
+        if let connectionId = self.connectionId,
             let connection = ConnectionsCollector.with(id: connectionId) {
             do {
-                let decryptedData = try SECryptoHelper.decrypt(encryptedData, tag: SETagHelper.create(for: connection.guid))
+                let decryptedData = try SECryptoHelper.decrypt(self, tag: SETagHelper.create(for: connection.guid))
 
                 guard let decryptedDictionary = decryptedData.json else { return nil }
 
                 return SEAuthorizationData(decryptedDictionary)
+            } catch {
+                return nil
+            }
+        }
+        return nil
+    }
+
+    func decryptConsentData() -> SEConsentData? {
+        if let connectionId = self.connectionId,
+            let connection = ConnectionsCollector.with(id: connectionId) {
+            do {
+                let decryptedData = try SECryptoHelper.decrypt(self, tag: SETagHelper.create(for: connection.guid))
+
+                guard let decryptedDictionary = decryptedData.json else { return nil }
+
+                return SEConsentData(decryptedDictionary)
             } catch {
                 return nil
             }

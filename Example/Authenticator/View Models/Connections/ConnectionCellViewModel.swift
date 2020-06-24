@@ -32,6 +32,7 @@ protocol ConnectionCellEventsDelegate: class {
 @dynamicMemberLookup
 class ConnectionCellViewModel {
     private let connection: Connection
+    private let consentsCount: Int
 
     weak var delegate: ConnectionCellEventsDelegate?
 
@@ -39,19 +40,15 @@ class ConnectionCellViewModel {
     var connectionName: String {
         return connection.name
     }
-    var description: String {
+    var description: NSAttributedString {
         return connectionStatus.value == .inactive
-            ? l10n(.inactiveConnection)
-            : "\(l10n(.connectedOn)) \(connection.createdAt.dayMonthYearWithTimeString)"
-    }
-    var descriptionColor: UIColor {
-        return connectionStatus.value == .inactive
-            ? .redAlert
-            : .dark60
+            ? buildInactiveDescription()
+            : buildActiveDescription()
     }
 
-    init(connection: Connection) {
+    init(connection: Connection, consentsCount: Int = 0) {
         self.connection = connection
+        self.consentsCount = consentsCount
         self.connectionStatus.value = ConnectionStatus(rawValue: connection.status)!
     }
 
@@ -97,13 +94,45 @@ class ConnectionCellViewModel {
         }
         return configuration
     }
+
+    private func buildInactiveDescription() -> NSAttributedString {
+        let baseStatusAttribute = [
+            NSAttributedString.Key.foregroundColor: UIColor.redAlert,
+            NSAttributedString.Key.font: UIFont.auth_13regular
+        ]
+        return NSAttributedString(string: l10n(.inactiveConnection), attributes: baseStatusAttribute)
+    }
+
+    private func buildActiveDescription() -> NSAttributedString {
+        let baseStatusAttribute = [
+            NSAttributedString.Key.foregroundColor: UIColor.dark60,
+            NSAttributedString.Key.font: UIFont.auth_13regular
+        ]
+        let baseStatus = NSAttributedString(
+            string: "\(l10n(.connectedOn)) \(connection.createdAt.dayMonthYearWithTimeString)",
+            attributes: baseStatusAttribute
+        )
+
+        if consentsCount == 0 { return baseStatus }
+
+        let extendedStatusAttribute = [
+            NSAttributedString.Key.foregroundColor: UIColor.dark60,
+            NSAttributedString.Key.font: UIFont.auth_13medium
+        ]
+        let extendedStatus = NSMutableAttributedString(
+            string: "\(consentsCount) \(l10n(.consents)) • ",
+            attributes: extendedStatusAttribute
+        )
+        extendedStatus.append(baseStatus)
+        return extendedStatus
+    }
 }
 
 private extension ConnectionCellViewModel {
     static func dayMonthYearWithTimeDateFormatter() -> DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        formatter.timeStyle = .short
+        formatter.timeStyle = .none
         return formatter
     }
 }

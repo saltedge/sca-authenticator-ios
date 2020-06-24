@@ -40,6 +40,7 @@ final class ConnectionsViewModel {
         byKeyPath: #keyPath(Connection.createdAt),
         ascending: true
     )
+    private var consentsDict: [String: [SEConsentData]] = [:]
 
     private var connectionsNotificationToken: NotificationToken?
     private var connectionsListener: RealmConnectionsListener?
@@ -60,17 +61,7 @@ final class ConnectionsViewModel {
     var hasDataToShow: Bool {
         return count > 0
     }
-
-    func cellViewModel(at indexPath: IndexPath) -> ConnectionCellViewModel {
-        return ConnectionCellViewModel(connection: item(for: indexPath)!)
-    }
-
-    func connectionId(at indexPath: IndexPath) -> String? {
-        guard let connection = item(for: indexPath) else { return nil }
-
-        return connection.id
-    }
-
+    
     var emptyViewData: EmptyViewData {
         return EmptyViewData(
             image: #imageLiteral(resourceName: "noConnections"),
@@ -78,6 +69,25 @@ final class ConnectionsViewModel {
             description: l10n(.noConnectionsDescription),
             buttonTitle: l10n(.connect)
         )
+    }
+
+    func cellViewModel(at indexPath: IndexPath) -> ConnectionCellViewModel {
+        let connection = item(for: indexPath)!
+        return ConnectionCellViewModel(
+            connection: connection,
+            consentsCount: consentsDict[connection.id]?.count ?? 0
+        )
+    }
+
+    func connectionId(at indexPath: IndexPath) -> String? {
+        guard let connection = item(for: indexPath) else { return nil }
+
+        return connection.id
+    }
+    
+    func updateDataSource(with consents: [SEConsentData]) {
+        consentsDict = Dictionary(grouping: consents, by: { $0.connectionId })
+        delegate?.updateViews()
     }
 
     private func remove(connection: Connection) {
@@ -216,5 +226,30 @@ extension ConnectionsViewModel {
         support.backgroundColor = .backgroundColor
 
         return UISwipeActionsConfiguration(actions: [support])
+    }
+
+    func refreshConsents() {
+        ConsentsInteractor.refresh(
+            connections: Array(connections),
+            success: { [weak self] encryptedConsents in
+                guard let strongSelf = self else { return }
+
+                DispatchQueue.global(qos: .background).async {
+                    let decryptedConsents = encryptedConsents.compactMap { $0.decryptConsentData() }
+
+                    DispatchQueue.main.async {
+                        strongSelf.updateDataSource(with: decryptedConsents)
+                    }
+                }
+            },
+            failure: { error in
+                print(error)
+            },
+            connectionNotFoundFailure: { connectionId in
+                if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
+                    ConnectionRepository.setInactive(connection)
+                }
+            }
+        )
     }
 }

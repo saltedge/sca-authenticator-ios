@@ -1,8 +1,8 @@
 //
-//  AuthorizationsInteractor.swift
+//  ConsentsInteractor.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,78 +23,15 @@
 import Foundation
 import SEAuthenticator
 
-struct AuthorizationsInteractor {
-    static func confirm(
-        data: SEConfirmAuthorizationRequestData,
-        success: (() -> ())? = nil,
-        failure: ((String) -> ())? = nil
-    ) {
-        SEAuthorizationManager.confirmAuthorization(
-            data: data,
-            onSuccess: { _ in
-                success?()
-            },
-            onFailure: { error in
-                failure?(error)
-            }
-        )
-    }
-
-    static func deny(
-        data: SEConfirmAuthorizationRequestData,
-         success: (() -> ())? = nil,
-         failure: ((String) -> ())? = nil
-    ) {
-        SEAuthorizationManager.denyAuthorization(
-            data: data,
-            onSuccess: { _ in
-                success?()
-            },
-            onFailure: { error in
-                failure?(error)
-            }
-        )
-    }
-
-    static func refresh(
-        connection: Connection,
-        authorizationId: ID,
-        success: @escaping (SEEncryptedData) -> (),
-        failure: ((String) -> ())? = nil,
-        connectionNotFoundFailure: @escaping ((String?) -> ())
-    ) {
-        let accessToken = connection.accessToken
-
-        guard let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
-
-        SEAuthorizationManager.getEncryptedAuthorization(
-            data: SEBaseAuthenticatedWithIdRequestData(
-                url: baseUrl,
-                connectionGuid: connection.guid,
-                accessToken: accessToken,
-                appLanguage: UserDefaultsHelper.applicationLanguage,
-                entityId: authorizationId
-            ),
-            onSuccess: { response in
-                success(response.data)
-            },
-            onFailure: { error in
-                if SEAPIError.connectionNotFound.isConnectionNotFound(error) {
-                    connectionNotFoundFailure(connection.id)
-                } else {
-                    failure?("\(l10n(.somethingWentWrong)) (\(connection.name))")
-                }
-            }
-        )
-    }
-
+struct ConsentsInteractor {
+    
     static func refresh(
         connections: [Connection],
         success: @escaping ([SEEncryptedData]) -> (),
         failure: ((String) -> ())? = nil,
         connectionNotFoundFailure: @escaping ((String?) -> ())
     ) {
-        var encryptedAuthorizations = [SEEncryptedData]()
+        var encryptedConsents = [SEEncryptedData]()
 
         var numberOfResponses = 0
 
@@ -102,7 +39,7 @@ struct AuthorizationsInteractor {
             numberOfResponses += 1
 
             if numberOfResponses == connections.count {
-                success(encryptedAuthorizations)
+                success(encryptedConsents)
             }
         }
 
@@ -111,7 +48,7 @@ struct AuthorizationsInteractor {
 
             guard let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
 
-            SEAuthorizationManager.getEncryptedAuthorizations(
+            SEConsentsManager.getEncryptedConsents(
                 data: SEBaseAuthenticatedRequestData(
                     url: baseUrl,
                     connectionGuid: connection.guid,
@@ -119,7 +56,7 @@ struct AuthorizationsInteractor {
                     appLanguage: UserDefaultsHelper.applicationLanguage
                 ),
                 onSuccess: { response in
-                    encryptedAuthorizations.append(contentsOf: response.data)
+                    encryptedConsents.append(contentsOf: response.data)
 
                     incrementAndCheckResponseCount()
                 },
