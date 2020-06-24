@@ -44,7 +44,7 @@ class ReachabilityManager {
         do {
             try self.reachability.startNotifier()
         } catch {
-            print("Error occured while starting reachability notifications : \(error.localizedDescription)")
+            Log.debugLog(message: "Error occured while starting reachability notifications : \(error.localizedDescription)")
         }
     }
 
@@ -54,13 +54,13 @@ class ReachabilityManager {
         switch reachability.connection {
         case .cellular:
             NotificationsHelper.post(.networkConnectionIsReachable)
-            print("Network available via Cellular Data.")
+            Log.debugLog(message: "Network available via Cellular Data.")
         case .wifi:
             NotificationsHelper.post(.networkConnectionIsReachable)
-            print("Network available via WiFi.")
+            Log.debugLog(message: "Network available via WiFi.")
         case .unavailable, .none:
             NotificationsHelper.post(.networkConnectionIsNotReachable)
-            print("Network is not available.")
+            Log.debugLog(message: "Network is not available.")
         }
     }
 
