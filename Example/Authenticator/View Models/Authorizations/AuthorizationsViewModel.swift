@@ -172,6 +172,7 @@ extension AuthorizationsViewModel {
     func stopPolling() {
         poller?.stopPolling()
         poller = nil
+        getEncryptedAuthorizationsIfAvailable()
     }
 }
 
