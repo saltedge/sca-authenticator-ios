@@ -63,7 +63,7 @@ final class SingleAuthorizationViewModel {
                 }
             },
             failure: { error in
-                print(error)
+                Log.debugLog(message: error)
             },
             connectionNotFoundFailure: { connectionId in
                 if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {

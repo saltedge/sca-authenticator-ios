@@ -172,7 +172,7 @@ enum Localizations: String, Localizable {
     case deniedCameraDescription = "errors.denied_camera_description"
     case inactiveConnection = "errors.inactive_connection"
     case noInternetConnection = "errors.no_internet_connection"
-    case errorOccuredPleaseTryAgain = "Error occurred. Please try again"
+    case errorOccuredPleaseTryAgain = "errors.authorization_error"
     case pleaseTryAgain = "errors.no_internet_connection_try_again"
     case inactivityMessage = "warnings.inactivity_block_message"
     case passcodeDontMatch = "errors.passcode_dont_match"

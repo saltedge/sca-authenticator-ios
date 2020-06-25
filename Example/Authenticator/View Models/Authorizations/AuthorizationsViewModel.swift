@@ -172,6 +172,7 @@ extension AuthorizationsViewModel {
     func stopPolling() {
         poller?.stopPolling()
         poller = nil
+        getEncryptedAuthorizationsIfAvailable()
     }
 }
 
@@ -235,7 +236,7 @@ private extension AuthorizationsViewModel {
                 }
             },
             failure: { error in
-                print(error)
+                Log.debugLog(message: error)
             },
             connectionNotFoundFailure: { connectionId in
                 if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
