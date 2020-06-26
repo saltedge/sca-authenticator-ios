@@ -1,5 +1,5 @@
 //
-//  ConnectionViewModel
+//  ConnectionViewModel.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -27,6 +27,7 @@ protocol ConnectionCellEventsDelegate: class {
     func supportPressed(email: String)
     func deletePressed(id: String, showConfirmation: Bool)
     func reconnectPreseed(id: String)
+    func consentsPressed(id: String)
 }
 
 @dynamicMemberLookup
@@ -44,6 +45,9 @@ class ConnectionCellViewModel {
         return connectionStatus.value == .inactive
             ? buildInactiveDescription()
             : buildActiveDescription()
+    }
+    var hasConsents: Bool {
+        return consentsCount > 0
     }
 
     init(connection: Connection, consentsCount: Int = 0) {
@@ -64,30 +68,36 @@ class ConnectionCellViewModel {
         ) { [weak self] _ -> UIMenu? in
             guard let strongSelf = self else { return nil }
 
-            let rename = UIAction(title: l10n(.rename), image: UIImage(systemName: "square.and.pencil")) { _ in
-                strongSelf.delegate?.renamePressed(id: strongSelf.connection.id)
-            }
-            let support = UIAction(title: l10n(.contactSupport), image: UIImage(systemName: "envelope")) { _ in
-                strongSelf.delegate?.supportPressed(email: strongSelf.connection.supportEmail)
-            }
-            let delete = UIAction(title: l10n(.delete), image: UIImage(systemName: "trash")) { _ in
-                strongSelf.delegate?.deletePressed(id: strongSelf.connection.id, showConfirmation: true)
-            }
-
-            var actions: [UIAction] = [rename, support, delete]
+            var actions: [UIAction] = []
 
             if self?.connection.status == ConnectionStatus.inactive.rawValue {
-                actions.remove(at: 2)
-
-                let reconnect = UIAction(title: l10n(.reconnect), image: UIImage(systemName: "arrow.clockwise")) { _ in
+                actions.append(UIAction(title: l10n(.reconnect), image: UIImage(systemName: "arrow.clockwise")) { _ in
                     strongSelf.delegate?.reconnectPreseed(id: strongSelf.connection.id)
-                }
-                actions.insert(reconnect, at: 0)
+                })
+            }
 
-                let remove = UIAction(title: l10n(.remove), image: UIImage(systemName: "xmark")) { _ in
+            actions.append(UIAction(title: l10n(.rename), image: UIImage(systemName: "square.and.pencil")) { _ in
+                strongSelf.delegate?.renamePressed(id: strongSelf.connection.id)
+            })
+
+            actions.append(UIAction(title: l10n(.contactSupport), image: UIImage(systemName: "envelope")) { _ in
+                strongSelf.delegate?.supportPressed(email: strongSelf.connection.supportEmail)
+            })
+
+            if self?.hasConsents == true {
+                actions.append(UIAction(title: l10n(.viewConsents), image: UIImage(systemName: "envelope")) { _ in // NOTE: replace to image from design
+                    strongSelf.delegate?.consentsPressed(id: strongSelf.connection.id)
+                })
+            }
+
+            if self?.connection.status == ConnectionStatus.inactive.rawValue {
+                actions.append(UIAction(title: l10n(.remove), image: UIImage(systemName: "xmark")) { _ in
                     strongSelf.delegate?.deletePressed(id: strongSelf.connection.id, showConfirmation: false)
-                }
-                actions.insert(remove, at: 3)
+                })
+            } else {
+                actions.append(UIAction(title: l10n(.delete), image: UIImage(systemName: "trash")) { _ in
+                    strongSelf.delegate?.deletePressed(id: strongSelf.connection.id, showConfirmation: true)
+                })
             }
 
             return UIMenu(title: "", image: nil, identifier: nil, options: .destructive, children: actions)

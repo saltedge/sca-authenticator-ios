@@ -48,7 +48,7 @@ import SEAuthenticator
 
                 guard let decryptedDictionary = decryptedData.json else { return nil }
 
-                return SEConsentData(decryptedDictionary)
+                return SEConsentData(decryptedDictionary, connectionId)
             } catch {
                 return nil
             }

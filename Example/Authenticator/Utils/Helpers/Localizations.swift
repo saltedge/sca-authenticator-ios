@@ -187,10 +187,10 @@ enum Localizations: String, Localizable {
     case rename = "actions.rename"
     case contactSupport = "in_app.settings.contact_support"
     case reportAnIssue = "actions.report_an_issue"
+    case viewConsents = "actions.view_consents"
 
     // MARK: - Main Menu Options
     case viewConnections = "actions.view_connections"
-    case viewConsents = "actions.view_consents"
     case viewSettings = "actions.view_settings"
 
     var localizedLabel: String { return self.rawValue }

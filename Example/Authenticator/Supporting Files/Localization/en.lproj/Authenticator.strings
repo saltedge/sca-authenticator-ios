@@ -27,6 +27,7 @@
 "actions.remove" = "Remove";
 "actions.rename" = "Rename";
 "actions.report_an_issue" = "Report an issue";
+"actions.view_consents" = "View consents";
 "actions.retry" = "Retry";
 "actions.search" = "Search";
 "actions.skip" = "Skip";

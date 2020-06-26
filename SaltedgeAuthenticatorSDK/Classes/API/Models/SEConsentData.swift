@@ -24,25 +24,32 @@ import Foundation
 
 public struct SEConsentData {
     public let id: String
+    public let userId: String
     public let connectionId: String
-    public let title: String
-    public let description: String
+    public let tppName: String
+    public let consentType: String
+    public let accounts: [SEAccount]
     public let createdAt: Date
     public let expiresAt: Date
 
-    public init?(_ dictionary: [String: Any]) {
+    public init?(_ dictionary: [String: Any], _ connectionId: String) {
         if let id = dictionary[SENetKeys.id] as? String,
-            let connectionId = dictionary[SENetKeys.connectionId] as? String,
-            let title = dictionary[SENetKeys.title] as? String,
-            let description = dictionary[SENetKeys.description] as? String,
+            let userId = dictionary[SENetKeys.userId] as? String,
+            let tppName = dictionary[SENetKeys.tppName] as? String,
+            let consentType = dictionary[SENetKeys.consentType] as? String,
+            let accountsObjects = dictionary[SENetKeys.accounts] as? [[String: Any]],
             let createdAt = (dictionary[SENetKeys.createdAt] as? String)?.iso8601date,
             let expiresAt = (dictionary[SENetKeys.expiresAt] as? String)?.iso8601date {
             self.id = id
-            self.connectionId = connectionId
-            self.title = title
-            self.description = description
+            self.userId = userId
+            self.tppName = tppName
+            self.consentType = consentType
             self.createdAt = createdAt
             self.expiresAt = expiresAt
+
+            let accounts = accountsObjects.compactMap { SEAccount($0) }
+            self.accounts = accounts
+            self.connectionId = connectionId
         } else {
             return nil
         }
@@ -52,9 +59,11 @@ public struct SEConsentData {
 extension SEConsentData: Equatable {
     public static func == (lhs: SEConsentData, rhs: SEConsentData) -> Bool {
         return lhs.id == rhs.id &&
+            lhs.userId == rhs.userId &&
             lhs.connectionId == rhs.connectionId &&
-            lhs.title == rhs.title &&
-            lhs.description == rhs.description &&
+            lhs.tppName == rhs.tppName &&
+            lhs.consentType == rhs.consentType &&
+            lhs.accounts == rhs.accounts &&
             lhs.createdAt == rhs.createdAt &&
             lhs.expiresAt == rhs.expiresAt
     }

@@ -61,7 +61,7 @@ final class ConnectionsViewModel {
     var hasDataToShow: Bool {
         return count > 0
     }
-    
+
     var emptyViewData: EmptyViewData {
         return EmptyViewData(
             image: #imageLiteral(resourceName: "noConnections"),
@@ -84,7 +84,7 @@ final class ConnectionsViewModel {
 
         return connection.id
     }
-    
+
     func updateDataSource(with consents: [SEConsentData]) {
         consentsDict = Dictionary(grouping: consents, by: { $0.connectionId })
         delegate?.updateViews()
@@ -154,30 +154,28 @@ extension ConnectionsViewModel {
         let viewModel = cellViewModel(at: indexPath)
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        let cancel = UIAlertAction(title: l10n(.cancel), style: .cancel)
+        if viewModel.status == ConnectionStatus.inactive.rawValue {
+            let reconnect = UIAlertAction(title: l10n(.reconnect), style: .default) { _ in
+                self.delegate?.reconnect(by: viewModel.id)
+            }
+            actionSheet.addAction(reconnect)
+        }
 
-        let delete = UIAlertAction(title: l10n(.delete), style: .destructive) { _ in
+        actionSheet.addAction(UIAlertAction(title: l10n(.rename), style: .default) { _ in
+            self.updateName(by: viewModel.id)
+        })
+
+        let deleteTitle = viewModel.status == ConnectionStatus.inactive.rawValue ? l10n(.remove) : l10n(.delete)
+        actionSheet.addAction(UIAlertAction(title: deleteTitle, style: .destructive) { _ in
             self.delegate?.deleteConnection(
                 completion: {
                     self.remove(at: indexPath)
                 }
             )
-        }
+        })
 
-        let rename = UIAlertAction(title: l10n(.rename), style: .default) { _ in
-            self.updateName(by: viewModel.id)
-        }
+        actionSheet.addAction(UIAlertAction(title: l10n(.cancel), style: .cancel))
 
-        var actions: [UIAlertAction] = [rename, delete, cancel]
-
-        if viewModel.status == ConnectionStatus.inactive.rawValue {
-            let reconnect = UIAlertAction(title: l10n(.reconnect), style: .default) { _ in
-                self.delegate?.reconnect(by: viewModel.id)
-            }
-            actions.insert(reconnect, at: 0)
-        }
-
-        actions.forEach { actionSheet.addAction($0) }
         return actionSheet
     }
 
