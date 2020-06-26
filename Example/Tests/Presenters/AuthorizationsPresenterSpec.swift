@@ -48,11 +48,9 @@ class AuthorizationsPresenterSpec: BaseSpec {
                         "connection_id": connection.id,
                         "algorithm": "AES-256-CBC"
                     ]
-                    let response = SEEncryptedData(dict)!
                     let expectedData = SEAuthorizationData(authMessage)
 
-                    expect(expectedData)
-                        .to(equal(AuthorizationsPresenter.decryptedData(from: response)))
+                    expect(expectedData).to(equal(SEEncryptedData(dict)!.decryptAuthorizationData()!))
                 }
             }
 
@@ -76,9 +74,7 @@ class AuthorizationsPresenterSpec: BaseSpec {
                         "algorithm": "AES-256-CBC"
                     ]
 
-                    let response = SEEncryptedData(dict)!
-
-                    expect(AuthorizationsPresenter.decryptedData(from: response)).to(beNil())
+                    expect(SEEncryptedData(dict)!.decryptAuthorizationData()).to(beNil())
                 }
             }
         }

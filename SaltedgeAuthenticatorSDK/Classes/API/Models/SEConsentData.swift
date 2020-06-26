@@ -29,6 +29,7 @@ public struct SEConsentData {
     public let tppName: String
     public let consentType: String
     public let accounts: [SEAccount]
+    public let sharedData: SEConsentSharedData?
     public let createdAt: Date
     public let expiresAt: Date
 
@@ -49,10 +50,43 @@ public struct SEConsentData {
 
             let accounts = accountsObjects.compactMap { SEAccount($0) }
             self.accounts = accounts
+
+            self.sharedData = SEConsentSharedData((dictionary[SENetKeys.sharedData] as? [String: Bool]))
+
             self.connectionId = connectionId
         } else {
             return nil
         }
+    }
+}
+
+public struct SEAccount {
+    public let name: String
+    public let accountNumber: String?
+    public let sortCode: String?
+    public let iban: String?
+    
+    public init?(_ dictionary: [String: Any]) {
+        if let name = dictionary[SENetKeys.name] as? String {
+            self.name = name
+            self.accountNumber = dictionary[SENetKeys.accountNumber] as? String
+            self.sortCode = dictionary[SENetKeys.sortCode] as? String
+            self.iban = dictionary[SENetKeys.iban] as? String
+        } else {
+            return nil
+        }
+    }
+}
+
+public struct SEConsentSharedData {
+    public let balance: Bool?
+    public let transactions: Bool?
+    
+    public init?(_ dictionary: [String: Bool]?) {
+        guard let unwrappedDictionary = dictionary else { return nil }
+
+        self.balance = unwrappedDictionary[SENetKeys.balance]
+        self.transactions = unwrappedDictionary[SENetKeys.transactions]
     }
 }
 
@@ -66,5 +100,20 @@ extension SEConsentData: Equatable {
             lhs.accounts == rhs.accounts &&
             lhs.createdAt == rhs.createdAt &&
             lhs.expiresAt == rhs.expiresAt
+    }
+}
+
+extension SEAccount: Equatable {
+    public static func == (lhs: SEAccount, rhs: SEAccount) -> Bool {
+        return lhs.name == rhs.name &&
+            lhs.accountNumber == rhs.accountNumber &&
+            lhs.sortCode == rhs.sortCode &&
+            lhs.iban == rhs.iban
+    }
+}
+
+extension SEConsentSharedData: Equatable {
+    public static func == (lhs: SEConsentSharedData, rhs: SEConsentSharedData) -> Bool {
+        return lhs.balance == rhs.balance && lhs.transactions == rhs.transactions
     }
 }

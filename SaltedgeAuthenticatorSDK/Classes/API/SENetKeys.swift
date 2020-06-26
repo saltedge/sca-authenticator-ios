@@ -63,12 +63,15 @@ public struct SENetKeys {
     public static let errorClass = "error_class"
     public static let errorMessage = "error_message"
 
+    public static let userId = "user_id"
     public static let consentManagement = "consent_management"
     public static let tppName = "tpp_name"
     public static let consentType = "consent_type"
     public static let accounts = "accounts"
+    public static let sharedData = "shared_data"
     public static let accountNumber = "account_number"
     public static let sortCode = "sort_code"
     public static let iban = "iban"
-    public static let userId = "user_id"
+    public static let balance = "balance"
+    public static let transactions = "transactions"
 }

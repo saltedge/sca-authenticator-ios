@@ -45,8 +45,6 @@ struct SpecUtils {
             "algorithm": "AES-256-CBC"
         ]
 
-        let response = SEEncryptedData(dict)!
-
-        return AuthorizationsPresenter.decryptedData(from: response)!
+        return SEEncryptedData(dict)!.decryptAuthorizationData()!
     }
 }

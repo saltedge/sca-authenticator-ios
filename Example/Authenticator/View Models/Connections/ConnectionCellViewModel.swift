@@ -85,7 +85,8 @@ class ConnectionCellViewModel {
             })
 
             if self?.hasConsents == true {
-                actions.append(UIAction(title: l10n(.viewConsents), image: UIImage(systemName: "envelope")) { _ in // NOTE: replace to image from design
+                // NOTE: replace to image from design
+                actions.append(UIAction(title: l10n(.viewConsents), image: UIImage(systemName: "envelope")) { _ in
                     strongSelf.delegate?.consentsPressed(id: strongSelf.connection.id)
                 })
             }

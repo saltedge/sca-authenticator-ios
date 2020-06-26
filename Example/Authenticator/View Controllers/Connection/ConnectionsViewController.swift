@@ -211,8 +211,8 @@ extension ConnectionsViewController: ConnectionCellEventsDelegate {
     func reconnectPreseed(id: String) {
         viewControllerViewModel.reconnect(id: id)
     }
-    
+
     func consentsPressed(id: String) {
-        
+        //NOTE: Open consents list
     }
 }
