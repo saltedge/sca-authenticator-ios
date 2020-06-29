@@ -1,5 +1,5 @@
 //
-//  AuthorizationsPresenterSpec.swift
+//  SEEncryptedDataExtensionsSpec.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -24,9 +24,9 @@ import Quick
 import Nimble
 @testable import SEAuthenticator
 
-class AuthorizationsPresenterSpec: BaseSpec {
+class SEEncryptedDataExtensionsSpec: BaseSpec {
     override func spec() {
-        describe("decryptedData(from:)") {
+        describe("decryptedAuthorizationData()") {
             context("when given response is connect") {
                 it("should return decrypted data from given response") {
                     let connection = Connection()
@@ -50,7 +50,7 @@ class AuthorizationsPresenterSpec: BaseSpec {
                     ]
                     let expectedData = SEAuthorizationData(authMessage)
 
-                    expect(expectedData).to(equal(SEEncryptedData(dict)!.decryptAuthorizationData()!))
+                    expect(expectedData).to(equal(SEEncryptedData(dict)!.decryptedAuthorizationData!))
                 }
             }
 
@@ -74,7 +74,7 @@ class AuthorizationsPresenterSpec: BaseSpec {
                         "algorithm": "AES-256-CBC"
                     ]
 
-                    expect(SEEncryptedData(dict)!.decryptAuthorizationData()).to(beNil())
+                    expect(SEEncryptedData(dict)!.decryptedAuthorizationData).to(beNil())
                 }
             }
         }

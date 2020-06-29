@@ -45,6 +45,6 @@ struct SpecUtils {
             "algorithm": "AES-256-CBC"
         ]
 
-        return SEEncryptedData(dict)!.decryptAuthorizationData()!
+        return SEEncryptedData(dict)!.decryptedAuthorizationData!
     }
 }

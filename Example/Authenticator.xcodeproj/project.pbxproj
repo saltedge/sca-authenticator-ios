@@ -43,6 +43,7 @@
 		95C1EFC722D5EE1C00078A28 /* AboutCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */; };
 		95C6782524AA0EE40088A9CF /* CollectionsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */; };
 		95C6782624AA0EE40088A9CF /* CollectionsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */; };
+		95C6782724AA22050088A9CF /* SEEncryptedDataExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3246922D398B300EB162A /* SEEncryptedDataExtensionsSpec.swift */; };
 		95CD02DD235864130085C52A /* SEConnectHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CD02DC235864130085C52A /* SEConnectHelperSpec.swift */; };
 		95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
 		95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
@@ -234,7 +235,6 @@
 		9DE3246522D3986B00EB162A /* invalid_confirm_authorization_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3245022D3986B00EB162A /* invalid_confirm_authorization_data.json */; };
 		9DE3246622D3986B00EB162A /* CreateConnectionResponseSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3245122D3986B00EB162A /* CreateConnectionResponseSpec.swift */; };
 		9DE3246722D3986B00EB162A /* valid_revoke_connection_data.json in Resources */ = {isa = PBXBuildFile; fileRef = 9DE3245222D3986B00EB162A /* valid_revoke_connection_data.json */; };
-		9DE3246A22D398B300EB162A /* AuthorizationsPresenterSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3246922D398B300EB162A /* AuthorizationsPresenterSpec.swift */; };
 		9DE3247122D398ED00EB162A /* SpecUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3246C22D398ED00EB162A /* SpecUtils.swift */; };
 		9DE3247222D398ED00EB162A /* SpecCryptoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3246D22D398ED00EB162A /* SpecCryptoHelper.swift */; };
 		9DE3247322D398ED00EB162A /* URLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3246E22D398ED00EB162A /* URLRequestBuilder.swift */; };
@@ -526,7 +526,7 @@
 		9DE3245022D3986B00EB162A /* invalid_confirm_authorization_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = invalid_confirm_authorization_data.json; sourceTree = "<group>"; };
 		9DE3245122D3986B00EB162A /* CreateConnectionResponseSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateConnectionResponseSpec.swift; sourceTree = "<group>"; };
 		9DE3245222D3986B00EB162A /* valid_revoke_connection_data.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = valid_revoke_connection_data.json; sourceTree = "<group>"; };
-		9DE3246922D398B300EB162A /* AuthorizationsPresenterSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationsPresenterSpec.swift; sourceTree = "<group>"; };
+		9DE3246922D398B300EB162A /* SEEncryptedDataExtensionsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SEEncryptedDataExtensionsSpec.swift; sourceTree = "<group>"; };
 		9DE3246C22D398ED00EB162A /* SpecUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecUtils.swift; sourceTree = "<group>"; };
 		9DE3246D22D398ED00EB162A /* SpecCryptoHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecCryptoHelper.swift; sourceTree = "<group>"; };
 		9DE3246E22D398ED00EB162A /* URLRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLRequestBuilder.swift; sourceTree = "<group>"; };
@@ -725,6 +725,7 @@
 		9D6575F6232A9AED00DCC53E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9DE3246922D398B300EB162A /* SEEncryptedDataExtensionsSpec.swift */,
 				9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */,
 			);
 			path = Extensions;
@@ -1266,7 +1267,6 @@
 		9DE3246822D398B300EB162A /* Presenters */ = {
 			isa = PBXGroup;
 			children = (
-				9DE3246922D398B300EB162A /* AuthorizationsPresenterSpec.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -1788,6 +1788,7 @@
 				9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */,
 				9DE3249D22D399F600EB162A /* StackViewExtensions.swift in Sources */,
 				9D77212A231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */,
+				95C6782724AA22050088A9CF /* SEEncryptedDataExtensionsSpec.swift in Sources */,
 				9DAAC0E3233A5341006D0758 /* TimeLeftLabel.swift in Sources */,
 				9D66E1E622D6146900BD59B6 /* RequestParametersBuilderSpec.swift in Sources */,
 				9DE3247B22D3998200EB162A /* AuthorizationsCoordinator.swift in Sources */,
@@ -1877,7 +1878,6 @@
 				9D1DEE7F23DB5071003C79AC /* SubmitActionResponseSpec.swift in Sources */,
 				9DF7964424978A2F001290DA /* RoundedShadowView.swift in Sources */,
 				9DE324D922D39AB900EB162A /* CustomButton.swift in Sources */,
-				9DE3246A22D398B300EB162A /* AuthorizationsPresenterSpec.swift in Sources */,
 				9DE324B422D39A3A00EB162A /* BiometricsHelper.swift in Sources */,
 				9DD4DF262375969B000A9B80 /* QuickActionsHelper.swift in Sources */,
 				9DE324DE22D39AC500EB162A /* PasscodeView.swift in Sources */,
