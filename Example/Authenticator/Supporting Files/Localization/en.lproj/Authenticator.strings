@@ -27,6 +27,7 @@
 "actions.remove" = "Remove";
 "actions.rename" = "Rename";
 "actions.report_an_issue" = "Report an issue";
+"actions.view_consents" = "View consents";
 "actions.retry" = "Retry";
 "actions.search" = "Search";
 "actions.skip" = "Skip";
@@ -37,6 +38,7 @@
 "actions.view_settings" = "View settings";
 "actions.processing" = "Processing";
 "actions.processing.description" = "This may take some time";
+"actions.pull_to_refresh" = "Pull to refresh";
 "authorization.screen.name" = "Authenticator";
 "authorization.active.title" = "Authorizing";
 "authorization.success.title" = "Success";
@@ -72,7 +74,8 @@
 "in_app.authorizations.authorization_expired" = "Authorization expired";
 "in_app.authorizations.no_authorizations" = "Nothing to authorize";
 "in_app.authorizations.no_authorizations_description" = "You don’t have any active authorization requests yet. Scan QR code for instant action or to connect new provider.";
-"in_app.connection.connected_on" = "Connected on";
+"in_app.connection.connected_on" = "Linked on";
+"in_app.connection.consents" = "consents";
 "in_app.connection.connection_failed" = "Connection failed";
 "in_app.connect.scan_qr" = "Scan QR";
 "in_app.connect.scan_qr_code" = "Scan QR code";

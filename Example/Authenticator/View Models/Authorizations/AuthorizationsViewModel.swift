@@ -219,15 +219,13 @@ private extension AuthorizationsViewModel {
     }
 
     @objc func refresh() {
-        AuthorizationsInteractor.refresh(
+        CollectionsInteractor.authorizations.refresh(
             connections: Array(connections),
             success: { [weak self] encryptedAuthorizations in
                 guard let strongSelf = self else { return }
 
                 DispatchQueue.global(qos: .background).async {
-                    let decryptedAuthorizations = encryptedAuthorizations.compactMap {
-                        AuthorizationsPresenter.decryptedData(from: $0)
-                    }
+                    let decryptedAuthorizations = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationData }
 
                     DispatchQueue.main.async {
                         strongSelf.updateDataSource(with: decryptedAuthorizations)

@@ -89,10 +89,9 @@ class ConnectionCollectorSpec: BaseSpec {
         describe("where:") {
             it("should properly serialize the arguments into the Object.filter call") {
                 let whereString = "guid == '\(firstConnection.guid)'"
-                let expectedModel = ConnectionsCollector.allConnections.first!
-                let actualModel = ConnectionsCollector.where(whereString).first!
+                let actualModelId = ConnectionsCollector.where(whereString).first!.id
 
-                expect(expectedModel).to(equal(actualModel))
+                expect("first").to(equal(actualModelId))
             }
         }
 

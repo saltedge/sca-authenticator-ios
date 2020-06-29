@@ -111,6 +111,7 @@ enum Localizations: String, Localizable {
     case instantActionSuccessDescription = "instant_action.success_description"
     case processing = "actions.processing"
     case processingDescription = "actions.processing.description"
+    case pullToRefresh = "actions.pull_to_refresh"
 
     // MARK: - Connections
     case noConnections = "in_app.connect.no_connections"
@@ -118,6 +119,7 @@ enum Localizations: String, Localizable {
     case connections = "in_app.navigation.connections"
     case connectProvider = "action.connect_provider"
     case connectedOn = "in_app.connection.connected_on"
+    case consents = "in_app.connection.consents"
     case deleteConnection = "actions.confirm_delete_connection"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
     case scanQr = "in_app.connect.scan_qr"
@@ -186,10 +188,10 @@ enum Localizations: String, Localizable {
     case rename = "actions.rename"
     case contactSupport = "in_app.settings.contact_support"
     case reportAnIssue = "actions.report_an_issue"
+    case viewConsents = "actions.view_consents"
 
     // MARK: - Main Menu Options
     case viewConnections = "actions.view_connections"
-    case viewConsents = "actions.view_consents"
     case viewSettings = "actions.view_settings"
 
     var localizedLabel: String { return self.rawValue }

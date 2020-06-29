@@ -52,7 +52,7 @@ struct ConnectionsCollector {
     static func with(id: String) -> Connection? {
         return self.where("\(#keyPath(Connection.id)) == %@", id).first
     }
-    
+
     static func active(by id: String) -> Connection? {
         return self.where("\(#keyPath(Connection.id)) == %@ AND \(#keyPath(Connection.status)) == %@", id, "active").first
     }
