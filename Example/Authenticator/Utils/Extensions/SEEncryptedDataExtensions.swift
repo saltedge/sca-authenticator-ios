@@ -1,5 +1,5 @@
 //
-//  DecryptHelper.swift
+//  SEEncryptedDataExtensions.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -34,12 +34,12 @@ import SEAuthenticator
     var decryptedConsentData: SEConsentData? {
         if let connectionId = self.connectionId,
             let decryptedDictionary = self.decryptedDictionary {
-            
+
             return SEConsentData(decryptedDictionary, connectionId)
         }
         return nil
     }
-    
+
     private var decryptedDictionary: [String: Any]? {
         if let connectionId = self.connectionId,
             let connection = ConnectionsCollector.with(id: connectionId) {

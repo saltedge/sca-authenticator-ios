@@ -100,11 +100,10 @@ private extension ConnectionsViewController {
         noDataView = NoDataView(data: viewControllerViewModel.emptyViewData, action: viewControllerViewModel.addPressed)
         noDataView.alpha = viewControllerViewModel.hasDataToShow ? 0 : 1
     }
-    
+
     func setupRefreshControl() {
-        refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        refreshControl.attributedTitle = NSAttributedString(string: l10n(.pullToRefresh))
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
         tableView.addSubview(refreshControl)
     }
 }

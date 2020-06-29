@@ -111,6 +111,7 @@ enum Localizations: String, Localizable {
     case instantActionSuccessDescription = "instant_action.success_description"
     case processing = "actions.processing"
     case processingDescription = "actions.processing.description"
+    case pullToRefresh = "actions.pull_to_refresh"
 
     // MARK: - Connections
     case noConnections = "in_app.connect.no_connections"
