@@ -304,6 +304,12 @@
 		9DE324DF22D39AC800EB162A /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86322CE18270050ED3C /* CompleteView.swift */; };
 		9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86422CE18270050ED3C /* LoadingIndicator.swift */; };
 		9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED89022CE18280050ED3C /* AppDelegate.swift */; };
+		9DE569FE24AA171400FA5B2C /* ConsentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE569FD24AA171400FA5B2C /* ConsentsViewController.swift */; };
+		9DE569FF24AA171400FA5B2C /* ConsentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE569FD24AA171400FA5B2C /* ConsentsViewController.swift */; };
+		9DE56A0224AA179100FA5B2C /* ConsentLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */; };
+		9DE56A0324AA179100FA5B2C /* ConsentLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */; };
+		9DE56A0524AA223B00FA5B2C /* ConsentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */; };
+		9DE56A0624AA223B00FA5B2C /* ConsentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */; };
 		9DE94108246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */; };
 		9DE94109246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */; };
 		9DE9410B246D7595000029A2 /* RealmConnectionsListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */; };
@@ -533,6 +539,9 @@
 		9DE324E522D4773F00EB162A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9DE324E722D4774A00EB162A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9DE324E922D4775000EB162A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		9DE569FD24AA171400FA5B2C /* ConsentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentsViewController.swift; sourceTree = "<group>"; };
+		9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentLogoView.swift; sourceTree = "<group>"; };
+		9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentCell.swift; sourceTree = "<group>"; };
 		9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewModelSpec.swift; sourceTree = "<group>"; };
 		9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsViewModel.swift; sourceTree = "<group>"; };
 		9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConnectionsListener.swift; sourceTree = "<group>"; };
@@ -908,6 +917,7 @@
 				9DCED7E422CE18270050ED3C /* ConnectionsViewController.swift */,
 				9DCED7E522CE18270050ED3C /* ConnectViewController.swift */,
 				9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */,
+				9DE569FD24AA171400FA5B2C /* ConsentsViewController.swift */,
 			);
 			path = Connection;
 			sourceTree = "<group>";
@@ -1040,6 +1050,7 @@
 		9DCED84522CE18270050ED3C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9DE56A0024AA177D00FA5B2C /* Consents */,
 				9DCC1F3823292F4E00BF7B70 /* Authorizations */,
 				9DCED84722CE18270050ED3C /* Cells */,
 				9DCED84F22CE18270050ED3C /* General */,
@@ -1058,6 +1069,7 @@
 				9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */,
 				9DCED84A22CE18270050ED3C /* SettingsCell.swift */,
 				9D87F49D2429326800F85D1F /* ConnectionCell.swift */,
+				9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1277,6 +1289,14 @@
 				9DE3247022D398ED00EB162A /* DataFixtures.swift */,
 			);
 			path = "Spec Helpers";
+			sourceTree = "<group>";
+		};
+		9DE56A0024AA177D00FA5B2C /* Consents */ = {
+			isa = PBXGroup;
+			children = (
+				9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */,
+			);
+			path = Consents;
 			sourceTree = "<group>";
 		};
 		9DE94106246D4204000029A2 /* Authorizations */ = {
@@ -1699,6 +1719,7 @@
 				9DCED8CB22CE18280050ED3C /* WindowExtensions.swift in Sources */,
 				9DCED8DA22CE18280050ED3C /* Localizable.swift in Sources */,
 				9DCED90022CE18280050ED3C /* CustomButton.swift in Sources */,
+				9DE569FE24AA171400FA5B2C /* ConsentsViewController.swift in Sources */,
 				9DF796492497C2D2001290DA /* AuthorizationContentView.swift in Sources */,
 				959E309E247BC7870067354A /* LanguagePickerViewController.swift in Sources */,
 				9DCED8AC22CE18280050ED3C /* QRCodeViewController.swift in Sources */,
@@ -1707,6 +1728,7 @@
 				9DCED8EF22CE18280050ED3C /* TableViewCellDequeuable.swift in Sources */,
 				95F409002473C91000727095 /* ConnectionsCoordinator.swift in Sources */,
 				959E30A9247BD0160067354A /* LicensesViewModel.swift in Sources */,
+				9DE56A0524AA223B00FA5B2C /* ConsentCell.swift in Sources */,
 				9D49FF7C24922F9900778AC4 /* ForgotPasscodeViewController.swift in Sources */,
 				9DCED91F22CE18280050ED3C /* ConnectionRepository.swift in Sources */,
 				9DCED8AD22CE18280050ED3C /* RealmManager.swift in Sources */,
@@ -1741,6 +1763,7 @@
 				9DCED90722CE18280050ED3C /* LoadingIndicator.swift in Sources */,
 				959E3099247BBA1F0067354A /* AboutViewModel.swift in Sources */,
 				9DCED8CF22CE18280050ED3C /* ColorExtensions.swift in Sources */,
+				9DE56A0224AA179100FA5B2C /* ConsentLogoView.swift in Sources */,
 				95F4090224751D7E00727095 /* ConnectionCellViewModel.swift in Sources */,
 				9DCED8F522CE18280050ED3C /* CustomSpacingLabel.swift in Sources */,
 			);
@@ -1817,6 +1840,7 @@
 				9DE3249922D399ED00EB162A /* StringExtensions.swift in Sources */,
 				9D66E1DE22D6146900BD59B6 /* ConnectionRouterSpec.swift in Sources */,
 				9DE324CE22D39A9800EB162A /* CustomSpacingLabel.swift in Sources */,
+				9DE569FF24AA171400FA5B2C /* ConsentsViewController.swift in Sources */,
 				9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9581A9DB2477DFE50066EF5E /* SettingsCoordinator.swift in Sources */,
 				9DE324AC22D39A2500EB162A /* AppearanceHelper.swift in Sources */,
@@ -1829,6 +1853,7 @@
 				9DE3245922D3986B00EB162A /* ConfirmAuthorizationResponseSpec.swift in Sources */,
 				9DE324DB22D39ABE00EB162A /* NoDataView.swift in Sources */,
 				9D66E1B622D4C1F700BD59B6 /* ConnectionRepositorySpec.swift in Sources */,
+				9DE56A0324AA179100FA5B2C /* ConsentLogoView.swift in Sources */,
 				959E30A1247BC78D0067354A /* LanguagePickerViewModel.swift in Sources */,
 				9DE3247E22D3998D00EB162A /* PasscodeCoordinator.swift in Sources */,
 				9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */,
@@ -1836,6 +1861,7 @@
 				9DE3247422D398ED00EB162A /* BaseSpec.swift in Sources */,
 				95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */,
 				9DE3249A22D399EF00EB162A /* ColorExtensions.swift in Sources */,
+				9DE56A0624AA223B00FA5B2C /* ConsentCell.swift in Sources */,
 				959E30B2247BDA250067354A /* LanguagePickerViewModelSpec.swift in Sources */,
 				9D1DEE7523D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */,
 				9DBAD7A0247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */,
