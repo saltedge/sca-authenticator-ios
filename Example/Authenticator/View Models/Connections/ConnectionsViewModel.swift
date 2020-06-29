@@ -227,13 +227,13 @@ extension ConnectionsViewModel {
     }
 
     func refreshConsents() {
-        ConsentsInteractor.refresh(
+        CollectionsInteractor.consents.refresh(
             connections: Array(connections),
             success: { [weak self] encryptedConsents in
                 guard let strongSelf = self else { return }
 
                 DispatchQueue.global(qos: .background).async {
-                    let decryptedConsents = encryptedConsents.compactMap { $0.decryptConsentData() }
+                    let decryptedConsents = encryptedConsents.compactMap { $0.decryptedConsentData }
 
                     DispatchQueue.main.async {
                         strongSelf.updateDataSource(with: decryptedConsents)

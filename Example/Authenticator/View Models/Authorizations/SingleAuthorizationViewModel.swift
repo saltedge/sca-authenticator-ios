@@ -49,7 +49,7 @@ final class SingleAuthorizationViewModel {
                 guard let strongSelf = self else { return }
 
                 DispatchQueue.global(qos: .background).async {
-                    guard let decryptedAuthorizationData = encryptedAuthorization.decryptAuthorizationData() else { return }
+                    guard let decryptedAuthorizationData = encryptedAuthorization.decryptedAuthorizationData else { return }
 
                     DispatchQueue.main.async {
                         guard let detailViewModel = AuthorizationDetailViewModel(decryptedAuthorizationData) else { return }

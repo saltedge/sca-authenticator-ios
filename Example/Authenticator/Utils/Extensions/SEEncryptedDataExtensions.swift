@@ -24,31 +24,29 @@ import Foundation
 import SEAuthenticator
 
  extension SEEncryptedData {
-    func decryptAuthorizationData() -> SEAuthorizationData? {
-        if let connectionId = self.connectionId,
-            let connection = ConnectionsCollector.with(id: connectionId) {
-            do {
-                let decryptedData = try SECryptoHelper.decrypt(self, tag: SETagHelper.create(for: connection.guid))
-
-                guard let decryptedDictionary = decryptedData.json else { return nil }
-
-                return SEAuthorizationData(decryptedDictionary)
-            } catch {
-                return nil
-            }
+    var decryptedAuthorizationData: SEAuthorizationData? {
+        if let decryptedDictionary = self.decryptedDictionary {
+            return SEAuthorizationData(decryptedDictionary)
         }
         return nil
     }
 
-    func decryptConsentData() -> SEConsentData? {
+    var decryptedConsentData: SEConsentData? {
+        if let connectionId = self.connectionId,
+            let decryptedDictionary = self.decryptedDictionary {
+            
+            return SEConsentData(decryptedDictionary, connectionId)
+        }
+        return nil
+    }
+    
+    private var decryptedDictionary: [String: Any]? {
         if let connectionId = self.connectionId,
             let connection = ConnectionsCollector.with(id: connectionId) {
             do {
                 let decryptedData = try SECryptoHelper.decrypt(self, tag: SETagHelper.create(for: connection.guid))
 
-                guard let decryptedDictionary = decryptedData.json else { return nil }
-
-                return SEConsentData(decryptedDictionary, connectionId)
+                return decryptedData.json
             } catch {
                 return nil
             }

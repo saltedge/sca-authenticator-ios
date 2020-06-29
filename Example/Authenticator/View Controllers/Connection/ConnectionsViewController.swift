@@ -30,7 +30,7 @@ private struct Layout {
 final class ConnectionsViewController: BaseViewController {
     private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     private var noDataView: NoDataView!
-    private var refreshControl: UIRefreshControl!
+    private var refreshControl = UIRefreshControl()
 
     private var viewControllerViewModel: ConnectionsViewModel
 
