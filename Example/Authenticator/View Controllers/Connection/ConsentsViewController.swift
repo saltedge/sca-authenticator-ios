@@ -21,29 +21,72 @@
 //
 
 import UIKit
+import SEAuthenticator
 
 final class ConsentsViewController: BaseViewController {
-    private var consentsLogoView: ConsentLogoView!
+    private var consentsLogoView = ConsentLogoView()
     private let tableView = UITableView()
+
+    var viewModel: ConsentsViewModel! {
+        didSet {
+            consentsLogoView.set(data: viewModel.logoViewData)
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Active consents"
-        setupLogoView()
+        setupTableView()
         layout()
     }
 
-    private func setupLogoView() {
-        consentsLogoView = ConsentLogoView(image: UIImage(), title: "test", description: "test")
+    private func setupTableView() {
+        tableView.register(ConsentCell.self)
+        tableView.separatorStyle = .none
+        tableView.sectionFooterHeight = 0.0
+        tableView.backgroundColor = .backgroundColor
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.dataSource = self
+        tableView.delegate = self
     }
 }
 
+extension ConsentsViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 96.0
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.consentsCount
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell: ConsentCell = tableView.dequeueReusableCell(for: indexPath)
+        cell.viewModel = viewModel.cellViewModel(for: indexPath)
+        return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension ConsentsViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK: - Layout
 extension ConsentsViewController: Layoutable {
     func layout() {
         view.addSubviews(consentsLogoView, tableView)
 
         consentsLogoView.topToSuperview(offset: 6.0)
         consentsLogoView.leftToSuperview(offset: 16.0)
+        consentsLogoView.height(36.0)
 
         tableView.topToBottom(of: consentsLogoView, offset: 12.0)
         tableView.widthToSuperview()

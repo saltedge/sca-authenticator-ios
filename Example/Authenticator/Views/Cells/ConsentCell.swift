@@ -24,9 +24,17 @@ import UIKit
 
 private struct Layout {
     static let cardViewRadius: CGFloat = 6.0
+    static let cardViewLeftRightOffset: CGFloat = 16.0
+    static let cardViewTopBottomOffset: CGFloat = 8.0
 }
 
-final class ConsentCell: UITableViewCell {
+struct ConsentCellViewModel {
+    let title: String
+    let description: String
+    let expiration: String
+}
+
+final class ConsentCell: UITableViewCell, Dequeuable {
     let cardView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = Layout.cardViewRadius
@@ -58,10 +66,28 @@ final class ConsentCell: UITableViewCell {
         label.lineBreakMode = .byTruncatingTail
         return label
     }()
+    private let disclosureIndicatorImageView = AspectFitImageView(imageName: "disclosureIndicator")
 
-    init() {
-        super.init(style: .default, reuseIdentifier: nil)
+    var viewModel: ConsentCellViewModel! {
+        didSet {
+            titleLabel.text = viewModel.title
+            descriptionLabel.text = viewModel.description
+            expirationLabel.text = viewModel.expiration
+        }
+    }
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none
+        setupShadowAndRadius()
         layout()
+    }
+
+    private func setupShadowAndRadius() {
+        contentView.layer.shadowColor = UIColor(red: 0.374, green: 0.426, blue: 0.488, alpha: 0.3).cgColor
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 6)
+        contentView.layer.shadowOpacity = 0.8
+        contentView.layer.shadowRadius = Layout.cardViewTopBottomOffset
     }
 
     required init?(coder: NSCoder) {
@@ -74,6 +100,24 @@ extension ConsentCell: Layoutable {
     func layout() {
         contentView.addSubview(cardView)
 
-        cardView.addSubviews(titleLabel, descriptionLabel, expirationLabel)
+        cardView.addSubviews(titleLabel, descriptionLabel, expirationLabel, disclosureIndicatorImageView)
+
+        cardView.left(to: contentView, offset: Layout.cardViewLeftRightOffset)
+        cardView.top(to: contentView, offset: Layout.cardViewTopBottomOffset)
+        cardView.right(to: contentView, offset: -Layout.cardViewLeftRightOffset)
+        cardView.bottom(to: contentView, offset: -Layout.cardViewTopBottomOffset)
+
+        titleLabel.topToSuperview(offset: 12.0)
+        titleLabel.leftToSuperview(offset: 16.0)
+
+        descriptionLabel.topToBottom(of: titleLabel, offset: 2.0)
+        descriptionLabel.leftToSuperview(offset: 16.0)
+
+        expirationLabel.topToBottom(of: descriptionLabel, offset: 2.0)
+        expirationLabel.leftToSuperview(offset: 16.0)
+
+        disclosureIndicatorImageView.centerYToSuperview()
+        disclosureIndicatorImageView.rightToSuperview(offset: -16.0)
+        disclosureIndicatorImageView.size(CGSize(width: 7.0, height: 11.0))
     }
 }

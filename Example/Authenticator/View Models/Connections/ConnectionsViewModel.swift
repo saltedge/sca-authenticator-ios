@@ -40,7 +40,7 @@ final class ConnectionsViewModel {
         byKeyPath: #keyPath(Connection.createdAt),
         ascending: true
     )
-    private var consentsDict: [String: [SEConsentData]] = [:]
+    var consentsDict: [String: [SEConsentData]] = [:]
 
     private var connectionsNotificationToken: NotificationToken?
     private var connectionsListener: RealmConnectionsListener?
@@ -73,6 +73,7 @@ final class ConnectionsViewModel {
 
     func cellViewModel(at indexPath: IndexPath) -> ConnectionCellViewModel {
         let connection = item(for: indexPath)!
+
         return ConnectionCellViewModel(
             connection: connection,
             consentsCount: consentsDict[connection.id]?.count ?? 0

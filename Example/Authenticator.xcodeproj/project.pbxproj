@@ -312,6 +312,8 @@
 		9DE56A0324AA179100FA5B2C /* ConsentLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */; };
 		9DE56A0524AA223B00FA5B2C /* ConsentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */; };
 		9DE56A0624AA223B00FA5B2C /* ConsentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */; };
+		9DE56A0824AB672500FA5B2C /* ConsentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */; };
+		9DE56A0924AB672500FA5B2C /* ConsentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */; };
 		9DE94108246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */; };
 		9DE94109246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */; };
 		9DE9410B246D7595000029A2 /* RealmConnectionsListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */; };
@@ -545,6 +547,7 @@
 		9DE569FD24AA171400FA5B2C /* ConsentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentsViewController.swift; sourceTree = "<group>"; };
 		9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentLogoView.swift; sourceTree = "<group>"; };
 		9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentCell.swift; sourceTree = "<group>"; };
+		9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentViewModel.swift; sourceTree = "<group>"; };
 		9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewModelSpec.swift; sourceTree = "<group>"; };
 		9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsViewModel.swift; sourceTree = "<group>"; };
 		9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConnectionsListener.swift; sourceTree = "<group>"; };
@@ -708,6 +711,7 @@
 				9D87F4A6242A6BCD00F85D1F /* ConnectionsViewModel.swift */,
 				9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */,
 				9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */,
+				9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */,
 			);
 			path = Connections;
 			sourceTree = "<group>";
@@ -1731,6 +1735,7 @@
 				9DCED8C322CE18280050ED3C /* BiometricsPresenter.swift in Sources */,
 				9D94095A23618CF00080EBB5 /* CacheHelper.swift in Sources */,
 				9DCED8EF22CE18280050ED3C /* TableViewCellDequeuable.swift in Sources */,
+				9DE56A0824AB672500FA5B2C /* ConsentViewModel.swift in Sources */,
 				95F409002473C91000727095 /* ConnectionsCoordinator.swift in Sources */,
 				959E30A9247BD0160067354A /* LicensesViewModel.swift in Sources */,
 				9DE56A0524AA223B00FA5B2C /* ConsentCell.swift in Sources */,
@@ -1889,6 +1894,7 @@
 				9DE324B222D39A3500EB162A /* HapticFeedbackHelper.swift in Sources */,
 				9DE3247722D3997400EB162A /* Coordinator.swift in Sources */,
 				9DF796472497C1F7001290DA /* AuthorizationHeaderView.swift in Sources */,
+				9DE56A0924AB672500FA5B2C /* ConsentViewModel.swift in Sources */,
 				9DE3248322D3999B00EB162A /* RealmManager.swift in Sources */,
 				9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */,
 				9D66E1B522D4C1F300BD59B6 /* AuthorizationsDataSourceSpec.swift in Sources */,

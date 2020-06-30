@@ -28,6 +28,12 @@ private struct Layout {
     static let labelSideOffset: CGFloat = 10.0
 }
 
+struct ConsentLogoViewData {
+    let imageUrl: URL?
+    let title: String
+    let description: String
+}
+
 final class ConsentLogoView: UIView {
     private let logoPlaceholderView: UIView = {
         let view = UIView()
@@ -58,12 +64,18 @@ final class ConsentLogoView: UIView {
         return label
     }()
 
-    init(image: UIImage, title: String, description: String) {
+    init() {
         super.init(frame: .zero)
-        logoImageView.image = image
-        titleLabel.text = title
-        descriptionLabel.text = description
         layout()
+    }
+
+    func set(data: ConsentLogoViewData) {
+        titleLabel.text = data.title
+        descriptionLabel.text = data.description
+
+        if let imageUrl = data.imageUrl {
+            CacheHelper.setAnimatedCachedImage(from: imageUrl, for: logoImageView)
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -78,6 +90,8 @@ extension ConsentLogoView: Layoutable {
         logoPlaceholderView.addSubview(logoImageView)
 
         logoPlaceholderView.size(Layout.logoPlaceholderViewSize)
+        logoPlaceholderView.topToSuperview()
+        logoPlaceholderView.leftToSuperview()
 
         logoImageView.size(Layout.logoPlaceholderViewSize)
         logoImageView.centerInSuperview()

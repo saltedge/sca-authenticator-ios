@@ -212,6 +212,10 @@ extension ConnectionsViewController: ConnectionCellEventsDelegate {
     }
 
     func consentsPressed(id: String) {
-        //NOTE: Open consents list
+        guard let consents = viewControllerViewModel.consentsDict[id] else { return }
+
+        let consentsViewController = ConsentsViewController()
+        consentsViewController.viewModel = ConsentsViewModel(connectionId: id, consents: consents)
+        navigationController?.pushViewController(consentsViewController, animated: true)
     }
 }
