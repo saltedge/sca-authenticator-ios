@@ -170,7 +170,6 @@ extension AuthorizationsViewModel {
     }
 
     func stopPolling() {
-        updateDataSource(with: [])
         poller?.stopPolling()
         poller = nil
     }
