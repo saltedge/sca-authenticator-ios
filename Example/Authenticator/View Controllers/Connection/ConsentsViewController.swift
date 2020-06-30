@@ -21,7 +21,14 @@
 //
 
 import UIKit
-import SEAuthenticator
+
+private struct Layout {
+    static let cellHeight: CGFloat = 96.0
+    static let logoViewTopOffset: CGFloat = 6.0
+    static let logoViewLeftOffset: CGFloat = 16.0
+    static let logoViewHeight: CGFloat = 36.0
+    static let tableViewTopOffset: CGFloat = 12.0
+}
 
 final class ConsentsViewController: BaseViewController {
     private var consentsLogoView = ConsentLogoView()
@@ -35,7 +42,7 @@ final class ConsentsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Active consents"
+        navigationItem.title = l10n(.activeConsents)
         setupTableView()
         layout()
     }
@@ -54,7 +61,7 @@ final class ConsentsViewController: BaseViewController {
 
 extension ConsentsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 96.0
+        return Layout.cellHeight
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -84,11 +91,11 @@ extension ConsentsViewController: Layoutable {
     func layout() {
         view.addSubviews(consentsLogoView, tableView)
 
-        consentsLogoView.topToSuperview(offset: 6.0)
-        consentsLogoView.leftToSuperview(offset: 16.0)
-        consentsLogoView.height(36.0)
+        consentsLogoView.topToSuperview(offset: Layout.logoViewTopOffset)
+        consentsLogoView.leftToSuperview(offset: Layout.logoViewLeftOffset)
+        consentsLogoView.height(Layout.logoViewHeight)
 
-        tableView.topToBottom(of: consentsLogoView, offset: 12.0)
+        tableView.topToBottom(of: consentsLogoView, offset: Layout.tableViewTopOffset)
         tableView.widthToSuperview()
         tableView.bottomToSuperview()
     }

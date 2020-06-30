@@ -21,12 +21,14 @@
 //
 
 import UIKit
+import SEAuthenticator
 
 final class ConnectionsCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var currentViewController: ConnectionsViewController
     private var connectViewCoordinator: ConnectViewCoordinator?
     private var qrCodeCoordinator: QRCodeCoordinator?
+    private var consentsCoordinator: ConsentsCoordinator?
     private var viewModel = ConnectionsViewModel()
 
     init(rootViewController: UIViewController) {
@@ -86,6 +88,14 @@ extension ConnectionsCoordinator: ConnectionsEventsDelegate {
 
     func showSupport(email: String) {
         currentViewController.showSupportMailComposer(withEmail: email)
+    }
+
+    func consentsPressed(id: ID, consents: [SEConsentData]) {
+        consentsCoordinator = ConsentsCoordinator(
+            rootViewController: currentViewController,
+            viewModel: ConsentsViewModel(connectionId: id, consents: consents)
+        )
+        consentsCoordinator?.start()
     }
 
     func deleteConnection(completion: @escaping () -> ()) {

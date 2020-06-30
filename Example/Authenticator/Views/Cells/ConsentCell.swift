@@ -26,12 +26,18 @@ private struct Layout {
     static let cardViewRadius: CGFloat = 6.0
     static let cardViewLeftRightOffset: CGFloat = 16.0
     static let cardViewTopBottomOffset: CGFloat = 8.0
+    static let labelsSideOffset: CGFloat = 16.0
+    static let titleTopOffset: CGFloat = 12.0
+    static let descriptionLabelTopOffset: CGFloat = 2.0
+    static let expirationLabelTopOffset: CGFloat = 2.0
+    static let disclosureIndicatorRightOffset: CGFloat = -16.0
+    static let disclosureIndicatorSize: CGSize = CGSize(width: 7.0, height: 11.0)
 }
 
 struct ConsentCellViewModel {
     let title: String
     let description: String
-    let expiration: String
+    let expiration: NSMutableAttributedString
 }
 
 final class ConsentCell: UITableViewCell, Dequeuable {
@@ -72,7 +78,7 @@ final class ConsentCell: UITableViewCell, Dequeuable {
         didSet {
             titleLabel.text = viewModel.title
             descriptionLabel.text = viewModel.description
-            expirationLabel.text = viewModel.expiration
+            expirationLabel.attributedText = viewModel.expiration
         }
     }
 
@@ -107,17 +113,17 @@ extension ConsentCell: Layoutable {
         cardView.right(to: contentView, offset: -Layout.cardViewLeftRightOffset)
         cardView.bottom(to: contentView, offset: -Layout.cardViewTopBottomOffset)
 
-        titleLabel.topToSuperview(offset: 12.0)
-        titleLabel.leftToSuperview(offset: 16.0)
+        titleLabel.topToSuperview(offset: Layout.titleTopOffset)
+        titleLabel.leftToSuperview(offset: Layout.labelsSideOffset)
 
-        descriptionLabel.topToBottom(of: titleLabel, offset: 2.0)
-        descriptionLabel.leftToSuperview(offset: 16.0)
+        descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionLabelTopOffset)
+        descriptionLabel.leftToSuperview(offset: Layout.labelsSideOffset)
 
-        expirationLabel.topToBottom(of: descriptionLabel, offset: 2.0)
-        expirationLabel.leftToSuperview(offset: 16.0)
+        expirationLabel.topToBottom(of: descriptionLabel, offset: Layout.expirationLabelTopOffset)
+        expirationLabel.leftToSuperview(offset: Layout.labelsSideOffset)
 
         disclosureIndicatorImageView.centerYToSuperview()
-        disclosureIndicatorImageView.rightToSuperview(offset: -16.0)
-        disclosureIndicatorImageView.size(CGSize(width: 7.0, height: 11.0))
+        disclosureIndicatorImageView.rightToSuperview(offset: Layout.disclosureIndicatorRightOffset)
+        disclosureIndicatorImageView.size(Layout.disclosureIndicatorSize)
     }
 }

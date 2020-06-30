@@ -31,7 +31,7 @@ extension UIFont {
     static var auth_13semibold: UIFont {
         return UIFont.systemFont(ofSize: 13.0, weight: .semibold)
     }
-    
+
     static var auth_13medium: UIFont {
         return UIFont.systemFont(ofSize: 13.0, weight: .medium)
     }

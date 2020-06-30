@@ -314,6 +314,8 @@
 		9DE56A0624AA223B00FA5B2C /* ConsentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */; };
 		9DE56A0824AB672500FA5B2C /* ConsentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */; };
 		9DE56A0924AB672500FA5B2C /* ConsentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */; };
+		9DE56A0C24AB702A00FA5B2C /* ConsentsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0B24AB702A00FA5B2C /* ConsentsCoordinator.swift */; };
+		9DE56A0D24AB702A00FA5B2C /* ConsentsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0B24AB702A00FA5B2C /* ConsentsCoordinator.swift */; };
 		9DE94108246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */; };
 		9DE94109246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */; };
 		9DE9410B246D7595000029A2 /* RealmConnectionsListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */; };
@@ -548,6 +550,7 @@
 		9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentLogoView.swift; sourceTree = "<group>"; };
 		9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentCell.swift; sourceTree = "<group>"; };
 		9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentViewModel.swift; sourceTree = "<group>"; };
+		9DE56A0B24AB702A00FA5B2C /* ConsentsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentsCoordinator.swift; sourceTree = "<group>"; };
 		9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewModelSpec.swift; sourceTree = "<group>"; };
 		9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsViewModel.swift; sourceTree = "<group>"; };
 		9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConnectionsListener.swift; sourceTree = "<group>"; };
@@ -1122,12 +1125,12 @@
 		9DCED86522CE18270050ED3C /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				9DE56A0A24AB701500FA5B2C /* Connections */,
 				9DBAD79D247E55A70023F944 /* Connect */,
 				9DCED87122CE18270050ED3C /* Main */,
 				9DCED86622CE18270050ED3C /* Settings */,
 				9DCED86922CE18270050ED3C /* ConnectViewCoordinator.swift */,
 				9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */,
-				95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -1305,6 +1308,15 @@
 				9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */,
 			);
 			path = Consents;
+			sourceTree = "<group>";
+		};
+		9DE56A0A24AB701500FA5B2C /* Connections */ = {
+			isa = PBXGroup;
+			children = (
+				95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */,
+				9DE56A0B24AB702A00FA5B2C /* ConsentsCoordinator.swift */,
+			);
+			path = Connections;
 			sourceTree = "<group>";
 		};
 		9DE94106246D4204000029A2 /* Authorizations */ = {
@@ -1713,6 +1725,7 @@
 				9D5BCFDC247FF595009A6B40 /* InstantActionHandler.swift in Sources */,
 				9D630BC9243DC464000A9ACC /* OnboardingViewModel.swift in Sources */,
 				9D0DC4132462DD080039E62B /* ButtonExtensions.swift in Sources */,
+				9DE56A0C24AB702A00FA5B2C /* ConsentsCoordinator.swift in Sources */,
 				9DCED90322CE18280050ED3C /* TaptileFeedbackButton.swift in Sources */,
 				9DCED8E022CE18280050ED3C /* UserDefaultsHelper.swift in Sources */,
 				9DCED8D522CE18280050ED3C /* ApplicationExtensions.swift in Sources */,
@@ -1836,6 +1849,7 @@
 				9DE324A422D39A0F00EB162A /* Localizable.swift in Sources */,
 				9DE324D622D39AB100EB162A /* PasscodeKeyboard.swift in Sources */,
 				9D630BC7243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */,
+				9DE56A0D24AB702A00FA5B2C /* ConsentsCoordinator.swift in Sources */,
 				9DE324C522D39A7500EB162A /* QRCodeViewController.swift in Sources */,
 				9DE324C822D39A8600EB162A /* TableViewCellDequeuable.swift in Sources */,
 				9DE324A022D399FE00EB162A /* ViewExtensions+Animations.swift in Sources */,

@@ -37,7 +37,8 @@ final class ConsentsViewModel {
     }
 
     var logoViewData: ConsentLogoViewData {
-        let expiresString = consents.count > 1 ? "consents" : "consent"
+        let expiresString = consents.count > 1 ? l10n(.consents) : l10n(.consent)
+
         return ConsentLogoViewData(
             imageUrl: connection.logoUrl,
             title: connection.name,
@@ -48,10 +49,24 @@ final class ConsentsViewModel {
     func cellViewModel(for indexPath: IndexPath) -> ConsentCellViewModel {
         let consent = consents[indexPath.row]
 
+        let expirationAttributedString = NSMutableAttributedString()
+
+        let numberOfDaysToExpire = consent.expiresAt.get(.day)
+        let expiresInString = numberOfDaysToExpire == 1 ? "\(numberOfDaysToExpire) \(l10n(.day))"
+            : "\(numberOfDaysToExpire) \(l10n(.days))"
+        let expiresInAttributedMessage = NSMutableAttributedString(
+            string: expiresInString,
+            attributes: [
+                NSAttributedString.Key.foregroundColor: numberOfDaysToExpire < 10 ? UIColor.redAlert : UIColor.titleColor
+            ]
+        )
+        expirationAttributedString.append(NSMutableAttributedString(string: "\(l10n(.expiresIn)) "))
+        expirationAttributedString.append(expiresInAttributedMessage)
+
         return ConsentCellViewModel(
             title: consent.tppName,
             description: consent.consentType,
-            expiration: "Expires in \(consent.expiresAt.get(.day)) day"
+            expiration: expirationAttributedString
         )
     }
 }

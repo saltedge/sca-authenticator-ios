@@ -29,6 +29,7 @@ protocol ConnectionsEventsDelegate: class {
     func showSupport(email: String)
     func deleteConnection(completion: @escaping () -> ())
     func reconnect(by id: String)
+    func consentsPressed(id: ID, consents: [SEConsentData])
     func updateViews()
     func addPressed()
 }
@@ -40,7 +41,7 @@ final class ConnectionsViewModel {
         byKeyPath: #keyPath(Connection.createdAt),
         ascending: true
     )
-    var consentsDict: [String: [SEConsentData]] = [:]
+    private var consentsDict: [String: [SEConsentData]] = [:]
 
     private var connectionsNotificationToken: NotificationToken?
     private var connectionsListener: RealmConnectionsListener?
@@ -138,6 +139,12 @@ extension ConnectionsViewModel {
 
     func showSupport(email: String) {
         delegate?.showSupport(email: email)
+    }
+
+    func consentsPressed(id: ID)  {
+        guard let consents = consentsDict[id] else { return }
+
+        delegate?.consentsPressed(id: id, consents: consents)
     }
 
     func addPressed() {
