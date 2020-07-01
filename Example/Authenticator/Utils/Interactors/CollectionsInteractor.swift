@@ -28,6 +28,45 @@ enum CollectionsInteractor {
     case consents
 
     func refresh(
+        connection: Connection,
+        success: @escaping ([SEEncryptedData]) -> (),
+        failure: ((String) -> ())? = nil,
+        connectionNotFoundFailure: @escaping ((String?) -> ())
+    ) {
+        func onFailure(error: String, connection: Connection) {
+            if SEAPIError.connectionNotFound.isConnectionNotFound(error) {
+                connectionNotFoundFailure(connection.id)
+            } else {
+                failure?("\(l10n(.somethingWentWrong)) (\(connection.name))")
+            }
+        }
+
+        guard let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
+
+        let requestData = SEBaseAuthenticatedRequestData(
+            url: baseUrl,
+            connectionGuid: connection.guid,
+            accessToken: connection.accessToken,
+            appLanguage: UserDefaultsHelper.applicationLanguage
+        )
+
+        switch self {
+        case .authorizations:
+            SEAuthorizationManager.getEncryptedAuthorizations(
+                data: requestData,
+                onSuccess: { response in success(response.data) },
+                onFailure: { error in onFailure(error: error, connection: connection) }
+            )
+        case .consents:
+            SEConsentsManager.getEncryptedConsents(
+                data: requestData,
+                onSuccess: { response in success(response.data) },
+                onFailure: { error in onFailure(error: error, connection: connection) }
+            )
+        }
+    }
+
+    func refresh(
         connections: [Connection],
         success: @escaping ([SEEncryptedData]) -> (),
         failure: ((String) -> ())? = nil,
@@ -62,14 +101,12 @@ enum CollectionsInteractor {
         }
 
         for connection in connections {
-            let accessToken = connection.accessToken
-
             guard let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
 
             let requestData = SEBaseAuthenticatedRequestData(
                 url: baseUrl,
                 connectionGuid: connection.guid,
-                accessToken: accessToken,
+                accessToken: connection.accessToken,
                 appLanguage: UserDefaultsHelper.applicationLanguage
             )
 

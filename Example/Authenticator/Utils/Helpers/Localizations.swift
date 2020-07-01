@@ -133,6 +133,9 @@ enum Localizations: String, Localizable {
     case day = "in_app.connection.consents.day_singular"
     case days = "in_app.connection.consents.day_plural"
     case expiresIn = "in_app.connection.consents.expires_in"
+    case aispDescription = "in_app.connection.consents.aisp_description"
+    case pispFutureDescription = "in_app.connection.consents.pisp_future_description"
+    case pispRecurringDescription = "in_app.connection.consents.pisp_recurring_description"
 
     // MARK: - Settings
     case settings = "in_app.sidebar_menu.settings"

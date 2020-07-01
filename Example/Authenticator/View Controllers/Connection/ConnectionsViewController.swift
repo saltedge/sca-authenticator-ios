@@ -27,7 +27,7 @@ private struct Layout {
     static let noDataViewTopOffset: CGFloat = AppLayout.screenHeight * 0.11
 }
 
-final class ConnectionsViewController: BaseViewController {
+final class ConnectionsViewController: UIViewController {
     private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     private var noDataView: NoDataView!
     private var refreshControl = UIRefreshControl()
@@ -44,6 +44,8 @@ final class ConnectionsViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .backgroundColor
+        extendedLayoutIncludesOpaqueBars = true
         navigationItem.title = l10n(.connections)
         setupTableView()
         setupRefreshControl()
@@ -102,9 +104,9 @@ private extension ConnectionsViewController {
     }
 
     func setupRefreshControl() {
+        tableView.refreshControl = refreshControl
         refreshControl.attributedTitle = NSAttributedString(string: l10n(.pullToRefresh))
-        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
-        tableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
 }
 
@@ -162,9 +164,14 @@ extension ConnectionsViewController {
 private extension ConnectionsViewController {
     func showActionSheet(at indexPath: IndexPath) {}
 
-    @objc func refresh(_ sender: AnyObject) {
-        viewModel.refreshConsents()
-        refreshControl.endRefreshing()
+    @objc func refresh() {
+        viewModel.refreshConsents(
+            completion: {
+                DispatchQueue.main.async {
+                    self.refreshControl.endRefreshing()
+                }
+            }
+        )
     }
 }
 

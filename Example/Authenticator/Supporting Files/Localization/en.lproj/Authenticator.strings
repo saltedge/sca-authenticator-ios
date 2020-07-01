@@ -81,6 +81,9 @@
 "in_app.connection.consents.expires_in" = "Expires in";
 "in_app.connection.consents.day_singular" = "day";
 "in_app.connection.consents.day_plural" = "days";
+"in_app.connection.consents.aisp_description" = "Access to account information";
+"in_app.connection.consents.pisp_future_description" = "Future payment";
+"in_app.connection.consents.pisp_recurring_description" = "Recurring payment";
 "in_app.connection.connection_failed" = "Connection failed";
 "in_app.connect.scan_qr" = "Scan QR";
 "in_app.connect.scan_qr_code" = "Scan QR code";

@@ -37,10 +37,7 @@ protocol ConnectionsEventsDelegate: class {
 final class ConnectionsViewModel {
     weak var delegate: ConnectionsEventsDelegate?
 
-    private let connections = ConnectionsCollector.allConnections.sorted(
-        byKeyPath: #keyPath(Connection.createdAt),
-        ascending: true
-    )
+    private let connections = ConnectionsCollector.allConnections
     private var consentsDict: [String: [SEConsentData]] = [:]
 
     private var connectionsNotificationToken: NotificationToken?
@@ -141,7 +138,7 @@ extension ConnectionsViewModel {
         delegate?.showSupport(email: email)
     }
 
-    func consentsPressed(id: ID)  {
+    func consentsPressed(id: ID) {
         guard let consents = consentsDict[id] else { return }
 
         delegate?.consentsPressed(id: id, consents: consents)
@@ -234,7 +231,7 @@ extension ConnectionsViewModel {
         return UISwipeActionsConfiguration(actions: [support])
     }
 
-    func refreshConsents() {
+    func refreshConsents(completion: (() -> ())? = nil) {
         CollectionsInteractor.consents.refresh(
             connections: Array(connections),
             success: { [weak self] encryptedConsents in
@@ -245,15 +242,18 @@ extension ConnectionsViewModel {
 
                     DispatchQueue.main.async {
                         strongSelf.updateDataSource(with: decryptedConsents)
+                        completion?()
                     }
                 }
             },
             failure: { error in
+                completion?()
                 print(error)
             },
             connectionNotFoundFailure: { connectionId in
                 if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
                     ConnectionRepository.setInactive(connection)
+                    completion?()
                 }
             }
         )

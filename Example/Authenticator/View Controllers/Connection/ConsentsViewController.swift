@@ -33,9 +33,11 @@ private struct Layout {
 final class ConsentsViewController: BaseViewController {
     private var consentsLogoView = ConsentLogoView()
     private let tableView = UITableView()
+    private let refreshControl = UIRefreshControl()
 
     var viewModel: ConsentsViewModel! {
         didSet {
+            viewModel.delegate = self
             consentsLogoView.set(data: viewModel.logoViewData)
         }
     }
@@ -43,10 +45,25 @@ final class ConsentsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.activeConsents)
+        extendedLayoutIncludesOpaqueBars = true
         setupTableView()
+        setupRefreshControl()
         layout()
     }
 
+    @objc private func refresh() {
+        viewModel.refreshConsents(
+            completion: {
+                DispatchQueue.main.async {
+                    self.refreshControl.endRefreshing()
+                }
+            }
+        )
+    }
+}
+
+// MARK: - Setup
+private extension ConsentsViewController {
     private func setupTableView() {
         tableView.register(ConsentCell.self)
         tableView.separatorStyle = .none
@@ -57,8 +74,15 @@ final class ConsentsViewController: BaseViewController {
         tableView.dataSource = self
         tableView.delegate = self
     }
+
+    private func setupRefreshControl() {
+        refreshControl.attributedTitle = NSAttributedString(string: l10n(.pullToRefresh))
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+    }
 }
 
+// MARK: - UITableViewDataSource
 extension ConsentsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Layout.cellHeight
@@ -98,5 +122,12 @@ extension ConsentsViewController: Layoutable {
         tableView.topToBottom(of: consentsLogoView, offset: Layout.tableViewTopOffset)
         tableView.widthToSuperview()
         tableView.bottomToSuperview()
+    }
+}
+
+// MARK: - ConsentsEventsDelegate
+extension ConsentsViewController: ConsentsEventsDelegate {
+    func reloadData() {
+        tableView.reloadData()
     }
 }

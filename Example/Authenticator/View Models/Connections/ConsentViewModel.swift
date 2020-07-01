@@ -23,9 +23,29 @@
 import Foundation
 import SEAuthenticator
 
+enum ConsentType: String {
+    case aisp
+    case pispFuture = "pisp_future"
+    case pispRecurring = "pisp_recurring"
+
+    var description: String {
+        switch self {
+        case .aisp: return l10n(.aispDescription)
+        case .pispFuture: return l10n(.pispFutureDescription)
+        case .pispRecurring: return l10n(.pispRecurringDescription)
+        }
+    }
+}
+
+protocol ConsentsEventsDelegate: class {
+    func reloadData()
+}
+
 final class ConsentsViewModel {
     private let connection: Connection!
-    private let consents: [SEConsentData]
+    private var consents: [SEConsentData]
+
+    weak var delegate: ConsentsEventsDelegate?
 
     init(connectionId: ID, consents: [SEConsentData]) {
         self.connection = ConnectionsCollector.with(id: connectionId)
@@ -57,7 +77,8 @@ final class ConsentsViewModel {
         let expiresInAttributedMessage = NSMutableAttributedString(
             string: expiresInString,
             attributes: [
-                NSAttributedString.Key.foregroundColor: numberOfDaysToExpire < 10 ? UIColor.redAlert : UIColor.titleColor
+                NSAttributedString.Key.foregroundColor: numberOfDaysToExpire < 10 ? UIColor.redAlert : UIColor.titleColor,
+                NSAttributedString.Key.font: UIFont.auth_13semibold
             ]
         )
         expirationAttributedString.append(NSMutableAttributedString(string: "\(l10n(.expiresIn)) "))
@@ -65,8 +86,41 @@ final class ConsentsViewModel {
 
         return ConsentCellViewModel(
             title: consent.tppName,
-            description: consent.consentType,
+            description: ConsentType(rawValue: consent.consentType)?.description ?? "",
             expiration: expirationAttributedString
+        )
+    }
+
+    func updateConsents(with consents: [SEConsentData]) {
+        self.consents = consents
+        delegate?.reloadData()
+    }
+
+    func refreshConsents(completion: (() -> ())? = nil) {
+        CollectionsInteractor.consents.refresh(
+            connection: connection,
+            success: { [weak self] encryptedConsents in
+                guard let strongSelf = self else { return }
+
+                DispatchQueue.global(qos: .background).async {
+                    let decryptedConsents = encryptedConsents.compactMap { $0.decryptedConsentData }
+
+                    DispatchQueue.main.async {
+                        strongSelf.updateConsents(with: decryptedConsents)
+                        completion?()
+                    }
+                }
+            },
+            failure: { error in
+                completion?()
+                print(error)
+            },
+            connectionNotFoundFailure: { connectionId in
+                if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
+                    ConnectionRepository.setInactive(connection)
+                    completion?()
+                }
+            }
         )
     }
 }
