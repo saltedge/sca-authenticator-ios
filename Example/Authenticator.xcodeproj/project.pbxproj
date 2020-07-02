@@ -306,6 +306,16 @@
 		9DE324DF22D39AC800EB162A /* CompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86322CE18270050ED3C /* CompleteView.swift */; };
 		9DE324E022D39ACB00EB162A /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED86422CE18270050ED3C /* LoadingIndicator.swift */; };
 		9DE324E122D39AD000EB162A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED89022CE18280050ED3C /* AppDelegate.swift */; };
+		9DE569FE24AA171400FA5B2C /* ConsentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE569FD24AA171400FA5B2C /* ConsentsViewController.swift */; };
+		9DE569FF24AA171400FA5B2C /* ConsentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE569FD24AA171400FA5B2C /* ConsentsViewController.swift */; };
+		9DE56A0224AA179100FA5B2C /* ConsentLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */; };
+		9DE56A0324AA179100FA5B2C /* ConsentLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */; };
+		9DE56A0524AA223B00FA5B2C /* ConsentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */; };
+		9DE56A0624AA223B00FA5B2C /* ConsentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */; };
+		9DE56A0824AB672500FA5B2C /* ConsentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */; };
+		9DE56A0924AB672500FA5B2C /* ConsentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */; };
+		9DE56A0C24AB702A00FA5B2C /* ConsentsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0B24AB702A00FA5B2C /* ConsentsCoordinator.swift */; };
+		9DE56A0D24AB702A00FA5B2C /* ConsentsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE56A0B24AB702A00FA5B2C /* ConsentsCoordinator.swift */; };
 		9DE94108246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */; };
 		9DE94109246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */; };
 		9DE9410B246D7595000029A2 /* RealmConnectionsListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */; };
@@ -536,6 +546,11 @@
 		9DE324E522D4773F00EB162A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9DE324E722D4774A00EB162A /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9DE324E922D4775000EB162A /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		9DE569FD24AA171400FA5B2C /* ConsentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentsViewController.swift; sourceTree = "<group>"; };
+		9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentLogoView.swift; sourceTree = "<group>"; };
+		9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentCell.swift; sourceTree = "<group>"; };
+		9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentViewModel.swift; sourceTree = "<group>"; };
+		9DE56A0B24AB702A00FA5B2C /* ConsentsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentsCoordinator.swift; sourceTree = "<group>"; };
 		9DE5807C2450892E004AF19F /* PasscodeViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewModelSpec.swift; sourceTree = "<group>"; };
 		9DE94107246D4229000029A2 /* AuthorizationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsViewModel.swift; sourceTree = "<group>"; };
 		9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmConnectionsListener.swift; sourceTree = "<group>"; };
@@ -699,6 +714,7 @@
 				9D87F4A6242A6BCD00F85D1F /* ConnectionsViewModel.swift */,
 				9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */,
 				9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */,
+				9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */,
 			);
 			path = Connections;
 			sourceTree = "<group>";
@@ -912,6 +928,7 @@
 				9DCED7E422CE18270050ED3C /* ConnectionsViewController.swift */,
 				9DCED7E522CE18270050ED3C /* ConnectViewController.swift */,
 				9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */,
+				9DE569FD24AA171400FA5B2C /* ConsentsViewController.swift */,
 			);
 			path = Connection;
 			sourceTree = "<group>";
@@ -1045,6 +1062,7 @@
 		9DCED84522CE18270050ED3C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9DE56A0024AA177D00FA5B2C /* Consents */,
 				9DCC1F3823292F4E00BF7B70 /* Authorizations */,
 				9DCED84722CE18270050ED3C /* Cells */,
 				9DCED84F22CE18270050ED3C /* General */,
@@ -1063,6 +1081,7 @@
 				9DCED84922CE18270050ED3C /* FeaturesCollectionViewCell.swift */,
 				9DCED84A22CE18270050ED3C /* SettingsCell.swift */,
 				9D87F49D2429326800F85D1F /* ConnectionCell.swift */,
+				9DE56A0424AA223B00FA5B2C /* ConsentCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1106,12 +1125,12 @@
 		9DCED86522CE18270050ED3C /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				9DE56A0A24AB701500FA5B2C /* Connections */,
 				9DBAD79D247E55A70023F944 /* Connect */,
 				9DCED87122CE18270050ED3C /* Main */,
 				9DCED86622CE18270050ED3C /* Settings */,
 				9DCED86922CE18270050ED3C /* ConnectViewCoordinator.swift */,
 				9DCED86C22CE18270050ED3C /* AuthorizationsCoordinator.swift */,
-				95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";
@@ -1281,6 +1300,23 @@
 				9DE3247022D398ED00EB162A /* DataFixtures.swift */,
 			);
 			path = "Spec Helpers";
+			sourceTree = "<group>";
+		};
+		9DE56A0024AA177D00FA5B2C /* Consents */ = {
+			isa = PBXGroup;
+			children = (
+				9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */,
+			);
+			path = Consents;
+			sourceTree = "<group>";
+		};
+		9DE56A0A24AB701500FA5B2C /* Connections */ = {
+			isa = PBXGroup;
+			children = (
+				95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */,
+				9DE56A0B24AB702A00FA5B2C /* ConsentsCoordinator.swift */,
+			);
+			path = Connections;
 			sourceTree = "<group>";
 		};
 		9DE94106246D4204000029A2 /* Authorizations */ = {
@@ -1689,6 +1725,7 @@
 				9D5BCFDC247FF595009A6B40 /* InstantActionHandler.swift in Sources */,
 				9D630BC9243DC464000A9ACC /* OnboardingViewModel.swift in Sources */,
 				9D0DC4132462DD080039E62B /* ButtonExtensions.swift in Sources */,
+				9DE56A0C24AB702A00FA5B2C /* ConsentsCoordinator.swift in Sources */,
 				9DCED90322CE18280050ED3C /* TaptileFeedbackButton.swift in Sources */,
 				9DCED8E022CE18280050ED3C /* UserDefaultsHelper.swift in Sources */,
 				9DCED8D522CE18280050ED3C /* ApplicationExtensions.swift in Sources */,
@@ -1703,6 +1740,7 @@
 				95C6782524AA0EE40088A9CF /* CollectionsInteractor.swift in Sources */,
 				9DCED8DA22CE18280050ED3C /* Localizable.swift in Sources */,
 				9DCED90022CE18280050ED3C /* CustomButton.swift in Sources */,
+				9DE569FE24AA171400FA5B2C /* ConsentsViewController.swift in Sources */,
 				954CC97524A22FF30021F0B2 /* SEEncryptedDataExtensions.swift in Sources */,
 				9DF796492497C2D2001290DA /* AuthorizationContentView.swift in Sources */,
 				959E309E247BC7870067354A /* LanguagePickerViewController.swift in Sources */,
@@ -1710,8 +1748,10 @@
 				9DCED8C322CE18280050ED3C /* BiometricsPresenter.swift in Sources */,
 				9D94095A23618CF00080EBB5 /* CacheHelper.swift in Sources */,
 				9DCED8EF22CE18280050ED3C /* TableViewCellDequeuable.swift in Sources */,
+				9DE56A0824AB672500FA5B2C /* ConsentViewModel.swift in Sources */,
 				95F409002473C91000727095 /* ConnectionsCoordinator.swift in Sources */,
 				959E30A9247BD0160067354A /* LicensesViewModel.swift in Sources */,
+				9DE56A0524AA223B00FA5B2C /* ConsentCell.swift in Sources */,
 				9D49FF7C24922F9900778AC4 /* ForgotPasscodeViewController.swift in Sources */,
 				9DCED91F22CE18280050ED3C /* ConnectionRepository.swift in Sources */,
 				9DCED8AD22CE18280050ED3C /* RealmManager.swift in Sources */,
@@ -1746,6 +1786,7 @@
 				9DCED90722CE18280050ED3C /* LoadingIndicator.swift in Sources */,
 				959E3099247BBA1F0067354A /* AboutViewModel.swift in Sources */,
 				9DCED8CF22CE18280050ED3C /* ColorExtensions.swift in Sources */,
+				9DE56A0224AA179100FA5B2C /* ConsentLogoView.swift in Sources */,
 				95F4090224751D7E00727095 /* ConnectionCellViewModel.swift in Sources */,
 				9DCED8F522CE18280050ED3C /* CustomSpacingLabel.swift in Sources */,
 			);
@@ -1808,6 +1849,7 @@
 				9DE324A422D39A0F00EB162A /* Localizable.swift in Sources */,
 				9DE324D622D39AB100EB162A /* PasscodeKeyboard.swift in Sources */,
 				9D630BC7243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */,
+				9DE56A0D24AB702A00FA5B2C /* ConsentsCoordinator.swift in Sources */,
 				9DE324C522D39A7500EB162A /* QRCodeViewController.swift in Sources */,
 				9DE324C822D39A8600EB162A /* TableViewCellDequeuable.swift in Sources */,
 				9DE324A022D399FE00EB162A /* ViewExtensions+Animations.swift in Sources */,
@@ -1823,6 +1865,7 @@
 				9DE3249922D399ED00EB162A /* StringExtensions.swift in Sources */,
 				9D66E1DE22D6146900BD59B6 /* ConnectionRouterSpec.swift in Sources */,
 				9DE324CE22D39A9800EB162A /* CustomSpacingLabel.swift in Sources */,
+				9DE569FF24AA171400FA5B2C /* ConsentsViewController.swift in Sources */,
 				9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */,
 				9581A9DB2477DFE50066EF5E /* SettingsCoordinator.swift in Sources */,
 				9DE324AC22D39A2500EB162A /* AppearanceHelper.swift in Sources */,
@@ -1836,6 +1879,7 @@
 				9DE3245922D3986B00EB162A /* ConfirmAuthorizationResponseSpec.swift in Sources */,
 				9DE324DB22D39ABE00EB162A /* NoDataView.swift in Sources */,
 				9D66E1B622D4C1F700BD59B6 /* ConnectionRepositorySpec.swift in Sources */,
+				9DE56A0324AA179100FA5B2C /* ConsentLogoView.swift in Sources */,
 				959E30A1247BC78D0067354A /* LanguagePickerViewModel.swift in Sources */,
 				9DE3247E22D3998D00EB162A /* PasscodeCoordinator.swift in Sources */,
 				9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */,
@@ -1843,6 +1887,7 @@
 				9DE3247422D398ED00EB162A /* BaseSpec.swift in Sources */,
 				95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */,
 				9DE3249A22D399EF00EB162A /* ColorExtensions.swift in Sources */,
+				9DE56A0624AA223B00FA5B2C /* ConsentCell.swift in Sources */,
 				959E30B2247BDA250067354A /* LanguagePickerViewModelSpec.swift in Sources */,
 				9D1DEE7523D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */,
 				9DBAD7A0247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */,
@@ -1863,6 +1908,7 @@
 				9DE324B222D39A3500EB162A /* HapticFeedbackHelper.swift in Sources */,
 				9DE3247722D3997400EB162A /* Coordinator.swift in Sources */,
 				9DF796472497C1F7001290DA /* AuthorizationHeaderView.swift in Sources */,
+				9DE56A0924AB672500FA5B2C /* ConsentViewModel.swift in Sources */,
 				9DE3248322D3999B00EB162A /* RealmManager.swift in Sources */,
 				9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */,
 				9D66E1B522D4C1F300BD59B6 /* AuthorizationsDataSourceSpec.swift in Sources */,

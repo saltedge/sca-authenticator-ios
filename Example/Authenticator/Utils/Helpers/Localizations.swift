@@ -119,13 +119,23 @@ enum Localizations: String, Localizable {
     case connections = "in_app.navigation.connections"
     case connectProvider = "action.connect_provider"
     case connectedOn = "in_app.connection.connected_on"
-    case consents = "in_app.connection.consents"
     case deleteConnection = "actions.confirm_delete_connection"
     case deleteConnectionDescription = "in_app.connections_list.delete_connection"
     case scanQr = "in_app.connect.scan_qr"
     case scanQrCode = "in_app.connect.scan_qr_code"
     case chooseConnection = "in_app.connect.choose"
     case newConnection = "in_app.connect.new_connection"
+
+    // MARK: - Consents
+    case activeConsents = "in_app.connection.active_consents"
+    case consent = "in_app.connection.consents_singular"
+    case consents = "in_app.connection.consents_plural"
+    case day = "in_app.connection.consents.day_singular"
+    case days = "in_app.connection.consents.day_plural"
+    case expiresIn = "in_app.connection.consents.expires_in"
+    case aispDescription = "in_app.connection.consents.aisp_description"
+    case pispFutureDescription = "in_app.connection.consents.pisp_future_description"
+    case pispRecurringDescription = "in_app.connection.consents.pisp_recurring_description"
 
     // MARK: - Settings
     case settings = "in_app.sidebar_menu.settings"

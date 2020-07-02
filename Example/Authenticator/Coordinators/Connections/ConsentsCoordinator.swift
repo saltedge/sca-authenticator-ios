@@ -1,8 +1,8 @@
 //
-//  DateExtensions.swift
+//  ConsentsCoordinator
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,26 +20,21 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import Foundation
+import UIKit
 
-public extension Date {
-    var utcSeconds: Int {
-        var currentCalendar = Calendar.current
-        currentCalendar.timeZone = TimeZone.utc
-        let components = Calendar.current.dateComponents([.timeZone, .year, .month, .day, .hour, .minute, .second], from: self)
+final class ConsentsCoordinator: Coordinator {
+    private var rootViewController: UIViewController
+    private var currentViewController: ConsentsViewController
 
-        guard let dateFromComponents = currentCalendar.date(from: components) else { return 0 }
-
-        return Int(dateFromComponents.timeIntervalSince1970)
+    init(rootViewController: UIViewController, viewModel: ConsentsViewModel) {
+        self.rootViewController = rootViewController
+        self.currentViewController = ConsentsViewController()
+        self.currentViewController.viewModel = viewModel
     }
 
-    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
-        return calendar.component(component, from: self)
+    func start() {
+        rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
     }
-}
 
-public extension TimeZone {
-    static var utc: TimeZone {
-        return TimeZone(identifier: "UTC")!
-    }
+    func stop() {}
 }

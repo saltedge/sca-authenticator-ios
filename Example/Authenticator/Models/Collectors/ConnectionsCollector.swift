@@ -30,7 +30,7 @@ struct ConnectionsCollector {
     }
 
     static var allConnections: Results<Connection> {
-        return RealmManager.defaultRealm.objects(Connection.self)
+        return RealmManager.defaultRealm.objects(Connection.self).sorted(byKeyPath: #keyPath(Connection.createdAt))
     }
 
     static var activeConnections: Results<Connection> {

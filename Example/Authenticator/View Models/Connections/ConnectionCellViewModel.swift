@@ -38,14 +38,17 @@ class ConnectionCellViewModel {
     weak var delegate: ConnectionCellEventsDelegate?
 
     var connectionStatus = Observable<ConnectionStatus>(.active)
+
     var connectionName: String {
         return connection.name
     }
+
     var description: NSAttributedString {
         return connectionStatus.value == .inactive
             ? buildInactiveDescription()
             : buildActiveDescription()
     }
+
     var hasConsents: Bool {
         return consentsCount > 0
     }

@@ -27,23 +27,25 @@ private struct Layout {
     static let noDataViewTopOffset: CGFloat = AppLayout.screenHeight * 0.11
 }
 
-final class ConnectionsViewController: BaseViewController {
+final class ConnectionsViewController: UIViewController {
     private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
     private var noDataView: NoDataView!
     private var refreshControl = UIRefreshControl()
 
-    private var viewControllerViewModel: ConnectionsViewModel
+    private var viewModel: ConnectionsViewModel
 
     var connectViewCoordinator: ConnectViewCoordinator?
 
     init(viewModel: ConnectionsViewModel) {
-        viewControllerViewModel = viewModel
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: .authenticator_main)
         setupNoDataView()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .backgroundColor
+        extendedLayoutIncludesOpaqueBars = true
         navigationItem.title = l10n(.connections)
         setupTableView()
         setupRefreshControl()
@@ -55,7 +57,7 @@ final class ConnectionsViewController: BaseViewController {
             name: NSLocale.currentLocaleDidChangeNotification,
             object: nil
         )
-        viewControllerViewModel.refreshConsents()
+        viewModel.refreshConsents()
     }
 
     @objc private func reloadData() {
@@ -67,8 +69,8 @@ final class ConnectionsViewController: BaseViewController {
         UIView.animate(
             withDuration: 0.3,
             animations: {
-                self.noDataView.alpha = self.viewControllerViewModel.hasDataToShow ? 0.0 : 1.0
-                self.tableView.alpha = !self.viewControllerViewModel.hasDataToShow ? 0.0 : 1.0
+                self.noDataView.alpha = self.viewModel.hasDataToShow ? 0.0 : 1.0
+                self.tableView.alpha = !self.viewModel.hasDataToShow ? 0.0 : 1.0
             }
         )
     }
@@ -97,14 +99,14 @@ private extension ConnectionsViewController {
     }
 
     func setupNoDataView() {
-        noDataView = NoDataView(data: viewControllerViewModel.emptyViewData, action: viewControllerViewModel.addPressed)
-        noDataView.alpha = viewControllerViewModel.hasDataToShow ? 0 : 1
+        noDataView = NoDataView(data: viewModel.emptyViewData, action: viewModel.addPressed)
+        noDataView.alpha = viewModel.hasDataToShow ? 0 : 1
     }
 
     func setupRefreshControl() {
+        tableView.refreshControl = refreshControl
         refreshControl.attributedTitle = NSAttributedString(string: l10n(.pullToRefresh))
-        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
-        tableView.addSubview(refreshControl)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
 }
 
@@ -115,7 +117,7 @@ extension ConnectionsViewController: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return viewControllerViewModel.count
+        return viewModel.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -125,7 +127,7 @@ extension ConnectionsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ConnectionCell = tableView.dequeueReusableCell(for: indexPath)
 
-        let cellViewModel = viewControllerViewModel.cellViewModel(at: indexPath)
+        let cellViewModel = viewModel.cellViewModel(at: indexPath)
         cellViewModel.delegate = self
         cell.viewModel = cellViewModel
 
@@ -139,7 +141,7 @@ extension ConnectionsViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
 
         guard #available(iOS 13, *) else {
-            self.present(viewControllerViewModel.actionSheet(for: indexPath), animated: true)
+            self.present(viewModel.actionSheet(for: indexPath), animated: true)
             return
         }
     }
@@ -149,12 +151,12 @@ extension ConnectionsViewController: UITableViewDelegate {
 extension ConnectionsViewController {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        return viewControllerViewModel.rightSwipeActionsConfiguration(for: indexPath)
+        return viewModel.rightSwipeActionsConfiguration(for: indexPath)
     }
 
     func tableView(_ tableView: UITableView,
                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        return viewControllerViewModel.leftSwipeActionsConfiguration(for: indexPath)
+        return viewModel.leftSwipeActionsConfiguration(for: indexPath)
     }
 }
 
@@ -162,9 +164,14 @@ extension ConnectionsViewController {
 private extension ConnectionsViewController {
     func showActionSheet(at indexPath: IndexPath) {}
 
-    @objc func refresh(_ sender: AnyObject) {
-        viewControllerViewModel.refreshConsents()
-        refreshControl.endRefreshing()
+    @objc func refresh() {
+        viewModel.refreshConsents(
+            completion: {
+                DispatchQueue.main.async {
+                    self.refreshControl.endRefreshing()
+                }
+            }
+        )
     }
 }
 
@@ -183,11 +190,11 @@ extension ConnectionsViewController: Layoutable {
 // MARK: - ConnectionCellEventsDelegate
 extension ConnectionsViewController: ConnectionCellEventsDelegate {
     func renamePressed(id: String) {
-        viewControllerViewModel.updateName(by: id)
+        viewModel.updateName(by: id)
     }
 
     func supportPressed(email: String) {
-        viewControllerViewModel.showSupport(email: email)
+        viewModel.showSupport(email: email)
     }
 
     func deletePressed(id: String, showConfirmation: Bool) {
@@ -199,19 +206,19 @@ extension ConnectionsViewController: ConnectionCellEventsDelegate {
                 confirmActionStyle: .destructive,
                 cancelTitle: l10n(.cancel),
                 confirmAction: { _ in
-                    self.viewControllerViewModel.remove(by: id)
+                    self.viewModel.remove(by: id)
                 }
             )
         } else {
-            viewControllerViewModel.remove(by: id)
+            viewModel.remove(by: id)
         }
     }
 
     func reconnectPreseed(id: String) {
-        viewControllerViewModel.reconnect(id: id)
+        viewModel.reconnect(id: id)
     }
 
     func consentsPressed(id: String) {
-        //NOTE: Open consents list
+        viewModel.consentsPressed(id: id)
     }
 }
