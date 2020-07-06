@@ -136,6 +136,7 @@ enum Localizations: String, Localizable {
     case aispDescription = "in_app.connection.consents.aisp_description"
     case pispFutureDescription = "in_app.connection.consents.pisp_future_description"
     case pispRecurringDescription = "in_app.connection.consents.pisp_recurring_description"
+    case consentGrantedTo = "in_app.connection.consents.granted_to"
 
     // MARK: - Settings
     case settings = "in_app.sidebar_menu.settings"

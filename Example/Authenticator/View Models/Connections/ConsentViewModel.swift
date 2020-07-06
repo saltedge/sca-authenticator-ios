@@ -91,6 +91,10 @@ final class ConsentsViewModel {
         )
     }
 
+    func consent(for indexPath: IndexPath) -> SEConsentData {
+        return consents[indexPath.row]
+    }
+
     func updateConsents(with consents: [SEConsentData]) {
         self.consents = consents
         delegate?.reloadData()

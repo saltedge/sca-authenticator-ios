@@ -107,6 +107,10 @@ extension ConsentsViewController: UITableViewDataSource {
 extension ConsentsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+
+        let consent = viewModel.consent(for: indexPath)
+        let vc = ConsentDetailViewController(title: consent.tppName, consent: consent)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

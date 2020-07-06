@@ -36,6 +36,15 @@ extension UIFont {
         return UIFont.systemFont(ofSize: 13.0, weight: .medium)
     }
 
+    // MARK: - Font size 14
+    static var auth_14regular: UIFont {
+        return UIFont.systemFont(ofSize: 14.0, weight: .regular)
+    }
+
+    static var auth_14semibold: UIFont {
+        return UIFont.systemFont(ofSize: 14.0, weight: .semibold)
+    }
+
     // MARK: - Font size 15
     static var auth_15regular: UIFont {
         return UIFont.systemFont(ofSize: 15.0, weight: .regular)
@@ -47,6 +56,15 @@ extension UIFont {
 
     static var auth_15semibold: UIFont {
         return UIFont.systemFont(ofSize: 15.0, weight: .semibold)
+    }
+
+    // MARK: - Font size 15
+    static var auth_16regular: UIFont {
+        return UIFont.systemFont(ofSize: 16.0, weight: .regular)
+    }
+
+    static var auth_16semibold: UIFont {
+        return UIFont.systemFont(ofSize: 16.0, weight: .semibold)
     }
 
     // MARK: - Font size 17
