@@ -23,10 +23,16 @@
 import UIKit
 import SEAuthenticator
 
+protocol ConsentDetailViewModelEventsDelegate: class {
+    func revoke(_ consent: SEConsentData)
+}
+
 final class ConsentDetailViewModel {
     private var consent: SEConsentData
     private var connectionName: String
     var navigationTitle: String
+
+    weak var delegate: ConsentDetailViewModelEventsDelegate?
 
     init(connectionName: String, consent: SEConsentData) {
         self.consent = consent
@@ -98,5 +104,12 @@ final class ConsentDetailViewModel {
             granted: formatter.string(from: consent.createdAt),
             expires: formatter.string(from: consent.expiresAt)
         )
+    }
+}
+
+// MARK: - Actions
+extension ConsentDetailViewModel {
+    func revokePressed() {
+        delegate?.revoke(consent)
     }
 }

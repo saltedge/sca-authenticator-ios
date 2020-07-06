@@ -54,16 +54,30 @@ final class ConsentDetailViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupRevokeButton()
         setupLabels()
         setupStackView()
         setupSharedData()
         setupExpirationView()
         layout()
     }
+
+    @objc private func revokePressed() {
+        viewModel.revokePressed()
+    }
 }
 
 // MARK: - Setup
 private extension ConsentDetailViewController {
+    func setupRevokeButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: l10n(.revoke),
+            style: .plain,
+            target: self,
+            action: #selector(revokePressed)
+        )
+    }
+
     func setupLabels() {
         navigationItem.title = viewModel.navigationTitle
         expiresLabel.text = viewModel.expiresInText

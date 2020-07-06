@@ -21,20 +21,48 @@
 //
 
 import UIKit
+import SEAuthenticator
 
 final class ConsentDetailCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var currentViewController: ConsentDetailViewController
+    private var viewModel: ConsentDetailViewModel
 
     init(rootViewController: UIViewController, viewModel: ConsentDetailViewModel) {
+        self.viewModel = viewModel
         self.rootViewController = rootViewController
         self.currentViewController = ConsentDetailViewController()
         self.currentViewController.viewModel = viewModel
     }
 
     func start() {
+        viewModel.delegate = self
         rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
     func stop() {}
+}
+
+// MARK: - ConsentDetailViewModelEventsDelegate
+extension ConsentDetailCoordinator: ConsentDetailViewModelEventsDelegate {
+    func revoke(_ consent: SEConsentData) {
+        currentViewController.showConfirmationAlert(
+            withTitle: "Revoke consent",
+            message: "Fentury service that is provided to you may be interrupted. Are you sure you want to revoke consent?",
+            confirmActionTitle: l10n(.confirm),
+            confirmActionStyle: .destructive,
+            confirmAction: { _ in
+                // TODO: finish
+                ConsentsInteractor.revoke(
+                    consent,
+                    success: {
+                        print("Success")
+                    },
+                    failure: { error in
+                        print(error)
+                    }
+                )
+            }
+        )
+    }
 }

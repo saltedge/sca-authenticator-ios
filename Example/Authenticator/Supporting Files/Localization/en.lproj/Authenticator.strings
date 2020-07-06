@@ -26,6 +26,7 @@
 "actions.reconnect" = "Reconnect";
 "actions.remove" = "Remove";
 "actions.rename" = "Rename";
+"actions.revoke" = "Revoke";
 "actions.report_an_issue" = "Report an issue";
 "actions.view_consents" = "View consents";
 "actions.retry" = "Retry";

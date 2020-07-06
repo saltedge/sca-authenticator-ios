@@ -42,6 +42,7 @@ enum Localizations: String, Localizable {
     case authenticator = "authorization.screen.name"
     case forgot = "actions.forgot"
     case remove = "actions.remove"
+    case revoke = "actions.revoke"
 
     // MARK: - Onboarding
     case getStarted = "actions.get_started"

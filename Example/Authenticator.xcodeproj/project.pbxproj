@@ -127,6 +127,8 @@
 		9D98747724B37F3500EE89BB /* ConsentDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747524B37F3500EE89BB /* ConsentDetailViewModel.swift */; };
 		9D98747924B382DF00EE89BB /* ConsentDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747824B382DF00EE89BB /* ConsentDetailCoordinator.swift */; };
 		9D98747A24B382DF00EE89BB /* ConsentDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747824B382DF00EE89BB /* ConsentDetailCoordinator.swift */; };
+		9D98747C24B390F200EE89BB /* ConsentsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747B24B390F200EE89BB /* ConsentsInteractor.swift */; };
+		9D98747D24B390F200EE89BB /* ConsentsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747B24B390F200EE89BB /* ConsentsInteractor.swift */; };
 		9DA1C81424ADDF9F0024CDBA /* ConsentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA1C81324ADDF9F0024CDBA /* ConsentDetailViewController.swift */; };
 		9DA1C81524ADDF9F0024CDBA /* ConsentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA1C81324ADDF9F0024CDBA /* ConsentDetailViewController.swift */; };
 		9DAAC0E2233A5341006D0758 /* TimeLeftLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */; };
@@ -438,6 +440,7 @@
 		9D98747224B353C000EE89BB /* ConsentAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentAccountView.swift; sourceTree = "<group>"; };
 		9D98747524B37F3500EE89BB /* ConsentDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentDetailViewModel.swift; sourceTree = "<group>"; };
 		9D98747824B382DF00EE89BB /* ConsentDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentDetailCoordinator.swift; sourceTree = "<group>"; };
+		9D98747B24B390F200EE89BB /* ConsentsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentsInteractor.swift; sourceTree = "<group>"; };
 		9DA1C81324ADDF9F0024CDBA /* ConsentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentDetailViewController.swift; sourceTree = "<group>"; };
 		9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLeftLabel.swift; sourceTree = "<group>"; };
 		9DBAD79E247E55BD0023F944 /* QRCodeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeCoordinator.swift; sourceTree = "<group>"; };
@@ -1028,6 +1031,7 @@
 			children = (
 				9DCED82C22CE18270050ED3C /* AuthorizationsInteractor.swift */,
 				9DCED82D22CE18270050ED3C /* ConnectionsInteractor.swift */,
+				9D98747B24B390F200EE89BB /* ConsentsInteractor.swift */,
 				95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */,
 			);
 			path = Interactors;
@@ -1735,6 +1739,7 @@
 				9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */,
 				9D77212C231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */,
 				9D59DAF82490C4A800117CD7 /* SingleAuthorizationViewController.swift in Sources */,
+				9D98747C24B390F200EE89BB /* ConsentsInteractor.swift in Sources */,
 				9DBAD79F247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */,
 				9DCED90A22CE18280050ED3C /* ConnectViewCoordinator.swift in Sources */,
 				95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */,
@@ -1933,6 +1938,7 @@
 				9DE3247522D398ED00EB162A /* DataFixtures.swift in Sources */,
 				9D66E1DF22D6146900BD59B6 /* AuthorizationRouterSpec.swift in Sources */,
 				9DE324D222D39AA700EB162A /* PasscodeSymbolView.swift in Sources */,
+				9D98747D24B390F200EE89BB /* ConsentsInteractor.swift in Sources */,
 				9DE324C722D39A8300EB162A /* MessageBarView.swift in Sources */,
 				9DE324CA22D39A8B00EB162A /* SettingsCell.swift in Sources */,
 				9DE324C622D39A7B00EB162A /* AuthorizationDetailViewModel.swift in Sources */,
