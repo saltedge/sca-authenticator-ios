@@ -21,7 +21,19 @@
 //
 
 import UIKit
-import SEAuthenticator
+
+private struct Layout {
+    static let cornerRadius: CGFloat = 6.0
+    static let sideOffset: CGFloat = 16.0
+    static let expiresLabelTopOffset: CGFloat = 8.0
+    static let titleLabelTopOffset: CGFloat = 16.0
+    static let descriptionLabelTopOffset: CGFloat = 8.0
+    static let stackViewTopOffset: CGFloat = 16.0
+    static let sharedDataViewTopOffset: CGFloat = 10.0
+    static let sharedDataViewHeight: CGFloat = AppLayout.screenHeight * 0.049
+    static let expirationViewHeight: CGFloat = AppLayout.screenHeight * 0.049
+    static let expirationViewBottomOffset: CGFloat = -16.0
+}
 
 final class ConsentDetailViewController: BaseViewController {
     private let scrollView = UIScrollView()
@@ -38,99 +50,53 @@ final class ConsentDetailViewController: BaseViewController {
     private lazy var sharedDataView = ConsentSharedDataView()
     private let expirationView = ConsentExpirationView()
 
-    var consent: SEConsentData
+    var viewModel: ConsentDetailViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        expiresLabel.text = "\(consent.expiresAt.get(.day)) days left"
-        titleLabel.text = "Consent for account information access"
-        setupDescription()
+        setupLabels()
         setupStackView()
         setupSharedData()
         setupExpirationView()
         layout()
     }
+}
 
-    init(title: String, consent: SEConsentData) {
-        self.consent = consent
-        super.init(nibName: nil, bundle: .authenticator_main)
-        navigationItem.title = title
+// MARK: - Setup
+private extension ConsentDetailViewController {
+    func setupLabels() {
+        navigationItem.title = viewModel.navigationTitle
+        expiresLabel.text = viewModel.expiresInText
+        titleLabel.text = viewModel.title
+        descriptionLabel.attributedText = viewModel.descriptionAtributedString
     }
 
-    private func setupDescription() {
-        let attributedDescription = NSMutableAttributedString(string: l10n(.consentGrantedTo))
-
-        let fontAttribute = [
-            NSAttributedString.Key.font: UIFont.auth_14semibold
-        ]
-
-        guard let consentLocation = attributedDescription.string.range(of: "%{consent}") else { return }
-
-        let consentRange = NSRange(consentLocation, in: attributedDescription.string)
-
-        let tppAttributedName = NSMutableAttributedString(
-            string: consent.tppName.capitalized,
-            attributes: fontAttribute
-        )
-        attributedDescription.replaceCharacters(in: consentRange, with: tppAttributedName)
-
-        guard let connectionLocation = attributedDescription.string.range(of: "%{connection}") else { return }
-
-        let connectionRange = NSRange(connectionLocation, in: attributedDescription.string)
-
-        let connectionAttributedName = NSMutableAttributedString(
-            string: "Spring bank",
-            attributes: fontAttribute
-        )
-
-        attributedDescription.replaceCharacters(in: connectionRange, with: connectionAttributedName)
-
-        descriptionLabel.attributedText = attributedDescription
-    }
-
-    private func setupStackView() {
-        consent.accounts.forEach {
+    func setupStackView() {
+        viewModel.accountsViewDataArray.forEach {
             let accountView = ConsentAccountView()
-            accountView.accountData = ConsentAccountViewData(
-                name: $0.name,
-                accountNumber: $0.accountNumber,
-                sortCode: $0.sortCode,
-                iban: $0.iban
-            )
+            accountView.accountData = $0
             stackView.addArrangedSubview(accountView)
         }
 
         if stackView.arrangedSubviews.count == 1, let view = stackView.arrangedSubviews.first {
-            view.roundTopCorners(radius: 6.0)
-            view.roundBottomCorners(radius: 6.0)
+            view.roundTopCorners(radius: Layout.cornerRadius)
+            view.roundBottomCorners(radius: Layout.cornerRadius)
         } else if stackView.arrangedSubviews.count > 1,
             let first = stackView.arrangedSubviews.first,
             let last = stackView.arrangedSubviews.last {
-            first.roundTopCorners(radius: 6.0)
-            last.roundBottomCorners(radius: 6.0)
+            first.roundTopCorners(radius: Layout.cornerRadius)
+            last.roundBottomCorners(radius: Layout.cornerRadius)
         }
     }
 
-    private func setupSharedData() {
-        if let sharedData = consent.sharedData {
+    func setupSharedData() {
+        if let sharedData = viewModel.consentSharedData {
             sharedDataView.data = sharedData
         }
     }
 
-    private func setupExpirationView() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, yyyy"
-        formatter.timeZone = .utc
-
-        let data = ConsentExpirationData(
-            granted: formatter.string(from: consent.createdAt),
-            expires: formatter.string(from: consent.expiresAt)
-        )
-        expirationView.data = data
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func setupExpirationView() {
+        expirationView.data = viewModel.expirationData
     }
 }
 
@@ -143,38 +109,38 @@ extension ConsentDetailViewController: Layoutable {
 
         scrollView.edgesToSuperview()
 
-        expiresLabel.top(to: scrollView, offset: 8.0)
-        expiresLabel.left(to: view, offset: 16.0)
-        expiresLabel.right(to: view, offset: -16.0)
+        expiresLabel.top(to: scrollView, offset: Layout.expiresLabelTopOffset)
+        expiresLabel.left(to: view, offset: Layout.sideOffset)
+        expiresLabel.right(to: view, offset: -Layout.sideOffset)
 
-        titleLabel.topToBottom(of: expiresLabel, offset: 16.0)
-        titleLabel.left(to: view, offset: 16.0)
-        titleLabel.right(to: view, offset: -16.0)
+        titleLabel.topToBottom(of: expiresLabel, offset: Layout.titleLabelTopOffset)
+        titleLabel.left(to: view, offset: Layout.sideOffset)
+        titleLabel.right(to: view, offset: -Layout.sideOffset)
 
-        descriptionLabel.topToBottom(of: titleLabel, offset: 8.0)
-        descriptionLabel.left(to: view, offset: 16.0)
-        descriptionLabel.right(to: view, offset: -16.0)
+        descriptionLabel.topToBottom(of: titleLabel, offset: Layout.descriptionLabelTopOffset)
+        descriptionLabel.left(to: view, offset: Layout.sideOffset)
+        descriptionLabel.right(to: view, offset: -Layout.sideOffset)
 
-        stackView.topToBottom(of: descriptionLabel, offset: 16.0)
-        stackView.left(to: view, offset: 16.0)
-        stackView.right(to: view, offset: -16.0)
+        stackView.topToBottom(of: descriptionLabel, offset: Layout.stackViewTopOffset)
+        stackView.left(to: view, offset: Layout.sideOffset)
+        stackView.right(to: view, offset: -Layout.sideOffset)
 
-        if consent.sharedData != nil {
+        if viewModel.hasSharedData {
             scrollView.addSubview(sharedDataView)
 
-            sharedDataView.topToBottom(of: stackView, offset:  10.0)
-            sharedDataView.left(to: view, offset: 16.0)
-            sharedDataView.right(to: view, offset: -16.0)
-            sharedDataView.height(40.0)
+            sharedDataView.topToBottom(of: stackView, offset: Layout.sharedDataViewTopOffset)
+            sharedDataView.left(to: view, offset: Layout.sideOffset)
+            sharedDataView.right(to: view, offset: -Layout.sideOffset)
+            sharedDataView.height(Layout.sharedDataViewHeight)
 
-            expirationView.topToBottom(of: sharedDataView, offset: 16.0)
+            expirationView.topToBottom(of: sharedDataView, offset: Layout.sideOffset)
         } else {
-            expirationView.topToBottom(of: scrollView, offset: 16.0)
+            expirationView.topToBottom(of: scrollView, offset: Layout.sideOffset)
         }
 
-        expirationView.leftToSuperview(offset: 16.0)
-        expirationView.height(40.0)
-        expirationView.bottom(to: scrollView, offset: -16.0)
+        expirationView.leftToSuperview(offset: Layout.sideOffset)
+        expirationView.height(Layout.expirationViewHeight)
+        expirationView.bottom(to: scrollView, offset: Layout.expirationViewBottomOffset)
     }
 }
 

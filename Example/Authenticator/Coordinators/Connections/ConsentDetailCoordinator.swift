@@ -1,5 +1,5 @@
 //
-//  ConsentsCoordinator
+//  ConsentDetailCoordinator
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -22,35 +22,19 @@
 
 import UIKit
 
-final class ConsentsCoordinator: Coordinator {
+final class ConsentDetailCoordinator: Coordinator {
     private var rootViewController: UIViewController
-    private var currentViewController: ConsentsViewController
-    private var detailConsentCoordinator: ConsentDetailCoordinator?
-    private var viewModel: ConsentsViewModel
+    private var currentViewController: ConsentDetailViewController
 
-    init(rootViewController: UIViewController, viewModel: ConsentsViewModel) {
-        self.viewModel = viewModel
+    init(rootViewController: UIViewController, viewModel: ConsentDetailViewModel) {
         self.rootViewController = rootViewController
-        self.currentViewController = ConsentsViewController()
+        self.currentViewController = ConsentDetailViewController()
         self.currentViewController.viewModel = viewModel
     }
 
     func start() {
-        viewModel.delegate = self
         rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
     func stop() {}
-}
-
-// MARK: - ConsentsEventsDelegate
-extension ConsentsCoordinator: ConsentsEventsDelegate {
-    func reloadData() {
-        currentViewController.reloadData()
-    }
-
-    func selected(detailViewModel: ConsentDetailViewModel) {
-        detailConsentCoordinator = ConsentDetailCoordinator(rootViewController: currentViewController, viewModel: detailViewModel)
-        detailConsentCoordinator?.start()
-    }
 }

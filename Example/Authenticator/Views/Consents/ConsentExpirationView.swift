@@ -27,14 +27,18 @@ struct ConsentExpirationData {
     let expires: String
 }
 
+private struct Layout {
+    static let expiresLabelTopOffset: CGFloat = 8.0
+}
+
 final class ConsentExpirationView: UIView {
     private let grantedLabel = UILabel(font: .auth_14regular)
     private let expiresLabel = UILabel(font: .auth_14regular)
 
     var data: ConsentExpirationData! {
         didSet {
-            grantedLabel.text = "Granted: \(data.granted)"
-            expiresLabel.text = "Expires: \(data.expires)"
+            grantedLabel.text = "\(l10n(.granted)): \(data.granted)"
+            expiresLabel.text = "\(l10n(.expires)): \(data.expires)"
         }
     }
 
@@ -49,7 +53,7 @@ final class ConsentExpirationView: UIView {
         grantedLabel.topToSuperview()
         grantedLabel.leftToSuperview()
 
-        expiresLabel.topToBottom(of: grantedLabel, offset: 8.0)
+        expiresLabel.topToBottom(of: grantedLabel, offset: Layout.expiresLabelTopOffset)
         expiresLabel.leftToSuperview()
     }
 

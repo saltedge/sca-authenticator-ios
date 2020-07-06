@@ -38,6 +38,7 @@ enum ConsentType: String {
 }
 
 protocol ConsentsEventsDelegate: class {
+    func selected(detailViewModel: ConsentDetailViewModel)
     func reloadData()
 }
 
@@ -126,5 +127,10 @@ final class ConsentsViewModel {
                 }
             }
         )
+    }
+
+    func selected(consent: SEConsentData) {
+        let detailConsentViewModel = ConsentDetailViewModel(connectionName: connection.name, consent: consent)
+        delegate?.selected(detailViewModel: detailConsentViewModel)
     }
 }

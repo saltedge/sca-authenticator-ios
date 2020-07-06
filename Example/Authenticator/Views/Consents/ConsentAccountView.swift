@@ -29,28 +29,37 @@ struct ConsentAccountViewData {
     let iban: String?
 }
 
+private struct Layout {
+    static let labelsSpacing: CGFloat = 4.0
+    static let stackViewTopOffset: CGFloat = 16.0
+    static let stackViewLeftOffset: CGFloat = 16.0
+    static let stackViewBottomOffset: CGFloat = -16.0
+    static let titleLabelHeight: CGFloat = 16.0
+    static let informationLabelsHeight: CGFloat = 14.0
+}
+
 final class ConsentAccountView: UIView {
-    private let labelsStackView = UIStackView(axis: .vertical, spacing: 4.0, distribution: .fillProportionally)
+    private let labelsStackView = UIStackView(axis: .vertical, spacing: Layout.labelsSpacing, distribution: .fillProportionally)
 
     var accountData: ConsentAccountViewData! {
         didSet {
             let titleLabel = label(text: accountData.name, font: .auth_16semibold)
-            titleLabel.height(16.0)
+            titleLabel.height(Layout.titleLabelHeight)
             labelsStackView.addArrangedSubview(titleLabel)
 
             if let accountNumber = accountData.accountNumber {
-                let accountNumberLabel = label(text: "Account number: \(accountNumber)", font: .auth_14regular)
-                accountNumberLabel.height(14.0)
+                let accountNumberLabel = label(text: "\(l10n(.accountNumber)): \(accountNumber)", font: .auth_14regular)
+                accountNumberLabel.height(Layout.informationLabelsHeight)
                 labelsStackView.addArrangedSubview(accountNumberLabel)
             }
             if let sortCode = accountData.sortCode {
-                let sortCodeLabel = label(text: "Sort code: \(sortCode)", font: .auth_14regular)
-                sortCodeLabel.height(14.0)
+                let sortCodeLabel = label(text: "\(l10n(.sortCode)): \(sortCode)", font: .auth_14regular)
+                sortCodeLabel.height(Layout.informationLabelsHeight)
                 labelsStackView.addArrangedSubview(sortCodeLabel)
             }
             if let iban = accountData.iban {
-                let ibanLabel = label(text: "IBAN: \(iban)", font: .auth_14regular)
-                ibanLabel.height(14.0)
+                let ibanLabel = label(text: "\(l10n(.sortCode)): \(iban)", font: .auth_14regular)
+                ibanLabel.height(Layout.informationLabelsHeight)
                 labelsStackView.addArrangedSubview(ibanLabel)
             }
         }
@@ -80,8 +89,8 @@ extension ConsentAccountView: Layoutable {
     func layout() {
         addSubview(labelsStackView)
 
-        labelsStackView.topToSuperview(offset: 16.0)
-        labelsStackView.leftToSuperview(offset: 16.0)
-        labelsStackView.bottomToSuperview(offset: -16.0)
+        labelsStackView.topToSuperview(offset: Layout.stackViewTopOffset)
+        labelsStackView.leftToSuperview(offset: Layout.stackViewLeftOffset)
+        labelsStackView.bottomToSuperview(offset: Layout.stackViewBottomOffset)
     }
 }

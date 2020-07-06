@@ -23,22 +23,30 @@
 import UIKit
 import SEAuthenticator
 
+private struct Layout {
+    static let labelsSpacing: CGFloat = 10.0
+    static let viewCornerRadius: CGFloat = 6.0
+    static let labelCornerRadius: CGFloat = 12.0
+    static let labelHeight: CGFloat = 24.0
+    static let sideOffset: CGFloat = 16.0
+}
+
 final class ConsentSharedDataView: UIView {
     private let sharedDataLabel: UILabel = {
         let label = UILabel(font: .auth_14regular)
-        label.text = "Shared data"
+        label.text = "\(l10n(.sharedData)):"
         return label
     }()
-    private let labelsStackView = UIStackView(axis: .horizontal, spacing: 10.0, distribution: .fill)
+    private let labelsStackView = UIStackView(axis: .horizontal, spacing: Layout.labelsSpacing, distribution: .fill)
     private var dataArray = [String]()
 
     var data: SEConsentSharedData! {
         didSet {
             if data.balance != nil {
-                dataArray.append("Balance")
+                dataArray.append(l10n(.balance))
             }
             if data.transactions != nil {
-                dataArray.append("Transactions")
+                dataArray.append(l10n(.transactions))
             }
             set(data: dataArray)
         }
@@ -47,7 +55,7 @@ final class ConsentSharedDataView: UIView {
     init() {
         super.init(frame: .zero)
         layer.masksToBounds =  true
-        layer.cornerRadius = 6.0
+        layer.cornerRadius = Layout.viewCornerRadius
         backgroundColor = .extraLightGray
         layout()
     }
@@ -58,8 +66,8 @@ final class ConsentSharedDataView: UIView {
             label.backgroundColor = .secondaryBackground
             label.text = $0
             label.layer.masksToBounds = true
-            label.layer.cornerRadius = 12.0
-            label.height(24.0)
+            label.layer.cornerRadius = Layout.labelCornerRadius
+            label.height(Layout.labelHeight)
             label.width(label.intrinsicContentSize.width + 20.0)
             labelsStackView.addArrangedSubview(label)
         }
@@ -68,10 +76,10 @@ final class ConsentSharedDataView: UIView {
     func layout() {
         addSubviews(sharedDataLabel, labelsStackView)
 
-        sharedDataLabel.leftToSuperview(offset: 16.0)
+        sharedDataLabel.leftToSuperview(offset: Layout.sideOffset)
         sharedDataLabel.centerYToSuperview()
 
-        labelsStackView.rightToSuperview(offset: -16.0)
+        labelsStackView.rightToSuperview(offset: -Layout.sideOffset)
         labelsStackView.centerYToSuperview()
     }
 
