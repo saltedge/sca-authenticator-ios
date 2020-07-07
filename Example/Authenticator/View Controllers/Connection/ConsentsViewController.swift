@@ -37,7 +37,6 @@ final class ConsentsViewController: BaseViewController {
 
     var viewModel: ConsentsViewModel! {
         didSet {
-            viewModel.delegate = self
             consentsLogoView.set(data: viewModel.logoViewData)
         }
     }
@@ -49,6 +48,10 @@ final class ConsentsViewController: BaseViewController {
         setupTableView()
         setupRefreshControl()
         layout()
+    }
+
+    func reloadData() {
+        tableView.reloadData()
     }
 
     @objc private func refresh() {
@@ -107,6 +110,8 @@ extension ConsentsViewController: UITableViewDataSource {
 extension ConsentsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+
+        viewModel.selected(consent: viewModel.consent(for: indexPath))
     }
 }
 
@@ -122,12 +127,5 @@ extension ConsentsViewController: Layoutable {
         tableView.topToBottom(of: consentsLogoView, offset: Layout.tableViewTopOffset)
         tableView.widthToSuperview()
         tableView.bottomToSuperview()
-    }
-}
-
-// MARK: - ConsentsEventsDelegate
-extension ConsentsViewController: ConsentsEventsDelegate {
-    func reloadData() {
-        tableView.reloadData()
     }
 }

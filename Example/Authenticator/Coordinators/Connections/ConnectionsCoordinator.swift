@@ -90,10 +90,10 @@ extension ConnectionsCoordinator: ConnectionsEventsDelegate {
         currentViewController.showSupportMailComposer(withEmail: email)
     }
 
-    func consentsPressed(id: ID, consents: [SEConsentData]) {
+    func consentsPressed(connectionId: String, consents: [SEConsentData]) {
         consentsCoordinator = ConsentsCoordinator(
             rootViewController: currentViewController,
-            viewModel: ConsentsViewModel(connectionId: id, consents: consents)
+            viewModel: ConsentsViewModel(connectionId: connectionId, consents: consents)
         )
         consentsCoordinator?.start()
     }

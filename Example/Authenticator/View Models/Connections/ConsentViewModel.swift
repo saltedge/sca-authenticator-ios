@@ -38,6 +38,7 @@ enum ConsentType: String {
 }
 
 protocol ConsentsEventsDelegate: class {
+    func selected(detailViewModel: ConsentDetailViewModel)
     func reloadData()
 }
 
@@ -91,6 +92,20 @@ final class ConsentsViewModel {
         )
     }
 
+    func consent(for indexPath: IndexPath) -> SEConsentData {
+        return consents[indexPath.row]
+    }
+}
+
+// MARK: - Actions
+extension ConsentsViewModel {
+    func remove(consent: SEConsentData) {
+        guard let index = consents.firstIndex(of: consent) else { return }
+
+        consents.remove(at: index)
+        delegate?.reloadData()
+    }
+
     func updateConsents(with consents: [SEConsentData]) {
         self.consents = consents
         delegate?.reloadData()
@@ -122,5 +137,10 @@ final class ConsentsViewModel {
                 }
             }
         )
+    }
+
+    func selected(consent: SEConsentData) {
+        let detailConsentViewModel = ConsentDetailViewModel(connectionName: connection.name, consent: consent)
+        delegate?.selected(detailViewModel: detailConsentViewModel)
     }
 }

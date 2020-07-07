@@ -117,6 +117,20 @@
 		9D8E5BA22445A1E70081E60E /* OnboardingViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */; };
 		9D94095A23618CF00080EBB5 /* CacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94095923618CF00080EBB5 /* CacheHelper.swift */; };
 		9D94095B23618CF00080EBB5 /* CacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94095923618CF00080EBB5 /* CacheHelper.swift */; };
+		9D98746D24B3536400EE89BB /* ConsentSharedDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98746C24B3536400EE89BB /* ConsentSharedDataView.swift */; };
+		9D98746E24B3536400EE89BB /* ConsentSharedDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98746C24B3536400EE89BB /* ConsentSharedDataView.swift */; };
+		9D98747024B353A300EE89BB /* ConsentExpirationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98746F24B353A300EE89BB /* ConsentExpirationView.swift */; };
+		9D98747124B353A300EE89BB /* ConsentExpirationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98746F24B353A300EE89BB /* ConsentExpirationView.swift */; };
+		9D98747324B353C000EE89BB /* ConsentAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747224B353C000EE89BB /* ConsentAccountView.swift */; };
+		9D98747424B353C000EE89BB /* ConsentAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747224B353C000EE89BB /* ConsentAccountView.swift */; };
+		9D98747624B37F3500EE89BB /* ConsentDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747524B37F3500EE89BB /* ConsentDetailViewModel.swift */; };
+		9D98747724B37F3500EE89BB /* ConsentDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747524B37F3500EE89BB /* ConsentDetailViewModel.swift */; };
+		9D98747924B382DF00EE89BB /* ConsentDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747824B382DF00EE89BB /* ConsentDetailCoordinator.swift */; };
+		9D98747A24B382DF00EE89BB /* ConsentDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747824B382DF00EE89BB /* ConsentDetailCoordinator.swift */; };
+		9D98747C24B390F200EE89BB /* ConsentsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747B24B390F200EE89BB /* ConsentsInteractor.swift */; };
+		9D98747D24B390F200EE89BB /* ConsentsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D98747B24B390F200EE89BB /* ConsentsInteractor.swift */; };
+		9DA1C81424ADDF9F0024CDBA /* ConsentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA1C81324ADDF9F0024CDBA /* ConsentDetailViewController.swift */; };
+		9DA1C81524ADDF9F0024CDBA /* ConsentDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA1C81324ADDF9F0024CDBA /* ConsentDetailViewController.swift */; };
 		9DAAC0E2233A5341006D0758 /* TimeLeftLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */; };
 		9DAAC0E3233A5341006D0758 /* TimeLeftLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */; };
 		9DB125F12445B3300012A74C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED93622D3389C0050ED3C /* Assets.xcassets */; };
@@ -421,6 +435,13 @@
 		9D8E5BA12445A1E70081E60E /* OnboardingViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModelSpec.swift; sourceTree = "<group>"; };
 		9D940957235DDB8F0080EBB5 /* AboutViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModelSpec.swift; sourceTree = "<group>"; };
 		9D94095923618CF00080EBB5 /* CacheHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheHelper.swift; sourceTree = "<group>"; };
+		9D98746C24B3536400EE89BB /* ConsentSharedDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentSharedDataView.swift; sourceTree = "<group>"; };
+		9D98746F24B353A300EE89BB /* ConsentExpirationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentExpirationView.swift; sourceTree = "<group>"; };
+		9D98747224B353C000EE89BB /* ConsentAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentAccountView.swift; sourceTree = "<group>"; };
+		9D98747524B37F3500EE89BB /* ConsentDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentDetailViewModel.swift; sourceTree = "<group>"; };
+		9D98747824B382DF00EE89BB /* ConsentDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentDetailCoordinator.swift; sourceTree = "<group>"; };
+		9D98747B24B390F200EE89BB /* ConsentsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentsInteractor.swift; sourceTree = "<group>"; };
+		9DA1C81324ADDF9F0024CDBA /* ConsentDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsentDetailViewController.swift; sourceTree = "<group>"; };
 		9DAAC0E1233A5341006D0758 /* TimeLeftLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLeftLabel.swift; sourceTree = "<group>"; };
 		9DBAD79E247E55BD0023F944 /* QRCodeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeCoordinator.swift; sourceTree = "<group>"; };
 		9DBAD7A1247E65D30023F944 /* InstantActionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantActionCoordinator.swift; sourceTree = "<group>"; };
@@ -715,6 +736,7 @@
 				9D87F49A2429302800F85D1F /* ConnectionCellViewModel.swift */,
 				9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */,
 				9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */,
+				9D98747524B37F3500EE89BB /* ConsentDetailViewModel.swift */,
 			);
 			path = Connections;
 			sourceTree = "<group>";
@@ -929,6 +951,7 @@
 				9DCED7E522CE18270050ED3C /* ConnectViewController.swift */,
 				9D1DEE7323D9C5D6003C79AC /* ConnectionPickerViewController.swift */,
 				9DE569FD24AA171400FA5B2C /* ConsentsViewController.swift */,
+				9DA1C81324ADDF9F0024CDBA /* ConsentDetailViewController.swift */,
 			);
 			path = Connection;
 			sourceTree = "<group>";
@@ -1008,6 +1031,7 @@
 			children = (
 				9DCED82C22CE18270050ED3C /* AuthorizationsInteractor.swift */,
 				9DCED82D22CE18270050ED3C /* ConnectionsInteractor.swift */,
+				9D98747B24B390F200EE89BB /* ConsentsInteractor.swift */,
 				95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */,
 			);
 			path = Interactors;
@@ -1306,6 +1330,9 @@
 			isa = PBXGroup;
 			children = (
 				9DE56A0124AA179100FA5B2C /* ConsentLogoView.swift */,
+				9D98747224B353C000EE89BB /* ConsentAccountView.swift */,
+				9D98746C24B3536400EE89BB /* ConsentSharedDataView.swift */,
+				9D98746F24B353A300EE89BB /* ConsentExpirationView.swift */,
 			);
 			path = Consents;
 			sourceTree = "<group>";
@@ -1315,6 +1342,7 @@
 			children = (
 				95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */,
 				9DE56A0B24AB702A00FA5B2C /* ConsentsCoordinator.swift */,
+				9D98747824B382DF00EE89BB /* ConsentDetailCoordinator.swift */,
 			);
 			path = Connections;
 			sourceTree = "<group>";
@@ -1661,6 +1689,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9DCED8F922CE18280050ED3C /* PasscodeSymbolView.swift in Sources */,
+				9D98746D24B3536400EE89BB /* ConsentSharedDataView.swift in Sources */,
 				9DE94108246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */,
 				9DCED90222CE18280050ED3C /* NoDataView.swift in Sources */,
 				9DCED8D922CE18280050ED3C /* ConnectionsInteractor.swift in Sources */,
@@ -1706,9 +1735,11 @@
 				9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
 				9D87F4A7242A6BCD00F85D1F /* ConnectionsViewModel.swift in Sources */,
 				9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */,
+				9D98747324B353C000EE89BB /* ConsentAccountView.swift in Sources */,
 				9DCED90622CE18280050ED3C /* CompleteView.swift in Sources */,
 				9D77212C231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */,
 				9D59DAF82490C4A800117CD7 /* SingleAuthorizationViewController.swift in Sources */,
+				9D98747C24B390F200EE89BB /* ConsentsInteractor.swift in Sources */,
 				9DBAD79F247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */,
 				9DCED90A22CE18280050ED3C /* ConnectViewCoordinator.swift in Sources */,
 				95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */,
@@ -1718,6 +1749,7 @@
 				9DD4DF2823759767000A9B80 /* AVCaptureHelper.swift in Sources */,
 				9DCED8D422CE18280050ED3C /* DicitionaryExtensions.swift in Sources */,
 				9D5BCFE3248108F1009A6B40 /* AspectFitImageView.swift in Sources */,
+				9DA1C81424ADDF9F0024CDBA /* ConsentDetailViewController.swift in Sources */,
 				9D772129231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */,
 				9DE308BE24474D92009EBD39 /* PasscodeViewModel.swift in Sources */,
 				9DCED8DB22CE18280050ED3C /* Constants.swift in Sources */,
@@ -1736,6 +1768,7 @@
 				9DCED8EB22CE18280050ED3C /* ParametersSerializer.swift in Sources */,
 				9DCED8DC22CE18280050ED3C /* LocalizationHelper.swift in Sources */,
 				9DCED92622CE18280050ED3C /* AppDelegate.swift in Sources */,
+				9D98747024B353A300EE89BB /* ConsentExpirationView.swift in Sources */,
 				9DCED8CB22CE18280050ED3C /* WindowExtensions.swift in Sources */,
 				95C6782524AA0EE40088A9CF /* CollectionsInteractor.swift in Sources */,
 				9DCED8DA22CE18280050ED3C /* Localizable.swift in Sources */,
@@ -1752,6 +1785,7 @@
 				95F409002473C91000727095 /* ConnectionsCoordinator.swift in Sources */,
 				959E30A9247BD0160067354A /* LicensesViewModel.swift in Sources */,
 				9DE56A0524AA223B00FA5B2C /* ConsentCell.swift in Sources */,
+				9D98747924B382DF00EE89BB /* ConsentDetailCoordinator.swift in Sources */,
 				9D49FF7C24922F9900778AC4 /* ForgotPasscodeViewController.swift in Sources */,
 				9DCED91F22CE18280050ED3C /* ConnectionRepository.swift in Sources */,
 				9DCED8AD22CE18280050ED3C /* RealmManager.swift in Sources */,
@@ -1788,6 +1822,7 @@
 				9DCED8CF22CE18280050ED3C /* ColorExtensions.swift in Sources */,
 				9DE56A0224AA179100FA5B2C /* ConsentLogoView.swift in Sources */,
 				95F4090224751D7E00727095 /* ConnectionCellViewModel.swift in Sources */,
+				9D98747624B37F3500EE89BB /* ConsentDetailViewModel.swift in Sources */,
 				9DCED8F522CE18280050ED3C /* CustomSpacingLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1796,6 +1831,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D98747424B353C000EE89BB /* ConsentAccountView.swift in Sources */,
 				9D59DAF62490C11500117CD7 /* AuthorizationView.swift in Sources */,
 				959E30A3247BC7930067354A /* LanguagePickerCoordinator.swift in Sources */,
 				95CD02DD235864130085C52A /* SEConnectHelperSpec.swift in Sources */,
@@ -1888,7 +1924,9 @@
 				95D784E723043949002BF219 /* RealmMigrationManager.swift in Sources */,
 				9DE3249A22D399EF00EB162A /* ColorExtensions.swift in Sources */,
 				9DE56A0624AA223B00FA5B2C /* ConsentCell.swift in Sources */,
+				9DA1C81524ADDF9F0024CDBA /* ConsentDetailViewController.swift in Sources */,
 				959E30B2247BDA250067354A /* LanguagePickerViewModelSpec.swift in Sources */,
+				9D98746E24B3536400EE89BB /* ConsentSharedDataView.swift in Sources */,
 				9D1DEE7523D9C5D6003C79AC /* ConnectionPickerViewController.swift in Sources */,
 				9DBAD7A0247E55BD0023F944 /* QRCodeCoordinator.swift in Sources */,
 				9DE3245A22D3986B00EB162A /* RevokeConnectionResponseSpec.swift in Sources */,
@@ -1900,6 +1938,7 @@
 				9DE3247522D398ED00EB162A /* DataFixtures.swift in Sources */,
 				9D66E1DF22D6146900BD59B6 /* AuthorizationRouterSpec.swift in Sources */,
 				9DE324D222D39AA700EB162A /* PasscodeSymbolView.swift in Sources */,
+				9D98747D24B390F200EE89BB /* ConsentsInteractor.swift in Sources */,
 				9DE324C722D39A8300EB162A /* MessageBarView.swift in Sources */,
 				9DE324CA22D39A8B00EB162A /* SettingsCell.swift in Sources */,
 				9DE324C622D39A7B00EB162A /* AuthorizationDetailViewModel.swift in Sources */,
@@ -1913,6 +1952,7 @@
 				9D53832423D0A5E300106724 /* TimerApplication.swift in Sources */,
 				9D66E1B522D4C1F300BD59B6 /* AuthorizationsDataSourceSpec.swift in Sources */,
 				9DE3248722D399AC00EB162A /* ConnectionsCollector.swift in Sources */,
+				9D98747724B37F3500EE89BB /* ConsentDetailViewModel.swift in Sources */,
 				9DE9410C246D7595000029A2 /* RealmConnectionsListener.swift in Sources */,
 				9DE324BD22D39A5D00EB162A /* ConnectorWebViewController.swift in Sources */,
 				9DE324A822D39A1B00EB162A /* KeychainHelper.swift in Sources */,
@@ -1942,8 +1982,10 @@
 				9DE324A122D39A0400EB162A /* LabelStyles.swift in Sources */,
 				9DE324D522D39AAF00EB162A /* CountdownProgressView.swift in Sources */,
 				9D59DAF92490C4A800117CD7 /* SingleAuthorizationViewController.swift in Sources */,
+				9D98747A24B382DF00EE89BB /* ConsentDetailCoordinator.swift in Sources */,
 				9DE324A922D39A1E00EB162A /* AppSettings.swift in Sources */,
 				9DE3248F22D399CD00EB162A /* EntityResponse.swift in Sources */,
+				9D98747124B353A300EE89BB /* ConsentExpirationView.swift in Sources */,
 				9D66E1E022D6146900BD59B6 /* ProviderRouterSpec.swift in Sources */,
 				9DE3249F22D399FC00EB162A /* ApplicationExtensions.swift in Sources */,
 				9DE3249322D399DE00EB162A /* ImageExtensions.swift in Sources */,

@@ -25,16 +25,32 @@ import UIKit
 final class ConsentsCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var currentViewController: ConsentsViewController
+    private var detailConsentCoordinator: ConsentDetailCoordinator?
+    private var viewModel: ConsentsViewModel
 
     init(rootViewController: UIViewController, viewModel: ConsentsViewModel) {
+        self.viewModel = viewModel
         self.rootViewController = rootViewController
         self.currentViewController = ConsentsViewController()
         self.currentViewController.viewModel = viewModel
     }
 
     func start() {
+        viewModel.delegate = self
         rootViewController.navigationController?.pushViewController(currentViewController, animated: true)
     }
 
     func stop() {}
+}
+
+// MARK: - ConsentsEventsDelegate
+extension ConsentsCoordinator: ConsentsEventsDelegate {
+    func reloadData() {
+        currentViewController.reloadData()
+    }
+
+    func selected(detailViewModel: ConsentDetailViewModel) {
+        detailConsentCoordinator = ConsentDetailCoordinator(rootViewController: currentViewController, viewModel: detailViewModel)
+        detailConsentCoordinator?.start()
+    }
 }
