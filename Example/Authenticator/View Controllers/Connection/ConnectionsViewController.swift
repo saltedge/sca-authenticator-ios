@@ -184,7 +184,9 @@ extension ConnectionsViewController: Layoutable {
     func layout() {
         view.addSubviews(tableView, noDataView)
 
-        tableView.edges(to: view)
+        tableView.topToSuperview(view.safeAreaLayoutGuide.topAnchor)
+        tableView.widthToSuperview()
+        tableView.bottomToSuperview(view.safeAreaLayoutGuide.bottomAnchor)
 
         noDataView.topToSuperview(view.safeAreaLayoutGuide.topAnchor, offset: Layout.noDataViewTopOffset)
         noDataView.widthToSuperview()

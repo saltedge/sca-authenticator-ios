@@ -29,11 +29,13 @@ private struct Layout {
     static let labelCornerRadius: CGFloat = 12.0
     static let labelHeight: CGFloat = 24.0
     static let sideOffset: CGFloat = 16.0
+    static let sharedDataLabelRightOffset: CGFloat = -5.0
 }
 
 final class ConsentSharedDataView: UIView {
     private let sharedDataLabel: UILabel = {
-        let label = UILabel(font: .auth_14regular)
+        let label = UILabel()
+        label.font = .auth_14regular
         label.text = "\(l10n(.sharedData)):"
         return label
     }()
@@ -73,17 +75,21 @@ final class ConsentSharedDataView: UIView {
         }
     }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - Layoutable
+extension ConsentSharedDataView: Layoutable {
     func layout() {
         addSubviews(sharedDataLabel, labelsStackView)
 
         sharedDataLabel.leftToSuperview(offset: Layout.sideOffset)
         sharedDataLabel.centerYToSuperview()
+        sharedDataLabel.rightToLeft(of: labelsStackView, offset: Layout.sharedDataLabelRightOffset, relation: .equalOrLess)
 
-        labelsStackView.rightToSuperview(offset: -Layout.sideOffset)
+        labelsStackView.rightToSuperview(offset: -Layout.sideOffset, relation: .equalOrLess)
         labelsStackView.centerYToSuperview()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

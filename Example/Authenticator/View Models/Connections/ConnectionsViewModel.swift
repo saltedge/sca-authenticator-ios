@@ -166,11 +166,23 @@ extension ConnectionsViewModel {
             actionSheet.addAction(reconnect)
         }
 
+        if viewModel.hasConsents {
+            actionSheet.addAction(
+                UIAlertAction(title: l10n(.viewConsents), style: .default) { _ in
+                    guard let connectionId = self.connectionId(at: indexPath),
+                        let consents = self.consentsDict[connectionId] else { return }
+
+                    self.delegate?.consentsPressed(connectionId: connectionId, consents: consents)
+                }
+            )
+        }
+
         actionSheet.addAction(UIAlertAction(title: l10n(.rename), style: .default) { _ in
             self.updateName(by: viewModel.id)
         })
 
         let deleteTitle = viewModel.status == ConnectionStatus.inactive.rawValue ? l10n(.remove) : l10n(.delete)
+
         actionSheet.addAction(UIAlertAction(title: deleteTitle, style: .destructive) { _ in
             self.delegate?.deleteConnection(
                 completion: {
