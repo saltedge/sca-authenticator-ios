@@ -56,14 +56,14 @@ final class ConsentSharedDataView: UIView {
         super.init(frame: .zero)
         layer.masksToBounds =  true
         layer.cornerRadius = Layout.viewCornerRadius
-        backgroundColor = .extraLightGray
+        backgroundColor = .extraLightGray_blueBlack
         layout()
     }
 
     private func set(data: [String]) {
         dataArray.forEach {
-            let label = UILabel(font: .auth_14regular)
-            label.backgroundColor = .secondaryBackground
+            let label = UILabel(font: .auth_14regular, textColor: .dark80_grey100)
+            label.backgroundColor = .white_dark100
             label.text = $0
             label.layer.masksToBounds = true
             label.layer.cornerRadius = Layout.labelCornerRadius

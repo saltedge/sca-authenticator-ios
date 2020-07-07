@@ -128,12 +128,14 @@ class ConnectionCellViewModel {
 
         if consentsCount == 0 { return baseStatus }
 
+        let consentsCountString = consentsCount > 1 ? l10n(.consents) : l10n(.consent)
+
         let extendedStatusAttribute = [
             NSAttributedString.Key.foregroundColor: UIColor.dark60,
             NSAttributedString.Key.font: UIFont.auth_13medium
         ]
         let extendedStatus = NSMutableAttributedString(
-            string: "\(consentsCount) \(l10n(.consents)) • ",
+            string: "\(consentsCount) \(consentsCountString) • ",
             attributes: extendedStatusAttribute
         )
         extendedStatus.append(baseStatus)

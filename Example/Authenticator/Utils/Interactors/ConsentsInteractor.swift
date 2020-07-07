@@ -25,7 +25,8 @@ import SEAuthenticator
 
 struct ConsentsInteractor {
     static func revoke(_ consent: SEConsentData, success: (() -> ())? = nil, failure: ((String) -> ())? = nil) {
-        guard let connection = ConnectionsCollector.with(id: consent.id), let baseUrl = connection.baseUrl else { return }
+        guard let connection = ConnectionsCollector.with(id: consent.connectionId),
+            let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
 
         let data = SEBaseAuthenticatedWithIdRequestData(
             url: baseUrl,

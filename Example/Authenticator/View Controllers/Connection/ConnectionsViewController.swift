@@ -42,6 +42,11 @@ final class ConnectionsViewController: UIViewController {
         setupNoDataView()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.refreshConsents()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .backgroundColor
@@ -57,7 +62,6 @@ final class ConnectionsViewController: UIViewController {
             name: NSLocale.currentLocaleDidChangeNotification,
             object: nil
         )
-        viewModel.refreshConsents()
     }
 
     @objc private func reloadData() {
@@ -182,7 +186,7 @@ extension ConnectionsViewController: Layoutable {
 
         tableView.edges(to: view)
 
-        noDataView.topToSuperview(offset: Layout.noDataViewTopOffset)
+        noDataView.topToSuperview(view.safeAreaLayoutGuide.topAnchor, offset: Layout.noDataViewTopOffset)
         noDataView.widthToSuperview()
     }
 }
@@ -219,6 +223,6 @@ extension ConnectionsViewController: ConnectionCellEventsDelegate {
     }
 
     func consentsPressed(id: String) {
-        viewModel.consentsPressed(id: id)
+        viewModel.consentsPressed(connectionId: id)
     }
 }

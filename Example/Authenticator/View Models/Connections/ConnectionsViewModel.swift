@@ -29,7 +29,7 @@ protocol ConnectionsEventsDelegate: class {
     func showSupport(email: String)
     func deleteConnection(completion: @escaping () -> ())
     func reconnect(by id: String)
-    func consentsPressed(id: ID, consents: [SEConsentData])
+    func consentsPressed(connectionId: String, consents: [SEConsentData])
     func updateViews()
     func addPressed()
 }
@@ -138,10 +138,10 @@ extension ConnectionsViewModel {
         delegate?.showSupport(email: email)
     }
 
-    func consentsPressed(id: ID) {
-        guard let consents = consentsDict[id] else { return }
+    func consentsPressed(connectionId: String) {
+        guard let consents = consentsDict[connectionId] else { return }
 
-        delegate?.consentsPressed(id: id, consents: consents)
+        delegate?.consentsPressed(connectionId: connectionId, consents: consents)
     }
 
     func addPressed() {
@@ -204,6 +204,18 @@ extension ConnectionsViewModel {
         rename.image = UIImage(named: "rename")
 
         var actions: [UIContextualAction] = [delete, rename]
+
+        if viewModel.hasConsents {
+            let viewConsents = UIContextualAction(style: .normal, title: "") { _, _, completionHandler in
+                guard let connectionId = self.connectionId(at: indexPath),
+                    let consents = self.consentsDict[connectionId] else { return }
+
+                self.delegate?.consentsPressed(connectionId: connectionId, consents: consents)
+                completionHandler(true)
+            }
+            viewConsents.image = UIImage(named: "consents")
+            actions.append(viewConsents)
+        }
 
         if viewModel.status == ConnectionStatus.inactive.rawValue {
             let reconnect = UIContextualAction(style: .normal, title: "") { _, _, completionHandler in

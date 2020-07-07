@@ -24,7 +24,7 @@ import UIKit
 import SEAuthenticator
 
 protocol ConsentDetailViewModelEventsDelegate: class {
-    func revoke(_ consent: SEConsentData)
+    func revoke(_ consent: SEConsentData, messageTitle: String, messageDescription: String, successMessage: String)
 }
 
 final class ConsentDetailViewModel {
@@ -97,7 +97,7 @@ final class ConsentDetailViewModel {
 
     var expirationData: ConsentExpirationData {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, yyyy"
+        formatter.dateFormat = "d MMMM yyyy"
         formatter.timeZone = .utc
 
         return ConsentExpirationData(
@@ -110,6 +110,14 @@ final class ConsentDetailViewModel {
 // MARK: - Actions
 extension ConsentDetailViewModel {
     func revokePressed() {
-        delegate?.revoke(consent)
+        let description = l10n(.revokeConsentDescription).replacingOccurrences(of: "%{tpp_name}", with: consent.tppName)
+        let successMessage = l10n(.consentRevokedFor).replacingOccurrences(of: "%{tpp_name}", with: consent.tppName)
+
+        delegate?.revoke(
+            consent,
+            messageTitle: l10n(.revokeConsent),
+            messageDescription: description,
+            successMessage: successMessage
+        )
     }
 }

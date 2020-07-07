@@ -30,7 +30,7 @@ struct ConsentAccountViewData {
 }
 
 private struct Layout {
-    static let labelsSpacing: CGFloat = 4.0
+    static let labelsSpacing: CGFloat = 6.0
     static let stackViewTopOffset: CGFloat = 16.0
     static let stackViewLeftOffset: CGFloat = 16.0
     static let stackViewBottomOffset: CGFloat = -16.0
@@ -43,40 +43,58 @@ final class ConsentAccountView: UIView {
 
     var accountData: ConsentAccountViewData! {
         didSet {
-            let titleLabel = label(text: accountData.name, font: .auth_16semibold)
-            titleLabel.height(Layout.titleLabelHeight)
-            labelsStackView.addArrangedSubview(titleLabel)
+            addLabelToStackView(title: accountData.name, font: .auth_16semibold, height: Layout.titleLabelHeight)
 
             if let accountNumber = accountData.accountNumber {
-                let accountNumberLabel = label(text: "\(l10n(.accountNumber)): \(accountNumber)", font: .auth_14regular)
-                accountNumberLabel.height(Layout.informationLabelsHeight)
-                labelsStackView.addArrangedSubview(accountNumberLabel)
+                addLabelToStackView(
+                    title: l10n(.accountNumber),
+                    description: accountNumber,
+                    font: .auth_14regular,
+                    height: Layout.informationLabelsHeight
+                )
             }
             if let sortCode = accountData.sortCode {
-                let sortCodeLabel = label(text: "\(l10n(.sortCode)): \(sortCode)", font: .auth_14regular)
-                sortCodeLabel.height(Layout.informationLabelsHeight)
-                labelsStackView.addArrangedSubview(sortCodeLabel)
+                addLabelToStackView(
+                    title: l10n(.sortCode),
+                    description: sortCode,
+                    font: .auth_14regular,
+                    height: Layout.informationLabelsHeight
+                )
             }
             if let iban = accountData.iban {
-                let ibanLabel = label(text: "\(l10n(.sortCode)): \(iban)", font: .auth_14regular)
-                ibanLabel.height(Layout.informationLabelsHeight)
-                labelsStackView.addArrangedSubview(ibanLabel)
+                addLabelToStackView(
+                    title: l10n(.iban),
+                    description: iban,
+                    font: .auth_14regular,
+                    height: Layout.informationLabelsHeight
+                )
             }
         }
     }
 
     init() {
         super.init(frame: .zero)
-        backgroundColor = .extraLightGray
+        backgroundColor = .extraLightGray_blueBlack
         layout()
     }
 
-    private func label(text: String, font: UIFont) -> UILabel {
-        let label = UILabel()
-        label.font = font
-        label.textAlignment = .left
-        label.text = text
-        return label
+    private func addLabelToStackView(title: String, description: String? = nil, font: UIFont, height: CGFloat) {
+        let label = UILabel(font: font, alignment: .left)
+        label.height(height)
+
+        if let description = description {
+            let attributedText = NSMutableAttributedString(string: "\(title): ")
+            let attributedDescription = NSMutableAttributedString(
+                string: description,
+                attributes: [NSAttributedString.Key.font: UIFont.auth_14semibold]
+            )
+            attributedText.append(attributedDescription)
+            label.attributedText = attributedText
+        } else {
+            label.text = title
+        }
+
+        labelsStackView.addArrangedSubview(label)
     }
 
     required init?(coder: NSCoder) {

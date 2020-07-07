@@ -45,21 +45,28 @@ final class ConsentDetailCoordinator: Coordinator {
 
 // MARK: - ConsentDetailViewModelEventsDelegate
 extension ConsentDetailCoordinator: ConsentDetailViewModelEventsDelegate {
-    func revoke(_ consent: SEConsentData) {
+    func revoke(_ consent: SEConsentData, messageTitle: String, messageDescription: String, successMessage: String) {
         currentViewController.showConfirmationAlert(
-            withTitle: "Revoke consent",
-            message: "Fentury service that is provided to you may be interrupted. Are you sure you want to revoke consent?",
+            withTitle: messageTitle,
+            message: messageDescription,
             confirmActionTitle: l10n(.confirm),
             confirmActionStyle: .destructive,
             confirmAction: { _ in
-                // TODO: finish
                 ConsentsInteractor.revoke(
                     consent,
-                    success: {
-                        print("Success")
+                    success: { [weak self] in
+                        guard let consentsListVc = self?.rootViewController as? ConsentsViewController else { return }
+
+                        self?.currentViewController.navigationController?.popViewControllerWithHandler(
+                            controller: consentsListVc,
+                            completion: {
+                                consentsListVc.viewModel.remove(consent: consent)
+                                consentsListVc.present(message: successMessage)
+                            }
+                        )
                     },
-                    failure: { error in
-                        print(error)
+                    failure: { _ in
+                        self.currentViewController.present(message: l10n(.somethingWentWrong))
                     }
                 )
             }

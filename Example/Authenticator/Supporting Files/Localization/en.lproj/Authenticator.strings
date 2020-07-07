@@ -95,6 +95,9 @@
 "in_app.connection.consents.account_number" = "Account number";
 "in_app.connection.consents.sort_code" = "Sort code";
 "in_app.connection.consents.iban" = "IBAN";
+"in_app.connection.consents.revoke_consent" = "Revoke consent";
+"in_app.connection.consents.revoke_consent_description" = "%{tpp_name} service that is provided to you may be interrupted. Are you sure you want to revoke consent?";
+"in_app.connection.consents.consent_revoked_for" = "Consent revoked for %{tpp_name}";
 "in_app.connection.connection_failed" = "Connection failed";
 "in_app.connect.scan_qr" = "Scan QR";
 "in_app.connect.scan_qr_code" = "Scan QR code";

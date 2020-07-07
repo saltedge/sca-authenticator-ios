@@ -32,8 +32,8 @@ private struct Layout {
 }
 
 final class ConsentExpirationView: UIView {
-    private let grantedLabel = UILabel(font: .auth_14regular)
-    private let expiresLabel = UILabel(font: .auth_14regular)
+    private let grantedLabel = UILabel(font: .auth_14regular, textColor: .dark80_grey100)
+    private let expiresLabel = UILabel(font: .auth_14regular, textColor: .dark80_grey100)
 
     var data: ConsentExpirationData! {
         didSet {

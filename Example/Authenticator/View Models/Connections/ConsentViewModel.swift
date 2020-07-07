@@ -95,6 +95,16 @@ final class ConsentsViewModel {
     func consent(for indexPath: IndexPath) -> SEConsentData {
         return consents[indexPath.row]
     }
+}
+
+// MARK: - Actions
+extension ConsentsViewModel {
+    func remove(consent: SEConsentData) {
+        guard let index = consents.firstIndex(of: consent) else { return }
+
+        consents.remove(at: index)
+        delegate?.reloadData()
+    }
 
     func updateConsents(with consents: [SEConsentData]) {
         self.consents = consents

@@ -147,6 +147,9 @@ enum Localizations: String, Localizable {
     case accountNumber = "in_app.connection.consents.account_number"
     case sortCode = "in_app.connection.consents.sort_code"
     case iban = "in_app.connection.consents.iban"
+    case revokeConsent = "in_app.connection.consents.revoke_consent"
+    case revokeConsentDescription = "in_app.connection.consents.revoke_consent_description"
+    case consentRevokedFor = "in_app.connection.consents.consent_revoked_for"
 
     // MARK: - Settings
     case settings = "in_app.sidebar_menu.settings"
