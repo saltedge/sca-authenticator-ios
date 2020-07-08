@@ -24,6 +24,17 @@ import UIKit
 import UserNotifications
 
 struct NotificationsManager {
+    static func isRegisteredRemoteNotifications(completion: @escaping (Bool) -> ()) {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            if settings.authorizationStatus == .denied {
+                completion(false)
+            }
+            if settings.authorizationStatus == .authorized {
+                completion(true)
+            }
+        }
+    }
+
     static func registerForNotifications() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .alert, .sound]) { granted, _ in
             if granted {

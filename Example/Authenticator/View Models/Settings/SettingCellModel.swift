@@ -31,6 +31,7 @@ enum SettingCellModel: Localizable {
     case about
     case licenses
     case clearData
+    case notifications
 
     var localizedLabel: String {
         switch self {
@@ -42,6 +43,7 @@ enum SettingCellModel: Localizable {
         case .about: return l10n(.about)
         case .licenses: return l10n(.licenses)
         case .clearData: return l10n(.clearAllData)
+        case .notifications: return "Enable notifications"
         }
     }
 
@@ -52,6 +54,7 @@ enum SettingCellModel: Localizable {
         case .about: return UIImage(named: "settingsAbout", in: .authenticator_main, compatibleWith: nil)
         case .support: return UIImage(named: "settingsSupport", in: .authenticator_main, compatibleWith: nil)
         case .clearData: return UIImage(named: "settingsClear", in: .authenticator_main, compatibleWith: nil)
+        case .notifications: return UIImage(named: "settingsNotifications", in: .authenticator_main, compatibleWith: nil)
         default: return nil
         }
     }

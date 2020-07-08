@@ -30,21 +30,34 @@ protocol SettingsEventsDelegate: class {
     func clearDataItemSelected(confirmAction: @escaping (() -> ()))
 }
 
-class SettingsViewModel {
-    private let items: [SettingCellModel] = [.passcode, .language, .about, .support, .clearData]
+final class SettingsViewModel {
+    private var items: [Int: [SettingCellModel]] = [0: [.passcode, .language, .about, .support],
+                                                    1: [.clearData]]
+
+    init() {
+        NotificationsManager.isRegisteredRemoteNotifications { registered in
+            if !registered {
+                self.items[0]?.append(.notifications)
+            } else {
+                if let index = self.items[0]?.firstIndex(of: .notifications) {
+                    self.items[0]?.remove(at: index)
+                }
+            }
+        }
+    }
 
     weak var delegate: SettingsEventsDelegate?
 
     var sections: Int {
-        return 1
+        return 2
     }
 
-    var rows: Int {
-        return items.count
+    func rows(in section: Int) -> Int {
+        return items[section]?.count ?? 0
     }
 
     func item(for indexPath: IndexPath) -> SettingCellModel? {
-        return items[indexPath.row]
+        return items[indexPath.section]?[indexPath.row]
     }
 
     func selected(indexPath: IndexPath) {
@@ -66,6 +79,12 @@ class SettingsViewModel {
                     CacheHelper.clearCache()
                 }
             )
+        case .notifications:
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl)
+            }
         default: break
         }
     }
