@@ -109,6 +109,7 @@ extension ConnectViewCoordinator: ConnectorWebViewControllerDelegate {
     }
 
     func showError(_ error: String) {
+        webViewController.remove()
         connectViewController.showCompleteView(with: .fail, title: error, description: l10n(.tryAgain))
     }
 }

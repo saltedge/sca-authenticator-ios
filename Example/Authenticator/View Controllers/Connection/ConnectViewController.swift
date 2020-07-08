@@ -52,6 +52,7 @@ final class ConnectViewController: BaseViewController {
 extension ConnectViewController: Layoutable {
     func layout() {
         view.addSubview(completeView)
+
         completeView.edgesToSuperview()
     }
 }
@@ -80,11 +81,7 @@ extension ConnectViewController {
         completeView.set(state: state, title: title, attributedString: attributedTitle, description: description)
         completeView.proceedClosure = completion
         completeView.delegate = self
-        completeView.alpha = 0.0
-
-        UIView.animate(withDuration: 0.3) { [weak self] in
-            self?.completeView.alpha = 1.0
-        }
+        completeView.alpha = 1.0
     }
 }
 
