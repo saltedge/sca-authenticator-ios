@@ -74,7 +74,7 @@ PODS:
   - Realm/Headers (5.0.3)
   - RealmSwift (5.0.3):
     - Realm (= 5.0.3)
-  - SaltedgeAuthenticatorSDK (1.0.4):
+  - SaltedgeAuthenticatorSDK (1.0.5):
     - CryptoSwift
   - SDWebImage (5.1.0):
     - SDWebImage/Core (= 5.1.0)
@@ -145,7 +145,7 @@ SPEC CHECKSUMS:
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   Realm: bfca1699b61b0b17c3a69ae0e648314eae91fbdb
   RealmSwift: 493c9f089cd3893b3959007973c0e4f640906ba0
-  SaltedgeAuthenticatorSDK: c771a4f8ccb0d3120dfdbc0bc0759bef077e5365
+  SaltedgeAuthenticatorSDK: fb53a7304872d29c75f8468db0e80e8157c5fa05
   SDWebImage: fb387001955223213dde14bc08c8b73f371f8d8f
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
