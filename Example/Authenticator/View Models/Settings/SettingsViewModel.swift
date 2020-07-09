@@ -27,6 +27,7 @@ protocol SettingsEventsDelegate: class {
     func passcodeItemSelected()
     func supportItemSelected()
     func aboutItemSelected()
+    func notificationsItemSelected()
     func clearDataItemSelected(confirmAction: @escaping (() -> ()))
 }
 
@@ -72,11 +73,7 @@ final class SettingsViewModel {
                 }
             )
         case .notifications:
-            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
-
-            if UIApplication.shared.canOpenURL(settingsUrl) {
-                UIApplication.shared.open(settingsUrl)
-            }
+            delegate?.notificationsItemSelected()
         default: break
         }
     }

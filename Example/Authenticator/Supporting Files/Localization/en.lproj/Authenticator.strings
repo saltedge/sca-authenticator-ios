@@ -120,6 +120,7 @@
 "in_app.settings.contact_support" = "Contact support";
 "in_app.settings.contact_support_failed" = "Could not send message. Please check your Email configuration and try again.";
 "in_app.settings.contact_support_message" = "Thank you for your feedback!";
+"in_app.settings.enable_notifications" = "Enable notifications";
 "in_app.settings.new_passcode" = "New passcode";
 "in_app.settings.device_id" = "Device ID";
 "in_app.settings.face_id" = "Face ID";

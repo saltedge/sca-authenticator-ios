@@ -161,6 +161,7 @@ enum Localizations: String, Localizable {
     case clearAppData = "in_app.settings.clear_app_data"
     case clearDataSuccessDescription = "in_app.settings.clear_app_data_success_message"
     case clearDataDescription = "in_app.settings.clear_app_data_description"
+    case enableNotifications = "in_app.settings.enable_notifications"
 
     // MARK: - Security
     case touchID = "in_app.settings.touch_id"

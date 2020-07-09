@@ -43,7 +43,7 @@ enum SettingCellModel: Localizable {
         case .about: return l10n(.about)
         case .licenses: return l10n(.licenses)
         case .clearData: return l10n(.clearAllData)
-        case .notifications: return "Enable notifications"
+        case .notifications: return l10n(.enableNotifications)
         }
     }
 
