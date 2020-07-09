@@ -35,15 +35,7 @@ final class SettingsViewModel {
                                                     1: [.clearData]]
 
     init() {
-        NotificationsManager.isRegisteredRemoteNotifications { registered in
-            if !registered {
-                self.items[0]?.append(.notifications)
-            } else {
-                if let index = self.items[0]?.firstIndex(of: .notifications) {
-                    self.items[0]?.remove(at: index)
-                }
-            }
-        }
+        checkNotificationsEnabled()
     }
 
     weak var delegate: SettingsEventsDelegate?
@@ -86,6 +78,18 @@ final class SettingsViewModel {
                 UIApplication.shared.open(settingsUrl)
             }
         default: break
+        }
+    }
+
+    private func checkNotificationsEnabled() {
+        NotificationsManager.isRegisteredRemoteNotifications { registered in
+            if !registered {
+                self.items[0]?.append(.notifications)
+            } else {
+                if let index = self.items[0]?.firstIndex(of: .notifications) {
+                    self.items[0]?.remove(at: index)
+                }
+            }
         }
     }
 }
