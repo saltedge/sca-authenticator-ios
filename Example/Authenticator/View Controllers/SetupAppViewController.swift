@@ -48,14 +48,19 @@ final class SetupAppViewController: BaseViewController {
     }
 
     private func setupQrCodeViewController() {
-        qrCodeViewController.delegate = self
-        qrCodeViewController.shouldDismissClosure = {
-            self.delegate?.dismiss()
-        }
+        // NOTE: Temporary decision, while we don't have separate screen for notifiactions
+        NotificationsManager.registerForNotifications(
+            completion: {
+                self.qrCodeViewController.delegate = self
+                self.qrCodeViewController.shouldDismissClosure = {
+                    self.delegate?.dismiss()
+                }
 
-        cycleFromViewController(
-            oldViewController: passcodeVc,
-            toViewController: qrCodeViewController
+                self.cycleFromViewController(
+                    oldViewController: self.passcodeVc,
+                    toViewController: self.qrCodeViewController
+                )
+            }
         )
     }
 }

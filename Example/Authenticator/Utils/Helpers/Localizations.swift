@@ -131,6 +131,7 @@ enum Localizations: String, Localizable {
     case deleteAllDataDescription = "actions.confirm_delete_connections"
     case search = "actions.search"
     case licenses = "in_app.settings.licenses"
+    case enableNotifications = "in_app.settings.enable_notifications"
     case clearAllData = "in_app.settings.clear_all_data"
     case clearAppData = "in_app.settings.clear_app_data"
     case clearDataSuccessDescription = "in_app.settings.clear_app_data_success_message"
