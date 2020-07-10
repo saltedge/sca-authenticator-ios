@@ -42,6 +42,7 @@ enum Localizations: String, Localizable {
     case authenticator = "authorization.screen.name"
     case forgot = "actions.forgot"
     case remove = "actions.remove"
+    case revoke = "actions.revoke"
 
     // MARK: - Onboarding
     case getStarted = "actions.get_started"
@@ -111,6 +112,7 @@ enum Localizations: String, Localizable {
     case instantActionSuccessDescription = "instant_action.success_description"
     case processing = "actions.processing"
     case processingDescription = "actions.processing.description"
+    case pullToRefresh = "actions.pull_to_refresh"
 
     // MARK: - Connections
     case noConnections = "in_app.connect.no_connections"
@@ -124,6 +126,30 @@ enum Localizations: String, Localizable {
     case scanQrCode = "in_app.connect.scan_qr_code"
     case chooseConnection = "in_app.connect.choose"
     case newConnection = "in_app.connect.new_connection"
+
+    // MARK: - Consents
+    case activeConsents = "in_app.connection.active_consents"
+    case consent = "in_app.connection.consents_singular"
+    case consents = "in_app.connection.consents_plural"
+    case day = "in_app.connection.consents.day_singular"
+    case days = "in_app.connection.consents.day_plural"
+    case daysLeft = "in_app.connection.consents.days_left"
+    case expiresIn = "in_app.connection.consents.expires_in"
+    case aispDescription = "in_app.connection.consents.aisp_description"
+    case pispFutureDescription = "in_app.connection.consents.pisp_future_description"
+    case pispRecurringDescription = "in_app.connection.consents.pisp_recurring_description"
+    case consentGrantedTo = "in_app.connection.consents.granted_to"
+    case sharedData = "in_app.connection.consents.shared_data"
+    case balance = "in_app.connection.consents.balance"
+    case transactions = "in_app.connection.consents.transactions"
+    case granted = "in_app.connection.consents.granted"
+    case expires = "in_app.connection.consents.expires"
+    case accountNumber = "in_app.connection.consents.account_number"
+    case sortCode = "in_app.connection.consents.sort_code"
+    case iban = "in_app.connection.consents.iban"
+    case revokeConsent = "in_app.connection.consents.revoke_consent"
+    case revokeConsentDescription = "in_app.connection.consents.revoke_consent_description"
+    case consentRevokedFor = "in_app.connection.consents.consent_revoked_for"
 
     // MARK: - Settings
     case settings = "in_app.sidebar_menu.settings"
@@ -187,10 +213,10 @@ enum Localizations: String, Localizable {
     case rename = "actions.rename"
     case contactSupport = "in_app.settings.contact_support"
     case reportAnIssue = "actions.report_an_issue"
+    case viewConsents = "actions.view_consents"
 
     // MARK: - Main Menu Options
     case viewConnections = "actions.view_connections"
-    case viewConsents = "actions.view_consents"
     case viewSettings = "actions.view_settings"
 
     var localizedLabel: String { return self.rawValue }
