@@ -90,7 +90,6 @@ final class ApplicationCoordinator: Coordinator {
     private func startAuthorizationsViewController() {
         UserDefaultsHelper.didShowOnboarding = true
 
-        NotificationsManager.registerForNotifications()
         registerTimerNotifications()
 
         window?.rootViewController = authorizationsNavController

@@ -93,6 +93,8 @@ extension UIViewController {
             textField.placeholder = placeholder
             textField.textAlignment = .left
             textField.font = UIFont.systemFont(ofSize: 14.0)
+            textField.autocorrectionType = .no
+            textField.spellCheckingType = .no
         }
 
         if let okAction = okAction {

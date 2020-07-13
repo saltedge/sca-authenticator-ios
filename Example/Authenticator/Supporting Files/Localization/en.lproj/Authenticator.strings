@@ -127,6 +127,7 @@
 "in_app.settings.passcode" = "Passcode";
 "in_app.settings.terms_service" = "Terms of Service";
 "in_app.settings.touch_id" = "Touch ID";
+"in_app.settings.enable_notifications" = "Enable notifications";
 "in_app.settings.clear_all_data" = "Clear all data";
 "in_app.settings.clear_app_data" = "Clear app data";
 "in_app.settings.clear_app_data_success_message" = "App data cleared successfully";

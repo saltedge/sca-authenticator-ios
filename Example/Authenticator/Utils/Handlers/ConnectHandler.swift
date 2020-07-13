@@ -1,5 +1,5 @@
 //
-//  ConnectHandler
+//  ConnectHandler.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -93,7 +93,7 @@ final class ConnectHandler {
                 self?.delegate?.startWebViewLoading(with: connectUrl)
             },
             failure: { [weak self] error in
-                self?.delegate?.dismissConnectWithError(error: error)
+                self?.dismissConnectWithError(error: l10n(.errorOccuredPleaseTryAgain))
             }
         )
     }
@@ -113,8 +113,14 @@ final class ConnectHandler {
                 self?.delegate?.startWebViewLoading(with: connectUrl)
             },
             failure: { [weak self] error in
-                self?.delegate?.dismissConnectWithError(error: error)
+                self?.dismissConnectWithError(error: l10n(.errorOccuredPleaseTryAgain))
             }
         )
+    }
+
+    private func dismissConnectWithError(error: String) {
+        DispatchQueue.main.async {
+            self.delegate?.dismissConnectWithError(error: l10n(.errorOccuredPleaseTryAgain))
+        }
     }
 }

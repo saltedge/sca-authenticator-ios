@@ -29,6 +29,7 @@ private final class MockSettingsDelegate: SettingsEventsDelegate {
     var passcodeItemSelectedCall: Bool = false
     var supportItemSelectedCall: Bool = false
     var aboutItemSelectedCall: Bool = false
+    var notificationsItemSelectedCall: Bool = false
     var clearDataItemSelectedCall: Bool = false
     
     func languageItemSelected() {
@@ -46,6 +47,10 @@ private final class MockSettingsDelegate: SettingsEventsDelegate {
     func aboutItemSelected() {
         aboutItemSelectedCall = true
     }
+
+    func notificationsItemSelected() {
+        notificationsItemSelectedCall = true
+    }
     
     func clearDataItemSelected(confirmAction: @escaping (() -> ())) {
         clearDataItemSelectedCall = true
@@ -58,13 +63,14 @@ class SettingsViewModelSpec: BaseSpec {
 
         describe("sections") {
             it("should return number of sections") {
-                expect(viewModel.sections).to(equal(1))
+                expect(viewModel.sections).to(equal(2))
             }
         }
 
-        describe("rows(for:)") {
+        describe("rows(in:)") {
             it("should return number of rows") {
-                expect(viewModel.rows).to(equal(5))
+                expect(viewModel.rows(in: 0)).to(equal(4))
+                expect(viewModel.rows(in: 1)).to(equal(1))
             }
         }
 
@@ -79,7 +85,7 @@ class SettingsViewModelSpec: BaseSpec {
                         .to(equal(SettingCellModel.about))
                     expect(viewModel.item(for: IndexPath(row: 3, section: 0)))
                         .to(equal(SettingCellModel.support))
-                    expect(viewModel.item(for: IndexPath(row: 4, section: 0)))
+                    expect(viewModel.item(for: IndexPath(row: 0, section: 1)))
                         .to(equal(SettingCellModel.clearData))
                 }                                         
             }
@@ -149,7 +155,7 @@ class SettingsViewModelSpec: BaseSpec {
                     let mockDelegate = MockSettingsDelegate()
                     viewModel.delegate = mockDelegate
 
-                    viewModel.selected(indexPath: IndexPath(row: 4, section: 0))
+                    viewModel.selected(indexPath: IndexPath(row: 0, section: 1))
 
                     expect(mockDelegate.passcodeItemSelectedCall).to(beFalse())
                     expect(mockDelegate.languageItemSelectedCall).to(beFalse())

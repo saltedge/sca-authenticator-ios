@@ -1,8 +1,8 @@
 //
-//  ParametersSerializer.swift
+//  Log.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,16 +22,10 @@
 
 import Foundation
 
-struct ParametersSerializer {
-    static func createBody(parameters: [String: Any]) -> Data? {
-        do {
-            let data = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-
-            return data
-        } catch {
-            Log.debugLog(message: error.localizedDescription)
+struct Log {
+    static func debugLog(message: String, function: String = #function) {
+        if _isDebugAssertConfiguration() {
+            Swift.print("\(function): \(message)")
         }
-
-        return nil
     }
 }

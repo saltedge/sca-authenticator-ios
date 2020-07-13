@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let options = FirebaseOptions(contentsOfFile: configFile) {
             FirebaseApp.configure(options: options)
         } else {
-            print("For using Crashlytics make sure you have GoogleService-Info.plist set.")
+            Log.debugLog(message: "For using Crashlytics make sure you have GoogleService-Info.plist set.")
         }
     }
 
@@ -101,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print(error.localizedDescription)
+        Log.debugLog(message: error.localizedDescription)
     }
 
     func application(_ application: UIApplication,

@@ -119,7 +119,7 @@ struct ConnectionsInteractor {
                 success?()
             },
             onFailure: { error in
-                print(error)
+                Log.debugLog(message: error)
             }
         )
     }

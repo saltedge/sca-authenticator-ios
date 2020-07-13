@@ -43,6 +43,7 @@ final class ConnectViewCoordinator: Coordinator {
 
     private lazy var webViewController = ConnectorWebViewController()
     private var connectViewController = ConnectViewController()
+    private var qrCodeCoordinator: QRCodeCoordinator?
     private var connectHandler: ConnectHandler?
 
     private var connection: Connection?
@@ -109,6 +110,19 @@ extension ConnectViewCoordinator: ConnectorWebViewControllerDelegate {
     }
 
     func showError(_ error: String) {
-        connectViewController.showCompleteView(with: .fail, title: error, description: l10n(.tryAgain))
+        webViewController.remove()
+        connectViewController.showCompleteView(
+            with: .fail,
+            title: error,
+            description: l10n(.tryAgain),
+            completion: { [weak self] in
+                guard let strongSelf = self else { return }
+
+                strongSelf.connectViewController.dismiss(animated: true) {
+                    strongSelf.qrCodeCoordinator = QRCodeCoordinator(rootViewController: strongSelf.rootViewController)
+                    strongSelf.qrCodeCoordinator?.start()
+                }
+            }
+        )
     }
 }

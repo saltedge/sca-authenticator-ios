@@ -27,24 +27,30 @@ protocol SettingsEventsDelegate: class {
     func passcodeItemSelected()
     func supportItemSelected()
     func aboutItemSelected()
+    func notificationsItemSelected()
     func clearDataItemSelected(confirmAction: @escaping (() -> ()))
 }
 
 class SettingsViewModel {
-    private let items: [SettingCellModel] = [.passcode, .language, .about, .support, .clearData]
+    private var items: [Int: [SettingCellModel]] = [0: [.passcode, .language, .about, .support],
+                                                    1: [.clearData]]
 
     weak var delegate: SettingsEventsDelegate?
 
-    var sections: Int {
-        return 1
+    init() {
+        checkNotificationsEnabled()
     }
 
-    var rows: Int {
-        return items.count
+    var sections: Int {
+        return 2
+    }
+
+    func rows(in section: Int) -> Int {
+        return items[section]?.count ?? 0
     }
 
     func item(for indexPath: IndexPath) -> SettingCellModel? {
-        return items[indexPath.row]
+        return items[indexPath.section]?[indexPath.row]
     }
 
     func selected(indexPath: IndexPath) {
@@ -59,6 +65,8 @@ class SettingsViewModel {
             delegate?.supportItemSelected()
         case .about:
             delegate?.aboutItemSelected()
+        case .notifications:
+            delegate?.notificationsItemSelected()
         case .clearData:
             delegate?.clearDataItemSelected(
                 confirmAction: {
@@ -67,6 +75,18 @@ class SettingsViewModel {
                 }
             )
         default: break
+        }
+    }
+
+    private func checkNotificationsEnabled() {
+        NotificationsManager.isRegisteredRemoteNotifications { registered in
+            if !registered {
+                self.items[0]?.append(.notifications)
+            } else {
+                if let index = self.items[0]?.firstIndex(of: .notifications) {
+                    self.items[0]?.remove(at: index)
+                }
+            }
         }
     }
 }

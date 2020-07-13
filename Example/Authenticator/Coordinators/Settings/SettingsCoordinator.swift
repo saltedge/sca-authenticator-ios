@@ -70,6 +70,14 @@ extension SettingsCoordinator: SettingsEventsDelegate {
         aboutCoordinator?.start()
     }
 
+    func notificationsItemSelected() {
+        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+         if UIApplication.shared.canOpenURL(settingsUrl) {
+            UIApplication.shared.open(settingsUrl)
+        }
+    }
+
     func clearDataItemSelected(confirmAction: @escaping (() -> ())) {
         currentViewController.showConfirmationAlert(
             withTitle: l10n(.clearAppData),
