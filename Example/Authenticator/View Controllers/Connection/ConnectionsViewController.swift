@@ -27,11 +27,8 @@ private struct Layout {
     static let noDataViewTopOffset: CGFloat = AppLayout.screenHeight * 0.11
 }
 
-final class ConnectionsViewController: UIViewController {
-    private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
+final class ConnectionsViewController: UITableViewController {
     private var noDataView: NoDataView!
-    private var refreshControl = UIRefreshControl()
-
     private var viewModel: ConnectionsViewModel
 
     var connectViewCoordinator: ConnectViewCoordinator?
@@ -108,27 +105,26 @@ private extension ConnectionsViewController {
     }
 
     func setupRefreshControl() {
-        tableView.refreshControl = refreshControl
-        refreshControl.attributedTitle = NSAttributedString(string: l10n(.pullToRefresh))
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
 }
 
 // MARK: UITableViewDataSource
-extension ConnectionsViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+extension ConnectionsViewController {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Layout.cellHeight
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.count
     }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: ConnectionCell = tableView.dequeueReusableCell(for: indexPath)
 
         let cellViewModel = viewModel.cellViewModel(at: indexPath)
@@ -140,8 +136,8 @@ extension ConnectionsViewController: UITableViewDataSource {
 }
 
 // MARK: UITableViewDelegate
-extension ConnectionsViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension ConnectionsViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
         guard #available(iOS 13, *) else {
@@ -153,13 +149,13 @@ extension ConnectionsViewController: UITableViewDelegate {
 
 // MARK: UISwipeActionsConfiguration
 extension ConnectionsViewController {
-    func tableView(_ tableView: UITableView,
-                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    override func tableView(_ tableView: UITableView,
+                            trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         return viewModel.rightSwipeActionsConfiguration(for: indexPath)
     }
 
-    func tableView(_ tableView: UITableView,
-                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    override func tableView(_ tableView: UITableView,
+                            leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         return viewModel.leftSwipeActionsConfiguration(for: indexPath)
     }
 }
@@ -172,7 +168,7 @@ private extension ConnectionsViewController {
         viewModel.refreshConsents(
             completion: {
                 DispatchQueue.main.async {
-                    self.refreshControl.endRefreshing()
+                    self.refreshControl?.endRefreshing()
                 }
             }
         )
@@ -182,11 +178,7 @@ private extension ConnectionsViewController {
 // MARK: - Layout
 extension ConnectionsViewController: Layoutable {
     func layout() {
-        view.addSubviews(tableView, noDataView)
-
-        tableView.topToSuperview(view.safeAreaLayoutGuide.topAnchor)
-        tableView.widthToSuperview()
-        tableView.bottomToSuperview(view.safeAreaLayoutGuide.bottomAnchor)
+        view.addSubviews(noDataView)
 
         noDataView.topToSuperview(view.safeAreaLayoutGuide.topAnchor, offset: Layout.noDataViewTopOffset)
         noDataView.widthToSuperview()

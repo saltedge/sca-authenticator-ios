@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479C5512387F8C300F3FE0A /* AVCaptureHelperSpec.swift */; };
 		8E664D44698ED18B94EA30DD /* Pods_Authenticator_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 371C1048BDDFEF99F01C885C /* Pods_Authenticator_Tests.framework */; };
-		957BCE6324A393F9001F456F /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957BCE5E24A3921B001F456F /* Log.swift */; };
-		957BCE6424A393FA001F456F /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957BCE5E24A3921B001F456F /* Log.swift */; };
 		954CC97524A22FF30021F0B2 /* SEEncryptedDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81322CE18270050ED3C /* SEEncryptedDataExtensions.swift */; };
 		954CC97624A22FF40021F0B2 /* SEEncryptedDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81322CE18270050ED3C /* SEEncryptedDataExtensions.swift */; };
+		957BCE6324A393F9001F456F /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957BCE5E24A3921B001F456F /* Log.swift */; };
+		957BCE6424A393FA001F456F /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957BCE5E24A3921B001F456F /* Log.swift */; };
 		9581A9D62477D6350066EF5E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E922CE18270050ED3C /* BaseViewController.swift */; };
 		9581A9D72477D6370066EF5E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E922CE18270050ED3C /* BaseViewController.swift */; };
 		9581A9D82477D63A0066EF5E /* WKWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7EA22CE18270050ED3C /* WKWebViewController.swift */; };
@@ -2174,7 +2174,7 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 121;
+				CURRENT_PROJECT_VERSION = 123;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
@@ -2199,7 +2199,7 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 121;
+				CURRENT_PROJECT_VERSION = 123;
 				DEVELOPMENT_TEAM = "";
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
