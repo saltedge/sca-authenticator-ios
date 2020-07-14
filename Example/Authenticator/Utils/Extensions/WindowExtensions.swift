@@ -25,12 +25,14 @@ import UIKit
 extension UIWindow {
     static var topViewController: UIViewController? {
         guard var topController = UIApplication.appDelegate.window?.rootViewController else { return nil }
+
         while let presentedViewController = topController.presentedViewController {
             topController = presentedViewController
             if let controller = (topController as? UINavigationController)?.viewControllers.first {
                 topController = controller
             }
         }
+
         return topController
     }
 }
