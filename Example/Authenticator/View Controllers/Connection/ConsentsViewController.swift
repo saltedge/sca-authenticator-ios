@@ -79,7 +79,6 @@ private extension ConsentsViewController {
     }
 
     private func setupRefreshControl() {
-        refreshControl.attributedTitle = NSAttributedString(string: l10n(.pullToRefresh))
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         tableView.refreshControl = refreshControl
     }

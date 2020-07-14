@@ -78,8 +78,8 @@ final class ConsentsViewModel {
         let expiresInAttributedMessage = NSMutableAttributedString(
             string: expiresInString,
             attributes: [
-                NSAttributedString.Key.foregroundColor: numberOfDaysToExpire < 10 ? UIColor.redAlert : UIColor.titleColor,
-                NSAttributedString.Key.font: UIFont.auth_13semibold
+                NSAttributedString.Key.foregroundColor: numberOfDaysToExpire < 10 ? UIColor.redAlert : UIColor.dark60,
+                NSAttributedString.Key.font: numberOfDaysToExpire < 10 ? UIFont.auth_13semibold : UIFont.auth_13regular
             ]
         )
         expirationAttributedString.append(NSMutableAttributedString(string: "\(l10n(.expiresIn)) "))

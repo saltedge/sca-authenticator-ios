@@ -39,7 +39,6 @@
 "actions.view_settings" = "View settings";
 "actions.processing" = "Processing";
 "actions.processing.description" = "This may take some time";
-"actions.pull_to_refresh" = "Pull to refresh";
 "authorization.screen.name" = "Authenticator";
 "authorization.active.title" = "Authorizing";
 "authorization.success.title" = "Success";
