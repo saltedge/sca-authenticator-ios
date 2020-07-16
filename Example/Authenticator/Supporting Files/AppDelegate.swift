@@ -116,7 +116,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        guard let (connectionId, authorizationId) = extractIds(from: response.notification.request) else { completionHandler(); return }
+        guard let (connectionId, authorizationId) = extractIds(from: response.notification.request)
+            else { completionHandler(); return }
 
         if UIWindow.topViewController is PasscodeViewController {
             applicationCoordinator?.handleAuthorizationsFromPasscode(connectionId: connectionId, authorizationId: authorizationId)

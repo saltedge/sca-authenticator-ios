@@ -73,9 +73,11 @@ class AuthorizationsViewModel {
                 self.state.value = .changedConnectionsData
             }
         )
+        setupPollingObservers()
     }
 
     deinit {
+        NotificationsHelper.removeObserver(self)
         stopPolling()
     }
 
@@ -172,8 +174,36 @@ extension AuthorizationsViewModel {
     func stopPolling() {
         poller?.stopPolling()
         poller = nil
-        getEncryptedAuthorizationsIfAvailable()
+        dataSource.clearAuthorizations()
+        state.value = .reloadData
     }
+
+    private func setupPollingObservers() {
+        NotificationsHelper.observe(
+            self,
+            selector: #selector(appMovedToForeground),
+            name: UIApplication.willEnterForegroundNotification
+        )
+        NotificationsHelper.observe(
+            self,
+            selector: #selector(appMovedToBackground),
+            name: UIApplication.didEnterBackgroundNotification
+        )
+    }
+
+    @objc private func appMovedToBackground() {
+        if let navVc = UIApplication.appDelegate.window?.rootViewController as? UINavigationController,
+            navVc.viewControllers.last as? AuthorizationsViewController != nil {
+            stopPolling()
+        }
+    }
+
+   @objc private func appMovedToForeground() {
+       if let navVc = UIApplication.appDelegate.window?.rootViewController as? UINavigationController,
+           navVc.viewControllers.last as? AuthorizationsViewController != nil {
+           setupPolling()
+       }
+   }
 }
 
 // MARK: - Actions
