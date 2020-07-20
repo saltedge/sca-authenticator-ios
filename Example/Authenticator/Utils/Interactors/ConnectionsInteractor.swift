@@ -76,7 +76,7 @@ struct ConnectionsInteractor {
         redirect: @escaping (Connection, String) -> (),
         failure: @escaping (String) -> ()
     ) {
-        guard let connectionData = SEConnectionData(code: connection.code, tag: connection.guid),
+        guard let connectionData = SECreateConnectionRequestData(code: connection.code, tag: connection.guid),
             let connectUrl = connection.baseUrl?.appendingPathComponent(SENetPaths.connections.path) else { return }
 
         SEConnectionManager.createConnection(
@@ -99,21 +99,27 @@ struct ConnectionsInteractor {
         )
     }
 
-    static func revoke(_ connection: Connection, expiresAt: Int, success: (() -> ())? = nil) {
+    static func revoke(
+        _ connection: Connection,
+        success: (() -> ())? = nil
+    ) {
         guard let baseUrl = connection.baseUrl else { return }
 
-        let data = SERevokeConnectionData(id: connection.id, guid: connection.guid, token: connection.accessToken)
+        let data = SEBaseAuthenticatedWithIdRequestData(
+            url: baseUrl,
+            connectionGuid: connection.guid,
+            accessToken: connection.accessToken,
+            appLanguage: UserDefaultsHelper.applicationLanguage,
+            entityId: connection.id
+        )
 
         SEConnectionManager.revokeConnection(
-            by: baseUrl,
             data: data,
-            expiresAt: expiresAt,
-            appLanguage: UserDefaultsHelper.applicationLanguage,
             onSuccess: { _ in
                 success?()
             },
             onFailure: { error in
-                print(error)
+                Log.debugLog(message: error)
             }
         )
     }

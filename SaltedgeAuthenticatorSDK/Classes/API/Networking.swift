@@ -52,7 +52,9 @@ extension Networking {
                         let errorClass = jsonData[SENetKeys.errorClass] as? String {
                         DispatchQueue.main.async { failure(errorClass) }
                     } else {
-                        failure("Request not successful. HTTP status code: \(response.statusCode), \(response.description)")
+                        DispatchQueue.main.async {
+                            failure("Request not successful. HTTP status code: \(response.statusCode), \(response.description)")
+                        }
                     }
                 }
             }

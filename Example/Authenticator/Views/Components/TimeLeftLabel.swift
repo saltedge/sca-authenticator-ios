@@ -25,11 +25,12 @@ import UIKit
 final class TimeLeftLabel: UILabel {
     private var secondsLeft: Int = 0
 
+    var completion: (() -> ())?
+
     init() {
         super.init(frame: .zero)
-        textColor = .auth_blue
-        font = .auth_13semibold
-//        setTimeLeft(secondsLeft)
+        textColor = .lightBlue
+        font = .boldSystemFont(ofSize: 14.0)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -39,6 +40,9 @@ final class TimeLeftLabel: UILabel {
     func update(secondsLeft: Int) {
         self.secondsLeft = secondsLeft
         setTimeLeft(secondsLeft)
+        if secondsLeft <= 0 {
+            completion?()
+        }
     }
 
     private func setTimeLeft(_ timeLeft: Int) {

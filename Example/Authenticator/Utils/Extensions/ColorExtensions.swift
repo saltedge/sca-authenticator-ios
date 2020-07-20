@@ -23,51 +23,51 @@
 import UIKit
 
 extension UIColor {
-    static var auth_lightGray50: UIColor {
-        return UIColor(red: 204.0/255.0, green: 204.0/255.0, blue: 204.0/255.0, alpha: 0.5)
+    static var actionColor: UIColor {
+        return UIColor(named: "actionColor", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var auth_gray: UIColor {
-        return UIColor(red: 158.0/255.0, green: 158.0/255.0, blue: 158.0/255.0, alpha: 1.0)
+    static var secondaryBackground: UIColor {
+        return UIColor(named: "secondaryBackground", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var auth_darkGray: UIColor {
-        return UIColor(red: 33.0/255.0, green: 33.0/255.0, blue: 33.0/255.0, alpha: 1.0)
+    static var selectedColor: UIColor {
+        return UIColor(named: "selectedColor", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var auth_blue20: UIColor {
-        return UIColor(red: 67.0/255.0, green: 84.0/255.0, blue: 179.0/255.0, alpha: 0.2)
+    static var backgroundColor: UIColor! {
+        return UIColor(named: "background", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var auth_blue: UIColor {
-        return UIColor(red: 67.0/255.0, green: 84.0/255.0, blue: 179.0/255.0, alpha: 1.0)
+    static var lightBlue: UIColor {
+        return UIColor(named: "lightBlue", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var auth_darkBlue: UIColor {
-        return UIColor(red: 53.0/255.0, green: 55.0/255.0, blue: 69.0/255.0, alpha: 1.0)
+    static var darkBlue: UIColor {
+        return UIColor(named: "darkBlue", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var auth_cyan: UIColor {
-        return UIColor(red: 133.0/255.0, green: 205.0/255.0, blue: 207.0/255.0, alpha: 1.0)
+    static var lightGray: UIColor {
+        return UIColor(named: "lightGray", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var auth_lightCyan: UIColor {
-        return UIColor(red: 229.0/255.0, green: 249.0/255.0, blue: 250.0/255.0, alpha: 1.0)
+    static var extraLightGray: UIColor {
+        return UIColor(named: "extraLightGray", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var auth_backgroundColor: UIColor {
-        return UIColor(red: 244.0/255.0, green: 244.0/255.0, blue: 246.0/255.0, alpha: 1.0)
+    static var primaryDark: UIColor {
+        return UIColor(named: "primaryDark", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var auth_red: UIColor {
-        return UIColor(red: 254.0/255.0, green: 95.0/255.0, blue: 85.0/255.0, alpha: 1.0)
+    static var titleColor: UIColor {
+        return UIColor(named: "titleColor", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var auth_yellow: UIColor {
-        return UIColor(red: 252.0/255.0, green: 172.0/255.0, blue: 15.0/255.0, alpha: 1.0)
+    static var dark60: UIColor {
+        return UIColor(named: "dark60", in: .authenticator_main, compatibleWith: nil)!
     }
 
-    static var auth_green: UIColor {
-        return UIColor(red: 0.0, green: 189.0/255.0, blue: 129.0/255.0, alpha: 1.0)
+    static var redAlert: UIColor {
+        return UIColor(named: "redAlert", in: .authenticator_main, compatibleWith: nil)!
     }
 }

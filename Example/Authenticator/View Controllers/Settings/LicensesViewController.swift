@@ -1,8 +1,8 @@
 //
-//  LicensesViewController
+//  LicensesViewController.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,40 +21,60 @@
 //
 
 import UIKit
-import SafariServices
 
 final class LicensesViewController: BaseViewController {
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "LibraryCell")
-        tableView.backgroundColor = .auth_backgroundColor
-        return tableView
-    }()
+    static let reuseIdentifier = "LibraryCell"
+    private let tableView: UITableView = UITableView(frame: .zero, style: .grouped)
+    private var viewModel: LicensesViewModel
 
-    private let dataSource = LibrariesDataSource()
+    init(viewModel: LicensesViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: .authenticator_main)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = l10n(.licenses)
-        tableView.dataSource = self
-        tableView.delegate = self
+        setupTableView()
         layout()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - Setup
+private extension LicensesViewController {
+    func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.backgroundColor = .backgroundColor
+        tableView.separatorStyle = .none
+        tableView.register(
+            UITableViewCell.self,
+            forCellReuseIdentifier: LicensesViewController.reuseIdentifier
+        )
     }
 }
 
 // MARK: - UITableViewDataSource
 extension LicensesViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return viewModel.sections
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.numberOfItems
+        return viewModel.rows(for: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "LibraryCell", for: indexPath)
-        cell.textLabel?.text = dataSource.item(for: indexPath.row).0
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: LicensesViewController.reuseIdentifier,
+            for: indexPath
+        )
+        cell.backgroundColor = .backgroundColor
+        cell.textLabel?.text = viewModel.cellTitle(for: indexPath)
         return cell
     }
 }
@@ -63,12 +83,7 @@ extension LicensesViewController: UITableViewDataSource {
 extension LicensesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-
-        guard let url = URL(string: dataSource.item(for: indexPath.row).1) else { return }
-
-        let vc = SFSafariViewController(url: url)
-        vc.title = dataSource.item(for: indexPath.row).0
-        navigationController?.pushViewController(vc, animated: true)
+        viewModel.selected(indexPath: indexPath)
     }
 }
 

@@ -26,13 +26,6 @@ import SEAuthenticator
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     var window: UIWindow?
 
-    var tabBarViewController: MainTabBarViewController? {
-        if let tabBar = self.window?.rootViewController as? MainTabBarViewController {
-            return tabBar
-        }
-        return nil
-    }
-
     var applicationCoordinator: ApplicationCoordinator?
 
     func application(_ application: UIApplication,
@@ -44,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         CacheHelper.setDefaultDiskAge()
         configureFirebase()
         setupAppCoordinator()
+        applicationCoordinator?.openQrScannerIfNoConnections()
         return true
     }
 
@@ -64,7 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             let options = FirebaseOptions(contentsOfFile: configFile) {
             FirebaseApp.configure(options: options)
         } else {
-            print("For using Crashlytics make sure you have GoogleService-Info.plist set.")
+            Log.debugLog(message: "For using Crashlytics make sure you have GoogleService-Info.plist set.")
         }
     }
 
@@ -80,6 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         applicationCoordinator?.showBiometricsIfEnabled()
+        applicationCoordinator?.openQrScannerIfNoConnections()
     }
 
     static var main: AppDelegate {
@@ -92,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         guard SEConnectHelper.isValid(deepLinkUrl: url) else { return false }
 
         if UIWindow.topViewController is PasscodeViewController {
-            applicationCoordinator?.openConnectViewController(deepLinkUrl: url, connectionType: .deepLink)
+            applicationCoordinator?.openConnectViewController(url: url)
         }
         return true
     }
@@ -106,14 +101,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication,
                      didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print(error.localizedDescription)
+        Log.debugLog(message: error.localizedDescription)
     }
 
     func application(_ application: UIApplication,
                      performActionFor shortcutItem: UIApplicationShortcutItem,
                      completionHandler: @escaping (Bool) -> Void) {
         if AVCaptureHelper.cameraIsAuthorized(), shortcutItem.type == QuickActionsType.openCamera.rawValue {
-            applicationCoordinator?.openConnectViewController(connectionType: .connect)
+            applicationCoordinator?.openQrScanner()
             completionHandler(true)
         }
     }
@@ -121,12 +116,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        let userInfo = response.notification.request.content.userInfo
-
-        guard let apsDict = userInfo[SENetKeys.aps] as? [String: Any],
-            let dataDict = apsDict[SENetKeys.data] as? [String: Any],
-            let connectionId = dataDict[SENetKeys.connectionId] as? String,
-            let authorizationId = dataDict[SENetKeys.authorizationId] as? String else { completionHandler(); return }
+        guard let (connectionId, authorizationId) = extractIds(from: response.notification.request)
+            else { completionHandler(); return }
 
         if UIWindow.topViewController is PasscodeViewController {
             applicationCoordinator?.handleAuthorizationsFromPasscode(connectionId: connectionId, authorizationId: authorizationId)
@@ -138,7 +129,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.badge, .alert, .sound])
+        guard let (connectionId, _) = extractIds(from: notification.request) else { return }
+
+        if let _ = ConnectionsCollector.active(by: connectionId) {
+            completionHandler([.badge, .alert, .sound])
+        }
     }
 
     func showApplicationResetPopup() {
@@ -155,5 +150,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         applicationCoordinator?.start()
         applicationCoordinator?.openPasscodeIfNeeded()
         applicationCoordinator?.showBiometricsIfEnabled()
+    }
+
+    private func extractIds(from request: UNNotificationRequest) -> (String, String)? {
+        let userInfo = request.content.userInfo
+
+        guard let apsDict = userInfo[SENetKeys.aps] as? [String: Any],
+            let dataDict = apsDict[SENetKeys.data] as? [String: Any],
+            let connectionId = dataDict[SENetKeys.connectionId] as? String,
+            let authorizationId = dataDict[SENetKeys.authorizationId] as? String else { return nil }
+        return (connectionId, authorizationId)
     }
 }

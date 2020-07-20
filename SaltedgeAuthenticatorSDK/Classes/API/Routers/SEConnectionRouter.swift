@@ -23,8 +23,8 @@
 import Foundation
 
 enum SEConnectionRouter: Routable {
-    case createConnection(URL, SEConnectionData, PushToken, ConnectQuery?, ApplicationLanguage)
-    case revoke(URL, SERevokeConnectionData, Int, ApplicationLanguage)
+    case createConnection(URL, SECreateConnectionRequestData, PushToken, ConnectQuery?, ApplicationLanguage)
+    case revoke(SEBaseAuthenticatedWithIdRequestData)
 
     var method: HTTPMethod {
         switch self {
@@ -43,27 +43,29 @@ enum SEConnectionRouter: Routable {
     var url: URL {
         switch self {
         case .createConnection(let url, _, _, _, _): return url
-        case .revoke(let url, _, _, _): return url.appendingPathComponent("\(SENetPaths.connections.path)")
+        case .revoke(let data): return data.url.appendingPathComponent("\(SENetPaths.connections.path)")
         }
     }
 
     var headers: [String: String]? {
         switch self {
         case .createConnection(_, _, _, _, let appLanguage): return Headers.requestHeaders(with: appLanguage)
-        case .revoke(_, let data, let expiresAt, let appLanguage):
+        case .revoke(let data):
+            let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+            
             let signature = SignatureHelper.signedPayload(
                 method: .delete,
                 urlString: url.absoluteString,
-                guid: data.guid,
+                guid: data.connectionGuid,
                 expiresAt: expiresAt,
                 params: parameters
             )
 
             return Headers.signedRequestHeaders(
-                token: data.token,
+                token: data.accessToken,
                 expiresAt: expiresAt,
                 signature: signature,
-                appLanguage: appLanguage
+                appLanguage: data.appLanguage
             )
         }
     }

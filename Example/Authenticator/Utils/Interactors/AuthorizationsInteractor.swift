@@ -24,14 +24,11 @@ import Foundation
 import SEAuthenticator
 
 struct AuthorizationsInteractor {
-    static func confirm(data: SEConfirmAuthorizationData,
+    static func confirm(data: SEConfirmAuthorizationRequestData,
                         success: (() -> ())? = nil,
                         failure: ((String) -> ())? = nil) {
-        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-
         SEAuthorizationManager.confirmAuthorization(
             data: data,
-            expiresAt: expiresAt,
             onSuccess: { _ in
                 success?()
             },
@@ -41,30 +38,57 @@ struct AuthorizationsInteractor {
         )
     }
 
-    static func deny(data: SEConfirmAuthorizationData,
+    static func deny(data: SEConfirmAuthorizationRequestData,
                      success: (() -> ())? = nil,
                      failure: ((String) -> ())? = nil) {
-        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-
         SEAuthorizationManager.denyAuthorization(
             data: data,
-            expiresAt: expiresAt,
             onSuccess: { _ in
                 success?()
             },
             onFailure: { error in
                 failure?(error)
+            }
+        )
+    }
+
+    static func refresh(
+        connection: Connection,
+        authorizationId: ID,
+        success: @escaping (SEEncryptedData) -> (),
+        failure: ((String) -> ())? = nil,
+        connectionNotFoundFailure: @escaping ((String?) -> ())
+    ) {
+        let accessToken = connection.accessToken
+
+        guard let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
+
+        SEAuthorizationManager.getEncryptedAuthorization(
+            data: SEBaseAuthenticatedWithIdRequestData(
+                url: baseUrl,
+                connectionGuid: connection.guid,
+                accessToken: accessToken,
+                appLanguage: UserDefaultsHelper.applicationLanguage,
+                entityId: authorizationId
+            ),
+            onSuccess: { response in
+                success(response.data)
+            },
+            onFailure: { error in
+                if SEAPIError.connectionNotFound.isConnectionNotFound(error) {
+                    connectionNotFoundFailure(connection.id)
+                } else {
+                    failure?("\(l10n(.somethingWentWrong)) (\(connection.name))")
+                }
             }
         )
     }
 
     static func refresh(connections: [Connection],
-                        success: @escaping ([SEEncryptedAuthorizationResponse]) -> (),
+                        success: @escaping ([SEEncryptedData]) -> (),
                         failure: ((String) -> ())? = nil,
                         connectionNotFoundFailure: @escaping ((String?) -> ())) {
-        let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-
-        var encryptedAuthorizations = [SEEncryptedAuthorizationResponse]()
+        var encryptedAuthorizations = [SEEncryptedData]()
 
         var numberOfResponses = 0
 
@@ -82,13 +106,12 @@ struct AuthorizationsInteractor {
             guard let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
 
             SEAuthorizationManager.getEncryptedAuthorizations(
-                data: SEBaseAuthorizationData(
+                data: SEBaseAuthenticatedRequestData(
                     url: baseUrl,
                     connectionGuid: connection.guid,
                     accessToken: accessToken,
                     appLanguage: UserDefaultsHelper.applicationLanguage
                 ),
-                expiresAt: expiresAt,
                 onSuccess: { response in
                     encryptedAuthorizations.append(contentsOf: response.data)
 

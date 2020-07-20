@@ -29,7 +29,7 @@ struct ParametersSerializer {
 
             return data
         } catch {
-            print(error.localizedDescription)
+            Log.debugLog(message: error.localizedDescription)
         }
 
         return nil

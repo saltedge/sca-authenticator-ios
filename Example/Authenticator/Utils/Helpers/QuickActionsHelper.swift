@@ -34,7 +34,7 @@ struct QuickActionsHelper {
             type: QuickActionsType.openCamera.rawValue,
             localizedTitle: l10n(.scanQr),
             localizedSubtitle: nil,
-            icon: UIApplicationShortcutIcon(templateImageName: "qrcode"),
+            icon: UIApplicationShortcutIcon(templateImageName: "qr"),
             userInfo: nil
         )
 

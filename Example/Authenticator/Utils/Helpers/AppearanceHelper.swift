@@ -25,16 +25,26 @@ import UIKit
 struct AppearanceHelper {
     static func setup() {
         let navBarAppearance = UINavigationBar.appearance()
-        let tabBarItemAppearance = UITabBarItem.appearance()
 
-        navBarAppearance.barStyle = .black
-        navBarAppearance.barTintColor = .auth_blue
-        navBarAppearance.tintColor = .white
-        navBarAppearance.backgroundColor = .auth_blue
+        if #available(iOS 13, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithTransparentBackground()
+            appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.titleColor]
+            appearance.backgroundColor = .backgroundColor
+            navBarAppearance.standardAppearance = appearance
+            navBarAppearance.scrollEdgeAppearance = appearance
+        }
+
+        navBarAppearance.barStyle = .default
+        navBarAppearance.backgroundColor = .backgroundColor
+        navBarAppearance.barTintColor = .backgroundColor
+        navBarAppearance.tintColor = .lightBlue
         navBarAppearance.isTranslucent = false
         navBarAppearance.shadowImage = UIImage()
-
-        tabBarItemAppearance.setTitleTextAttributes([.foregroundColor: UIColor.white.withAlphaComponent(0.5)], for: .normal)
-        tabBarItemAppearance.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+        navBarAppearance.prefersLargeTitles = true
+        navBarAppearance.largeTitleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.titleColor,
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 30)
+        ]
     }
 }

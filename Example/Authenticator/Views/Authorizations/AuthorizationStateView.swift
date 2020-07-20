@@ -22,13 +22,20 @@
 
 import UIKit
 
+private struct Layout {
+    static let topViewOffset: CGFloat = 72.0
+    static let topViewSize: CGSize = CGSize(width: 75.0, height: 75.0)
+    static let titleLabelTopOffset: CGFloat = 26.0
+    static let messageLabelTopOffset: CGFloat = 10.0
+}
+
 final class AuthorizationStateView: UIView {
-    private let topView = UIView()
-    private let titleLabel = UILabel.titleLabel
-    private let messageLabel = UILabel.descriptionLabel
+    private let topView = RoundedShadowView(cornerRadius: 16.0)
+    private let titleLabel = UILabel(font: .systemFont(ofSize: 21.0, weight: .regular), textColor: .titleColor)
+    private let messageLabel = UILabel(font: .systemFont(ofSize: 17.0, weight: .regular), textColor: .titleColor)
     private var accessoryView: UIView?
 
-    enum AuthorizationState: String {
+    enum AuthorizationState: String, Equatable {
         case base
         case denied
         case expired
@@ -53,43 +60,57 @@ final class AuthorizationStateView: UIView {
             case .success: return l10n(.successfulAuthorizationMessage)
             case .expired: return l10n(.timeOutMessage)
             case .denied: return l10n(.deniedMessage)
-            case .undefined: return l10n(.pleaseTryAgain)
+            case .undefined: return l10n(.errorOccuredPleaseTryAgain)
             default: return ""
             }
         }
 
         var topAccessoryView: UIView {
             switch self {
-            case .success: return UIImageView(image: UIImage(named: "success"))
-            case .expired: return UIImageView(image: UIImage(named: "time_out"))
-            case .denied: return UIImageView(image: UIImage(named: "deny"))
-            case .undefined: return UIImageView(image: UIImage(named: "smth_wrong"))
-            default: return LoadingIndicator()
+            case .success: return AspectFitImageView(imageName: "success")
+            case .expired: return AspectFitImageView(imageName: "timeout")
+            case .denied: return AspectFitImageView(imageName: "deny")
+            case .undefined: return AspectFitImageView(imageName: "smth_wrong")
+            default: return LoadingIndicatorView()
+            }
+        }
+
+        static func == (lhs: AuthorizationState, rhs: AuthorizationState) -> Bool {
+            switch (lhs, rhs) {
+            case (.base, .base), (.denied, .denied), (.expired, .expired),
+                 (.processing, .processing), (.success, .success), (.undefined, .undefined): return true
+            default: return false
             }
         }
     }
 
     init(state: AuthorizationState) {
         super.init(frame: .zero)
-        backgroundColor = .white
+        backgroundColor = .backgroundColor
         layout()
     }
 
     func set(state: AuthorizationState) {
+        guard state != .base else {
+            self.alpha = 0.0
+            return
+        }
+
+        alpha = 1.0
         messageLabel.text = state.message
         titleLabel.text = state.title
         setTopView(state: state)
     }
 
-    func setTopView(state: AuthorizationState) {
+    private func setTopView(state: AuthorizationState) {
         accessoryView?.removeFromSuperview()
         accessoryView = state.topAccessoryView
         if let accessoryView = self.accessoryView {
             topView.addSubview(accessoryView)
             accessoryView.centerInSuperview()
-            accessoryView.size(AppLayout.loadingIndicatorSize)
+            accessoryView.size(CGSize(width: 55.0, height: 55.0))
         }
-        if state == .processing, let loadingIndicator = accessoryView as? LoadingIndicator {
+        if state == .processing, let loadingIndicator = accessoryView as? LoadingIndicatorView {
             loadingIndicator.start()
         }
     }
@@ -102,18 +123,20 @@ final class AuthorizationStateView: UIView {
 // MARK: Layout
 extension AuthorizationStateView: Layoutable {
     func layout() {
-        addSubviews(messageLabel, titleLabel, topView)
+        addSubviews(titleLabel, messageLabel, topView)
 
-        messageLabel.centerYToSuperview()
-        messageLabel.leftToSuperview()
-        messageLabel.rightToSuperview()
+        topView.topToSuperview(offset: Layout.topViewOffset)
+        topView.centerXToSuperview()
+        topView.size(Layout.topViewSize)
 
+        titleLabel.topToBottom(of: topView, offset: Layout.titleLabelTopOffset)
+        titleLabel.centerXToSuperview()
         titleLabel.leftToSuperview()
         titleLabel.rightToSuperview()
-        titleLabel.bottomToTop(of: messageLabel, offset: -32)
 
-        topView.centerXToSuperview()
-        topView.bottomToTop(of: titleLabel, offset: -32)
-        topView.size(AppLayout.loadingIndicatorSize)
+        messageLabel.topToBottom(of: titleLabel, offset: Layout.messageLabelTopOffset)
+        messageLabel.centerXToSuperview()
+        messageLabel.leftToSuperview()
+        messageLabel.rightToSuperview()
     }
 }

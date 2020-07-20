@@ -25,27 +25,35 @@ import AVFoundation
 import AudioToolbox
 
 private struct Layout {
-    static let sideLength: CGFloat = UIScreen.main.bounds.width * 0.65
-    static let cornerRadius: CGFloat = 20.0
-    static let yOffset: CGFloat = 100.0
+    static let qrWindowHeight: CGFloat = AppLayout.screenHeight * 0.284
+    static let cornerRadius: CGFloat = 4.0
+    static let cancelButtonTopOfset: CGFloat = AppLayout.screenHeight * 0.028
+    static let cancelButtonLeftOffset: CGFloat = 16.0
+    static let labelsStackViewTopOffset: CGFloat = AppLayout.screenHeight * 0.16
+    static let stackViewSpacing: CGFloat = AppLayout.screenHeight * 0.009
 }
 
-final class QRCodeViewController: UIViewController {
+protocol QRCodeViewControllerDelegate: class {
+    func metadataReceived(data: String)
+}
+
+final class QRCodeViewController: BaseViewController {
     private var captureSession: AVCaptureSession!
     private var videoPreviewLayer: AVCaptureVideoPreviewLayer!
     private var qrCodeFrameView: UIView?
 
-    var metadataReceived: ((UIViewController, String) ->())?
+    weak var delegate: QRCodeViewControllerDelegate?
+
+    var shouldDismissClosure: (() -> ())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
-        instantiateSession()
-        createOverlay(frame: view.frame)
+        requestCameraPermission()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        guard let captureSession = self.captureSession else { return }
 
         if !captureSession.isRunning {
             captureSession.startRunning()
@@ -54,10 +62,25 @@ final class QRCodeViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        guard let captureSession = self.captureSession else { return }
 
         if captureSession.isRunning {
             captureSession.stopRunning()
         }
+    }
+
+    private func requestCameraPermission() {
+        AVCaptureHelper.requestAccess(
+            success: {
+                self.instantiateSession()
+                self.createOverlay()
+                self.setupCancelButton()
+                self.layout()
+            },
+            failure: {
+                self.shouldDismissClosure?()
+            }
+        )
     }
 
     private func instantiateSession() {
@@ -106,35 +129,76 @@ final class QRCodeViewController: UIViewController {
         captureSession.startRunning()
     }
 
-    private func setup() {
-        view.backgroundColor = .white
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            title: l10n(.cancel),
-            style: .plain,
-            target: self,
-            action: #selector(cancelPressed)
-        )
+    private func setupCancelButton() {
+        let cancelButton = UIButton()
+        cancelButton.setTitle(l10n(.cancel), for: .normal)
+        cancelButton.setTitleColor(.lightBlue, for: .normal)
+        cancelButton.addTarget(self, action: #selector(cancelPressed), for: .touchUpInside)
+
+        view.addSubview(cancelButton)
+
+        cancelButton.top(to: view, view.safeAreaLayoutGuide.topAnchor, offset: Layout.cancelButtonTopOfset)
+        cancelButton.left(to: view, offset: Layout.cancelButtonLeftOffset)
     }
 
     @objc private func cancelPressed() {
-        view.endEditing(true)
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
+        shouldDismissClosure?()
     }
 
-    private func createOverlay(frame: CGRect) {
+    private func labelsStackView() -> UIStackView {
+        let titleLabel = UILabel()
+        titleLabel.text = l10n(.scanQrCode)
+        titleLabel.textAlignment = .center
+        titleLabel.font = .systemFont(ofSize: 26.0, weight: .bold)
+        titleLabel.textColor = .titleColor
+
+        let descriptionLabel = UILabel()
+        descriptionLabel.text = ConnectionsCollector.allConnections.isEmpty
+            ? l10n(.scanQrFirstDescription) : l10n(.scanQrToTakeAnAction)
+        descriptionLabel.textAlignment = .center
+        descriptionLabel.font = .systemFont(ofSize: 17.0, weight: .regular)
+        descriptionLabel.textColor = .titleColor
+        descriptionLabel.numberOfLines = 0
+
+        let stackView = UIStackView(
+            axis: .vertical,
+            alignment: .fill,
+            spacing: Layout.stackViewSpacing,
+            distribution: .fillEqually
+        )
+        stackView.addArrangedSubviews(titleLabel, descriptionLabel)
+
+        return stackView
+    }
+}
+
+// MARK: - Layout
+extension QRCodeViewController: Layoutable {
+    func layout() {
+        let stackView = labelsStackView()
+        view.addSubview(stackView)
+
+        stackView.width(view.width - 76.0)
+        stackView.centerX(to: view)
+        stackView.topToSuperview(offset: Layout.labelsStackViewTopOffset)
+    }
+
+    private func createOverlay() {
         let overlayView = UIView()
         overlayView.alpha = 0.6
-        overlayView.backgroundColor = UIColor.black
-        overlayView.frame = frame
+        overlayView.backgroundColor = .backgroundColor
+        overlayView.frame = view.frame
+
         view.addSubview(overlayView)
 
         let path = CGMutablePath()
         path.addRoundedRect(
             in: CGRect(
-                x: view.center.x - (Layout.sideLength / 2),
-                y: view.center.y - (Layout.sideLength / 2) - Layout.yOffset,
-                width: Layout.sideLength,
-                height: Layout.sideLength
+                x: (view.width - Layout.qrWindowHeight) / 2,
+                y: (view.height - Layout.qrWindowHeight) / 2,
+                width: Layout.qrWindowHeight,
+                height: Layout.qrWindowHeight
             ),
             cornerWidth: Layout.cornerRadius,
             cornerHeight: Layout.cornerRadius
@@ -144,10 +208,11 @@ final class QRCodeViewController: UIViewController {
         let maskLayer = CAShapeLayer()
         maskLayer.backgroundColor = UIColor.black.cgColor
         maskLayer.path = path
-        maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
+        maskLayer.fillRule = .evenOdd
 
         overlayView.layer.mask = maskLayer
         overlayView.clipsToBounds = true
+
         view.bringSubviewToFront(overlayView)
     }
 }
@@ -177,7 +242,12 @@ extension QRCodeViewController: AVCaptureMetadataOutputObjectsDelegate {
             }
 
             HapticFeedbackHelper.produceImpactFeedback(.heavy)
-            self.metadataReceived?(self, string)
+            dismiss(
+                animated: true,
+                completion: {
+                    self.delegate?.metadataReceived(data: string)
+                }
+            )
         }
     }
 }

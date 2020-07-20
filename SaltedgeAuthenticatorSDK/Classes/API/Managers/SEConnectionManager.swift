@@ -25,7 +25,7 @@ import Foundation
 public struct SEConnectionManager {
     public static func createConnection(
         by url: URL,
-        data: SEConnectionData,
+        data: SECreateConnectionRequestData,
         pushToken: PushToken,
         connectQuery: ConnectQuery? = nil,
         appLanguage: ApplicationLanguage,
@@ -40,15 +40,12 @@ public struct SEConnectionManager {
     }
 
     public static func revokeConnection(
-        by url: URL,
-        data: SERevokeConnectionData,
-        expiresAt: Int,
-        appLanguage: ApplicationLanguage,
+        data: SEBaseAuthenticatedWithIdRequestData,
         onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConnectionResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
         HTTPService<SERevokeConnectionResponse>.execute(
-            request: SEConnectionRouter.revoke(url, data, expiresAt, appLanguage),
+            request: SEConnectionRouter.revoke(data),
             success: success,
             failure: failure
         )
