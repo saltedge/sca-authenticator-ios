@@ -149,22 +149,7 @@ final class ApplicationCoordinator: Coordinator {
         passcodeCoordinator?.onCompleteClosure = {
             guard let topController = UIWindow.topViewController, SEConnectHelper.isValid(deepLinkUrl: url) else { return }
 
-            if let actionGuid = SEConnectHelper.actionGuid(from: url),
-                let connectUrl = SEConnectHelper.connectUrl(from: url) {
-                self.instantActionCoordinator = InstantActionCoordinator(
-                    rootViewController: topController,
-                    qrUrl: url,
-                    actionGuid: actionGuid,
-                    connectUrl: connectUrl
-                )
-                self.instantActionCoordinator?.start()
-            } else {
-                self.connectViewCoordinator = ConnectViewCoordinator(
-                    rootViewController: topController,
-                    connectionType: .deepLink(url)
-                )
-                self.connectViewCoordinator?.start()
-            }
+            self.startConnect(url: url, controller: topController)
         }
     }
 
@@ -249,6 +234,25 @@ final class ApplicationCoordinator: Coordinator {
             messageBarView = nil
         }
     }
+
+    private func startConnect(url: URL, controller: UIViewController) {
+        if let actionGuid = SEConnectHelper.actionGuid(from: url),
+            let connectUrl = SEConnectHelper.connectUrl(from: url) {
+            instantActionCoordinator = InstantActionCoordinator(
+                rootViewController: controller,
+                qrUrl: url,
+                actionGuid: actionGuid,
+                connectUrl: connectUrl
+            )
+            instantActionCoordinator?.start()
+        } else {
+            connectViewCoordinator = ConnectViewCoordinator(
+                rootViewController: controller,
+                connectionType: .deepLink(url)
+            )
+            connectViewCoordinator?.start()
+        }
+    }
 }
 
 // MARK: - SetupAppDelegate
@@ -256,11 +260,10 @@ extension ApplicationCoordinator: SetupAppDelegate {
     func receivedQrMetadata(data: String) {
         startAuthorizationsViewController()
 
-        connectViewCoordinator = ConnectViewCoordinator(
-            rootViewController: authorizationsCoordinator.rootViewController,
-            connectionType: .newConnection(data)
-        )
-        connectViewCoordinator?.start()
+        guard let url = URL(string: data),
+            SEConnectHelper.isValid(deepLinkUrl: url) else { return }
+
+        startConnect(url: url, controller: authorizationsCoordinator.rootViewController)
     }
 
     func dismiss() {
