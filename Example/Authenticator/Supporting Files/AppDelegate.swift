@@ -116,8 +116,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        guard let (connectionId, authorizationId) = extractIds(from: response.notification.request)
-            else { completionHandler(); return }
+        guard let (connectionId, authorizationId) = extractIds(from: response.notification.request) else {
+            completionHandler()
+            return
+        }
 
         if UIWindow.topViewController is PasscodeViewController {
             applicationCoordinator?.handleAuthorizationsFromPasscode(connectionId: connectionId, authorizationId: authorizationId)
@@ -131,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         guard let (connectionId, _) = extractIds(from: notification.request) else { return }
 
-        if let _ = ConnectionsCollector.active(by: connectionId) {
+        if ConnectionsCollector.active(by: connectionId) != nil {
             completionHandler([.badge, .alert, .sound])
         }
     }

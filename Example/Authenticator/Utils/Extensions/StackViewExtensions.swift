@@ -23,16 +23,17 @@
 import UIKit
 
 extension UIStackView {
-    convenience init(axis: NSLayoutConstraint.Axis,
-                     alignment: UIStackView.Alignment = .fill,
-                     spacing: CGFloat = 0.0,
-                     distribution: UIStackView.Distribution = .equalSpacing) {
+    convenience init(
+        axis: NSLayoutConstraint.Axis,
+        alignment: UIStackView.Alignment = .fill,
+        spacing: CGFloat = 0.0,
+        distribution: UIStackView.Distribution = .equalSpacing
+    ) {
         self.init(frame: .zero)
         self.axis = axis
         self.alignment = alignment
         self.spacing = spacing
         self.distribution = distribution
-        self.translatesAutoresizingMaskIntoConstraints = false
     }
 
     func addArrangedSubviews(_ subviews: UIView...) {
