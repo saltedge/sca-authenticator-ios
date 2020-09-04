@@ -32,6 +32,10 @@ public extension Date {
 
         return Int(dateFromComponents.timeIntervalSince1970)
     }
+
+    func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
+        return calendar.component(component, from: self)
+    }
 }
 
 public extension TimeZone {
