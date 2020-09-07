@@ -24,38 +24,96 @@ import Foundation
 
 public struct SEConsentData {
     public let id: String
+    public let userId: String
     public let connectionId: String
-    public let title: String
-    public let description: String
+    public let tppName: String
+    public let consentType: String
+    public let accounts: [SEAccount]
+    public let sharedData: SEConsentSharedData?
     public let createdAt: Date
     public let expiresAt: Date
 
-    public init?(_ dictionary: [String: Any]) {
+    public init?(_ dictionary: [String: Any], _ connectionId: String) {
         if let id = dictionary[SENetKeys.id] as? String,
-            let connectionId = dictionary[SENetKeys.connectionId] as? String,
-            let title = dictionary[SENetKeys.title] as? String,
-            let description = dictionary[SENetKeys.description] as? String,
+            let userId = dictionary[SENetKeys.userId] as? String,
+            let tppName = dictionary[SENetKeys.tppName] as? String,
+            let consentType = dictionary[SENetKeys.consentType] as? String,
+            let accountsObjects = dictionary[SENetKeys.accounts] as? [[String: Any]],
             let createdAt = (dictionary[SENetKeys.createdAt] as? String)?.iso8601date,
             let expiresAt = (dictionary[SENetKeys.expiresAt] as? String)?.iso8601date {
             self.id = id
-            self.connectionId = connectionId
-            self.title = title
-            self.description = description
+            self.userId = userId
+            self.tppName = tppName
+            self.consentType = consentType
             self.createdAt = createdAt
             self.expiresAt = expiresAt
+
+            let accounts = accountsObjects.compactMap { SEAccount($0) }
+            self.accounts = accounts
+
+            self.sharedData = SEConsentSharedData((dictionary[SENetKeys.sharedData] as? [String: Bool]))
+
+            self.connectionId = connectionId
         } else {
             return nil
         }
     }
 }
 
+public struct SEAccount {
+    public let name: String
+    public let accountNumber: String?
+    public let sortCode: String?
+    public let iban: String?
+    
+    public init?(_ dictionary: [String: Any]) {
+        if let name = dictionary[SENetKeys.name] as? String {
+            self.name = name
+            self.accountNumber = dictionary[SENetKeys.accountNumber] as? String
+            self.sortCode = dictionary[SENetKeys.sortCode] as? String
+            self.iban = dictionary[SENetKeys.iban] as? String
+        } else {
+            return nil
+        }
+    }
+}
+
+public struct SEConsentSharedData {
+    public let balance: Bool?
+    public let transactions: Bool?
+    
+    public init?(_ dictionary: [String: Bool]?) {
+        guard let unwrappedDictionary = dictionary else { return nil }
+
+        self.balance = unwrappedDictionary[SENetKeys.balance]
+        self.transactions = unwrappedDictionary[SENetKeys.transactions]
+    }
+}
+
 extension SEConsentData: Equatable {
     public static func == (lhs: SEConsentData, rhs: SEConsentData) -> Bool {
         return lhs.id == rhs.id &&
+            lhs.userId == rhs.userId &&
             lhs.connectionId == rhs.connectionId &&
-            lhs.title == rhs.title &&
-            lhs.description == rhs.description &&
+            lhs.tppName == rhs.tppName &&
+            lhs.consentType == rhs.consentType &&
+            lhs.accounts == rhs.accounts &&
             lhs.createdAt == rhs.createdAt &&
             lhs.expiresAt == rhs.expiresAt
+    }
+}
+
+extension SEAccount: Equatable {
+    public static func == (lhs: SEAccount, rhs: SEAccount) -> Bool {
+        return lhs.name == rhs.name &&
+            lhs.accountNumber == rhs.accountNumber &&
+            lhs.sortCode == rhs.sortCode &&
+            lhs.iban == rhs.iban
+    }
+}
+
+extension SEConsentSharedData: Equatable {
+    public static func == (lhs: SEConsentSharedData, rhs: SEConsentSharedData) -> Bool {
+        return lhs.balance == rhs.balance && lhs.transactions == rhs.transactions
     }
 }

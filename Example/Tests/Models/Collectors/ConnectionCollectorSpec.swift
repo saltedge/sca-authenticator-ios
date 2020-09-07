@@ -92,6 +92,9 @@ class ConnectionCollectorSpec: BaseSpec {
                 let actualModel = ConnectionsCollector.where(whereString).first!
 
                 expect("first").to(equal(actualModel.id))
+                let actualModelId = ConnectionsCollector.where(whereString).first!.id
+
+                expect("first").to(equal(actualModelId))
             }
         }
 

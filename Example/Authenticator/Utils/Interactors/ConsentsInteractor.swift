@@ -1,8 +1,8 @@
 //
-//  AuthorizationsPresenter.swift
+//  ConsentsInteractor
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,20 +23,27 @@
 import Foundation
 import SEAuthenticator
 
-struct AuthorizationsPresenter {
-    static func decryptedData(from encryptedData: SEEncryptedData) -> SEAuthorizationData? {
-        if let connectionId = encryptedData.connectionId,
-            let connection = ConnectionsCollector.with(id: connectionId) {
-            do {
-                let decryptedData = try SECryptoHelper.decrypt(encryptedData, tag: SETagHelper.create(for: connection.guid))
+struct ConsentsInteractor {
+    static func revoke(_ consent: SEConsentData, success: (() -> ())? = nil, failure: ((String) -> ())? = nil) {
+        guard let connection = ConnectionsCollector.with(id: consent.connectionId),
+            let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
 
-                guard let decryptedDictionary = decryptedData.json else { return nil }
+        let data = SEBaseAuthenticatedWithIdRequestData(
+            url: baseUrl,
+            connectionGuid: connection.guid,
+            accessToken: connection.accessToken,
+            appLanguage: UserDefaultsHelper.applicationLanguage,
+            entityId: consent.id
+        )
 
-                return SEAuthorizationData(decryptedDictionary)
-            } catch {
-                return nil
+        SEConsentsManager.revokeConsent(
+            data: data,
+            onSuccess: { _ in
+                success?()
+            },
+            onFailure: { error in
+                failure?(error)
             }
-        }
-        return nil
+        )
     }
 }
