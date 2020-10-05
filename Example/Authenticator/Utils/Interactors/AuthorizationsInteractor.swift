@@ -24,9 +24,11 @@ import Foundation
 import SEAuthenticator
 
 struct AuthorizationsInteractor {
-    static func confirm(data: SEConfirmAuthorizationRequestData,
-                        success: (() -> ())? = nil,
-                        failure: ((String) -> ())? = nil) {
+    static func confirm(
+        data: SEConfirmAuthorizationRequestData,
+        success: (() -> ())? = nil,
+        failure: ((String) -> ())? = nil
+    ) {
         SEAuthorizationManager.confirmAuthorization(
             data: data,
             onSuccess: { _ in
@@ -38,9 +40,11 @@ struct AuthorizationsInteractor {
         )
     }
 
-    static func deny(data: SEConfirmAuthorizationRequestData,
-                     success: (() -> ())? = nil,
-                     failure: ((String) -> ())? = nil) {
+    static func deny(
+        data: SEConfirmAuthorizationRequestData,
+        success: (() -> ())? = nil,
+        failure: ((String) -> ())? = nil
+    ) {
         SEAuthorizationManager.denyAuthorization(
             data: data,
             onSuccess: { _ in
@@ -82,51 +86,5 @@ struct AuthorizationsInteractor {
                 }
             }
         )
-    }
-
-    static func refresh(connections: [Connection],
-                        success: @escaping ([SEEncryptedData]) -> (),
-                        failure: ((String) -> ())? = nil,
-                        connectionNotFoundFailure: @escaping ((String?) -> ())) {
-        var encryptedAuthorizations = [SEEncryptedData]()
-
-        var numberOfResponses = 0
-
-        func incrementAndCheckResponseCount() {
-            numberOfResponses += 1
-
-            if numberOfResponses == connections.count {
-                success(encryptedAuthorizations)
-            }
-        }
-
-        for connection in connections {
-            let accessToken = connection.accessToken
-
-            guard let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
-
-            SEAuthorizationManager.getEncryptedAuthorizations(
-                data: SEBaseAuthenticatedRequestData(
-                    url: baseUrl,
-                    connectionGuid: connection.guid,
-                    accessToken: accessToken,
-                    appLanguage: UserDefaultsHelper.applicationLanguage
-                ),
-                onSuccess: { response in
-                    encryptedAuthorizations.append(contentsOf: response.data)
-
-                    incrementAndCheckResponseCount()
-                },
-                onFailure: { error in
-                    incrementAndCheckResponseCount()
-
-                    if SEAPIError.connectionNotFound.isConnectionNotFound(error) {
-                        connectionNotFoundFailure(connection.id)
-                    } else {
-                        failure?("\(l10n(.somethingWentWrong)) (\(connection.name))")
-                    }
-                }
-            )
-        }
     }
 }
