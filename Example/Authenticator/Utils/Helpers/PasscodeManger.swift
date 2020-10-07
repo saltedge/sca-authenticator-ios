@@ -33,11 +33,11 @@ struct PasscodeManager {
     }
 
     static var isBiometricsEnabled: Bool {
-        set {
-            UserDefaultsHelper.isBiometricsEnabled = newValue
-        }
         get {
             return UserDefaultsHelper.isBiometricsEnabled
+        }
+        set {
+            UserDefaultsHelper.isBiometricsEnabled = newValue
         }
     }
 

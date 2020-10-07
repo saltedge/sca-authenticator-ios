@@ -215,6 +215,7 @@
 		9DCED92A22CE18280050ED3C /* Authenticator.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED89522CE18280050ED3C /* Authenticator.strings */; };
 		9DCED92D22CE1DC30050ED3C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED92B22CE1DC30050ED3C /* LaunchScreen.storyboard */; };
 		9DCED93722D3389C0050ED3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED93622D3389C0050ED3C /* Assets.xcassets */; };
+		9DCF6DCD252DBA1A00D9182A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DCF6DCC252DBA1A00D9182A /* GoogleService-Info.plist */; };
 		9DD4DF252375969A000A9B80 /* QuickActionsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD4DF242375969A000A9B80 /* QuickActionsHelper.swift */; };
 		9DD4DF262375969B000A9B80 /* QuickActionsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD4DF242375969A000A9B80 /* QuickActionsHelper.swift */; };
 		9DD4DF2823759767000A9B80 /* AVCaptureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD4DF2723759767000A9B80 /* AVCaptureHelper.swift */; };
@@ -529,6 +530,7 @@
 		9DCED89722CE18280050ED3C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Authenticator.strings; sourceTree = "<group>"; };
 		9DCED92C22CE1DC30050ED3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9DCED93622D3389C0050ED3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Authenticator/Assets.xcassets; sourceTree = SOURCE_ROOT; };
+		9DCF6DCC252DBA1A00D9182A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9DD4DF242375969A000A9B80 /* QuickActionsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionsHelper.swift; sourceTree = "<group>"; };
 		9DD4DF2723759767000A9B80 /* AVCaptureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureHelper.swift; sourceTree = "<group>"; };
 		9DD50990247527D800CB188D /* AuthorizationsViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsViewModelSpec.swift; sourceTree = "<group>"; };
@@ -1241,6 +1243,7 @@
 			children = (
 				9D453CCC23D06F0E00702695 /* TimerApplication.swift */,
 				9DCED88D22CE18280050ED3C /* GoogleService-Info.example.plist */,
+				9DCF6DCC252DBA1A00D9182A /* GoogleService-Info.plist */,
 				9DCED89022CE18280050ED3C /* AppDelegate.swift */,
 				9D453CC023CCB56400702695 /* main.swift */,
 				9DCED89122CE18280050ED3C /* application.example.plist */,
@@ -1385,6 +1388,7 @@
 				607FACCE1AFB9204008FA782 /* Resources */,
 				9D606E8922DF39D600D1D104 /* Run Swift Lint */,
 				1DF2A0F455F613AF985CC971 /* [CP] Embed Pods Frameworks */,
+				9DCF6EBF252DE4F900D9182A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1501,6 +1505,7 @@
 				F846BC112344FEC9005A9781 /* application.plist in Resources */,
 				9DCED92322CE18280050ED3C /* GoogleService-Info.example.plist in Resources */,
 				9DCED92A22CE18280050ED3C /* Authenticator.strings in Resources */,
+				9DCF6DCD252DBA1A00D9182A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1640,6 +1645,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi\n";
+		};
+		9DCF6EBF252DE4F900D9182A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		B032F22AD8387823201AE840 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2174,13 +2198,15 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 126;
+				CURRENT_PROJECT_VERSION = 127;
 				DEVELOPMENT_TEAM = "";
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2199,13 +2225,15 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 126;
+				CURRENT_PROJECT_VERSION = 127;
 				DEVELOPMENT_TEAM = "";
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.1.0;
+				MARKETING_VERSION = 3.1.1;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
