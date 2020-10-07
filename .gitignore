@@ -23,12 +23,12 @@ calabash.framework
 .bundle
 screenshot_*
 application.plist
+GoogleService-Info.plist
 dump*.rdb
 ObjectiveC.*
 .*.s[a-w][a-z]
 # bin is added to ignore bundler binstubs
 bin
-GoogleService-Info.plist
 tags
 coverage_reports/
 
