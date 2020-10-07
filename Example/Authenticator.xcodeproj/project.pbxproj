@@ -215,7 +215,6 @@
 		9DCED92A22CE18280050ED3C /* Authenticator.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED89522CE18280050ED3C /* Authenticator.strings */; };
 		9DCED92D22CE1DC30050ED3C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED92B22CE1DC30050ED3C /* LaunchScreen.storyboard */; };
 		9DCED93722D3389C0050ED3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED93622D3389C0050ED3C /* Assets.xcassets */; };
-		9DCF6DCD252DBA1A00D9182A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9DCF6DCC252DBA1A00D9182A /* GoogleService-Info.plist */; };
 		9DD4DF252375969A000A9B80 /* QuickActionsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD4DF242375969A000A9B80 /* QuickActionsHelper.swift */; };
 		9DD4DF262375969B000A9B80 /* QuickActionsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD4DF242375969A000A9B80 /* QuickActionsHelper.swift */; };
 		9DD4DF2823759767000A9B80 /* AVCaptureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD4DF2723759767000A9B80 /* AVCaptureHelper.swift */; };
@@ -530,7 +529,6 @@
 		9DCED89722CE18280050ED3C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Authenticator.strings; sourceTree = "<group>"; };
 		9DCED92C22CE1DC30050ED3C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9DCED93622D3389C0050ED3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Authenticator/Assets.xcassets; sourceTree = SOURCE_ROOT; };
-		9DCF6DCC252DBA1A00D9182A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9DD4DF242375969A000A9B80 /* QuickActionsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionsHelper.swift; sourceTree = "<group>"; };
 		9DD4DF2723759767000A9B80 /* AVCaptureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureHelper.swift; sourceTree = "<group>"; };
 		9DD50990247527D800CB188D /* AuthorizationsViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsViewModelSpec.swift; sourceTree = "<group>"; };
@@ -1243,7 +1241,6 @@
 			children = (
 				9D453CCC23D06F0E00702695 /* TimerApplication.swift */,
 				9DCED88D22CE18280050ED3C /* GoogleService-Info.example.plist */,
-				9DCF6DCC252DBA1A00D9182A /* GoogleService-Info.plist */,
 				9DCED89022CE18280050ED3C /* AppDelegate.swift */,
 				9D453CC023CCB56400702695 /* main.swift */,
 				9DCED89122CE18280050ED3C /* application.example.plist */,
@@ -1505,7 +1502,6 @@
 				F846BC112344FEC9005A9781 /* application.plist in Resources */,
 				9DCED92322CE18280050ED3C /* GoogleService-Info.example.plist in Resources */,
 				9DCED92A22CE18280050ED3C /* Authenticator.strings in Resources */,
-				9DCF6DCD252DBA1A00D9182A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
