@@ -71,7 +71,6 @@ final class ConnectionsViewController: UITableViewController {
             withDuration: 0.3,
             animations: {
                 self.noDataView.alpha = self.viewModel.hasDataToShow ? 0.0 : 1.0
-                self.tableView.alpha = !self.viewModel.hasDataToShow ? 0.0 : 1.0
             }
         )
     }
@@ -178,7 +177,7 @@ private extension ConnectionsViewController {
 // MARK: - Layout
 extension ConnectionsViewController: Layoutable {
     func layout() {
-        view.addSubviews(noDataView)
+        tableView.addSubview(noDataView)
 
         noDataView.topToSuperview(view.safeAreaLayoutGuide.topAnchor, offset: Layout.noDataViewTopOffset)
         noDataView.widthToSuperview()

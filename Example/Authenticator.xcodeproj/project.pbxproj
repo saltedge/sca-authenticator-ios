@@ -76,6 +76,8 @@
 		9D59DAF92490C4A800117CD7 /* SingleAuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D59DAF72490C4A800117CD7 /* SingleAuthorizationViewController.swift */; };
 		9D5AC68A23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
 		9D5AC68B23571958003B00E2 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5AC68923571958003B00E2 /* LicensesViewController.swift */; };
+		9D5B4C69252E01480060454F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9D5B4C68252E01480060454F /* GoogleService-Info.plist */; };
+		9D5B4C6E252E01F80060454F /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9D5B4C6D252E01F70060454F /* LICENSE.txt */; };
 		9D5BCFD9247FC91F009A6B40 /* ConnectionPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */; };
 		9D5BCFDA247FC91F009A6B40 /* ConnectionPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */; };
 		9D5BCFDC247FF595009A6B40 /* InstantActionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5BCFDB247FF595009A6B40 /* InstantActionHandler.swift */; };
@@ -404,6 +406,8 @@
 		9D59DAF72490C4A800117CD7 /* SingleAuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleAuthorizationViewController.swift; sourceTree = "<group>"; };
 		9D5AC68923571958003B00E2 /* LicensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewController.swift; sourceTree = "<group>"; };
 		9D5AC68C23573553003B00E2 /* LicensesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesViewModel.swift; sourceTree = "<group>"; };
+		9D5B4C68252E01480060454F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9D5B4C6D252E01F70060454F /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = ../LICENSE.txt; sourceTree = "<group>"; };
 		9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionPickerViewModel.swift; sourceTree = "<group>"; };
 		9D5BCFDB247FF595009A6B40 /* InstantActionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantActionHandler.swift; sourceTree = "<group>"; };
 		9D5BCFDF24800307009A6B40 /* ConnectHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectHandler.swift; sourceTree = "<group>"; };
@@ -586,7 +590,6 @@
 		BE78B0BDB65BD9B80C655471 /* SaltedgeAuthenticatorSDK.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SaltedgeAuthenticatorSDK.podspec; path = ../SaltedgeAuthenticatorSDK.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		C261221D32E798C804830E32 /* Pods-Authenticator_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authenticator_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Authenticator_Tests/Pods-Authenticator_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		C53EA6B59764BAE22B58369D /* Pods_Authenticator_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Authenticator_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D211CB21F21CCFE7A57F9A63 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		F846BC0F2344FEC9005A9781 /* application.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = application.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -681,9 +684,9 @@
 		607FACF51AFB993E008FA782 /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
+				9D5B4C6D252E01F70060454F /* LICENSE.txt */,
 				BE78B0BDB65BD9B80C655471 /* SaltedgeAuthenticatorSDK.podspec */,
 				1249D71A41FFB9C79FF0AE5E /* README.md */,
-				D211CB21F21CCFE7A57F9A63 /* LICENSE */,
 			);
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
@@ -1239,6 +1242,7 @@
 		9DCED88B22CE18280050ED3C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9D5B4C68252E01480060454F /* GoogleService-Info.plist */,
 				9D453CCC23D06F0E00702695 /* TimerApplication.swift */,
 				9DCED88D22CE18280050ED3C /* GoogleService-Info.example.plist */,
 				9DCED89022CE18280050ED3C /* AppDelegate.swift */,
@@ -1385,6 +1389,7 @@
 				607FACCE1AFB9204008FA782 /* Resources */,
 				9D606E8922DF39D600D1D104 /* Run Swift Lint */,
 				1DF2A0F455F613AF985CC971 /* [CP] Embed Pods Frameworks */,
+				9DCF6EBF252DE4F900D9182A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1499,8 +1504,10 @@
 				9DCED92722CE18280050ED3C /* application.example.plist in Resources */,
 				9DCED93722D3389C0050ED3C /* Assets.xcassets in Resources */,
 				F846BC112344FEC9005A9781 /* application.plist in Resources */,
+				9D5B4C6E252E01F80060454F /* LICENSE.txt in Resources */,
 				9DCED92322CE18280050ED3C /* GoogleService-Info.example.plist in Resources */,
 				9DCED92A22CE18280050ED3C /* Authenticator.strings in Resources */,
+				9D5B4C69252E01480060454F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1640,6 +1647,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi\n";
+		};
+		9DCF6EBF252DE4F900D9182A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
 		};
 		B032F22AD8387823201AE840 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2174,13 +2200,15 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 125;
+				CURRENT_PROJECT_VERSION = 127;
 				DEVELOPMENT_TEAM = "";
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.2.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2199,13 +2227,15 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 125;
+				CURRENT_PROJECT_VERSION = 127;
 				DEVELOPMENT_TEAM = "";
+				EXCLUDED_ARCHS = "";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.2.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -48,7 +48,7 @@ struct LocalizationHelper {
     }
 
     static func languageCode(from displayName: String) -> String? {
-        if let filtered = availableLocalizations.filter ({ $0.displayName == displayName }).first {
+        if let filtered = availableLocalizations.filter({ $0.displayName == displayName }).first {
             return filtered.code
         }
 

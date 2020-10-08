@@ -6,12 +6,11 @@ def shared_pods
   pod 'ReachabilitySwift'
   pod 'TinyConstraints'
   pod 'SDWebImage', '5.1.0'
-  pod 'RealmSwift'
-  pod 'Realm'  
+  pod 'RealmSwift', '5.4.7', :inhibit_warnings => true
+  pod 'Realm', '5.4.7', :inhibit_warnings => true
   pod 'Valet', '~> 3.2.8'
-  pod 'Crashlytics'
-  pod 'Firebase/Core'
-  pod 'Fabric'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Analytics'
 end
 
 target 'Authenticator_Example' do
@@ -22,4 +21,12 @@ target 'Authenticator_Tests' do
     pod 'Quick'
     pod 'Nimble'
     shared_pods
+end
+
+post_install do |pi|
+    pi.pods_project.targets.each do |t|
+      t.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
+      end
+    end
 end
