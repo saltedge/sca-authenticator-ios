@@ -37,14 +37,6 @@ final class PasscodeViewModelSpec: BaseSpec {
             }
         }
 
-        describe("wrongPasscodeLabelText") {
-            it("should return correct text depending on purpose") {
-                expect(PasscodeViewModel(purpose: .create).wrongPasscodeLabelText).to(equal(l10n(.passcodeDontMatch)))
-                expect(PasscodeViewModel(purpose: .edit).wrongPasscodeLabelText).to(equal(l10n(.passcodeDontMatch)))
-                expect(PasscodeViewModel(purpose: .enter).wrongPasscodeLabelText).to(equal(l10n(.wrongPasscode)))
-            }
-        }
-
         describe("didInput(digit:, symbols:)") {
             context("when entered passcode contains less than 3 digits") {
                 it("should append to passcode") {
@@ -183,9 +175,9 @@ final class PasscodeViewModelSpec: BaseSpec {
 
                 expect(viewModel.state.value).to(equal(PasscodeViewModelState.check))
 
-                viewModel.wrongPasscode()
+                viewModel.wrongPasscode(text: l10n(.wrongPasscode))
 
-                expect(viewModel.state.value).to(equal(PasscodeViewModelState.wrong))
+                expect(viewModel.state.value).to(equal(PasscodeViewModelState.wrong(l10n(.wrongPasscode))))
             }
         }
 
