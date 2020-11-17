@@ -54,6 +54,9 @@ class CustomButton: UIButton {
     }
 
     private func setupShadow() {
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
         layer.shadowColor = UIColor(red: 0.051, green: 0.576, blue: 0.973, alpha: 0.2).cgColor
         layer.shadowOffset = CGSize(width: 0, height: 6)
         layer.shadowOpacity = 0.7
