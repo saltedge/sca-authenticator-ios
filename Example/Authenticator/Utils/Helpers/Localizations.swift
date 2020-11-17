@@ -169,6 +169,7 @@ enum Localizations: String, Localizable {
     case changePasscode = "actions.change_passcode"
     case wrongPasscodeSingular = "errors.passcode_ios_singular"
     case accountReset = "errors.account_reset"
+    case passcodesDontMatch = "in_app.passcode_dont_match"
 
     case createPasscode = "onboarding.secure_app.passcode_create"
     case confirmPasscode = "onboarding.secure_app.passcode_confirm"
