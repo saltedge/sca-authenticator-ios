@@ -24,7 +24,7 @@ import UIKit
 
 enum PasscodeViewModelState: Equatable {
     case check
-    case wrong
+    case wrong(String)
     case create(String)
     case correct
     case `repeat`
@@ -33,8 +33,9 @@ enum PasscodeViewModelState: Equatable {
         switch (lhs, rhs) {
         case let (.create(text1), .create(text2)):
             return text1 == text2
+        case let (.wrong(text1), .wrong(text2)):
+            return text1 == text2
         case (.check, .check),
-             (.wrong, .wrong),
              (.repeat, .repeat),
              (.correct, .correct):
             return true
@@ -136,7 +137,7 @@ final class PasscodeViewModel {
 
     func checkPasscode() {
         guard passcode == PasscodeManager.current else {
-            wrongPasscode()
+            wrongPasscode(text: l10n(.wrongPasscode))
             state.value = .check
             return
         }
@@ -151,7 +152,7 @@ final class PasscodeViewModel {
 
     func comparePasscodes() {
         guard passcode == confirmationPasscode else {
-            wrongPasscode()
+            wrongPasscode(text: l10n(.passcodesDontMatch))
             switchToCreate()
             return
         }
@@ -162,8 +163,8 @@ final class PasscodeViewModel {
         delegate?.popToRootViewController()
     }
 
-    func wrongPasscode() {
-        state.value = .wrong
+    func wrongPasscode(text: String) {
+        state.value = .wrong(text)
 
         passcode = ""
         confirmationPasscode = ""
@@ -251,13 +252,6 @@ extension PasscodeViewModel {
         case .create: return l10n(.createPasscode)
         case .edit: return l10n(.yourCurrentPasscode)
         case .enter: return ""
-        }
-    }
-
-    var wrongPasscodeLabelText: String {
-        switch purpose {
-        case .create, .edit: return l10n(.passcodeDontMatch)
-        case .enter: return l10n(.wrongPasscode)
         }
     }
 }

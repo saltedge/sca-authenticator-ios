@@ -110,6 +110,7 @@
 "in_app.passcode_confirmation.title" = "Enter Passcode or use Touch ID";
 "in_app.passcode_confirmation.title2" = "Enter Passcode or use Face ID";
 "in_app.passcode_new_passcode_success_message" = "New passcode successfully set";
+"in_app.passcode_dont_match" = "Passcodes don't match";
 "in_app.settings.about" = "About";
 "in_app.settings.licenses" = "Open-source licenses";
 "in_app.settings.copyright" = "Copyright";
