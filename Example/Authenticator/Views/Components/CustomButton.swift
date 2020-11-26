@@ -37,6 +37,19 @@ class CustomButton: UIButton {
         }
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+        layer.shadowColor = UIColor.shadow.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 6)
+        layer.shadowOpacity = 0.2
+        layer.shadowRadius = 10.0
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+    }
+
     init(text: String, height: CGFloat = Layout.height, textColor: UIColor = .white, backgroundColor: UIColor = .darkBlue) {
         super.init(frame: .zero)
         self.backgroundColor = backgroundColor
@@ -46,21 +59,10 @@ class CustomButton: UIButton {
         setTitleColor(textColor, for: .highlighted)
         layer.cornerRadius = Layout.cornerRadius
         self.height(height)
-        setupShadow()
     }
 
     func updateTitle(text: String) {
         setTitle(text, for: .normal)
-    }
-
-    private func setupShadow() {
-        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-        layer.shouldRasterize = true
-        layer.rasterizationScale = UIScreen.main.scale
-        layer.shadowColor = UIColor(red: 0.051, green: 0.576, blue: 0.973, alpha: 0.2).cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 6)
-        layer.shadowOpacity = 0.7
-        layer.shadowRadius = 30.0
     }
 
     required init?(coder aDecoder: NSCoder) {
