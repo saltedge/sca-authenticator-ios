@@ -82,4 +82,8 @@ extension UIColor {
     static var redAlert: UIColor {
         return UIColor(named: "redAlert", in: .authenticator_main, compatibleWith: nil)!
     }
+
+    static var shadow: UIColor {
+        return UIColor(named: "shadow", in: .authenticator_main, compatibleWith: nil)!
+    }
 }
