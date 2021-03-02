@@ -93,7 +93,7 @@ final class ConnectHandler {
                 self?.delegate?.startWebViewLoading(with: connectUrl)
             },
             failure: { [weak self] error in
-                self?.dismissConnectWithError(error: l10n(.errorOccuredPleaseTryAgain))
+                self?.dismissConnectWithError(error: error)
             }
         )
     }
@@ -101,7 +101,7 @@ final class ConnectHandler {
     private func reconnectConnection(_ connectionId: String) {
         guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
 
-        ConnectionsInteractor.submitConnection(
+        ConnectionsInteractor.submitNewConnection(
             for: connection,
             connectQuery: nil,
             success: { [weak self] connection, accessToken in
@@ -113,14 +113,14 @@ final class ConnectHandler {
                 self?.delegate?.startWebViewLoading(with: connectUrl)
             },
             failure: { [weak self] error in
-                self?.dismissConnectWithError(error: l10n(.errorOccuredPleaseTryAgain))
+                self?.dismissConnectWithError(error: error)
             }
         )
     }
 
     private func dismissConnectWithError(error: String) {
         DispatchQueue.main.async {
-            self.delegate?.dismissConnectWithError(error: l10n(.errorOccuredPleaseTryAgain))
+            self.delegate?.dismissConnectWithError(error: error)
         }
     }
 }

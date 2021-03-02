@@ -31,7 +31,7 @@ struct ConnectionsInteractor {
         redirect: @escaping (Connection, String) -> (),
         failure: @escaping (String) -> ()
     ) {
-        fetchProvider(
+        fetchProviderConfiguration(
             from: url,
             success: { response in
                 let connection = Connection()
@@ -47,7 +47,7 @@ struct ConnectionsInteractor {
                 connection.logoUrlString = response.logoUrl?.absoluteString ?? ""
                 connection.baseUrlString = response.connectUrl.absoluteString
 
-                submitConnection(
+                submitNewConnection(
                     for: connection,
                     connectQuery: connectQuery,
                     success: success,
@@ -59,9 +59,11 @@ struct ConnectionsInteractor {
         )
     }
 
-    static func fetchProvider(from url: URL,
-                              success: @escaping (SEProviderResponse) -> (),
-                              failure: @escaping (String) -> ()) {
+    static func fetchProviderConfiguration(
+        from url: URL,
+        success: @escaping (SEProviderResponse) -> (),
+        failure: @escaping (String) -> ()
+    ) {
         SEProviderManager.fetchProviderData(
             url: url,
             onSuccess: success,
@@ -69,7 +71,7 @@ struct ConnectionsInteractor {
         )
     }
 
-    static func submitConnection(
+    static func submitNewConnection(
         for connection: Connection,
         connectQuery: String?,
         success: @escaping (Connection, AccessToken) -> (),

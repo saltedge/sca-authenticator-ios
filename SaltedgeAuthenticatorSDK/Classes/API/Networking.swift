@@ -49,7 +49,7 @@ extension Networking {
                     }
 
                     if jsonData[SENetKeys.errorMessage] as? String != nil,
-                        let errorClass = jsonData[SENetKeys.errorClass] as? String {
+                       let errorClass = jsonData[SENetKeys.errorClass] as? String {
                         DispatchQueue.main.async { failure(errorClass) }
                     } else {
                         DispatchQueue.main.async {
