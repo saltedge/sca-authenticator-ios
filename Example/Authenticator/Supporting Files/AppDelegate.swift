@@ -35,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         ReachabilityManager.shared.observeReachability()
         AppearanceHelper.setup()
         CacheHelper.setDefaultDiskAge()
+        FirebaseApp.configure()
         configureFirebase()
         setupAppCoordinator()
         applicationCoordinator?.openQrScannerIfNoConnections()
@@ -54,9 +55,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     private func configureFirebase() {
-        if let configFile = Bundle.authenticator_main.path(forResource: "GoogleService-Info", ofType: "plist"),
-            let options = FirebaseOptions(contentsOfFile: configFile) {
-            FirebaseApp.configure(options: options)
+        if Bundle.authenticator_main.path(forResource: "GoogleService-Info", ofType: "plist") != nil,
+           FirebaseApp.app() == nil {
+            FirebaseApp.configure()
         } else {
             Log.debugLog(message: "For using Crashlytics make sure you have GoogleService-Info.plist set.")
         }

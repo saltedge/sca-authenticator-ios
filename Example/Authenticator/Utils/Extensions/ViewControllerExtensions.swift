@@ -168,8 +168,8 @@ extension UIViewController {
         view.addSubview(messageView)
         messageView.addGestureRecognizer(gesture)
         messageView.alpha = 0.0
-        messageView.left(to: view, offset: 27.0)
-        messageView.right(to: view, offset: -27.0)
+        messageView.widthToSuperview(offset: -64.0)
+        messageView.centerXToSuperview()
         messageView.bottom(to: view, view.safeAreaLayoutGuide.bottomAnchor, offset: -24.0)
         messageView.heightConstraint?.constant = 0.0
 

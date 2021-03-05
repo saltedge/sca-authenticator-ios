@@ -69,7 +69,6 @@ final class PasscodeView: UIView {
         self.passcodeKeyboard = PasscodeKeyboard(shouldShowTouchID: viewModel.shouldShowIcon)
         super.init(frame: .zero)
         titleLabel.text = viewModel.title
-        wrongPasscodeLabel.text = viewModel.wrongPasscodeLabelText
         setupPasscodeSymbolsView()
         passcodeKeyboard.delegate = self
         layout()
@@ -80,10 +79,12 @@ final class PasscodeView: UIView {
      private func handleViewModelState() {
         viewModel.state.valueChanged = { value in
             switch value {
-            case .wrong:
+            case let .wrong(text):
+                self.wrongPasscodeLabel.text = text
                 self.animateWrongPasscodeLabel()
                 self.passcodeSymbols.forEach { $0.animateEmpty() }
                 self.wrongPasscodeAnimation()
+                self.passcodeKeyboard.showClearButton = false
                 HapticFeedbackHelper.produceErrorFeedback()
             case .create(let text):
                 self.animateLabel(with: text)

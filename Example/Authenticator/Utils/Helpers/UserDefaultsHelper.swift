@@ -35,11 +35,6 @@ struct UserDefaultsHelper {
     private static let suiteName = "\(AppSettings.bundleId).defaults"
 
     static var applicationLanguage: String {
-        set {
-            let languageCode = LocalizationHelper.languageCode(from: newValue)
-            defaults.set(languageCode, forKey: DefaultsKeys.applicationLanguage.rawValue)
-            defaults.synchronize()
-        }
         get {
             if let appLanguage = defaults.string(forKey: DefaultsKeys.applicationLanguage.rawValue) {
                 return appLanguage
@@ -47,55 +42,60 @@ struct UserDefaultsHelper {
 
             return "en"
         }
+        set {
+            let languageCode = LocalizationHelper.languageCode(from: newValue)
+            defaults.set(languageCode, forKey: DefaultsKeys.applicationLanguage.rawValue)
+            defaults.synchronize()
+        }
     }
 
     static var didShowOnboarding: Bool {
+        get {
+            return defaults.bool(forKey: DefaultsKeys.didShowOnboarding.rawValue)
+        }
         set {
             defaults.set(newValue, forKey: DefaultsKeys.didShowOnboarding.rawValue)
             defaults.synchronize()
         }
-        get {
-            return defaults.bool(forKey: DefaultsKeys.didShowOnboarding.rawValue)
-        }
     }
 
     static var isBiometricsEnabled: Bool {
+        get {
+            return defaults.bool(forKey: DefaultsKeys.isBiometricsEnabled.rawValue)
+        }
         set {
             defaults.set(newValue, forKey: DefaultsKeys.isBiometricsEnabled.rawValue)
             defaults.synchronize()
         }
-        get {
-            return defaults.bool(forKey: DefaultsKeys.isBiometricsEnabled.rawValue)
-        }
     }
 
     static var blockedTill: Date? {
+        get {
+            return defaults.object(forKey: DefaultsKeys.blockedTill.rawValue) as? Date
+        }
         set {
             defaults.set(newValue, forKey: DefaultsKeys.blockedTill.rawValue)
             defaults.synchronize()
         }
-        get {
-            return defaults.object(forKey: DefaultsKeys.blockedTill.rawValue) as? Date
-        }
     }
 
     static var wrongPasscodeAttempts: Int {
+        get {
+            return defaults.integer(forKey: DefaultsKeys.wrongPasscodeAttempts.rawValue)
+        }
         set {
             defaults.set(newValue, forKey: DefaultsKeys.wrongPasscodeAttempts.rawValue)
             defaults.synchronize()
         }
-        get {
-            return defaults.integer(forKey: DefaultsKeys.wrongPasscodeAttempts.rawValue)
-        }
     }
 
     static var pushToken: String {
+        get {
+            return defaults.string(forKey: DefaultsKeys.pushToken.rawValue) ?? ""
+        }
         set {
             defaults.set(newValue, forKey: DefaultsKeys.pushToken.rawValue)
             defaults.synchronize()
-        }
-        get {
-            return defaults.string(forKey: DefaultsKeys.pushToken.rawValue) ?? ""
         }
     }
 
