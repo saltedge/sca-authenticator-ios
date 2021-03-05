@@ -75,16 +75,16 @@ PODS:
   - PromisesObjC (1.2.11)
   - Quick (3.0.0)
   - ReachabilitySwift (5.0.0)
-  - Realm (5.4.7):
-    - Realm/Headers (= 5.4.7)
-  - Realm/Headers (5.4.7)
-  - RealmSwift (5.4.7):
-    - Realm (= 5.4.7)
+  - Realm (10.5.1):
+    - Realm/Headers (= 10.5.1)
+  - Realm/Headers (10.5.1)
+  - RealmSwift (10.5.1):
+    - Realm (= 10.5.1)
   - SaltedgeAuthenticatorSDK (1.1.0):
     - CryptoSwift
-  - SDWebImage (5.1.0):
-    - SDWebImage/Core (= 5.1.0)
-  - SDWebImage/Core (5.1.0)
+  - SDWebImage (5.10.4):
+    - SDWebImage/Core (= 5.10.4)
+  - SDWebImage/Core (5.10.4)
   - TinyConstraints (4.0.1)
   - Valet (3.2.8)
 
@@ -94,10 +94,10 @@ DEPENDENCIES:
   - Nimble
   - Quick
   - ReachabilitySwift
-  - Realm (= 5.4.7)
-  - RealmSwift (= 5.4.7)
+  - Realm (= 10.5.1)
+  - RealmSwift (= 10.5.1)
   - SaltedgeAuthenticatorSDK (from `../`)
-  - SDWebImage (= 5.1.0)
+  - SDWebImage (= 5.10.4)
   - TinyConstraints
   - Valet (~> 3.2.8)
 
@@ -144,13 +144,13 @@ SPEC CHECKSUMS:
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
   Quick: 6d9559f40647bc4d510103842ef2fdd882d753e2
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
-  Realm: 4bfc08e376b2e30c84ec3200ebe715574da05cc0
-  RealmSwift: ed40f371b62e8677141939e05b44a0c1a0a2d965
+  Realm: 77fcb4e0b9f2963ea06f584749a0d7dc9cab95e1
+  RealmSwift: 6abe6aa6cd8b70cc1a87afcb9232cabea74ff1ac
   SaltedgeAuthenticatorSDK: febb81e9be607df1994a40af0fa7dd79ef283a49
-  SDWebImage: fb387001955223213dde14bc08c8b73f371f8d8f
+  SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: f95affa786ba07ebf1018fea56f9249723b6c899
+PODFILE CHECKSUM: 5dc0c1e2efc7342472df694742b08efc2aa2f132
 
 COCOAPODS: 1.10.1
