@@ -29,6 +29,7 @@ protocol ConnectEventsDelegate: class {
     func startWebViewLoading(with connectUrlString: String)
     func dismiss()
     func dismissConnectWithError(error: String)
+    func requestLocationAuthorization()
 }
 
 final class ConnectHandler {
@@ -68,7 +69,12 @@ final class ConnectHandler {
         let finalString = NSMutableAttributedString()
         finalString.append(attributedConnectionName)
         finalString.append(description)
+
         delegate?.finishConnectWithSuccess(attributedMessage: finalString)
+
+        if connection.geolocationRequired.value != nil && LocationManager.shared.notDeterminedAuthorization {
+            delegate?.requestLocationAuthorization()
+        }
     }
 
     private func fetchConfiguration(url: URL) {

@@ -52,6 +52,10 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow access to your current location. The collected information will be used for accurate Transaction Risk Analysis.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow access to your current location. The collected information will be used for accurate Transaction Risk Analysis.</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

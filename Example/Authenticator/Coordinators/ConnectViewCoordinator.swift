@@ -84,6 +84,10 @@ extension ConnectViewCoordinator: ConnectEventsDelegate {
         connectViewController.navigationItem.leftBarButtonItem = nil
         connectViewController.showCompleteView(with: .success, title: "", attributedTitle: attributedMessage)
     }
+    
+    func requestLocationAuthorization() {
+        LocationManager.shared.requestLocationAuthorization()
+    }
 
     func startWebViewLoading(with connectUrlString: String) {
         webViewController.startLoading(with: connectUrlString)
