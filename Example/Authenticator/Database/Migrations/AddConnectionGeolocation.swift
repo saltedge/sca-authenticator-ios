@@ -1,8 +1,8 @@
 //
-//  SEProviderManager.swift
+//  AddConnectionGeolocation
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,17 +21,15 @@
 //
 
 import Foundation
+import RealmSwift
 
-public struct SEProviderManager {
-    public static func fetchProviderData(
-        url: URL,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEProviderResponse>,
-        onFailure failure: @escaping FailureBlock
-    ) {
-        HTTPService<SEProviderResponse>.execute(
-            request: SEProviderRouter.fetchData(url),
-            success: success,
-            failure: failure
-        )
+struct AddConnectionGeolocation: RealmMigratable {
+    static func execute(_ migration: Migration) {
+        migration.enumerateObjects(ofType: Connection.className()) { (_, newObject) in
+            let geolocationRequiredPath = #keyPath(Connection.geolocationRequired)
+            if let object = newObject {
+                object[geolocationRequiredPath] = nil
+            }
+        }
     }
 }

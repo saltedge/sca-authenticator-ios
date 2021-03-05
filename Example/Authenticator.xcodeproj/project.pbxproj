@@ -46,6 +46,8 @@
 		95C6782524AA0EE40088A9CF /* CollectionsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */; };
 		95C6782624AA0EE40088A9CF /* CollectionsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */; };
 		95C6782724AA22050088A9CF /* SEEncryptedDataExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3246922D398B300EB162A /* SEEncryptedDataExtensionsSpec.swift */; };
+		95C8C07A25F251E6005E787F /* AddConnectionGeolocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C8C07925F251E6005E787F /* AddConnectionGeolocation.swift */; };
+		95C8C07B25F251E6005E787F /* AddConnectionGeolocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C8C07925F251E6005E787F /* AddConnectionGeolocation.swift */; };
 		95CD02DD235864130085C52A /* SEConnectHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CD02DC235864130085C52A /* SEConnectHelperSpec.swift */; };
 		95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
 		95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
@@ -387,6 +389,7 @@
 		95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
 		95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsInteractor.swift; sourceTree = "<group>"; };
+		95C8C07925F251E6005E787F /* AddConnectionGeolocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConnectionGeolocation.swift; sourceTree = "<group>"; };
 		95CD02DC235864130085C52A /* SEConnectHelperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEConnectHelperSpec.swift; sourceTree = "<group>"; };
 		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
 		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
@@ -731,6 +734,7 @@
 			isa = PBXGroup;
 			children = (
 				95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */,
+				95C8C07925F251E6005E787F /* AddConnectionGeolocation.swift */,
 			);
 			path = Migrations;
 			sourceTree = "<group>";
@@ -1852,6 +1856,7 @@
 				9DCED89E22CE18280050ED3C /* ConnectionsViewController.swift in Sources */,
 				9DCED8ED22CE18280050ED3C /* AuthorizationDetailViewModel.swift in Sources */,
 				9DCED8F122CE18280050ED3C /* SettingsCell.swift in Sources */,
+				95C8C07A25F251E6005E787F /* AddConnectionGeolocation.swift in Sources */,
 				959E3097247BBA190067354A /* SettingsViewModel.swift in Sources */,
 				9DCED91222CE18280050ED3C /* Coordinator.swift in Sources */,
 				9DF796462497C1F7001290DA /* AuthorizationHeaderView.swift in Sources */,
@@ -1918,6 +1923,7 @@
 				9D77212A231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */,
 				95C6782724AA22050088A9CF /* SEEncryptedDataExtensionsSpec.swift in Sources */,
 				9DAAC0E3233A5341006D0758 /* TimeLeftLabel.swift in Sources */,
+				95C8C07B25F251E6005E787F /* AddConnectionGeolocation.swift in Sources */,
 				9D66E1E622D6146900BD59B6 /* RequestParametersBuilderSpec.swift in Sources */,
 				9DE3247B22D3998200EB162A /* AuthorizationsCoordinator.swift in Sources */,
 				9DE308BC2446287A009EBD39 /* PasscodeViewController.swift in Sources */,
