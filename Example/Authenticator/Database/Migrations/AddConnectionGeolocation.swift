@@ -26,9 +26,8 @@ import RealmSwift
 struct AddConnectionGeolocation: RealmMigratable {
     static func execute(_ migration: Migration) {
         migration.enumerateObjects(ofType: Connection.className()) { (_, newObject) in
-            let geolocationRequiredPath = #keyPath(Connection.geolocationRequired)
             if let object = newObject {
-                object[geolocationRequiredPath] = nil
+                object["geolocationRequired"] = RealmOptional<Bool>()
             }
         }
     }
