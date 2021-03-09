@@ -69,9 +69,7 @@ final class ConnectHandler {
         let finalString = NSMutableAttributedString()
         finalString.append(attributedConnectionName)
         finalString.append(description)
-
         delegate?.finishConnectWithSuccess(attributedMessage: finalString)
-
         if connection.geolocationRequired.value != nil && LocationManager.shared.notDeterminedAuthorization {
             delegate?.requestLocationAuthorization()
         }
