@@ -84,7 +84,8 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: authorizationId,
-            authorizationCode: detailViewModel.authorizationCode
+            authorizationCode: detailViewModel.authorizationCode,
+            geolocation: LocationManager.currentLocation?.headerValue
         )
 
         detailViewModel.state.value = .processing
@@ -117,7 +118,8 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: authorizationId,
-            authorizationCode: detailViewModel.authorizationCode
+            authorizationCode: detailViewModel.authorizationCode,
+            geolocation: LocationManager.currentLocation?.headerValue
         )
 
         detailViewModel.state.value = .processing

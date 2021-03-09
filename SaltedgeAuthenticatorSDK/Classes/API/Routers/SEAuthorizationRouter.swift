@@ -109,7 +109,7 @@ enum SEAuthorizationRouter: Routable {
                 expiresAt: expiresAt,
                 signature: signature,
                 appLanguage: data.appLanguage
-            )
+            ).addLocationHeader(geolocation: data.geolocation)
         }
     }
 

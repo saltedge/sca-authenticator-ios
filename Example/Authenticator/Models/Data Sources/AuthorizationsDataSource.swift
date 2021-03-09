@@ -85,14 +85,15 @@ final class AuthorizationsDataSource {
         guard let viewModel = viewModel(with: authorizationId),
             let connection = ConnectionsCollector.with(id: viewModel.connectionId),
             let url = connection.baseUrl else { return nil }
-
+        
         return SEConfirmAuthorizationRequestData(
             url: url,
             connectionGuid: connection.guid,
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: viewModel.authorizationId,
-            authorizationCode: viewModel.authorizationCode
+            authorizationCode: viewModel.authorizationCode,
+            geolocation: LocationManager.currentLocation?.headerValue
         )
     }
 

@@ -163,3 +163,4 @@
 "onboarding.secure_app.touch_id_description" = "Use Touch ID to enter the App faster, but don’t worry, you’ll still have your passcode as backup.";
 "onboarding.qr.first_scan_description" = "Scan the QR to make your \nfirst connection";
 "onboarding.qr.take_action_description" = "Scan the QR code to\ntake action";
+"location.warning" = "Your service provider requires your GPS data to authorize/deny an action. To continue, please allow using the geolocation in your phone settings";

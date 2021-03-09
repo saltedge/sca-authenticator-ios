@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         CacheHelper.setDefaultDiskAge()
         FirebaseApp.configure()
         configureFirebase()
+        LocationManager.shared.startUpdatingLocation()
         setupAppCoordinator()
         applicationCoordinator?.openQrScannerIfNoConnections()
         return true

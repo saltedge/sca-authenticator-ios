@@ -43,6 +43,10 @@ final class AuthorizationDetailViewModel: Equatable {
         authorizationExpiresAt < Date()
     }
     var state = Observable<AuthorizationStateView.AuthorizationState>(.base)
+    var geolocationRequired: Bool
+    var showLocationWarning: Bool {
+        geolocationRequired && !LocationManager.shared.geolocationSharingIsEnabled
+    }
 
     weak var delegate: AuthorizationDetailEventsDelegate?
 
@@ -56,6 +60,9 @@ final class AuthorizationDetailViewModel: Equatable {
         self.lifetime = Int(data.expiresAt.timeIntervalSince(data.createdAt))
         self.createdAt = data.createdAt
         self.state.value = data.expiresAt < Date() ? .expired : .base
+
+        let connection = ConnectionsCollector.with(id: data.connectionId)
+        self.geolocationRequired = connection?.geolocationRequired.value ?? false
     }
 
     static func == (lhs: AuthorizationDetailViewModel, rhs: AuthorizationDetailViewModel) -> Bool {

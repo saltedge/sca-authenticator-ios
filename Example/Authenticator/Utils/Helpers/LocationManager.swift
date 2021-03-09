@@ -27,14 +27,18 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     static let shared = LocationManager()
     static var currentLocation: CLLocationCoordinate2D?
     private var locationManager: CLLocationManager = CLLocationManager()
-    
+
     override init() {
         super.init()
         locationManager.delegate = self
     }
 
     var notDeterminedAuthorization: Bool {
-        return CLLocationManager.locationServicesEnabled() && CLLocationManager.authorizationStatus() == .notDetermined
+        CLLocationManager.locationServicesEnabled() && CLLocationManager.authorizationStatus() == .notDetermined
+    }
+    
+    var geolocationSharingIsEnabled: Bool {
+        CLLocationManager.locationServicesEnabled() && [.authorizedAlways, .authorizedWhenInUse].contains(CLLocationManager.authorizationStatus())
     }
 
     func requestLocationAuthorization() {
@@ -46,7 +50,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func startUpdatingLocation() {
-        if CLLocationManager.locationServicesEnabled() {
+        if geolocationSharingIsEnabled {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
@@ -60,5 +64,11 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         if status == .authorizedAlways || status == .authorizedWhenInUse {
             startUpdatingLocation()
         }
+    }
+}
+
+extension CLLocationCoordinate2D {
+    var headerValue: String {
+        return "GEO:\(self.latitude);\(self.longitude)"
     }
 }
