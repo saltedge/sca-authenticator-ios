@@ -98,9 +98,13 @@ extension PasscodeViewController: Layoutable {
 extension PasscodeViewController: PasscodeViewDelegate {
     func completed() {
         if viewModel.shouldDismiss {
-            close(completion: {
-                self.completeClosure?()
-            })
+            close(
+                completion: {
+                    self.completeClosure?()
+                }
+            )
+        } else {
+            completeClosure?()
         }
     }
 
