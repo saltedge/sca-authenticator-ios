@@ -23,7 +23,13 @@
 import Foundation
 import CoreLocation
 
-final class LocationManager: NSObject, CLLocationManagerDelegate {
+protocol LocationManagement {
+    var notDeterminedAuthorization: Bool { get }
+    var geolocationSharingIsEnabled: Bool { get }
+    func showLocationWarning(connection: Connection?) -> Bool
+}
+
+final class LocationManager: NSObject, LocationManagement, CLLocationManagerDelegate {
     static let shared = LocationManager()
     static var currentLocation: CLLocationCoordinate2D?
     private var locationManager: CLLocationManager = CLLocationManager()
@@ -43,6 +49,10 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
             .contains(CLLocationManager.authorizationStatus())
     }
 
+    func showLocationWarning(connection: Connection?) -> Bool {
+        return (connection?.geolocationRequired.value ?? false) && !geolocationSharingIsEnabled
+    }
+
     func requestLocationAuthorization() {
         if #available(iOS 13.4, *) {
             locationManager.requestWhenInUseAuthorization()
@@ -60,11 +70,9 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         LocationManager.currentLocation = manager.location?.coordinate
-        print("locationManager.didUpdateLocations:\(String(describing: LocationManager.currentLocation?.headerValue))")
     }
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("locationManager.didChangeAuthorization:\(status.rawValue)")
         if status == .authorizedAlways || status == .authorizedWhenInUse {
             startUpdatingLocation()
         }

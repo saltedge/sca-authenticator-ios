@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479C5512387F8C300F3FE0A /* AVCaptureHelperSpec.swift */; };
 		6CF5A0163F3E926E5B271FBE /* Pods_Authenticator_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC7966F04DE3EFEB4C47030C /* Pods_Authenticator_Tests.framework */; };
+		95033CC125F8FB0D00D64BDE /* MockLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95033CC025F8FB0D00D64BDE /* MockLocationManager.swift */; };
 		954CC97524A22FF30021F0B2 /* SEEncryptedDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81322CE18270050ED3C /* SEEncryptedDataExtensions.swift */; };
 		954CC97624A22FF40021F0B2 /* SEEncryptedDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81322CE18270050ED3C /* SEEncryptedDataExtensions.swift */; };
 		957BCE6324A393F9001F456F /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957BCE5E24A3921B001F456F /* Log.swift */; };
@@ -381,6 +382,7 @@
 		607FACD01AFB9204008FA782 /* Authenticator_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Authenticator_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACE51AFB9204008FA782 /* Authenticator_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Authenticator_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		95033CC025F8FB0D00D64BDE /* MockLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationManager.swift; sourceTree = "<group>"; };
 		957BCE5E24A3921B001F456F /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		9581A9DC2477E0C00066EF5E /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		959E309B247BBAD20067354A /* SettingCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellModel.swift; sourceTree = "<group>"; };
@@ -1338,6 +1340,7 @@
 				9DE3246E22D398ED00EB162A /* URLRequestBuilder.swift */,
 				9DE3246F22D398ED00EB162A /* BaseSpec.swift */,
 				9DE3247022D398ED00EB162A /* DataFixtures.swift */,
+				95033CC025F8FB0D00D64BDE /* MockLocationManager.swift */,
 			);
 			path = "Spec Helpers";
 			sourceTree = "<group>";
@@ -2022,6 +2025,7 @@
 				9DE324A822D39A1B00EB162A /* KeychainHelper.swift in Sources */,
 				0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */,
 				9DBAD7A3247E65D30023F944 /* InstantActionCoordinator.swift in Sources */,
+				95033CC125F8FB0D00D64BDE /* MockLocationManager.swift in Sources */,
 				9DE3246622D3986B00EB162A /* CreateConnectionResponseSpec.swift in Sources */,
 				9D87F49F2429326800F85D1F /* ConnectionCell.swift in Sources */,
 				9DE324A622D39A1600EB162A /* LocalizationHelper.swift in Sources */,

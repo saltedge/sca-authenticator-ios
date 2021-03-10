@@ -114,7 +114,8 @@ class AuthorizationRouterSpec: BaseSpec {
                         accessToken: "accessToken",
                         appLanguage: "en",
                         authorizationId: "1",
-                        authorizationCode: "code"
+                        authorizationCode: "code",
+                        geolocation: "GEO:52.506931;13.144558"
                     )
 
                     let params = RequestParametersBuilder.confirmAuthorization(true, authorizationCode: data.authorizationCode)
@@ -132,7 +133,7 @@ class AuthorizationRouterSpec: BaseSpec {
                         expiresAt: expiresAt,
                         signature: signature,
                         appLanguage: "en"
-                    )
+                    ).addLocationHeader(geolocation: "GEO:52.506931;13.144558")
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
                         with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.entityId)"),
@@ -156,7 +157,8 @@ class AuthorizationRouterSpec: BaseSpec {
                         accessToken: "accessToken",
                         appLanguage: "en",
                         authorizationId: "1",
-                        authorizationCode: "code"
+                        authorizationCode: "code",
+                        geolocation: "GEO:52.506931;13.144558"
                     )
                     
                     let params = RequestParametersBuilder.confirmAuthorization(false, authorizationCode: data.authorizationCode)
@@ -174,7 +176,7 @@ class AuthorizationRouterSpec: BaseSpec {
                         expiresAt: expiresAt,
                         signature: signature,
                         appLanguage: "en"
-                    )
+                    ).addLocationHeader(geolocation: "GEO:52.506931;13.144558")
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
                         with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.entityId)"),

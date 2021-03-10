@@ -34,14 +34,18 @@ final class SingleAuthorizationViewModel {
 
     weak var delegate: SingleAuthorizationViewModelEventsDelegate?
 
-    init(connectionId: String, authorizationId: String) {
+    init(connectionId: String, authorizationId: String, locationManagement: LocationManagement) {
         guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
 
         self.connection = connection
-        getAuthorization(connection: connection, authorizationId: authorizationId)
+        getAuthorization(
+            connection: connection,
+            authorizationId: authorizationId,
+            showLocationWarning: locationManagement.showLocationWarning(connection: connection)
+        )
     }
 
-    private func getAuthorization(connection: Connection, authorizationId: String) {
+    private func getAuthorization(connection: Connection, authorizationId: String, showLocationWarning: Bool) {
         AuthorizationsInteractor.refresh(
             connection: connection,
             authorizationId: authorizationId,
@@ -52,7 +56,7 @@ final class SingleAuthorizationViewModel {
                     guard let decryptedAuthorizationData = encryptedAuthorization.decryptedAuthorizationData else { return }
 
                     DispatchQueue.main.async {
-                        guard let detailViewModel = AuthorizationDetailViewModel(decryptedAuthorizationData) else { return }
+                        guard let detailViewModel = AuthorizationDetailViewModel(decryptedAuthorizationData, showLocationWarning: showLocationWarning) else { return }
 
                         strongSelf.detailViewModel = detailViewModel
                         strongSelf.detailViewModel?.delegate = self

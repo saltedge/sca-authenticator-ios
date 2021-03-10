@@ -22,7 +22,6 @@
 
 import Foundation
 import SEAuthenticator
-import CoreLocation//TODO remove
 
 protocol ConnectEventsDelegate: class {
     func showWebViewController()
@@ -72,9 +71,6 @@ final class ConnectHandler {
         finalString.append(description)
         delegate?.finishConnectWithSuccess(attributedMessage: finalString)
 
-        print("saveConnectionAndFinish.geolocationRequired:\(String(describing: connection.geolocationRequired.value))")
-        print("saveConnectionAndFinish.locationServicesEnabled:\(CLLocationManager.locationServicesEnabled())")
-        print("saveConnectionAndFinish.authorizationStatus:\(CLLocationManager.authorizationStatus().rawValue)")
         if connection.geolocationRequired.value != nil && LocationManager.shared.notDeterminedAuthorization {
             delegate?.requestLocationAuthorization()
         }
