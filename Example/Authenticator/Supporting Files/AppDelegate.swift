@@ -35,11 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         ReachabilityManager.shared.observeReachability()
         AppearanceHelper.setup()
         CacheHelper.setDefaultDiskAge()
-        FirebaseApp.configure()
         configureFirebase()
         LocationManager.shared.startUpdatingLocation()
         setupAppCoordinator()
-        applicationCoordinator?.openQrScannerIfNoConnections()
         return true
     }
 
@@ -56,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     private func configureFirebase() {
+        FirebaseApp.configure()
         if Bundle.authenticator_main.path(forResource: "GoogleService-Info", ofType: "plist") != nil,
            FirebaseApp.app() == nil {
             FirebaseApp.configure()
@@ -154,6 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         applicationCoordinator?.start()
         applicationCoordinator?.openPasscodeIfNeeded()
         applicationCoordinator?.showBiometricsIfEnabled()
+        applicationCoordinator?.openQrScannerIfNoConnections()
     }
 
     private func extractIds(from request: UNNotificationRequest) -> (String, String)? {
