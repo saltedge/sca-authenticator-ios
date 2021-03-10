@@ -61,7 +61,7 @@ final class AuthorizationContentView: UIView {
     var viewModel: AuthorizationDetailViewModel! {
         didSet {
             titleLabel.text = viewModel.title
-            
+
             buttonsStackView.isHidden = !viewModel.showLocationWarning
             locationWarningLabel.isHidden = viewModel.showLocationWarning
 

@@ -36,9 +36,11 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     var notDeterminedAuthorization: Bool {
         CLLocationManager.locationServicesEnabled() && CLLocationManager.authorizationStatus() == .notDetermined
     }
-    
+
     var geolocationSharingIsEnabled: Bool {
-        CLLocationManager.locationServicesEnabled() && [.authorizedAlways, .authorizedWhenInUse].contains(CLLocationManager.authorizationStatus())
+        CLLocationManager.locationServicesEnabled()
+            && [.authorizedAlways, .authorizedWhenInUse]
+            .contains(CLLocationManager.authorizationStatus())
     }
 
     func requestLocationAuthorization() {
@@ -58,9 +60,11 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         LocationManager.currentLocation = manager.location?.coordinate
+        print("locationManager.didUpdateLocations:\(String(describing: LocationManager.currentLocation?.headerValue))")
     }
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("locationManager.didChangeAuthorization:\(status.rawValue)")
         if status == .authorizedAlways || status == .authorizedWhenInUse {
             startUpdatingLocation()
         }
