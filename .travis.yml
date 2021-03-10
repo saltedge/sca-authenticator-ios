@@ -25,7 +25,6 @@ xcode_destination: platform=iOS Simulator,OS=14.2,name=iPhone 11
 podfile: Podfile
 before_install:
   - cd Example
-  - sudo gem install cocoapods
 install:
   - bundle install
   - pod repo update
