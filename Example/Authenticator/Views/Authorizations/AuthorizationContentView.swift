@@ -1,5 +1,5 @@
 //
-//  AuthorizationContentView
+//  AuthorizationContentView.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -62,6 +62,9 @@ final class AuthorizationContentView: UIView {
         didSet {
             titleLabel.text = viewModel.title
 
+            if viewModel.showLocationWarning {
+                locationWarningLabel.text = l10n(.locationWarning)
+            }
             buttonsStackView.isHidden = viewModel.showLocationWarning
             locationWarningLabel.isHidden = !viewModel.showLocationWarning
 
@@ -153,7 +156,6 @@ extension AuthorizationContentView: Layoutable {
         buttonsStackView.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: -Layout.bottomOffset)
         buttonsStackView.centerXToSuperview()
 
-        locationWarningLabel.text = l10n(.locationWarning)
         locationWarningLabel.leftToSuperview(offset: Layout.sideOffset)
         locationWarningLabel.rightToSuperview(offset: -Layout.sideOffset)
         locationWarningLabel.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: -Layout.bottomOffset)

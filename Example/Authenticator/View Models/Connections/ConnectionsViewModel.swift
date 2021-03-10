@@ -272,7 +272,6 @@ extension ConnectionsViewModel {
             },
             failure: { error in
                 completion?()
-                print("refreshConsents:" + error)
             },
             connectionNotFoundFailure: { connectionId in
                 if let id = connectionId, let connection = ConnectionsCollector.with(id: id) {
