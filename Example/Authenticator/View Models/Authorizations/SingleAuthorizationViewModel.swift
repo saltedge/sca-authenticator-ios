@@ -56,12 +56,15 @@ final class SingleAuthorizationViewModel {
                     guard let decryptedAuthorizationData = encryptedAuthorization.decryptedAuthorizationData else { return }
 
                     DispatchQueue.main.async {
-                        guard let detailViewModel = AuthorizationDetailViewModel(decryptedAuthorizationData, showLocationWarning: showLocationWarning) else { return }
+                        if let viewModel = AuthorizationDetailViewModel(
+                            decryptedAuthorizationData,
+                            showLocationWarning: showLocationWarning
+                        ) {
+                            strongSelf.detailViewModel = viewModel
+                            strongSelf.detailViewModel?.delegate = self
 
-                        strongSelf.detailViewModel = detailViewModel
-                        strongSelf.detailViewModel?.delegate = self
-
-                        strongSelf.delegate?.receivedDetailViewModel(detailViewModel)
+                            strongSelf.delegate?.receivedDetailViewModel(viewModel)
+                        }
                     }
                 }
             },

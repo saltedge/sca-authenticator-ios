@@ -64,9 +64,7 @@ extension Dictionary where Key == String, Value == String {
 
         return self.merge(with: [ HeadersKeys.geolocation: geolocation ])
     }
-}
 
-extension Dictionary where Key == String, Value == String {
     func addAuthorizationTypeHeader(authorizationType: String) -> [String: String] {
         return self.merge(with: [ HeadersKeys.authorizationType: authorizationType ])
     }

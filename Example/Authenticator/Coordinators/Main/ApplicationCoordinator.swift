@@ -185,7 +185,6 @@ final class ApplicationCoordinator: Coordinator {
         passcodeCoordinator?.onCompleteClosure = {
             TimerApplication.resetIdleTimer()
             self.registerTimerNotifications()
-            
         }
         passcodeCoordinator?.start()
     }

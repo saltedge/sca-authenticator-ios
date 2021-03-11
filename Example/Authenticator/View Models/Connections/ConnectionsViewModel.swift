@@ -270,7 +270,7 @@ extension ConnectionsViewModel {
                     }
                 }
             },
-            failure: { error in
+            failure: { _ in
                 completion?()
             },
             connectionNotFoundFailure: { connectionId in
