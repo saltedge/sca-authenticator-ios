@@ -38,6 +38,7 @@ enum ConnectionStatus: String {
     dynamic var accessToken: String = ""
     dynamic var status: String = ConnectionStatus.inactive.rawValue
     dynamic var supportEmail: String = ""
+    dynamic let geolocationRequired = RealmOptional<Bool>()
     dynamic var createdAt: Date = Date()
     dynamic var updatedAt: Date = Date()
 

@@ -34,7 +34,7 @@ final class PasscodeViewController: BaseViewController {
     private lazy var blockedAlert = UIAlertController()
     private var passcodeView: PasscodeView
 
-    var completeClosure: (() -> ())?
+    var onCompleteClosure: ((_ completeType: CompleteType) -> ())?
 
     private var viewModel: PasscodeViewModel
 
@@ -100,11 +100,11 @@ extension PasscodeViewController: PasscodeViewDelegate {
         if viewModel.shouldDismiss {
             close(
                 completion: {
-                    self.completeClosure?()
+                    self.onCompleteClosure?(.passcode)
                 }
             )
         } else {
-            completeClosure?()
+            onCompleteClosure?(.passcode)
         }
     }
 
@@ -123,7 +123,7 @@ extension PasscodeViewController: PasscodeViewDelegate {
         } else {
             viewModel.showBiometrics(
                 completion: {
-                    self.completeClosure?()
+                    self.onCompleteClosure?(.biometrics)
                 }
             )
         }

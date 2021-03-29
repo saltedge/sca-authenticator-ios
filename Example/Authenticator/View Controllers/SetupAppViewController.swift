@@ -39,7 +39,7 @@ final class SetupAppViewController: BaseViewController {
         super.viewDidLoad()
         add(passcodeVc)
 
-        passcodeVc.completeClosure = { [weak self] in
+        passcodeVc.onCompleteClosure = { [weak self] (_ completeType: CompleteType) in
             guard let strongSelf = self else { return }
 
             UserDefaultsHelper.didShowOnboarding = true

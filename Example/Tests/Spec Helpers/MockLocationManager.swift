@@ -1,8 +1,8 @@
 //
-//  SEProviderManager.swift
+//  MockLocationManager
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,16 +22,14 @@
 
 import Foundation
 
-public struct SEProviderManager {
-    public static func fetchProviderData(
-        url: URL,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEProviderResponse>,
-        onFailure failure: @escaping FailureBlock
-    ) {
-        HTTPService<SEProviderResponse>.execute(
-            request: SEProviderRouter.fetchData(url),
-            success: success,
-            failure: failure
-        )
+class MockLocationManager: LocationManagement {
+    var showLocationWarning = true
+
+    var notDeterminedAuthorization: Bool = false
+    
+    var geolocationSharingIsEnabled: Bool = false
+    
+    func showLocationWarning(connection: Connection?) -> Bool {
+        return showLocationWarning
     }
 }

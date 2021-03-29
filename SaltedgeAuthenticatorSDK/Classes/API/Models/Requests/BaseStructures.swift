@@ -51,7 +51,7 @@ public class SEBaseAuthenticatedWithIdRequestData: SEBaseAuthenticatedRequestDat
         appLanguage: ApplicationLanguage,
         entityId: ID
     ) {
-        self.entityId = entityId 
+        self.entityId = entityId
         super.init(
             url: url,
             connectionGuid: connectionGuid,

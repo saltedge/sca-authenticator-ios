@@ -25,7 +25,7 @@ import SEAuthenticator
 
 final class AuthorizationsCoordinator: Coordinator {
     let rootViewController = AuthorizationsViewController()
-    private let dataSource = AuthorizationsDataSource()
+    private let dataSource = AuthorizationsDataSource(locationManagement: LocationManager.shared)
     private let viewModel = AuthorizationsViewModel()
 
     private var qrCoordinator: QRCodeCoordinator?

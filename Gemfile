@@ -21,10 +21,11 @@ LANG="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
 source "http://rubygems.org"
 
-gem 'cocoapods'
-gem 'fourflusher'
+gem 'cocoapods', '~> 1.10.0'
 gem 'xcpretty'
-gem 'activesupport', '~> 4.2.7.1'
+gem 'activesupport', '~> 5.0'
+gem 'fourflusher'
+
 gem 'rake'
 gem 'pry', :group => [:development, :test]
 gem 'rest-client'

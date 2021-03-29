@@ -26,6 +26,11 @@ import SEAuthenticator
 final class AuthorizationsDataSource {
     private var authorizationResponses = [SEAuthorizationData]()
     private var viewModels = [AuthorizationDetailViewModel]()
+    private var locationManagement: LocationManagement
+
+    init(locationManagement: LocationManagement) {
+        self.locationManagement = locationManagement
+    }
 
     func update(with authorizationResponses: [SEAuthorizationData]) -> Bool {
         if authorizationResponses != self.authorizationResponses {
@@ -33,7 +38,10 @@ final class AuthorizationsDataSource {
             self.viewModels = authorizationResponses.compactMap { response in
                 guard response.expiresAt >= Date() else { return nil }
 
-                return AuthorizationDetailViewModel(response)
+                let connection = ConnectionsCollector.with(id: response.connectionId)
+                let showLocationWarning = locationManagement.showLocationWarning(connection: connection)
+
+                return AuthorizationDetailViewModel(response, showLocationWarning: showLocationWarning)
             }.merge(array: self.viewModels).sorted(by: { $0.createdAt < $1.createdAt })
             return true
         }
@@ -92,7 +100,9 @@ final class AuthorizationsDataSource {
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: viewModel.authorizationId,
-            authorizationCode: viewModel.authorizationCode
+            authorizationCode: viewModel.authorizationCode,
+            geolocation: LocationManager.currentLocation?.headerValue,
+            authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
         )
     }
 

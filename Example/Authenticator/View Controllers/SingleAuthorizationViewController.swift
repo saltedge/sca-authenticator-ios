@@ -40,7 +40,11 @@ final class SingleAuthorizationViewController: BaseViewController {
     var timerExpiredClosure: (() -> ())?
 
     init(connectionId: String, authorizationId: String) {
-        viewModel = SingleAuthorizationViewModel(connectionId: connectionId, authorizationId: authorizationId)
+        viewModel = SingleAuthorizationViewModel(
+            connectionId: connectionId,
+            authorizationId: authorizationId,
+            locationManagement: LocationManager.shared
+        )
         super.init(nibName: nil, bundle: .authenticator_main)
         viewModel.delegate = self
     }

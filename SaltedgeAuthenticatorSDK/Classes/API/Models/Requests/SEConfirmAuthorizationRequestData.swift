@@ -24,6 +24,8 @@ import Foundation
 
 public class SEConfirmAuthorizationRequestData: SEBaseAuthenticatedWithIdRequestData {
     public let authorizationCode: String?
+    public let geolocation: String?
+    public let authorizationType: String
 
     public init(
         url: URL,
@@ -31,9 +33,13 @@ public class SEConfirmAuthorizationRequestData: SEBaseAuthenticatedWithIdRequest
         accessToken: AccessToken,
         appLanguage: ApplicationLanguage,
         authorizationId: ID,
-        authorizationCode: String?
+        authorizationCode: String?,
+        geolocation: String?,
+        authorizationType: String
     ) {
         self.authorizationCode = authorizationCode
+        self.geolocation = geolocation
+        self.authorizationType = authorizationType
         super.init(
             url: url,
             connectionGuid: connectionGuid,

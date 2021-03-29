@@ -46,7 +46,7 @@ You can find related source code:
 
 ## Prerequisites
 
-* Xcode 10.2
+* Xcode 12.2
 * iOS 10.0+
 * Swift 5+
 * swiftlint
@@ -59,7 +59,7 @@ You can find related source code:
 #### Add the pod to your `Podfile`
   
   ```ruby
-  pod 'SEAuthenticator', '~> 1.0.5'
+  pod 'SEAuthenticator', '~> 1.1.0'
   ```
   
 #### Import SDK into your app

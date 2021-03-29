@@ -22,12 +22,19 @@
 
 import UIKit
 
+enum CompleteType: String {
+    case unknown
+    case biometrics
+    case passcode
+}
+
 final class PasscodeCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var currentViewController: PasscodeViewController
-
     private var purpose: PasscodeViewModel.PasscodeViewMode
     private var viewModel: PasscodeViewModel
+
+    static var lastAppUnlockCompleteType: CompleteType = .unknown
 
     var onCompleteClosure: (() -> ())?
 
@@ -41,7 +48,8 @@ final class PasscodeCoordinator: Coordinator {
     func start() {
         viewModel.delegate = self
 
-        currentViewController.completeClosure = {
+        currentViewController.onCompleteClosure = { (_ completeType: CompleteType) -> () in
+            PasscodeCoordinator.lastAppUnlockCompleteType = completeType
             self.onCompleteClosure?()
         }
 
