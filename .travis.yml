@@ -29,7 +29,7 @@ before_install:
 install:
   - bundle install
   - pod repo update
-  - pod install
+  - bundle exec pod install
 before_script:
   - export PATH=/usr/local/bin:$PATH
   - export BASE_REPO=saltedge/sca-authenticator-ios
