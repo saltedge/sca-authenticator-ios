@@ -36,11 +36,13 @@ extension EmptyViewData: Equatable {
 
 final class AuthorizationsViewModelSpec: BaseSpec {
     override func spec() {
+        let mockLocationManager = MockLocationManager()
+        
         describe("emptyViewData") {
             context("when there is no connections") {
                 it("should return correct data") {
                     let viewModel = AuthorizationsViewModel()
-                    let dataSource = AuthorizationsDataSource()
+                    let dataSource = AuthorizationsDataSource(locationManagement: mockLocationManager)
                     viewModel.dataSource = dataSource
 
                     expect(Array(ConnectionsCollector.allConnections)).to(beEmpty())
@@ -59,7 +61,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
             context("when there is at least one connection") {
                 it("should retun correct data") {
                     let viewModel = AuthorizationsViewModel()
-                    let dataSource = AuthorizationsDataSource()
+                    let dataSource = AuthorizationsDataSource(locationManagement: mockLocationManager)
                     viewModel.dataSource = dataSource
                     
                     let expectedEmptyViewData = EmptyViewData(
@@ -83,7 +85,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
         describe("confirmAuthorization") {
             it("should set state to .processing, then to completion state") {
                 let viewModel = AuthorizationsViewModel()
-                let dataSource = AuthorizationsDataSource()
+                let dataSource = AuthorizationsDataSource(locationManagement: mockLocationManager)
                 viewModel.dataSource = dataSource
 
                 let connection = SpecUtils.createConnection(id: "123")
@@ -111,7 +113,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
         describe("denyAuthorization") {
             it("should set state to .processing, then to completion state") {
                 let viewModel = AuthorizationsViewModel()
-                let dataSource = AuthorizationsDataSource()
+                let dataSource = AuthorizationsDataSource(locationManagement: mockLocationManager)
                 viewModel.dataSource = dataSource
 
                 let connection = SpecUtils.createConnection(id: "123")

@@ -23,7 +23,9 @@ source "http://rubygems.org"
 
 gem 'fourflusher'
 gem 'xcpretty'
-gem 'activesupport', '~> 4.2.7.1'
+gem 'activesupport', '~> 5.0'
+gem 'fourflusher'
+
 gem 'rake'
 gem 'pry', :group => [:development, :test]
 gem 'rest-client'

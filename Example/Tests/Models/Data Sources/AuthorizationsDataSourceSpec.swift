@@ -27,7 +27,8 @@ import Nimble
 class AuthorizationsDataSourceSpec: BaseSpec {
     override func spec() {
         var firstModel, secondModel: AuthorizationDetailViewModel!
-        let dataSource = AuthorizationsDataSource()
+        let mockLocationManager = MockLocationManager()
+        let dataSource = AuthorizationsDataSource(locationManagement: mockLocationManager)
         var connection: Connection!
 
         beforeEach {
@@ -50,8 +51,8 @@ class AuthorizationsDataSourceSpec: BaseSpec {
             let firstDecryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
             let secondDecryptedData = SpecUtils.createAuthResponse(with: secondAuthMessage, id: connection.id, guid: connection.guid)
 
-            firstModel = AuthorizationDetailViewModel(firstDecryptedData)
-            secondModel = AuthorizationDetailViewModel(secondDecryptedData)
+            firstModel = AuthorizationDetailViewModel(firstDecryptedData, showLocationWarning: true)
+            secondModel = AuthorizationDetailViewModel(secondDecryptedData, showLocationWarning: false)
 
             _ = dataSource.update(with: [firstDecryptedData, secondDecryptedData])
         }
@@ -120,13 +121,24 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                             "created_at": Date().iso8601string,
                                             "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
                     let validDecryptedData = SpecUtils.createAuthResponse(with: validAuthMessage, id: connection.id, guid: connection.guid)
-                    
-                    _ = dataSource.update(with: [expiredDecryptedData, validDecryptedData])
-                    
-                    expect(dataSource.rows).to(equal(1))
+                    mockLocationManager.showLocationWarning = true
 
-                    expect(dataSource.viewModel(with: validAuthId)).to(equal(AuthorizationDetailViewModel(validDecryptedData)))
+                    _ = dataSource.update(with: [expiredDecryptedData, validDecryptedData])
+
+                    expect(dataSource.rows).to(equal(1))
+                    expect(dataSource.viewModel(with: validAuthId))
+                        .to(equal(AuthorizationDetailViewModel(validDecryptedData, showLocationWarning: true)))
+                    expect(dataSource.viewModel(with: validAuthId)!.showLocationWarning).to(beTrue())
                     expect(dataSource.viewModel(with: expiredAuthId)).to(beNil())
+
+                    mockLocationManager.showLocationWarning = false
+
+                    _ = dataSource.update(with: [validDecryptedData])
+
+                    expect(dataSource.rows).to(equal(1))
+                    expect(dataSource.viewModel(with: validAuthId))
+                        .to(equal(AuthorizationDetailViewModel(validDecryptedData, showLocationWarning: false)))
+                    expect(dataSource.viewModel(with: validAuthId)!.showLocationWarning).to(beFalse())
                 }
             }
 
@@ -237,7 +249,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                              "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
                     let decryptedData = SEAuthorizationData(secondAuthMessage)!
                     
-                    expect(dataSource.index(of: AuthorizationDetailViewModel(decryptedData)!)).to(beNil())
+                    expect(dataSource.index(of: AuthorizationDetailViewModel(decryptedData, showLocationWarning: true)!)).to(beNil())
                 }
             }
         }

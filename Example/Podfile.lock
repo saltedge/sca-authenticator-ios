@@ -102,9 +102,9 @@ PODS:
     - Realm (= 5.5.1)
   - SaltedgeAuthenticatorSDK (1.1.1):
     - CryptoSwift
-  - SDWebImage (5.1.0):
-    - SDWebImage/Core (= 5.1.0)
-  - SDWebImage/Core (5.1.0)
+  - SDWebImage (5.10.4):
+    - SDWebImage/Core (= 5.10.4)
+  - SDWebImage/Core (5.10.4)
   - TinyConstraints (4.0.1)
   - Valet (3.2.8)
 
@@ -116,7 +116,7 @@ DEPENDENCIES:
   - ReachabilitySwift
   - RealmSwift (= 5.5.1)
   - SaltedgeAuthenticatorSDK (from `../`)
-  - SDWebImage (= 5.1.0)
+  - SDWebImage (= 5.10.4)
   - TinyConstraints
   - Valet (~> 3.2.8)
 
@@ -166,10 +166,10 @@ SPEC CHECKSUMS:
   Realm: c2ffe0667f9c98c9ba65f608ba85684d39826145
   RealmSwift: 5a35c1c35c3e1925e6fcd092c881d5cc4a826bff
   SaltedgeAuthenticatorSDK: b9260860f0e67fd169e8db903e92839584e1ab69
-  SDWebImage: fb387001955223213dde14bc08c8b73f371f8d8f
+  SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: 06d41748873d1cda70b8b9e194c83e0df27c83b8
+PODFILE CHECKSUM: 402996a4c66dc49d77bdf56b16a259e31c950d1f
 
 COCOAPODS: 1.10.1

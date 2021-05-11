@@ -29,6 +29,7 @@ public struct SEProviderResponse: SerializableResponse {
     public let version: String
     public var logoUrl: URL?
     public var supportEmail: String
+    public let geolocationRequired: Bool?
 
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
@@ -38,10 +39,12 @@ public struct SEProviderResponse: SerializableResponse {
             let connectUrlString = data[SENetKeys.connectUrl] as? String,
             let version = data[SENetKeys.version] as? String,
             let connectUrl = URL(string: connectUrlString) {
+
             if let logoUrlString = data[SENetKeys.logoUrl] as? String,
                 let logoUrl = URL(string: logoUrlString) {
                 self.logoUrl = logoUrl
             }
+            geolocationRequired = data[SENetKeys.geolocationRequired] as? Bool
             self.supportEmail = (data[SENetKeys.supportEmail] as? String) ?? ""
             self.name = name
             self.code = code

@@ -32,6 +32,7 @@ public struct SENetKeys {
     public static let logoUrl = "logo_url"
     public static let supportEmail = "support_email"
     public static let version = "version"
+    public static let geolocationRequired = "geolocation_required"
 
     public static let configuration = "configuration"
     public static let connectQuery = "connect_query"

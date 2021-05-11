@@ -34,14 +34,18 @@ final class SingleAuthorizationViewModel {
 
     weak var delegate: SingleAuthorizationViewModelEventsDelegate?
 
-    init(connectionId: String, authorizationId: String) {
+    init(connectionId: String, authorizationId: String, locationManagement: LocationManagement) {
         guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
 
         self.connection = connection
-        getAuthorization(connection: connection, authorizationId: authorizationId)
+        getAuthorization(
+            connection: connection,
+            authorizationId: authorizationId,
+            showLocationWarning: locationManagement.showLocationWarning(connection: connection)
+        )
     }
 
-    private func getAuthorization(connection: Connection, authorizationId: String) {
+    private func getAuthorization(connection: Connection, authorizationId: String, showLocationWarning: Bool) {
         AuthorizationsInteractor.refresh(
             connection: connection,
             authorizationId: authorizationId,
@@ -52,12 +56,15 @@ final class SingleAuthorizationViewModel {
                     guard let decryptedAuthorizationData = encryptedAuthorization.decryptedAuthorizationData else { return }
 
                     DispatchQueue.main.async {
-                        guard let detailViewModel = AuthorizationDetailViewModel(decryptedAuthorizationData) else { return }
+                        if let viewModel = AuthorizationDetailViewModel(
+                            decryptedAuthorizationData,
+                            showLocationWarning: showLocationWarning
+                        ) {
+                            strongSelf.detailViewModel = viewModel
+                            strongSelf.detailViewModel?.delegate = self
 
-                        strongSelf.detailViewModel = detailViewModel
-                        strongSelf.detailViewModel?.delegate = self
-
-                        strongSelf.delegate?.receivedDetailViewModel(detailViewModel)
+                            strongSelf.delegate?.receivedDetailViewModel(viewModel)
+                        }
                     }
                 }
             },
@@ -84,7 +91,9 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: authorizationId,
-            authorizationCode: detailViewModel.authorizationCode
+            authorizationCode: detailViewModel.authorizationCode,
+            geolocation: LocationManager.currentLocation?.headerValue,
+            authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
         )
 
         detailViewModel.state.value = .processing
@@ -117,7 +126,9 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: authorizationId,
-            authorizationCode: detailViewModel.authorizationCode
+            authorizationCode: detailViewModel.authorizationCode,
+            geolocation: LocationManager.currentLocation?.headerValue,
+            authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
         )
 
         detailViewModel.state.value = .processing
