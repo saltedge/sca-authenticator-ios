@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479C5512387F8C300F3FE0A /* AVCaptureHelperSpec.swift */; };
 		6CF5A0163F3E926E5B271FBE /* Pods_Authenticator_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC7966F04DE3EFEB4C47030C /* Pods_Authenticator_Tests.framework */; };
+		95033CC125F8FB0D00D64BDE /* MockLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95033CC025F8FB0D00D64BDE /* MockLocationManager.swift */; };
 		954CC97524A22FF30021F0B2 /* SEEncryptedDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81322CE18270050ED3C /* SEEncryptedDataExtensions.swift */; };
 		954CC97624A22FF40021F0B2 /* SEEncryptedDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81322CE18270050ED3C /* SEEncryptedDataExtensions.swift */; };
 		957BCE6324A393F9001F456F /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957BCE5E24A3921B001F456F /* Log.swift */; };
@@ -46,6 +47,10 @@
 		95C6782524AA0EE40088A9CF /* CollectionsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */; };
 		95C6782624AA0EE40088A9CF /* CollectionsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */; };
 		95C6782724AA22050088A9CF /* SEEncryptedDataExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DE3246922D398B300EB162A /* SEEncryptedDataExtensionsSpec.swift */; };
+		95C8C07A25F251E6005E787F /* AddConnectionGeolocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C8C07925F251E6005E787F /* AddConnectionGeolocation.swift */; };
+		95C8C07B25F251E6005E787F /* AddConnectionGeolocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C8C07925F251E6005E787F /* AddConnectionGeolocation.swift */; };
+		95C8C0EE25F272CC005E787F /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C8C0ED25F272CC005E787F /* LocationManager.swift */; };
+		95C8C0EF25F272CC005E787F /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C8C0ED25F272CC005E787F /* LocationManager.swift */; };
 		95CD02DD235864130085C52A /* SEConnectHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CD02DC235864130085C52A /* SEConnectHelperSpec.swift */; };
 		95D784D3230423E1002BF219 /* RealmMigrationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784D2230423E1002BF219 /* RealmMigrationManager.swift */; };
 		95D784E623042BCE002BF219 /* AddConnectionSupportEmail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */; };
@@ -377,6 +382,7 @@
 		607FACD01AFB9204008FA782 /* Authenticator_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Authenticator_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACE51AFB9204008FA782 /* Authenticator_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Authenticator_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		95033CC025F8FB0D00D64BDE /* MockLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationManager.swift; sourceTree = "<group>"; };
 		957BCE5E24A3921B001F456F /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		9581A9DC2477E0C00066EF5E /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		959E309B247BBAD20067354A /* SettingCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCellModel.swift; sourceTree = "<group>"; };
@@ -387,6 +393,8 @@
 		95C1EFC422D5ECAE00078A28 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		95C1EFC622D5EE1C00078A28 /* AboutCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutCoordinator.swift; sourceTree = "<group>"; };
 		95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionsInteractor.swift; sourceTree = "<group>"; };
+		95C8C07925F251E6005E787F /* AddConnectionGeolocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConnectionGeolocation.swift; sourceTree = "<group>"; };
+		95C8C0ED25F272CC005E787F /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		95CD02DC235864130085C52A /* SEConnectHelperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEConnectHelperSpec.swift; sourceTree = "<group>"; };
 		95D784D2230423E1002BF219 /* RealmMigrationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmMigrationManager.swift; sourceTree = "<group>"; };
 		95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddConnectionSupportEmail.swift; sourceTree = "<group>"; };
@@ -731,6 +739,7 @@
 			isa = PBXGroup;
 			children = (
 				95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */,
+				95C8C07925F251E6005E787F /* AddConnectionGeolocation.swift */,
 			);
 			path = Migrations;
 			sourceTree = "<group>";
@@ -1075,6 +1084,7 @@
 				9DCBB28A243618B900DB3F85 /* Observable.swift */,
 				9DE9410A246D7595000029A2 /* RealmConnectionsListener.swift */,
 				957BCE5E24A3921B001F456F /* Log.swift */,
+				95C8C0ED25F272CC005E787F /* LocationManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1330,6 +1340,7 @@
 				9DE3246E22D398ED00EB162A /* URLRequestBuilder.swift */,
 				9DE3246F22D398ED00EB162A /* BaseSpec.swift */,
 				9DE3247022D398ED00EB162A /* DataFixtures.swift */,
+				95033CC025F8FB0D00D64BDE /* MockLocationManager.swift */,
 			);
 			path = "Spec Helpers";
 			sourceTree = "<group>";
@@ -1781,6 +1792,7 @@
 				9D453CCD23D06F0E00702695 /* TimerApplication.swift in Sources */,
 				9DF7964C2498EFC6001290DA /* SingleAuthorizationViewModel.swift in Sources */,
 				9DCED8D322CE18280050ED3C /* StackViewExtensions.swift in Sources */,
+				95C8C0EE25F272CC005E787F /* LocationManager.swift in Sources */,
 				9DCED91522CE18280050ED3C /* Connection.swift in Sources */,
 				9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
 				9D87F4A7242A6BCD00F85D1F /* ConnectionsViewModel.swift in Sources */,
@@ -1852,6 +1864,7 @@
 				9DCED89E22CE18280050ED3C /* ConnectionsViewController.swift in Sources */,
 				9DCED8ED22CE18280050ED3C /* AuthorizationDetailViewModel.swift in Sources */,
 				9DCED8F122CE18280050ED3C /* SettingsCell.swift in Sources */,
+				95C8C07A25F251E6005E787F /* AddConnectionGeolocation.swift in Sources */,
 				959E3097247BBA190067354A /* SettingsViewModel.swift in Sources */,
 				9DCED91222CE18280050ED3C /* Coordinator.swift in Sources */,
 				9DF796462497C1F7001290DA /* AuthorizationHeaderView.swift in Sources */,
@@ -1918,6 +1931,7 @@
 				9D77212A231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */,
 				95C6782724AA22050088A9CF /* SEEncryptedDataExtensionsSpec.swift in Sources */,
 				9DAAC0E3233A5341006D0758 /* TimeLeftLabel.swift in Sources */,
+				95C8C07B25F251E6005E787F /* AddConnectionGeolocation.swift in Sources */,
 				9D66E1E622D6146900BD59B6 /* RequestParametersBuilderSpec.swift in Sources */,
 				9DE3247B22D3998200EB162A /* AuthorizationsCoordinator.swift in Sources */,
 				9DE308BC2446287A009EBD39 /* PasscodeViewController.swift in Sources */,
@@ -1933,6 +1947,7 @@
 				9DE324C422D39A7300EB162A /* SetupAppViewController.swift in Sources */,
 				9D66E1AC22D4C1CC00BD59B6 /* ApiErrorsSpec.swift in Sources */,
 				95C6782624AA0EE40088A9CF /* CollectionsInteractor.swift in Sources */,
+				95C8C0EF25F272CC005E787F /* LocationManager.swift in Sources */,
 				9DE324A422D39A0F00EB162A /* Localizable.swift in Sources */,
 				9DE324D622D39AB100EB162A /* PasscodeKeyboard.swift in Sources */,
 				9D630BC7243DC094000A9ACC /* FeatureCellViewModel.swift in Sources */,
@@ -2010,6 +2025,7 @@
 				9DE324A822D39A1B00EB162A /* KeychainHelper.swift in Sources */,
 				0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */,
 				9DBAD7A3247E65D30023F944 /* InstantActionCoordinator.swift in Sources */,
+				95033CC125F8FB0D00D64BDE /* MockLocationManager.swift in Sources */,
 				9DE3246622D3986B00EB162A /* CreateConnectionResponseSpec.swift in Sources */,
 				9D87F49F2429326800F85D1F /* ConnectionCell.swift in Sources */,
 				9DE324A622D39A1600EB162A /* LocalizationHelper.swift in Sources */,
@@ -2220,7 +2236,7 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 136;
+				CURRENT_PROJECT_VERSION = 137;
 				DEVELOPMENT_TEAM = "";
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2228,7 +2244,7 @@
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.3.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2247,7 +2263,7 @@
 				CODE_SIGN_ENTITLEMENTS = Authenticator_Example.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 136;
+				CURRENT_PROJECT_VERSION = 137;
 				DEVELOPMENT_TEAM = "";
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2255,7 +2271,7 @@
 				INFOPLIST_FILE = "Authenticator/Supporting Files/info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 3.2.2;
+				MARKETING_VERSION = 3.3.0;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = com.saltedge.authenticator;
 				PRODUCT_NAME = "$(TARGET_NAME)";

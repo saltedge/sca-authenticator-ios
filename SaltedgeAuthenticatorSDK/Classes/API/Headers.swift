@@ -29,6 +29,8 @@ struct HeadersKeys {
     static let contentType = "Content-Type"
     static let expiresAt = "Expires-At"
     static let signature = "Signature"
+    static let geolocation = "GEO-Location"
+    static let authorizationType = "Authorization-Type"
 }
 
 struct Headers {
@@ -53,5 +55,17 @@ struct Headers {
             HeadersKeys.acceptLanguage: appLanguage,
             HeadersKeys.contentType: "application/json"
         ]
+    }
+}
+
+extension Dictionary where Key == String, Value == String {
+    func addLocationHeader(geolocation: String?) -> [String: String] {
+        guard let geolocation = geolocation else { return self }
+
+        return self.merge(with: [ HeadersKeys.geolocation: geolocation ])
+    }
+
+    func addAuthorizationTypeHeader(authorizationType: String) -> [String: String] {
+        return self.merge(with: [ HeadersKeys.authorizationType: authorizationType ])
     }
 }

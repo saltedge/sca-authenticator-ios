@@ -105,6 +105,7 @@ enum Localizations: String, Localizable {
     case forgotPasscode = "no_data.forgot_passcode"
     case forgotPasscodeDescription = "no_data.forgot_passcode_description"
     case forgotPasscodeClearDataDescription = "no_data.forgot_passcode_clear_data_description"
+    case locationWarning = "location.warning"
 
     // MARK: - Actions
     case newAction = "instant_action.new_action"

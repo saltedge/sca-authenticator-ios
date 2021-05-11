@@ -43,10 +43,11 @@ final class AuthorizationDetailViewModel: Equatable {
         authorizationExpiresAt < Date()
     }
     var state = Observable<AuthorizationStateView.AuthorizationState>(.base)
+    var showLocationWarning: Bool
 
     weak var delegate: AuthorizationDetailEventsDelegate?
 
-    init?(_ data: SEAuthorizationData) {
+    init?(_ data: SEAuthorizationData, showLocationWarning: Bool) {
         self.authorizationId = data.id
         self.connectionId = data.connectionId
         self.authorizationCode = data.authorizationCode
@@ -56,6 +57,7 @@ final class AuthorizationDetailViewModel: Equatable {
         self.lifetime = Int(data.expiresAt.timeIntervalSince(data.createdAt))
         self.createdAt = data.createdAt
         self.state.value = data.expiresAt < Date() ? .expired : .base
+        self.showLocationWarning = showLocationWarning
     }
 
     static func == (lhs: AuthorizationDetailViewModel, rhs: AuthorizationDetailViewModel) -> Bool {

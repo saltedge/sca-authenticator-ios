@@ -46,7 +46,7 @@ You can find related source code:
 
 ## Prerequisites
 
-* Xcode 10.2
+* Xcode 12.2
 * iOS 10.0+
 * Swift 5+
 * swiftlint

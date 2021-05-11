@@ -42,6 +42,10 @@
 	<string>Allow camera usage to scan QR code</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Enabling Face ID allows you quick and secure access to app.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow access to your current location. The collected information will be used for accurate Transaction Risk Analysis.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow access to your current location. The collected information will be used for accurate Transaction Risk Analysis.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
