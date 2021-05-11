@@ -6,8 +6,7 @@ def shared_pods
   pod 'ReachabilitySwift'
   pod 'TinyConstraints'
   pod 'SDWebImage', '5.1.0'
-  pod 'RealmSwift', '5.4.7', :inhibit_warnings => true
-  pod 'Realm', '5.4.7', :inhibit_warnings => true
+  pod 'RealmSwift', '5.5.1', :inhibit_warnings => true
   pod 'Valet', '~> 3.2.8'
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
