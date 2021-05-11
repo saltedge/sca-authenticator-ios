@@ -21,7 +21,6 @@ LANG="en_US.UTF-8"
 LC_ALL="en_US.UTF-8"
 source "http://rubygems.org"
 
-gem 'cocoapods'
 gem 'fourflusher'
 gem 'xcpretty'
 gem 'activesupport', '~> 4.2.7.1'
