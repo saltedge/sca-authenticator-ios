@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 struct ParametersKeys {
     static let data = "data"

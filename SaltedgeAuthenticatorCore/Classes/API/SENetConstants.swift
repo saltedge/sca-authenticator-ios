@@ -22,12 +22,12 @@
 
 import Foundation
 
-struct SENetConstants {
-    static var oauthRedirectUrl: String {
+public struct SENetConstants {
+    public static var oauthRedirectUrl: String {
         return "authenticator://oauth/redirect"
     }
 
-    static func hasRedirectUrl(_ urlString: String) -> Bool {
+    public static func hasRedirectUrl(_ urlString: String) -> Bool {
         return urlString.starts(with: oauthRedirectUrl)
     }
 }

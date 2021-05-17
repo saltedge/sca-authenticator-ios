@@ -1,8 +1,8 @@
 //
-//  SENetPaths.swift
+//  SENetPathBuilder
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,17 +22,16 @@
 
 import Foundation
 
-public enum SENetPaths: String {
-    case connections
-    case authorizations
-    case actions
-    case consents
-
-    public var path: String {
-        return "/api/authenticator/v\(version)/\(rawValue)"
+public struct SENetPathBuilder {
+    public enum Endpoints: String {
+        case connections
+        case authorizations
+        case actions
+        case consents
     }
+    public var path: String
 
-    private var version: Int {
-        return 1
+    public init(for endpoint: Endpoints, version: Int = 1) {
+        path = "/api/authenticator/v\(version)/\(endpoint.rawValue)"
     }
 }

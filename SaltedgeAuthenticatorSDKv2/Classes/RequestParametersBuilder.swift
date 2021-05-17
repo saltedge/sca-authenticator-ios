@@ -21,3 +21,52 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
+
+struct ParametersKeys {
+    static let data = "data"
+    static let key = "key"
+    static let iv = "iv"
+    static let providerId = "provider_id"
+    static let publicKey = "public_key"
+    static let deviceInfo = "device_info"
+    static let platform = "platform"
+    static let pushToken = "push_token"
+    static let returnUrl = "return_url"
+    static let connectQuery = "connect_query"
+    static let confirm = "confirm"
+    static let authorizationCode = "authorization_code"
+    static let credentials = "credentials"
+    static let encryptedRsaPublicKey = "encrypted_rsa_public_key"
+}
+
+struct RequestParametersBuilder {
+    static func parameters(for connectionParams: SECreateConnectionParams) -> [String: Any] {
+        let encryptedRsaPublicKeyDict: [String: Any] = [
+            ParametersKeys.data: connectionParams.encryptedRsaPublicKey.data,
+            ParametersKeys.key: connectionParams.encryptedRsaPublicKey.key,
+            ParametersKeys.iv: connectionParams.encryptedRsaPublicKey.iv,
+        ]
+
+        return [
+            ParametersKeys.data: [
+                ParametersKeys.providerId: connectionParams.providerId,
+                ParametersKeys.returnUrl: SENetConstants.oauthRedirectUrl,
+                ParametersKeys.platform: connectionParams.platform,
+                ParametersKeys.pushToken: connectionParams.pushToken,
+                ParametersKeys.encryptedRsaPublicKey: encryptedRsaPublicKeyDict,
+                ParametersKeys.connectQuery: connectionParams.connectQuery
+            ]
+        ]
+    }
+
+    static func confirmAuthorization(_ confirm: Bool, authorizationCode: String?) -> [String: Any] {
+        var data: [String: Any] = [ParametersKeys.confirm: confirm]
+
+        if let authorizationCode = authorizationCode {
+            data = data.merge(with: [ParametersKeys.authorizationCode: authorizationCode])
+        }
+
+        return [ParametersKeys.data: data]
+    }
+}

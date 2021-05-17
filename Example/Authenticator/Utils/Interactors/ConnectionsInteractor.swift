@@ -80,7 +80,7 @@ struct ConnectionsInteractor {
         failure: @escaping (String) -> ()
     ) {
         guard let connectionData = SECreateConnectionRequestData(code: connection.code, tag: connection.guid),
-            let connectUrl = connection.baseUrl?.appendingPathComponent(SENetPaths.connections.path) else { return }
+            let connectUrl = connection.baseUrl else { return }
 
         SEConnectionManager.createConnection(
             by: connectUrl,

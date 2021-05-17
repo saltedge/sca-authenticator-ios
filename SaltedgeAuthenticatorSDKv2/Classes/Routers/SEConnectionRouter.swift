@@ -32,63 +32,38 @@ public struct SECreateConnectionParams {
     public let encryptedRsaPublicKey: SEEncryptedData
 }
 
+// TODO: Add revoke connection case
 enum SEConnectionRouter: Routable {
     case createConnection(URL, SECreateConnectionParams, String)
-//    case revoke(SEBaseAuthenticatedWithIdRequestData)
 
     var method: HTTPMethod {
         switch self {
         case .createConnection: return .post
-//        case .revoke: return .delete
         }
     }
 
     var encoding: Encoding {
         switch self {
         case .createConnection: return .json
-//        case .revoke: return .url
         }
     }
 
     var url: URL {
         switch self {
         case .createConnection(let connectUrl, _, _): return connectUrl
-//        case .revoke(let data): return data.url.appendingPathComponent("\(SENetPaths.connections.path)")
         }
     }
 
     var headers: [String: String]? {
         switch self {
         case .createConnection(_, _, let appLanguage): return Headers.requestHeaders(with: appLanguage)
-//        case .revoke(let data):
-//            let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-//
-//            let signature = SignatureHelper.signedPayload(
-//                method: .delete,
-//                urlString: url.absoluteString,
-//                guid: data.connectionGuid,
-//                expiresAt: expiresAt,
-//                params: parameters
-//            )
-//
-//            return Headers.signedRequestHeaders(
-//                token: data.accessToken,
-//                expiresAt: expiresAt,
-//                signature: signature,
-//                appLanguage: data.appLanguage
-//            )
         }
     }
 
     var parameters: [String: Any]? {
         switch self {
         case .createConnection(_, let data, _):
-            return RequestParametersBuilder.parameters(
-                for: data,
-                pushToken: pushToken,
-                connectQuery: connectQuery
-            )
-//        case .revoke: return nil
+            return RequestParametersBuilder.parameters(for: data)
         }
     }
 }
