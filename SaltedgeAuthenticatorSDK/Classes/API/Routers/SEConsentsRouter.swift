@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 enum SEConsentsRouter: Routable {
     case list(SEBaseAuthenticatedRequestData)
@@ -42,9 +43,9 @@ enum SEConsentsRouter: Routable {
     var url: URL {
         switch self {
         case .list(let data):
-            return data.url.appendingPathComponent(SENetPaths.consents.path)
+            return data.url.appendingPathComponent(SENetPathBuilder(for: .consents).path)
         case .revoke(let data):
-            return data.url.appendingPathComponent("\(SENetPaths.consents.path)/\(data.entityId)")
+            return data.url.appendingPathComponent("\(SENetPathBuilder(for: .consents).path)/\(data.entityId)")
         }
     }
     

@@ -7,7 +7,7 @@
 #
 
 Pod::Spec.new do |s|
-  s.name                  = 'SaltedgeAuthenticatorSDK'
+  s.name                  = 'SaltedgeAuthenticatorSDKv2'
   s.version               = '1.1.0'
   s.summary               = 'SDK for decoupled authentication solution to meet the requirements of Strong Customer Authentication (SCA)'
 
@@ -17,16 +17,16 @@ Pod::Spec.new do |s|
                             DESC
 
   s.homepage              = 'https://github.com/saltedge/sca-authenticator-ios'
-  s.license               = { :type => 'GPLv3', :file => 'LICENSE.txt' }
+  s.license               = { :type => 'GPLv3', :file => '../LICENSE.txt' }
   s.author                = { 'Salt Edge Inc.' => 'authenticator@saltedge.com' }
   s.source                = { :git => 'https://github.com/saltedge/sca-authenticator-ios.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '10.0'
   s.swift_version         = '5'
-  s.module_name           = 'SEAuthenticator'
+  s.module_name           = 'SEAuthenticatorV2'
 
-  s.source_files          = 'SaltedgeAuthenticatorSDK/Classes/**/*'
+  s.source_files          = '**/Classes/**/*'
 
-   s.dependency 'SaltedgeAuthenticatorCore'
+  s.dependency 'SaltedgeAuthenticatorCore'
   s.dependency 'CryptoSwift'
 end

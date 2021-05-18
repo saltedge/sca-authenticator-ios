@@ -1,8 +1,8 @@
 //
-//  RequestParametersBuilder.swift
+//  RequestParametersBuilder
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -25,7 +25,9 @@ import SEAuthenticatorCore
 
 struct ParametersKeys {
     static let data = "data"
-    static let providerCode = "provider_code"
+    static let key = "key"
+    static let iv = "iv"
+    static let providerId = "provider_id"
     static let publicKey = "public_key"
     static let deviceInfo = "device_info"
     static let platform = "platform"
@@ -35,18 +37,25 @@ struct ParametersKeys {
     static let confirm = "confirm"
     static let authorizationCode = "authorization_code"
     static let credentials = "credentials"
+    static let encryptedRsaPublicKey = "encrypted_rsa_public_key"
 }
 
 struct RequestParametersBuilder {
-    static func parameters(for connectionData: SECreateConnectionRequestData, pushToken: PushToken, connectQuery: String?) -> [String: Any] {
+    static func parameters(for connectionParams: SECreateConnectionParams) -> [String: Any] {
+        let encryptedRsaPublicKeyDict: [String: Any] = [
+            ParametersKeys.data: connectionParams.encryptedRsaPublicKey.data,
+            ParametersKeys.key: connectionParams.encryptedRsaPublicKey.key,
+            ParametersKeys.iv: connectionParams.encryptedRsaPublicKey.iv,
+        ]
+
         return [
             ParametersKeys.data: [
-                ParametersKeys.providerCode: connectionData.providerCode,
-                ParametersKeys.publicKey: connectionData.publicKey,
+                ParametersKeys.providerId: connectionParams.providerId,
                 ParametersKeys.returnUrl: SENetConstants.oauthRedirectUrl,
-                ParametersKeys.platform: "ios",
-                ParametersKeys.pushToken: pushToken,
-                ParametersKeys.connectQuery: connectQuery
+                ParametersKeys.platform: connectionParams.platform,
+                ParametersKeys.pushToken: connectionParams.pushToken,
+                ParametersKeys.encryptedRsaPublicKey: encryptedRsaPublicKeyDict,
+                ParametersKeys.connectQuery: connectionParams.connectQuery
             ]
         ]
     }

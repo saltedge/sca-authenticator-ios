@@ -2,12 +2,13 @@ platform :ios, '10.0'
 use_frameworks!
 
 def shared_pods
+  pod 'SaltedgeAuthenticatorCore', :path => '../SaltedgeAuthenticatorCore'
   pod 'SaltedgeAuthenticatorSDK', :path => '../'
+  pod 'SaltedgeAuthenticatorSDKv2', :path => '../SaltedgeAuthenticatorSDKv2'
   pod 'ReachabilitySwift'
   pod 'TinyConstraints'
+  pod 'RealmSwift', '5.5.1', :inhibit_warnings => true
   pod 'SDWebImage', '5.10.4'
-  pod 'RealmSwift', '10.5.1', :inhibit_warnings => true
-  pod 'Realm', '10.5.1', :inhibit_warnings => true
   pod 'Valet', '~> 3.2.8'
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
@@ -27,8 +28,8 @@ post_install do |pi|
     pi.pods_project.targets.each do |t|
       t.build_configurations.each do |config|
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '10.0'
-	config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
-	config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
+        config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = 'arm64'
+        config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
       end
     end
 end

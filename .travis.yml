@@ -18,13 +18,14 @@
 #  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 
 language: swift
-osx_image: xcode12.2
+osx_image: xcode12.5
 xcode_project: Authenticator.xcodeproj
 xcode_scheme: Authenticator-Example
-xcode_destination: platform=iOS Simulator,OS=14.2,name=iPhone 11
+xcode_destination: platform=iOS Simulator,OS=14.5,name=iPhone 12
 podfile: Podfile
 before_install:
   - cd Example
+  - gem install cocoapods
 install:
   - bundle install
   - pod repo update

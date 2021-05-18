@@ -59,7 +59,7 @@ You can find related source code:
 #### Add the pod to your `Podfile`
   
   ```ruby
-  pod 'SEAuthenticator', '~> 1.1.0'
+  pod 'SaltedgeAuthenticatorSDK', '~> 1.1.1'
   ```
   
 #### Import SDK into your app
