@@ -35,7 +35,7 @@ class ConnectionRouterSpec: BaseSpec {
                     let data = SECreateConnectionRequestData(code: "code", tag: "guid")!
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
-                        with: baseUrl,
+                        with: baseUrl.appendingPathComponent("/api/authenticator/v1/connections"),
                         method: HTTPMethod.post.rawValue,
                         headers: Headers.requestHeaders(with: "en"),
                         params: RequestParametersBuilder.parameters(
