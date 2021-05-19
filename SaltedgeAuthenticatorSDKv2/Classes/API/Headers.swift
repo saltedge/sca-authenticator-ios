@@ -36,7 +36,7 @@ struct HeadersKeys {
 
 public struct Headers {
     public static func signedRequestHeaders(token: String, payloadParams: [String: Any]?, connectionGuid: String) -> [String: String] {
-        guard let jwsSignature = SignatureHelper.sign(params: payloadParams, guid: connectionGuid) else { return [:] }
+        guard let jwsSignature = JWSHelper.sign(params: payloadParams, guid: connectionGuid) else { return [:] }
 
         return authorizedRequestHeaders(token: token, appLanguage: "en").merge(
             with: [

@@ -35,6 +35,15 @@ struct SpecUtils {
         return connection
     }
 
+    static func privateKey(for tag: String) -> SecKey? {
+        do {
+            return try SECryptoHelper.privateKey(for: tag)
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+
     static func createAuthResponse(with authMessage: [String: Any], id: ID, guid: GUID) -> SEAuthorizationData {
         let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: guid))
 

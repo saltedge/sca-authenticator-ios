@@ -1,5 +1,5 @@
 //
-//  SignatureHelper
+//  JWSHelper
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -24,7 +24,7 @@ import Foundation
 import JOSESwift
 import SEAuthenticatorCore
 
-struct SignatureHelper {
+struct JWSHelper {
     static func sign(params: [String: Any]?, guid: String) -> String? {
         guard let payloadParams = params,
               let payloadBody = ParametersSerializer.createBody(parameters: payloadParams),
