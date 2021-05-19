@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public class SEConfirmAuthorizationRequestData: SEBaseAuthenticatedWithIdRequestData {
     public let authorizationCode: String?

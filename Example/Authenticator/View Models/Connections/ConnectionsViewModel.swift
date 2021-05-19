@@ -23,6 +23,7 @@
 import Foundation
 import RealmSwift
 import SEAuthenticator
+import SEAuthenticatorCore
 
 protocol ConnectionsEventsDelegate: class {
     func showEditConnectionAlert(placeholder: String, completion: @escaping (String) -> ())

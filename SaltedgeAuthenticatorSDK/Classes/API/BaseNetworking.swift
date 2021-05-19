@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 protocol Networking {
     static func execute(_ urlRequest: Routable, success: @escaping RequestSuccessBlock, failure: @escaping FailureBlock)

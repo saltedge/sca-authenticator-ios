@@ -1,5 +1,5 @@
 //
-//  SETagHelper.swift
+//  ProviderRouterSpec.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2019 Salt Edge Inc.
@@ -20,10 +20,31 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import Foundation
+import Quick
+import Nimble
+import SEAuthenticatorCore
+@testable import SEAuthenticator
 
-public struct SETagHelper {
-    public static func create(for code: String) -> String {
-        return "com.saltedge.authenticator.\(code)"
+class ProviderRouterSpec: BaseSpec {
+    override func spec() {
+        describe("ProviderRouter") {
+            context("when it's .fetchData") {
+                it("should create a valid url request") {
+                    let baseUrl = URL(string: "fetchProvider.com")!
+
+                    let expectedRequest = URLRequestBuilder.buildUrlRequest(
+                        with: baseUrl,
+                        method: HTTPMethod.get.rawValue,
+                        headers: nil,
+                        params: nil,
+                        encoding: .url
+                    )
+
+                    let request = SEProviderRouter.fetchData(baseUrl).asURLRequest()
+
+                    expect(request).to(equal(expectedRequest))
+                }
+            }
+        }
     }
 }

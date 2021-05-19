@@ -32,31 +32,41 @@ public struct SECreateConnectionParams {
     public let encryptedRsaPublicKey: SEEncryptedData
 }
 
-// TODO: Add revoke connection case
 enum SEConnectionRouter: Routable {
     case createConnection(URL, SECreateConnectionParams, String)
+    case revoke(SEBaseAuthenticatedWithIdRequestData)
 
     var method: HTTPMethod {
         switch self {
         case .createConnection: return .post
+        case .revoke: return .delete
         }
     }
 
     var encoding: Encoding {
         switch self {
         case .createConnection: return .json
+        case .revoke: return .url
         }
     }
 
     var url: URL {
         switch self {
         case .createConnection(let connectUrl, _, _): return connectUrl
+        case .revoke(let data):
+            return data.url.appendingPathComponent("\(SENetPathBuilder(for: .connections).path)/\(data.entityId)/revoke")
         }
     }
 
     var headers: [String: String]? {
         switch self {
         case .createConnection(_, _, let appLanguage): return Headers.requestHeaders(with: appLanguage)
+        case .revoke(let data):
+            return Headers.signedRequestHeaders(
+                token: data.accessToken,
+                payloadParams: parameters,
+                connectionGuid: data.connectionGuid
+            )
         }
     }
 
@@ -64,6 +74,11 @@ enum SEConnectionRouter: Routable {
         switch self {
         case .createConnection(_, let data, _):
             return RequestParametersBuilder.parameters(for: data)
+        case .revoke:
+            return [
+                ParametersKeys.data: {},
+                ParametersKeys.exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+            ]
         }
     }
 }

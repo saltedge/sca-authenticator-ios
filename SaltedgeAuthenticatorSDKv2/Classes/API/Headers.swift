@@ -1,5 +1,5 @@
 //
-//  Headers.swift
+//  Headers
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -31,16 +31,16 @@ struct HeadersKeys {
     static let signature = "Signature"
     static let geolocation = "GEO-Location"
     static let authorizationType = "Authorization-Type"
+    static let jwsSignature = "x-jws-signature"
 }
 
 public struct Headers {
-    public static func signedRequestHeaders(token: String, expiresAt: Int, signature: String?, appLanguage: String) -> [String: String] {
-        guard let signedMessage = signature else { return authorizedRequestHeaders(token: token, appLanguage: appLanguage) }
+    public static func signedRequestHeaders(token: String, payloadParams: [String: Any]?, connectionGuid: String) -> [String: String] {
+        guard let jwsSignature = SignatureHelper.sign(params: payloadParams, guid: connectionGuid) else { return [:] }
 
-        return authorizedRequestHeaders(token: token, appLanguage: appLanguage).merge(
+        return authorizedRequestHeaders(token: token, appLanguage: "en").merge(
             with: [
-                HeadersKeys.expiresAt: "\(expiresAt)",
-                HeadersKeys.signature: "\(signedMessage)"
+                HeadersKeys.jwsSignature: jwsSignature
             ]
         )
     }

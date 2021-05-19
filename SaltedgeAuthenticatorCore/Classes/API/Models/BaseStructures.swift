@@ -1,8 +1,8 @@
 //
-//  SEActionRequestData.swift
+//  BaseStructures
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2020 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,19 +21,37 @@
 //
 
 import Foundation
-import SEAuthenticatorCore
 
-public class SEActionRequestData: SEBaseAuthenticatedRequestData {
-    public let guid: GUID
+open class SEBaseAuthenticatedRequestData {
+    public let url: URL
+    public let connectionGuid: GUID
+    public let accessToken: AccessToken
+    public let appLanguage: ApplicationLanguage
+
+    public init(
+        url: URL,
+        connectionGuid: GUID,
+        accessToken: AccessToken,
+        appLanguage: ApplicationLanguage
+    ) {
+        self.url = url
+        self.connectionGuid = connectionGuid
+        self.accessToken = accessToken
+        self.appLanguage = appLanguage
+    }
+}
+
+open class SEBaseAuthenticatedWithIdRequestData: SEBaseAuthenticatedRequestData {
+    public let entityId: ID
 
     public init(
         url: URL,
         connectionGuid: GUID,
         accessToken: AccessToken,
         appLanguage: ApplicationLanguage,
-        guid: GUID
+        entityId: ID
     ) {
-        self.guid = guid
+        self.entityId = entityId
         super.init(
             url: url,
             connectionGuid: connectionGuid,

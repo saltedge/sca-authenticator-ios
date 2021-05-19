@@ -680,7 +680,6 @@
 				9D66E17022D4C0AF00BD59B6 /* Errors */,
 				9D6575F6232A9AED00DCC53E /* Extensions */,
 				9D66E17322D4C0AF00BD59B6 /* Models */,
-				9DE3246822D398B300EB162A /* Presenters */,
 				9D6575F9232A9E7300DCC53E /* Helpers */,
 				9DE3246B22D398ED00EB162A /* Spec Helpers */,
 				9DE3243B22D3986B00EB162A /* Supporting Files */,
@@ -870,10 +869,7 @@
 		9D66E1D322D6146800BD59B6 /* Routers */ = {
 			isa = PBXGroup;
 			children = (
-				9D1DEE8023DB5177003C79AC /* ActionRouterSpec.swift */,
-				9D66E1D422D6146800BD59B6 /* ConnectionRouterSpec.swift */,
-				9D66E1D522D6146800BD59B6 /* AuthorizationRouterSpec.swift */,
-				9D66E1D622D6146800BD59B6 /* ProviderRouterSpec.swift */,
+				9D6907132655355600A9CE94 /* v1 */,
 			);
 			path = Routers;
 			sourceTree = "<group>";
@@ -888,6 +884,17 @@
 				9D1DEE7E23DB5071003C79AC /* SubmitActionResponseSpec.swift */,
 			);
 			path = Responses;
+			sourceTree = "<group>";
+		};
+		9D6907132655355600A9CE94 /* v1 */ = {
+			isa = PBXGroup;
+			children = (
+				9D1DEE8023DB5177003C79AC /* ActionRouterSpec.swift */,
+				9D66E1D422D6146800BD59B6 /* ConnectionRouterSpec.swift */,
+				9D66E1D522D6146800BD59B6 /* AuthorizationRouterSpec.swift */,
+				9D66E1D622D6146800BD59B6 /* ProviderRouterSpec.swift */,
+			);
+			path = v1;
 			sourceTree = "<group>";
 		};
 		9DBAD79D247E55A70023F944 /* Connect */ = {
@@ -1325,13 +1332,6 @@
 			path = Fixtures;
 			sourceTree = "<group>";
 		};
-		9DE3246822D398B300EB162A /* Presenters */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Presenters;
-			sourceTree = "<group>";
-		};
 		9DE3246B22D398ED00EB162A /* Spec Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1597,6 +1597,7 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/JOSESwift/JOSESwift.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
@@ -1618,6 +1619,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JOSESwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
@@ -1708,6 +1710,7 @@
 				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/JOSESwift/JOSESwift.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
@@ -1731,6 +1734,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JOSESwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Reachability.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
@@ -2294,6 +2298,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5A77B827BD85D2BAD4D1123E /* Pods-Authenticator_Tests.debug.xcconfig */;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 8QFQG87EDC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
@@ -2318,6 +2323,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B108DBE02AD4CBDC3AD30A22 /* Pods-Authenticator_Tests.release.xcconfig */;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 8QFQG87EDC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",

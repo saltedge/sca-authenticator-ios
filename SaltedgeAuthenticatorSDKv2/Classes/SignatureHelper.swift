@@ -1,8 +1,8 @@
 //
-//  ParametersSerializer.swift
+//  SignatureHelper
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,18 +21,28 @@
 //
 
 import Foundation
+import JOSESwift
+import SEAuthenticatorCore
 
-struct ParametersSerializer {
-    static func createBody(parameters: [String: Any]) -> Data? {
+struct SignatureHelper {
+    static func sign(params: [String: Any]?, guid: String) -> String? {
+        guard let payloadParams = params,
+              let payloadBody = ParametersSerializer.createBody(parameters: payloadParams),
+              let privateKey = privateKey(for: SETagHelper.create(for: guid)),
+              let signer = Signer(signingAlgorithm: .RS256, key: privateKey) else { return nil }
+
+        let header = JWSHeader(algorithm: .RS256)
+
+        guard let jws = try? JWS(header: header, payload: Payload(payloadBody), signer: signer) else { return nil }
+        
+        let splittedSerializedJwsString = jws.compactSerializedString.split(separator: ".")
+
+        return splittedSerializedJwsString[0] + ".." + splittedSerializedJwsString[2]
+    }
+
+    static func privateKey(for tag: String) -> SecKey? {
         do {
-            var data: Data
-            if #available(iOS 11.0, *) {
-                data = try JSONSerialization.data(withJSONObject: parameters, options: [.sortedKeys, .prettyPrinted])
-            } else {
-                data = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-            }
-
-            return data
+            return try SECryptoHelper.privateKey(for: tag)
         } catch {
             print(error.localizedDescription)
         }

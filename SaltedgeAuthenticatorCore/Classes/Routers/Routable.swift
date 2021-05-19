@@ -56,8 +56,8 @@ public extension Routable {
             request.url = components?.url
         }
 
-        if request.value(forHTTPHeaderField: HeadersKeys.contentType) == nil {
-            request.setValue("application/json", forHTTPHeaderField: HeadersKeys.contentType)
+        if request.value(forHTTPHeaderField: "Content-Type") == nil {
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
 
         request.httpBody = ParametersSerializer.createBody(parameters: parameters)

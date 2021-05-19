@@ -22,42 +22,42 @@
 
 import Foundation
 
-public struct SEEncryptedData: SerializableResponse, Equatable {
-    private let defaultAlgorithm = "AES-256-CBC"
-
-    public let data: String
-    public let key: String
-    public let iv: String
-    public var connectionId: String?
-    
-    public init(data: String, key: String, iv: String) {
-        self.data = data
-        self.key = key
-        self.iv = iv
-    }
-
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? String,
-            let key = dict[SENetKeys.key] as? String,
-            let iv = dict[SENetKeys.iv] as? String,
-            let algorithm = dict[SENetKeys.algorithm] as? String,
-            algorithm == defaultAlgorithm {
-            self.data = data
-            self.key = key
-            self.iv = iv
-            if let connectionId = dict[SENetKeys.connectionId] as? String {
-                self.connectionId = connectionId
-            }
-        } else {
-            return nil
-        }
-    }
-
-    public static func == (lhs: SEEncryptedData, rhs: SEEncryptedData) -> Bool {
-        return lhs.data == rhs.data &&
-            lhs.key == rhs.key &&
-            lhs.iv == rhs.iv &&
-            lhs.connectionId == rhs.connectionId
-    }
-}
+//public struct SEEncryptedData: SerializableResponse, Equatable {
+//    private let defaultAlgorithm = "AES-256-CBC"
+//
+//    public let data: String
+//    public let key: String
+//    public let iv: String
+//    public var connectionId: String?
+//    
+//    public init(data: String, key: String, iv: String) {
+//        self.data = data
+//        self.key = key
+//        self.iv = iv
+//    }
+//
+//    public init?(_ value: Any) {
+//        if let dict = value as? [String: Any],
+//            let data = dict[SENetKeys.data] as? String,
+//            let key = dict[SENetKeys.key] as? String,
+//            let iv = dict[SENetKeys.iv] as? String,
+//            let algorithm = dict[SENetKeys.algorithm] as? String,
+//            algorithm == defaultAlgorithm {
+//            self.data = data
+//            self.key = key
+//            self.iv = iv
+//            if let connectionId = dict[SENetKeys.connectionId] as? String {
+//                self.connectionId = connectionId
+//            }
+//        } else {
+//            return nil
+//        }
+//    }
+//
+//    public static func == (lhs: SEEncryptedData, rhs: SEEncryptedData) -> Bool {
+//        return lhs.data == rhs.data &&
+//            lhs.key == rhs.key &&
+//            lhs.iv == rhs.iv &&
+//            lhs.connectionId == rhs.connectionId
+//    }
+//}

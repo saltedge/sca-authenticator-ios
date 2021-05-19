@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 struct HTTPService<T: SerializableResponse> {
     static func execute(request: Routable,

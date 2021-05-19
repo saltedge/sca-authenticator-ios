@@ -20,54 +20,55 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import Foundation
-
-enum HTTPMethod: String {
-    case get = "GET"
-    case post = "POST"
-    case put = "PUT"
-    case delete = "DELETE"
-}
-
-enum Encoding: String {
-    case url
-    case json
-}
-
-protocol Routable {
-    var method: HTTPMethod { get }
-    var encoding: Encoding { get }
-    var url: URL { get }
-    var headers: [String: String]? { get }
-    var parameters: [String: Any]? { get }
-}
-
-extension Routable {
-    func asURLRequest() -> URLRequest {
-        var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
-        request.allHTTPHeaderFields = headers
-
-        guard let parameters = parameters else { return request }
-
-        if encoding == .url {
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
-            components?.queryItems = parameters.asUrlQueryItems()
-            request.url = components?.url
-        }
-
-        if request.value(forHTTPHeaderField: HeadersKeys.contentType) == nil {
-            request.setValue("application/json", forHTTPHeaderField: HeadersKeys.contentType)
-        }
-
-        request.httpBody = ParametersSerializer.createBody(parameters: parameters)
-
-        return request
-    }
-}
-
-private extension Dictionary {
-    func asUrlQueryItems() -> [URLQueryItem] {
-        return map { URLQueryItem(name: "\($0.0)", value: "\($0.1)") }
-    }
-}
+//import Foundation
+//import SEAuthenticatorCore
+//
+//enum HTTPMethod: String {
+//    case get = "GET"
+//    case post = "POST"
+//    case put = "PUT"
+//    case delete = "DELETE"
+//}
+//
+//enum Encoding: String {
+//    case url
+//    case json
+//}
+//
+//protocol Routable {
+//    var method: HTTPMethod { get }
+//    var encoding: Encoding { get }
+//    var url: URL { get }
+//    var headers: [String: String]? { get }
+//    var parameters: [String: Any]? { get }
+//}
+//
+//extension Routable {
+//    func asURLRequest() -> URLRequest {
+//        var request = URLRequest(url: url)
+//        request.httpMethod = method.rawValue
+//        request.allHTTPHeaderFields = headers
+//
+//        guard let parameters = parameters else { return request }
+//
+//        if encoding == .url {
+//            var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
+//            components?.queryItems = parameters.asUrlQueryItems()
+//            request.url = components?.url
+//        }
+//
+//        if request.value(forHTTPHeaderField: HeadersKeys.contentType) == nil {
+//            request.setValue("application/json", forHTTPHeaderField: HeadersKeys.contentType)
+//        }
+//
+//        request.httpBody = ParametersSerializer.createBody(parameters: parameters)
+//
+//        return request
+//    }
+//}
+//
+//private extension Dictionary {
+//    func asUrlQueryItems() -> [URLQueryItem] {
+//        return map { URLQueryItem(name: "\($0.0)", value: "\($0.1)") }
+//    }
+//}

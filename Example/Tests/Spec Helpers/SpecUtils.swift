@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorCore
 
 struct SpecUtils {
     static func createConnection(id: ID) -> Connection {

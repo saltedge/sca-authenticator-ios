@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorCore
 
 struct ConnectionsInteractor {
     static func createNewConnection(

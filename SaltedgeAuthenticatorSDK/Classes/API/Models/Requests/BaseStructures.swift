@@ -20,43 +20,43 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import Foundation
-
-public class SEBaseAuthenticatedRequestData {
-    public let url: URL
-    public let connectionGuid: GUID
-    public let accessToken: AccessToken
-    public let appLanguage: ApplicationLanguage
-
-    public init(
-        url: URL,
-        connectionGuid: GUID,
-        accessToken: AccessToken,
-        appLanguage: ApplicationLanguage
-    ) {
-        self.url = url
-        self.connectionGuid = connectionGuid
-        self.accessToken = accessToken
-        self.appLanguage = appLanguage
-    }
-}
-
-public class SEBaseAuthenticatedWithIdRequestData: SEBaseAuthenticatedRequestData {
-    public let entityId: ID
-
-    public init(
-        url: URL,
-        connectionGuid: GUID,
-        accessToken: AccessToken,
-        appLanguage: ApplicationLanguage,
-        entityId: ID
-    ) {
-        self.entityId = entityId
-        super.init(
-            url: url,
-            connectionGuid: connectionGuid,
-            accessToken: accessToken,
-            appLanguage: appLanguage
-        )
-    }
-}
+//import Foundation
+//
+//public class SEBaseAuthenticatedRequestData {
+//    public let url: URL
+//    public let connectionGuid: GUID
+//    public let accessToken: AccessToken
+//    public let appLanguage: ApplicationLanguage
+//
+//    public init(
+//        url: URL,
+//        connectionGuid: GUID,
+//        accessToken: AccessToken,
+//        appLanguage: ApplicationLanguage
+//    ) {
+//        self.url = url
+//        self.connectionGuid = connectionGuid
+//        self.accessToken = accessToken
+//        self.appLanguage = appLanguage
+//    }
+//}
+//
+//public class SEBaseAuthenticatedWithIdRequestData: SEBaseAuthenticatedRequestData {
+//    public let entityId: ID
+//
+//    public init(
+//        url: URL,
+//        connectionGuid: GUID,
+//        accessToken: AccessToken,
+//        appLanguage: ApplicationLanguage,
+//        entityId: ID
+//    ) {
+//        self.entityId = entityId
+//        super.init(
+//            url: url,
+//            connectionGuid: connectionGuid,
+//            accessToken: accessToken,
+//            appLanguage: appLanguage
+//        )
+//    }
+//}

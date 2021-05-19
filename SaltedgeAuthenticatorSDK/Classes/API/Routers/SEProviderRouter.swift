@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 enum SEProviderRouter: Routable {
     case fetchData(URL)
