@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SECreateConnectionResponse: SerializableResponse {
     public let id: String

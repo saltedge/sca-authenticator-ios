@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SERevokeConsentResponse: SerializableResponse {
     public let consentId: String

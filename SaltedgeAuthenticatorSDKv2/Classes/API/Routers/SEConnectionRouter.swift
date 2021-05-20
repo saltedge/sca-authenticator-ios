@@ -26,7 +26,6 @@ import SEAuthenticatorCore
 public struct SECreateConnectionParams {
     public let providerId: String
     public let returnUrl: String
-    public let platform: String
     public let pushToken: String?
     public let connectQuery: String?
     public let encryptedRsaPublicKey: SEEncryptedData

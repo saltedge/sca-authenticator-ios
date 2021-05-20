@@ -1,8 +1,8 @@
 //
-//  BaseNetworking.swift
+//  SEProviderRouter
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,8 +23,28 @@
 import Foundation
 import SEAuthenticatorCore
 
-protocol Networking {
-    static func execute(_ urlRequest: Routable, success: @escaping RequestSuccessBlock, failure: @escaping FailureBlock)
-}
+enum SEProviderRouter: Routable {
+    case fetchData(URL)
 
-struct BaseNetworking: Networking {}
+    var method: HTTPMethod {
+        return .get
+    }
+
+    var encoding: Encoding {
+        return .url
+    }
+
+    var url: URL {
+        switch self {
+        case .fetchData(let url): return url
+        }
+    }
+
+    var headers: [String: String]? {
+        return nil
+    }
+
+    var parameters: [String: Any]? {
+        return nil
+    }
+}

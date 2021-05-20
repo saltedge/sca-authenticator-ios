@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SESubmitActionResponse: SerializableResponse {
     public let success: Bool

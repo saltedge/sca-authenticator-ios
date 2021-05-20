@@ -22,6 +22,7 @@
 
 import UIKit
 import SEAuthenticator
+import SEAuthenticatorCore
 
 protocol InstantActionEventsDelegate: class {
     func shouldPresentConnectionPicker(connections: [Connection])

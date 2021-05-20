@@ -1,8 +1,8 @@
 //
-//  SEProviderResponse.swift
+//  SEProviderResponse
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -24,33 +24,35 @@ import Foundation
 import SEAuthenticatorCore
 
 public struct SEProviderResponse: SerializableResponse {
+    public let id: String
     public let name: String
-    public let code: String
-    public let connectUrl: URL
-    public let version: String
+    public let scaServiceUrl: String
+    public let apiVersion: String
     public var logoUrl: URL?
     public var supportEmail: String
+    public var publicKey: String
     public let geolocationRequired: Bool?
 
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? [String: Any],
-            let name = data[SENetKeys.name] as? String,
-            let code = data[SENetKeys.code] as? String,
-            let connectUrlString = data[SENetKeys.connectUrl] as? String,
-            let version = data[SENetKeys.version] as? String,
-            let connectUrl = URL(string: connectUrlString) {
-
-            if let logoUrlString = data[SENetKeys.logoUrl] as? String,
+           let dataDict = dict[SENetKeys.data] as? [String: Any],
+           let id = dataDict[SENetKeys.id] as? String,
+           let name = dataDict[ApiConstants.providerName] as? String,
+           let scaServiceUrl = dataDict[ApiConstants.scaServiceUrl] as? String,
+           let apiVersion = dataDict[ApiConstants.apiVersion] as? String,
+           let publicKey = dataDict[ApiConstants.providerPublicKey] as? String {
+            if let logoUrlString = dataDict[ApiConstants.providerLogoUrl] as? String,
                 let logoUrl = URL(string: logoUrlString) {
                 self.logoUrl = logoUrl
             }
-            geolocationRequired = data[SENetKeys.geolocationRequired] as? Bool
-            self.supportEmail = (data[SENetKeys.supportEmail] as? String) ?? ""
+            self.supportEmail = (dataDict[ApiConstants.providerSupportEmail] as? String) ?? ""
+            self.geolocationRequired = dataDict[SENetKeys.geolocationRequired] as? Bool
+
+            self.id = id
             self.name = name
-            self.code = code
-            self.connectUrl = connectUrl
-            self.version = version
+            self.scaServiceUrl = scaServiceUrl
+            self.apiVersion = apiVersion
+            self.publicKey = publicKey
         } else {
             return nil
         }

@@ -1,8 +1,8 @@
 //
-//  SerializableResponse.swift
+//  URLSessionManager
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,6 +22,26 @@
 
 import Foundation
 
-public protocol SerializableResponse {
-    init?(_ value: Any)
+struct URLSessionManager {
+    static var shared: URLSession {
+        guard sharedManager == nil else { return sharedManager }
+
+        initializeManager()
+        return sharedManager
+    }
+
+    private static var sharedManager: URLSession!
+
+    static func initializeManager() {
+        sharedManager = createSession()
+    }
+
+    static func createSession() -> URLSession {
+        let config: URLSessionConfiguration = .default
+        config.timeoutIntervalForRequest = 10.0
+        config.timeoutIntervalForResource = 30.0
+        config.requestCachePolicy = .reloadIgnoringLocalCacheData
+
+        return URLSession(configuration: config)
+    }
 }

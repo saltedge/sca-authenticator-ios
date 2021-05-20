@@ -1,8 +1,8 @@
 //
-//  HTTPService.swift
+//  ApiConstants
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,30 +21,13 @@
 //
 
 import Foundation
-import SEAuthenticatorCore
 
-struct HTTPService<T: SerializableResponse> {
-    static func execute(request: Routable,
-                        success: @escaping HTTPServiceSuccessClosure<T>,
-                        failure: @escaping FailureBlock) {
-        BaseNetworking.execute(
-            request,
-            success: { response in
-                if let data = T(response ?? [:]) {
-                    success(data)
-                } else {
-                    failure(handleErrorResponse(response))
-                }
-            },
-            failure: failure
-        )
-    }
-
-    private static func handleErrorResponse(_ response: [String: Any]?) -> String {
-        if let errorMessage = response?[SENetKeys.message] as? String {
-            return errorMessage
-        }
-
-        return "Something went wrong"
-    }
+struct ApiConstants {
+    static let scaServiceUrl = "sca_service_url"
+    static let apiVersion = "api_version"
+    static let providerId = "provider_id"
+    static let providerName = "provider_name"
+    static let providerLogoUrl = "provider_logo_url"
+    static let providerSupportEmail = "provider_support_email"
+    static let providerPublicKey = "provider_public_key"
 }

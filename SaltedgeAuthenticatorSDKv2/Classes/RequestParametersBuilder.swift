@@ -53,7 +53,7 @@ struct RequestParametersBuilder {
             ParametersKeys.data: [
                 ParametersKeys.providerId: connectionParams.providerId,
                 ParametersKeys.returnUrl: SENetConstants.oauthRedirectUrl,
-                ParametersKeys.platform: connectionParams.platform,
+                ParametersKeys.platform: "ios",
                 ParametersKeys.pushToken: connectionParams.pushToken,
                 ParametersKeys.encryptedRsaPublicKey: encryptedRsaPublicKeyDict,
                 ParametersKeys.connectQuery: connectionParams.connectQuery
