@@ -22,8 +22,8 @@
 
 import Foundation
 
-struct ParametersSerializer {
-    static func createBody(parameters: [String: Any]) -> Data? {
+public struct ParametersSerializer {
+    public static func createBody(parameters: [String: Any]) -> Data? {
         do {
             var data: Data
             if #available(iOS 11.0, *) {

@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 extension Networking {
     static func execute(_ request: Routable,

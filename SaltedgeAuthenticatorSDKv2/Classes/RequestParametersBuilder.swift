@@ -38,6 +38,7 @@ struct ParametersKeys {
     static let authorizationCode = "authorization_code"
     static let credentials = "credentials"
     static let encryptedRsaPublicKey = "encrypted_rsa_public_key"
+    static let exp = "exp"
 }
 
 struct RequestParametersBuilder {

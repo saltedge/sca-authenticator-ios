@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SEAuthorizationManager {
     public static func getEncryptedAuthorizations(

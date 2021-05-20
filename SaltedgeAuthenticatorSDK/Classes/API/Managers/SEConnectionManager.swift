@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SEConnectionManager {
     public static func createConnection(

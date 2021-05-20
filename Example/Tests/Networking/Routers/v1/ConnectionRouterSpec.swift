@@ -22,6 +22,7 @@
 
 import Quick
 import Nimble
+import SEAuthenticatorCore
 @testable import SEAuthenticator
 
 class ConnectionRouterSpec: BaseSpec {

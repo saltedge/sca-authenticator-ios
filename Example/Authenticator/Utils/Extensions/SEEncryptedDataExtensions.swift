@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorCore
 
  extension SEEncryptedData {
     var decryptedAuthorizationData: SEAuthorizationData? {

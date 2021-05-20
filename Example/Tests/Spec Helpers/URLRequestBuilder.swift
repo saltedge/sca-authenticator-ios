@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 @testable import SEAuthenticator
 
 struct URLRequestBuilder {

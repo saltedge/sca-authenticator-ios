@@ -23,7 +23,7 @@
 
 import Foundation
 
-enum SECryptoHelperError: Error {
+public enum SECryptoHelperError: Error {
     case errorGeneratingRandomBytes
     case errorCreatingData(fromBase64: String)
     case couldNotEncryptChunk(at: Int)
@@ -45,7 +45,7 @@ enum SECryptoHelperError: Error {
     }
 }
 
-enum SEAesCipherError: Error {
+public enum SEAesCipherError: Error {
     case couldNotCreateData(from: String)
     case couldNotCreateString(fromBase64: String)
     case couldNotCreateEncryptedData(fromBase64: String)
@@ -70,7 +70,7 @@ enum SEAesCipherError: Error {
     }
 }
 
-enum SESecKeyHelperError: Error {
+public enum SESecKeyHelperError: Error {
     case couldNotObtainKey(for: String)
     case couldNotObtainKeyData(for: String)
     case couldNotAddToKeychain

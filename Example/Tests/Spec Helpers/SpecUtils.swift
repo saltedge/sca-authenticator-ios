@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorCore
 
 struct SpecUtils {
     static func createConnection(id: ID) -> Connection {
@@ -32,6 +33,15 @@ struct SpecUtils {
         _ = SECryptoHelper.createKeyPair(with: SETagHelper.create(for: connection.guid))
 
         return connection
+    }
+
+    static func privateKey(for tag: String) -> SecKey? {
+        do {
+            return try SECryptoHelper.privateKey(for: tag)
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
     }
 
     static func createAuthResponse(with authMessage: [String: Any], id: ID, guid: GUID) -> SEAuthorizationData {

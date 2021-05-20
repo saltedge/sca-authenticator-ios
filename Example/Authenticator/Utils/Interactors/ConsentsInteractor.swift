@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorCore
 
 struct ConsentsInteractor {
     static func revoke(_ consent: SEConsentData, success: (() -> ())? = nil, failure: ((String) -> ())? = nil) {

@@ -86,6 +86,7 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.4.0):
     - GoogleUtilities/Logger
+  - JOSESwift (2.4.0)
   - nanopb (2.30908.0):
     - nanopb/decode (= 2.30908.0)
     - nanopb/encode (= 2.30908.0)
@@ -106,7 +107,7 @@ PODS:
     - CryptoSwift
     - SaltedgeAuthenticatorCore
   - SaltedgeAuthenticatorSDKv2 (1.1.0):
-    - CryptoSwift
+    - JOSESwift
     - SaltedgeAuthenticatorCore
   - SDWebImage (5.10.4):
     - SDWebImage/Core (= 5.10.4)
@@ -117,6 +118,7 @@ PODS:
 DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Crashlytics
+  - JOSESwift
   - Nimble
   - Quick
   - ReachabilitySwift
@@ -140,6 +142,7 @@ SPEC REPOS:
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
+    - JOSESwift
     - nanopb
     - Nimble
     - PromisesObjC
@@ -170,6 +173,7 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: fd19169c3034975cb934e865e5667bfdce59df7f
   GoogleDataTransport: cd9db2180fcecd8da1b561aea31e3e56cf834aa7
   GoogleUtilities: 284cddc7fffc14ae1907efb6f78ab95c1fccaedc
+  JOSESwift: 7ff178bb9173ff42c6e990929a9f2fa702a34f69
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   Nimble: 4f4a345c80b503b3ea13606a4f98405974ee4d0b
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
@@ -179,11 +183,11 @@ SPEC CHECKSUMS:
   RealmSwift: 5a35c1c35c3e1925e6fcd092c881d5cc4a826bff
   SaltedgeAuthenticatorCore: bf9c91b81449fb7ccd23581ab84e1eeff5020647
   SaltedgeAuthenticatorSDK: 4fd566984678e8d936cae541aee82c89b44422e2
-  SaltedgeAuthenticatorSDKv2: 2c3536ff2426d12c2624bf9524502f61a70ab458
+  SaltedgeAuthenticatorSDKv2: f9eb801575c0b90879c3f7cf667a7aabed743eef
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   TinyConstraints: 8dd91295e56797648c7bc335dd20e1d91ec4c192
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: 7f15a08d33a1af46d3f787184ec65b0ed568eed4
+PODFILE CHECKSUM: bbadedc6649010c795a5f299bc2dab1a3b2654ef
 
 COCOAPODS: 1.10.1

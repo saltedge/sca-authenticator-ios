@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SECreateConnectionRequestData {
     public let providerCode: String

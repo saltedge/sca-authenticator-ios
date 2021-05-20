@@ -22,6 +22,7 @@
 
 import Foundation
 import CommonCrypto
+import SEAuthenticatorCore
 
 struct SignatureHelper {
     static func signedPayload(method: HTTPMethod,

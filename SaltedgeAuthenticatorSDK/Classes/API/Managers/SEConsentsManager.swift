@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SEConsentsManager {
     public static func getEncryptedConsents(

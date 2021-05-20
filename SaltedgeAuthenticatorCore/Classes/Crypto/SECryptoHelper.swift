@@ -80,6 +80,10 @@ public struct SECryptoHelper {
         return try SecKeyHelper.obtainKeyData(for: tag)
     }
 
+    public static func publicKey(for tag: KeyTag) throws -> SecKey {
+        return try SecKeyHelper.obtainKey(for: tag)
+    }
+
     public static func privateKey(for tag: KeyTag) throws -> SecKey {
         return try SecKeyHelper.obtainKey(for: tag.privateTag)
     }
@@ -334,7 +338,7 @@ private struct SecKeyHelper {
 }
 
 // MARK: - Public Extensions
-extension Data {
+public extension Data {
     var string: String {
         let beginPublicKey = "-----BEGIN PUBLIC KEY-----\n"
         let endPublicKey = "\n-----END PUBLIC KEY-----\n"
@@ -346,7 +350,7 @@ extension Data {
 }
 
 // MARK: - Private Extensions
-extension Data {
+public extension Data {
     func dataByPrependingX509Header() -> Data {
         let result = NSMutableData()
 
