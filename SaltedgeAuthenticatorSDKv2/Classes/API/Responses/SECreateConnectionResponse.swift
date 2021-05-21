@@ -1,5 +1,5 @@
 //
-//  ApiConstants
+//  SECreateConnectionResponse
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -21,15 +21,21 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
-struct ApiConstants {
-    static let scaServiceUrl = "sca_service_url"
-    static let apiVersion = "api_version"
-    static let providerId = "provider_id"
-    static let providerName = "provider_name"
-    static let providerLogoUrl = "provider_logo_url"
-    static let providerSupportEmail = "provider_support_email"
-    static let providerPublicKey = "provider_public_key"
+public struct SECreateConnectionResponse: SerializableResponse {
+    public let id: String
+    public let authenticationUrl: String
 
-    static let authenticationUrl = "authentication_url"
+    public init?(_ value: Any) {
+        if let dict = value as? [String: Any],
+            let dataDict = dict[SENetKeys.data] as? [String: Any],
+            let id = dataDict[SENetKeys.connectionId] as? String,
+            let authenticationUrl = dataDict[ApiConstants.authenticationUrl] as? String {
+            self.id = id
+            self.authenticationUrl = authenticationUrl
+        } else {
+            return nil
+        }
+    }
 }
