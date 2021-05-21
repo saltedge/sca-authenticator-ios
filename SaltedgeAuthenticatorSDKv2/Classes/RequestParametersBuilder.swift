@@ -61,13 +61,18 @@ struct RequestParametersBuilder {
         ]
     }
 
-    static func confirmAuthorization(_ confirm: Bool, authorizationCode: String?) -> [String: Any] {
-        var data: [String: Any] = [ParametersKeys.confirm: confirm]
+    static func confirmAuthorizationParams(encryptedData: SEEncryptedData?, exp: Int) -> [String: Any] {
+        guard let encryptedData = encryptedData else { return [:] }
 
-        if let authorizationCode = authorizationCode {
-            data = data.merge(with: [ParametersKeys.authorizationCode: authorizationCode])
-        }
+        let encryptedDataParams = [
+            SENetKeys.data: encryptedData.data,
+            SENetKeys.key: encryptedData.key,
+            SENetKeys.iv: encryptedData.iv
+        ]
 
-        return [ParametersKeys.data: data]
+        return [
+            ParametersKeys.data: encryptedDataParams,
+            ParametersKeys.exp: exp
+        ]
     }
 }

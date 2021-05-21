@@ -51,9 +51,12 @@ enum SEConnectionRouter: Routable {
 
     var url: URL {
         switch self {
-        case .createConnection(let connectUrl, _, _): return connectUrl
+        case .createConnection(let connectUrl, _, _):
+            return connectUrl.appendingPathComponent(SENetPathBuilder(for: .connections, version: 2).path)
         case .revoke(let data):
-            return data.url.appendingPathComponent("\(SENetPathBuilder(for: .connections).path)/\(data.entityId)/revoke")
+            return data.url.appendingPathComponent(
+                "\(SENetPathBuilder(for: .connections, version: 2).path)/\(data.entityId)/revoke"
+            )
         }
     }
 
@@ -75,7 +78,7 @@ enum SEConnectionRouter: Routable {
             return RequestParametersBuilder.parameters(for: data)
         case .revoke:
             return [
-                ParametersKeys.data: {},
+                ParametersKeys.data: [:],
                 ParametersKeys.exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
             ]
         }

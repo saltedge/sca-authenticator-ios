@@ -32,4 +32,6 @@ struct ApiConstants {
     static let providerPublicKey = "provider_public_key"
 
     static let authenticationUrl = "authentication_url"
+    static let userAuthorizationType = "user_authorization_type"
+    static let geolocation = "geolocation"
 }
