@@ -1,8 +1,8 @@
 //
-//  URLSessionManager.swift
+//  HTTPService
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,26 +22,30 @@
 
 import Foundation
 
-struct URLSessionManager {
-    static var shared: URLSession {
-        guard sharedManager == nil else { return sharedManager }
-
-        initializeManager()
-        return sharedManager
+public struct HTTPService<T: SerializableResponse> {
+    public static func execute(
+        request: Routable,
+        success: @escaping HTTPServiceSuccessClosure<T>,
+        failure: @escaping FailureBlock
+    ) {
+        BaseNetworking.execute(
+            request,
+            success: { response in
+                if let data = T(response ?? [:]) {
+                    success(data)
+                } else {
+                    failure(handleErrorResponse(response))
+                }
+            },
+            failure: failure
+        )
     }
 
-    private static var sharedManager: URLSession!
+    private static func handleErrorResponse(_ response: [String: Any]?) -> String {
+        if let errorMessage = response?[SENetKeys.message] as? String {
+            return errorMessage
+        }
 
-    static func initializeManager() {
-        sharedManager = createSession()
-    }
-
-    static func createSession() -> URLSession {
-        let config: URLSessionConfiguration = .default
-        config.timeoutIntervalForRequest = 10.0
-        config.timeoutIntervalForResource = 30.0
-        config.requestCachePolicy = .reloadIgnoringLocalCacheData
-
-        return URLSession(configuration: config)
+        return "Something went wrong"
     }
 }

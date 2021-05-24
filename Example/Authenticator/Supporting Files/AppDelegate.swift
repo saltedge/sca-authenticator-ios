@@ -22,6 +22,7 @@ import UIKit
 import UserNotifications
 import Firebase
 import SEAuthenticator
+import SEAuthenticatorCore
 
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     var window: UIWindow?

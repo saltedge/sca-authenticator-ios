@@ -1,8 +1,8 @@
 //
-//  ParametersSerializer.swift
+//  BaseNetworking
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,16 +22,8 @@
 
 import Foundation
 
-struct ParametersSerializer {
-    static func createBody(parameters: [String: Any]) -> Data? {
-        do {
-            let data = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-
-            return data
-        } catch {
-            Log.debugLog(message: error.localizedDescription)
-        }
-
-        return nil
-    }
+protocol Networking {
+    static func execute(_ urlRequest: Routable, success: @escaping RequestSuccessBlock, failure: @escaping FailureBlock)
 }
+
+struct BaseNetworking: Networking {}

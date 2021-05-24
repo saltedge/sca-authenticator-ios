@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorCore
 
 protocol ConnectEventsDelegate: class {
     func showWebViewController()

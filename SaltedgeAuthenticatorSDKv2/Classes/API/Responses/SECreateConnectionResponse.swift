@@ -1,8 +1,8 @@
 //
-//  SEProviderManager.swift
+//  SECreateConnectionResponse
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,16 +23,19 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEProviderManager {
-    public static func fetchProviderData(
-        url: URL,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEProviderResponse>,
-        onFailure failure: @escaping FailureBlock
-    ) {
-        HTTPService<SEProviderResponse>.execute(
-            request: SEProviderRouter.fetchData(url),
-            success: success,
-            failure: failure
-        )
+public struct SECreateConnectionResponse: SerializableResponse {
+    public let id: String
+    public let authenticationUrl: String
+
+    public init?(_ value: Any) {
+        if let dict = value as? [String: Any],
+            let dataDict = dict[SENetKeys.data] as? [String: Any],
+            let id = dataDict[SENetKeys.connectionId] as? String,
+            let authenticationUrl = dataDict[ApiConstants.authenticationUrl] as? String {
+            self.id = id
+            self.authenticationUrl = authenticationUrl
+        } else {
+            return nil
+        }
     }
 }

@@ -1,8 +1,8 @@
 //
-//  SerializableResponse.swift
+//  ApiConstants
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,6 +22,16 @@
 
 import Foundation
 
-public protocol SerializableResponse {
-    init?(_ value: Any)
+struct ApiConstants {
+    static let scaServiceUrl = "sca_service_url"
+    static let apiVersion = "api_version"
+    static let providerId = "provider_id"
+    static let providerName = "provider_name"
+    static let providerLogoUrl = "provider_logo_url"
+    static let providerSupportEmail = "provider_support_email"
+    static let providerPublicKey = "provider_public_key"
+
+    static let authenticationUrl = "authentication_url"
+    static let userAuthorizationType = "user_authorization_type"
+    static let geolocation = "geolocation"
 }

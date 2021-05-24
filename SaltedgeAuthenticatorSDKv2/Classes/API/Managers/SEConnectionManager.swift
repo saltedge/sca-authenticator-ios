@@ -1,8 +1,8 @@
 //
-//  SEProviderManager.swift
+//  SEConnectionManager
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,14 +23,28 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEProviderManager {
-    public static func fetchProviderData(
-        url: URL,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEProviderResponse>,
+public struct SEConnectionManager {
+    public static func createConnection(
+        by url: URL,
+        params: SECreateConnectionParams,
+        appLanguage: ApplicationLanguage,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SECreateConnectionResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SEProviderResponse>.execute(
-            request: SEProviderRouter.fetchData(url),
+        HTTPService<SECreateConnectionResponse>.execute(
+            request: SEConnectionRouter.createConnection(url, params, appLanguage),
+            success: success,
+            failure: failure
+        )
+    }
+
+    public static func revokeConnection(
+        data: SEBaseAuthenticatedWithIdRequestData,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConnectionResponse>,
+        onFailure failure: @escaping FailureBlock
+    ) {
+        HTTPService<SERevokeConnectionResponse>.execute(
+            request: SEConnectionRouter.revoke(data),
             success: success,
             failure: failure
         )

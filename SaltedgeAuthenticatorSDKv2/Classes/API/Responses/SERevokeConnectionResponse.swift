@@ -1,8 +1,8 @@
 //
-//  HTTPService.swift
+//  SERevokeConnectionResponse
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,28 +23,16 @@
 import Foundation
 import SEAuthenticatorCore
 
-struct HTTPService<T: SerializableResponse> {
-    static func execute(request: Routable,
-                        success: @escaping HTTPServiceSuccessClosure<T>,
-                        failure: @escaping FailureBlock) {
-        BaseNetworking.execute(
-            request,
-            success: { response in
-                if let data = T(response ?? [:]) {
-                    success(data)
-                } else {
-                    failure(handleErrorResponse(response))
-                }
-            },
-            failure: failure
-        )
-    }
+public struct SERevokeConnectionResponse: SerializableResponse {
+    public let connectionId: String
 
-    private static func handleErrorResponse(_ response: [String: Any]?) -> String {
-        if let errorMessage = response?[SENetKeys.message] as? String {
-            return errorMessage
+    public init?(_ value: Any) {
+        if let dict = value as? [String: Any],
+            let dataDict = dict[SENetKeys.data] as? [String: Any],
+            let connectionId = dataDict[SENetKeys.connectionId] as? String {
+            self.connectionId = connectionId
+        } else {
+            return nil
         }
-
-        return "Something went wrong"
     }
 }

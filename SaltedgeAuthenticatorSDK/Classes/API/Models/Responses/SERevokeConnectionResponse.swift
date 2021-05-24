@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SERevokeConnectionResponse: SerializableResponse {
     public let success: Bool

@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SEConnectHelper {
     public static func isValid(deepLinkUrl url: URL) -> Bool {

@@ -26,7 +26,6 @@ import SEAuthenticatorCore
 public struct SECreateConnectionParams {
     public let providerId: String
     public let returnUrl: String
-    public let platform: String
     public let pushToken: String?
     public let connectQuery: String?
     public let encryptedRsaPublicKey: SEEncryptedData
@@ -45,16 +44,18 @@ enum SEConnectionRouter: Routable {
 
     var encoding: Encoding {
         switch self {
-        case .createConnection: return .json
-        case .revoke: return .url
+        case .createConnection, .revoke: return .json
         }
     }
 
     var url: URL {
         switch self {
-        case .createConnection(let connectUrl, _, _): return connectUrl
+        case .createConnection(let connectUrl, _, _):
+            return connectUrl.appendingPathComponent(SENetPathBuilder(for: .connections, version: 2).path)
         case .revoke(let data):
-            return data.url.appendingPathComponent("\(SENetPathBuilder(for: .connections).path)/\(data.entityId)/revoke")
+            return data.url.appendingPathComponent(
+                "\(SENetPathBuilder(for: .connections, version: 2).path)/\(data.entityId)/revoke"
+            )
         }
     }
 
@@ -76,7 +77,7 @@ enum SEConnectionRouter: Routable {
             return RequestParametersBuilder.parameters(for: data)
         case .revoke:
             return [
-                ParametersKeys.data: {},
+                ParametersKeys.data: [:],
                 ParametersKeys.exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
             ]
         }

@@ -112,6 +112,9 @@
 		9D66E1E522D6146900BD59B6 /* HeadersSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E1DC22D6146800BD59B6 /* HeadersSpec.swift */; };
 		9D66E1E622D6146900BD59B6 /* RequestParametersBuilderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E1DD22D6146800BD59B6 /* RequestParametersBuilderSpec.swift */; };
 		9D69071C2655439200A9CE94 /* JWSHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69071B2655439200A9CE94 /* JWSHelperSpec.swift */; };
+		9D6907402657E38A00A9CE94 /* RequestParametersBuilderSpecV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D69073F2657E38A00A9CE94 /* RequestParametersBuilderSpecV2.swift */; };
+		9D6907432657E67C00A9CE94 /* SEConnectionRouterSpecV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6907422657E67C00A9CE94 /* SEConnectionRouterSpecV2.swift */; };
+		9D6907452657F94C00A9CE94 /* SEAuthorizationRouterSpecV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6907442657F94C00A9CE94 /* SEAuthorizationRouterSpecV2.swift */; };
 		9D772129231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772128231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift */; };
 		9D77212A231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D772128231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift */; };
 		9D77212C231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */; };
@@ -189,7 +192,6 @@
 		9DCED8E722CE18280050ED3C /* PasscodeManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83D22CE18270050ED3C /* PasscodeManger.swift */; };
 		9DCED8E922CE18280050ED3C /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83F22CE18270050ED3C /* NotificationsManager.swift */; };
 		9DCED8EA22CE18280050ED3C /* HapticFeedbackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */; };
-		9DCED8EB22CE18280050ED3C /* ParametersSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84122CE18270050ED3C /* ParametersSerializer.swift */; };
 		9DCED8EC22CE18280050ED3C /* BiometricsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84222CE18270050ED3C /* BiometricsHelper.swift */; };
 		9DCED8ED22CE18280050ED3C /* AuthorizationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */; };
 		9DCED8EE22CE18280050ED3C /* MessageBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84622CE18270050ED3C /* MessageBarView.swift */; };
@@ -303,7 +305,6 @@
 		9DE324AF22D39A2D00EB162A /* PasscodeManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83D22CE18270050ED3C /* PasscodeManger.swift */; };
 		9DE324B122D39A3200EB162A /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83F22CE18270050ED3C /* NotificationsManager.swift */; };
 		9DE324B222D39A3500EB162A /* HapticFeedbackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */; };
-		9DE324B322D39A3700EB162A /* ParametersSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84122CE18270050ED3C /* ParametersSerializer.swift */; };
 		9DE324B422D39A3A00EB162A /* BiometricsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84222CE18270050ED3C /* BiometricsHelper.swift */; };
 		9DE324B622D39A4700EB162A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E122CE18270050ED3C /* SettingsViewController.swift */; };
 		9DE324B822D39A4E00EB162A /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E422CE18270050ED3C /* ConnectionsViewController.swift */; };
@@ -440,6 +441,9 @@
 		9D66E1DC22D6146800BD59B6 /* HeadersSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadersSpec.swift; sourceTree = "<group>"; };
 		9D66E1DD22D6146800BD59B6 /* RequestParametersBuilderSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestParametersBuilderSpec.swift; sourceTree = "<group>"; };
 		9D69071B2655439200A9CE94 /* JWSHelperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWSHelperSpec.swift; sourceTree = "<group>"; };
+		9D69073F2657E38A00A9CE94 /* RequestParametersBuilderSpecV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestParametersBuilderSpecV2.swift; sourceTree = "<group>"; };
+		9D6907422657E67C00A9CE94 /* SEConnectionRouterSpecV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEConnectionRouterSpecV2.swift; sourceTree = "<group>"; };
+		9D6907442657F94C00A9CE94 /* SEAuthorizationRouterSpecV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEAuthorizationRouterSpecV2.swift; sourceTree = "<group>"; };
 		9D772128231E50400015BAC6 /* AuthorizationsHeaderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsHeaderCollectionViewCell.swift; sourceTree = "<group>"; };
 		9D77212B231E50DD0015BAC6 /* AuthorizationsHeadersSwipingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsHeadersSwipingView.swift; sourceTree = "<group>"; };
 		9D77212E231E51200015BAC6 /* AuthorizationsCollectionLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsCollectionLayout.swift; sourceTree = "<group>"; };
@@ -503,7 +507,6 @@
 		9DCED83D22CE18270050ED3C /* PasscodeManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeManger.swift; sourceTree = "<group>"; };
 		9DCED83F22CE18270050ED3C /* NotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticFeedbackHelper.swift; sourceTree = "<group>"; };
-		9DCED84122CE18270050ED3C /* ParametersSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersSerializer.swift; sourceTree = "<group>"; };
 		9DCED84222CE18270050ED3C /* BiometricsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiometricsHelper.swift; sourceTree = "<group>"; };
 		9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationDetailViewModel.swift; sourceTree = "<group>"; };
 		9DCED84622CE18270050ED3C /* MessageBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBarView.swift; sourceTree = "<group>"; };
@@ -903,9 +906,28 @@
 		9D69071A2655437E00A9CE94 /* v2 */ = {
 			isa = PBXGroup;
 			children = (
+				9D69073E2657E37000A9CE94 /* Networking */,
 				9D69071B2655439200A9CE94 /* JWSHelperSpec.swift */,
 			);
 			path = v2;
+			sourceTree = "<group>";
+		};
+		9D69073E2657E37000A9CE94 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				9D6907412657E66500A9CE94 /* Routers */,
+				9D69073F2657E38A00A9CE94 /* RequestParametersBuilderSpecV2.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		9D6907412657E66500A9CE94 /* Routers */ = {
+			isa = PBXGroup;
+			children = (
+				9D6907422657E67C00A9CE94 /* SEConnectionRouterSpecV2.swift */,
+				9D6907442657F94C00A9CE94 /* SEAuthorizationRouterSpecV2.swift */,
+			);
+			path = Routers;
 			sourceTree = "<group>";
 		};
 		9DBAD79D247E55A70023F944 /* Connect */ = {
@@ -1096,7 +1118,6 @@
 				9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */,
 				9DCED83F22CE18270050ED3C /* NotificationsManager.swift */,
 				9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */,
-				9DCED84122CE18270050ED3C /* ParametersSerializer.swift */,
 				9DCED84222CE18270050ED3C /* BiometricsHelper.swift */,
 				9DD4DF242375969A000A9B80 /* QuickActionsHelper.swift */,
 				9DCBB28A243618B900DB3F85 /* Observable.swift */,
@@ -1851,7 +1872,6 @@
 				9DCED89C22CE18280050ED3C /* SettingsViewController.swift in Sources */,
 				9DCED8D122CE18280050ED3C /* BundleExtensions.swift in Sources */,
 				95C1EFC522D5ECAE00078A28 /* AboutViewController.swift in Sources */,
-				9DCED8EB22CE18280050ED3C /* ParametersSerializer.swift in Sources */,
 				9DCED8DC22CE18280050ED3C /* LocalizationHelper.swift in Sources */,
 				9DCED92622CE18280050ED3C /* AppDelegate.swift in Sources */,
 				9D98747024B353A300EE89BB /* ConsentExpirationView.swift in Sources */,
@@ -1926,7 +1946,7 @@
 				9DE324D022D39A9F00EB162A /* ModalView.swift in Sources */,
 				959E30B0247BDA250067354A /* PasscodeViewModelSpec.swift in Sources */,
 				9DE3249822D399EB00EB162A /* FontsExtensions.swift in Sources */,
-				9DE324B322D39A3700EB162A /* ParametersSerializer.swift in Sources */,
+				9D6907432657E67C00A9CE94 /* SEConnectionRouterSpecV2.swift in Sources */,
 				9DE324AF22D39A2D00EB162A /* PasscodeManger.swift in Sources */,
 				9581A9D92477D63C0066EF5E /* WKWebViewController.swift in Sources */,
 				9DF7964A2497C2D2001290DA /* AuthorizationContentView.swift in Sources */,
@@ -1938,6 +1958,7 @@
 				9DE324B622D39A4700EB162A /* SettingsViewController.swift in Sources */,
 				959E3098247BBA190067354A /* SettingsViewModel.swift in Sources */,
 				9DFD634923BF366C0060B29F /* AuthorizationStateView.swift in Sources */,
+				9D6907402657E38A00A9CE94 /* RequestParametersBuilderSpecV2.swift in Sources */,
 				9DE324A522D39A1300EB162A /* Constants.swift in Sources */,
 				9D4310F622D7662C004A7FCF /* AboutViewController.swift in Sources */,
 				9D6575FB232A9E8100DCC53E /* DateUtilsSpec.swift in Sources */,
@@ -1959,6 +1980,7 @@
 				9DE3247B22D3998200EB162A /* AuthorizationsCoordinator.swift in Sources */,
 				9DE308BC2446287A009EBD39 /* PasscodeViewController.swift in Sources */,
 				9D66E1A922D4C1C100BD59B6 /* AuthorizationDataSpec.swift in Sources */,
+				9D6907452657F94C00A9CE94 /* SEAuthorizationRouterSpecV2.swift in Sources */,
 				9DE324DC22D39AC100EB162A /* TaptileFeedbackButton.swift in Sources */,
 				9D453CC223CCB56400702695 /* main.swift in Sources */,
 				9DE324AB22D39A2300EB162A /* Localizations.swift in Sources */,

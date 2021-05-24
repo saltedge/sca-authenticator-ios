@@ -22,14 +22,15 @@
 
 import Foundation
 import SEAuthenticatorCore
-@testable import SEAuthenticator
 
 struct URLRequestBuilder {
-    static func buildUrlRequest(with url: URL,
-                                method: String,
-                                headers: [String: String]? = nil,
-                                params: [String: Any]? = nil,
-                                encoding: Encoding = .json) -> URLRequest {
+    static func buildUrlRequest(
+        with url: URL,
+        method: String,
+        headers: [String: String]? = nil,
+        params: [String: Any]? = nil,
+        encoding: Encoding = .json
+    ) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.allHTTPHeaderFields = headers

@@ -22,6 +22,7 @@
 
 import UIKit
 import SEAuthenticator
+import SEAuthenticatorCore
 
 enum ConnectionType: Equatable {
     case newConnection(String)

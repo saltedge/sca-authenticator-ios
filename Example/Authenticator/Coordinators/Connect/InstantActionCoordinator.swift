@@ -22,6 +22,7 @@
 
 import UIKit
 import SEAuthenticator
+import SEAuthenticatorCore
 
 final class InstantActionCoordinator: Coordinator {
     private var rootViewController: UIViewController
