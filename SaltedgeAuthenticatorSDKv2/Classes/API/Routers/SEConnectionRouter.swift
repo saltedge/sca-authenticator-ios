@@ -44,8 +44,7 @@ enum SEConnectionRouter: Routable {
 
     var encoding: Encoding {
         switch self {
-        case .createConnection: return .json
-        case .revoke: return .url
+        case .createConnection, .revoke: return .json
         }
     }
 

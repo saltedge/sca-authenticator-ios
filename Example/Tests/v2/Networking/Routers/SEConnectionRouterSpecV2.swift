@@ -61,10 +61,10 @@ class SEConnectionRouterSpecV2: BaseSpec {
                     let connectionGuid = "guid"
                     let entityId = "1"
                     let accessToken = "access_token"
-                    let parameters = [
+                    let parameters: [String : Any] = [
                         ParametersKeys.data: [:],
                         ParametersKeys.exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-                    ] as [String : Any]
+                    ]
 
                     let headers = Headers.signedRequestHeaders(
                         token: accessToken,
@@ -76,8 +76,7 @@ class SEConnectionRouterSpecV2: BaseSpec {
                         with: baseUrl.appendingPathComponent("/api/authenticator/v2/connections/\(entityId)/revoke"),
                         method: HTTPMethod.delete.rawValue,
                         headers: headers,
-                        params: parameters,
-                        encoding: .url
+                        params: parameters
                     )
 
                     let actualRequest = SEConnectionRouter.revoke(

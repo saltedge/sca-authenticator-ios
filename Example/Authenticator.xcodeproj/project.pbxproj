@@ -192,7 +192,6 @@
 		9DCED8E722CE18280050ED3C /* PasscodeManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83D22CE18270050ED3C /* PasscodeManger.swift */; };
 		9DCED8E922CE18280050ED3C /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83F22CE18270050ED3C /* NotificationsManager.swift */; };
 		9DCED8EA22CE18280050ED3C /* HapticFeedbackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */; };
-		9DCED8EB22CE18280050ED3C /* ParametersSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84122CE18270050ED3C /* ParametersSerializer.swift */; };
 		9DCED8EC22CE18280050ED3C /* BiometricsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84222CE18270050ED3C /* BiometricsHelper.swift */; };
 		9DCED8ED22CE18280050ED3C /* AuthorizationDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */; };
 		9DCED8EE22CE18280050ED3C /* MessageBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84622CE18270050ED3C /* MessageBarView.swift */; };
@@ -306,7 +305,6 @@
 		9DE324AF22D39A2D00EB162A /* PasscodeManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83D22CE18270050ED3C /* PasscodeManger.swift */; };
 		9DE324B122D39A3200EB162A /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED83F22CE18270050ED3C /* NotificationsManager.swift */; };
 		9DE324B222D39A3500EB162A /* HapticFeedbackHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */; };
-		9DE324B322D39A3700EB162A /* ParametersSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84122CE18270050ED3C /* ParametersSerializer.swift */; };
 		9DE324B422D39A3A00EB162A /* BiometricsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED84222CE18270050ED3C /* BiometricsHelper.swift */; };
 		9DE324B622D39A4700EB162A /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E122CE18270050ED3C /* SettingsViewController.swift */; };
 		9DE324B822D39A4E00EB162A /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E422CE18270050ED3C /* ConnectionsViewController.swift */; };
@@ -509,7 +507,6 @@
 		9DCED83D22CE18270050ED3C /* PasscodeManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasscodeManger.swift; sourceTree = "<group>"; };
 		9DCED83F22CE18270050ED3C /* NotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticFeedbackHelper.swift; sourceTree = "<group>"; };
-		9DCED84122CE18270050ED3C /* ParametersSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParametersSerializer.swift; sourceTree = "<group>"; };
 		9DCED84222CE18270050ED3C /* BiometricsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiometricsHelper.swift; sourceTree = "<group>"; };
 		9DCED84422CE18270050ED3C /* AuthorizationDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationDetailViewModel.swift; sourceTree = "<group>"; };
 		9DCED84622CE18270050ED3C /* MessageBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageBarView.swift; sourceTree = "<group>"; };
@@ -1121,7 +1118,6 @@
 				9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */,
 				9DCED83F22CE18270050ED3C /* NotificationsManager.swift */,
 				9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */,
-				9DCED84122CE18270050ED3C /* ParametersSerializer.swift */,
 				9DCED84222CE18270050ED3C /* BiometricsHelper.swift */,
 				9DD4DF242375969A000A9B80 /* QuickActionsHelper.swift */,
 				9DCBB28A243618B900DB3F85 /* Observable.swift */,
@@ -1876,7 +1872,6 @@
 				9DCED89C22CE18280050ED3C /* SettingsViewController.swift in Sources */,
 				9DCED8D122CE18280050ED3C /* BundleExtensions.swift in Sources */,
 				95C1EFC522D5ECAE00078A28 /* AboutViewController.swift in Sources */,
-				9DCED8EB22CE18280050ED3C /* ParametersSerializer.swift in Sources */,
 				9DCED8DC22CE18280050ED3C /* LocalizationHelper.swift in Sources */,
 				9DCED92622CE18280050ED3C /* AppDelegate.swift in Sources */,
 				9D98747024B353A300EE89BB /* ConsentExpirationView.swift in Sources */,
@@ -1952,7 +1947,6 @@
 				959E30B0247BDA250067354A /* PasscodeViewModelSpec.swift in Sources */,
 				9DE3249822D399EB00EB162A /* FontsExtensions.swift in Sources */,
 				9D6907432657E67C00A9CE94 /* SEConnectionRouterSpecV2.swift in Sources */,
-				9DE324B322D39A3700EB162A /* ParametersSerializer.swift in Sources */,
 				9DE324AF22D39A2D00EB162A /* PasscodeManger.swift in Sources */,
 				9581A9D92477D63C0066EF5E /* WKWebViewController.swift in Sources */,
 				9DF7964A2497C2D2001290DA /* AuthorizationContentView.swift in Sources */,
