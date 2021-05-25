@@ -43,6 +43,7 @@ public struct SENetKeys {
     public static let message = "message"
 
     public static let success = "success"
+    public static let status = "status"
 
     public static let accessToken = "access_token"
 

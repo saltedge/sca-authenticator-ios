@@ -22,25 +22,6 @@
 
 import Foundation
 import SEAuthenticatorCore
-import CryptoSwift
-
-public struct SEAuthorizationRequestData {
-    public let id: ID
-    public let authorizationCode: String
-    public let userAuthorizationType: String
-    public let geolocation: String
-    public let connectionGuid: GUID
-
-    public var encryptedData: SEEncryptedData? {
-        guard let data = [
-            SENetKeys.authorizationCode: authorizationCode,
-            ApiConstants.userAuthorizationType: userAuthorizationType,
-            ApiConstants.geolocation: geolocation
-        ].jsonString else { return nil }
-
-        return try? SECryptoHelper.encrypt(data, tag: SETagHelper.create(for: connectionGuid))
-    }
-}
 
 enum SEAuthorizationRouter: Routable {
     case list(URL, AccessToken)
@@ -64,9 +45,10 @@ enum SEAuthorizationRouter: Routable {
     
     var url: URL {
         switch self {
-        case .list(let url, _): return url.appendingPathComponent(
-            "\(SENetPathBuilder(for: .authorizations, version: 2).path)"
-        )
+        case .list(let url, _):
+            return url.appendingPathComponent(
+                "\(SENetPathBuilder(for: .authorizations, version: 2).path)"
+            )
         case .show(let data):
             return data.url.appendingPathComponent(
                 "\(SENetPathBuilder(for: .authorizations, version: 2).path)/\(data.entityId)"
