@@ -37,7 +37,7 @@ struct ParametersKeys {
     static let confirm = "confirm"
     static let authorizationCode = "authorization_code"
     static let credentials = "credentials"
-    static let encryptedRsaPublicKey = "encrypted_rsa_public_key"
+    static let encryptedRsaPublicKey = "enc_rsa_public_key"
     static let exp = "exp"
 }
 
@@ -49,16 +49,21 @@ struct RequestParametersBuilder {
             ParametersKeys.iv: connectionParams.encryptedRsaPublicKey.iv,
         ]
 
-        return [
-            ParametersKeys.data: [
-                ParametersKeys.providerId: connectionParams.providerId,
-                ParametersKeys.returnUrl: SENetConstants.oauthRedirectUrl,
-                ParametersKeys.platform: "ios",
-                ParametersKeys.pushToken: connectionParams.pushToken,
-                ParametersKeys.encryptedRsaPublicKey: encryptedRsaPublicKeyDict,
-                ParametersKeys.connectQuery: connectionParams.connectQuery
-            ]
+        var data: [String: Any] = [
+            ParametersKeys.providerId: connectionParams.providerId,
+            ParametersKeys.returnUrl: SENetConstants.oauthRedirectUrl,
+            ParametersKeys.platform: "ios",
+            ParametersKeys.encryptedRsaPublicKey: encryptedRsaPublicKeyDict
         ]
+
+        if let pushToken = connectionParams.pushToken, !pushToken.isEmpty {
+            data = data.merge(with: [ParametersKeys.pushToken: pushToken])
+        }
+        if let connectQuery = connectionParams.connectQuery, !connectQuery.isEmpty {
+            data = data.merge(with: [ParametersKeys.connectQuery: connectQuery])
+        }
+
+        return [ParametersKeys.data: data]
     }
 
     static func confirmAuthorizationParams(encryptedData: SEEncryptedData?, exp: Int) -> [String: Any] {

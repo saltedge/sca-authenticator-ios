@@ -42,6 +42,10 @@ enum ConnectionStatus: String {
     dynamic var createdAt: Date = Date()
     dynamic var updatedAt: Date = Date()
 
+    dynamic var providerId: Int?
+    dynamic var publicKey: String = ""
+    dynamic var apiVersion: String = "1"
+
     override static func primaryKey() -> String? {
         return #keyPath(Connection.guid)
     }

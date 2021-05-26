@@ -1,5 +1,5 @@
 //
-//  SEProviderManager
+//  ApiVersionExtractorSpec
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -20,20 +20,28 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import Foundation
-import SEAuthenticatorCore
+import Quick
+import Nimble
+@testable import SEAuthenticatorCore
 
-public struct SEProviderManager {
-    public static func fetchProviderData(
-        url: URL,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEProviderResponse>,
-        onFailure failure: @escaping FailureBlock
-    ) {
-        HTTPService<SEProviderResponse>.execute(
-            request: SEProviderRouter.fetchData(url),
-            success: success,
-            failure: failure
-        )
+class ApiVersionExtractorSpec: BaseSpec {
+    override func spec() {
+        describe("apiVersion") {
+            context("when url contains version") {
+                it("should return correct version from given url") {
+                    let urlString = "https://sca.banksalt.com/api/authenticator/v2/configurations/1"
+                    
+                    expect(urlString.apiVerion).to(equal("2"))
+                }
+            }
+
+            context("when url doesn't contain version") {
+                it("should return default value 1") {
+                    let urlString = "https://sca.banksalt.com/api/authenticator/configurations/1"
+                    
+                    expect(urlString.apiVerion).to(equal("1"))
+                }
+            }
+        }
     }
 }
-

@@ -21,7 +21,7 @@
 //
 
 import UIKit
-import SEAuthenticator
+import SEAuthenticatorCore
 
 final class QRCodeCoordinator: Coordinator {
     private var rootViewController: UIViewController
@@ -54,6 +54,8 @@ extension QRCodeCoordinator: QRCodeViewControllerDelegate {
     func metadataReceived(data: String) {
         guard let url = URL(string: data),
             SEConnectHelper.isValid(deepLinkUrl: url) else { return }
+
+        let apiVersion = data.apiVerion
 
         if let actionGuid = SEConnectHelper.actionGuid(from: url),
             let connectUrl = SEConnectHelper.connectUrl(from: url) {

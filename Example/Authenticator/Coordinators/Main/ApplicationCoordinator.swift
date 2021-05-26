@@ -21,7 +21,7 @@
 //
 
 import UIKit
-import SEAuthenticator
+import SEAuthenticatorCore
 
 final class ApplicationCoordinator: Coordinator {
     private let window: UIWindow?
@@ -236,6 +236,8 @@ final class ApplicationCoordinator: Coordinator {
     }
 
     private func startConnect(url: URL, controller: UIViewController) {
+        let apiVersion = url.absoluteString.apiVerion
+
         if let actionGuid = SEConnectHelper.actionGuid(from: url),
             let connectUrl = SEConnectHelper.connectUrl(from: url) {
             instantActionCoordinator = InstantActionCoordinator(

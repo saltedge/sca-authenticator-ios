@@ -28,6 +28,14 @@ public typealias KeyPair = (publicKey: SecKey, privateKey: SecKey)
 
 public struct SECryptoHelper {
     // MARK: - Public Methods
+
+    /*
+     Create RSA key pair and store it in Keychain
+     
+     - parameters:
+      - tag: An unique identifier for a newly generated key pair, by which the key could be retrieved from Keychain
+    */
+    @discardableResult
     public static func createKeyPair(with tag: KeyTag) -> KeyPair? {
         SecKeyHelper.deleteKey(tag)
         SecKeyHelper.deleteKey(tag.privateTag)
@@ -35,11 +43,44 @@ public struct SECryptoHelper {
         return SecKeyHelper.generateKeyPair(tag: tag)
     }
 
-    public static func createKey(fromFile name: String, isPublic: Bool, tag: String) throws -> SecKey {
+    /*
+     Convert private key from asymmetric key pair to pem string
+     
+     - parameters:
+      - tag: An unique identifier by which was created the private key
+    */
+    public static func privateKeyToPem(tag: KeyTag) -> String? {
+        guard let encodedKey = try? privateKeyData(for: tag.privateTag).base64EncodedString() else { return nil }
+
+        return "-----BEGIN PRIVATE KEY-----\n\(encodedKey)\n-----END PRIVATE KEY-----\n"
+    }
+
+    /*
+     Convert public key from asymmetric key pair to pem string
+     
+     - parameters:
+      - tag: An unique identifier by which was created the public key
+    */
+    public static func publicKeyToPem(tag: KeyTag) -> String? {
+        guard let encodedKey = try? privateKeyData(for: tag).base64EncodedString() else { return nil }
+
+        return "-----BEGIN PUBLIC KEY-----\n\(encodedKey)\n-----END PUBLIC KEY-----\n"
+    }
+
+    /*
+      Converts string which contains private key in PEM format to SecKey object
+
+     - parameters:
+      - pem: Key in pem format
+      - isPublic: Type of the key
+      - tag: An unique identifier by which the key could be retrieved from Keychain
+    */
+    @discardableResult
+    public static func createKey(from pem: String, isPublic: Bool, tag: String) -> SecKey? {
         SecKeyHelper.deleteKey(tag)
         SecKeyHelper.deleteKey(tag.privateTag)
 
-        return try SecKeyHelper.createKey(fromFile: name, isPublic: isPublic, tag: tag)
+        return try? SecKeyHelper.createKey(from: pem, isPublic: isPublic, tag: tag)
     }
 
     @discardableResult
@@ -78,6 +119,10 @@ public struct SECryptoHelper {
 
     public static func publicKeyData(for tag: KeyTag) throws -> Data {
         return try SecKeyHelper.obtainKeyData(for: tag)
+    }
+
+    public static func privateKeyData(for tag: KeyTag) throws -> Data {
+        return try SecKeyHelper.obtainKeyData(for: tag.privateTag)
     }
 
     public static func publicKey(for tag: KeyTag) throws -> SecKey {
@@ -244,8 +289,8 @@ private struct SecKeyHelper {
         return nil
     }
 
-    static func createKey(fromFile name: String, isPublic: Bool, tag: String) throws -> SecKey {
-        let base64Encoded = base64String(pemEncoded: pem(name))
+    static func createKey(from pem: String, isPublic: Bool, tag: String) throws -> SecKey {
+        let base64Encoded = base64String(pemEncoded: pem)
 
         guard let data = Data(base64Encoded: base64Encoded, options: [.ignoreUnknownCharacters]) else {
             throw SECryptoHelperError.errorCreatingData(fromBase64: base64Encoded)
@@ -326,7 +371,7 @@ private struct SecKeyHelper {
     static func base64String(pemEncoded pemString: String) -> String {
         return pemString.components(separatedBy: "\n").filter { line in
             return !line.hasPrefix("-----BEGIN") && !line.hasPrefix("-----END")
-            }.joined(separator: "")
+        }.joined(separator: "")
     }
 
     static func pem(_ filename: String) -> String {

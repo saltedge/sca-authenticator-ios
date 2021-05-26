@@ -1,5 +1,5 @@
 //
-//  SEProviderRouter
+//  ConnectAppLinkData
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -21,30 +21,15 @@
 //
 
 import Foundation
-import SEAuthenticatorCore
 
-enum SEProviderRouter: Routable {
-    case fetchData(URL)
+public extension String {
+    var apiVerion: String {
+        let segments = split(separator: "/")
+        
+        guard let index = segments.firstIndex(of: "authenticator") else { return "1" }
 
-    var method: HTTPMethod {
-        return .get
-    }
+        let apiVersionValue = segments[index + 1].replacingOccurrences(of: "v", with: "")
 
-    var encoding: Encoding {
-        return .url
-    }
-
-    var url: URL {
-        switch self {
-        case .fetchData(let url): return url
-        }
-    }
-
-    var headers: [String: String]? {
-        return nil
-    }
-
-    var parameters: [String: Any]? {
-        return nil
+        return apiVersionValue.isEmpty ? "1" : apiVersionValue
     }
 }

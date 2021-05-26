@@ -1,5 +1,5 @@
 //
-//  TypeAliases.swift
+//  SECryptoHelperSpec
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -20,17 +20,26 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-public typealias ApiVersion = String
+import Quick
+import Nimble
+@testable import SEAuthenticatorCore
 
-public typealias SuccessBlock = () -> ()
-public typealias FailureBlock = (String) -> ()
-public typealias RequestSuccessBlock = ([String: Any]?) -> ()
-public typealias HTTPServiceSuccessClosure<T: SerializableResponse> = (T) -> ()
+class SECryptoHelperSpec: BaseSpec {
+    override func spec() {
+        fdescribe("publicKeyToPem") {
+            it("should do") {
+//                print(SpecUtils.publicKeyPem.pemToPublicKey)
+//                let tag = "test"
+//                let key = try? SECryptoHelper.createKey(from: DataFixtures.publicKey, isPublic: true, tag: tag)
 
-public typealias AccessToken = String
-public typealias GUID = String
-public typealias ID = String
+//                let expectedPem = try! SECryptoHelper.publicKeyData(for: tag).string
+//                expect(specu).to(equal(SpecUtils.publicKeyPem))
+            }
 
-public typealias PushToken = String
-public typealias ConnectQuery = String
-public typealias ApplicationLanguage = String
+//            let tag = SETagHelper.create(for: "test")
+//            _ = SECryptoHelper.createKeyPair(with: tag)
+//
+//            print(SECryptoHelper.publicKeyToPem(tag: tag))
+        }
+    }
+}

@@ -24,9 +24,9 @@ import Foundation
 import SEAuthenticatorCore
 
 public struct SEProviderResponse: SerializableResponse {
+    public var baseUrl: URL
     public let name: String
     public let code: String
-    public let connectUrl: URL
     public let version: String
     public var logoUrl: URL?
     public var supportEmail: String
@@ -49,7 +49,7 @@ public struct SEProviderResponse: SerializableResponse {
             self.supportEmail = (data[SENetKeys.supportEmail] as? String) ?? ""
             self.name = name
             self.code = code
-            self.connectUrl = connectUrl
+            self.baseUrl = connectUrl
             self.version = version
         } else {
             return nil

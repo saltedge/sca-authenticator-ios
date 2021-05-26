@@ -1,5 +1,5 @@
 //
-//  TypeAliases.swift
+//  SEProviderRouterV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -20,17 +20,31 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-public typealias ApiVersion = String
+import Foundation
+import SEAuthenticatorCore
 
-public typealias SuccessBlock = () -> ()
-public typealias FailureBlock = (String) -> ()
-public typealias RequestSuccessBlock = ([String: Any]?) -> ()
-public typealias HTTPServiceSuccessClosure<T: SerializableResponse> = (T) -> ()
+enum SEProviderRouterV2: Routable {
+    case fetchData(URL)
 
-public typealias AccessToken = String
-public typealias GUID = String
-public typealias ID = String
+    var method: HTTPMethod {
+        return .get
+    }
 
-public typealias PushToken = String
-public typealias ConnectQuery = String
-public typealias ApplicationLanguage = String
+    var encoding: Encoding {
+        return .url
+    }
+
+    var url: URL {
+        switch self {
+        case .fetchData(let url): return url
+        }
+    }
+
+    var headers: [String: String]? {
+        return Headers.requestHeaders(with: "en")
+    }
+
+    var parameters: [String: Any]? {
+        return nil
+    }
+}
