@@ -117,7 +117,7 @@ struct ConnectionsInteractor {
             entityId: connection.id
         )
 
-        SEAuthenticator.SEConnectionManager.revokeConnection(
+        SEConnectionManager.revokeConnection(
             data: data,
             onSuccess: { _ in
                 success?()

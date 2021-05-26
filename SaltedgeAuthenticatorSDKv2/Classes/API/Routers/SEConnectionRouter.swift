@@ -24,12 +24,12 @@ import Foundation
 import SEAuthenticatorCore
 
 public struct SECreateConnectionParams {
-    public let providerId: Int
+    public let providerId: String
     public let pushToken: String?
     public let connectQuery: String?
     public let encryptedRsaPublicKey: SEEncryptedData
 
-    public init(providerId: Int, pushToken: String?, connectQuery: String?, encryptedRsaPublicKey: SEEncryptedData) {
+    public init(providerId: String, pushToken: String?, connectQuery: String?, encryptedRsaPublicKey: SEEncryptedData) {
         self.providerId = providerId
         self.pushToken = pushToken
         self.connectQuery = connectQuery

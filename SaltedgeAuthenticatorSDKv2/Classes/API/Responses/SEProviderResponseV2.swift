@@ -26,7 +26,7 @@ import SEAuthenticatorCore
 public struct SEProviderResponseV2: SerializableResponse {
     public let name: String
     public var baseUrl: URL
-    public let providerId: Int
+    public let providerId: String
     public let apiVersion: String
     public var logoUrl: URL?
     public var supportEmail: String
@@ -36,7 +36,7 @@ public struct SEProviderResponseV2: SerializableResponse {
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
            let dataDict = dict[SENetKeys.data] as? [String: Any],
-           let id = dataDict[ApiConstants.providerId] as? Int,
+           let id = dataDict[ApiConstants.providerId] as? String,
            let name = dataDict[ApiConstants.providerName] as? String,
            let scaServiceUrlString = dataDict[ApiConstants.scaServiceUrl] as? String,
            let apiVersion = dataDict[ApiConstants.apiVersion] as? String,

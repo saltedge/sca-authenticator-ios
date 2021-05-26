@@ -35,7 +35,7 @@ class SEConnectionRouterSpecV2: BaseSpec {
                 it("should create a valid url request") {
                     let encryptedData = SEEncryptedData(data: "data", key: "key", iv: "iv")
                     let data = SECreateConnectionParams(
-                        providerId: 12,
+                        providerId: "12",
                         pushToken: "push_token",
                         connectQuery: "connect_query",
                         encryptedRsaPublicKey: encryptedData

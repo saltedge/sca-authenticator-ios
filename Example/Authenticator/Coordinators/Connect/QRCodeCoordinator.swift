@@ -55,8 +55,6 @@ extension QRCodeCoordinator: QRCodeViewControllerDelegate {
         guard let url = URL(string: data),
             SEConnectHelper.isValid(deepLinkUrl: url) else { return }
 
-        let apiVersion = data.apiVerion
-
         if let actionGuid = SEConnectHelper.actionGuid(from: url),
             let connectUrl = SEConnectHelper.connectUrl(from: url) {
             instantActionCoordinator = InstantActionCoordinator(

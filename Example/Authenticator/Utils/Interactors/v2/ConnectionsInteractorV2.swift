@@ -32,8 +32,7 @@ struct ConnectionsInteractorV2 {
     static func createNewConnection(
         from url: URL,
         with connectQuery: String?,
-        success: @escaping (Connection, AccessToken) -> (),
-        redirect: @escaping (Connection, String) -> (),
+        success: @escaping (Connection, String) -> (),
         failure: @escaping (String) -> ()
     ) {
         getProviderConfiguration(
@@ -59,7 +58,6 @@ struct ConnectionsInteractorV2 {
                     for: connection,
                     connectQuery: connectQuery,
                     success: success,
-                    redirect: redirect,
                     failure: failure
                 )
             },
@@ -86,8 +84,7 @@ struct ConnectionsInteractorV2 {
     static func submitNewConnection(
         for connection: Connection,
         connectQuery: String?,
-        success: @escaping (Connection, AccessToken) -> (),
-        redirect: @escaping (Connection, String) -> (),
+        success: @escaping (Connection, String) -> (),
         failure: @escaping (String) -> ()
     ) {
         // 1. Create Provider's public key (SecKey)
@@ -122,14 +119,12 @@ struct ConnectionsInteractorV2 {
         SEConnectionManager.createConnection(
             by: connectUrl,
             params: params,
-            appLanguage: "en",
+            appLanguage: UserDefaultsHelper.applicationLanguage,
             onSuccess: { response in
-                // TODO: Finish
-                print(response)
+                connection.id = "\(response.id)"
+                success(connection, response.authenticationUrl)
             },
-            onFailure: { error in
-                print(error)
-            }
+            onFailure: failure
         )
     }
 }

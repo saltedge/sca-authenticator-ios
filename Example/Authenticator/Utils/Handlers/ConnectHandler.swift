@@ -108,11 +108,7 @@ final class ConnectHandler {
             ConnectionsInteractorV2.createNewConnection(
                 from: configurationUrl,
                 with: connectQuery,
-                success: { [weak self] connection, accessToken in
-                    self?.connection = connection
-                    self?.saveConnectionAndFinish(with: accessToken)
-                },
-                redirect: { [weak self]  connection, connectUrl in
+                success: { [weak self] connection, connectUrl in
                     self?.connection = connection
                     self?.delegate?.startWebViewLoading(with: connectUrl)
                 },
@@ -148,11 +144,7 @@ final class ConnectHandler {
             ConnectionsInteractorV2.submitNewConnection(
                 for: connection,
                 connectQuery: nil,
-                success: { [weak self] connection, accessToken in
-                    self?.connection = connection
-                    self?.saveConnectionAndFinish(with: accessToken)
-                },
-                redirect: { [weak self]  connection, connectUrl in
+                success: { [weak self]  connection, connectUrl in
                     self?.connection = connection
                     self?.delegate?.startWebViewLoading(with: connectUrl)
                 },

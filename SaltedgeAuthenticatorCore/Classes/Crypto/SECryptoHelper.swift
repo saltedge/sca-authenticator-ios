@@ -50,9 +50,7 @@ public struct SECryptoHelper {
       - tag: An unique identifier by which was created the private key
     */
     public static func privateKeyToPem(tag: KeyTag) -> String? {
-        guard let encodedKey = try? privateKeyData(for: tag.privateTag).base64EncodedString() else { return nil }
-
-        return "-----BEGIN PRIVATE KEY-----\n\(encodedKey)\n-----END PRIVATE KEY-----\n"
+        return try? privateKeyData(for: tag.privateTag).string
     }
 
     /*
@@ -62,9 +60,7 @@ public struct SECryptoHelper {
       - tag: An unique identifier by which was created the public key
     */
     public static func publicKeyToPem(tag: KeyTag) -> String? {
-        guard let encodedKey = try? privateKeyData(for: tag).base64EncodedString() else { return nil }
-
-        return "-----BEGIN PUBLIC KEY-----\n\(encodedKey)\n-----END PUBLIC KEY-----\n"
+        return try? publicKeyData(for: tag).string
     }
 
     /*
@@ -164,7 +160,10 @@ public struct SECryptoHelper {
             idx += blockSize
         }
 
-        return Data(bytes: UnsafePointer<UInt8>(decryptedDataBytes), count: decryptedDataBytes.count)
+        let uint8Pointer = UnsafeMutablePointer<UInt8>.allocate(capacity: decryptedDataBytes.count)
+        uint8Pointer.initialize(from: &decryptedDataBytes, count: decryptedDataBytes.count)
+
+        return Data(bytes: uint8Pointer, count: decryptedDataBytes.count)
     }
 
     private static func publicEncrypt(data: Data, keyForTag: KeyTag) throws -> Data {
@@ -197,7 +196,10 @@ public struct SECryptoHelper {
             idx += maxChunkSize
         }
 
-        return Data(bytes: UnsafePointer<UInt8>(encryptedDataBytes), count: encryptedDataBytes.count)
+        let uint8Pointer = UnsafeMutablePointer<UInt8>.allocate(capacity: encryptedDataBytes.count)
+        uint8Pointer.initialize(from: &encryptedDataBytes, count: encryptedDataBytes.count)
+
+        return Data(bytes: uint8Pointer, count: encryptedDataBytes.count)
     }
 
     private static func generateRandomBytes(count: Int) throws -> Data {

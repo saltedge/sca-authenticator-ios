@@ -28,6 +28,7 @@ enum ConnectionStatus: String {
     case inactive
 }
 
+// TODO: Add migrations
 @objcMembers final class Connection: Object {
     dynamic var id: String = ""
     dynamic var guid: String = UUID().uuidString
@@ -42,7 +43,7 @@ enum ConnectionStatus: String {
     dynamic var createdAt: Date = Date()
     dynamic var updatedAt: Date = Date()
 
-    dynamic var providerId: Int?
+    dynamic var providerId: String?
     dynamic var publicKey: String = ""
     dynamic var apiVersion: String = "1"
 

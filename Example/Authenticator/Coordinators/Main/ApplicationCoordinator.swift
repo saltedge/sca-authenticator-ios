@@ -235,9 +235,7 @@ final class ApplicationCoordinator: Coordinator {
         }
     }
 
-    private func startConnect(url: URL, controller: UIViewController) {
-        let apiVersion = url.absoluteString.apiVerion
-
+    private func startConnect(url: URL, controller: UIViewController) {        
         if let actionGuid = SEConnectHelper.actionGuid(from: url),
             let connectUrl = SEConnectHelper.connectUrl(from: url) {
             instantActionCoordinator = InstantActionCoordinator(

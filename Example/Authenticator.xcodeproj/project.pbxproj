@@ -156,7 +156,6 @@
 		9DCBB28C243618B900DB3F85 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCBB28A243618B900DB3F85 /* Observable.swift */; };
 		9DCC5E25265D1DD40054B933 /* ConnectionsInteractorV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCC5E24265D1DD40054B933 /* ConnectionsInteractorV2.swift */; };
 		9DCC5E26265D1DD40054B933 /* ConnectionsInteractorV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCC5E24265D1DD40054B933 /* ConnectionsInteractorV2.swift */; };
-		9DCC5E29265D2F150054B933 /* SECryptoHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCC5E28265D2F150054B933 /* SECryptoHelperSpec.swift */; };
 		9DCED89A22CE18280050ED3C /* APIErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7DD22CE18270050ED3C /* APIErrors.swift */; };
 		9DCED89C22CE18280050ED3C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E122CE18270050ED3C /* SettingsViewController.swift */; };
 		9DCED89E22CE18280050ED3C /* ConnectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED7E422CE18270050ED3C /* ConnectionsViewController.swift */; };
@@ -470,7 +469,6 @@
 		9DBAD7A1247E65D30023F944 /* InstantActionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstantActionCoordinator.swift; sourceTree = "<group>"; };
 		9DCBB28A243618B900DB3F85 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		9DCC5E24265D1DD40054B933 /* ConnectionsInteractorV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsInteractorV2.swift; sourceTree = "<group>"; };
-		9DCC5E28265D2F150054B933 /* SECryptoHelperSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SECryptoHelperSpec.swift; sourceTree = "<group>"; };
 		9DCED7DD22CE18270050ED3C /* APIErrors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIErrors.swift; sourceTree = "<group>"; };
 		9DCED7E022CE18270050ED3C /* LanguagePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LanguagePickerViewController.swift; sourceTree = "<group>"; };
 		9DCED7E122CE18270050ED3C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -687,7 +685,6 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				9DCC5E27265D2F050054B933 /* Crypto */,
 				9D69071A2655437E00A9CE94 /* v2 */,
 				9DCBB2872435F1EF00DB3F85 /* ViewModels */,
 				9D66E1D222D6146800BD59B6 /* Networking */,
@@ -988,14 +985,6 @@
 				95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */,
 			);
 			path = v1;
-			sourceTree = "<group>";
-		};
-		9DCC5E27265D2F050054B933 /* Crypto */ = {
-			isa = PBXGroup;
-			children = (
-				9DCC5E28265D2F150054B933 /* SECryptoHelperSpec.swift */,
-			);
-			path = Crypto;
 			sourceTree = "<group>";
 		};
 		9DCED7DC22CE18270050ED3C /* Errors */ = {
@@ -2065,7 +2054,6 @@
 				9D66E1B622D4C1F700BD59B6 /* ConnectionRepositorySpec.swift in Sources */,
 				9DE56A0324AA179100FA5B2C /* ConsentLogoView.swift in Sources */,
 				959E30A1247BC78D0067354A /* LanguagePickerViewModel.swift in Sources */,
-				9DCC5E29265D2F150054B933 /* SECryptoHelperSpec.swift in Sources */,
 				9DE3247E22D3998D00EB162A /* PasscodeCoordinator.swift in Sources */,
 				9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */,
 				9DE3249E22D399F900EB162A /* DicitionaryExtensions.swift in Sources */,
