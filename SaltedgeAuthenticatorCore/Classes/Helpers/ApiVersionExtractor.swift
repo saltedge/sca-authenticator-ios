@@ -26,10 +26,9 @@ public extension String {
     var apiVerion: String {
         let segments = split(separator: "/")
         
-        guard let index = segments.firstIndex(of: "authenticator") else { return "1" }
+        guard let index = segments.firstIndex(of: "authenticator"),
+              let apiVersionValue = Int(segments[index + 1].replacingOccurrences(of: "v", with: "")) else { return "1" }
 
-        let apiVersionValue = segments[index + 1].replacingOccurrences(of: "v", with: "")
-
-        return apiVersionValue.isEmpty ? "1" : apiVersionValue
+        return "\(apiVersionValue)"
     }
 }
