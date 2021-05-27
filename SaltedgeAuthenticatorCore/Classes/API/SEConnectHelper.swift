@@ -1,8 +1,8 @@
 //
-//  SEConnectHelper.swift
+//  SEConnectHelper
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,7 +21,6 @@
 //
 
 import Foundation
-import SEAuthenticatorCore
 
 public struct SEConnectHelper {
     public static func isValid(deepLinkUrl url: URL) -> Bool {
@@ -62,3 +61,4 @@ public struct SEConnectHelper {
         return query
     }
 }
+

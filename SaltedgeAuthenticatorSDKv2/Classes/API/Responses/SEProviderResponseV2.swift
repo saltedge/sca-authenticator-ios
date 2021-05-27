@@ -1,5 +1,5 @@
 //
-//  SEProviderResponse
+//  SEProviderResponseV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -23,10 +23,10 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEProviderResponse: SerializableResponse {
-    public let id: String
+public struct SEProviderResponseV2: SerializableResponse {
     public let name: String
-    public let scaServiceUrl: String
+    public var baseUrl: URL
+    public let providerId: String
     public let apiVersion: String
     public var logoUrl: URL?
     public var supportEmail: String
@@ -36,11 +36,12 @@ public struct SEProviderResponse: SerializableResponse {
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
            let dataDict = dict[SENetKeys.data] as? [String: Any],
-           let id = dataDict[SENetKeys.id] as? String,
+           let id = dataDict[ApiConstants.providerId] as? String,
            let name = dataDict[ApiConstants.providerName] as? String,
-           let scaServiceUrl = dataDict[ApiConstants.scaServiceUrl] as? String,
+           let scaServiceUrlString = dataDict[ApiConstants.scaServiceUrl] as? String,
            let apiVersion = dataDict[ApiConstants.apiVersion] as? String,
-           let publicKey = dataDict[ApiConstants.providerPublicKey] as? String {
+           let publicKey = dataDict[ApiConstants.providerPublicKey] as? String,
+           let scaServiceUrl = URL(string: scaServiceUrlString) {
             if let logoUrlString = dataDict[ApiConstants.providerLogoUrl] as? String,
                 let logoUrl = URL(string: logoUrlString) {
                 self.logoUrl = logoUrl
@@ -48,9 +49,9 @@ public struct SEProviderResponse: SerializableResponse {
             self.supportEmail = (dataDict[ApiConstants.providerSupportEmail] as? String) ?? ""
             self.geolocationRequired = dataDict[SENetKeys.geolocationRequired] as? Bool
 
-            self.id = id
+            self.providerId = id
             self.name = name
-            self.scaServiceUrl = scaServiceUrl
+            self.baseUrl = scaServiceUrl
             self.apiVersion = apiVersion
             self.publicKey = publicKey
         } else {

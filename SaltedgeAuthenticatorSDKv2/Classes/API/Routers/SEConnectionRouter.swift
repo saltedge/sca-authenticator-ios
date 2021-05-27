@@ -25,10 +25,16 @@ import SEAuthenticatorCore
 
 public struct SECreateConnectionParams {
     public let providerId: String
-    public let returnUrl: String
     public let pushToken: String?
     public let connectQuery: String?
     public let encryptedRsaPublicKey: SEEncryptedData
+
+    public init(providerId: String, pushToken: String?, connectQuery: String?, encryptedRsaPublicKey: SEEncryptedData) {
+        self.providerId = providerId
+        self.pushToken = pushToken
+        self.connectQuery = connectQuery
+        self.encryptedRsaPublicKey = encryptedRsaPublicKey
+    }
 }
 
 enum SEConnectionRouter: Routable {
@@ -61,7 +67,8 @@ enum SEConnectionRouter: Routable {
 
     var headers: [String: String]? {
         switch self {
-        case .createConnection(_, _, let appLanguage): return Headers.requestHeaders(with: appLanguage)
+        case .createConnection(_, _, let appLanguage):
+            return Headers.requestHeaders(with: appLanguage)
         case .revoke(let data):
             return Headers.signedRequestHeaders(
                 token: data.accessToken,

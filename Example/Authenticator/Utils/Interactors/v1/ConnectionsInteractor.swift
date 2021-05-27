@@ -46,7 +46,7 @@ struct ConnectionsInteractor {
 
                 connection.supportEmail = response.supportEmail
                 connection.logoUrlString = response.logoUrl?.absoluteString ?? ""
-                connection.baseUrlString = response.connectUrl.absoluteString
+                connection.baseUrlString = response.baseUrl.absoluteString
                 connection.geolocationRequired.value = response.geolocationRequired
 
                 submitNewConnection(

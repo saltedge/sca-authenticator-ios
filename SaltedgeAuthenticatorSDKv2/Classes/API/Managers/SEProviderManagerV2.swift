@@ -1,5 +1,5 @@
 //
-//  TypeAliases.swift
+//  SEProviderManagerV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -20,17 +20,20 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-public typealias ApiVersion = String
+import Foundation
+import SEAuthenticatorCore
 
-public typealias SuccessBlock = () -> ()
-public typealias FailureBlock = (String) -> ()
-public typealias RequestSuccessBlock = ([String: Any]?) -> ()
-public typealias HTTPServiceSuccessClosure<T: SerializableResponse> = (T) -> ()
+public struct SEProviderManagerV2 {
+    public static func fetchProviderData(
+        url: URL,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SEProviderResponseV2>,
+        onFailure failure: @escaping FailureBlock
+    ) {
+        HTTPService<SEProviderResponseV2>.execute(
+            request: SEProviderRouterV2.fetchData(url),
+            success: success,
+            failure: failure
+        )
+    }
+}
 
-public typealias AccessToken = String
-public typealias GUID = String
-public typealias ID = String
-
-public typealias PushToken = String
-public typealias ConnectQuery = String
-public typealias ApplicationLanguage = String

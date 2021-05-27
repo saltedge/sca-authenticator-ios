@@ -1,5 +1,5 @@
 //
-//  SEProviderManager
+//  ConnectAppLinkData
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -21,19 +21,14 @@
 //
 
 import Foundation
-import SEAuthenticatorCore
 
-public struct SEProviderManager {
-    public static func fetchProviderData(
-        url: URL,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEProviderResponse>,
-        onFailure failure: @escaping FailureBlock
-    ) {
-        HTTPService<SEProviderResponse>.execute(
-            request: SEProviderRouter.fetchData(url),
-            success: success,
-            failure: failure
-        )
+public extension String {
+    var apiVerion: String {
+        let segments = split(separator: "/")
+        
+        guard let index = segments.firstIndex(of: "authenticator"),
+              let apiVersionValue = Int(segments[index + 1].replacingOccurrences(of: "v", with: "")) else { return "1" }
+
+        return "\(apiVersionValue)"
     }
 }
-

@@ -142,8 +142,7 @@ final class QRCodeViewController: BaseViewController {
     }
 
     @objc private func cancelPressed() {
-        dismiss(animated: true)
-        shouldDismissClosure?()
+        dismiss(animated: true, completion: shouldDismissClosure)
     }
 
     private func labelsStackView() -> UIStackView {

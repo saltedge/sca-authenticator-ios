@@ -21,7 +21,6 @@
 //
 
 import Foundation
-import SEAuthenticator
 import SEAuthenticatorCore
 
 protocol ConnectEventsDelegate: class {
@@ -87,41 +86,73 @@ final class ConnectHandler {
     }
 
     private func createNewConnection(from configurationUrl: URL, with connectQuery: String?) {
-        ConnectionsInteractor.createNewConnection(
-            from: configurationUrl,
-            with: connectQuery,
-            success: { [weak self] connection, accessToken in
-                self?.connection = connection
-                self?.saveConnectionAndFinish(with: accessToken)
-            },
-            redirect: { [weak self]  connection, connectUrl in
-                self?.connection = connection
-                self?.delegate?.startWebViewLoading(with: connectUrl)
-            },
-            failure: { [weak self] error in
-                self?.dismissConnectWithError(error: error)
-            }
-        )
+        let apiVersion = configurationUrl.absoluteString.apiVerion
+
+        if apiVersion == "1" {
+            ConnectionsInteractor.createNewConnection(
+                from: configurationUrl,
+                with: connectQuery,
+                success: { [weak self] connection, accessToken in
+                    self?.connection = connection
+                    self?.saveConnectionAndFinish(with: accessToken)
+                },
+                redirect: { [weak self]  connection, connectUrl in
+                    self?.connection = connection
+                    self?.delegate?.startWebViewLoading(with: connectUrl)
+                },
+                failure: { [weak self] error in
+                    self?.dismissConnectWithError(error: error)
+                }
+            )
+        } else {
+            ConnectionsInteractorV2.createNewConnection(
+                from: configurationUrl,
+                with: connectQuery,
+                success: { [weak self] connection, connectUrl in
+                    self?.connection = connection
+                    self?.delegate?.startWebViewLoading(with: connectUrl)
+                },
+                failure: { [weak self] error in
+                    self?.dismissConnectWithError(error: error)
+                }
+            )
+        }
     }
 
     private func reconnectConnection(_ connectionId: String) {
         guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
 
-        ConnectionsInteractor.submitNewConnection(
-            for: connection,
-            connectQuery: nil,
-            success: { [weak self] connection, accessToken in
-                self?.connection = connection
-                self?.saveConnectionAndFinish(with: accessToken)
-            },
-            redirect: { [weak self]  connection, connectUrl in
-                self?.connection = connection
-                self?.delegate?.startWebViewLoading(with: connectUrl)
-            },
-            failure: { [weak self] error in
-                self?.dismissConnectWithError(error: error)
-            }
-        )
+        let apiVersion = connection.baseUrlString.apiVerion
+
+        if apiVersion == "1" {
+            ConnectionsInteractor.submitNewConnection(
+                for: connection,
+                connectQuery: nil,
+                success: { [weak self] connection, accessToken in
+                    self?.connection = connection
+                    self?.saveConnectionAndFinish(with: accessToken)
+                },
+                redirect: { [weak self]  connection, connectUrl in
+                    self?.connection = connection
+                    self?.delegate?.startWebViewLoading(with: connectUrl)
+                },
+                failure: { [weak self] error in
+                    self?.dismissConnectWithError(error: error)
+                }
+            )
+        } else {
+            ConnectionsInteractorV2.submitNewConnection(
+                for: connection,
+                connectQuery: nil,
+                success: { [weak self]  connection, connectUrl in
+                    self?.connection = connection
+                    self?.delegate?.startWebViewLoading(with: connectUrl)
+                },
+                failure: { [weak self] error in
+                    self?.dismissConnectWithError(error: error)
+                }
+            )
+        }
     }
 
     private func dismissConnectWithError(error: String) {

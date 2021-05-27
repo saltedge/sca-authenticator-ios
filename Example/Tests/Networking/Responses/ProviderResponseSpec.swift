@@ -34,7 +34,7 @@ class ProviderResponseSpec: BaseSpec {
                     
                     expect(expectedResponse).toNot(beNil())
                     expect(expectedResponse?.code).to(equal("demobank"))
-                    expect(expectedResponse?.connectUrl.absoluteString).to(equal("getConnectUrl.com"))
+                    expect(expectedResponse?.baseUrl.absoluteString).to(equal("getConnectUrl.com"))
                     expect(expectedResponse?.name).to(equal("Demobank"))
                     expect(expectedResponse?.logoUrl?.absoluteString).to(equal("https://upload.wikimedia.org/wikipedia/commons/6/6f/HP_logo_630x630.png"))
                     expect(expectedResponse?.version).to(equal("1"))
