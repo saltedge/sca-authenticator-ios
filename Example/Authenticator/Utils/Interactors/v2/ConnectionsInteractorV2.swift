@@ -24,15 +24,16 @@ import Foundation
 import SEAuthenticatorV2
 import SEAuthenticatorCore
 
-struct ConnectionsInteractorV2 {
+struct ConnectionsInteractorV2: BaseConnectionsInteractor {
     /*
       Request to create new SCA Service connection.
       Result is returned through callback.
     */
-    static func createNewConnection(
+    func createNewConnection(
         from url: URL,
         with connectQuery: String?,
-        success: @escaping (Connection, String) -> (),
+        success: @escaping (Connection, AccessToken) -> (),
+        redirect: @escaping (Connection, String) -> (),
         failure: @escaping (String) -> ()
     ) {
         getProviderConfiguration(
@@ -58,6 +59,7 @@ struct ConnectionsInteractorV2 {
                     for: connection,
                     connectQuery: connectQuery,
                     success: success,
+                    redirect: redirect,
                     failure: failure
                 )
             },
@@ -69,7 +71,7 @@ struct ConnectionsInteractorV2 {
       Request to get SCA Service connection.
       Result is returned through callback.
     */
-    static func getProviderConfiguration(
+    func getProviderConfiguration(
         from url: URL,
         success: @escaping (SEProviderResponseV2) -> (),
         failure: @escaping (String) -> ()
@@ -81,17 +83,18 @@ struct ConnectionsInteractorV2 {
         )
     }
 
-    static func submitNewConnection(
+    func submitNewConnection(
         for connection: Connection,
         connectQuery: String?,
-        success: @escaping (Connection, String) -> (),
+        success: @escaping (Connection, AccessToken) -> (),
+        redirect: @escaping (Connection, String) -> (),
         failure: @escaping (String) -> ()
     ) {
         // 1. Create Provider's public key (SecKey)
         SECryptoHelper.createKey(
             from: connection.publicKey,
             isPublic: true,
-            tag: "\(connection.guid)_provider_public_key"
+            tag: connection.providerPublicKeyTag
         )
 
         // 2. Generate new RSA key pair for a new Connection by tag
@@ -102,7 +105,7 @@ struct ConnectionsInteractorV2 {
         // 4. Encrypt Connection's public key with Provider's public key (step 1)
               let encryptedData = try? SECryptoHelper.encrypt(
                 connectionPublicKeyPem,
-                tag: "\(connection.guid)_provider_public_key"
+                tag: connection.providerPublicKeyTag
               ),
               let providerId = connection.providerId else { return }
 
@@ -116,13 +119,37 @@ struct ConnectionsInteractorV2 {
         guard let connectUrl = connection.baseUrl else { return }
 
         // 5. Send request
-        SEConnectionManager.createConnection(
+        SEConnectionManagerV2.createConnection(
             by: connectUrl,
             params: params,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             onSuccess: { response in
                 connection.id = "\(response.id)"
-                success(connection, response.authenticationUrl)
+                redirect(connection, response.authenticationUrl)
+            },
+            onFailure: failure
+        )
+    }
+
+    func revoke(
+        _ connection: Connection,
+        success: (() -> ())?,
+        failure: @escaping (String) -> ()
+    ) {
+        guard let baseUrl = connection.baseUrl else { return }
+
+        let data = SEBaseAuthenticatedWithIdRequestData(
+            url: baseUrl,
+            connectionGuid: connection.guid,
+            accessToken: connection.accessToken,
+            appLanguage: UserDefaultsHelper.applicationLanguage,
+            entityId: connection.id
+        )
+
+        SEConnectionManagerV2.revokeConnection(
+            data: data,
+            onSuccess: { _ in
+                success?()
             },
             onFailure: failure
         )

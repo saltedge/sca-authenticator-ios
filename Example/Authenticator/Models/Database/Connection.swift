@@ -64,4 +64,12 @@ extension Connection {
     var isManaged: Bool {
         return realm != nil
     }
+
+    var isApiV2: Bool {
+        return apiVersion == "2"
+    }
+
+    var providerPublicKeyTag: String {
+        return "\(guid)_provider_public_key"
+    }
 }

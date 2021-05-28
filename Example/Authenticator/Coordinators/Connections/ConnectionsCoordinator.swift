@@ -112,4 +112,8 @@ extension ConnectionsCoordinator: ConnectionsEventsDelegate {
         connectViewCoordinator = ConnectViewCoordinator(rootViewController: currentViewController, connectionType: .reconnect(id))
         connectViewCoordinator?.start()
     }
+
+    func presentError(_ error: String) {
+        currentViewController.present(message: error)
+    }
 }

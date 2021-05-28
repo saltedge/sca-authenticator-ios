@@ -24,8 +24,8 @@ import Foundation
 import SEAuthenticator
 import SEAuthenticatorCore
 
-struct ConnectionsInteractor {
-    static func createNewConnection(
+struct ConnectionsInteractor: BaseConnectionsInteractor {
+    func createNewConnection(
         from url: URL,
         with connectQuery: String?,
         success: @escaping (Connection, AccessToken) -> (),
@@ -61,7 +61,7 @@ struct ConnectionsInteractor {
         )
     }
 
-    static func fetchProviderConfiguration(
+    func fetchProviderConfiguration(
         from url: URL,
         success: @escaping (SEProviderResponse) -> (),
         failure: @escaping (String) -> ()
@@ -73,7 +73,7 @@ struct ConnectionsInteractor {
         )
     }
 
-    static func submitNewConnection(
+    func submitNewConnection(
         for connection: Connection,
         connectQuery: String?,
         success: @escaping (Connection, AccessToken) -> (),
@@ -103,9 +103,10 @@ struct ConnectionsInteractor {
         )
     }
 
-    static func revoke(
+    func revoke(
         _ connection: Connection,
-        success: (() -> ())? = nil
+        success: (() -> ())?,
+        failure: @escaping (String) -> ()
     ) {
         guard let baseUrl = connection.baseUrl else { return }
 
@@ -122,9 +123,7 @@ struct ConnectionsInteractor {
             onSuccess: { _ in
                 success?()
             },
-            onFailure: { error in
-                Log.debugLog(message: error)
-            }
+            onFailure: failure
         )
     }
 }

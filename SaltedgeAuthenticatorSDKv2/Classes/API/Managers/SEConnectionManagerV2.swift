@@ -1,5 +1,5 @@
 //
-//  SEConnectionManager
+//  SEConnectionManagerV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -23,7 +23,7 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEConnectionManager {
+public struct SEConnectionManagerV2 {
     public static func createConnection(
         by url: URL,
         params: SECreateConnectionParams,
