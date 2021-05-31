@@ -73,7 +73,7 @@ class SEConnectionRouterSpecV2: BaseSpec {
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
                         with: baseUrl.appendingPathComponent("/api/authenticator/v2/connections/\(entityId)/revoke"),
-                        method: HTTPMethod.delete.rawValue,
+                        method: HTTPMethod.put.rawValue,
                         headers: headers,
                         params: parameters
                     )
