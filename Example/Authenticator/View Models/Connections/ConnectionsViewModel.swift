@@ -33,6 +33,7 @@ protocol ConnectionsEventsDelegate: class {
     func consentsPressed(connectionId: String, consents: [SEConsentData])
     func updateViews()
     func addPressed()
+    func presentError(_ error: String)
 }
 
 final class ConnectionsViewModel {
@@ -90,8 +91,18 @@ final class ConnectionsViewModel {
         delegate?.updateViews()
     }
 
-    private func remove(connection: Connection) {
-        ConnectionsInteractor.revoke(connection)
+    private func revoke(connection: Connection, interactor: BaseConnectionsInteractor) {
+        interactor.revoke(
+            connection,
+            success: { self.deleteConnection(connection: connection) },
+            failure: { error in
+                self.delegate?.presentError(error)
+            }
+        )
+    }
+
+    private func deleteConnection(connection: Connection) {
+        SECryptoHelper.deleteKeyPair(with: connection.providerPublicKeyTag)
         SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
         ConnectionRepository.delete(connection)
     }
@@ -113,13 +124,19 @@ extension ConnectionsViewModel {
     func remove(at indexPath: IndexPath) {
         guard let connection = item(for: indexPath) else { return }
 
-        remove(connection: connection)
+        revoke(
+            connection: connection,
+            interactor: connection.isApiV2 ? ConnectionsInteractorV2() : ConnectionsInteractor()
+        )
     }
 
     func remove(by id: ID) {
         guard let connection = ConnectionsCollector.with(id: id) else { return }
 
-        remove(connection: connection)
+        revoke(
+            connection: connection,
+            interactor: connection.isApiV2 ? ConnectionsInteractorV2() : ConnectionsInteractor()
+        )
     }
 
     func updateName(by id: ID) {

@@ -44,7 +44,7 @@ enum SEConnectionRouter: Routable {
     var method: HTTPMethod {
         switch self {
         case .createConnection: return .post
-        case .revoke: return .delete
+        case .revoke: return .put
         }
     }
 
