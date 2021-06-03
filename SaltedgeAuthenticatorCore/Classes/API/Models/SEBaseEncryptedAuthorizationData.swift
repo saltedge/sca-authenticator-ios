@@ -1,8 +1,8 @@
 //
-//  SEPoller
+//  SEBaseEncryptedAuthorizationData
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2020 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,28 +22,9 @@
 
 import Foundation
 
-public class SEPoller {
-    private var timer: Timer?
-    private var targetClass: Any
-    @objc private var executionSelector: Selector
-
-    public init(targetClass: Any, selector: Selector) {
-        self.targetClass = targetClass
-        self.executionSelector = selector
-    }
-
-    public func startPolling() {
-        timer = Timer.scheduledTimer(
-            timeInterval: 3.0,
-            target: targetClass,
-            selector: executionSelector,
-            userInfo: nil,
-            repeats: true
-        )
-    }
-
-    public func stopPolling() {
-        timer?.invalidate()
-        timer = nil
-    }
+public protocol SEBaseEncryptedAuthorizationData {
+    var data: String { get }
+    var key: String { get }
+    var iv: String { get }
+    var connectionId: String? { get }
 }

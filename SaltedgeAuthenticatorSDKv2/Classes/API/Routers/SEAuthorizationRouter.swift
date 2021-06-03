@@ -24,7 +24,7 @@ import Foundation
 import SEAuthenticatorCore
 
 enum SEAuthorizationRouter: Routable {
-    case list(URL, AccessToken)
+    case list(SEBaseAuthenticatedRequestData)
     case show(SEBaseAuthenticatedWithIdRequestData)
     case confirm(URL, AccessToken, SEAuthorizationRequestData)
     case deny(URL, AccessToken, SEAuthorizationRequestData)
@@ -45,8 +45,8 @@ enum SEAuthorizationRouter: Routable {
     
     var url: URL {
         switch self {
-        case .list(let url, _):
-            return url.appendingPathComponent(
+        case .list(let data):
+            return data.url.appendingPathComponent(
                 "\(SENetPathBuilder(for: .authorizations, version: 2).path)"
             )
         case .show(let data):
@@ -66,8 +66,8 @@ enum SEAuthorizationRouter: Routable {
     
     var headers: [String : String]? {
         switch self {
-        case .list(_, let accessToken):
-            return Headers.authorizedRequestHeaders(token: accessToken)
+        case .list(let data):
+            return Headers.authorizedRequestHeaders(token: data.accessToken)
         case .show(let data):
             return Headers.authorizedRequestHeaders(token: data.accessToken)
         case .confirm(_, let accessToken, let data), .deny(_, let accessToken, let data):

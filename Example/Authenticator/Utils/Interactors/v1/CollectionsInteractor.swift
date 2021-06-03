@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorV2
 import SEAuthenticatorCore
 
 enum CollectionsInteractor {
@@ -30,7 +31,7 @@ enum CollectionsInteractor {
 
     func refresh(
         connection: Connection,
-        success: @escaping ([SEEncryptedData]) -> (),
+        success: @escaping ([SEBaseEncryptedAuthorizationData]) -> (),
         failure: ((String) -> ())? = nil,
         connectionNotFoundFailure: @escaping ((String?) -> ())
     ) {
@@ -53,11 +54,19 @@ enum CollectionsInteractor {
 
         switch self {
         case .authorizations:
-            SEAuthorizationManager.getEncryptedAuthorizations(
-                data: requestData,
-                onSuccess: { response in success(response.data) },
-                onFailure: { error in onFailure(error: error, connection: connection) }
-            )
+            if connection.isApiV2 {
+                SEAuthorizationManagerV2.getEncryptedAuthorizations(
+                    data: requestData,
+                    onSuccess: { response in success(response.data) },
+                    onFailure: { error in onFailure(error: error, connection: connection) }
+                )
+            } else {
+                SEAuthorizationManager.getEncryptedAuthorizations(
+                    data: requestData,
+                    onSuccess: { response in success(response.data) },
+                    onFailure: { error in onFailure(error: error, connection: connection) }
+                )
+            }
         case .consents:
             SEConsentsManager.getEncryptedConsents(
                 data: requestData,
@@ -69,11 +78,11 @@ enum CollectionsInteractor {
 
     func refresh(
         connections: [Connection],
-        success: @escaping ([SEEncryptedData]) -> (),
+        success: @escaping ([SEBaseEncryptedAuthorizationData]) -> (),
         failure: ((String) -> ())? = nil,
         connectionNotFoundFailure: @escaping ((String?) -> ())
     ) {
-        var encryptedAuthorizations = [SEEncryptedData]()
+        var encryptedAuthorizations = [SEBaseEncryptedAuthorizationData]()
 
         var numberOfResponses = 0
 
@@ -85,7 +94,7 @@ enum CollectionsInteractor {
             }
         }
 
-        func onSuccess(data: [SEEncryptedData]) {
+        func onSuccess(data: [SEBaseEncryptedAuthorizationData]) {
             encryptedAuthorizations.append(contentsOf: data)
 
             incrementAndCheckResponseCount()
@@ -113,11 +122,19 @@ enum CollectionsInteractor {
 
             switch self {
             case .authorizations:
-                SEAuthorizationManager.getEncryptedAuthorizations(
-                    data: requestData,
-                    onSuccess: { response in onSuccess(data: response.data) },
-                    onFailure: { error in onFailure(error: error, connection: connection) }
-                )
+                if connection.isApiV2 {
+                    SEAuthorizationManagerV2.getEncryptedAuthorizations(
+                        data: requestData,
+                        onSuccess: { response in onSuccess(data: response.data) },
+                        onFailure: { error in onFailure(error: error, connection: connection) }
+                    )
+                } else {
+                    SEAuthorizationManager.getEncryptedAuthorizations(
+                        data: requestData,
+                        onSuccess: { response in onSuccess(data: response.data) },
+                        onFailure: { error in onFailure(error: error, connection: connection) }
+                    )
+                }
             case .consents:
                 SEConsentsManager.getEncryptedConsents(
                     data: requestData,

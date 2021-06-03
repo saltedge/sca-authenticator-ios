@@ -100,13 +100,9 @@ public struct SECryptoHelper {
         )
     }
 
-    public static func decrypt(_ encryptedData: SEEncryptedData, tag: KeyTag) throws -> String {
+    public static func decrypt(_ encryptedData: SEBaseEncryptedAuthorizationData, tag: KeyTag) throws -> String {
         let privateKey = try SecKeyHelper.obtainKey(for: tag.privateTag)
 
-        return try decrypt(encryptedData, privateKey: privateKey)
-    }
-
-    public static func decrypt(_ encryptedData: SEEncryptedData, privateKey: SecKey) throws -> String {
         let decryptedKey = try privateDecrypt(message: encryptedData.key, privateKey: privateKey)
         let decryptedIv = try privateDecrypt(message: encryptedData.iv, privateKey: privateKey)
 

@@ -22,6 +22,8 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorV2
+import SEAuthenticatorCore
 
 protocol AuthorizationDetailEventsDelegate: class {
     func confirmPressed(_ authorizationId: String)
@@ -44,15 +46,22 @@ final class AuthorizationDetailViewModel: Equatable {
     }
     var state = Observable<AuthorizationStateView.AuthorizationState>(.base)
     var showLocationWarning: Bool
+    var apiVersion: ApiVersion
 
     weak var delegate: AuthorizationDetailEventsDelegate?
 
-    init?(_ data: SEAuthorizationData, showLocationWarning: Bool) {
+    init?(_ data: SEBaseAuthorizationData, apiVersion: ApiVersion, showLocationWarning: Bool) {
+        if let dataV1 = data as? SEAuthorizationData {
+            self.title = dataV1.title
+            self.description = dataV1.description
+        } else if let dataV2 = data as? SEAuthorizationDataV2 {
+            self.title = dataV2.title
+            self.description = "This is V2" // TODO: Fix description
+        }
+        self.apiVersion = apiVersion
         self.authorizationId = data.id
         self.connectionId = data.connectionId
         self.authorizationCode = data.authorizationCode
-        self.title = data.title
-        self.description = data.description
         self.authorizationExpiresAt = data.expiresAt
         self.lifetime = Int(data.expiresAt.timeIntervalSince(data.createdAt))
         self.createdAt = data.createdAt

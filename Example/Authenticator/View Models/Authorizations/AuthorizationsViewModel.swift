@@ -21,7 +21,7 @@
 //
 
 import UIKit
-import SEAuthenticator
+import SEAuthenticatorCore
 
 enum AuthorizationsViewModelState: Equatable {
     case changedConnectionsData
@@ -141,11 +141,15 @@ class AuthorizationsViewModel {
         )
     }
 
-    private func updateDataSource(with authorizations: [SEAuthorizationData]) {
+    private func updateDataSource(with authorizations: [SEBaseAuthorizationData]) {
         if dataSource.update(with: authorizations) {
             state.value = .reloadData
         }
 
+        scrollToSingleAuthorization()
+    }
+
+    private func scrollToSingleAuthorization() {
         if let authorizationToScroll = singleAuthorization {
             if let detailViewModel = dataSource.viewModel(
                 by: authorizationToScroll.connectionId,
@@ -256,10 +260,11 @@ private extension AuthorizationsViewModel {
                 guard let strongSelf = self else { return }
 
                 DispatchQueue.global(qos: .background).async {
-                    let decryptedAuthorizations = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationData }
+                    let decryptedAuthorizationsV1 = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationData }
+                    let decryptedAuthorizationsV2 = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationDataV2 }
 
                     DispatchQueue.main.async {
-                        strongSelf.updateDataSource(with: decryptedAuthorizations)
+                        strongSelf.updateDataSource(with: decryptedAuthorizationsV1 + decryptedAuthorizationsV2)
                     }
                 }
             },

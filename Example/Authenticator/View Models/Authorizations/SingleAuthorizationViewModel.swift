@@ -58,6 +58,7 @@ final class SingleAuthorizationViewModel {
                     DispatchQueue.main.async {
                         if let viewModel = AuthorizationDetailViewModel(
                             decryptedAuthorizationData,
+                            apiVersion: "1",
                             showLocationWarning: showLocationWarning
                         ) {
                             strongSelf.detailViewModel = viewModel

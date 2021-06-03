@@ -1,8 +1,8 @@
 //
-//  SEAuthorizationData.swift
+//  SEAuthorizationDataV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,46 +23,49 @@
 import Foundation
 import SEAuthenticatorCore
 
-public class SEAuthorizationData: SEBaseAuthorizationData {
-    public var id: String
-    public let connectionId: String
+public class SEAuthorizationDataV2: SEBaseAuthorizationData {
     public let title: String
-    public let description: String
+    public let description: [String: Any]
     public var createdAt: Date
     public var expiresAt: Date
     public var authorizationCode: String?
-    public var apiVersion: ApiVersion = "1"
 
-    public init?(_ dictionary: [String: Any]) {
-        if let id = dictionary[SENetKeys.id] as? String,
-            let connectionId = dictionary[SENetKeys.connectionId] as? String,
-            let title = dictionary[SENetKeys.title] as? String,
-            let description = dictionary[SENetKeys.description] as? String,
-            let createdAt = (dictionary[SENetKeys.createdAt] as? String)?.iso8601date,
-            let expiresAt = (dictionary[SENetKeys.expiresAt] as? String)?.iso8601date {
-            if let authorizationCode = dictionary[SENetKeys.authorizationCode] as? String {
-                self.authorizationCode = authorizationCode
-            }
-            self.id = id
-            self.connectionId = connectionId
+    public var id: String
+    public var connectionId: String
+    public var status: String
+
+    public var apiVersion: ApiVersion = "2"
+
+    public init?(_ dictionary: [String: Any], id: String, connectionId: String, status: String) {
+        if let title = dictionary[SENetKeys.title] as? String,
+           let description = dictionary[SENetKeys.description] as? [String: Any],
+           let createdAt = (dictionary[SENetKeys.createdAt] as? String)?.iso8601date,
+           let expiresAt = (dictionary[SENetKeys.expiresAt] as? String)?.iso8601date,
+           let authorizationCode = dictionary[SENetKeys.authorizationCode] as? String {
+            self.authorizationCode = authorizationCode
             self.title = title
             self.description = description
             self.createdAt = createdAt
             self.expiresAt = expiresAt
+            self.id = id
+            self.connectionId = connectionId
+            self.status = status
         } else {
             return nil
         }
     }
 }
 
-extension SEAuthorizationData: Equatable {
-    public static func == (lhs: SEAuthorizationData, rhs: SEAuthorizationData) -> Bool {
-        return lhs.id == rhs.id &&
-            lhs.connectionId == rhs.connectionId &&
-            lhs.title == rhs.title &&
+extension SEAuthorizationDataV2: Equatable {
+    public static func == (lhs: SEAuthorizationDataV2, rhs: SEAuthorizationDataV2) -> Bool {
+        return lhs.title == rhs.title &&
             lhs.description == rhs.description &&
             lhs.createdAt == rhs.createdAt &&
             lhs.expiresAt == rhs.expiresAt &&
             lhs.authorizationCode == rhs.authorizationCode
     }
+}
+
+private func ==(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
+    return NSDictionary(dictionary: lhs).isEqual(to: rhs)
 }

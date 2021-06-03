@@ -22,9 +22,10 @@
 
 import UIKit
 import SEAuthenticator
+import SEAuthenticatorV2
+import SEAuthenticatorCore
 
 final class AuthorizationsDataSource {
-    private var authorizationResponses = [SEAuthorizationData]()
     private var viewModels = [AuthorizationDetailViewModel]()
     private var locationManagement: LocationManagement
 
@@ -32,17 +33,37 @@ final class AuthorizationsDataSource {
         self.locationManagement = locationManagement
     }
 
-    func update(with authorizationResponses: [SEAuthorizationData]) -> Bool {
-        if authorizationResponses != self.authorizationResponses {
-            self.authorizationResponses = authorizationResponses
-            self.viewModels = authorizationResponses.compactMap { response in
-                guard response.expiresAt >= Date() else { return nil }
+    func update(with baseData: [SEBaseAuthorizationData]) -> Bool {
+        let viewModelsV1 = baseData.filter { $0.apiVersion == "1" }.compactMap { response in
+            guard response.expiresAt >= Date() else { return nil }
 
-                let connection = ConnectionsCollector.with(id: response.connectionId)
-                let showLocationWarning = locationManagement.showLocationWarning(connection: connection)
+            let connection = ConnectionsCollector.with(id: response.connectionId)
+            let showLocationWarning = locationManagement.showLocationWarning(connection: connection)
 
-                return AuthorizationDetailViewModel(response, showLocationWarning: showLocationWarning)
-            }.merge(array: self.viewModels).sorted(by: { $0.createdAt < $1.createdAt })
+            return AuthorizationDetailViewModel(
+                response,
+                apiVersion: response.apiVersion,
+                showLocationWarning: showLocationWarning
+            )
+        }.merge(array: self.viewModels.filter { $0.apiVersion == "1" })
+
+        let viewModelsV2 = baseData.filter { $0.apiVersion == "2" }.compactMap { response in
+            guard response.expiresAt >= Date() else { return nil }
+
+            let connection = ConnectionsCollector.with(id: response.connectionId)
+            let showLocationWarning = locationManagement.showLocationWarning(connection: connection)
+
+            return AuthorizationDetailViewModel(
+                response,
+                apiVersion: response.apiVersion,
+                showLocationWarning: showLocationWarning
+            )
+        }.merge(array: self.viewModels.filter { $0.apiVersion == "2" })
+
+        let allViewModels = viewModelsV1 + viewModelsV2
+
+        if allViewModels != self.viewModels {
+            self.viewModels = (viewModelsV1 + viewModelsV2).sorted(by: { $0.createdAt < $1.createdAt })
             return true
         }
 
@@ -107,7 +128,6 @@ final class AuthorizationsDataSource {
     }
 
     func clearAuthorizations() {
-        authorizationResponses.removeAll()
         viewModels.removeAll()
     }
 
@@ -130,20 +150,19 @@ final class AuthorizationsDataSource {
 
 private extension Array where Element == AuthorizationDetailViewModel {
     func merge(array: [Element]) -> [AuthorizationDetailViewModel] {
-        let finalElements: [Element] = array.compactMap { element in
-            if element.expired || element.state.value != .base {
-                return element
-            } else {
-                return nil
-            }
+        let finalElements: [Element] = array.filter { element in
+            return element.expired || element.state.value != .base
         }
 
         let newAuthIds: [String] = self.map { $0.authorizationId }
         let newConnectionIds: [String] = self.map { $0.connectionId }
 
         var merged: [Element] = self
-        merged.append(contentsOf: finalElements
-            .filter { !newAuthIds.contains($0.authorizationId) || !newConnectionIds.contains($0.connectionId) }
+        merged.append(
+            contentsOf: finalElements.filter {
+                !newAuthIds.contains($0.authorizationId) ||
+                !newConnectionIds.contains($0.connectionId)
+            }
         )
 
         return merged
