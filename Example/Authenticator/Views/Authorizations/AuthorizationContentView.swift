@@ -56,17 +56,10 @@ final class AuthorizationContentView: UIView {
         stackView.spacing = 11.0
         return stackView
     }()
-    private let locationWarningLabel = UILabel(font: .systemFont(ofSize: 18.0, weight: .regular), textColor: .redAlert)
 
     var viewModel: AuthorizationDetailViewModel! {
         didSet {
             titleLabel.text = viewModel.title
-
-            if viewModel.showLocationWarning {
-                locationWarningLabel.text = l10n(.locationWarning)
-            }
-            buttonsStackView.isHidden = viewModel.showLocationWarning
-            locationWarningLabel.isHidden = !viewModel.showLocationWarning
 
             guard viewModel.state.value == .base else {
                 stateView.set(state: viewModel.state.value)
@@ -140,7 +133,7 @@ private extension AuthorizationContentView {
 // MARK: - Layout
 extension AuthorizationContentView: Layoutable {
     func layout() {
-        addSubviews(titleLabel, contentStackView, buttonsStackView, locationWarningLabel, stateView)
+        addSubviews(titleLabel, contentStackView, buttonsStackView, stateView)
 
         titleLabel.top(to: self, offset: Layout.titleLabelTopOffset)
         titleLabel.centerX(to: self)
@@ -155,11 +148,6 @@ extension AuthorizationContentView: Layoutable {
         buttonsStackView.rightToSuperview(offset: -Layout.sideOffset)
         buttonsStackView.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: -Layout.bottomOffset)
         buttonsStackView.centerXToSuperview()
-
-        locationWarningLabel.leftToSuperview(offset: Layout.sideOffset)
-        locationWarningLabel.rightToSuperview(offset: -Layout.sideOffset)
-        locationWarningLabel.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: -Layout.bottomOffset)
-        locationWarningLabel.centerXToSuperview()
 
         stateView.edgesToSuperview()
     }

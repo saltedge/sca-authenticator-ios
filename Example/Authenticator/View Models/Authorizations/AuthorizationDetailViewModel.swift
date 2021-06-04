@@ -26,8 +26,8 @@ import SEAuthenticatorV2
 import SEAuthenticatorCore
 
 protocol AuthorizationDetailEventsDelegate: class {
-    func confirmPressed(_ authorizationId: String)
-    func denyPressed(_ authorizationId: String)
+    func confirmPressed(_ authorizationId: String, apiVersion: ApiVersion)
+    func denyPressed(_ authorizationId: String, apiVersion: ApiVersion)
     func authorizationExpired()
 }
 
@@ -45,12 +45,11 @@ final class AuthorizationDetailViewModel: Equatable {
         authorizationExpiresAt < Date()
     }
     var state = Observable<AuthorizationStateView.AuthorizationState>(.base)
-    var showLocationWarning: Bool
     var apiVersion: ApiVersion
 
     weak var delegate: AuthorizationDetailEventsDelegate?
 
-    init?(_ data: SEBaseAuthorizationData, apiVersion: ApiVersion, showLocationWarning: Bool) {
+    init?(_ data: SEBaseAuthorizationData, apiVersion: ApiVersion) {
         if let dataV1 = data as? SEAuthorizationData {
             self.title = dataV1.title
             self.description = dataV1.description
@@ -66,7 +65,6 @@ final class AuthorizationDetailViewModel: Equatable {
         self.lifetime = Int(data.expiresAt.timeIntervalSince(data.createdAt))
         self.createdAt = data.createdAt
         self.state.value = data.expiresAt < Date() ? .expired : .base
-        self.showLocationWarning = showLocationWarning
     }
 
     static func == (lhs: AuthorizationDetailViewModel, rhs: AuthorizationDetailViewModel) -> Bool {
@@ -74,7 +72,8 @@ final class AuthorizationDetailViewModel: Equatable {
             lhs.connectionId == rhs.connectionId &&
             lhs.title == rhs.title &&
             lhs.description == rhs.description &&
-            lhs.createdAt == rhs.createdAt
+            lhs.createdAt == rhs.createdAt &&
+            lhs.apiVersion == rhs.apiVersion
     }
 
     var authorizationExpired: Bool = false {
@@ -86,10 +85,10 @@ final class AuthorizationDetailViewModel: Equatable {
     }
 
     func confirmPressed() {
-        delegate?.confirmPressed(authorizationId)
+        delegate?.confirmPressed(authorizationId, apiVersion: apiVersion)
     }
 
     func denyPressed() {
-        delegate?.denyPressed(authorizationId)
+        delegate?.denyPressed(authorizationId, apiVersion: apiVersion)
     }
 }

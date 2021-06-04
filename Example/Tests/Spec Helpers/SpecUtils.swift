@@ -22,13 +22,15 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorV2
 import SEAuthenticatorCore
 
 struct SpecUtils {
-    static func createConnection(id: ID) -> Connection {
+    static func createConnection(id: ID, apiVersion: ApiVersion = "1") -> Connection {
         let connection = Connection()
         connection.id = id
         connection.baseUrlString = "url.com"
+        connection.apiVersion = apiVersion
         ConnectionRepository.save(connection)
         _ = SECryptoHelper.createKeyPair(with: SETagHelper.create(for: connection.guid))
 
@@ -56,6 +58,26 @@ struct SpecUtils {
         ]
 
         return SEEncryptedData(dict)!.decryptedAuthorizationData!
+    }
+
+    static func createAuthResponseV2(
+        with authMessage: [String: Any],
+        authorizationId: Int,
+        connectionId: Int,
+        guid: GUID
+    ) -> SEAuthorizationDataV2 {
+        let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: guid))
+
+        let dict: [String: Any] = [
+            "data": encryptedData.data,
+            "key": encryptedData.key,
+            "iv": encryptedData.iv,
+            "id": authorizationId,
+            "connection_id": connectionId,
+            "status": "pending"
+        ]
+
+        return SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!
     }
 
     public static var publicKeyPem: String {

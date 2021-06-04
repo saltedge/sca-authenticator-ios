@@ -53,10 +53,8 @@ class AuthorizationsViewModel {
     var dataSource: AuthorizationsDataSource!
     private var connectionsListener: RealmConnectionsListener?
 
-    private var poller: SEPoller?
+    private var poller: SEPoller? // TODO: Think about moving poller to interactor
     private var connections = ConnectionsCollector.activeConnections
-
-    var singleAuthorizationDetailViewModel: AuthorizationDetailViewModel?
 
     var singleAuthorization: (connectionId: String, authorizationId: String)? {
         willSet {
@@ -103,9 +101,9 @@ class AuthorizationsViewModel {
         }
     }
 
-    func confirmAuthorization(by authorizationId: String) {
-        guard let data = dataSource.confirmationData(for: authorizationId),
-            let detailViewModel = dataSource.viewModel(with: authorizationId) else { return }
+    func confirmAuthorization(by authorizationId: String, apiVersion: ApiVersion) {
+        guard let data = dataSource.confirmationData(for: authorizationId, apiVersion: apiVersion),
+            let detailViewModel = dataSource.viewModel(with: authorizationId, apiVersion: apiVersion) else { return }
 
         detailViewModel.state.value = .processing
 
@@ -122,9 +120,9 @@ class AuthorizationsViewModel {
         )
     }
 
-    func denyAuthorization(by authorizationId: String) {
-        guard let data = dataSource.confirmationData(for: authorizationId),
-            let detailViewModel = dataSource.viewModel(with: authorizationId) else { return }
+    func denyAuthorization(by authorizationId: String, apiVersion: ApiVersion) {
+        guard let data = dataSource.confirmationData(for: authorizationId, apiVersion: apiVersion),
+            let detailViewModel = dataSource.viewModel(with: authorizationId, apiVersion: apiVersion) else { return }
 
         detailViewModel.state.value = .processing
 

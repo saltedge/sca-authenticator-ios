@@ -29,41 +29,22 @@ final class AuthorizationsDataSource {
     private var viewModels = [AuthorizationDetailViewModel]()
     private var locationManagement: LocationManagement
 
+    // TODO: Fix geolocation according to new design
     init(locationManagement: LocationManagement) {
         self.locationManagement = locationManagement
     }
 
     func update(with baseData: [SEBaseAuthorizationData]) -> Bool {
-        let viewModelsV1 = baseData.filter { $0.apiVersion == "1" }.compactMap { response in
-            guard response.expiresAt >= Date() else { return nil }
+        let viewModelsV1 = baseData.toAuthorizationViewModel(apiVersion: "1")
+            .merge(array: self.viewModels.filter { $0.apiVersion == "1" })
 
-            let connection = ConnectionsCollector.with(id: response.connectionId)
-            let showLocationWarning = locationManagement.showLocationWarning(connection: connection)
-
-            return AuthorizationDetailViewModel(
-                response,
-                apiVersion: response.apiVersion,
-                showLocationWarning: showLocationWarning
-            )
-        }.merge(array: self.viewModels.filter { $0.apiVersion == "1" })
-
-        let viewModelsV2 = baseData.filter { $0.apiVersion == "2" }.compactMap { response in
-            guard response.expiresAt >= Date() else { return nil }
-
-            let connection = ConnectionsCollector.with(id: response.connectionId)
-            let showLocationWarning = locationManagement.showLocationWarning(connection: connection)
-
-            return AuthorizationDetailViewModel(
-                response,
-                apiVersion: response.apiVersion,
-                showLocationWarning: showLocationWarning
-            )
-        }.merge(array: self.viewModels.filter { $0.apiVersion == "2" })
+        let viewModelsV2 = baseData.toAuthorizationViewModel(apiVersion: "2")
+            .merge(array: self.viewModels.filter { $0.apiVersion == "2" })
 
         let allViewModels = viewModelsV1 + viewModelsV2
 
         if allViewModels != self.viewModels {
-            self.viewModels = (viewModelsV1 + viewModelsV2).sorted(by: { $0.createdAt < $1.createdAt })
+            self.viewModels = allViewModels.sorted(by: { $0.createdAt < $1.createdAt })
             return true
         }
 
@@ -106,12 +87,12 @@ final class AuthorizationsDataSource {
         return viewModels.firstIndex(of: viewModel)
     }
 
-    func viewModel(with authorizationId: String) -> AuthorizationDetailViewModel? {
-        return viewModels.filter({ $0.authorizationId == authorizationId }).first
+    func viewModel(with authorizationId: String, apiVersion: ApiVersion) -> AuthorizationDetailViewModel? {
+        return viewModels.filter { $0.authorizationId == authorizationId && $0.apiVersion == apiVersion}.first
     }
 
-    func confirmationData(for authorizationId: String) -> SEConfirmAuthorizationRequestData? {
-        guard let viewModel = viewModel(with: authorizationId),
+    func confirmationData(for authorizationId: String, apiVersion: ApiVersion) -> SEConfirmAuthorizationRequestData? {
+        guard let viewModel = viewModel(with: authorizationId, apiVersion: apiVersion),
             let connection = ConnectionsCollector.with(id: viewModel.connectionId),
             let url = connection.baseUrl else { return nil }
 
@@ -144,6 +125,16 @@ final class AuthorizationsDataSource {
                 return nil
             }
             return viewModel
+        }
+    }
+}
+
+private extension Array where Element == SEBaseAuthorizationData {
+    func toAuthorizationViewModel(apiVersion: ApiVersion) -> [AuthorizationDetailViewModel] {
+        return filter { $0.apiVersion == apiVersion }.compactMap { response in
+            guard response.expiresAt >= Date() else { return nil }
+
+            return AuthorizationDetailViewModel(response, apiVersion: response.apiVersion)
         }
     }
 }
