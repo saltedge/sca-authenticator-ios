@@ -24,10 +24,11 @@ import Quick
 import Nimble
 import SEAuthenticatorCore
 @testable import SEAuthenticator
+@testable import SEAuthenticatorV2
 
 class SEEncryptedDataExtensionsSpec: BaseSpec {
     override func spec() {
-        describe("decryptedAuthorizationData()") {
+        describe("decryptedAuthorizationData") {
             context("when given response is connect") {
                 it("should return decrypted data from given response") {
                     let connection = Connection()
@@ -77,6 +78,32 @@ class SEEncryptedDataExtensionsSpec: BaseSpec {
 
                     expect(SEEncryptedData(dict)!.decryptedAuthorizationData).to(beNil())
                 }
+            }
+        }
+
+        describe("decryptedAuthorizationDataV2") {
+            it("should return decrypted data from given response") {
+                let connection = SpecUtils.createConnection(id: "2", apiVersion: "2")
+                let authorizationId = "00000"
+
+                let authMessage = ["id": authorizationId,
+                                   "connection_id": connection.id,
+                                   "title": "Authorization",
+                                   "description": "Test authorization",
+                                   "created_at": Date().iso8601string,
+                                   "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
+                let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: connection.guid))
+                let dict: [String: Any] = [
+                    "data": encryptedData.data,
+                    "key": encryptedData.key,
+                    "iv": encryptedData.iv,
+                    "id": Int(authorizationId)!,
+                    "connection_id": Int(connection.id)!,
+                    "status": "pending"
+                ]
+                let expectedData = SEAuthorizationData(authMessage)
+
+                expect(expectedData).to(equal(SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationData!))
             }
         }
     }
