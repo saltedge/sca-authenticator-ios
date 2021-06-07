@@ -82,6 +82,7 @@ public struct SEAuthorizationManagerV2 {
         )
     }
 
+    // Encrypt the confirmation payload with connection's provider public key
     private static func encryptedData(requestData: SEConfirmAuthorizationRequestData) -> SEEncryptedData? {
         guard let data = [
             SENetKeys.authorizationCode: requestData.authorizationCode,

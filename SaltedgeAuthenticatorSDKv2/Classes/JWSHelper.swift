@@ -35,8 +35,6 @@ struct JWSHelper {
 
         guard let jws = try? JWS(header: header, payload: Payload(payloadBody), signer: signer) else { return nil }
 
-        print("JWS: ", jws.compactSerializedString)
-
         let splittedSerializedJwsString = jws.compactSerializedString.split(separator: ".")
 
         return splittedSerializedJwsString[0] + ".." + splittedSerializedJwsString[2]

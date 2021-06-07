@@ -70,9 +70,9 @@ struct RequestParametersBuilder {
         guard let encryptedData = encryptedData else { return [:] }
 
         let encryptedDataParams = [
-            SENetKeys.iv: encryptedData.iv,
+            SENetKeys.data: encryptedData.data,
             SENetKeys.key: encryptedData.key,
-            SENetKeys.data: encryptedData.data
+            SENetKeys.iv: encryptedData.iv
         ]
 
         return [
