@@ -94,11 +94,12 @@ final class ConnectionsViewModel {
     private func revoke(connection: Connection, interactor: BaseConnectionsInteractor) {
         interactor.revoke(
             connection,
-            success: { self.deleteConnection(connection: connection) },
+            success: { },
             failure: { error in
                 self.delegate?.presentError(error)
             }
         )
+        deleteConnection(connection: connection)
     }
 
     private func deleteConnection(connection: Connection) {

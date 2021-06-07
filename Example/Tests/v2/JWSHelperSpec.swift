@@ -34,18 +34,15 @@ class JWSHelperSpec: BaseSpec {
             it("should return detached jws signature") {
                 let expectedMessageDict = ["data": "Test Message"]
 
-                // create jws signature
-                let expectedJwsSignature = jwsSign(payload: expectedMessageDict, guid: connection.guid)
-                let splittedJwsSignature = expectedJwsSignature.split(separator: ".")
-                // get jws payload
-                let expectedSignaturePayload = splittedJwsSignature[1]
-
-                // create actual jws signature
+                // create actual jws signature without payload
                 let actualSignature = JWSHelper.sign(params: expectedMessageDict, guid: connection.guid)!
                 let splittedActualSignature = actualSignature.split(separator: ".")
 
-                // insert jws payload into actual jws signature
-                let final = splittedActualSignature[0] + ".\(expectedSignaturePayload)." + splittedActualSignature[1]
+                // serialize expected payload
+                let jsonData = ParametersSerializer.createBody(parameters: expectedMessageDict)!.base64EncodedString()
+
+                // insert expected payload into actual jws signature
+                let final = splittedActualSignature[0] + ".\(jsonData)." + splittedActualSignature[1]
 
                 // verify data
                 do {

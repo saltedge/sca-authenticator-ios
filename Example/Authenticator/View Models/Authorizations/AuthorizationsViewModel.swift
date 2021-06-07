@@ -108,6 +108,7 @@ class AuthorizationsViewModel {
         detailViewModel.state.value = .processing
 
         AuthorizationsInteractor.confirm(
+            apiVersion: detailViewModel.apiVersion,
             data: data,
             success: {
                 detailViewModel.state.value = .success
@@ -127,6 +128,7 @@ class AuthorizationsViewModel {
         detailViewModel.state.value = .processing
 
         AuthorizationsInteractor.deny(
+            apiVersion: detailViewModel.apiVersion,
             data: data,
             success: {
                 detailViewModel.state.value = .denied

@@ -79,17 +79,22 @@ class SEAuthorizationRouterSpecV2: BaseSpec {
 
             context("when it's .confirm") {
                 it("should create a valid url request") {
-                    let data = SEAuthorizationRequestData(
-                        id: "1",
+                    let data = SEConfirmAuthorizationRequestData(
+                        url: baseUrl,
+                        connectionGuid: "123guid",
+                        accessToken: accessToken,
+                        appLanguage: "en",
+                        authorizationId: "1",
                         authorizationCode: "authorization_code",
-                        userAuthorizationType: "passcode",
                         geolocation: "GEO:",
-                        connectionGuid: "123guid"
+                        authorizationType: "passcode"
                     )
+                    
                     let parameters = RequestParametersBuilder.confirmAuthorizationParams(
-                        encryptedData: data.encryptedData,
+                        encryptedData: SEEncryptedData(data: "data", key: "key", iv: "iv"),
                         exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
                     )
+                    
                     let headers = Headers.signedRequestHeaders(
                         token: accessToken,
                         payloadParams: parameters,
@@ -97,14 +102,14 @@ class SEAuthorizationRouterSpecV2: BaseSpec {
                     )
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
-                        with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.id)/confirm"),
+                        with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.entityId)/confirm"),
                         method: HTTPMethod.put.rawValue,
                         headers: headers,
                         params: parameters,
                         encoding: .json
                     )
 
-                    let request = SEAuthorizationRouter.confirm(baseUrl, accessToken, data).asURLRequest()
+                    let request = SEAuthorizationRouter.confirm(data, parameters).asURLRequest()
 
                     expect(request).to(equal(expectedRequest))
                 }
@@ -112,15 +117,18 @@ class SEAuthorizationRouterSpecV2: BaseSpec {
 
             context("when it's .deny") {
                 it("should create a valid url request") {
-                    let data = SEAuthorizationRequestData(
-                        id: "1",
+                    let data = SEConfirmAuthorizationRequestData(
+                        url: baseUrl,
+                        connectionGuid: "123guid",
+                        accessToken: accessToken,
+                        appLanguage: "en",
+                        authorizationId: "1",
                         authorizationCode: "authorization_code",
-                        userAuthorizationType: "passcode",
                         geolocation: "GEO:",
-                        connectionGuid: "123guid"
+                        authorizationType: "passcode"
                     )
                     let parameters = RequestParametersBuilder.confirmAuthorizationParams(
-                        encryptedData: data.encryptedData,
+                        encryptedData: SEEncryptedData(data: "data", key: "key", iv: "iv"),
                         exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
                     )
                     let headers = Headers.signedRequestHeaders(
@@ -130,14 +138,14 @@ class SEAuthorizationRouterSpecV2: BaseSpec {
                     )
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
-                        with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.id)/deny"),
+                        with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.entityId)/deny"),
                         method: HTTPMethod.put.rawValue,
                         headers: headers,
                         params: parameters,
                         encoding: .json
                     )
 
-                    let request = SEAuthorizationRouter.deny(baseUrl, accessToken, data).asURLRequest()
+                    let request = SEAuthorizationRouter.deny(data, parameters).asURLRequest()
 
                     expect(request).to(equal(expectedRequest))
                 }

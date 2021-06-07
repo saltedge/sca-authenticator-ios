@@ -49,31 +49,46 @@ public struct SEAuthorizationManagerV2 {
     }
 
     public static func confirmAuthorization(
-        url: URL,
-        accessToken: AccessToken,
-        data: SEAuthorizationRequestData,
+        data: SEConfirmAuthorizationRequestData,
         onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmAuthorizationResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
+        let parameters = RequestParametersBuilder.confirmAuthorizationParams(
+            encryptedData: encryptedData(requestData: data),
+            exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+        )
+
         HTTPService<SEConfirmAuthorizationResponse>.execute(
-            request: SEAuthorizationRouter.confirm(url, accessToken, data),
+            request: SEAuthorizationRouter.confirm(data, parameters),
             success: success,
             failure: failure
         )
     }
 
     public static func denyAuthorization(
-        url: URL,
-        accessToken: AccessToken,
-        data: SEAuthorizationRequestData,
+        data: SEConfirmAuthorizationRequestData,
         onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmAuthorizationResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
+        let parameters = RequestParametersBuilder.confirmAuthorizationParams(
+            encryptedData: encryptedData(requestData: data),
+            exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+        )
+
         HTTPService<SEConfirmAuthorizationResponse>.execute(
-            request: SEAuthorizationRouter.deny(url, accessToken, data),
+            request: SEAuthorizationRouter.deny(data, parameters),
             success: success,
             failure: failure
         )
     }
-}
 
+    private static func encryptedData(requestData: SEConfirmAuthorizationRequestData) -> SEEncryptedData? {
+        guard let data = [
+            SENetKeys.authorizationCode: requestData.authorizationCode,
+            ApiConstants.userAuthorizationType: requestData.authorizationType,
+            ApiConstants.geolocation: requestData.geolocation
+        ].jsonString else { return nil }
+
+        return try? SECryptoHelper.encrypt(data, tag: "\(requestData.connectionGuid)_provider_public_key")
+    }
+}
