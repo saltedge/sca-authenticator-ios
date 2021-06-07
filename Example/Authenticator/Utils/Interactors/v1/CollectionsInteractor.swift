@@ -25,6 +25,7 @@ import SEAuthenticator
 import SEAuthenticatorV2
 import SEAuthenticatorCore
 
+// TODO: Remade to on interator
 enum CollectionsInteractor {
     case authorizations
     case consents

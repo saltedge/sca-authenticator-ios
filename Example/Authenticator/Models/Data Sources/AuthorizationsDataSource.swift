@@ -41,10 +41,10 @@ final class AuthorizationsDataSource {
         let viewModelsV2 = baseData.toAuthorizationViewModel(apiVersion: "2")
             .merge(array: self.viewModels.filter { $0.apiVersion == "2" })
 
-        let allViewModels = viewModelsV1 + viewModelsV2
+        let allViewModels = (viewModelsV1 + viewModelsV2).sorted(by: { $0.createdAt < $1.createdAt })
 
         if allViewModels != self.viewModels {
-            self.viewModels = allViewModels.sorted(by: { $0.createdAt < $1.createdAt })
+            self.viewModels = allViewModels
             return true
         }
 
