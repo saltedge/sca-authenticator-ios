@@ -51,8 +51,8 @@ class AuthorizationsDataSourceSpec: BaseSpec {
             let firstDecryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
             let secondDecryptedData = SpecUtils.createAuthResponse(with: secondAuthMessage, id: connection.id, guid: connection.guid)
 
-            firstModel = AuthorizationDetailViewModel(firstDecryptedData, showLocationWarning: true)
-            secondModel = AuthorizationDetailViewModel(secondDecryptedData, showLocationWarning: false)
+            firstModel = AuthorizationDetailViewModel(firstDecryptedData, apiVersion: "1")
+            secondModel = AuthorizationDetailViewModel(secondDecryptedData, apiVersion: "1")
 
             _ = dataSource.update(with: [firstDecryptedData, secondDecryptedData])
         }
@@ -113,7 +113,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                               "created_at": Date().iso8601string,
                                               "expires_at": Date().addingTimeInterval(-3.0 * 60.0).iso8601string]
                     let expiredDecryptedData = SpecUtils.createAuthResponse(with: expiredAuthMessage, id: connection.id, guid: connection.guid)
-                    
+
                     let validAuthMessage = ["id": validAuthId,
                                             "connection_id": connection.id,
                                             "title": "Valid Authorization",
@@ -126,19 +126,49 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                     _ = dataSource.update(with: [expiredDecryptedData, validDecryptedData])
 
                     expect(dataSource.rows).to(equal(1))
-                    expect(dataSource.viewModel(with: validAuthId))
-                        .to(equal(AuthorizationDetailViewModel(validDecryptedData, showLocationWarning: true)))
-                    expect(dataSource.viewModel(with: validAuthId)!.showLocationWarning).to(beTrue())
-                    expect(dataSource.viewModel(with: expiredAuthId)).to(beNil())
+                    expect(dataSource.viewModel(with: validAuthId, apiVersion: "1"))
+                        .to(equal(AuthorizationDetailViewModel(validDecryptedData,apiVersion: "1")))
 
-                    mockLocationManager.showLocationWarning = false
+                    expect(dataSource.viewModel(with: expiredAuthId, apiVersion: "1")).to(beNil())
 
                     _ = dataSource.update(with: [validDecryptedData])
 
                     expect(dataSource.rows).to(equal(1))
-                    expect(dataSource.viewModel(with: validAuthId))
-                        .to(equal(AuthorizationDetailViewModel(validDecryptedData, showLocationWarning: false)))
-                    expect(dataSource.viewModel(with: validAuthId)!.showLocationWarning).to(beFalse())
+                    expect(dataSource.viewModel(with: validAuthId, apiVersion: "1"))
+                        .to(equal(AuthorizationDetailViewModel(validDecryptedData, apiVersion: "1")))
+                }
+            }
+
+            context("when new v2 authorizations were added") {
+                it("should return both v1 and v2 authorizations") {
+                    // new authorization v1
+                    let validAuthMessage = ["id": "1111",
+                                            "connection_id": connection.id,
+                                            "title": "Valid Authorization",
+                                            "description": "Test valid authorization",
+                                            "created_at": Date().iso8601string,
+                                            "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
+                    let validDecryptedDataV1 = SpecUtils.createAuthResponse(with: validAuthMessage, id: connection.id, guid: connection.guid)
+
+                    let connectionV2 = SpecUtils.createConnection(id: "999", apiVersion: "2")
+                    let authorizationV2id = 30000
+
+                    // new authorization v2
+                    let authMessage: [String: Any] = ["title": "Authorization V2",
+                                                      "authorization_code": "code",
+                                                      "description": ["text": "Test valid authorization"],
+                                                      "created_at": Date().iso8601string,
+                                                      "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
+                    let validDecryptedDataV2 = SpecUtils.createAuthResponseV2(
+                        with: authMessage,
+                        authorizationId: authorizationV2id,
+                        connectionId: Int(connectionV2.id)!,
+                        guid: connectionV2.guid
+                    )
+
+                    _ = dataSource.update(with: [validDecryptedDataV1, validDecryptedDataV2])
+
+                    expect(dataSource.rows).to(equal(2))
                 }
             }
 
@@ -146,7 +176,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                 context("when one authorization expired and other was added") {
                     it("should keep the expired one and add the new one") {
                         expect(dataSource.rows).to(equal(2))
-                        
+
                         let authMessage = ["id": "909",
                                            "connection_id": connection.id,
                                            "title": "Expired Authorization",
@@ -154,12 +184,12 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                            "created_at": Date().iso8601string,
                                            "expires_at": Date().addingTimeInterval(1.0).iso8601string]
                         let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
-                        
+
                         _ = dataSource.update(with: [decryptedData])
                         sleep(1)
-                        
+
                         expect(dataSource.rows).to(equal(1))
-                        
+
                         let newAuthMessage = ["id": "910",
                                               "connection_id": connection.id,
                                               "title": "Expired Authorization",
@@ -167,9 +197,9 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                               "created_at": Date().iso8601string,
                                               "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
                         let newDecryptedData = SpecUtils.createAuthResponse(with: newAuthMessage, id: connection.id, guid: connection.guid)
-                        
+
                         _ = dataSource.update(with: [newDecryptedData])
-                        
+
                         expect(dataSource.rows).to(equal(2))
                     }
                 }
@@ -220,7 +250,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
 
         describe("viewModel(by:)") {
             context("when one of existed viewModels has connectionId and authorizationId equal for given params") {
-                it("should return existed viewModel") {                
+                it("should return existed viewModel") {
                     expect(dataSource.viewModel(by: "12345", authorizationId: "00000")).to(equal(firstModel))
                 }
             }
@@ -249,15 +279,8 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                              "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
                     let decryptedData = SEAuthorizationData(secondAuthMessage)!
                     
-                    expect(dataSource.index(of: AuthorizationDetailViewModel(decryptedData, showLocationWarning: true)!)).to(beNil())
+                    expect(dataSource.index(of: AuthorizationDetailViewModel(decryptedData, apiVersion: "1")!)).to(beNil())
                 }
-            }
-        }
-
-        describe("item(for)") {
-            it("should return view model for given index") {
-                expect(dataSource.viewModel(at: 0)).to(equal(firstModel))
-                expect(dataSource.viewModel(at: 1)).to(equal(secondModel))
             }
         }
     }

@@ -101,9 +101,9 @@ final class AuthorizationsViewModelSpec: BaseSpec {
 
                 _ = dataSource.update(with: [decryptedData])
     
-                let detailViewModel = dataSource.viewModel(with: "00000")
+                let detailViewModel = dataSource.viewModel(with: "00000", apiVersion: "1")
 
-                viewModel.confirmAuthorization(by: "00000")
+                viewModel.confirmAuthorization(by: "00000", apiVersion: "1")
 
                 expect(detailViewModel?.state.value).to(equal(AuthorizationStateView.AuthorizationState.processing))
                 expect(detailViewModel?.state.value).toEventually(equal(AuthorizationStateView.AuthorizationState.undefined))
@@ -129,9 +129,9 @@ final class AuthorizationsViewModelSpec: BaseSpec {
 
                 _ = dataSource.update(with: [decryptedData])
     
-                let detailViewModel = dataSource.viewModel(with: "00000")
+                let detailViewModel = dataSource.viewModel(with: "00000", apiVersion: "1")
 
-                viewModel.denyAuthorization(by: "00000")
+                viewModel.denyAuthorization(by: "00000", apiVersion: "1")
 
                 expect(detailViewModel?.state.value).to(equal(AuthorizationStateView.AuthorizationState.processing))
                 expect(detailViewModel?.state.value).toEventually(equal(AuthorizationStateView.AuthorizationState.undefined))

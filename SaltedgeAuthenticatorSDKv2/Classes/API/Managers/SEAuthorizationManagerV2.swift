@@ -23,15 +23,14 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEAuthorizationManager {
+public struct SEAuthorizationManagerV2 {
     public static func getEncryptedAuthorizations(
-        url: URL,
-        accessToken: AccessToken,
+        data: SEBaseAuthenticatedRequestData,
         onSuccess success: @escaping HTTPServiceSuccessClosure<SEEncryptedAuthorizationsListResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
         HTTPService<SEEncryptedAuthorizationsListResponse>.execute(
-            request: SEAuthorizationRouter.list(url, accessToken),
+            request: SEAuthorizationRouter.list(data),
             success: success,
             failure: failure
         )

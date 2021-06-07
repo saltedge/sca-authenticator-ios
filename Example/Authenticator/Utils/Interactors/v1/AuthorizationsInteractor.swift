@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorV2
 import SEAuthenticatorCore
 
 struct AuthorizationsInteractor {
@@ -60,7 +61,7 @@ struct AuthorizationsInteractor {
     static func refresh(
         connection: Connection,
         authorizationId: ID,
-        success: @escaping (SEEncryptedData) -> (),
+        success: @escaping (SEBaseEncryptedAuthorizationData) -> (),
         failure: ((String) -> ())? = nil,
         connectionNotFoundFailure: @escaping ((String?) -> ())
     ) {
@@ -68,24 +69,46 @@ struct AuthorizationsInteractor {
 
         guard let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
 
-        SEAuthorizationManager.getEncryptedAuthorization(
-            data: SEBaseAuthenticatedWithIdRequestData(
-                url: baseUrl,
-                connectionGuid: connection.guid,
-                accessToken: accessToken,
-                appLanguage: UserDefaultsHelper.applicationLanguage,
-                entityId: authorizationId
-            ),
-            onSuccess: { response in
-                success(response.data)
-            },
-            onFailure: { error in
-                if SEAPIError.connectionNotFound.isConnectionNotFound(error) {
-                    connectionNotFoundFailure(connection.id)
-                } else {
-                    failure?("\(l10n(.somethingWentWrong)) (\(connection.name))")
+        if connection.isApiV2 {
+            SEAuthorizationManagerV2.getEncryptedAuthorization(
+                data: SEBaseAuthenticatedWithIdRequestData(
+                    url: baseUrl,
+                    connectionGuid: connection.guid,
+                    accessToken: accessToken,
+                    appLanguage: UserDefaultsHelper.applicationLanguage,
+                    entityId: authorizationId
+                ),
+                onSuccess: { response in
+                    success(response.data)
+                },
+                onFailure: { error in
+                    if SEAPIError.connectionNotFound.isConnectionNotFound(error) {
+                        connectionNotFoundFailure(connection.id)
+                    } else {
+                        failure?("\(l10n(.somethingWentWrong)) (\(connection.name))")
+                    }
                 }
-            }
-        )
+            )
+        } else {
+            SEAuthorizationManager.getEncryptedAuthorization(
+                data: SEBaseAuthenticatedWithIdRequestData(
+                    url: baseUrl,
+                    connectionGuid: connection.guid,
+                    accessToken: accessToken,
+                    appLanguage: UserDefaultsHelper.applicationLanguage,
+                    entityId: authorizationId
+                ),
+                onSuccess: { response in
+                    success(response.data)
+                },
+                onFailure: { error in
+                    if SEAPIError.connectionNotFound.isConnectionNotFound(error) {
+                        connectionNotFoundFailure(connection.id)
+                    } else {
+                        failure?("\(l10n(.somethingWentWrong)) (\(connection.name))")
+                    }
+                }
+            )
+        }
     }
 }

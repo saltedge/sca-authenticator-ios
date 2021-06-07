@@ -1,8 +1,8 @@
 //
-//  SEPoller
+//  DateUtils
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2020 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -22,28 +22,29 @@
 
 import Foundation
 
-public class SEPoller {
-    private var timer: Timer?
-    private var targetClass: Any
-    @objc private var executionSelector: Selector
-
-    public init(targetClass: Any, selector: Selector) {
-        self.targetClass = targetClass
-        self.executionSelector = selector
+public struct DateUtils {
+    static var iso8601dateFormatter: ISO8601DateFormatter {
+        return shared.iso8601dateFormatter
     }
 
-    public func startPolling() {
-        timer = Timer.scheduledTimer(
-            timeInterval: 3.0,
-            target: targetClass,
-            selector: executionSelector,
-            userInfo: nil,
-            repeats: true
-        )
-    }
+    private static let shared = DateUtils()
 
-    public func stopPolling() {
-        timer?.invalidate()
-        timer = nil
+    private var iso8601dateFormatter: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.timeZone = .utc
+        formatter.formatOptions = [.withFullDate, .withTime, .withDashSeparatorInDate, .withColonSeparatorInTime]
+        return formatter
+    }()
+}
+
+public extension String {
+    var iso8601date: Date? {
+        return DateUtils.iso8601dateFormatter.date(from: self)
+    }
+}
+
+public extension Date {
+    var iso8601string: String {
+        return DateUtils.iso8601dateFormatter.string(from: self)
     }
 }

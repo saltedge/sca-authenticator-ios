@@ -34,6 +34,13 @@ class SEAuthorizationRouterSpecV2: BaseSpec {
         describe("AuthorizationsRouter") {
             context("when it's .list") {
                 it("should create a valid url request") {
+                    let data = SEBaseAuthenticatedRequestData(
+                        url: baseUrl,
+                        connectionGuid: "guid",
+                        accessToken: accessToken,
+                        appLanguage: "en"
+                    )
+
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
                         with: baseUrl.appendingPathComponent(baseUrlPath),
                         method: HTTPMethod.get.rawValue,
@@ -41,7 +48,7 @@ class SEAuthorizationRouterSpecV2: BaseSpec {
                         encoding: .url
                     )
 
-                    let request = SEAuthorizationRouter.list(baseUrl, accessToken).asURLRequest()
+                    let request = SEAuthorizationRouter.list(data).asURLRequest()
 
                     expect(request).to(equal(expectedRequest))
                 }

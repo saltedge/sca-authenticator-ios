@@ -22,7 +22,7 @@
 
 import Foundation
 
-public struct SEEncryptedData: SerializableResponse, Equatable {
+public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, SerializableResponse, Equatable {
     private let defaultAlgorithm = "AES-256-CBC"
 
     public let data: String

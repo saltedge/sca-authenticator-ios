@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorCore
 
 protocol SingleAuthorizationViewModelEventsDelegate: class {
     func receivedDetailViewModel(_ detailViewModel: AuthorizationDetailViewModel)
@@ -56,10 +57,7 @@ final class SingleAuthorizationViewModel {
                     guard let decryptedAuthorizationData = encryptedAuthorization.decryptedAuthorizationData else { return }
 
                     DispatchQueue.main.async {
-                        if let viewModel = AuthorizationDetailViewModel(
-                            decryptedAuthorizationData,
-                            showLocationWarning: showLocationWarning
-                        ) {
+                        if let viewModel = AuthorizationDetailViewModel(decryptedAuthorizationData, apiVersion: "1") {
                             strongSelf.detailViewModel = viewModel
                             strongSelf.detailViewModel?.delegate = self
 
@@ -82,7 +80,7 @@ final class SingleAuthorizationViewModel {
 
 // MARK: - AuthorizationDetailEventsDelegate
 extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
-    func confirmPressed(_ authorizationId: String) {
+    func confirmPressed(_ authorizationId: String, apiVersion: ApiVersion) {
         guard let detailViewModel = detailViewModel, let connection = connection, let url = connection.baseUrl else { return }
 
         let confirmData = SEConfirmAuthorizationRequestData(
@@ -117,7 +115,7 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
         )
     }
 
-    func denyPressed(_ authorizationId: String) {
+    func denyPressed(_ authorizationId: String, apiVersion: ApiVersion) {
         guard let detailViewModel = detailViewModel, let connection = connection, let url = connection.baseUrl else { return }
 
         let confirmData = SEConfirmAuthorizationRequestData(

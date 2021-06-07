@@ -23,28 +23,28 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEEncryptedAuthorizationData: SerializableResponse {
+public struct SEEncryptedAuthorizationData: SEBaseEncryptedAuthorizationData, SerializableResponse {
     public let id: String
     public let data: String
     public let key: String
     public let iv: String
     public let status: String
-    public var connectionId: String
+    public var connectionId: String?
 
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
-            let id = dict[SENetKeys.id] as? String,
+            let id = dict[SENetKeys.id] as? Int,
             let data = dict[SENetKeys.data] as? String,
             let key = dict[SENetKeys.key] as? String,
             let iv = dict[SENetKeys.iv] as? String,
             let status = dict[SENetKeys.status] as? String,
-            let connectionId = dict[SENetKeys.connectionId] as? String {
-            self.id = id
+            let connectionId = dict[SENetKeys.connectionId] as? Int {
+            self.id = "\(id)"
             self.data = data
             self.key = key
             self.iv = iv
             self.status = status
-            self.connectionId = connectionId
+            self.connectionId = "\(connectionId)"
         } else {
             return nil
         }
