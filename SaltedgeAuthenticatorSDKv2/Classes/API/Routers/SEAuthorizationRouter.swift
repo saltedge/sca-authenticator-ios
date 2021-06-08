@@ -26,8 +26,8 @@ import SEAuthenticatorCore
 enum SEAuthorizationRouter: Routable {
     case list(SEBaseAuthenticatedRequestData)
     case show(SEBaseAuthenticatedWithIdRequestData)
-    case confirm(URL, AccessToken, SEAuthorizationRequestData)
-    case deny(URL, AccessToken, SEAuthorizationRequestData)
+    case confirm(SEConfirmAuthorizationRequestData, [String: Any])
+    case deny(SEConfirmAuthorizationRequestData, [String: Any])
 
     var method: HTTPMethod {
         switch self {
@@ -53,13 +53,13 @@ enum SEAuthorizationRouter: Routable {
             return data.url.appendingPathComponent(
                 "\(SENetPathBuilder(for: .authorizations, version: 2).path)/\(data.entityId)"
             )
-        case .confirm(let url, _, let data):
-            return url.appendingPathComponent(
-                "\(SENetPathBuilder(for: .authorizations, version: 2).path)/\(data.id)/confirm"
+        case .confirm(let data, _):
+            return data.url.appendingPathComponent(
+                "\(SENetPathBuilder(for: .authorizations, version: 2).path)/\(data.entityId)/confirm"
             )
-        case .deny(let url, _, let data):
-            return url.appendingPathComponent(
-                "\(SENetPathBuilder(for: .authorizations, version: 2).path)/\(data.id)/deny"
+        case .deny(let data, _):
+            return data.url.appendingPathComponent(
+                "\(SENetPathBuilder(for: .authorizations, version: 2).path)/\(data.entityId)/deny"
             )
         }
     }
@@ -70,10 +70,10 @@ enum SEAuthorizationRouter: Routable {
             return Headers.authorizedRequestHeaders(token: data.accessToken)
         case .show(let data):
             return Headers.authorizedRequestHeaders(token: data.accessToken)
-        case .confirm(_, let accessToken, let data), .deny(_, let accessToken, let data):
+        case .confirm(let data, let encryptedParameters), .deny(let data, let encryptedParameters):
             return Headers.signedRequestHeaders(
-                token: accessToken,
-                payloadParams: parameters,
+                token: data.accessToken,
+                payloadParams: encryptedParameters,
                 connectionGuid: data.connectionGuid
             )
         }
@@ -82,11 +82,7 @@ enum SEAuthorizationRouter: Routable {
     var parameters: [String : Any]? {
         switch self {
         case .list, .show: return nil
-        case .confirm(_, _, let data), .deny(_, _, let data):
-            return RequestParametersBuilder.confirmAuthorizationParams(
-                encryptedData: data.encryptedData,
-                exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-            )
+        case .confirm(_, let encryptedParameters), .deny(_, let encryptedParameters): return encryptedParameters
         }
     }
 }

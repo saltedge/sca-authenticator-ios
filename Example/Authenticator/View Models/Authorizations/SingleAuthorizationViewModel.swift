@@ -97,6 +97,7 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
         detailViewModel.state.value = .processing
 
         AuthorizationsInteractor.confirm(
+            apiVersion: detailViewModel.apiVersion,
             data: confirmData,
             success: {
                 detailViewModel.state.value = .success
@@ -132,6 +133,7 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
         detailViewModel.state.value = .processing
 
         AuthorizationsInteractor.deny(
+            apiVersion: detailViewModel.apiVersion,
             data: confirmData,
             success: {
                 detailViewModel.state.value = .denied

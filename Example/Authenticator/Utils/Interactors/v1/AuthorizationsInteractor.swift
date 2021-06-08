@@ -27,35 +27,45 @@ import SEAuthenticatorCore
 
 struct AuthorizationsInteractor {
     static func confirm(
+        apiVersion: ApiVersion,
         data: SEConfirmAuthorizationRequestData,
         success: (() -> ())? = nil,
         failure: ((String) -> ())? = nil
     ) {
-        SEAuthorizationManager.confirmAuthorization(
-            data: data,
-            onSuccess: { _ in
-                success?()
-            },
-            onFailure: { error in
-                failure?(error)
-            }
-        )
+        if apiVersion == "2" {
+            SEAuthorizationManagerV2.confirmAuthorization(
+                data: data,
+                onSuccess: { _ in success?() },
+                onFailure: { error in failure?(error) }
+            )
+        } else {
+            SEAuthorizationManager.confirmAuthorization(
+                data: data,
+                onSuccess: { _ in success?() },
+                onFailure: { error in failure?(error) }
+            )
+        }
     }
 
     static func deny(
+        apiVersion: ApiVersion,
         data: SEConfirmAuthorizationRequestData,
         success: (() -> ())? = nil,
         failure: ((String) -> ())? = nil
     ) {
-        SEAuthorizationManager.denyAuthorization(
-            data: data,
-            onSuccess: { _ in
-                success?()
-            },
-            onFailure: { error in
-                failure?(error)
-            }
-        )
+        if apiVersion == "2" {
+            SEAuthorizationManagerV2.denyAuthorization(
+                data: data,
+                onSuccess: { _ in success?() },
+                onFailure: { error in failure?(error) }
+            )
+        } else {
+            SEAuthorizationManager.denyAuthorization(
+                data: data,
+                onSuccess: { _ in success?() },
+                onFailure: { error in failure?(error) }
+            )
+        }
     }
 
     static func refresh(
