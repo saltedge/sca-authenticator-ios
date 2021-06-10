@@ -21,16 +21,32 @@
 //
 
 import UIKit
+import SEAuthenticatorCore
 
 private enum FieldType: String {
     case payment
     case extra
+    case text
+
+    var textColor: UIColor {
+        switch self {
+        case .payment: return .dark80_grey100
+        case .extra: return .extraTextColor
+        case .text: return .titleColor
+        }
+    }
 }
 
 /*
     The UIStackView which is designed to construct the authorization content dynamically.
  */
 final class AuthorizationContentDynamicStackView: UIStackView {
+    private let paymentSortedKeys = [
+        SENetKeys.payee, SENetKeys.amount, SENetKeys.account,
+        SENetKeys.paymentDate, SENetKeys.reference, SENetKeys.fee, SENetKeys.exchangeRate
+    ]
+    private let extraSortedKeys = [SENetKeys.actionDate, SENetKeys.device, SENetKeys.location, SENetKeys.ip]
+
     init() {
         super.init(frame: .zero)
         axis = .vertical
@@ -53,24 +69,35 @@ final class AuthorizationContentDynamicStackView: UIStackView {
     func setup(using attributes: [String: Any]) {
         removeAllArrangedSubviews()
 
-        if let paymentDict = attributes["payment"] as? [String: String] {
-            for (key, value) in paymentDict {
-                addArrangedSubview(contentView(title: key, description: value, fieldType: .payment))
+        if let paymentDict = attributes[SENetKeys.payment] as? [String: Any] {
+            paymentSortedKeys.forEach {
+                addArrangedSubview(inputDict: paymentDict, key: $0, type: .payment)
             }
         }
-        if let text = attributes["text"] as? String {
+        if let text = attributes[SENetKeys.text] as? String {
             let label = UILabel(
                 font: .systemFont(ofSize: 16.0, weight: .regular),
                 alignment: .left,
-                textColor: .titleColor
+                textColor: FieldType.text.textColor
             )
             label.text = text
             addArrangedSubview(label)
         }
-        if let extraDict = attributes["extra"] as? [String: String] {
-            for (key, value) in extraDict {
-                addArrangedSubview(contentView(title: key, description: value, fieldType: .extra))
+        if let extraDict = attributes[SENetKeys.extra] as? [String: Any] {
+            // Adding empty view as separator between blocks
+            let emptyView = UIView()
+            emptyView.height(16.0)
+            addArrangedSubview(emptyView)
+
+            extraSortedKeys.forEach {
+                addArrangedSubview(inputDict: extraDict, key: $0, type: .extra)
             }
+        }
+    }
+
+    private func addArrangedSubview(inputDict: [String: Any]?, key: String, type: FieldType) {
+        if let value = inputDict?[key] as? String, !value.isEmpty {
+            addArrangedSubview(contentView(title: key, description: value, fieldType: type))
         }
     }
 
@@ -78,17 +105,21 @@ final class AuthorizationContentDynamicStackView: UIStackView {
         let contentView = UIView()
         let contentTitleLabel = UILabel(
             font: .systemFont(ofSize: 16.0, weight: .regular),
-            textColor: fieldType == .extra ? .dark60 : .titleColor
+            textColor: fieldType.textColor
         )
         let descriptionLabel = UILabel(
             font: .systemFont(ofSize: 16.0, weight: .regular),
-            textColor: fieldType == .extra ? .dark60 : .titleColor
+            textColor: fieldType.textColor
         )
 
         var title = title?.replacingOccurrences(of: "_", with: " ").capitalizingFirstLetter() ?? ""
 
         if fieldType == .extra {
-            title = "\(title):"
+            if title == SENetKeys.ip.capitalizingFirstLetter() {
+                title = l10n(.ipAddress)
+            }
+
+            title += ":"
         }
 
         contentTitleLabel.text = title
@@ -106,7 +137,7 @@ final class AuthorizationContentDynamicStackView: UIStackView {
         } else {
             descriptionLabel.leftToRight(of: contentTitleLabel, offset: 6.0)
         }
-        contentView.height(18.0)
+        contentView.height(fieldType == .payment ? 24.0 : 18.0)
 
         return contentView
     }

@@ -71,6 +71,7 @@
 "warnings.inactivity_block_message" = "Application will be locked due to inactivity";
 "in_app.connections_list.delete_all_connections" = "Delete all connections and stop receiving authorizations for all connections.";
 "in_app.connections_list.delete_connection" = "Are you sure you want to delete connection to your provider? This action cannot be undone.";
+"in_app.authorizations.ip_address" = "IP address";
 "in_app.authorizations.authorization_expired" = "Authorization expired";
 "in_app.authorizations.no_authorizations" = "Nothing to authorize";
 "in_app.authorizations.no_authorizations_description" = "You don’t have any active authorization requests yet. Scan QR code for instant action or to connect new provider.";
