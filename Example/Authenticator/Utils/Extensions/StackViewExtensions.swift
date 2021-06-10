@@ -40,10 +40,6 @@ extension UIStackView {
         subviews.forEach { addArrangedSubview($0) }
     }
 
-    func addArrangedSubviews(_ subviews: [UIView]) {
-        subviews.forEach { addArrangedSubview($0) }
-    }
-
     func removeAllArrangedSubviews() {
         arrangedSubviews.forEach {
             removeArrangedSubview($0)

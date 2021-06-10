@@ -98,6 +98,7 @@
 		9D63AB5826715B4C007EE1C8 /* StringExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D63AB5726715B4C007EE1C8 /* StringExtensionsSpec.swift */; };
 		9D63AB5A26721063007EE1C8 /* AuthorizationContentDynamicStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D63AB5926721063007EE1C8 /* AuthorizationContentDynamicStackView.swift */; };
 		9D63AB5B26721063007EE1C8 /* AuthorizationContentDynamicStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D63AB5926721063007EE1C8 /* AuthorizationContentDynamicStackView.swift */; };
+		9D63AB5D2672123A007EE1C8 /* StackViewExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D63AB5C2672123A007EE1C8 /* StackViewExtensionsSpec.swift */; };
 		9D6575F8232A9B0200DCC53E /* DateExtensionsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */; };
 		9D6575FB232A9E8100DCC53E /* DateUtilsSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D6575FA232A9E8100DCC53E /* DateUtilsSpec.swift */; };
 		9D66E1A922D4C1C100BD59B6 /* AuthorizationDataSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D66E17B22D4C0AF00BD59B6 /* AuthorizationDataSpec.swift */; };
@@ -432,6 +433,7 @@
 		9D630BC8243DC464000A9ACC /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		9D63AB5726715B4C007EE1C8 /* StringExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensionsSpec.swift; sourceTree = "<group>"; };
 		9D63AB5926721063007EE1C8 /* AuthorizationContentDynamicStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationContentDynamicStackView.swift; sourceTree = "<group>"; };
+		9D63AB5C2672123A007EE1C8 /* StackViewExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackViewExtensionsSpec.swift; sourceTree = "<group>"; };
 		9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionsSpec.swift; sourceTree = "<group>"; };
 		9D6575FA232A9E8100DCC53E /* DateUtilsSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtilsSpec.swift; sourceTree = "<group>"; };
 		9D66E17122D4C0AF00BD59B6 /* CryptoErrorsSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoErrorsSpec.swift; sourceTree = "<group>"; };
@@ -799,6 +801,7 @@
 				9DE3246922D398B300EB162A /* SEEncryptedDataExtensionsSpec.swift */,
 				9D6575F7232A9B0200DCC53E /* DateExtensionsSpec.swift */,
 				9D63AB5726715B4C007EE1C8 /* StringExtensionsSpec.swift */,
+				9D63AB5C2672123A007EE1C8 /* StackViewExtensionsSpec.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2097,6 +2100,7 @@
 				959E30B1247BDA250067354A /* SettingsViewModelSpec.swift in Sources */,
 				9DE3247322D398ED00EB162A /* URLRequestBuilder.swift in Sources */,
 				9DE3247522D398ED00EB162A /* DataFixtures.swift in Sources */,
+				9D63AB5D2672123A007EE1C8 /* StackViewExtensionsSpec.swift in Sources */,
 				9D66E1DF22D6146900BD59B6 /* AuthorizationRouterSpec.swift in Sources */,
 				9DE324D222D39AA700EB162A /* PasscodeSymbolView.swift in Sources */,
 				9D98747D24B390F200EE89BB /* ConsentsInteractor.swift in Sources */,

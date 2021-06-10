@@ -29,7 +29,6 @@ public class SEAuthorizationDataV2: SEBaseAuthorizationData {
     public var createdAt: Date
     public var expiresAt: Date
     public var authorizationCode: String?
-    public var extra: [String: String]?
 
     public var id: String
     public var connectionId: String
