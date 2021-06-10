@@ -109,7 +109,7 @@ final class AuthorizationContentDynamicStackView: UIStackView {
         )
         let descriptionLabel = UILabel(
             font: .systemFont(ofSize: 16.0, weight: .regular),
-            textColor: fieldType.textColor
+            textColor: fieldType == .payment ? .titleColor : FieldType.extra.textColor
         )
 
         var title = title?.replacingOccurrences(of: "_", with: " ").capitalizingFirstLetter() ?? ""
