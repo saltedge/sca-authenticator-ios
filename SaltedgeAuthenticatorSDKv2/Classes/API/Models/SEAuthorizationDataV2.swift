@@ -66,6 +66,6 @@ extension SEAuthorizationDataV2: Equatable {
     }
 }
 
-private func ==(lhs: [String: Any], rhs: [String: Any] ) -> Bool {
+private func ==(lhs: [String: Any], rhs: [String: Any]) -> Bool {
     return NSDictionary(dictionary: lhs).isEqual(to: rhs)
 }

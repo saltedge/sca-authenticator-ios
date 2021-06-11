@@ -1,8 +1,8 @@
 //
-//  LabelExtensions.swift
+//  StringExtensionsSpec
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -20,16 +20,17 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import UIKit
+import Quick
+import Nimble
 
-extension UILabel {
-    convenience init(font: UIFont, alignment: NSTextAlignment = .center, textColor: UIColor = .titleColor) {
-        self.init()
-        self.font = font
-        self.textColor = textColor
-        self.textAlignment = alignment
-        self.numberOfLines = 0
-        self.lineBreakMode = .byWordWrapping
-        self.sizeToFit()
+class StringExtensionsSpec: BaseSpec {
+    override func spec() {
+        describe("capitalizingFirstLetter") {
+            it("should capitalize only first word from sentence") {
+                let testString = "hello world"
+
+                expect(testString.capitalizingFirstLetter()).to(equal("Hello world"))
+            }
+        }
     }
 }

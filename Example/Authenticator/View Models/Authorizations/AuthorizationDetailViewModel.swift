@@ -36,6 +36,7 @@ final class AuthorizationDetailViewModel: Equatable {
     var authorizationId: String
     var connectionId: String
     var description: String = ""
+    var descriptionAttributes: [String: Any] = [:]
     var authorizationCode: String?
     var lifetime: Int = 0
     var authorizationExpiresAt: Date = Date()
@@ -55,7 +56,7 @@ final class AuthorizationDetailViewModel: Equatable {
             self.description = dataV1.description
         } else if let dataV2 = data as? SEAuthorizationDataV2 {
             self.title = dataV2.title
-            self.description = "This is V2" // TODO: Fix description
+            self.descriptionAttributes = dataV2.description
         }
         self.apiVersion = apiVersion
         self.authorizationId = data.id

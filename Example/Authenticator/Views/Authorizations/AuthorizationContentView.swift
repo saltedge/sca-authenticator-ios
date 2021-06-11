@@ -36,6 +36,7 @@ final class AuthorizationContentView: UIView {
 
     private let titleLabel = UILabel(font: .systemFont(ofSize: 24.0, weight: .regular), textColor: .titleColor)
     private lazy var descriptionTextView = UITextView()
+    private lazy var attributesStackView = AuthorizationContentDynamicStackView()
     private lazy var webView: WKWebView = {
         let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
         webView.layer.masksToBounds = true
@@ -46,6 +47,7 @@ final class AuthorizationContentView: UIView {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = Layout.sideOffset
+        stackView.distribution = .fillProportionally
         return stackView
     }()
     private var buttonsStackView: UIStackView = {
@@ -71,16 +73,10 @@ final class AuthorizationContentView: UIView {
             } else {
                 stateView.set(state: .base)
 
-                if viewModel.description.htmlToAttributedString != nil {
-                    let supportDarkCSS = "<style>:root { color-scheme: light dark; }</style>"
-
-                    contentStackView.removeArrangedSubview(descriptionTextView)
-                    webView.loadHTMLString(viewModel.description + supportDarkCSS, baseURL: nil)
-                    contentStackView.addArrangedSubview(webView)
+                if viewModel.apiVersion == "1" {
+                    setupContentV1()
                 } else {
-                    contentStackView.removeArrangedSubview(webView)
-                    descriptionTextView.text = viewModel.description
-                    contentStackView.addArrangedSubview(descriptionTextView)
+                    setupContentV2(using: viewModel.descriptionAttributes)
                 }
             }
 
@@ -101,6 +97,35 @@ final class AuthorizationContentView: UIView {
         layout()
     }
 
+    private func setupContentV1() {
+        if viewModel.description.htmlToAttributedString != nil {
+            setupWebView(content: viewModel.description)
+        } else {
+            contentStackView.removeArrangedSubview(webView)
+            descriptionTextView.text = viewModel.description
+            contentStackView.addArrangedSubview(descriptionTextView)
+        }
+    }
+
+    private func setupContentV2(using attributes: [String: Any]) {
+        if let html = attributes["html"] as? String {
+            setupWebView(content: html)
+        } else {
+            contentStackView.removeAllArrangedSubviews()
+
+            let attributesView = UIView()
+            attributesView.addSubview(attributesStackView)
+            contentStackView.addArrangedSubview(attributesView)
+
+            attributesView.edgesToSuperview()
+
+            attributesStackView.topToSuperview()
+            attributesStackView.widthToSuperview()
+
+            attributesStackView.setup(using: attributes)
+        }
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -116,6 +141,14 @@ private extension AuthorizationContentView {
         rightButton.addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
 
         buttonsStackView.addArrangedSubviews(leftButton, rightButton)
+    }
+
+    func setupWebView(content: String) {
+        let supportDarkCSS = "<style>:root { color-scheme: light dark; }</style>"
+
+        contentStackView.removeAllArrangedSubviews()
+        webView.loadHTMLString(content + supportDarkCSS, baseURL: nil)
+        contentStackView.addArrangedSubview(webView)
     }
 }
 
