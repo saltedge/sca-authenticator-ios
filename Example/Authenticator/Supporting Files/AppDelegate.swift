@@ -161,9 +161,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let userInfo = request.content.userInfo
 
         guard let apsDict = userInfo[SENetKeys.aps] as? [String: Any],
-            let dataDict = apsDict[SENetKeys.data] as? [String: Any],
-            let connectionId = dataDict[SENetKeys.connectionId] as? String,
-            let authorizationId = dataDict[SENetKeys.authorizationId] as? String else { return nil }
-        return (connectionId, authorizationId)
+              let dataDict = apsDict[SENetKeys.data] as? [String: Any] else { return nil }
+
+        // NOTE: connection_id and authorization_id from v1 are strings, from v2 - ints
+            if let connectionId = dataDict[SENetKeys.connectionId] as? String,
+               let authorizationId = dataDict[SENetKeys.authorizationId] as? String {
+                return (connectionId, authorizationId)
+            } else if let connectionId = dataDict[SENetKeys.connectionId] as? Int,
+                      let authorizationId = dataDict[SENetKeys.authorizationId] as? Int {
+                return ("\(connectionId)", "\(authorizationId)")
+            } else {
+                return nil
+            }
     }
 }
