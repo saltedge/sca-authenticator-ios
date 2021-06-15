@@ -24,6 +24,7 @@ import UIKit
 
 protocol ConnectionCellEventsDelegate: class {
     func renamePressed(id: String)
+    func accessLocationPressed()
     func supportPressed(email: String)
     func deletePressed(id: String, showConfirmation: Bool)
     func reconnectPreseed(id: String)
@@ -44,9 +45,16 @@ class ConnectionCellViewModel {
     }
 
     var description: NSAttributedString {
-        return connectionStatus.value == .inactive
-            ? buildInactiveDescription()
-            : buildActiveDescription()
+        if LocationManager.shared.shouldShowLocationWarning(connection: connection) {
+            return NSAttributedString(
+                string: l10n(.grantAccessToLocationServices),
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.descriptionYellow]
+            )
+        } else {
+            return connectionStatus.value == .inactive
+                ? buildInactiveDescription()
+                : buildActiveDescription()
+        }
     }
 
     var hasConsents: Bool {
@@ -90,6 +98,11 @@ class ConnectionCellViewModel {
             if self?.hasConsents == true {
                 actions.append(UIAction(title: l10n(.viewConsents), image: UIImage(systemName: "doc.plaintext")) { _ in
                     strongSelf.delegate?.consentsPressed(id: strongSelf.connection.id)
+                })
+            }
+            if LocationManager.shared.shouldShowLocationWarning(connection: self?.connection) {
+                actions.append(UIAction(title: l10n(.accessToLocation), image: UIImage(systemName: "mappin")) { _ in
+                    strongSelf.delegate?.accessLocationPressed()
                 })
             }
 

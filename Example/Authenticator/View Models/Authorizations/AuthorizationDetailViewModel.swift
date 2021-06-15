@@ -85,6 +85,12 @@ final class AuthorizationDetailViewModel: Equatable {
         }
     }
 
+    var shouldShowLocationWarning: Bool {
+        guard let connection = ConnectionsCollector.active(by: connectionId) else { return false }
+
+        return LocationManager.shared.shouldShowLocationWarning(connection: connection)
+    }
+
     func confirmPressed() {
         delegate?.confirmPressed(authorizationId, apiVersion: apiVersion)
     }

@@ -26,11 +26,13 @@ import SEAuthenticatorV2
 import SEAuthenticatorCore
 
 struct SpecUtils {
-    static func createConnection(id: ID, apiVersion: ApiVersion = "1") -> Connection {
+    static func createConnection(id: ID, apiVersion: ApiVersion = "1", geolocationRequired: Bool = true) -> Connection {
         let connection = Connection()
         connection.id = id
         connection.baseUrlString = "url.com"
         connection.apiVersion = apiVersion
+//        connection.status = "active"
+        connection.geolocationRequired.value = geolocationRequired
         ConnectionRepository.save(connection)
         _ = SECryptoHelper.createKeyPair(with: SETagHelper.create(for: connection.guid))
 

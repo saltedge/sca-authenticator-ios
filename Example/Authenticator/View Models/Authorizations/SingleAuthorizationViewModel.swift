@@ -42,7 +42,7 @@ final class SingleAuthorizationViewModel {
         getAuthorization(
             connection: connection,
             authorizationId: authorizationId,
-            showLocationWarning: locationManagement.showLocationWarning(connection: connection)
+            showLocationWarning: locationManagement.shouldShowLocationWarning(connection: connection)
         )
     }
 

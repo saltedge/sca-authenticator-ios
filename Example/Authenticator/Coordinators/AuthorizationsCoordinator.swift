@@ -25,7 +25,7 @@ import SEAuthenticator
 
 final class AuthorizationsCoordinator: Coordinator {
     let rootViewController = AuthorizationsViewController()
-    private let dataSource = AuthorizationsDataSource(locationManagement: LocationManager.shared)
+    private let dataSource = AuthorizationsDataSource()
     private let viewModel = AuthorizationsViewModel()
 
     private var qrCoordinator: QRCodeCoordinator?
@@ -94,5 +94,9 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
         [connections, settings, cancel].forEach { actionSheet.addAction($0) }
 
         rootViewController.present(actionSheet, animated: true)
+    }
+
+    func requestLocation() {
+        LocationManager.shared.requestLocationAuthorization()
     }
 }

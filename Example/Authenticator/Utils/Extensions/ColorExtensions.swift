@@ -90,4 +90,8 @@ extension UIColor {
     static var shadow: UIColor {
         return UIColor(named: "shadow", in: .authenticator_main, compatibleWith: nil)!
     }
+
+    static var descriptionYellow: UIColor {
+        return UIColor(named: "descriptionYellow", in: .authenticator_main, compatibleWith: nil)!
+    }
 }

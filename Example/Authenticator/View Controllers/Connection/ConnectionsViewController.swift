@@ -41,6 +41,7 @@ final class ConnectionsViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        reloadData()
         viewModel.refreshConsents()
     }
 
@@ -53,12 +54,7 @@ final class ConnectionsViewController: UITableViewController {
         setupRefreshControl()
         layout()
         updateViewsHiddenState()
-        NotificationsHelper.observe(
-            self,
-            selector: #selector(reloadData),
-            name: NSLocale.currentLocaleDidChangeNotification,
-            object: nil
-        )
+        setupObservers()
     }
 
     @objc private func reloadData() {
@@ -86,6 +82,20 @@ final class ConnectionsViewController: UITableViewController {
 
 // MARK: - Setup
 private extension ConnectionsViewController {
+    func setupObservers() {
+        NotificationsHelper.observe(
+            self,
+            selector: #selector(reloadData),
+            name: NSLocale.currentLocaleDidChangeNotification,
+            object: nil
+        )
+        NotificationsHelper.observe(
+            self,
+            selector: #selector(reloadData),
+            name: .locationServicesStatusDidChange,
+            object: nil
+        )
+    }
     func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -188,6 +198,22 @@ extension ConnectionsViewController: Layoutable {
 extension ConnectionsViewController: ConnectionCellEventsDelegate {
     func renamePressed(id: String) {
         viewModel.updateName(by: id)
+    }
+
+    func accessLocationPressed() {
+        showConfirmationAlert(
+            withTitle: l10n(.accessToLocationServices),
+            message: l10n(.turnOnLocationSharingDescription),
+            confirmActionTitle: l10n(.goToSettings),
+            confirmActionStyle: .default,
+            confirmAction: { _ in
+                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+                if UIApplication.shared.canOpenURL(settingsUrl) {
+                    UIApplication.shared.open(settingsUrl)
+                }
+            }
+        )
     }
 
     func supportPressed(email: String) {
