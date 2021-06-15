@@ -26,7 +26,7 @@ import CoreLocation
 protocol LocationManagement {
     var notDeterminedAuthorization: Bool { get }
     var geolocationSharingIsEnabled: Bool { get }
-    func showLocationWarning(connection: Connection?) -> Bool
+    func shouldShowLocationWarning(connection: Connection?) -> Bool
 }
 
 final class LocationManager: NSObject, LocationManagement, CLLocationManagerDelegate {
@@ -49,7 +49,11 @@ final class LocationManager: NSObject, LocationManagement, CLLocationManagerDele
             .contains(CLLocationManager.authorizationStatus())
     }
 
-    func showLocationWarning(connection: Connection?) -> Bool {
+    var geolocationSharingIsDenied: Bool {
+        return CLLocationManager.authorizationStatus() == .denied
+    }
+
+    func shouldShowLocationWarning(connection: Connection?) -> Bool {
         return (connection?.geolocationRequired.value ?? false) && !geolocationSharingIsEnabled
     }
 
@@ -73,6 +77,7 @@ final class LocationManager: NSObject, LocationManagement, CLLocationManagerDele
     }
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        NotificationsHelper.post(.locationServicesStatusDidChange)
         if status == .authorizedAlways || status == .authorizedWhenInUse {
             startUpdatingLocation()
         }

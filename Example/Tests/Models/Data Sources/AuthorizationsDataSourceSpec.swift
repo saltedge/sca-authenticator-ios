@@ -27,8 +27,7 @@ import Nimble
 class AuthorizationsDataSourceSpec: BaseSpec {
     override func spec() {
         var firstModel, secondModel: AuthorizationDetailViewModel!
-        let mockLocationManager = MockLocationManager()
-        let dataSource = AuthorizationsDataSource(locationManagement: mockLocationManager)
+        let dataSource = AuthorizationsDataSource()
         var connection: Connection!
 
         beforeEach {
@@ -121,7 +120,6 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                                             "created_at": Date().iso8601string,
                                             "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
                     let validDecryptedData = SpecUtils.createAuthResponse(with: validAuthMessage, id: connection.id, guid: connection.guid)
-                    mockLocationManager.showLocationWarning = true
 
                     _ = dataSource.update(with: [expiredDecryptedData, validDecryptedData])
 

@@ -29,7 +29,7 @@ class MockLocationManager: LocationManagement {
     
     var geolocationSharingIsEnabled: Bool = false
     
-    func showLocationWarning(connection: Connection?) -> Bool {
+    func shouldShowLocationWarning(connection: Connection?) -> Bool {
         return showLocationWarning
     }
 }

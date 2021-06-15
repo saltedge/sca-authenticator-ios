@@ -43,6 +43,7 @@ enum Localizations: String, Localizable {
     case forgot = "actions.forgot"
     case remove = "actions.remove"
     case revoke = "actions.revoke"
+    case accessToLocation = "actions.access_to_location"
 
     // MARK: - Onboarding
     case getStarted = "actions.get_started"
@@ -209,6 +210,12 @@ enum Localizations: String, Localizable {
     case wrongPasscode = "errors.wrong_passcode"
     case biometricsNotAvailable = "in_app.settings.biometrics_not_available"
     case biometricsNotAvailableDescription = "in_app.settings.biometrics_not_available_message"
+    case turnOnLocationServices = "errors.turn_on_location_services"
+    case turnOnLocationSharingDescription = "errors.turn_on_location_sharing_description"
+    case turnOnPhoneLocationServicesDescription = "errors.turn_on_phone_location_services"
+
+    case accessToLocationServices = "errors.access_to_location_services"
+    case grantAccessToLocationServices = "warnings.grant_access_to_location_services"
 
     // MARK: - Connection Options
     case connect = "actions.connect"

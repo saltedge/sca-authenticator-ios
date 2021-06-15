@@ -27,12 +27,6 @@ import SEAuthenticatorCore
 
 final class AuthorizationsDataSource {
     private var viewModels = [AuthorizationDetailViewModel]()
-    private var locationManagement: LocationManagement
-
-    // TODO: Fix geolocation according to new design
-    init(locationManagement: LocationManagement) {
-        self.locationManagement = locationManagement
-    }
 
     func update(with baseData: [SEBaseAuthorizationData]) -> Bool {
         let viewModelsV1 = baseData.toAuthorizationViewModel(apiVersion: "1")

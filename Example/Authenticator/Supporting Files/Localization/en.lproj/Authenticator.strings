@@ -39,6 +39,7 @@
 "actions.view_settings" = "View settings";
 "actions.processing" = "Processing";
 "actions.processing.description" = "This may take some time";
+"actions.access_to_location" = "Access to location";
 "authorization.screen.name" = "Authenticator";
 "authorization.active.title" = "Authorizing";
 "authorization.success.title" = "Success";
@@ -58,6 +59,10 @@
 "errors.contact_support" = "Something went wrong";
 "errors.denied_camera" = "Camera access denied";
 "errors.denied_camera_description" = "Please allow camera usage in phone settings. Without camera you won't be able to connect provider.";
+"errors.turn_on_location_services" = "Turn on Location Services";
+"errors.turn_on_location_sharing_description" = "Select Location and tap “While Using the App” to allow Authenticator to determine your location, as requested by your service provider.";
+"errors.turn_on_phone_location_services" = "Salt Edge Authenticator requires Location Services. To turn on Location Services, open the Settings app > select Privacy > select Location Services > enable Location Services";
+"errors.access_to_location_services" = "Access to Location Services";
 "errors.inactive_connection" = "Inactive. Please reconnect.";
 "errors.no_active_connections" = "You have no currently connected providers.";
 "errors.no_suitable_connection" = "You have no suitable connection for this action";
@@ -68,6 +73,7 @@
 "errors.passcode_ios_singular" = "You entered the wrong Passcode. Please try again in %{count} minute.";
 "errors.try_again" = "Please try again";
 "errors.warning" = "Warning";
+"warnings.grant_access_to_location_services" = "Grant access to Location Services";
 "warnings.inactivity_block_message" = "Application will be locked due to inactivity";
 "in_app.connections_list.delete_all_connections" = "Delete all connections and stop receiving authorizations for all connections.";
 "in_app.connections_list.delete_connection" = "Are you sure you want to delete connection to your provider? This action cannot be undone.";

@@ -30,10 +30,13 @@ enum AuthorizationsViewModelState: Equatable {
     case presentFail(String)
     case scanQrPressed(Bool)
     case normal
+    case requestLocationWarning
 
     static func == (lhs: AuthorizationsViewModelState, rhs: AuthorizationsViewModelState) -> Bool {
         switch (lhs, rhs) {
-        case (.changedConnectionsData, .changedConnectionsData), (.reloadData, .reloadData), (.normal, .normal): return true
+        case (.changedConnectionsData, .changedConnectionsData),
+             (.reloadData, .reloadData), (.normal, .normal),
+             (.requestLocationWarning, .requestLocationWarning): return true
         case let (.scrollTo(index1), .scrollTo(index2)): return index1 == index2
         case let (.presentFail(message1), .presentFail(message2)): return message1 == message2
         case let (.scanQrPressed(value1), .scanQrPressed(value2)): return value1 == value2
@@ -105,40 +108,48 @@ class AuthorizationsViewModel {
         guard let data = dataSource.confirmationData(for: authorizationId, apiVersion: apiVersion),
             let detailViewModel = dataSource.viewModel(with: authorizationId, apiVersion: apiVersion) else { return }
 
-        detailViewModel.state.value = .processing
+        if detailViewModel.shouldShowLocationWarning {
+            state.value = .requestLocationWarning
+        } else {
+            detailViewModel.state.value = .processing
 
-        AuthorizationsInteractor.confirm(
-            apiVersion: detailViewModel.apiVersion,
-            data: data,
-            success: {
-                detailViewModel.state.value = .success
-                detailViewModel.actionTime = Date()
-            },
-            failure: { _ in
-                detailViewModel.state.value = .undefined
-                detailViewModel.actionTime = Date()
-            }
-        )
+            AuthorizationsInteractor.confirm(
+                apiVersion: detailViewModel.apiVersion,
+                data: data,
+                success: {
+                    detailViewModel.state.value = .success
+                    detailViewModel.actionTime = Date()
+                },
+                failure: { _ in
+                    detailViewModel.state.value = .undefined
+                    detailViewModel.actionTime = Date()
+                }
+            )
+        }
     }
 
     func denyAuthorization(by authorizationId: String, apiVersion: ApiVersion) {
         guard let data = dataSource.confirmationData(for: authorizationId, apiVersion: apiVersion),
             let detailViewModel = dataSource.viewModel(with: authorizationId, apiVersion: apiVersion) else { return }
 
-        detailViewModel.state.value = .processing
+        if detailViewModel.shouldShowLocationWarning {
+            state.value = .requestLocationWarning
+        } else {
+            detailViewModel.state.value = .processing
 
-        AuthorizationsInteractor.deny(
-            apiVersion: detailViewModel.apiVersion,
-            data: data,
-            success: {
-                detailViewModel.state.value = .denied
-                detailViewModel.actionTime = Date()
-            },
-            failure: { _ in
-                detailViewModel.state.value = .undefined
-                detailViewModel.actionTime = Date()
-            }
-        )
+            AuthorizationsInteractor.deny(
+                apiVersion: detailViewModel.apiVersion,
+                data: data,
+                success: {
+                    detailViewModel.state.value = .denied
+                    detailViewModel.actionTime = Date()
+                },
+                failure: { _ in
+                    detailViewModel.state.value = .undefined
+                    detailViewModel.actionTime = Date()
+                }
+            )
+        }
     }
 
     private func updateDataSource(with authorizations: [SEBaseAuthorizationData]) {

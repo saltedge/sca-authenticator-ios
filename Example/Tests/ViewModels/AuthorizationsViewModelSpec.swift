@@ -42,7 +42,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
             context("when there is no connections") {
                 it("should return correct data") {
                     let viewModel = AuthorizationsViewModel()
-                    let dataSource = AuthorizationsDataSource(locationManagement: mockLocationManager)
+                    let dataSource = AuthorizationsDataSource()
                     viewModel.dataSource = dataSource
 
                     expect(Array(ConnectionsCollector.allConnections)).to(beEmpty())
@@ -61,7 +61,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
             context("when there is at least one connection") {
                 it("should retun correct data") {
                     let viewModel = AuthorizationsViewModel()
-                    let dataSource = AuthorizationsDataSource(locationManagement: mockLocationManager)
+                    let dataSource = AuthorizationsDataSource()
                     viewModel.dataSource = dataSource
                     
                     let expectedEmptyViewData = EmptyViewData(
@@ -85,7 +85,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
         describe("confirmAuthorization") {
             it("should set state to .processing, then to completion state") {
                 let viewModel = AuthorizationsViewModel()
-                let dataSource = AuthorizationsDataSource(locationManagement: mockLocationManager)
+                let dataSource = AuthorizationsDataSource()
                 viewModel.dataSource = dataSource
 
                 let connection = SpecUtils.createConnection(id: "123")
@@ -99,6 +99,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
         
                 let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
 
+                mockLocationManager.geolocationSharingIsEnabled = true
                 _ = dataSource.update(with: [decryptedData])
     
                 let detailViewModel = dataSource.viewModel(with: "00000", apiVersion: "1")
@@ -108,12 +109,42 @@ final class AuthorizationsViewModelSpec: BaseSpec {
                 expect(detailViewModel?.state.value).to(equal(AuthorizationStateView.AuthorizationState.processing))
                 expect(detailViewModel?.state.value).toEventually(equal(AuthorizationStateView.AuthorizationState.undefined))
             }
+
+            context("when location services are off and conection requires geolocation") {
+                it("should set state to .requestLocationWarning") {
+                    let viewModel = AuthorizationsViewModel()
+                    let dataSource = AuthorizationsDataSource()
+                    viewModel.dataSource = dataSource
+
+                    let connection = SpecUtils.createConnection(id: "123")
+
+                    try? RealmManager.performRealmWriteTransaction {
+                        connection.status = "active"
+                    }
+
+                    let authMessage = ["id": "00000",
+                                       "connection_id": connection.id,
+                                       "title": "Authorization",
+                                       "description": "Test authorization",
+                                       "created_at": Date().iso8601string,
+                                       "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
+            
+                    let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
+
+                    mockLocationManager.geolocationSharingIsEnabled = false
+                    _ = dataSource.update(with: [decryptedData])
+
+                    viewModel.confirmAuthorization(by: "00000", apiVersion: "1")
+
+                    expect(viewModel.state.value).to(equal(AuthorizationsViewModelState.requestLocationWarning))
+                }
+            }
         }
 
         describe("denyAuthorization") {
             it("should set state to .processing, then to completion state") {
                 let viewModel = AuthorizationsViewModel()
-                let dataSource = AuthorizationsDataSource(locationManagement: mockLocationManager)
+                let dataSource = AuthorizationsDataSource()
                 viewModel.dataSource = dataSource
 
                 let connection = SpecUtils.createConnection(id: "123")
@@ -127,6 +158,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
         
                 let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
 
+                mockLocationManager.geolocationSharingIsEnabled = true
                 _ = dataSource.update(with: [decryptedData])
     
                 let detailViewModel = dataSource.viewModel(with: "00000", apiVersion: "1")
@@ -135,6 +167,36 @@ final class AuthorizationsViewModelSpec: BaseSpec {
 
                 expect(detailViewModel?.state.value).to(equal(AuthorizationStateView.AuthorizationState.processing))
                 expect(detailViewModel?.state.value).toEventually(equal(AuthorizationStateView.AuthorizationState.undefined))
+            }
+
+            context("when location services are off and conection requires geolocation") {
+                it("should set state to .requestLocationWarning") {
+                    let viewModel = AuthorizationsViewModel()
+                    let dataSource = AuthorizationsDataSource()
+                    viewModel.dataSource = dataSource
+
+                    let connection = SpecUtils.createConnection(id: "123")
+
+                    try? RealmManager.performRealmWriteTransaction {
+                        connection.status = "active"
+                    }
+
+                    let authMessage = ["id": "00000",
+                                       "connection_id": connection.id,
+                                       "title": "Authorization",
+                                       "description": "Test authorization",
+                                       "created_at": Date().iso8601string,
+                                       "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
+            
+                    let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
+
+                    mockLocationManager.geolocationSharingIsEnabled = false
+                    _ = dataSource.update(with: [decryptedData])
+
+                    viewModel.confirmAuthorization(by: "00000", apiVersion: "1")
+
+                    expect(viewModel.state.value).to(equal(AuthorizationsViewModelState.requestLocationWarning))
+                }
             }
         }
     }
