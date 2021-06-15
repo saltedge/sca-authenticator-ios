@@ -31,7 +31,6 @@ struct SpecUtils {
         connection.id = id
         connection.baseUrlString = "url.com"
         connection.apiVersion = apiVersion
-//        connection.status = "active"
         connection.geolocationRequired.value = geolocationRequired
         ConnectionRepository.save(connection)
         _ = SECryptoHelper.createKeyPair(with: SETagHelper.create(for: connection.guid))
