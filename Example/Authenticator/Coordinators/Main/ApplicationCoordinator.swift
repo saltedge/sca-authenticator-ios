@@ -235,14 +235,11 @@ final class ApplicationCoordinator: Coordinator {
         }
     }
 
-    private func startConnect(url: URL, controller: UIViewController) {        
-        if let actionGuid = SEConnectHelper.actionGuid(from: url),
-            let connectUrl = SEConnectHelper.connectUrl(from: url) {
+    private func startConnect(url: URL, controller: UIViewController) {
+        if SEConnectHelper.shouldStartInstantActionFlow(url: url) {
             instantActionCoordinator = InstantActionCoordinator(
                 rootViewController: controller,
-                qrUrl: url,
-                actionGuid: actionGuid,
-                connectUrl: connectUrl
+                qrUrl: url
             )
             instantActionCoordinator?.start()
         } else {

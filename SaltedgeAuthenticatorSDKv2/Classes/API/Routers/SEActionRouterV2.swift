@@ -1,5 +1,5 @@
 //
-//  URLExtensions.swift
+//  SEActionRouterV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -21,11 +21,40 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
-public extension URL {
-    func queryItem(for key: String) -> String? {
-        guard let components = URLComponents(url: self, resolvingAgainstBaseURL: false) else { return nil }
+enum SEActionRouterV2: Routable {
+    case submit(SEActionRequestDataV2, [String: Any])
 
-        return components.queryItems?.first(where: { $0.name == key })?.value
+    var method: HTTPMethod {
+        return .post
+    }
+
+    var encoding: Encoding {
+        return .json
+    }
+
+    var url: URL {
+        switch self {
+        case .submit(let data, _):
+            return data.url.appendingPathComponent(SENetPathBuilder(for: .authorizations, version: 2).path)
+        }
+    }
+
+    var headers: [String : String]? {
+        switch self {
+        case .submit(let data, let encryptedParameters):
+            return Headers.signedRequestHeaders(
+                token: data.accessToken,
+                payloadParams: encryptedParameters,
+                connectionGuid: data.connectionGuid
+            )
+        }
+    }
+
+    var parameters: [String : Any]? {
+        switch self {
+        case .submit(_, let encryptedParameters): return encryptedParameters
+        }
     }
 }

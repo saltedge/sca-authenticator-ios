@@ -86,6 +86,21 @@ class ConnectionCollectorSpec: BaseSpec {
             }
         }
 
+        describe("activeConnections(by providerId)") {
+            it("should return array only of active connections filtered by connect url") {
+                let providerId = "1"
+
+                let fifthConnection = Connection()
+                fifthConnection.id = "fifth"
+                fifthConnection.status = "active"
+                fifthConnection.providerId = providerId
+
+                ConnectionRepository.save(fifthConnection)
+
+                expect(Array(ConnectionsCollector.activeConnections(by: providerId))).to(equal([fifthConnection]))
+            }
+        }
+
         describe("where:") {
             it("should properly serialize the arguments into the Object.filter call") {
                 let whereString = "guid == '\(firstConnection.guid)'"

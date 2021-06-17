@@ -1,5 +1,5 @@
 //
-//  URLExtensions.swift
+//  SEBaseActionResponse
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -22,10 +22,7 @@
 
 import Foundation
 
-public extension URL {
-    func queryItem(for key: String) -> String? {
-        guard let components = URLComponents(url: self, resolvingAgainstBaseURL: false) else { return nil }
-
-        return components.queryItems?.first(where: { $0.name == key })?.value
-    }
+public protocol SEBaseActionResponse: SerializableResponse {
+    var authorizationId: String? { get }
+    var connectionId: String? { get }
 }

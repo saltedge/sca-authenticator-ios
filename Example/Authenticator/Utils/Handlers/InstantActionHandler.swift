@@ -22,6 +22,7 @@
 
 import UIKit
 import SEAuthenticator
+import SEAuthenticatorV2
 import SEAuthenticatorCore
 
 protocol InstantActionEventsDelegate: class {
@@ -34,68 +35,116 @@ protocol InstantActionEventsDelegate: class {
 
 final class InstantActionHandler {
     private var qrUrl: URL
-    private var actionGuid: GUID
-    private var connectUrl: URL
 
     weak var delegate: InstantActionEventsDelegate?
 
-    init(qrUrl: URL, actionGuid: GUID, connectUrl: URL) {
+    init(qrUrl: URL) {
         self.qrUrl = qrUrl
-        self.actionGuid = actionGuid
-        self.connectUrl = connectUrl
+    }
+
+    private var actionGuid: GUID? {
+        return SEConnectHelper.actionGuid(from: qrUrl)
+    }
+
+    private var connectUrl: URL? {
+        return SEConnectHelper.connectUrl(from: qrUrl)
+    }
+
+    private var apiVersion: ApiVersion {
+        return SEConnectHelper.apiVersion(from: qrUrl) ?? "1"
     }
 
     func startHandling() {
-        handleQr(qrUrl: qrUrl, actionGuid: actionGuid, connectUrl: connectUrl)
+        handleQr(qrUrl: qrUrl)
     }
 
-    private func handleQr(qrUrl: URL, actionGuid: GUID, connectUrl: URL) {
+    func submitAction(for submitData: SubmitActionData) {
+        if apiVersion == "2" {
+            guard let providerId = qrUrl.queryItem(for: SENetKeys.providerId),
+                  let actionId = qrUrl.queryItem(for: SENetKeys.actionId) else { return }
+
+            let actionData = SEActionRequestDataV2(
+                url: submitData.baseUrl,
+                connectionGuid: submitData.connectionGuid,
+                accessToken: submitData.accessToken,
+                appLanguage: UserDefaultsHelper.applicationLanguage,
+                providerId: providerId,
+                actionId: actionId,
+                connectionId: submitData.connectionId
+            )
+
+            SEActionManagerV2.submitAction(
+                data: actionData,
+                onSuccess: { [weak self] response in
+                    guard let strongSelf = self else { return }
+
+                    strongSelf.handleActionResponse(response, qrUrl: strongSelf.qrUrl)
+                },
+                onFailure: { [weak self] _ in
+                    DispatchQueue.main.async {
+                        self?.delegate?.errorReceived(error: l10n(.actionError))
+                    }
+                }
+            )
+        } else {
+            let actionData = SEActionRequestData(
+                url: connectUrl!,
+                connectionGuid: submitData.connectionGuid,
+                accessToken: submitData.accessToken,
+                appLanguage: UserDefaultsHelper.applicationLanguage,
+                guid: actionGuid!
+            )
+
+            SEActionManager.submitAction(
+                data: actionData,
+                onSuccess: { [weak self] response in
+                    guard let strongSelf = self else { return }
+
+                    strongSelf.handleActionResponse(response, qrUrl: strongSelf.qrUrl)
+                },
+                onFailure: { [weak self] _ in
+                    DispatchQueue.main.async {
+                        self?.delegate?.errorReceived(error: l10n(.actionError))
+                    }
+                }
+            )
+        }
+    }
+
+    private func handleQr(qrUrl: URL) {
         guard ConnectionsCollector.activeConnections.count > 0 else {
             self.delegate?.errorReceived(error: l10n(.noActiveConnection))
             return
         }
 
-        let connections = ConnectionsCollector.activeConnections(by: connectUrl)
+        var connections = [Connection]()
+
+        if apiVersion == "2", let providerId = SEConnectHelper.providerId(from: qrUrl) {
+            connections = ConnectionsCollector.activeConnections(by: providerId)
+        } else if let connectUrl = connectUrl {
+            connections = ConnectionsCollector.activeConnections(by: connectUrl)
+        }
 
         if connections.count > 1 {
             delegate?.shouldPresentConnectionPicker(connections: connections)
         } else if connections.count == 1 {
-            guard let connection = connections.first else { return }
+            guard let connection = connections.first, let baseUrl = connection.baseUrl else { return }
 
             submitAction(
-                for: connection.guid,
-                accessToken: connection.accessToken
+                for: SubmitActionData(
+                    baseUrl: baseUrl,
+                    connectionGuid: connection.guid,
+                    connectionId: connection.id,
+                    accessToken: connection.accessToken,
+                    apiVersion: connection.apiVersion
+                )
             )
         } else {
             delegate?.shouldDismiss(with: l10n(.noSuitableConnection))
         }
     }
 
-    func submitAction(for connectionGuid: GUID, accessToken: AccessToken) {
-        let actionData = SEActionRequestData(
-            url: connectUrl,
-            connectionGuid: connectionGuid,
-            accessToken: accessToken,
-            appLanguage: UserDefaultsHelper.applicationLanguage,
-            guid: actionGuid
-        )
-
-        SEActionManager.submitAction(
-            data: actionData,
-            onSuccess: { [weak self] response in
-                guard let strongSelf = self else { return }
-
-                strongSelf.handleActionResponse(response, qrUrl: strongSelf.qrUrl)
-            },
-            onFailure: { [weak self] _ in
-                DispatchQueue.main.async {
-                    self?.delegate?.errorReceived(error: l10n(.actionError))
-                }
-            }
-        )
-    }
-
-    private func handleActionResponse(_ response: SESubmitActionResponse, qrUrl: URL) {
+    private func handleActionResponse(_ response: SEBaseActionResponse, qrUrl: URL) {
         if let connectionId = response.connectionId,
             let authorizationId = response.authorizationId {
             delegate?.showAuthorization(connectionId: connectionId, authorizationId: authorizationId)
