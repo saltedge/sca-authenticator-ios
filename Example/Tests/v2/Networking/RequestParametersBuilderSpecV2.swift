@@ -49,6 +49,34 @@ class RequestParametersBuilderSpecV2: BaseSpec {
                 expect(result).to(beTruthy())
             }
         }
+
+        describe("actionParameters") {
+            it("should retun correct dict") {
+                let data = SEActionRequestDataV2(
+                    url: URL(string: "https://url.com")!,
+                    connectionGuid: "123",
+                    accessToken: "456",
+                    appLanguage: "en",
+                    providerId: "1",
+                    actionId: "99",
+                    connectionId: "15"
+                )
+                let expirationTime = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+
+                let expectedParams: [String: Any] = [
+                    SENetKeys.data: [
+                        ParametersKeys.providerId: data.providerId,
+                        ParametersKeys.actionId: data.actionId,
+                        ParametersKeys.connectionId: data.connectionId
+                    ],
+                    ParametersKeys.exp: expirationTime
+                ]
+
+                let result = RequestParametersBuilder.actionParameters(requestData: data) == expectedParams
+
+                expect(result).to(beTruthy())
+            }
+        }
     }
 }
 

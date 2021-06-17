@@ -27,6 +27,8 @@ struct ParametersKeys {
     static let data = "data"
     static let key = "key"
     static let iv = "iv"
+    static let actionId = "action_id"
+    static let connectionId = "connection_id"
     static let providerId = "provider_id"
     static let publicKey = "public_key"
     static let deviceInfo = "device_info"
@@ -78,6 +80,17 @@ struct RequestParametersBuilder {
         return [
             ParametersKeys.data: encryptedDataParams,
             ParametersKeys.exp: exp
+        ]
+    }
+
+    static func actionParameters(requestData: SEActionRequestDataV2) -> [String: Any] {
+        return [
+            SENetKeys.data: [
+                ParametersKeys.providerId: requestData.providerId,
+                ParametersKeys.actionId: requestData.actionId,
+                ParametersKeys.connectionId: requestData.connectionId
+            ],
+            ParametersKeys.exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
         ]
     }
 }

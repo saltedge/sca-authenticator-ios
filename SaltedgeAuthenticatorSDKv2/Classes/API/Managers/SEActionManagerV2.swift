@@ -30,20 +30,9 @@ public struct SEActionManagerV2 {
         onFailure failure: @escaping FailureBlock
     ) {
         HTTPService<SESubmitActionResponseV2>.execute(
-            request: SEActionRouterV2.submit(data, parameters(requestData: data)),
+            request: SEActionRouterV2.submit(data),
             success: success,
             failure: failure
         )
-    }
-
-    private static func parameters(requestData: SEActionRequestDataV2) -> [String: Any] {
-        return [
-            SENetKeys.data: [
-                ApiConstants.providerId: requestData.providerId,
-                ApiConstants.actionId: requestData.actionId,
-                ApiConstants.connectionId: requestData.connectionId
-            ],
-            ParametersKeys.exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-        ]
     }
 }

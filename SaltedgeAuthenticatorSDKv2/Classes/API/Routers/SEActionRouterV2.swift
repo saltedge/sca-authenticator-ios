@@ -24,7 +24,7 @@ import Foundation
 import SEAuthenticatorCore
 
 enum SEActionRouterV2: Routable {
-    case submit(SEActionRequestDataV2, [String: Any])
+    case submit(SEActionRequestDataV2)
 
     var method: HTTPMethod {
         return .post
@@ -36,17 +36,17 @@ enum SEActionRouterV2: Routable {
 
     var url: URL {
         switch self {
-        case .submit(let data, _):
+        case .submit(let data):
             return data.url.appendingPathComponent(SENetPathBuilder(for: .authorizations, version: 2).path)
         }
     }
 
     var headers: [String : String]? {
         switch self {
-        case .submit(let data, let encryptedParameters):
+        case .submit(let data):
             return Headers.signedRequestHeaders(
                 token: data.accessToken,
-                payloadParams: encryptedParameters,
+                payloadParams: RequestParametersBuilder.actionParameters(requestData: data),
                 connectionGuid: data.connectionGuid
             )
         }
@@ -54,7 +54,8 @@ enum SEActionRouterV2: Routable {
 
     var parameters: [String : Any]? {
         switch self {
-        case .submit(_, let encryptedParameters): return encryptedParameters
+        case .submit(let data):
+            return RequestParametersBuilder.actionParameters(requestData: data)
         }
     }
 }
