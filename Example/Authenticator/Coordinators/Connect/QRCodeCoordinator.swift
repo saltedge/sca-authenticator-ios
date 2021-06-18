@@ -29,15 +29,12 @@ final class QRCodeCoordinator: Coordinator {
     private var connectViewCoordinator: ConnectViewCoordinator?
     private var instantActionCoordinator:  InstantActionCoordinator?
 
-    var dismissClosure: (() -> ())?
-
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
         self.qrCodeViewController = QRCodeViewController()
     }
 
     func start() {
-        dismissClosure = qrCodeViewController.shouldDismissClosure
         qrCodeViewController.delegate = self
         if let navController = rootViewController.navigationController {
             navController.present(qrCodeViewController, animated: true)

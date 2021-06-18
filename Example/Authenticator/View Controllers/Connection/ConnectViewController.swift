@@ -39,7 +39,7 @@ final class ConnectViewController: BaseViewController {
                 message: l10n(.pleaseTryAgain),
                 actionTitle: l10n(.ok),
                 completion: {
-                    self.dismiss(animated: true)
+                    self.cancelPressed()
                 }
             )
             return
@@ -64,8 +64,12 @@ private extension ConnectViewController {
             title: l10n(.cancel),
             style: .plain,
             target: self,
-            action: #selector(close)
+            action: #selector(cancelPressed)
         )
+    }
+
+    @objc func cancelPressed() {
+        dismiss(animated: true)
     }
 }
 
@@ -88,6 +92,6 @@ extension ConnectViewController {
 // MARK: - CompleteViewDelegate
 extension ConnectViewController: CompleteViewDelegate {
     func proceedPressed(for view: CompleteView) {
-        dismiss(animated: true, completion: nil)
+        cancelPressed()
     }
 }
