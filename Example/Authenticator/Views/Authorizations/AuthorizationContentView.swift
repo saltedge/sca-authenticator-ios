@@ -113,14 +113,15 @@ final class AuthorizationContentView: UIView {
         } else {
             contentStackView.removeAllArrangedSubviews()
 
-            let attributesView = UIView()
-            attributesView.addSubview(attributesStackView)
-            contentStackView.addArrangedSubview(attributesView)
+            let attributesScrollView = UIScrollView()
+            attributesScrollView.addSubview(attributesStackView)
 
-            attributesView.edgesToSuperview()
+            contentStackView.addArrangedSubview(attributesScrollView)
 
-            attributesStackView.topToSuperview()
-            attributesStackView.widthToSuperview()
+            attributesScrollView.edgesToSuperview()
+
+            attributesStackView.width(to: attributesScrollView)
+            attributesStackView.edgesToSuperview()
 
             attributesStackView.setup(using: attributes)
         }

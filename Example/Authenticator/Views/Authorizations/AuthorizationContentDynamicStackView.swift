@@ -109,6 +109,7 @@ final class AuthorizationContentDynamicStackView: UIStackView {
         )
         let descriptionLabel = UILabel(
             font: .systemFont(ofSize: 16.0, weight: .regular),
+            alignment: .right,
             textColor: fieldType == .payment ? .titleColor : FieldType.extra.textColor
         )
 
@@ -132,7 +133,7 @@ final class AuthorizationContentDynamicStackView: UIStackView {
         descriptionLabel.centerYToSuperview()
 
         if fieldType == .payment {
-            descriptionLabel.leftToRight(of: contentTitleLabel, offset: 32.0, relation: .equalOrGreater)
+            descriptionLabel.leftToRight(of: contentTitleLabel, offset: 16.0, relation: .equalOrGreater)
             descriptionLabel.rightToSuperview(offset: -16.0)
         } else {
             descriptionLabel.leftToRight(of: contentTitleLabel, offset: 6.0)
