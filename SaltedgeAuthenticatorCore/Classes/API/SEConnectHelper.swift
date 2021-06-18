@@ -28,23 +28,45 @@ public struct SEConnectHelper {
     }
 
     public static func isValidAction(deepLinkUrl url: URL) -> Bool {
-        return actionGuid(from: url) != nil && connectUrl(from: url) != nil
+        if let apiVersion = apiVersion(from: url), apiVersion == "2" {
+            return actionId(from: url) != nil && providerId(from: url) != nil
+        } else {
+            return actionGuid(from: url) != nil && connectUrl(from: url) != nil
+        }
     }
 
     public static func returnToUrl(from url: URL) -> URL? {
-        guard let query = url.queryItem(for: "return_to") else { return nil }
+        guard let query = url.queryItem(for: SENetKeys.returnTo) else { return nil }
 
         return URL(string: query)
     }
 
     public static func connectUrl(from url: URL) -> URL? {
-        guard let query = url.queryItem(for: "connect_url") else { return nil }
+        guard let query = url.queryItem(for: SENetKeys.connectUrl) else { return nil }
 
         return URL(string: query)
     }
 
+    public static func apiVersion(from url: URL) -> String? {
+        guard let query = url.queryItem(for: SENetKeys.apiVersion) else { return nil }
+
+        return query
+    }
+
+    public static func actionId(from url: URL) -> String? {
+        guard let query = url.queryItem(for: SENetKeys.actionId) else { return nil }
+
+        return query
+    }
+
+    public static func providerId(from url: URL) -> String? {
+        guard let query = url.queryItem(for: SENetKeys.providerId) else { return nil }
+
+        return query
+    }
+
     public static func actionGuid(from url: URL) -> String? {
-        guard let query = url.queryItem(for: "action_uuid") else { return nil }
+        guard let query = url.queryItem(for: SENetKeys.actionUuid) else { return nil }
 
         return query
     }
@@ -59,6 +81,11 @@ public struct SEConnectHelper {
         guard let query = url.queryItem(for: SENetKeys.connectQuery) else { return nil }
 
         return query
+    }
+
+    public static func shouldStartInstantActionFlow(url: URL) -> Bool {
+        return SEConnectHelper.actionId(from: url) != nil && SEConnectHelper.providerId(from: url) != nil ||
+            SEConnectHelper.actionGuid(from: url) != nil && SEConnectHelper.connectUrl(from: url) != nil
     }
 }
 

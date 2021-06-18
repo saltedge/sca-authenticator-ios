@@ -1,5 +1,5 @@
 //
-//  URLExtensions.swift
+//  SEActionManagerV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -21,11 +21,18 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
-public extension URL {
-    func queryItem(for key: String) -> String? {
-        guard let components = URLComponents(url: self, resolvingAgainstBaseURL: false) else { return nil }
-
-        return components.queryItems?.first(where: { $0.name == key })?.value
+public struct SEActionManagerV2 {
+    public static func submitAction(
+        data: SEActionRequestDataV2,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SESubmitActionResponseV2>,
+        onFailure failure: @escaping FailureBlock
+    ) {
+        HTTPService<SESubmitActionResponseV2>.execute(
+            request: SEActionRouterV2.submit(data),
+            success: success,
+            failure: failure
+        )
     }
 }

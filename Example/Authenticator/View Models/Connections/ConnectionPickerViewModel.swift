@@ -22,10 +22,18 @@
 
 import UIKit
 
+struct SubmitActionData {
+    var baseUrl: URL
+    var connectionGuid: String
+    var connectionId: String
+    var accessToken: String
+    var apiVersion: String
+}
+
 final class ConnectionPickerViewModel {
     private var connections: [Connection]
 
-    var selectedConnectionClosure: ((String, String) -> ())?
+    var selectedConnectionClosure: ((SubmitActionData) -> ())?
 
     init(connections: [Connection]) {
         self.connections = connections
@@ -41,6 +49,17 @@ final class ConnectionPickerViewModel {
 
     func selectedConnection(at indexPath: IndexPath) {
         let viewModel = ConnectionCellViewModel(connection: connections[indexPath.row])
-        selectedConnectionClosure?(viewModel.guid, viewModel.accessToken)
+
+        guard let baseUrl = viewModel.baseUrl else { return }
+
+        selectedConnectionClosure?(
+            SubmitActionData(
+                baseUrl: baseUrl,
+                connectionGuid: viewModel.guid,
+                connectionId: viewModel.id,
+                accessToken: viewModel.accessToken,
+                apiVersion: viewModel.apiVersion
+            )
+        )
     }
 }

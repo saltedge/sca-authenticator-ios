@@ -53,16 +53,22 @@ final class SingleAuthorizationViewModel {
             success: { [weak self] encryptedAuthorization in
                 guard let strongSelf = self else { return }
 
-                DispatchQueue.global(qos: .background).async {
-                    guard let decryptedAuthorizationData = encryptedAuthorization.decryptedAuthorizationData else { return }
+                var decryptedAuthorizationData: SEBaseAuthorizationData?
 
-                    DispatchQueue.main.async {
-                        if let viewModel = AuthorizationDetailViewModel(decryptedAuthorizationData, apiVersion: "1") {
-                            strongSelf.detailViewModel = viewModel
-                            strongSelf.detailViewModel?.delegate = self
+                if connection.isApiV2 {
+                    decryptedAuthorizationData = encryptedAuthorization.decryptedAuthorizationDataV2
+                } else {
+                    decryptedAuthorizationData = encryptedAuthorization.decryptedAuthorizationData
+                }
 
-                            strongSelf.delegate?.receivedDetailViewModel(viewModel)
-                        }
+                guard let data = decryptedAuthorizationData else { return }
+
+                DispatchQueue.main.async {
+                    if let viewModel = AuthorizationDetailViewModel(data, apiVersion: connection.apiVersion) {
+                        strongSelf.detailViewModel = viewModel
+                        strongSelf.detailViewModel?.delegate = self
+
+                        strongSelf.delegate?.receivedDetailViewModel(viewModel)
                     }
                 }
             },

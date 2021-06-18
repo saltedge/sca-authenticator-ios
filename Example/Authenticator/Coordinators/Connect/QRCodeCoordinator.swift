@@ -55,13 +55,10 @@ extension QRCodeCoordinator: QRCodeViewControllerDelegate {
         guard let url = URL(string: data),
             SEConnectHelper.isValid(deepLinkUrl: url) else { return }
 
-        if let actionGuid = SEConnectHelper.actionGuid(from: url),
-            let connectUrl = SEConnectHelper.connectUrl(from: url) {
+        if SEConnectHelper.shouldStartInstantActionFlow(url: url) {
             instantActionCoordinator = InstantActionCoordinator(
                 rootViewController: rootViewController,
-                qrUrl: url,
-                actionGuid: actionGuid,
-                connectUrl: connectUrl
+                qrUrl: url
             )
             instantActionCoordinator?.start()
         } else {

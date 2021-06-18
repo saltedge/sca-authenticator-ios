@@ -58,6 +58,40 @@ class SEConnectHelperSpec: BaseSpec {
             }
         }
 
+        describe("isValidAction") {
+            context("when api version is 2") {
+                it("should return true if url containts api_version, action_id and provider_id") {
+                    let url = URL(string: "authenticator://saltedge.com/action?api_version=2&action_id=1&provider_id=1&return_to=http://return.com")!
+
+                    expect(SEConnectHelper.isValidAction(deepLinkUrl: url)).to(beTrue())
+                }
+            }
+
+            context("when url is missing one of the requirement fields") {
+                it("should return false") {
+                    let url = URL(string: "authenticator://saltedge.com/action?api_version=2&action_id=1&return_to=http://return.com")!
+
+                    expect(SEConnectHelper.isValidAction(deepLinkUrl: url)).to(beFalse())
+                }
+            }
+
+            context("if it's api v1 and contains action_uuid and connect_url") {
+                it("should return true") {
+                    let url = URL(string: "authenticator://saltedge.com/action?action_uuid=123456&connect_url=https://connect.com")!
+
+                    expect(SEConnectHelper.isValidAction(deepLinkUrl: url)).to(beTrue())
+                }
+            }
+
+            context("if it's api v1 and url is missing required fields") {
+                it("should return false") {
+                    let url = URL(string: "authenticator://saltedge.com/action?action_uuid=123456")!
+
+                    expect(SEConnectHelper.isValidAction(deepLinkUrl: url)).to(beFalse())
+                }
+            }
+        }
+
         describe("actionGuid") {
             it("should return action_uuid param value or nil") {
                 let expectUrl = URL(string: "authenticator://saltedge.com/action?action_uuid=123456")
@@ -120,6 +154,40 @@ class SEConnectHelperSpec: BaseSpec {
                 )
                 
                 expect(SEConnectHelper.connectQuery(from: expectUrl!)).to(equal("1234567890"))
+            }
+        }
+
+        describe("shouldStartInstantActionFlow") {
+            context("when it's v2 and contains action_id and provider_id") {
+                it("should return true") {
+                    let url = URL(string: "authenticator://saltedge.com/action?api_version=2&action_id=1&provider_id=1&return_to=http://return.com")!
+
+                    expect(SEConnectHelper.shouldStartInstantActionFlow(url: url)).to(beTrue())
+                }
+            }
+
+            context("when it's v2 and url is missing one of the required fields") {
+                it("should return false") {
+                    let url = URL(string: "authenticator://saltedge.com/action?api_version=2&provider_id=1&return_to=http://return.com")!
+
+                    expect(SEConnectHelper.shouldStartInstantActionFlow(url: url)).to(beFalse())
+                }
+            }
+
+            context("when it's v1 and contains action_uuid and connect_url") {
+                it("should return true") {
+                    let url = URL(string: "authenticator://saltedge.com/action?action_uuid=123456&connect_url=https://connect.com")!
+
+                    expect(SEConnectHelper.shouldStartInstantActionFlow(url: url)).to(beTrue())
+                }
+            }
+
+            context("when it's v1 and url is missing one of the required fields") {
+                it("should return false") {
+                    let url = URL(string: "authenticator://saltedge.com/action?connect_url=https://connect.com")!
+
+                    expect(SEConnectHelper.shouldStartInstantActionFlow(url: url)).to(beFalse())
+                }
             }
         }
     }

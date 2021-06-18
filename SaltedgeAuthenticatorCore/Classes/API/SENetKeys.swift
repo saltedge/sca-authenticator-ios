@@ -23,6 +23,8 @@
 import Foundation
 
 public struct SENetKeys {
+    public static let apiVersion = "api_version"
+
     public static let aps = "aps"
 
     public static let data = "data"
@@ -50,6 +52,8 @@ public struct SENetKeys {
     public static let createdAt = "created_at"
     public static let expiresAt = "expires_at"
     public static let redirectUrl = "redirect_url"
+
+    public static let returnTo = "return_to"
 
     public static let key = "key"
     public static let iv = "iv"
@@ -91,4 +95,8 @@ public struct SENetKeys {
     public static let device = "device"
     public static let location = "location"
     public static let ip = "ip"
+
+    public static let actionId = "action_id"
+    public static let actionUuid = "action_uuid"
+    public static let providerId = "provider_id"
 }

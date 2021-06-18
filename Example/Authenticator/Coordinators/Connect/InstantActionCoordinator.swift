@@ -30,10 +30,10 @@ final class InstantActionCoordinator: Coordinator {
     private var instantActionHandler: InstantActionHandler
     private var qrCodeCoordinator: QRCodeCoordinator?
 
-    init(rootViewController: UIViewController, qrUrl: URL, actionGuid: GUID, connectUrl: URL) {
+    init(rootViewController: UIViewController, qrUrl: URL) {
         self.rootViewController = rootViewController
         self.connectViewController = ConnectViewController()
-        self.instantActionHandler = InstantActionHandler(qrUrl: qrUrl, actionGuid: actionGuid, connectUrl: connectUrl)
+        self.instantActionHandler = InstantActionHandler(qrUrl: qrUrl)
         if #available(iOS 13.0, *) {
             connectViewController.isModalInPresentation = true
         }
@@ -65,10 +65,10 @@ extension InstantActionCoordinator: InstantActionEventsDelegate {
         }
         connectViewController.add(pickerViewController)
 
-        pickerViewModel.selectedConnectionClosure = { guid, accessToken in
+        pickerViewModel.selectedConnectionClosure = { actionData in
             pickerViewController.remove()
             self.connectViewController.title = l10n(.newAction)
-            self.instantActionHandler.submitAction(for: guid, accessToken: accessToken)
+            self.instantActionHandler.submitAction(for: actionData)
         }
     }
 
