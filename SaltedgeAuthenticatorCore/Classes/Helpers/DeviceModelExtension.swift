@@ -23,7 +23,7 @@
 import Foundation
 import UIKit
 
-enum Model: String {
+enum DeviceModel: String {
     //Simulator
     case simulator     = "simulator/sandbox",
 
@@ -92,7 +92,7 @@ enum Model: String {
 
 // MARK: UIDevice extensions
 extension UIDevice {
-    var type: Model {
+    var type: DeviceModel {
         var systemInfo = utsname()
         uname(&systemInfo)
         let modelCode = withUnsafePointer(to: &systemInfo.machine) {
@@ -101,7 +101,7 @@ extension UIDevice {
             }
         }
 
-        let modelMap : [String: Model] = [
+        let modelMap : [String: DeviceModel] = [
             //Simulator
             "i386"      : .simulator,
             "x86_64"    : .simulator,
@@ -223,15 +223,9 @@ extension UIDevice {
         ]
 
         if let model = modelMap[String.init(validatingUTF8: modelCode!)!] {
-            if model == .simulator {
-                if let simModelCode = ProcessInfo().environment["SIMULATOR_MODEL_IDENTIFIER"] {
-                    if let simModel = modelMap[String.init(validatingUTF8: simModelCode)!] {
-                        return simModel
-                    }
-                }
-            }
             return model
         }
-        return Model.unrecognized
+
+        return DeviceModel.unrecognized
     }
 }
