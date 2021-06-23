@@ -67,8 +67,10 @@ class ActionRouterSpec: BaseSpec {
                 let request = SEActionRouter.submit(expectedActionData).asURLRequest()
 
                 expect(request).to(equal(expectedRequest))
+
+                expect(request.allHTTPHeaderFields!["User-Agent"])
+                    .to(equal("TestHost-iOS / 1.0(1); (simulator/sandbox; iOS \(UIDevice.current.systemVersion))"))
             }
         }
     }
 }
-
