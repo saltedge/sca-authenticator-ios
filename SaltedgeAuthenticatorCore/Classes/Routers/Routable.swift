@@ -47,6 +47,7 @@ public extension Routable {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.allHTTPHeaderFields = headers
+        request.setValue(userAgentValue, forHTTPHeaderField: "User-Agent")
 
         guard let parameters = parameters else { return request }
 
@@ -59,7 +60,6 @@ public extension Routable {
         if request.value(forHTTPHeaderField: "Content-Type") == nil {
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         }
-        request.setValue(userAgentValue, forHTTPHeaderField: "User-Agent")
 
         request.httpBody = ParametersSerializer.createBody(parameters: parameters)
 
