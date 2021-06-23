@@ -47,6 +47,7 @@ public extension Routable {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.allHTTPHeaderFields = headers
+        request.setValue(userAgentValue, forHTTPHeaderField: "User-Agent")
 
         guard let parameters = parameters else { return request }
 
@@ -63,6 +64,19 @@ public extension Routable {
         request.httpBody = ParametersSerializer.createBody(parameters: parameters)
 
         return request
+    }
+
+    /*
+      Build application and device info:
+      e.g.: Authenticator / 3.3.0(130); (iPhone 8 Plus; iOS 14.5)
+    */
+    private var userAgentValue: String {
+        let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String ?? ""
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? ""
+        let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? ""
+
+        return "\(appName) / \(version)(\(buildNumber)); "
+            + "(\(UIDevice().type.rawValue); \(UIDevice.current.systemName) \(UIDevice.current.systemVersion))"
     }
 }
 
