@@ -87,7 +87,17 @@ extension ConnectViewCoordinator: ConnectEventsDelegate {
     }
 
     func requestLocationAuthorization() {
-        LocationManager.shared.requestLocationAuthorization()
+        if LocationManager.shared.notDeterminedAuthorization {
+            LocationManager.shared.requestLocationAuthorization()
+        } else {
+            connectViewController.showInfoAlert(
+                withTitle: l10n(.turnOnLocationServices),
+                message: l10n(.turnOnPhoneLocationServicesDescription),
+                completion: {
+                    LocationManager.shared.requestLocationAuthorization()
+                }
+            )
+        }
     }
 
     func startWebViewLoading(with connectUrlString: String) {

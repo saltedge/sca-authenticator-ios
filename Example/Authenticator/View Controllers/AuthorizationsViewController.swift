@@ -103,24 +103,29 @@ final class AuthorizationsViewController: BaseViewController {
                     )
                 }
             case .requestLocationWarning:
-                if LocationManager.shared.geolocationSharingIsDenied {
-                    strongSelf.showInfoAlert(
-                        withTitle: l10n(.turnOnLocationServices),
-                        message: l10n(.turnOnPhoneLocationServicesDescription)
-                    )
-                } else {
-                    strongSelf.showConfirmationAlert(
-                        withTitle: l10n(.accessToLocationServices),
-                        message: l10n(.turnOnLocationSharingDescription),
-                        confirmActionTitle: l10n(.goToSettings),
-                        confirmActionStyle: .default,
-                        confirmAction: { _ in strongSelf.openPhoneSettings()
-                        }
-                    )
-                }
+                strongSelf.checkLocationServicesStatus()
             default: break
             }
             strongSelf.viewModel.resetState()
+        }
+    }
+
+    private func checkLocationServicesStatus() {
+        if LocationManager.shared.notDeterminedAuthorization {
+            LocationManager.shared.requestLocationAuthorization()
+        } else if LocationManager.shared.geolocationSharingIsDenied {
+            showConfirmationAlert(
+                withTitle: l10n(.accessToLocationServices),
+                message: l10n(.turnOnLocationSharingDescription),
+                confirmActionTitle: l10n(.goToSettings),
+                confirmActionStyle: .default,
+                confirmAction: { _ in self.openPhoneSettings() }
+            )
+        } else {
+            showInfoAlert(
+                withTitle: l10n(.turnOnLocationServices),
+                message: l10n(.turnOnPhoneLocationServicesDescription)
+            )
         }
     }
 

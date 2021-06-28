@@ -201,19 +201,23 @@ extension ConnectionsViewController: ConnectionCellEventsDelegate {
     }
 
     func accessLocationPressed() {
-        showConfirmationAlert(
-            withTitle: l10n(.accessToLocationServices),
-            message: l10n(.turnOnLocationSharingDescription),
-            confirmActionTitle: l10n(.goToSettings),
-            confirmActionStyle: .default,
-            confirmAction: { _ in
-                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+        if LocationManager.shared.notDeterminedAuthorization {
+            LocationManager.shared.requestLocationAuthorization()
+        } else {
+            showConfirmationAlert(
+                withTitle: l10n(.accessToLocationServices),
+                message: l10n(.turnOnLocationSharingDescription),
+                confirmActionTitle: l10n(.goToSettings),
+                confirmActionStyle: .default,
+                confirmAction: { _ in
+                    guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
 
-                if UIApplication.shared.canOpenURL(settingsUrl) {
-                    UIApplication.shared.open(settingsUrl)
+                    if UIApplication.shared.canOpenURL(settingsUrl) {
+                        UIApplication.shared.open(settingsUrl)
+                    }
                 }
-            }
-        )
+            )
+        }
     }
 
     func supportPressed(email: String) {
