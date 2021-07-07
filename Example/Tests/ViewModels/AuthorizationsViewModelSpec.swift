@@ -107,7 +107,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
                 viewModel.confirmAuthorization(by: "00000", apiVersion: "1")
 
                 expect(detailViewModel?.state.value).to(equal(AuthorizationStateView.AuthorizationState.processing))
-                expect(detailViewModel?.state.value).toEventually(equal(AuthorizationStateView.AuthorizationState.undefined))
+                expect(detailViewModel?.state.value).toEventually(equal(AuthorizationStateView.AuthorizationState.error))
             }
 
             context("when location services are off and conection requires geolocation") {
@@ -166,7 +166,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
                 viewModel.denyAuthorization(by: "00000", apiVersion: "1")
 
                 expect(detailViewModel?.state.value).to(equal(AuthorizationStateView.AuthorizationState.processing))
-                expect(detailViewModel?.state.value).toEventually(equal(AuthorizationStateView.AuthorizationState.undefined))
+                expect(detailViewModel?.state.value).toEventually(equal(AuthorizationStateView.AuthorizationState.error))
             }
 
             context("when location services are off and conection requires geolocation") {

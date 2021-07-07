@@ -22,7 +22,7 @@
 
 import Quick
 import Nimble
-@testable import SEAuthenticator
+@testable import SEAuthenticatorCore
 
 class ConfirmAuthorizationResponseSpec: BaseSpec {
     override func spec() {
@@ -33,7 +33,7 @@ class ConfirmAuthorizationResponseSpec: BaseSpec {
                     let response = SEConfirmAuthorizationResponse(fixture)
 
                     expect(response).toNot(beNil())
-                    expect(response?.success).to(beTrue())
+                    expect(response?.status.isFinalStatus).to(beTrue())
                     expect(response?.id).to(equal("1"))
                 }
             }

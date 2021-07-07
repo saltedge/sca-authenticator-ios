@@ -68,8 +68,8 @@ final class AuthorizationContentView: UIView {
                 return
             }
 
-            if viewModel.expired && viewModel.state.value != .expired {
-                stateView.set(state: .expired)
+            if viewModel.expired && viewModel.state.value != .timeOut {
+                stateView.set(state: .timeOut)
             } else {
                 stateView.set(state: .base)
 

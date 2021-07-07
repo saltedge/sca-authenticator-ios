@@ -53,7 +53,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
             firstModel = AuthorizationDetailViewModel(firstDecryptedData, apiVersion: "1")
             secondModel = AuthorizationDetailViewModel(secondDecryptedData, apiVersion: "1")
 
-            _ = dataSource.update(with: [firstDecryptedData, secondDecryptedData])
+//            _ = dataSource.update(with: [firstDecryptedData, secondDecryptedData])
         }
 
         afterEach {
@@ -171,34 +171,47 @@ class AuthorizationsDataSourceSpec: BaseSpec {
             }
 
             context("merge") {
-                context("when one authorization expired and other was added") {
+                fcontext("when one authorization expired and other was added") {
                     it("should keep the expired one and add the new one") {
-                        expect(dataSource.rows).to(equal(2))
+//                        expect(dataSource.rows).to(equal(2))
 
-                        let authMessage = ["id": "909",
-                                           "connection_id": connection.id,
-                                           "title": "Expired Authorization",
-                                           "description": "Test expired authorization",
-                                           "created_at": Date().iso8601string,
-                                           "expires_at": Date().addingTimeInterval(1.0).iso8601string]
-                        let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
+                        let authMessage: [String: Any] = [
+                            "title": "Authorization V2",
+                            "authorization_code": "code",
+                            "description": ["text": "Test valid authorization"],
+                            "created_at": Date().iso8601string,
+                            "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string
+                        ]
+//                        let authMessage = ["id": "909",
+//                                           "connection_id": connection.id,
+//                                           "title": "Expired Authorization",
+//                                           "description": "Test expired authorization",
+//                                           "created_at": Date().iso8601string,
+//                                           "expires_at": Date().addingTimeInterval(1.0).iso8601string]
+//                        let decryptedData = SpecUtils.createAuthResponse(with: authMessage, id: connection.id, guid: connection.guid)
+
+                        let decryptedData = SpecUtils.createAuthResponseV2(with: authMessage, authorizationId: 909, connectionId: Int(connection.id)!, guid: connection.guid)
 
                         _ = dataSource.update(with: [decryptedData])
                         sleep(1)
 
                         expect(dataSource.rows).to(equal(1))
 
-                        let newAuthMessage = ["id": "910",
-                                              "connection_id": connection.id,
-                                              "title": "Expired Authorization",
-                                              "description": "Test expired authorization",
-                                              "created_at": Date().iso8601string,
-                                              "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
-                        let newDecryptedData = SpecUtils.createAuthResponse(with: newAuthMessage, id: connection.id, guid: connection.guid)
+//                        let newAuthMessage = ["id": "910",
+//                                              "connection_id": connection.id,
+//                                              "title": "Expired Authorization",
+//                                              "description": "Test expired authorization",
+//                                              "created_at": Date().iso8601string,
+//                                              "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string]
+                        let finalStatusAuthorization = SpecUtils.createFinalAuthResponseV2(with: authMessage, authorizationId: 909, connectionId: Int(connection.id)!, guid: connection.guid)
 
-                        _ = dataSource.update(with: [newDecryptedData])
+                        _ = dataSource.update(with: [finalStatusAuthorization])
 
-                        expect(dataSource.rows).to(equal(2))
+                        expect(dataSource.rows).to(equal(1))
+
+                        sleep(6)
+
+                        expect(dataSource.rows).to(equal(0))
                     }
                 }
             }

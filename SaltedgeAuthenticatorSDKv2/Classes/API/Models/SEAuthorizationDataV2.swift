@@ -24,10 +24,10 @@ import Foundation
 import SEAuthenticatorCore
 
 public class SEAuthorizationDataV2: SEBaseAuthorizationData {
-    public let title: String
-    public let description: [String: Any]
-    public var createdAt: Date
-    public var expiresAt: Date
+    public var title: String = ""
+    public var description: [String: Any] = [:]
+    public var createdAt: Date = Date()
+    public var expiresAt: Date = Date()
     public var authorizationCode: String?
 
     public var id: String
@@ -53,6 +53,12 @@ public class SEAuthorizationDataV2: SEBaseAuthorizationData {
         } else {
             return nil
         }
+    }
+
+    public init(id: String, connectionId: String, status: String) {
+        self.id = id
+        self.connectionId = connectionId
+        self.status = status
     }
 }
 

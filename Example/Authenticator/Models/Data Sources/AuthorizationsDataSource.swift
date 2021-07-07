@@ -29,10 +29,10 @@ final class AuthorizationsDataSource {
     private var viewModels = [AuthorizationDetailViewModel]()
 
     func update(with baseData: [SEBaseAuthorizationData]) -> Bool {
-        let viewModelsV1 = baseData.toAuthorizationViewModel(apiVersion: "1")
+        let viewModelsV1 = baseData.toAuthorizationViewModels(apiVersion: "1", oldViewModels: viewModels)
             .merge(array: self.viewModels.filter { $0.apiVersion == "1" })
 
-        let viewModelsV2 = baseData.toAuthorizationViewModel(apiVersion: "2")
+        let viewModelsV2 = baseData.toAuthorizationViewModels(apiVersion: "2", oldViewModels: viewModels)
             .merge(array: self.viewModels.filter { $0.apiVersion == "2" })
 
         let allViewModels = (viewModelsV1 + viewModelsV2).sorted(by: { $0.createdAt < $1.createdAt })
@@ -124,11 +124,23 @@ final class AuthorizationsDataSource {
 }
 
 private extension Array where Element == SEBaseAuthorizationData {
-    func toAuthorizationViewModel(apiVersion: ApiVersion) -> [AuthorizationDetailViewModel] {
+    func toAuthorizationViewModels(
+        apiVersion: ApiVersion,
+        oldViewModels: [AuthorizationDetailViewModel]
+    ) -> [AuthorizationDetailViewModel] {
         return filter { $0.apiVersion == apiVersion }.compactMap { response in
-            guard response.expiresAt >= Date() else { return nil }
+            if let v2Response = response as? SEAuthorizationDataV2,
+               v2Response.status.isFinalStatus,
+               let filtered = oldViewModels.filter({ $0.authorizationId == v2Response.id }).first {
+                guard filtered.authorizationExpiresAt >= Date(), !filtered.status.isFinalStatus else { return nil }
 
-            return AuthorizationDetailViewModel(response, apiVersion: response.apiVersion)
+                filtered.setFinal(status: v2Response.status)
+                return filtered
+            } else {
+                guard response.expiresAt >= Date() else { return nil }
+
+                return AuthorizationDetailViewModel(response, apiVersion: response.apiVersion)
+            }
         }
     }
 }

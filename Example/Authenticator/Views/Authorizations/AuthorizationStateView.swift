@@ -38,18 +38,20 @@ final class AuthorizationStateView: UIView {
     enum AuthorizationState: String, Equatable {
         case base
         case denied
-        case expired
         case processing
-        case success
+        case confirmed
+        case error
+        case timeOut
+        case unavailable
         case undefined
 
         var title: String {
             switch self {
             case .processing: return l10n(.active)
-            case .success: return l10n(.successfulAuthorization)
-            case .expired: return l10n(.timeOut)
+            case .confirmed: return l10n(.successfulAuthorization)
+            case .timeOut: return l10n(.timeOut)
             case .denied: return l10n(.denied)
-            case .undefined: return l10n(.somethingWentWrong)
+            case .error, .unavailable: return l10n(.somethingWentWrong)
             default: return ""
             }
         }
@@ -57,28 +59,29 @@ final class AuthorizationStateView: UIView {
         var message: String {
             switch self {
             case .processing: return l10n(.activeMessage)
-            case .success: return l10n(.successfulAuthorizationMessage)
-            case .expired: return l10n(.timeOutMessage)
+            case .confirmed: return l10n(.successfulAuthorizationMessage)
+            case .timeOut: return l10n(.timeOutMessage)
             case .denied: return l10n(.deniedMessage)
-            case .undefined: return l10n(.errorOccuredPleaseTryAgain)
+            case .error, .unavailable: return l10n(.errorOccuredPleaseTryAgain)
             default: return ""
             }
         }
 
         var topAccessoryView: UIView {
             switch self {
-            case .success: return AspectFitImageView(imageName: "success")
-            case .expired: return AspectFitImageView(imageName: "timeout")
+            case .confirmed: return AspectFitImageView(imageName: "success")
+            case .timeOut: return AspectFitImageView(imageName: "timeout")
             case .denied: return AspectFitImageView(imageName: "deny")
-            case .undefined: return AspectFitImageView(imageName: "smth_wrong")
+            case .error, .unavailable: return AspectFitImageView(imageName: "smth_wrong")
             default: return LoadingIndicatorView()
             }
         }
 
         static func == (lhs: AuthorizationState, rhs: AuthorizationState) -> Bool {
             switch (lhs, rhs) {
-            case (.base, .base), (.denied, .denied), (.expired, .expired),
-                 (.processing, .processing), (.success, .success), (.undefined, .undefined): return true
+            case (.base, .base), (.denied, .denied), (.processing, .processing),
+                 (.confirmed, .confirmed), (.timeOut, .timeOut),
+                 (.error, .error), (.unavailable, .unavailable) : return true
             default: return false
             }
         }

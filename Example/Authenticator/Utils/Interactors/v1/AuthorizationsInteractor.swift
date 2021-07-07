@@ -29,19 +29,23 @@ struct AuthorizationsInteractor {
     static func confirm(
         apiVersion: ApiVersion,
         data: SEConfirmAuthorizationRequestData,
-        success: (() -> ())? = nil,
+        success: ((SEConfirmAuthorizationResponse) -> ())? = nil,
         failure: ((String) -> ())? = nil
     ) {
         if apiVersion == "2" {
             SEAuthorizationManagerV2.confirmAuthorization(
                 data: data,
-                onSuccess: { _ in success?() },
+                onSuccess: { response in
+                    success?(response)
+                },
                 onFailure: { error in failure?(error) }
             )
         } else {
             SEAuthorizationManager.confirmAuthorization(
                 data: data,
-                onSuccess: { _ in success?() },
+                onSuccess: { response in
+                    success?(response)
+                },
                 onFailure: { error in failure?(error) }
             )
         }
@@ -50,19 +54,23 @@ struct AuthorizationsInteractor {
     static func deny(
         apiVersion: ApiVersion,
         data: SEConfirmAuthorizationRequestData,
-        success: (() -> ())? = nil,
+        success: ((SEConfirmAuthorizationResponse) -> ())? = nil,
         failure: ((String) -> ())? = nil
     ) {
         if apiVersion == "2" {
             SEAuthorizationManagerV2.denyAuthorization(
                 data: data,
-                onSuccess: { _ in success?() },
+                onSuccess: { response in
+                    success?(response)
+                },
                 onFailure: { error in failure?(error) }
             )
         } else {
             SEAuthorizationManager.denyAuthorization(
                 data: data,
-                onSuccess: { _ in success?() },
+                onSuccess: { response in
+                    success?(response)
+                },
                 onFailure: { error in failure?(error) }
             )
         }

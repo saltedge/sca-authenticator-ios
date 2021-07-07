@@ -116,12 +116,14 @@ class AuthorizationsViewModel {
             AuthorizationsInteractor.confirm(
                 apiVersion: detailViewModel.apiVersion,
                 data: data,
-                success: {
-                    detailViewModel.state.value = .success
-                    detailViewModel.actionTime = Date()
+                success: { response in
+                    if response.status.isFinalStatus {
+                        detailViewModel.state.value = .confirmed
+                        detailViewModel.actionTime = Date()
+                    }
                 },
                 failure: { _ in
-                    detailViewModel.state.value = .undefined
+                    detailViewModel.state.value = .error
                     detailViewModel.actionTime = Date()
                 }
             )
@@ -140,12 +142,14 @@ class AuthorizationsViewModel {
             AuthorizationsInteractor.deny(
                 apiVersion: detailViewModel.apiVersion,
                 data: data,
-                success: {
-                    detailViewModel.state.value = .denied
-                    detailViewModel.actionTime = Date()
+                success: { response in
+                    if response.status.isFinalStatus {
+                        detailViewModel.state.value = .denied
+                        detailViewModel.actionTime = Date()
+                    }
                 },
                 failure: { _ in
-                    detailViewModel.state.value = .undefined
+                    detailViewModel.state.value = .error
                     detailViewModel.actionTime = Date()
                 }
             )
@@ -273,8 +277,6 @@ private extension AuthorizationsViewModel {
                 DispatchQueue.global(qos: .background).async {
                     let decryptedAuthorizationsV1 = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationData }
                     let decryptedAuthorizationsV2 = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationDataV2 }
-
-                    print("Decrypted Authorizations V2: ", decryptedAuthorizationsV2)
 
                     DispatchQueue.main.async {
                         strongSelf.updateDataSource(with: decryptedAuthorizationsV1 + decryptedAuthorizationsV2)

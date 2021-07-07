@@ -1,5 +1,5 @@
 //
-//  AuthorizationResponses
+//  AuthorizationStatus
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -21,29 +21,40 @@
 //
 
 import Foundation
-import SEAuthenticatorCore
 
-public struct SEEncryptedAuthorizationDataResponse: SerializableResponse {
-    public var data: SEEncryptedAuthorizationData
+public enum AuthoriztionStatus: String {
+    case processing
+    case confirmed
+    case denied
+    case error
+    case timeOut = "time_out"
+    case unavailable
+    case confirmProcessing = "confirm_processing"
+    case denyProcessing = "deny_processing"
 
-    public init?(_ value: Any) {
-        if let response = (value as AnyObject)[SENetKeys.data] as? [String: Any],
-            let data = SEEncryptedAuthorizationData(response) {
-            self.data = data
-        } else {
-            return nil
-        }
+    var isFinal: Bool {
+        return self == .confirmed
+            || self == .denied
+            || self == .error
+            || self == .timeOut
+            || self == .unavailable
+    }
+    
+    var isProcessing: Bool {
+        return self == .confirmProcessing || self == .denyProcessing
     }
 }
 
-public struct SEEncryptedAuthorizationsListResponse: SerializableResponse {
-    public var data: [SEEncryptedAuthorizationData] = []
+public extension String {
+    var isFinalStatus: Bool {
+        guard let status = AuthoriztionStatus(rawValue: self) else { return false }
 
-    public init?(_ value: Any) {
-        if let responses = (value as AnyObject)[SENetKeys.data] as? [[String: Any]] {
-            self.data = responses.compactMap { SEEncryptedAuthorizationData($0) }
-        } else {
-            return nil
-        }
+        return status.isFinal
+    }
+
+    var isProcessing: Bool {
+        guard let status = AuthoriztionStatus(rawValue: self) else { return false }
+
+        return status.isProcessing
     }
 }
