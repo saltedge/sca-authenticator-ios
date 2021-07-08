@@ -96,24 +96,32 @@ class ConnectionCellViewModel {
             })
 
             if self?.hasConsents == true {
-                actions.append(UIAction(title: l10n(.viewConsents), image: UIImage(systemName: "doc.plaintext")) { _ in
-                    strongSelf.delegate?.consentsPressed(id: strongSelf.connection.id)
-                })
+                actions.append(
+                    UIAction(title: l10n(.viewConsents), image: UIImage(systemName: "doc.plaintext")) { _ in
+                        strongSelf.delegate?.consentsPressed(id: strongSelf.connection.id)
+                    }
+                )
             }
             if LocationManager.shared.shouldShowLocationWarning(connection: self?.connection) {
-                actions.append(UIAction(title: l10n(.accessToLocation), image: UIImage(systemName: "mappin")) { _ in
-                    strongSelf.delegate?.accessLocationPressed()
-                })
+                actions.append(
+                    UIAction(title: l10n(.accessToLocation), image: UIImage(systemName: "mappin.and.ellipse")) { _ in
+                        strongSelf.delegate?.accessLocationPressed()
+                    }
+                )
             }
 
             if self?.connection.status == ConnectionStatus.inactive.rawValue {
-                actions.append(UIAction(title: l10n(.remove), image: UIImage(systemName: "xmark")) { _ in
-                    strongSelf.delegate?.deletePressed(id: strongSelf.connection.id, showConfirmation: false)
-                })
+                actions.append(
+                    UIAction(title: l10n(.remove), image: UIImage(systemName: "xmark")) { _ in
+                        strongSelf.delegate?.deletePressed(id: strongSelf.connection.id, showConfirmation: false)
+                    }
+                )
             } else {
-                actions.append(UIAction(title: l10n(.delete), image: UIImage(systemName: "trash")) { _ in
-                    strongSelf.delegate?.deletePressed(id: strongSelf.connection.id, showConfirmation: true)
-                })
+                actions.append(
+                    UIAction(title: l10n(.delete), image: UIImage(systemName: "trash")) { _ in
+                        strongSelf.delegate?.deletePressed(id: strongSelf.connection.id, showConfirmation: true)
+                    }
+                )
             }
 
             return UIMenu(title: "", image: nil, identifier: nil, options: .destructive, children: actions)

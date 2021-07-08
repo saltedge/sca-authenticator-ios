@@ -71,7 +71,7 @@ final class ConnectHandler {
         finalString.append(description)
         delegate?.finishConnectWithSuccess(attributedMessage: finalString)
 
-        if connection.geolocationRequired.value != nil && LocationManager.shared.notDeterminedAuthorization {
+        if connection.geolocationRequired.value != nil {
             delegate?.requestLocationAuthorization()
         }
     }
