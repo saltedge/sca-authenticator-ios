@@ -29,10 +29,10 @@ final class AuthorizationsDataSource {
     private var viewModels = [AuthorizationDetailViewModel]()
 
     func update(with baseData: [SEBaseAuthorizationData]) -> Bool {
-        let viewModelsV1 = baseData.toAuthorizationViewModels(apiVersion: "1", oldViewModels: viewModels)
+        let viewModelsV1 = baseData.toAuthorizationViewModels(apiVersion: "1", existedViewModels: viewModels)
             .merge(array: self.viewModels.filter { $0.apiVersion == "1" })
 
-        let viewModelsV2 = baseData.toAuthorizationViewModels(apiVersion: "2", oldViewModels: viewModels)
+        let viewModelsV2 = baseData.toAuthorizationViewModels(apiVersion: "2", existedViewModels: viewModels)
             .merge(array: self.viewModels.filter { $0.apiVersion == "2" })
 
         let allViewModels = (viewModelsV1 + viewModelsV2).sorted(by: { $0.createdAt < $1.createdAt })
@@ -126,6 +126,10 @@ final class AuthorizationsDataSource {
 private extension Array where Element == SEBaseAuthorizationData {
     /*
      Converts SEBaseAuthorizationData to array of AuthorizationDetailViewModel's
+     
+     - parameters:
+        - apiVersion: The API version of received authorization responses
+        - existedViewModels: The array of already existed authorization view models
 
      For API v2 at first it checks if status of received authorization response is final,
      than it filters existed view models to find the one with the same authorization id.
@@ -137,12 +141,12 @@ private extension Array where Element == SEBaseAuthorizationData {
      */
     func toAuthorizationViewModels(
         apiVersion: ApiVersion,
-        oldViewModels: [AuthorizationDetailViewModel]
+        existedViewModels: [AuthorizationDetailViewModel]
     ) -> [AuthorizationDetailViewModel] {
         return filter { $0.apiVersion == apiVersion }.compactMap { response in
             if let v2Response = response as? SEAuthorizationDataV2,
                v2Response.status.isFinal,
-               let filtered = oldViewModels.filter({ $0.authorizationId == v2Response.id }).first {
+               let filtered = existedViewModels.filter({ $0.authorizationId == v2Response.id }).first {
                 guard filtered.authorizationExpiresAt >= Date(),
                       let filteredStatus = filtered.status, !filteredStatus.isFinal else { return nil }
 
