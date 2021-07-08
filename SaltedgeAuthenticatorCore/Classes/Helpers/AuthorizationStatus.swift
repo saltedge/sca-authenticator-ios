@@ -22,7 +22,8 @@
 
 import Foundation
 
-public enum AuthoriztionStatus: String {
+public enum AuthorizationStatus: String {
+    case pending
     case processing
     case confirmed
     case denied
@@ -32,7 +33,7 @@ public enum AuthoriztionStatus: String {
     case confirmProcessing = "confirm_processing"
     case denyProcessing = "deny_processing"
 
-    var isFinal: Bool {
+    public var isFinal: Bool {
         return self == .confirmed
             || self == .denied
             || self == .error
@@ -40,21 +41,7 @@ public enum AuthoriztionStatus: String {
             || self == .unavailable
     }
     
-    var isProcessing: Bool {
+    public var isProcessing: Bool {
         return self == .confirmProcessing || self == .denyProcessing
-    }
-}
-
-public extension String {
-    var isFinalStatus: Bool {
-        guard let status = AuthoriztionStatus(rawValue: self) else { return false }
-
-        return status.isFinal
-    }
-
-    var isProcessing: Bool {
-        guard let status = AuthoriztionStatus(rawValue: self) else { return false }
-
-        return status.isProcessing
     }
 }

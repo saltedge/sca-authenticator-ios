@@ -37,7 +37,7 @@ extension SEBaseEncryptedAuthorizationData {
         guard let v2Response = self as? SEEncryptedAuthorizationData,
               let connectionId = connectionId else { return nil }
 
-        if v2Response.status.isFinalStatus, !v2Response.status.isProcessing {
+        if v2Response.status.isFinal, !v2Response.status.isProcessing {
             return SEAuthorizationDataV2(
                 id: v2Response.id,
                 connectionId: connectionId,

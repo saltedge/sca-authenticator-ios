@@ -32,11 +32,11 @@ public class SEAuthorizationDataV2: SEBaseAuthorizationData {
 
     public var id: String
     public var connectionId: String
-    public var status: String
+    public var status: AuthorizationStatus
 
     public var apiVersion: ApiVersion = "2"
 
-    public init?(_ dictionary: [String: Any], id: String, connectionId: String, status: String) {
+    public init?(_ dictionary: [String: Any], id: String, connectionId: String, status: AuthorizationStatus) {
         if let title = dictionary[SENetKeys.title] as? String,
            let description = dictionary[SENetKeys.description] as? [String: Any],
            let createdAt = (dictionary[SENetKeys.createdAt] as? String)?.iso8601date,
@@ -55,7 +55,7 @@ public class SEAuthorizationDataV2: SEBaseAuthorizationData {
         }
     }
 
-    public init(id: String, connectionId: String, status: String) {
+    public init(id: String, connectionId: String, status: AuthorizationStatus) {
         self.id = id
         self.connectionId = connectionId
         self.status = status

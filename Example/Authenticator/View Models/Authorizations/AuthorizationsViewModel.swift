@@ -116,15 +116,16 @@ class AuthorizationsViewModel {
             AuthorizationsInteractor.confirm(
                 apiVersion: detailViewModel.apiVersion,
                 data: data,
-                success: { response in
-                    if response.status.isFinalStatus {
-                        detailViewModel.state.value = .confirmed
-                        detailViewModel.actionTime = Date()
+                successV1: {
+                    self.update(viewModel: detailViewModel, state: .confirmed)
+                },
+                successV2: { response in
+                    if response.status.isFinal {
+                        self.update(viewModel: detailViewModel, state: .confirmed)
                     }
                 },
                 failure: { _ in
-                    detailViewModel.state.value = .error
-                    detailViewModel.actionTime = Date()
+                    self.update(viewModel: detailViewModel, state: .error)
                 }
             )
         }
@@ -142,18 +143,24 @@ class AuthorizationsViewModel {
             AuthorizationsInteractor.deny(
                 apiVersion: detailViewModel.apiVersion,
                 data: data,
-                success: { response in
-                    if response.status.isFinalStatus {
-                        detailViewModel.state.value = .denied
-                        detailViewModel.actionTime = Date()
+                successV1: {
+                    self.update(viewModel: detailViewModel, state: .denied)
+                },
+                successV2: { response in
+                    if response.status.isFinal {
+                        self.update(viewModel: detailViewModel, state: .denied)
                     }
                 },
                 failure: { _ in
-                    detailViewModel.state.value = .error
-                    detailViewModel.actionTime = Date()
+                    self.update(viewModel: detailViewModel, state: .error)
                 }
             )
         }
+    }
+
+    private func update(viewModel: AuthorizationDetailViewModel, state: AuthorizationStateView.AuthorizationState) {
+        viewModel.state.value = state
+        viewModel.actionTime = Date()
     }
 
     private func updateDataSource(with authorizations: [SEBaseAuthorizationData]) {
@@ -277,6 +284,8 @@ private extension AuthorizationsViewModel {
                 DispatchQueue.global(qos: .background).async {
                     let decryptedAuthorizationsV1 = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationData }
                     let decryptedAuthorizationsV2 = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationDataV2 }
+
+                    print("Decrypted Authorizations V2: ", decryptedAuthorizationsV2)
 
                     DispatchQueue.main.async {
                         strongSelf.updateDataSource(with: decryptedAuthorizationsV1 + decryptedAuthorizationsV2)

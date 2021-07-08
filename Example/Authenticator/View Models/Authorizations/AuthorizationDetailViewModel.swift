@@ -36,7 +36,7 @@ final class AuthorizationDetailViewModel: Equatable {
     var authorizationId: String
     var connectionId: String
     var description: String = ""
-    var status: String = ""
+    var status: AuthorizationStatus?
     var descriptionAttributes: [String: Any] = [:]
     var authorizationCode: String?
     var lifetime: Int = 0
@@ -101,9 +101,9 @@ final class AuthorizationDetailViewModel: Equatable {
         delegate?.denyPressed(authorizationId, apiVersion: apiVersion)
     }
 
-    func setFinal(status: String) {
-        guard status.isFinalStatus,
-              let authStatus = AuthorizationStateView.AuthorizationState(rawValue: status) else { return }
+    func setFinal(status: AuthorizationStatus) {
+        guard status.isFinal,
+              let authStatus = AuthorizationStateView.AuthorizationState(rawValue: status.rawValue) else { return }
 
         self.status = status
         self.state.value = authStatus

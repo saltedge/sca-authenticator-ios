@@ -124,15 +124,27 @@ final class AuthorizationsDataSource {
 }
 
 private extension Array where Element == SEBaseAuthorizationData {
+    /*
+     Converts SEBaseAuthorizationData to array of AuthorizationDetailViewModel's
+
+     For API v2 at first it checks if status of received authorization response is final,
+     than it filters existed view models to find the one with the same authorization id.
+
+     For the found view model sets the final state (if it doesn't have the final status already) and return it.
+     
+     For API v1 it only checks if this authorization isn't already expired
+     and pass the received response to AuthorizationDetailViewModel.
+     */
     func toAuthorizationViewModels(
         apiVersion: ApiVersion,
         oldViewModels: [AuthorizationDetailViewModel]
     ) -> [AuthorizationDetailViewModel] {
         return filter { $0.apiVersion == apiVersion }.compactMap { response in
             if let v2Response = response as? SEAuthorizationDataV2,
-               v2Response.status.isFinalStatus,
+               v2Response.status.isFinal,
                let filtered = oldViewModels.filter({ $0.authorizationId == v2Response.id }).first {
-                guard filtered.authorizationExpiresAt >= Date(), !filtered.status.isFinalStatus else { return nil }
+                guard filtered.authorizationExpiresAt >= Date(),
+                      let filteredStatus = filtered.status, !filteredStatus.isFinal else { return nil }
 
                 filtered.setFinal(status: v2Response.status)
                 return filtered

@@ -21,18 +21,19 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SEConfirmAuthorizationResponse: SerializableResponse {
     public let id: String
-    public let status: String
+    public let success: Bool
 
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
             let data = dict[SENetKeys.data] as? [String: Any],
-            let status = data[SENetKeys.status] as? String,
+            let success = data[SENetKeys.success] as? Bool,
             let id = data[SENetKeys.id] as? String {
             self.id = id
-            self.status = status
+            self.success = success
         } else {
             return nil
         }
