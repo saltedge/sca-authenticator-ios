@@ -66,9 +66,10 @@ extension SEAuthorizationDataV2: Equatable {
     public static func == (lhs: SEAuthorizationDataV2, rhs: SEAuthorizationDataV2) -> Bool {
         return lhs.title == rhs.title &&
             lhs.description == rhs.description &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.expiresAt == rhs.expiresAt &&
-            lhs.authorizationCode == rhs.authorizationCode
+            lhs.createdAt.withoutTime == rhs.createdAt.withoutTime &&
+            lhs.expiresAt.withoutTime == rhs.expiresAt.withoutTime &&
+            lhs.authorizationCode == rhs.authorizationCode &&
+            lhs.status.rawValue == rhs.status.rawValue
     }
 }
 

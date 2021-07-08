@@ -33,6 +33,13 @@ public extension Date {
         return Int(dateFromComponents.timeIntervalSince1970)
     }
 
+    var withoutTime: Date {
+        var currentCalendar = Calendar.current
+        currentCalendar.timeZone = TimeZone.utc
+        let components = Calendar.current.dateComponents([.day, .month, .year], from: self)
+        return currentCalendar.date(from: components)!
+    }
+
     func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
         return calendar.component(component, from: self)
     }

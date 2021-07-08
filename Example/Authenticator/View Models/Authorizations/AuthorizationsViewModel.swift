@@ -285,8 +285,6 @@ private extension AuthorizationsViewModel {
                     let decryptedAuthorizationsV1 = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationData }
                     let decryptedAuthorizationsV2 = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationDataV2 }
 
-                    print("Decrypted Authorizations V2: ", decryptedAuthorizationsV2)
-
                     DispatchQueue.main.async {
                         strongSelf.updateDataSource(with: decryptedAuthorizationsV1 + decryptedAuthorizationsV2)
                     }
