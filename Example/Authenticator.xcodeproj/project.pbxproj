@@ -992,10 +992,8 @@
 		9DCC5E23265D1DBD0054B933 /* v1 */ = {
 			isa = PBXGroup;
 			children = (
-				9DCED82C22CE18270050ED3C /* AuthorizationsInteractor.swift */,
 				9DCED82D22CE18270050ED3C /* ConnectionsInteractor.swift */,
 				9D98747B24B390F200EE89BB /* ConsentsInteractor.swift */,
-				95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */,
 			);
 			path = v1;
 			sourceTree = "<group>";
@@ -1353,6 +1351,8 @@
 			isa = PBXGroup;
 			children = (
 				9DD155F226613CEA00AEFA0D /* BaseConnectionsInteractor.swift */,
+				9DCED82C22CE18270050ED3C /* AuthorizationsInteractor.swift */,
+				95C6781E24A9FD8B0088A9CF /* CollectionsInteractor.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
