@@ -1,5 +1,5 @@
 //
-//  SEEncryptedAuthorizationData
+//  SEConfirmAuthorizationResponse
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -23,29 +23,17 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEEncryptedAuthorizationData: SEBaseEncryptedAuthorizationData, SerializableResponse {
+public struct SEConfirmAuthorizationResponse: SerializableResponse {
     public let id: String
-    public let data: String
-    public let key: String
-    public let iv: String
-    public let status: AuthorizationStatus
-    public var connectionId: String?
+    public let success: Bool
 
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
-            let id = dict[SENetKeys.id] as? Int,
-            let data = dict[SENetKeys.data] as? String,
-            let key = dict[SENetKeys.key] as? String,
-            let iv = dict[SENetKeys.iv] as? String,
-            let statusString = dict[SENetKeys.status] as? String,
-            let status = AuthorizationStatus(rawValue: statusString),
-            let connectionId = dict[SENetKeys.connectionId] as? Int {
-            self.id = "\(id)"
-            self.data = data
-            self.key = key
-            self.iv = iv
-            self.status = status
-            self.connectionId = "\(connectionId)"
+            let data = dict[SENetKeys.data] as? [String: Any],
+            let success = data[SENetKeys.success] as? Bool,
+            let id = data[SENetKeys.id] as? String {
+            self.id = id
+            self.success = success
         } else {
             return nil
         }

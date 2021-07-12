@@ -47,20 +47,3 @@ public struct SEEncryptedAuthorizationsListResponse: SerializableResponse {
         }
     }
 }
-
-public struct SEConfirmAuthorizationResponse: SerializableResponse {
-    public let id: String
-    public let status: String
-
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? [String: Any],
-            let status = data[SENetKeys.status] as? String,
-            let id = data[SENetKeys.id] as? String {
-            self.id = id
-            self.status = status
-        } else {
-            return nil
-        }
-    }
-}

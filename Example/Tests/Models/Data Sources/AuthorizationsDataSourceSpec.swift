@@ -201,6 +201,43 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                         expect(dataSource.rows).to(equal(2))
                     }
                 }
+
+                context("when recieved authorization with final state from v2") {
+                    it("should set final state and leave only one") {
+                        expect(dataSource.rows).to(equal(2))
+
+                        let authMessage: [String: Any] = [
+                            "title": "Authorization V2",
+                            "authorization_code": "code",
+                            "description": ["text": "Test valid authorization"],
+                            "created_at": Date().iso8601string,
+                            "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string
+                        ]
+
+                        let decryptedData = SpecUtils.createAuthResponseV2(
+                            with: authMessage,
+                            authorizationId: 909,
+                            connectionId: Int(connection.id)!,
+                            guid: connection.guid
+                        )
+
+                        _ = dataSource.update(with: [decryptedData])
+                        sleep(1)
+
+                        expect(dataSource.rows).to(equal(1))
+
+                        let finalStatusAuthorization = SpecUtils.createFinalAuthResponseV2(
+                            with: authMessage,
+                            authorizationId: 909,
+                            connectionId: Int(connection.id)!,
+                            guid: connection.guid
+                        )
+
+                        _ = dataSource.update(with: [finalStatusAuthorization])
+
+                        expect(dataSource.rows).to(equal(1))
+                    }
+                }
             }
         }
 

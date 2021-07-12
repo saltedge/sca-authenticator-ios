@@ -50,7 +50,7 @@ public struct SEAuthorizationManagerV2 {
 
     public static func confirmAuthorization(
         data: SEConfirmAuthorizationRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmAuthorizationResponse>,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmAuthorizationResponseV2>,
         onFailure failure: @escaping FailureBlock
     ) {
         let parameters = RequestParametersBuilder.confirmAuthorizationParams(
@@ -58,7 +58,7 @@ public struct SEAuthorizationManagerV2 {
             exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
         )
 
-        HTTPService<SEConfirmAuthorizationResponse>.execute(
+        HTTPService<SEConfirmAuthorizationResponseV2>.execute(
             request: SEAuthorizationRouter.confirm(data, parameters),
             success: success,
             failure: failure
@@ -67,7 +67,7 @@ public struct SEAuthorizationManagerV2 {
 
     public static func denyAuthorization(
         data: SEConfirmAuthorizationRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmAuthorizationResponse>,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmAuthorizationResponseV2>,
         onFailure failure: @escaping FailureBlock
     ) {
         let parameters = RequestParametersBuilder.confirmAuthorizationParams(
@@ -75,7 +75,7 @@ public struct SEAuthorizationManagerV2 {
             exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
         )
 
-        HTTPService<SEConfirmAuthorizationResponse>.execute(
+        HTTPService<SEConfirmAuthorizationResponseV2>.execute(
             request: SEAuthorizationRouter.deny(data, parameters),
             success: success,
             failure: failure

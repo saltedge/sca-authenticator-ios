@@ -29,11 +29,15 @@ final class AuthorizationsDataSource {
     private var viewModels = [AuthorizationDetailViewModel]()
 
     func update(with baseData: [SEBaseAuthorizationData]) -> Bool {
-        let viewModelsV1 = baseData.toAuthorizationViewModel(apiVersion: "1")
-            .merge(array: self.viewModels.filter { $0.apiVersion == "1" })
+        let viewModelsV1 = baseData
+            .filter { $0.apiVersion == API_V1_VERSION }
+            .toAuthorizationViewModels(existedViewModels: viewModels)
+            .merge(array: self.viewModels.filter { $0.apiVersion == API_V1_VERSION })
 
-        let viewModelsV2 = baseData.toAuthorizationViewModel(apiVersion: "2")
-            .merge(array: self.viewModels.filter { $0.apiVersion == "2" })
+        let viewModelsV2 = baseData
+            .filter { $0.apiVersion == API_V2_VERSION }
+            .toAuthorizationViewModels(existedViewModels: viewModels)
+            .merge(array: self.viewModels.filter { $0.apiVersion == API_V2_VERSION })
 
         let allViewModels = (viewModelsV1 + viewModelsV2).sorted(by: { $0.createdAt < $1.createdAt })
 
@@ -124,11 +128,37 @@ final class AuthorizationsDataSource {
 }
 
 private extension Array where Element == SEBaseAuthorizationData {
-    func toAuthorizationViewModel(apiVersion: ApiVersion) -> [AuthorizationDetailViewModel] {
-        return filter { $0.apiVersion == apiVersion }.compactMap { response in
-            guard response.expiresAt >= Date() else { return nil }
+    /*
+     Converts SEBaseAuthorizationData to array of AuthorizationDetailViewModel's
 
-            return AuthorizationDetailViewModel(response, apiVersion: response.apiVersion)
+     - parameters:
+        - existedViewModels: The array of already existed authorization view models
+
+     For API v2 at first it checks if status of received authorization response is final,
+     than it filters existed view models to find the one with the same authorization id.
+
+     For the found view model sets the final state (if it doesn't have the final status already) and return it.
+
+     For API v1 it only checks if this authorization isn't already expired
+     and pass the received response to AuthorizationDetailViewModel.
+     */
+    func toAuthorizationViewModels(
+        existedViewModels: [AuthorizationDetailViewModel]
+    ) -> [AuthorizationDetailViewModel] {
+        return compactMap { response in
+            if let v2Response = response as? SEAuthorizationDataV2,
+               v2Response.status.isFinal,
+               let filtered = existedViewModels.filter({ $0.authorizationId == v2Response.id }).first {
+                guard filtered.authorizationExpiresAt >= Date(),
+                      let filteredStatus = filtered.status, !filteredStatus.isFinal else { return nil }
+
+                filtered.setFinal(status: v2Response.status)
+                return filtered
+            } else {
+                guard response.expiresAt >= Date() else { return nil }
+
+                return AuthorizationDetailViewModel(response, apiVersion: response.apiVersion)
+            }
         }
     }
 }

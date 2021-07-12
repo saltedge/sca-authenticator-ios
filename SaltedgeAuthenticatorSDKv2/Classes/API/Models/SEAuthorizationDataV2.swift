@@ -24,19 +24,19 @@ import Foundation
 import SEAuthenticatorCore
 
 public class SEAuthorizationDataV2: SEBaseAuthorizationData {
-    public let title: String
-    public let description: [String: Any]
-    public var createdAt: Date
-    public var expiresAt: Date
+    public var title: String = ""
+    public var description: [String: Any] = [:]
+    public var createdAt: Date = Date()
+    public var expiresAt: Date = Date()
     public var authorizationCode: String?
 
     public var id: String
     public var connectionId: String
-    public var status: String
+    public var status: AuthorizationStatus
 
     public var apiVersion: ApiVersion = "2"
 
-    public init?(_ dictionary: [String: Any], id: String, connectionId: String, status: String) {
+    public init?(_ dictionary: [String: Any], id: String, connectionId: String, status: AuthorizationStatus) {
         if let title = dictionary[SENetKeys.title] as? String,
            let description = dictionary[SENetKeys.description] as? [String: Any],
            let createdAt = (dictionary[SENetKeys.createdAt] as? String)?.iso8601date,
@@ -54,15 +54,22 @@ public class SEAuthorizationDataV2: SEBaseAuthorizationData {
             return nil
         }
     }
+
+    public init(id: String, connectionId: String, status: AuthorizationStatus) {
+        self.id = id
+        self.connectionId = connectionId
+        self.status = status
+    }
 }
 
 extension SEAuthorizationDataV2: Equatable {
     public static func == (lhs: SEAuthorizationDataV2, rhs: SEAuthorizationDataV2) -> Bool {
         return lhs.title == rhs.title &&
             lhs.description == rhs.description &&
-            lhs.createdAt == rhs.createdAt &&
-            lhs.expiresAt == rhs.expiresAt &&
-            lhs.authorizationCode == rhs.authorizationCode
+            lhs.createdAt.withoutTime == rhs.createdAt.withoutTime &&
+            lhs.expiresAt.withoutTime == rhs.expiresAt.withoutTime &&
+            lhs.authorizationCode == rhs.authorizationCode &&
+            lhs.status.rawValue == rhs.status.rawValue
     }
 }
 

@@ -105,19 +105,16 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
         AuthorizationsInteractor.confirm(
             apiVersion: detailViewModel.apiVersion,
             data: confirmData,
-            success: {
-                detailViewModel.state.value = .success
-                detailViewModel.actionTime = Date()
-                after(finalAuthorizationTimeToLive) {
-                    self.delegate?.shouldClose()
+            successV1: {
+                self.updateDetailViewModel(state: .confirmed)
+            },
+            successV2: { response in
+                if response.status.isFinal {
+                    self.updateDetailViewModel(state: .confirmed)
                 }
             },
             failure: { _ in
-                detailViewModel.state.value = .undefined
-                detailViewModel.actionTime = Date()
-                after(finalAuthorizationTimeToLive) {
-                    self.delegate?.shouldClose()
-                }
+                self.updateDetailViewModel(state: .error)
             }
         )
     }
@@ -141,25 +138,30 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
         AuthorizationsInteractor.deny(
             apiVersion: detailViewModel.apiVersion,
             data: confirmData,
-            success: {
-                detailViewModel.state.value = .denied
-                detailViewModel.actionTime = Date()
-                after(finalAuthorizationTimeToLive) {
-                    self.delegate?.shouldClose()
+            successV1: {
+                self.updateDetailViewModel(state: .denied)
+            },
+            successV2: { response in
+                if response.status.isFinal {
+                    self.updateDetailViewModel(state: .denied)
                 }
             },
             failure: { _ in
-                detailViewModel.state.value = .undefined
-                detailViewModel.actionTime = Date()
-                after(finalAuthorizationTimeToLive) {
-                    self.delegate?.shouldClose()
-                }
+                self.updateDetailViewModel(state: .error)
             }
         )
     }
 
     func authorizationExpired() {
-        detailViewModel?.state.value = .expired
+        detailViewModel?.state.value = .timeOut
+        after(finalAuthorizationTimeToLive) {
+            self.delegate?.shouldClose()
+        }
+    }
+
+    private func updateDetailViewModel(state: AuthorizationStateView.AuthorizationState) {
+        detailViewModel?.state.value = state
+        detailViewModel?.actionTime = Date()
         after(finalAuthorizationTimeToLive) {
             self.delegate?.shouldClose()
         }

@@ -82,28 +82,63 @@ class SEEncryptedDataExtensionsSpec: BaseSpec {
         }
 
         describe("decryptedAuthorizationDataV2") {
-            it("should return decrypted data from given response") {
-                let connection = SpecUtils.createConnection(id: "2", apiVersion: "2")
-                let authorizationId = "00000"
+            context("when authorization status is not final") {
+                it("should return decrypted data from given response") {
+                    let connection = SpecUtils.createConnection(id: "2", apiVersion: "2")
+                    let authorizationId = "150"
+                    
+                    let authMessage: [String: Any] = [
+                        "title": "Authorization V2",
+                        "authorization_code": "code",
+                        "description": ["text": "Test valid authorization"],
+                        "created_at": Date().iso8601string,
+                        "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string
+                    ]
 
-                let authMessage = ["id": authorizationId,
-                                   "connection_id": connection.id,
-                                   "title": "Authorization",
-                                   "description": "Test authorization",
-                                   "created_at": Date().iso8601string,
-                                   "expires_at": Date().addingTimeInterval(5.0 * 60.0).iso8601string]
-                let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: connection.guid))
-                let dict: [String: Any] = [
-                    "data": encryptedData.data,
-                    "key": encryptedData.key,
-                    "iv": encryptedData.iv,
-                    "id": Int(authorizationId)!,
-                    "connection_id": Int(connection.id)!,
-                    "status": "pending"
-                ]
-                let expectedData = SEAuthorizationData(authMessage)
+                    let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: connection.guid))
 
-                expect(expectedData).to(equal(SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationData!))
+                    let dict: [String: Any] = [
+                        "data": encryptedData.data,
+                        "key": encryptedData.key,
+                        "iv": encryptedData.iv,
+                        "id": Int(authorizationId)!,
+                        "connection_id": Int(connection.id)!,
+                        "status": "pending"
+                    ]
+
+                    let expectedData = SEAuthorizationDataV2(
+                        authMessage,
+                        id: authorizationId,
+                        connectionId: connection.id,
+                        status: .pending
+                    )
+                    
+                    expect(expectedData).to(equal(SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!))
+                }
+            }
+
+            context("when authorization status is final") {
+                it("should return SEAuthorizationDataV2 from given response") {
+                    let connection = SpecUtils.createConnection(id: "2", apiVersion: "2")
+                    let authorizationId = "150"
+                    
+                    let dict: [String: Any] = [
+                        "data": "",
+                        "key": "",
+                        "iv": "",
+                        "id": Int(authorizationId)!,
+                        "connection_id": Int(connection.id)!,
+                        "status": "confirmed"
+                    ]
+
+                    let expectedData = SEAuthorizationDataV2(
+                        id: authorizationId,
+                        connectionId: connection.id,
+                        status: .confirmed
+                    )
+
+                    expect(expectedData).to(equal(SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!))
+                }
             }
         }
     }

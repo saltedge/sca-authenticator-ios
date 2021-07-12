@@ -81,6 +81,25 @@ struct SpecUtils {
         return SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!
     }
 
+    static func createFinalAuthResponseV2(
+        with authMessage: [String: Any],
+        authorizationId: Int,
+        connectionId: Int,
+        guid: GUID
+    ) -> SEAuthorizationDataV2 {
+        let dict: [String: Any] = [
+            "data": "",
+            "key": "",
+            "iv": "",
+            "id": authorizationId,
+            "connection_id": connectionId,
+            "status": "denied"
+        ]
+
+        return SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!
+    }
+
+    
     public static var publicKeyPem: String {
         "-----BEGIN PUBLIC KEY-----\n" +
         "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAppVU/nZZVewUCRVLz51X\n" +

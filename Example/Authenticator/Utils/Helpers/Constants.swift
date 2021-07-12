@@ -32,6 +32,8 @@ func after(_ time: Double, _ doBlock: @escaping () -> ()) {
 }
 
 let finalAuthorizationTimeToLive: Double = 4.0
+let API_V1_VERSION = "1"
+let API_V2_VERSION = "2"
 
 struct AnimationConstants {
     static let defaultDuration: CGFloat = 0.4

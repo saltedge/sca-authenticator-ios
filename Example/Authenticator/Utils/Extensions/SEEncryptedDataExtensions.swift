@@ -34,15 +34,24 @@ extension SEBaseEncryptedAuthorizationData {
     }
 
     var decryptedAuthorizationDataV2: SEAuthorizationDataV2? {
-        if let decryptedDictionary = self.decryptedDictionary,
-           let v2Response = self as? SEEncryptedAuthorizationData,
-           let connectionId = connectionId {
+        guard let v2Response = self as? SEEncryptedAuthorizationData,
+              let connectionId = connectionId else { return nil }
+
+        if v2Response.status.isFinal {
             return SEAuthorizationDataV2(
-                decryptedDictionary,
                 id: v2Response.id,
                 connectionId: connectionId,
                 status: v2Response.status
             )
+        } else {
+            if let decryptedDictionary = self.decryptedDictionary {
+                return SEAuthorizationDataV2(
+                    decryptedDictionary,
+                    id: v2Response.id,
+                    connectionId: connectionId,
+                    status: v2Response.status
+                )
+            }
         }
         return nil
     }

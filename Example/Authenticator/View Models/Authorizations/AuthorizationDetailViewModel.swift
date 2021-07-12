@@ -36,6 +36,7 @@ final class AuthorizationDetailViewModel: Equatable {
     var authorizationId: String
     var connectionId: String
     var description: String = ""
+    var status: AuthorizationStatus?
     var descriptionAttributes: [String: Any] = [:]
     var authorizationCode: String?
     var lifetime: Int = 0
@@ -57,6 +58,7 @@ final class AuthorizationDetailViewModel: Equatable {
         } else if let dataV2 = data as? SEAuthorizationDataV2 {
             self.title = dataV2.title
             self.descriptionAttributes = dataV2.description
+            self.status = dataV2.status
         }
         self.apiVersion = apiVersion
         self.authorizationId = data.id
@@ -65,7 +67,7 @@ final class AuthorizationDetailViewModel: Equatable {
         self.authorizationExpiresAt = data.expiresAt
         self.lifetime = Int(data.expiresAt.timeIntervalSince(data.createdAt))
         self.createdAt = data.createdAt
-        self.state.value = data.expiresAt < Date() ? .expired : .base
+        self.state.value = data.expiresAt < Date() ? .timeOut : .base
     }
 
     static func == (lhs: AuthorizationDetailViewModel, rhs: AuthorizationDetailViewModel) -> Bool {
@@ -97,5 +99,14 @@ final class AuthorizationDetailViewModel: Equatable {
 
     func denyPressed() {
         delegate?.denyPressed(authorizationId, apiVersion: apiVersion)
+    }
+
+    func setFinal(status: AuthorizationStatus) {
+        guard status.isFinal,
+              let authStatus = AuthorizationStateView.AuthorizationState(rawValue: status.rawValue) else { return }
+
+        self.status = status
+        self.state.value = authStatus
+        self.actionTime = Date()
     }
 }
