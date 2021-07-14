@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorV2
 import SEAuthenticatorCore
 
 struct ConsentsInteractor {
@@ -37,14 +38,18 @@ struct ConsentsInteractor {
             entityId: consent.id
         )
 
-        SEConsentsManager.revokeConsent(
-            data: data,
-            onSuccess: { _ in
-                success?()
-            },
-            onFailure: { error in
-                failure?(error)
-            }
-        )
+        if connection.isApiV2 {
+            SEConsentManagerV2.revokeConsent(
+                data: data,
+                onSuccess: { _ in success?() },
+                onFailure: { error in failure?(error) }
+            )
+        } else {
+            SEConsentManager.revokeConsent(
+                data: data,
+                onSuccess: { _ in success?() },
+                onFailure: { error in failure?(error) }
+            )
+        }
     }
 }

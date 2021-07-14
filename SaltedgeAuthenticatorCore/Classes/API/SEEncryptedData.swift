@@ -61,3 +61,28 @@ public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, SerializableRes
             lhs.connectionId == rhs.connectionId
     }
 }
+
+public struct SEEncryptedDataResponse: SerializableResponse {
+    public var data: SEEncryptedData
+
+    public init?(_ value: Any) {
+        if let response = (value as AnyObject)[SENetKeys.data] as? [String: Any],
+            let data = SEEncryptedData(response) {
+            self.data = data
+        } else {
+            return nil
+        }
+    }
+}
+
+public struct SEEncryptedListResponse: SerializableResponse {
+    public var data: [SEEncryptedData] = []
+
+    public init?(_ value: Any) {
+        if let responses = (value as AnyObject)[SENetKeys.data] as? [[String: Any]] {
+            self.data = responses.compactMap { SEEncryptedData($0) }
+        } else {
+            return nil
+        }
+    }
+}

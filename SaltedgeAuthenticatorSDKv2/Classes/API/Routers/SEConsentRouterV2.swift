@@ -1,8 +1,8 @@
 //
-//  SEConsentsRouter.swift
+//  SEConsentRouterV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2020 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,9 +21,11 @@
 //
 
 import Foundation
+
+import Foundation
 import SEAuthenticatorCore
 
-enum SEConsentsRouter: Routable {
+enum SEConsentRouter: Routable {
     case list(SEBaseAuthenticatedRequestData)
     case revoke(SEBaseAuthenticatedWithIdRequestData)
 
@@ -43,53 +45,33 @@ enum SEConsentsRouter: Routable {
     var url: URL {
         switch self {
         case .list(let data):
-            return data.url.appendingPathComponent(SENetPathBuilder(for: .consents).path)
+            return data.url.appendingPathComponent(
+                SENetPathBuilder(for: .consents, version: 2).path
+            )
         case .revoke(let data):
-            return data.url.appendingPathComponent("\(SENetPathBuilder(for: .consents).path)/\(data.entityId)")
+            return data.url.appendingPathComponent(
+                "\(SENetPathBuilder(for: .consents, version: 2).path)/\(data.entityId)/revoke"
+            )
         }
     }
     
     var parameters: [String: Any]? {
         switch self {
-        case .list, .revoke: return nil
+        case .list: return nil
+        case .revoke:
+            return RequestParametersBuilder.expirationTimeParameters
         }
     }
 
     var headers: [String: String]? {
         switch self {
         case .list(let data):
-            let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-            
-            let signature = SignatureHelper.signedPayload(
-                method: .get,
-                urlString: self.url.absoluteString,
-                guid: data.connectionGuid,
-                expiresAt: expiresAt,
-                params: self.parameters
-            )
-
-            return Headers.signedRequestHeaders(
-                token: data.accessToken,
-                expiresAt: expiresAt,
-                signature: signature,
-                appLanguage: data.appLanguage
-            )
+            return Headers.authorizedRequestHeaders(token: data.accessToken)
         case .revoke(let data):
-            let expiresAt = Date().addingTimeInterval(5.0 * 60.0).utcSeconds
-            
-            let signature = SignatureHelper.signedPayload(
-                method: .delete,
-                urlString: self.url.absoluteString,
-                guid: data.connectionGuid,
-                expiresAt: expiresAt,
-                params: self.parameters
-            )
-
             return Headers.signedRequestHeaders(
                 token: data.accessToken,
-                expiresAt: expiresAt,
-                signature: signature,
-                appLanguage: data.appLanguage
+                payloadParams: RequestParametersBuilder.expirationTimeParameters,
+                connectionGuid: data.connectionGuid
             )
         }
     }

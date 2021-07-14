@@ -1,8 +1,8 @@
 //
-//  AuthorizationResponses.swift
+//  SERevokeConsentResponseV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,27 +23,16 @@
 import Foundation
 import SEAuthenticatorCore
 
-//public struct SEEncryptedDataResponse: SerializableResponse {
-//    public var data: SEEncryptedData
-//
-//    public init?(_ value: Any) {
-//        if let response = (value as AnyObject)[SENetKeys.data] as? [String: Any],
-//            let data = SEEncryptedData(response) {
-//            self.data = data
-//        } else {
-//            return nil
-//        }
-//    }
-//}
-//
-//public struct SEEncryptedListResponse: SerializableResponse {
-//    public var data: [SEEncryptedData] = []
-//
-//    public init?(_ value: Any) {
-//        if let responses = (value as AnyObject)[SENetKeys.data] as? [[String: Any]] {
-//            self.data = responses.compactMap { SEEncryptedData($0) }
-//        } else {
-//            return nil
-//        }
-//    }
-//}
+public struct SERevokeConsentResponseV2: SerializableResponse {
+    public let id: String
+
+    public init?(_ value: Any) {
+        if let dict = value as? [String: Any],
+            let data = dict[SENetKeys.data] as? [String: Any],
+            let id = data[SENetKeys.id] as? String {
+            self.id = id
+        } else {
+            return nil
+        }
+    }
+}

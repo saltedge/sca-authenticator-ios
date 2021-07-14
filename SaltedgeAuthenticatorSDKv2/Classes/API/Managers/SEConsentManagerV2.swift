@@ -1,8 +1,8 @@
 //
-//  SEConsentsManager.swift
+//  SEConsentManagerV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2020 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,14 +23,14 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEConsentsManager {
+public struct SEConsentManagerV2 {
     public static func getEncryptedConsents(
         data: SEBaseAuthenticatedRequestData,
         onSuccess success: @escaping HTTPServiceSuccessClosure<SEEncryptedListResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
         HTTPService<SEEncryptedListResponse>.execute(
-            request: SEConsentsRouter.list(data),
+            request: SEConsentRouter.list(data),
             success: success,
             failure: failure
         )
@@ -38,11 +38,11 @@ public struct SEConsentsManager {
     
     public static func revokeConsent(
         data: SEBaseAuthenticatedWithIdRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConsentResponse>,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConsentResponseV2>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SERevokeConsentResponse>.execute(
-            request: SEConsentsRouter.revoke(data),
+        HTTPService<SERevokeConsentResponseV2>.execute(
+            request: SEConsentRouter.revoke(data),
             success: success,
             failure: failure
         )
