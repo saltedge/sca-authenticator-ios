@@ -27,18 +27,19 @@ import SEAuthenticatorCore
 
 enum SEConsentRouter: Routable {
     case list(SEBaseAuthenticatedRequestData)
-    case revoke(SEBaseAuthenticatedWithIdRequestData)
+    case revoke(SEBaseAuthenticatedWithIdRequestData, [String: Any])
 
     var method: HTTPMethod {
         switch self {
         case .list: return .get
-        case .revoke: return .delete
+        case .revoke: return .put
         }
     }
 
     var encoding: Encoding {
         switch self {
-        case .list, .revoke: return .url
+        case .list: return .url
+        case .revoke: return .json
         }
     }
 
@@ -48,7 +49,7 @@ enum SEConsentRouter: Routable {
             return data.url.appendingPathComponent(
                 SENetPathBuilder(for: .consents, version: 2).path
             )
-        case .revoke(let data):
+        case .revoke(let data, _):
             return data.url.appendingPathComponent(
                 "\(SENetPathBuilder(for: .consents, version: 2).path)/\(data.entityId)/revoke"
             )
@@ -58,8 +59,7 @@ enum SEConsentRouter: Routable {
     var parameters: [String: Any]? {
         switch self {
         case .list: return nil
-        case .revoke:
-            return RequestParametersBuilder.expirationTimeParameters
+        case let .revoke(_, parameters): return parameters
         }
     }
 
@@ -67,10 +67,10 @@ enum SEConsentRouter: Routable {
         switch self {
         case .list(let data):
             return Headers.authorizedRequestHeaders(token: data.accessToken)
-        case .revoke(let data):
+        case let .revoke(data, parameters):
             return Headers.signedRequestHeaders(
                 token: data.accessToken,
-                payloadParams: RequestParametersBuilder.expirationTimeParameters,
+                payloadParams: parameters,
                 connectionGuid: data.connectionGuid
             )
         }

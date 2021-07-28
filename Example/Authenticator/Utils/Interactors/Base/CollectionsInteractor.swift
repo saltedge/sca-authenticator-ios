@@ -145,11 +145,26 @@ enum CollectionsInteractor {
                     )
                 }
             case .consents:
-                SEConsentManager.getEncryptedConsents(
-                    data: requestData,
-                    onSuccess: { response in onSuccess(data: response.data) },
-                    onFailure: { error in onFailure(error: error, connection: connection) }
-                )
+                if connection.isApiV2 {
+                    SEConsentManagerV2.getEncryptedConsents(
+                        data: requestData,
+                        onSuccess: { response in
+                            onSuccess(data: response.data)
+                        }, onFailure: { error in
+                            onFailure(error: error, connection: connection)
+                        }
+                    )
+                } else {
+                    SEConsentManager.getEncryptedConsents(
+                        data: requestData,
+                        onSuccess: { response in
+                            onSuccess(data: response.data)
+                        },
+                        onFailure: { error in
+                            onFailure(error: error, connection: connection)
+                        }
+                    )
+                }
             }
         }
     }

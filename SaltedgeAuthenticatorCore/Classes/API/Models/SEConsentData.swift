@@ -23,7 +23,7 @@
 import Foundation
 
 public struct SEConsentData {
-    public let id: String
+    public var id: String?
     public var userId: String?
     public let connectionId: String
     public let tppName: String
@@ -33,14 +33,12 @@ public struct SEConsentData {
     public let createdAt: Date
     public let expiresAt: Date
 
-    public init?(_ dictionary: [String: Any], _ connectionId: String) {
-        if let id = dictionary[SENetKeys.id] as? String,
-            let tppName = dictionary[SENetKeys.tppName] as? String,
+    public init?(_ dictionary: [String: Any], _ entityId: String?, _ connectionId: String) {
+        if let tppName = dictionary[SENetKeys.tppName] as? String,
             let consentType = dictionary[SENetKeys.consentType] as? String,
             let accountsObjects = dictionary[SENetKeys.accounts] as? [[String: Any]],
             let createdAt = (dictionary[SENetKeys.createdAt] as? String)?.iso8601date,
             let expiresAt = (dictionary[SENetKeys.expiresAt] as? String)?.iso8601date {
-            self.id = id
             self.tppName = tppName
             self.consentType = consentType
             self.createdAt = createdAt
@@ -55,6 +53,11 @@ public struct SEConsentData {
 
             if let userId = dictionary[SENetKeys.userId] as? String {
                 self.userId = userId
+            }
+            if let entityId = entityId {
+                self.id = entityId
+            } else if let id = dictionary[SENetKeys.id] as? String {
+                self.id = id
             }
         } else {
             return nil

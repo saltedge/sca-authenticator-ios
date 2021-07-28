@@ -28,14 +28,15 @@ import SEAuthenticatorCore
 struct ConsentsInteractor {
     static func revoke(_ consent: SEConsentData, success: (() -> ())? = nil, failure: ((String) -> ())? = nil) {
         guard let connection = ConnectionsCollector.with(id: consent.connectionId),
-            let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
+              let baseUrl = connection.baseUrl,
+              let consentId = consent.id else { failure?(l10n(.somethingWentWrong)); return }
 
         let data = SEBaseAuthenticatedWithIdRequestData(
             url: baseUrl,
             connectionGuid: connection.guid,
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
-            entityId: consent.id
+            entityId: consentId
         )
 
         if connection.isApiV2 {

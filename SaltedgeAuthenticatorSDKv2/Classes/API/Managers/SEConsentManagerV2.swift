@@ -41,8 +41,10 @@ public struct SEConsentManagerV2 {
         onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConsentResponseV2>,
         onFailure failure: @escaping FailureBlock
     ) {
+        let parameters = RequestParametersBuilder.expirationTimeParameters
+
         HTTPService<SERevokeConsentResponseV2>.execute(
-            request: SEConsentRouter.revoke(data),
+            request: SEConsentRouter.revoke(data, parameters),
             success: success,
             failure: failure
         )

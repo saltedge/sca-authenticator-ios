@@ -29,6 +29,7 @@ public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, SerializableRes
     public let key: String
     public let iv: String
     public var connectionId: String?
+    public var entityId: String?
     
     public init(data: String, key: String, iv: String) {
         self.data = data
@@ -40,14 +41,17 @@ public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, SerializableRes
         if let dict = value as? [String: Any],
             let data = dict[SENetKeys.data] as? String,
             let key = dict[SENetKeys.key] as? String,
-            let iv = dict[SENetKeys.iv] as? String,
-            let algorithm = dict[SENetKeys.algorithm] as? String,
-            algorithm == defaultAlgorithm {
+            let iv = dict[SENetKeys.iv] as? String {
             self.data = data
             self.key = key
             self.iv = iv
+            if let entityId = dict[SENetKeys.id] as? Int {
+                self.entityId = "\(entityId)"
+            }
             if let connectionId = dict[SENetKeys.connectionId] as? String {
                 self.connectionId = connectionId
+            } else if let connectionId = dict[SENetKeys.connectionId] as? Int { // NOTE: connection_id in v2 is integer
+                self.connectionId = "\(connectionId)"
             }
         } else {
             return nil
