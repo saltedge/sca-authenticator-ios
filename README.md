@@ -53,6 +53,21 @@ You can find related source code:
   ```bash
   brew install swiftlint
   ```
+  If `brew install swiftlint` fails on M1 Macs, go to the project settings(`Build Phases`) 
+  and add it to the Run Script next section:
+  ```
+  if test -d "/opt/homebrew/bin/"; then
+    PATH="/opt/homebrew/bin/:${PATH}"
+  fi
+
+  export PATH
+
+  if which swiftlint >/dev/null; then
+    swiftlint
+  else
+    echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
+  fi
+  ```
   
 ## SDK installation via [CocoaPods](https://cocoapods.org)
   
@@ -76,6 +91,13 @@ or build from source code.
 1. Move to project directory `sca-authenticator-ios/Example`
 1. Command in terminal: `bundle install` (To install all required gems)
 1. Command in terminal: `pod install` (To install all required pods)
+
+    If `pod install` fails on M1 Macs, do next: 
+    ```
+    sudo arch -x86_64 gem install ffi
+    arch -x86_64 pod update
+    ```
+    Also make sure you set the `arm64` values in the "Build Settings" -> "Architectures" -> "Excluded Architectures". 
 1. Open project's workspace file in Xcode (`Example/Authenticator.xcworkspace`)
 1. Create `application.plist` configuration file using `application.example.plist`
 1. If you have intent to use Firebase Crashlytics then generate `GoogleService-info.plist` and add it to project.
