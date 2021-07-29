@@ -59,7 +59,7 @@ extension SEBaseEncryptedAuthorizationData {
     var decryptedConsentData: SEConsentData? {
         if let connectionId = self.connectionId,
             let decryptedDictionary = self.decryptedDictionary {
-            return SEConsentData(decryptedDictionary, connectionId)
+            return SEConsentData(decryptedDictionary, entityId, connectionId)
         }
         return nil
     }

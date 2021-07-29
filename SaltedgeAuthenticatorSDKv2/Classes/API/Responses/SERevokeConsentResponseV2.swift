@@ -1,8 +1,8 @@
 //
-//  ConsentsInteractor
+//  SERevokeConsentResponseV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2020 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,30 +21,18 @@
 //
 
 import Foundation
-import SEAuthenticator
 import SEAuthenticatorCore
 
-struct ConsentsInteractor {
-    static func revoke(_ consent: SEConsentData, success: (() -> ())? = nil, failure: ((String) -> ())? = nil) {
-        guard let connection = ConnectionsCollector.with(id: consent.connectionId),
-            let baseUrl = connection.baseUrl else { failure?(l10n(.somethingWentWrong)); return }
+public struct SERevokeConsentResponseV2: SerializableResponse {
+    public let id: String
 
-        let data = SEBaseAuthenticatedWithIdRequestData(
-            url: baseUrl,
-            connectionGuid: connection.guid,
-            accessToken: connection.accessToken,
-            appLanguage: UserDefaultsHelper.applicationLanguage,
-            entityId: consent.id
-        )
-
-        SEConsentsManager.revokeConsent(
-            data: data,
-            onSuccess: { _ in
-                success?()
-            },
-            onFailure: { error in
-                failure?(error)
-            }
-        )
+    public init?(_ value: Any) {
+        if let dict = value as? [String: Any],
+            let data = dict[SENetKeys.data] as? [String: Any],
+            let id = data[SENetKeys.id] as? String {
+            self.id = id
+        } else {
+            return nil
+        }
     }
 }

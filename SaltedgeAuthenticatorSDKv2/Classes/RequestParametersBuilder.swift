@@ -93,4 +93,11 @@ struct RequestParametersBuilder {
             ParametersKeys.exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
         ]
     }
+
+    static var expirationTimeParameters: [String: Any] {
+        return [
+            ParametersKeys.data: [:],
+            ParametersKeys.exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
+        ]
+    }
 }

@@ -30,6 +30,7 @@ public struct SEEncryptedAuthorizationData: SEBaseEncryptedAuthorizationData, Se
     public let iv: String
     public let status: AuthorizationStatus
     public var connectionId: String?
+    public var entityId: String?
 
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],

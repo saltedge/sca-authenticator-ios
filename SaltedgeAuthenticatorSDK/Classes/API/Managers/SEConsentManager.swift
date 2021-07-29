@@ -1,8 +1,8 @@
 //
-//  AuthorizationResponses.swift
+//  SEConsentManager.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2020 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,27 +23,28 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEEncryptedDataResponse: SerializableResponse {
-    public var data: SEEncryptedData
-
-    public init?(_ value: Any) {
-        if let response = (value as AnyObject)[SENetKeys.data] as? [String: Any],
-            let data = SEEncryptedData(response) {
-            self.data = data
-        } else {
-            return nil
-        }
+public struct SEConsentManager {
+    public static func getEncryptedConsents(
+        data: SEBaseAuthenticatedRequestData,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SEEncryptedListResponse>,
+        onFailure failure: @escaping FailureBlock
+    ) {
+        HTTPService<SEEncryptedListResponse>.execute(
+            request: SEConsentRouter.list(data),
+            success: success,
+            failure: failure
+        )
     }
-}
-
-public struct SEEncryptedListResponse: SerializableResponse {
-    public var data: [SEEncryptedData] = []
-
-    public init?(_ value: Any) {
-        if let responses = (value as AnyObject)[SENetKeys.data] as? [[String: Any]] {
-            self.data = responses.compactMap { SEEncryptedData($0) }
-        } else {
-            return nil
-        }
+    
+    public static func revokeConsent(
+        data: SEBaseAuthenticatedWithIdRequestData,
+        onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConsentResponse>,
+        onFailure failure: @escaping FailureBlock
+    ) {
+        HTTPService<SERevokeConsentResponse>.execute(
+            request: SEConsentRouter.revoke(data),
+            success: success,
+            failure: failure
+        )
     }
 }
