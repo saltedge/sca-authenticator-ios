@@ -128,7 +128,8 @@ class ConnectionCellViewModel {
                 UIAction(
                     title: "\(l10n(.id)) \(strongSelf.connection.id)",
                     image: UIImage(systemName: "info.circle"),
-                    attributes: .disabled) { _ in return }
+                    attributes: .disabled
+                ) { _ in return }
             )
 
             return UIMenu(title: "", image: nil, identifier: nil, options: .destructive, children: actions)
