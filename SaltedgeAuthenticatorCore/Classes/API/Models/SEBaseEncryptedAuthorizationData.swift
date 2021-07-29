@@ -27,4 +27,5 @@ public protocol SEBaseEncryptedAuthorizationData {
     var key: String { get }
     var iv: String { get }
     var connectionId: String? { get }
+    var entityId: String? { get }
 }

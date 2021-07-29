@@ -29,6 +29,7 @@ public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, SerializableRes
     public let key: String
     public let iv: String
     public var connectionId: String?
+    public var entityId: String?
     
     public init(data: String, key: String, iv: String) {
         self.data = data
@@ -40,14 +41,17 @@ public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, SerializableRes
         if let dict = value as? [String: Any],
             let data = dict[SENetKeys.data] as? String,
             let key = dict[SENetKeys.key] as? String,
-            let iv = dict[SENetKeys.iv] as? String,
-            let algorithm = dict[SENetKeys.algorithm] as? String,
-            algorithm == defaultAlgorithm {
+            let iv = dict[SENetKeys.iv] as? String {
             self.data = data
             self.key = key
             self.iv = iv
+            if let entityId = dict[SENetKeys.id] as? Int {
+                self.entityId = "\(entityId)"
+            }
             if let connectionId = dict[SENetKeys.connectionId] as? String {
                 self.connectionId = connectionId
+            } else if let connectionId = dict[SENetKeys.connectionId] as? Int { // NOTE: connection_id in v2 is integer
+                self.connectionId = "\(connectionId)"
             }
         } else {
             return nil
@@ -59,5 +63,30 @@ public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, SerializableRes
             lhs.key == rhs.key &&
             lhs.iv == rhs.iv &&
             lhs.connectionId == rhs.connectionId
+    }
+}
+
+public struct SEEncryptedDataResponse: SerializableResponse {
+    public var data: SEEncryptedData
+
+    public init?(_ value: Any) {
+        if let response = (value as AnyObject)[SENetKeys.data] as? [String: Any],
+            let data = SEEncryptedData(response) {
+            self.data = data
+        } else {
+            return nil
+        }
+    }
+}
+
+public struct SEEncryptedListResponse: SerializableResponse {
+    public var data: [SEEncryptedData] = []
+
+    public init?(_ value: Any) {
+        if let responses = (value as AnyObject)[SENetKeys.data] as? [[String: Any]] {
+            self.data = responses.compactMap { SEEncryptedData($0) }
+        } else {
+            return nil
+        }
     }
 }

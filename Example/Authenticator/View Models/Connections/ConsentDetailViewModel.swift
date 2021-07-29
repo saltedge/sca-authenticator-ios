@@ -21,7 +21,7 @@
 //
 
 import UIKit
-import SEAuthenticator
+import SEAuthenticatorCore
 
 protocol ConsentDetailViewModelEventsDelegate: class {
     func revoke(_ consent: SEConsentData, messageTitle: String, messageDescription: String, successMessage: String)

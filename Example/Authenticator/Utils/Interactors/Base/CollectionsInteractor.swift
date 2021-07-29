@@ -69,11 +69,19 @@ enum CollectionsInteractor {
                 )
             }
         case .consents:
-            SEConsentsManager.getEncryptedConsents(
-                data: requestData,
-                onSuccess: { response in success(response.data) },
-                onFailure: { error in onFailure(error: error, connection: connection) }
-            )
+            if connection.isApiV2 {
+                SEConsentManagerV2.getEncryptedConsents(
+                    data: requestData,
+                    onSuccess: { response in success(response.data) },
+                    onFailure: { error in onFailure(error: error, connection: connection) }
+                )
+            } else {
+                SEConsentManager.getEncryptedConsents(
+                    data: requestData,
+                    onSuccess: { response in success(response.data) },
+                    onFailure: { error in onFailure(error: error, connection: connection) }
+                )
+            }
         }
     }
 
@@ -137,11 +145,26 @@ enum CollectionsInteractor {
                     )
                 }
             case .consents:
-                SEConsentsManager.getEncryptedConsents(
-                    data: requestData,
-                    onSuccess: { response in onSuccess(data: response.data) },
-                    onFailure: { error in onFailure(error: error, connection: connection) }
-                )
+                if connection.isApiV2 {
+                    SEConsentManagerV2.getEncryptedConsents(
+                        data: requestData,
+                        onSuccess: { response in
+                            onSuccess(data: response.data)
+                        }, onFailure: { error in
+                            onFailure(error: error, connection: connection)
+                        }
+                    )
+                } else {
+                    SEConsentManager.getEncryptedConsents(
+                        data: requestData,
+                        onSuccess: { response in
+                            onSuccess(data: response.data)
+                        },
+                        onFailure: { error in
+                            onFailure(error: error, connection: connection)
+                        }
+                    )
+                }
             }
         }
     }

@@ -1,5 +1,5 @@
 //
-//  SEConsentsRouter.swift
+//  SEConsentRouter.swift
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2020 Salt Edge Inc.
@@ -23,7 +23,7 @@
 import Foundation
 import SEAuthenticatorCore
 
-enum SEConsentsRouter: Routable {
+enum SEConsentRouter: Routable {
     case list(SEBaseAuthenticatedRequestData)
     case revoke(SEBaseAuthenticatedWithIdRequestData)
 

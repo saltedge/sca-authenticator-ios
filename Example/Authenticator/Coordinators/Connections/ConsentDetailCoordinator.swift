@@ -21,7 +21,7 @@
 //
 
 import UIKit
-import SEAuthenticator
+import SEAuthenticatorCore
 
 final class ConsentDetailCoordinator: Coordinator {
     private var rootViewController: UIViewController
