@@ -53,21 +53,6 @@ You can find related source code:
   ```bash
   brew install swiftlint
   ```
-  If `brew install swiftlint` fails on M1 Macs, go to the project settings(`Build Phases`) 
-  and add it to the Run Script next section:
-  ```
-  if test -d "/opt/homebrew/bin/"; then
-    PATH="/opt/homebrew/bin/:${PATH}"
-  fi
-
-  export PATH
-
-  if which swiftlint >/dev/null; then
-    swiftlint
-  else
-    echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
-  fi
-  ```
   
 ## SDK installation via [CocoaPods](https://cocoapods.org)
   
