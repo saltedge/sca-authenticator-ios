@@ -196,7 +196,6 @@ extension ConnectionsViewController: Layoutable {
 
 // MARK: - ConnectionCellEventsDelegate
 extension ConnectionsViewController: ConnectionCellEventsDelegate {
-
     func renamePressed(id: String) {
         viewModel.updateName(by: id)
     }
