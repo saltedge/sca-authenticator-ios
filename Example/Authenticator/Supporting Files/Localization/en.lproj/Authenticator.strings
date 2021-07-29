@@ -23,6 +23,7 @@
 "actions.proceed" = "Proceed";
 "action.connect_provider" = "Connect Provider";
 "actions.connect" = "Connect";
+"actions.view_id" = "ID:";
 "actions.reconnect" = "Reconnect";
 "actions.remove" = "Remove";
 "actions.rename" = "Rename";
