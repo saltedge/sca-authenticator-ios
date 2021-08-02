@@ -45,7 +45,6 @@ final class ConnectViewController: BaseViewController {
             return
         }
     }
-
 }
 
 // MARK: - Layout

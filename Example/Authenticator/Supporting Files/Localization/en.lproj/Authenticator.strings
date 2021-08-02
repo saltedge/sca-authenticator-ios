@@ -69,6 +69,7 @@
 "errors.no_suitable_connection" = "You have no suitable connection for this action";
 "errors.no_internet_connection" = "No Internet connection.";
 "errors.no_internet_connection_try_again" = "Please try again later.";
+"errors.no_internet_connection_check_and_try_again" = "Please check your internet connection and try again";
 "errors.passcode_dont_match" = "Passcodes don't match";
 "errors.wrong_passcode" = "Wrong passcode";
 "errors.passcode_ios_singular" = "You entered the wrong Passcode. Please try again in %{count} minute.";
