@@ -1,8 +1,8 @@
 //
-//  RealmMigrationManager
+//  AddConnectionV2Fields
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
-//  Copyright © 2019 Salt Edge Inc.
+//  Copyright © 2021 Salt Edge Inc.
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -23,23 +23,17 @@
 import Foundation
 import RealmSwift
 
-protocol RealmMigratable {
-    static func execute(_ migration: Migration)
-}
+struct AddConnectionV2Fields: RealmMigratable {
+    static func execute(_ migration: Migration) {
+        migration.enumerateObjects(ofType: Connection.className()) { (_, newObject) in
+            guard let object = newObject else { return }
 
-private let availableMigrations: [RealmMigratable.Type] = [
-    AddConnectionSupportEmail.self,
-    AddConnectionGeolocation.self,
-    AddConnectionV2Fields.self
-]
-
-struct RealmMigrationManager {
-    static let schemaVersion: Int = availableMigrations.count
-
-    static let migrationBlock: MigrationBlock = { migration, oldSchemaVersion in
-        for version in 1...schemaVersion where oldSchemaVersion < version {
-            let migrationClass = availableMigrations[version - 1]
-            migrationClass.execute(migration)
+            let apiVersionPath = #keyPath(Connection.apiVersion)
+            object[apiVersionPath] = ""
+            let providerIdPath = #keyPath(Connection.providerId)
+            object[providerIdPath] = ""
+            let publicKeyPath = #keyPath(Connection.publicKey)
+            object[publicKeyPath] = ""
         }
     }
 }
