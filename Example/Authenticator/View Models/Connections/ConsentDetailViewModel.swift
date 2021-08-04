@@ -45,7 +45,7 @@ final class ConsentDetailViewModel {
     }
 
     var expiresInText: String {
-        return "\(consent.expiresAt.get(.day)) \(l10n(.daysLeft))"
+        return "\(consent.expiresAt.numberOfDaysFromNow) \(l10n(.daysLeft))"
     }
 
     var descriptionAtributedString: NSMutableAttributedString {
