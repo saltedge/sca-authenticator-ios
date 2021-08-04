@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479C5512387F8C300F3FE0A /* AVCaptureHelperSpec.swift */; };
 		6CF5A0163F3E926E5B271FBE /* Pods_Authenticator_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC7966F04DE3EFEB4C47030C /* Pods_Authenticator_Tests.framework */; };
+		84726A0726B98538005C792E /* AddConnectionV2Fields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84726A0626B98538005C792E /* AddConnectionV2Fields.swift */; };
+		84726A0826B98538005C792E /* AddConnectionV2Fields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84726A0626B98538005C792E /* AddConnectionV2Fields.swift */; };
 		95033CC125F8FB0D00D64BDE /* MockLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95033CC025F8FB0D00D64BDE /* MockLocationManager.swift */; };
 		954CC97524A22FF30021F0B2 /* SEEncryptedDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81322CE18270050ED3C /* SEEncryptedDataExtensions.swift */; };
 		954CC97624A22FF40021F0B2 /* SEEncryptedDataExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DCED81322CE18270050ED3C /* SEEncryptedDataExtensions.swift */; };
@@ -393,6 +395,7 @@
 		607FACD01AFB9204008FA782 /* Authenticator_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Authenticator_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACE51AFB9204008FA782 /* Authenticator_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Authenticator_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84726A0626B98538005C792E /* AddConnectionV2Fields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConnectionV2Fields.swift; sourceTree = "<group>"; };
 		95033CC025F8FB0D00D64BDE /* MockLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationManager.swift; sourceTree = "<group>"; };
 		957BCE5E24A3921B001F456F /* Log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		9581A9DC2477E0C00066EF5E /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -760,6 +763,7 @@
 			children = (
 				95D784E523042BCE002BF219 /* AddConnectionSupportEmail.swift */,
 				95C8C07925F251E6005E787F /* AddConnectionGeolocation.swift */,
+				84726A0626B98538005C792E /* AddConnectionV2Fields.swift */,
 			);
 			path = Migrations;
 			sourceTree = "<group>";
@@ -1913,6 +1917,7 @@
 				9DE56A0C24AB702A00FA5B2C /* ConsentsCoordinator.swift in Sources */,
 				9DCED90322CE18280050ED3C /* TaptileFeedbackButton.swift in Sources */,
 				9DCED8E022CE18280050ED3C /* UserDefaultsHelper.swift in Sources */,
+				84726A0726B98538005C792E /* AddConnectionV2Fields.swift in Sources */,
 				9DCC5E25265D1DD40054B933 /* ConnectionsInteractorV2.swift in Sources */,
 				9DD155F326613CEA00AEFA0D /* BaseConnectionsInteractor.swift in Sources */,
 				9DCED8D522CE18280050ED3C /* ApplicationExtensions.swift in Sources */,
@@ -2137,6 +2142,7 @@
 				9DE3249722D399E800EB162A /* ViewsExtensions.swift in Sources */,
 				9DE3249522D399E300EB162A /* ViewControllerExtensions.swift in Sources */,
 				95D784E82304399B002BF219 /* AddConnectionSupportEmail.swift in Sources */,
+				84726A0826B98538005C792E /* AddConnectionV2Fields.swift in Sources */,
 				959E30B4247BE56C0067354A /* SettingCellModel.swift in Sources */,
 				9D66E1AB22D4C1CA00BD59B6 /* CryptoErrorsSpec.swift in Sources */,
 				9D630BCA243DC464000A9ACC /* OnboardingViewModel.swift in Sources */,
@@ -2388,6 +2394,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 8QFQG87EDC;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2413,6 +2420,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = 8QFQG87EDC;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -2444,6 +2452,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 8QFQG87EDC;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "TestHost-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -2473,6 +2482,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8QFQG87EDC;
+				"EXCLUDED_ARCHS[sdk=*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = "TestHost-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
