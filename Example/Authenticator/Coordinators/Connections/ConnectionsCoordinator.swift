@@ -29,7 +29,7 @@ final class ConnectionsCoordinator: Coordinator {
     private var connectViewCoordinator: ConnectViewCoordinator?
     private var qrCodeCoordinator: QRCodeCoordinator?
     private var consentsCoordinator: ConsentsCoordinator?
-    private var viewModel = ConnectionsViewModel()
+    private var viewModel = ConnectionsViewModel(reachabilityManager: ReachabilityManager.shared)
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController

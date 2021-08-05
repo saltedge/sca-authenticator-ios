@@ -47,7 +47,10 @@ final class ConnectionsViewModel {
     private var connectionsNotificationToken: NotificationToken?
     private var connectionsListener: RealmConnectionsListener?
 
-    init() {
+    private let reachabilityManager: ReachabilityManagerProtocol
+
+    init(reachabilityManager: ReachabilityManagerProtocol) {
+        self.reachabilityManager = reachabilityManager
         connectionsListener = RealmConnectionsListener(
             onDataChange: {
                 self.delegate?.updateViews()
@@ -174,9 +177,9 @@ extension ConnectionsViewModel {
     }
     
     func checkInternetAndRemoveConnection(id: String, showConfirmation: Bool) {
-        guard ReachabilityManager.shared.isReachable else {
+        guard reachabilityManager.isReachable else {
             delegate?.showNoInternetConnectionAlert {
-                if ReachabilityManager.shared.isReachable { self.remove(by: id) }
+                if self.reachabilityManager.isReachable { self.remove(by: id) }
             }
             return
         }

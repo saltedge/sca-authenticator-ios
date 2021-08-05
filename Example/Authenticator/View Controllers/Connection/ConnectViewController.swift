@@ -32,18 +32,18 @@ final class ConnectViewController: BaseViewController {
         layout()
     }
 
-    private func checkInternetConnection() {
-        guard ReachabilityManager.shared.isReachable else {
-            self.showInfoAlert(
-                withTitle: l10n(.noInternetConnection),
-                message: l10n(.pleaseTryAgain),
-                actionTitle: l10n(.ok),
-                completion: {
-                    self.cancelPressed()
-                }
-            )
-            return
-        }
+    private func checkInternetConnection() { //TODO: Move logic to ViewModel, in controller we have logic only with UI
+//        guard ReachabilityManager.shared.isReachable else {
+//            self.showInfoAlert(
+//                withTitle: l10n(.noInternetConnection),
+//                message: l10n(.pleaseTryAgain),
+//                actionTitle: l10n(.ok),
+//                completion: {
+//                    self.cancelPressed()
+//                }
+//            )
+//            return
+//        }
     }
 }
 

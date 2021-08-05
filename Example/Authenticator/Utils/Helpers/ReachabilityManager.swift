@@ -23,7 +23,7 @@
 import Foundation
 import Reachability
 
-class ReachabilityManager {
+class ReachabilityManager: ReachabilityManagerProtocol {
     static let shared = ReachabilityManager()
 
     private var reachability: Reachability!
@@ -67,4 +67,8 @@ class ReachabilityManager {
     deinit {
         NotificationsHelper.removeObserver(self)
     }
+}
+
+protocol ReachabilityManagerProtocol {
+    var isReachable: Bool { get }
 }

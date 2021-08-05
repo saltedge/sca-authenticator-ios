@@ -28,6 +28,13 @@ import SEAuthenticator
 import RealmSwift
 @testable import SEAuthenticatorCore
 
+class ReachabilityManagerSpy: ReachabilityManagerProtocol {
+    var enabled = true
+    var isReachable: Bool {
+        return enabled
+    }
+}
+
 private final class MockSettingsDelegate: ConnectionsEventsDelegate {
     
     var showEditConnectionAlertCall: Bool = false
@@ -82,49 +89,52 @@ private final class MockSettingsDelegate: ConnectionsEventsDelegate {
     }
 }
 
-
 final class ConnectionsViewModelSpec: BaseSpec {
+    
+    private var viewModel: ConnectionsViewModel!
+    private var networkSpy: ReachabilityManagerSpy!
+
     
     override func spec() {
         beforeEach {
+            self.networkSpy = ReachabilityManagerSpy()
+            self.viewModel = ConnectionsViewModel(reachabilityManager: self.networkSpy)
             ConnectionRepository.deleteAllConnections()
+        }
+        afterEach {
+            self.viewModel = nil
+            self.networkSpy = nil
         }
                 
         describe("count") {
             it("should return count of connections") {
-                let viewModel = ConnectionsViewModel()
                 let connection = Connection()
                 connection.status = "active"
 
                 ConnectionRepository.save(connection)
             
-                expect(viewModel.count).to(equal(1))
+                expect(self.viewModel.count).to(equal(1))
             }
         }
         
         describe("hasDataToShow") {
             it("must display the data that needs to be shown") {
-                let viewModel = ConnectionsViewModel()
                 let connection = Connection()
                 connection.status = "active"
 
                 ConnectionRepository.save(connection)
                 
-                expect(viewModel.hasDataToShow).to(equal(true))
+                expect(self.viewModel.hasDataToShow).to(equal(true))
             }
             
             it("will not display the data to be displayed") {
-                let viewModel = ConnectionsViewModel()
-                
-                expect(viewModel.hasDataToShow).to(equal(false))
+                expect(self.viewModel.hasDataToShow).to(equal(false))
             }
         }
         
         describe("emptyViewData") {
             context("when there is no connections") {
                 it("should return correct data") {
-                    let viewModel = ConnectionsViewModel()
-
                     let expectedEmptyViewData = EmptyViewData(
                         image: UIImage(named: "noConnections", in: .authenticator_main, compatibleWith: nil)!,
                         title: l10n(.noConnections),
@@ -132,7 +142,7 @@ final class ConnectionsViewModelSpec: BaseSpec {
                         buttonTitle: l10n(.connect)
                     )
 
-                    expect(viewModel.emptyViewData).to(equal(expectedEmptyViewData))
+                    expect(self.viewModel.emptyViewData).to(equal(expectedEmptyViewData))
                 }
             }
         }
@@ -140,18 +150,17 @@ final class ConnectionsViewModelSpec: BaseSpec {
         describe("remove(id)") {
             context("remove connections") {
                 it("should remove connection") {
-                    let viewModel = ConnectionsViewModel()
                     let mockDelegate = MockSettingsDelegate()
-                    viewModel.delegate = mockDelegate
+                    self.viewModel.delegate = mockDelegate
                     
                     let connection = Connection()
                     connection.id = "id1"
 
                     ConnectionRepository.save(connection)
 
-                    viewModel.remove(by: "id1")
+                    self.viewModel.remove(by: "id1")
                     
-                    expect(viewModel.count).to(equal(0))
+                    expect(self.viewModel.count).to(equal(0))
                 }
             }
         }
@@ -159,55 +168,53 @@ final class ConnectionsViewModelSpec: BaseSpec {
         describe("checkInternetAndRemoveConnection") {
             context("remove connection when internet is on and showConfirmation is true") {
                 it("should remove connection") {
-                    let viewModel = ConnectionsViewModel()
                     let mockDelegate = MockSettingsDelegate()
-                    viewModel.delegate = mockDelegate
-                    
+                    self.viewModel.delegate = mockDelegate
+
                     let connection = Connection()
                     connection.id = "id1"
 
                     ConnectionRepository.save(connection)
+                    self.networkSpy.enabled = false
 
-                    viewModel.checkInternetAndRemoveConnection(id: "id1", showConfirmation: true)
-                    
+                    self.viewModel.checkInternetAndRemoveConnection(id: "id1", showConfirmation: true)
+
                     expect(mockDelegate.showNoInternetConnectionAlertCall).to(beTrue())
-                    expect(viewModel.count).to(equal(0))
                 }
             }
-        
+
             context("remove connection when internet is on and showConfirmation is false") {
                 it("should remove connection") {
-                    let viewModel = ConnectionsViewModel()
                     let mockDelegate = MockSettingsDelegate()
-                    viewModel.delegate = mockDelegate
-                    
+                    self.viewModel.delegate = mockDelegate
+
                     let connection = Connection()
                     connection.id = "id1"
 
                     ConnectionRepository.save(connection)
+                    self.networkSpy.enabled = false
 
-                    viewModel.checkInternetAndRemoveConnection(id: "id1", showConfirmation: false)
-                    
+                    self.viewModel.checkInternetAndRemoveConnection(id: "id1", showConfirmation: false)
+
                     expect(mockDelegate.showNoInternetConnectionAlertCall).to(beTrue())
-                    expect(viewModel.count).to(equal(0))
                 }
             }
             
             context("remove connection when internet is off") {
                 it("should remove connection") {
-                    let viewModel = ConnectionsViewModel()
                     let mockDelegate = MockSettingsDelegate()
-                    viewModel.delegate = mockDelegate
+                    self.viewModel.delegate = mockDelegate
                     
                     let connection = Connection()
                     connection.id = "id1"
 
                     ConnectionRepository.save(connection)
+                    
+                    self.networkSpy.enabled = true
 
-                    viewModel.checkInternetAndRemoveConnection(id: "id1", showConfirmation: true)
+                    self.viewModel.checkInternetAndRemoveConnection(id: "id1", showConfirmation: true)
                     
                     expect(mockDelegate.showDeleteConfirmationAlertCall).to(beTrue())
-                    expect(viewModel.count).to(equal(0))
                 }
             }
         }
