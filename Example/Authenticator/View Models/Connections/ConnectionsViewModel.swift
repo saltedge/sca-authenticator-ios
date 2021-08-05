@@ -34,6 +34,8 @@ protocol ConnectionsEventsDelegate: class {
     func updateViews()
     func addPressed()
     func presentError(_ error: String)
+    func showNoInternetConnectionAlert(completion:@escaping () -> Void)
+    func showDeleteConfirmationAlert(completion:@escaping () -> Void)
 }
 
 final class ConnectionsViewModel {
@@ -64,7 +66,7 @@ final class ConnectionsViewModel {
 
     var emptyViewData: EmptyViewData {
         return EmptyViewData(
-            image: #imageLiteral(resourceName: "noConnections"),
+            image: UIImage(named: "noConnections", in: .authenticator_main, compatibleWith: nil)!,
             title: l10n(.noConnections),
             description: l10n(.noConnectionsDescription),
             buttonTitle: l10n(.connect)
@@ -169,6 +171,17 @@ extension ConnectionsViewModel {
 
     func reconnect(id: ID) {
         delegate?.reconnect(by: id)
+    }
+    
+    func checkInternetAndRemoveConnection(id: String, showConfirmation: Bool) {
+        guard ReachabilityManager.shared.isReachable else {
+            delegate?.showNoInternetConnectionAlert {
+                if ReachabilityManager.shared.isReachable { self.remove(by: id) }
+            }
+            return
+        }
+        if showConfirmation { delegate?.showDeleteConfirmationAlert { self.remove(by: id) } }
+        else { remove(by: id) }
     }
 }
 

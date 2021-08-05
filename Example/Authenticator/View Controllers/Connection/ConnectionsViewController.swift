@@ -225,7 +225,8 @@ extension ConnectionsViewController: ConnectionCellEventsDelegate {
     }
 
     func deletePressed(id: String, showConfirmation: Bool) {
-        checkInternetAndRemoveConnection(id: id, showConfirmation: showConfirmation)
+//        checkInternetAndRemoveConnection(id: id, showConfirmation: showConfirmation)
+        viewModel.checkInternetAndRemoveConnection(id: id, showConfirmation: showConfirmation)
     }
 
     func reconnectPreseed(id: String) {
@@ -234,34 +235,5 @@ extension ConnectionsViewController: ConnectionCellEventsDelegate {
 
     func consentsPressed(id: String) {
         viewModel.consentsPressed(connectionId: id)
-    }
-    
-    private func checkInternetAndRemoveConnection(id: String, showConfirmation: Bool) {
-        guard ReachabilityManager.shared.isReachable else {
-            self.showConfirmationAlert(
-                withTitle: l10n(.noInternetConnection),
-                message: l10n(.pleaseCheckAndTryAgain),
-                confirmActionTitle: l10n(.retry),
-                confirmAction: { _ in
-                    if ReachabilityManager.shared.isReachable { self.viewModel.remove(by: id) }
-                }
-            )
-            return
-        }
-        
-        if showConfirmation {
-            showConfirmationAlert(
-                withTitle: l10n(.deleteConnection),
-                message: l10n(.deleteConnectionDescription),
-                confirmActionTitle: l10n(.delete),
-                confirmActionStyle: .destructive,
-                cancelTitle: l10n(.cancel),
-                confirmAction: { _ in
-                    self.viewModel.remove(by: id)
-                }
-            )
-        } else {
-            viewModel.remove(by: id)
-        }
     }
 }
