@@ -225,7 +225,6 @@ extension ConnectionsViewController: ConnectionCellEventsDelegate {
     }
 
     func deletePressed(id: String, showConfirmation: Bool) {
-//        checkInternetAndRemoveConnection(id: id, showConfirmation: showConfirmation)
         viewModel.checkInternetAndRemoveConnection(id: id, showConfirmation: showConfirmation)
     }
 

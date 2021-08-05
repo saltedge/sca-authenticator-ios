@@ -41,7 +41,7 @@ final class AuthorizationsViewModelSpec: BaseSpec {
         describe("emptyViewData") {
             context("when there is no connections") {
                 it("should return correct data") {
-                    let viewModel = AuthorizationsViewModel()
+                    let viewModel = ConnectionsViewModelSpecAuthorizationsViewModel()
                     let dataSource = AuthorizationsDataSource()
                     viewModel.dataSource = dataSource
 

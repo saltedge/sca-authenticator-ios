@@ -93,7 +93,6 @@ final class ConnectionsViewModelSpec: BaseSpec {
     
     private var viewModel: ConnectionsViewModel!
     private var networkSpy: ReachabilityManagerSpy!
-
     
     override func spec() {
         beforeEach {
