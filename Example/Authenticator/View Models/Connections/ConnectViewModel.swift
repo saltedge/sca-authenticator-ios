@@ -36,7 +36,6 @@ final class ConnectViewModel {
     }
 }
 
-
 // MARK: - Delegate actions
 extension ConnectViewModel {
     func checkInternetConnection() {
@@ -46,4 +45,3 @@ extension ConnectViewModel {
         }
     }
 }
-
