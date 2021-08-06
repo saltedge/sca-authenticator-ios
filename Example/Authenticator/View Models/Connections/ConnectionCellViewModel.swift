@@ -123,7 +123,7 @@ class ConnectionCellViewModel {
                     }
                 )
             }
-            
+
             actions.append(
                 UIAction(
                     title: "\(l10n(.id)) \(strongSelf.connection.id)",

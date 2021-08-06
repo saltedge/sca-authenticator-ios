@@ -23,7 +23,6 @@
 import UIKit
 import WebKit
 import SEAuthenticatorCore
-//import SEAuthenticator
 
 protocol ConnectorWebViewControllerDelegate: WKWebViewControllerDelegate {
     func connectorConfirmed(url: URL, accessToken: AccessToken)
