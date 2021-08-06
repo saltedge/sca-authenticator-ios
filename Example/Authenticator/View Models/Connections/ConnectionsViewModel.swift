@@ -175,7 +175,7 @@ extension ConnectionsViewModel {
     func reconnect(id: ID) {
         delegate?.reconnect(by: id)
     }
-    
+
     func checkInternetAndRemoveConnection(id: String, showConfirmation: Bool) {
         guard reachabilityManager.isReachable else {
             delegate?.showNoInternetConnectionAlert {
@@ -183,8 +183,8 @@ extension ConnectionsViewModel {
             }
             return
         }
-        if showConfirmation { delegate?.showDeleteConfirmationAlert { self.remove(by: id) } }
-        else { remove(by: id) }
+        if showConfirmation { delegate?.showDeleteConfirmationAlert { self.remove(by: id) }
+        } else { remove(by: id) }
     }
 }
 

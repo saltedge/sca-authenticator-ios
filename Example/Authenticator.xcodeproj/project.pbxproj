@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0479C5522387F8C300F3FE0A /* AVCaptureHelperSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0479C5512387F8C300F3FE0A /* AVCaptureHelperSpec.swift */; };
 		6CF5A0163F3E926E5B271FBE /* Pods_Authenticator_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC7966F04DE3EFEB4C47030C /* Pods_Authenticator_Tests.framework */; };
+		8434188C26BD33180027CF1B /* ConnectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8434188B26BD33180027CF1B /* ConnectViewModel.swift */; };
+		8434188D26BD33180027CF1B /* ConnectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8434188B26BD33180027CF1B /* ConnectViewModel.swift */; };
 		84726A0726B98538005C792E /* AddConnectionV2Fields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84726A0626B98538005C792E /* AddConnectionV2Fields.swift */; };
 		84726A0826B98538005C792E /* AddConnectionV2Fields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84726A0626B98538005C792E /* AddConnectionV2Fields.swift */; };
 		8480F53B26BC182200FB5DFF /* ConnectionsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8480F53A26BC182200FB5DFF /* ConnectionsViewModelSpec.swift */; };
@@ -396,6 +398,7 @@
 		607FACD01AFB9204008FA782 /* Authenticator_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Authenticator_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACE51AFB9204008FA782 /* Authenticator_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Authenticator_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8434188B26BD33180027CF1B /* ConnectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectViewModel.swift; sourceTree = "<group>"; };
 		84726A0626B98538005C792E /* AddConnectionV2Fields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConnectionV2Fields.swift; sourceTree = "<group>"; };
 		8480F53A26BC182200FB5DFF /* ConnectionsViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModelSpec.swift; sourceTree = "<group>"; };
 		95033CC025F8FB0D00D64BDE /* MockLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationManager.swift; sourceTree = "<group>"; };
@@ -778,6 +781,7 @@
 				9D5BCFD8247FC91F009A6B40 /* ConnectionPickerViewModel.swift */,
 				9DE56A0724AB672500FA5B2C /* ConsentViewModel.swift */,
 				9D98747524B37F3500EE89BB /* ConsentDetailViewModel.swift */,
+				8434188B26BD33180027CF1B /* ConnectViewModel.swift */,
 			);
 			path = Connections;
 			sourceTree = "<group>";
@@ -1845,6 +1849,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8434188C26BD33180027CF1B /* ConnectViewModel.swift in Sources */,
 				9DCED8F922CE18280050ED3C /* PasscodeSymbolView.swift in Sources */,
 				9D98746D24B3536400EE89BB /* ConsentSharedDataView.swift in Sources */,
 				9DE94108246D4229000029A2 /* AuthorizationsViewModel.swift in Sources */,
@@ -2169,6 +2174,7 @@
 				9DE324BE22D39A5F00EB162A /* AuthorizationsViewController.swift in Sources */,
 				9D5BCFDD247FF595009A6B40 /* InstantActionHandler.swift in Sources */,
 				9DCBB28C243618B900DB3F85 /* Observable.swift in Sources */,
+				8434188D26BD33180027CF1B /* ConnectViewModel.swift in Sources */,
 				9DE3247622D3997200EB162A /* ApplicationCoordinator.swift in Sources */,
 				9DB18ED722D4A35500BEF299 /* Connection.swift in Sources */,
 				9D66E1AD22D4C1D100BD59B6 /* ConnectionSpec.swift in Sources */,

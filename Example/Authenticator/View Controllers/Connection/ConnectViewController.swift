@@ -24,26 +24,22 @@ import UIKit
 
 final class ConnectViewController: BaseViewController {
     private lazy var completeView = CompleteView(state: .processing, title: l10n(.processing))
-
+    private var viewModel: ConnectViewModel
+    
+    init(viewModel: ConnectViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: .authenticator_main)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkInternetConnection()
+        viewModel.checkInternetConnection()
         setupCancelButton()
         layout()
     }
-
-    private func checkInternetConnection() { //TODO: Move logic to ViewModel, in controller we have logic only with UI
-//        guard ReachabilityManager.shared.isReachable else {
-//            self.showInfoAlert(
-//                withTitle: l10n(.noInternetConnection),
-//                message: l10n(.pleaseTryAgain),
-//                actionTitle: l10n(.ok),
-//                completion: {
-//                    self.cancelPressed()
-//                }
-//            )
-//            return
-//        }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -93,4 +89,19 @@ extension ConnectViewController: CompleteViewDelegate {
     func proceedPressed(for view: CompleteView) {
         cancelPressed()
     }
+}
+
+// MARK: - ConnectViewModelEventsDelegate
+extension ConnectViewController: ConnectViewModelEventsDelegate {
+    func showNoInternetConnectionAlert() {
+        self.showInfoAlert(
+            withTitle: l10n(.noInternetConnection),
+            message: l10n(.pleaseTryAgain),
+            actionTitle: l10n(.ok),
+            completion: {
+                self.cancelPressed()
+            }
+        )
+    }
+    
 }
