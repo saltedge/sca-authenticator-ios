@@ -48,7 +48,7 @@ final class ConnectionsCoordinator: Coordinator {
 
 // MARK: - ConnectionsListEventsDelegate
 extension ConnectionsCoordinator: ConnectionsEventsDelegate {
-    func showNoInternetConnectionAlert(completion:@escaping () -> Void) {
+    func showNoInternetConnectionAlert(completion: @escaping () -> Void) {
         currentViewController.showConfirmationAlert(
             withTitle: l10n(.noInternetConnection),
             message: l10n(.pleaseCheckAndTryAgain),
@@ -57,7 +57,7 @@ extension ConnectionsCoordinator: ConnectionsEventsDelegate {
         )
     }
 
-    func showDeleteConfirmationAlert(completion:@escaping () -> Void) {
+    func showDeleteConfirmationAlert(completion: @escaping () -> Void) {
         currentViewController.showConfirmationAlert(
             withTitle: l10n(.deleteConnection),
             message: l10n(.deleteConnectionDescription),

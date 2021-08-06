@@ -25,13 +25,6 @@ import Nimble
 import SEAuthenticator
 @testable import SEAuthenticatorCore
 
-class MockConnectable: Connectable {
-    var enabled = true
-    var isConnected: Bool {
-        return enabled
-    }
-}
-
 private final class MockConnectionsDelegate: ConnectionsEventsDelegate {
     var showEditConnectionAlertCall: Bool = false
     var showSupportCall: Bool = false

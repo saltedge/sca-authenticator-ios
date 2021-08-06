@@ -34,8 +34,8 @@ protocol ConnectionsEventsDelegate: class {
     func updateViews()
     func addPressed()
     func presentError(_ error: String)
-    func showNoInternetConnectionAlert(completion:@escaping () -> Void)
-    func showDeleteConfirmationAlert(completion:@escaping () -> Void)
+    func showNoInternetConnectionAlert(completion: @escaping () -> Void)
+    func showDeleteConfirmationAlert(completion: @escaping () -> Void)
 }
 
 final class ConnectionsViewModel {
@@ -183,6 +183,7 @@ extension ConnectionsViewModel {
             }
             return
         }
+
         if showConfirmation {
             delegate?.showDeleteConfirmationAlert { self.remove(by: id) }
         } else {

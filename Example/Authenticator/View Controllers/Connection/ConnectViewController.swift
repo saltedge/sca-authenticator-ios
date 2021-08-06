@@ -24,22 +24,13 @@ import UIKit
 
 final class ConnectViewController: BaseViewController {
     private lazy var completeView = CompleteView(state: .processing, title: l10n(.processing))
-    private var viewModel: ConnectViewModel
-    
-    init(viewModel: ConnectViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: .authenticator_main)
-    }
-    
+    private let viewModel = ConnectViewModel(reachabilityManager: ConnectivityManager.shared)
+
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.checkInternetConnection()
         setupCancelButton()
         layout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -94,14 +85,11 @@ extension ConnectViewController: CompleteViewDelegate {
 // MARK: - ConnectViewModelEventsDelegate
 extension ConnectViewController: ConnectViewModelEventsDelegate {
     func showNoInternetConnectionAlert() {
-        self.showInfoAlert(
+        showInfoAlert(
             withTitle: l10n(.noInternetConnection),
             message: l10n(.pleaseTryAgain),
             actionTitle: l10n(.ok),
-            completion: {
-                self.cancelPressed()
-            }
+            completion: { self.cancelPressed() }
         )
     }
-    
 }

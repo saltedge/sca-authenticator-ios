@@ -12,6 +12,7 @@
 		8434188C26BD33180027CF1B /* ConnectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8434188B26BD33180027CF1B /* ConnectViewModel.swift */; };
 		8434188D26BD33180027CF1B /* ConnectViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8434188B26BD33180027CF1B /* ConnectViewModel.swift */; };
 		8434189026BD41A20027CF1B /* ConnectViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8434188E26BD41A20027CF1B /* ConnectViewModelSpec.swift */; };
+		8434189226BD6FFB0027CF1B /* MockConnectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8434189126BD6FFB0027CF1B /* MockConnectable.swift */; };
 		84726A0726B98538005C792E /* AddConnectionV2Fields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84726A0626B98538005C792E /* AddConnectionV2Fields.swift */; };
 		84726A0826B98538005C792E /* AddConnectionV2Fields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84726A0626B98538005C792E /* AddConnectionV2Fields.swift */; };
 		8480F53B26BC182200FB5DFF /* ConnectionsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8480F53A26BC182200FB5DFF /* ConnectionsViewModelSpec.swift */; };
@@ -401,6 +402,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8434188B26BD33180027CF1B /* ConnectViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectViewModel.swift; sourceTree = "<group>"; };
 		8434188E26BD41A20027CF1B /* ConnectViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectViewModelSpec.swift; sourceTree = "<group>"; };
+		8434189126BD6FFB0027CF1B /* MockConnectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockConnectable.swift; sourceTree = "<group>"; };
 		84726A0626B98538005C792E /* AddConnectionV2Fields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddConnectionV2Fields.swift; sourceTree = "<group>"; };
 		8480F53A26BC182200FB5DFF /* ConnectionsViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModelSpec.swift; sourceTree = "<group>"; };
 		95033CC025F8FB0D00D64BDE /* MockLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockLocationManager.swift; sourceTree = "<group>"; };
@@ -1432,6 +1434,7 @@
 				9DE3246F22D398ED00EB162A /* BaseSpec.swift */,
 				9DE3247022D398ED00EB162A /* DataFixtures.swift */,
 				95033CC025F8FB0D00D64BDE /* MockLocationManager.swift */,
+				8434189126BD6FFB0027CF1B /* MockConnectable.swift */,
 			);
 			path = "Spec Helpers";
 			sourceTree = "<group>";
@@ -2002,6 +2005,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8434189226BD6FFB0027CF1B /* MockConnectable.swift in Sources */,
 				9D98747424B353C000EE89BB /* ConsentAccountView.swift in Sources */,
 				9D59DAF62490C11500117CD7 /* AuthorizationView.swift in Sources */,
 				959E30A3247BC7930067354A /* LanguagePickerCoordinator.swift in Sources */,
