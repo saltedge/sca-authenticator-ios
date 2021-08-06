@@ -20,12 +20,10 @@
 //  under Section 7 of the GNU General Public License see THIRD_PARTY_NOTICES.md
 //
 
-import Foundation
 import Quick
 import Nimble
 
-private final class MockSettingsDelegate: ConnectViewModelEventsDelegate {
-    
+private final class MockСonnectDelegate: ConnectViewModelEventsDelegate {
     var showNoInternetConnectionAlertCall: Bool = false
     
     func showNoInternetConnectionAlert() {
@@ -34,13 +32,12 @@ private final class MockSettingsDelegate: ConnectViewModelEventsDelegate {
 }
 
 final class ConnectViewModelSpec: BaseSpec {
-    
     private var viewModel: ConnectViewModel!
-    private var networkSpy: ReachabilityManagerSpy!
+    private var networkSpy: MockConnectable!
     
     override func spec() {
         beforeEach {
-            self.networkSpy = ReachabilityManagerSpy()
+            self.networkSpy = MockConnectable()
             self.viewModel = ConnectViewModel(reachabilityManager: self.networkSpy)
         }
         afterEach {
@@ -51,7 +48,7 @@ final class ConnectViewModelSpec: BaseSpec {
         describe("checkInternetConnection") {
             context("check internet connection when internet is off") {
                 it("should show internet connection alert") {
-                    let mockDelegate = MockSettingsDelegate()
+                    let mockDelegate = MockСonnectDelegate()
                     self.viewModel.delegate = mockDelegate
                     self.networkSpy.enabled = false
 
@@ -63,7 +60,7 @@ final class ConnectViewModelSpec: BaseSpec {
             
             context("check internet connection when internet is on") {
                 it("should show internet connection alert") {
-                    let mockDelegate = MockSettingsDelegate()
+                    let mockDelegate = MockСonnectDelegate()
                     self.viewModel.delegate = mockDelegate
                     self.networkSpy.enabled = true
 

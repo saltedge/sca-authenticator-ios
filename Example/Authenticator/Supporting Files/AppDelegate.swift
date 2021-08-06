@@ -33,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         UNUserNotificationCenter.current().delegate = self
-        ReachabilityManager.shared.observeReachability()
+        ConnectivityManager.shared.observeReachability()
         AppearanceHelper.setup()
         CacheHelper.setDefaultDiskAge()
         configureFirebase()

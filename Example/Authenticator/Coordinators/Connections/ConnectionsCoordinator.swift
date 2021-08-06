@@ -29,7 +29,7 @@ final class ConnectionsCoordinator: Coordinator {
     private var connectViewCoordinator: ConnectViewCoordinator?
     private var qrCodeCoordinator: QRCodeCoordinator?
     private var consentsCoordinator: ConsentsCoordinator?
-    private var viewModel = ConnectionsViewModel(reachabilityManager: ReachabilityManager.shared)
+    private var viewModel = ConnectionsViewModel(reachabilityManager: ConnectivityManager.shared)
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
@@ -49,32 +49,28 @@ final class ConnectionsCoordinator: Coordinator {
 // MARK: - ConnectionsListEventsDelegate
 extension ConnectionsCoordinator: ConnectionsEventsDelegate {
     func showNoInternetConnectionAlert(completion:@escaping () -> Void) {
-        self.currentViewController.showConfirmationAlert(
+        currentViewController.showConfirmationAlert(
             withTitle: l10n(.noInternetConnection),
             message: l10n(.pleaseCheckAndTryAgain),
             confirmActionTitle: l10n(.retry),
-            confirmAction: { _ in
-                completion()
-            }
+            confirmAction: { _ in completion() }
         )
     }
-    
+
     func showDeleteConfirmationAlert(completion:@escaping () -> Void) {
-        self.currentViewController.showConfirmationAlert(
+        currentViewController.showConfirmationAlert(
             withTitle: l10n(.deleteConnection),
             message: l10n(.deleteConnectionDescription),
             confirmActionTitle: l10n(.delete),
             confirmActionStyle: .destructive,
             cancelTitle: l10n(.cancel),
-            confirmAction: { _ in
-                completion()
-            }
+            confirmAction: { _ in completion() }
         )
     }
-    
+
     func addPressed() {
         guard AVCaptureHelper.cameraIsAuthorized() else {
-            self.currentViewController.showConfirmationAlert(
+            currentViewController.showConfirmationAlert(
                 withTitle: l10n(.deniedCamera),
                 message: l10n(.deniedCameraDescription),
                 confirmActionTitle: l10n(.goToSettings),

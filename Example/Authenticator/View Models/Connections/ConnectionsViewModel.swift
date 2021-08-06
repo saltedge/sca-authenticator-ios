@@ -47,9 +47,9 @@ final class ConnectionsViewModel {
     private var connectionsNotificationToken: NotificationToken?
     private var connectionsListener: RealmConnectionsListener?
 
-    private let reachabilityManager: ReachabilityManagerProtocol
+    private let reachabilityManager: Connectable
 
-    init(reachabilityManager: ReachabilityManagerProtocol) {
+    init(reachabilityManager: Connectable) {
         self.reachabilityManager = reachabilityManager
         connectionsListener = RealmConnectionsListener(
             onDataChange: {
@@ -69,7 +69,7 @@ final class ConnectionsViewModel {
 
     var emptyViewData: EmptyViewData {
         return EmptyViewData(
-            image: UIImage(named: "noConnections", in: .authenticator_main, compatibleWith: nil)!,
+            image: UIImage(named: "noConnections", in: .authenticator_main, compatibleWith: nil) ?? UIImage(),
             title: l10n(.noConnections),
             description: l10n(.noConnectionsDescription),
             buttonTitle: l10n(.connect)
@@ -177,14 +177,17 @@ extension ConnectionsViewModel {
     }
 
     func checkInternetAndRemoveConnection(id: String, showConfirmation: Bool) {
-        guard reachabilityManager.isReachable else {
+        guard reachabilityManager.isConnected else {
             delegate?.showNoInternetConnectionAlert {
-                if self.reachabilityManager.isReachable { self.remove(by: id) }
+                if self.reachabilityManager.isConnected { self.remove(by: id) }
             }
             return
         }
-        if showConfirmation { delegate?.showDeleteConfirmationAlert { self.remove(by: id) }
-        } else { remove(by: id) }
+        if showConfirmation {
+            delegate?.showDeleteConfirmationAlert { self.remove(by: id) }
+        } else {
+            remove(by: id)
+        }
     }
 }
 

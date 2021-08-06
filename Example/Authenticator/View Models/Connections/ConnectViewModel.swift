@@ -29,9 +29,9 @@ protocol ConnectViewModelEventsDelegate: class {
 final class ConnectViewModel {
     weak var delegate: ConnectViewModelEventsDelegate?
 
-    private let reachabilityManager: ReachabilityManagerProtocol
+    private let reachabilityManager: Connectable
 
-    init(reachabilityManager: ReachabilityManagerProtocol) {
+    init(reachabilityManager: Connectable) {
         self.reachabilityManager = reachabilityManager
     }
 }
@@ -39,7 +39,7 @@ final class ConnectViewModel {
 // MARK: - Delegate actions
 extension ConnectViewModel {
     func checkInternetConnection() {
-        guard reachabilityManager.isReachable else {
+        guard reachabilityManager.isConnected else {
             delegate?.showNoInternetConnectionAlert()
             return
         }

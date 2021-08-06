@@ -32,7 +32,7 @@ final class InstantActionCoordinator: Coordinator {
 
     init(rootViewController: UIViewController, qrUrl: URL) {
         self.rootViewController = rootViewController
-        let viewModel = ConnectViewModel(reachabilityManager: ReachabilityManager.shared)
+        let viewModel = ConnectViewModel(reachabilityManager: ConnectivityManager.shared)
         self.connectViewController = ConnectViewController(viewModel: viewModel)
         self.instantActionHandler = InstantActionHandler(qrUrl: qrUrl)
         if #available(iOS 13.0, *) {

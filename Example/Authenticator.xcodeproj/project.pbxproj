@@ -246,8 +246,8 @@
 		9DD4DF2923759767000A9B80 /* AVCaptureHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD4DF2723759767000A9B80 /* AVCaptureHelper.swift */; };
 		9DD5098F24742ED900CB188D /* ConnectionsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F408FF2473C90F00727095 /* ConnectionsCoordinator.swift */; };
 		9DD50992247527D800CB188D /* AuthorizationsViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD50990247527D800CB188D /* AuthorizationsViewModelSpec.swift */; };
-		9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */; };
-		9DD8945E22E9D969008F3130 /* ReachabilityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */; };
+		9DD8945D22E9D969008F3130 /* ConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945C22E9D969008F3130 /* ConnectivityManager.swift */; };
+		9DD8945E22E9D969008F3130 /* ConnectivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945C22E9D969008F3130 /* ConnectivityManager.swift */; };
 		9DD8946022E9F4BD008F3130 /* NotificationsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */; };
 		9DD8946122E9F4BD008F3130 /* NotificationsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */; };
 		9DE308B92445BB05009EBD39 /* Authenticator.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9DCED89522CE18280050ED3C /* Authenticator.strings */; };
@@ -573,7 +573,7 @@
 		9DD4DF2723759767000A9B80 /* AVCaptureHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVCaptureHelper.swift; sourceTree = "<group>"; };
 		9DD50990247527D800CB188D /* AuthorizationsViewModelSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationsViewModelSpec.swift; sourceTree = "<group>"; };
 		9DD8158A22DF746300B93BA8 /* Authenticator_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Authenticator_Example.entitlements; sourceTree = "<group>"; };
-		9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReachabilityManager.swift; sourceTree = "<group>"; };
+		9DD8945C22E9D969008F3130 /* ConnectivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityManager.swift; sourceTree = "<group>"; };
 		9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsHelper.swift; sourceTree = "<group>"; };
 		9DE308BA2446287A009EBD39 /* PasscodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewController.swift; sourceTree = "<group>"; };
 		9DE308BD24474D92009EBD39 /* PasscodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeViewModel.swift; sourceTree = "<group>"; };
@@ -1162,7 +1162,7 @@
 				9DCED83722CE18270050ED3C /* Localizations.swift */,
 				9DCED83A22CE18270050ED3C /* AppearanceHelper.swift */,
 				9DCED83D22CE18270050ED3C /* PasscodeManger.swift */,
-				9DD8945C22E9D969008F3130 /* ReachabilityManager.swift */,
+				9DD8945C22E9D969008F3130 /* ConnectivityManager.swift */,
 				9DD8945F22E9F4BD008F3130 /* NotificationsHelper.swift */,
 				9DCED83F22CE18270050ED3C /* NotificationsManager.swift */,
 				9DCED84022CE18270050ED3C /* HapticFeedbackHelper.swift */,
@@ -1899,7 +1899,7 @@
 				9DCED8D322CE18280050ED3C /* StackViewExtensions.swift in Sources */,
 				95C8C0EE25F272CC005E787F /* LocationManager.swift in Sources */,
 				9DCED91522CE18280050ED3C /* Connection.swift in Sources */,
-				9DD8945D22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
+				9DD8945D22E9D969008F3130 /* ConnectivityManager.swift in Sources */,
 				9D87F4A7242A6BCD00F85D1F /* ConnectionsViewModel.swift in Sources */,
 				9DCED8AB22CE18280050ED3C /* SetupAppViewController.swift in Sources */,
 				9D98747324B353C000EE89BB /* ConsentAccountView.swift in Sources */,
@@ -2068,7 +2068,7 @@
 				9DE324A022D399FE00EB162A /* ViewExtensions+Animations.swift in Sources */,
 				9D8E5BA22445A1E70081E60E /* OnboardingViewModelSpec.swift in Sources */,
 				9DE308BF24474D92009EBD39 /* PasscodeViewModel.swift in Sources */,
-				9DD8945E22E9D969008F3130 /* ReachabilityManager.swift in Sources */,
+				9DD8945E22E9D969008F3130 /* ConnectivityManager.swift in Sources */,
 				9DD8946122E9F4BD008F3130 /* NotificationsHelper.swift in Sources */,
 				9DF7964D2498EFC6001290DA /* SingleAuthorizationViewModel.swift in Sources */,
 				9DE3249B22D399F200EB162A /* BundleExtensions.swift in Sources */,
