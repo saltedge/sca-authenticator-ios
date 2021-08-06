@@ -40,6 +40,17 @@ public extension Date {
         return currentCalendar.date(from: components)!
     }
 
+    var numberOfDaysFromNow: Int {
+        let calendar = Calendar.current
+
+        let date1 = calendar.startOfDay(for: Date())
+        let date2 = calendar.startOfDay(for: self)
+
+        let components = calendar.dateComponents([.day], from: date1, to: date2)
+
+        return components.day ?? 0
+    }
+
     func get(_ component: Calendar.Component, calendar: Calendar = Calendar.current) -> Int {
         return calendar.component(component, from: self)
     }
