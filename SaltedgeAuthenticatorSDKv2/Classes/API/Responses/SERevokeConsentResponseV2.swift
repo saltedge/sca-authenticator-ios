@@ -29,8 +29,8 @@ public struct SERevokeConsentResponseV2: SerializableResponse {
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
             let data = dict[SENetKeys.data] as? [String: Any],
-            let id = data[SENetKeys.id] as? String {
-            self.id = id
+            let id = data[SENetKeys.id] as? Int {
+            self.id = "\(id)"
         } else {
             return nil
         }

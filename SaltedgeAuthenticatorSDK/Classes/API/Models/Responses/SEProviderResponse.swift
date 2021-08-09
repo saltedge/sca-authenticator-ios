@@ -40,7 +40,6 @@ public struct SEProviderResponse: SerializableResponse {
             let connectUrlString = data[SENetKeys.connectUrl] as? String,
             let version = data[SENetKeys.version] as? String,
             let connectUrl = URL(string: connectUrlString) {
-
             if let logoUrlString = data[SENetKeys.logoUrl] as? String,
                 let logoUrl = URL(string: logoUrlString) {
                 self.logoUrl = logoUrl
