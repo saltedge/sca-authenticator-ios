@@ -43,7 +43,7 @@ final class ConnectViewCoordinator: Coordinator {
     private let rootViewController: UIViewController
 
     private lazy var webViewController = ConnectorWebViewController()
-    private var connectViewController = ConnectViewController()
+    private lazy var connectViewController = ConnectViewController()
     private var qrCodeCoordinator: QRCodeCoordinator?
     private var connectHandler: ConnectHandler?
 

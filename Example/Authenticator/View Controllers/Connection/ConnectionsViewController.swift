@@ -225,20 +225,7 @@ extension ConnectionsViewController: ConnectionCellEventsDelegate {
     }
 
     func deletePressed(id: String, showConfirmation: Bool) {
-        if showConfirmation {
-            showConfirmationAlert(
-                withTitle: l10n(.deleteConnection),
-                message: l10n(.deleteConnectionDescription),
-                confirmActionTitle: l10n(.delete),
-                confirmActionStyle: .destructive,
-                cancelTitle: l10n(.cancel),
-                confirmAction: { _ in
-                    self.viewModel.remove(by: id)
-                }
-            )
-        } else {
-            viewModel.remove(by: id)
-        }
+        viewModel.checkInternetAndRemoveConnection(id: id, showConfirmation: showConfirmation)
     }
 
     func reconnectPreseed(id: String) {

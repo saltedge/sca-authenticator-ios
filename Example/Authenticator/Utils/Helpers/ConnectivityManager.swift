@@ -23,12 +23,16 @@
 import Foundation
 import Reachability
 
-class ReachabilityManager {
-    static let shared = ReachabilityManager()
+protocol Connectable {
+    var isConnected: Bool { get }
+}
+
+class ConnectivityManager: Connectable {
+    static let shared = ConnectivityManager()
 
     private var reachability: Reachability!
 
-    var isReachable: Bool {
+    var isConnected: Bool {
         return reachability.connection != .unavailable
     }
 

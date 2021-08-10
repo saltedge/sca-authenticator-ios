@@ -24,28 +24,14 @@ import UIKit
 
 final class ConnectViewController: BaseViewController {
     private lazy var completeView = CompleteView(state: .processing, title: l10n(.processing))
+    private let viewModel = ConnectViewModel(reachabilityManager: ConnectivityManager.shared)
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkInternetConnection()
+        viewModel.checkInternetConnection()
         setupCancelButton()
         layout()
     }
-
-    private func checkInternetConnection() {
-        guard ReachabilityManager.shared.isReachable else {
-            self.showInfoAlert(
-                withTitle: l10n(.noInternetConnection),
-                message: l10n(.pleaseTryAgain),
-                actionTitle: l10n(.ok),
-                completion: {
-                    self.cancelPressed()
-                }
-            )
-            return
-        }
-    }
-
 }
 
 // MARK: - Layout
@@ -93,5 +79,17 @@ extension ConnectViewController {
 extension ConnectViewController: CompleteViewDelegate {
     func proceedPressed(for view: CompleteView) {
         cancelPressed()
+    }
+}
+
+// MARK: - ConnectViewModelEventsDelegate
+extension ConnectViewController: ConnectViewModelEventsDelegate {
+    func showNoInternetConnectionAlert() {
+        showInfoAlert(
+            withTitle: l10n(.noInternetConnection),
+            message: l10n(.pleaseTryAgain),
+            actionTitle: l10n(.ok),
+            completion: { self.cancelPressed() }
+        )
     }
 }
