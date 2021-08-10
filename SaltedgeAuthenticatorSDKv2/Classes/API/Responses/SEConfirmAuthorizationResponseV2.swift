@@ -32,8 +32,8 @@ public struct SEConfirmAuthorizationResponseV2: SerializableResponse {
             let data = dict[SENetKeys.data] as? [String: Any],
             let statusString = data[SENetKeys.status] as? String,
             let status = AuthorizationStatus(rawValue: statusString),
-            let id = data[SENetKeys.id] as? String {
-            self.id = id
+            let id = data[SENetKeys.id] as? Int {
+            self.id = "\(id)"
             self.status = status
         } else {
             return nil

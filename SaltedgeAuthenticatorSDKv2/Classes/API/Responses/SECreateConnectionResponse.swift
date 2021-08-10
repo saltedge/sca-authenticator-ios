@@ -30,9 +30,9 @@ public struct SECreateConnectionResponse: SerializableResponse {
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
             let dataDict = dict[SENetKeys.data] as? [String: Any],
-            let id = dataDict[SENetKeys.connectionId] as? String,
+            let id = dataDict[SENetKeys.connectionId] as? Int,
             let authenticationUrl = dataDict[ApiConstants.authenticationUrl] as? String {
-            self.id = id
+            self.id = "\(id)"
             self.authenticationUrl = authenticationUrl
         } else {
             return nil

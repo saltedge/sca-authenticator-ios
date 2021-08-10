@@ -36,7 +36,7 @@ public struct SEProviderResponseV2: SerializableResponse {
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
            let dataDict = dict[SENetKeys.data] as? [String: Any],
-           let id = dataDict[ApiConstants.providerId] as? String,
+           let id = dataDict[ApiConstants.providerId] as? Int,
            let name = dataDict[ApiConstants.providerName] as? String,
            let scaServiceUrlString = dataDict[ApiConstants.scaServiceUrl] as? String,
            let apiVersion = dataDict[ApiConstants.apiVersion] as? String,
@@ -49,7 +49,7 @@ public struct SEProviderResponseV2: SerializableResponse {
             self.supportEmail = (dataDict[ApiConstants.providerSupportEmail] as? String) ?? ""
             self.geolocationRequired = dataDict[SENetKeys.geolocationRequired] as? Bool
 
-            self.providerId = id
+            self.providerId = "\(id)"
             self.name = name
             self.baseUrl = scaServiceUrl
             self.apiVersion = apiVersion

@@ -29,8 +29,8 @@ public struct SERevokeConnectionResponse: SerializableResponse {
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
             let dataDict = dict[SENetKeys.data] as? [String: Any],
-            let connectionId = dataDict[SENetKeys.connectionId] as? String {
-            self.connectionId = connectionId
+            let connectionId = dataDict[SENetKeys.connectionId] as? Int {
+            self.connectionId = "\(connectionId)"
         } else {
             return nil
         }

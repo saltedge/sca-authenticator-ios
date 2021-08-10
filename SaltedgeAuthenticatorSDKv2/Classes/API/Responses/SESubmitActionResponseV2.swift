@@ -30,10 +30,10 @@ public struct SESubmitActionResponseV2: SEBaseActionResponse {
     public init?(_ value: Any) {
         if let dict = value as? [String: Any],
            let data = dict[SENetKeys.data] as? [String: Any],
-           let authorizationId = data[SENetKeys.authorizationId] as? String,
-           let connectionId = data[SENetKeys.connectionId] as? String {
-                self.authorizationId = authorizationId
-                self.connectionId = connectionId
+           let authorizationId = data[SENetKeys.authorizationId] as? Int,
+           let connectionId = data[SENetKeys.connectionId] as? Int {
+            self.authorizationId = "\(authorizationId)"
+            self.connectionId = "\(connectionId)"
         } else {
             return nil
         }
