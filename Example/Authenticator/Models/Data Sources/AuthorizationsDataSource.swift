@@ -150,7 +150,7 @@ private extension Array where Element == SEBaseAuthorizationData {
                v2Response.status.isFinal,
                let filtered = existedViewModels.filter({ $0.authorizationId == v2Response.id }).first {
                 guard filtered.authorizationExpiresAt >= Date(),
-                      let filteredStatus = filtered.status, !filteredStatus.isFinal else { return nil }
+                      let filteredStatus = filtered.status, !filteredStatus.isFinal, !filteredStatus.isClosed else { return nil }
 
                 filtered.setFinal(status: v2Response.status)
                 return filtered
