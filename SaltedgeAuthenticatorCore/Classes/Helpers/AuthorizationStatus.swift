@@ -47,6 +47,6 @@ public enum AuthorizationStatus: String {
     }
 
     public var isClosed: Bool {
-        return self  == .closed
+        return self == .closed
     }
 }
