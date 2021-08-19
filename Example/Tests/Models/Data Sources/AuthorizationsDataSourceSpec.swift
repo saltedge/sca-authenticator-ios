@@ -226,7 +226,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
 
                         expect(dataSource.rows).to(equal(1))
 
-                        let finalStatusAuthorization = SpecUtils.createFinalAuthResponseV2(
+                        let finalStatusAuthorization = SpecUtils.createNotEncryptedAuthResponseV2(
                             with: authMessage,
                             authorizationId: 909,
                             connectionId: Int(connection.id)!,
@@ -238,6 +238,45 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                         expect(dataSource.rows).to(equal(1))
                     }
                 }
+            }
+        }
+
+
+        describe("toAuthorizationViewModels with closed state") {
+            it("when recieved authorization with closed state we should skip it") {
+                expect(dataSource.rows).to(equal(2))
+
+                let authMessage: [String: Any] = [
+                    "title": "Authorization V2",
+                    "authorization_code": "code",
+                    "description": ["text": "Test valid authorization"],
+                    "created_at": Date().iso8601string,
+                    "expires_at": Date().addingTimeInterval(3.0 * 60.0).iso8601string
+                ]
+
+                let decryptedData = SpecUtils.createAuthResponseV2(
+                    with: authMessage,
+                    authorizationId: 909,
+                    connectionId: Int(connection.id)!,
+                    guid: connection.guid,
+                    status: "closed"
+                )
+
+                _ = dataSource.update(with: [decryptedData])
+
+                expect(dataSource.rows).to(equal(0))
+
+                let closedStatusAuthorization = SpecUtils.createNotEncryptedAuthResponseV2(
+                    with: authMessage,
+                    authorizationId: 909,
+                    connectionId: Int(connection.id)!,
+                    guid: connection.guid,
+                    status: "closed"
+                )
+
+                _ = dataSource.update(with: [closedStatusAuthorization])
+
+                expect(dataSource.rows).to(equal(0))
             }
         }
 

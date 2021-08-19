@@ -65,7 +65,8 @@ struct SpecUtils {
         with authMessage: [String: Any],
         authorizationId: Int,
         connectionId: Int,
-        guid: GUID
+        guid: GUID,
+        status: String = "pending"
     ) -> SEAuthorizationDataV2 {
         let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: guid))
 
@@ -75,17 +76,18 @@ struct SpecUtils {
             "iv": encryptedData.iv,
             "id": authorizationId,
             "connection_id": connectionId,
-            "status": "pending"
+            "status": status
         ]
 
         return SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!
     }
 
-    static func createFinalAuthResponseV2(
+    static func createNotEncryptedAuthResponseV2(
         with authMessage: [String: Any],
         authorizationId: Int,
         connectionId: Int,
-        guid: GUID
+        guid: GUID,
+        status: String = "denied"
     ) -> SEAuthorizationDataV2 {
         let dict: [String: Any] = [
             "data": "",
@@ -93,7 +95,7 @@ struct SpecUtils {
             "iv": "",
             "id": authorizationId,
             "connection_id": connectionId,
-            "status": "denied"
+            "status": status
         ]
 
         return SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!
