@@ -243,7 +243,6 @@ class AuthorizationsDataSourceSpec: BaseSpec {
             }
         }
 
-
         describe("toAuthorizationViewModels with closed state") {
             it("when recieved authorization with closed state we should skip it") {
                 expect(dataSource.rows).to(equal(2))
