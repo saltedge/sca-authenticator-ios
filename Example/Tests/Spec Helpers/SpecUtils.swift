@@ -87,18 +87,9 @@ struct SpecUtils {
         authorizationId: Int,
         connectionId: Int,
         guid: GUID,
-        status: String = "denied"
+        status: AuthorizationStatus
     ) -> SEAuthorizationDataV2 {
-        let dict: [String: Any] = [
-            "data": "",
-            "key": "",
-            "iv": "",
-            "id": authorizationId,
-            "connection_id": connectionId,
-            "status": status
-        ]
-
-        return SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!
+        return SEAuthorizationDataV2(id: "\(authorizationId)", connectionId: "\(connectionId)", status: status)
     }
 
     

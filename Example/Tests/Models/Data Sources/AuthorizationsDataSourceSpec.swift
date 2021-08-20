@@ -23,6 +23,7 @@
 import Quick
 import Nimble
 @testable import SEAuthenticator
+@testable import SEAuthenticatorCore
 
 class AuthorizationsDataSourceSpec: BaseSpec {
     override func spec() {
@@ -230,7 +231,8 @@ class AuthorizationsDataSourceSpec: BaseSpec {
                             with: authMessage,
                             authorizationId: 909,
                             connectionId: Int(connection.id)!,
-                            guid: connection.guid
+                            guid: connection.guid,
+                            status: AuthorizationStatus.denied
                         )
 
                         _ = dataSource.update(with: [finalStatusAuthorization])
@@ -264,14 +266,14 @@ class AuthorizationsDataSourceSpec: BaseSpec {
 
                 _ = dataSource.update(with: [decryptedData])
 
-                expect(dataSource.rows).to(equal(0))
+                expect(dataSource.rows).to(equal(1))
 
                 let closedStatusAuthorization = SpecUtils.createNotEncryptedAuthResponseV2(
                     with: authMessage,
                     authorizationId: 909,
                     connectionId: Int(connection.id)!,
                     guid: connection.guid,
-                    status: "closed"
+                    status: AuthorizationStatus.closed
                 )
 
                 _ = dataSource.update(with: [closedStatusAuthorization])

@@ -32,7 +32,7 @@ public enum AuthorizationStatus: String {
     case unavailable
     case confirmProcessing = "confirm_processing"
     case denyProcessing = "deny_processing"
-    case closed = "closed"
+    case closed
 
     public var isFinal: Bool {
         return self == .confirmed
