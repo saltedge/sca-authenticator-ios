@@ -44,8 +44,6 @@ enum ConnectionStatus: String {
     dynamic var providerId: String?
     dynamic var publicKey: String = ""
     dynamic var apiVersion: String = "1"
-    private var numeric = RealmOptional<Int64>()
-
 
     override static func primaryKey() -> String? {
         return #keyPath(Connection.guid)
@@ -70,9 +68,6 @@ enum ConnectionStatus: String {
     }
 
     required init(from decoder: Decoder) throws {
-//        let decoder = JSONDecoder()
-//        decoder.keyDecodingStrategy = .convertFromSnakeCase
-//        автоматически конвертировать при создании, при парсинге результата запроса
         let container = try decoder.container(keyedBy: CodingKeys.self)
         name = try container.decode(String.self, forKey: .name)
         code = try container.decode(String.self, forKey: .code)
