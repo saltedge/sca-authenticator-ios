@@ -23,7 +23,7 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEProviderResponseV2: SerializableResponse {
+public struct SEProviderResponseV2: Decodable {
     public let name: String
     public var baseUrl: URL
     public let providerId: String
@@ -33,29 +33,31 @@ public struct SEProviderResponseV2: SerializableResponse {
     public var publicKey: String
     public let geolocationRequired: Bool?
 
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-           let dataDict = dict[SENetKeys.data] as? [String: Any],
-           let id = dataDict[ApiConstants.providerId] as? Int,
-           let name = dataDict[ApiConstants.providerName] as? String,
-           let scaServiceUrlString = dataDict[ApiConstants.scaServiceUrl] as? String,
-           let apiVersion = dataDict[ApiConstants.apiVersion] as? String,
-           let publicKey = dataDict[ApiConstants.providerPublicKey] as? String,
-           let scaServiceUrl = URL(string: scaServiceUrlString) {
-            if let logoUrlString = dataDict[ApiConstants.providerLogoUrl] as? String,
-                let logoUrl = URL(string: logoUrlString) {
-                self.logoUrl = logoUrl
-            }
-            self.supportEmail = (dataDict[ApiConstants.providerSupportEmail] as? String) ?? ""
-            self.geolocationRequired = dataDict[SENetKeys.geolocationRequired] as? Bool
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
 
-            self.providerId = "\(id)"
-            self.name = name
-            self.baseUrl = scaServiceUrl
-            self.apiVersion = apiVersion
-            self.publicKey = publicKey
-        } else {
-            return nil
-        }
+    enum DataCodingKeys: String, CodingKey {
+        case name = "provider_name"
+        case baseUrl = "sca_service_url" //URL
+        case logoUrl = "logo_url" //URL
+        case apiVersion = "api_version"
+        case supportEmail = "support_email"
+        case providerId = "provider_id"
+        case publicKey = "provider_public_key"
+        case geolocationRequired = "geolocation_required"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
+        name = try dataContainer.decode(String.self, forKey: .name)
+        baseUrl = try dataContainer.decode(URL.self, forKey: .baseUrl)
+        logoUrl = try dataContainer.decodeIfPresent(URL.self, forKey: .logoUrl)
+        apiVersion = try dataContainer.decode(String.self, forKey: .apiVersion)
+        supportEmail = try dataContainer.decode(String.self, forKey: .supportEmail)
+        providerId = try dataContainer.decode(String.self, forKey: .providerId)
+        publicKey = try dataContainer.decode(String.self, forKey: .publicKey)
+        geolocationRequired = try dataContainer.decodeIfPresent(Bool.self, forKey: .geolocationRequired)
     }
 }

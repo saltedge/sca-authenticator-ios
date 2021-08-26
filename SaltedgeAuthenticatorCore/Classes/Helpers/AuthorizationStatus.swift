@@ -22,7 +22,7 @@
 
 import Foundation
 
-public enum AuthorizationStatus: String {
+public enum AuthorizationStatus: String, Decodable {
     case pending
     case processing
     case confirmed

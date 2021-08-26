@@ -23,16 +23,20 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SERevokeConnectionResponse: SerializableResponse {
+public struct SERevokeConnectionResponse: Decodable {
     public let success: Bool
 
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? [String: Any],
-            let success = data[SENetKeys.success] as? Bool {
-            self.success = success
-        } else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    enum DataCodingKeys: String, CodingKey {
+        case success
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
+        success = try dataContainer.decode(Bool.self, forKey: .success)
     }
 }

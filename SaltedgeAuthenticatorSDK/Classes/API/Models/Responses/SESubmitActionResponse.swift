@@ -23,24 +23,27 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SESubmitActionResponse: SEBaseActionResponse {    
+public struct SESubmitActionResponse: SEBaseActionResponse {
+    
     public let success: Bool
     public var authorizationId: String?
     public var connectionId: String?
 
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? [String: Any],
-            let success = data[SENetKeys.success] as? Bool {
-            if let authorizationId = data[SENetKeys.authorizationId] as? String {
-                self.authorizationId = authorizationId
-            }
-            if let connectionId = data[SENetKeys.connectionId] as? String {
-                self.connectionId = connectionId
-            }
-            self.success = success
-        } else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    enum DataCodingKeys: String, CodingKey {
+        case success
+        case authorizationId = "authorization_id"
+        case connectionId = "connection_id"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
+        success = try dataContainer.decode(Bool.self, forKey: .success)
+        authorizationId = try dataContainer.decodeIfPresent(String.self, forKey: .authorizationId)
+        connectionId = try dataContainer.decodeIfPresent(String.self, forKey: .connectionId)
     }
 }

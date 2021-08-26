@@ -27,12 +27,36 @@ public struct DateUtils {
         return shared.iso8601dateFormatter
     }
 
+    static var dateFormatter: DateFormatter {
+        return shared.dateFormatter
+    }
+
+    static var ymdDateFormatter: DateFormatter {
+        return shared.ymdDateFormatter
+    }
+
     private static let shared = DateUtils()
 
     private var iso8601dateFormatter: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.timeZone = .utc
         formatter.formatOptions = [.withFullDate, .withTime, .withDashSeparatorInDate, .withColonSeparatorInTime]
+        return formatter
+    }()
+
+    fileprivate var ymdDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy'-'MM'-'dd"
+        formatter.timeZone = TimeZone.utc
+        return formatter
+    }()
+
+    fileprivate var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.calendar = Calendar(identifier: .iso8601)
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone.utc
         return formatter
     }()
 }

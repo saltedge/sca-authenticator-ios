@@ -22,7 +22,7 @@
 
 import Foundation
 
-public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, SerializableResponse, Equatable {
+public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, Decodable, Equatable {
     private let defaultAlgorithm = "AES-256-CBC"
 
     public let data: String
@@ -66,27 +66,28 @@ public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, SerializableRes
     }
 }
 
-public struct SEEncryptedDataResponse: SerializableResponse {
+public struct SEEncryptedDataResponse: Decodable {
     public var data: SEEncryptedData
 
-    public init?(_ value: Any) {
-        if let response = (value as AnyObject)[SENetKeys.data] as? [String: Any],
-            let data = SEEncryptedData(response) {
-            self.data = data
-        } else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        data = try container.decode(SEEncryptedData.self, forKey: .data)
     }
 }
 
-public struct SEEncryptedListResponse: SerializableResponse {
+public struct SEEncryptedListResponse: Decodable {
     public var data: [SEEncryptedData] = []
 
-    public init?(_ value: Any) {
-        if let responses = (value as AnyObject)[SENetKeys.data] as? [[String: Any]] {
-            self.data = responses.compactMap { SEEncryptedData($0) }
-        } else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        data = try container.decode([SEEncryptedData].self, forKey: .data)
     }
 }

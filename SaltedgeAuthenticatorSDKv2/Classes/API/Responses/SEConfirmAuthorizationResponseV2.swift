@@ -23,20 +23,23 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEConfirmAuthorizationResponseV2: SerializableResponse {
+public struct SEConfirmAuthorizationResponseV2: Decodable {
     public let id: String
     public let status: AuthorizationStatus
 
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? [String: Any],
-            let statusString = data[SENetKeys.status] as? String,
-            let status = AuthorizationStatus(rawValue: statusString),
-            let id = data[SENetKeys.id] as? Int {
-            self.id = "\(id)"
-            self.status = status
-        } else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    enum DataCodingKeys: String, CodingKey {
+        case id
+        case status
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
+        id = try dataContainer.decode(String.self, forKey: .id)
+        status = try dataContainer.decode(AuthorizationStatus.self, forKey: .status)
     }
 }

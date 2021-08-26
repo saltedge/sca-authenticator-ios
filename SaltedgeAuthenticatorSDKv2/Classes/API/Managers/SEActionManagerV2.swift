@@ -26,12 +26,12 @@ import SEAuthenticatorCore
 public struct SEActionManagerV2 {
     public static func submitAction(
         data: SEActionRequestDataV2,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SESubmitActionResponseV2>,
+        onSuccess success: SEHTTPResponse<SESubmitActionResponseV2>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SESubmitActionResponseV2>.execute(
-            request: SEActionRouterV2.submit(data),
-            success: success,
+        HTTPService<SESubmitActionResponseV2>.makeRequest(
+            SEActionRouterV2.submit(data),
+            completion: success,
             failure: failure
         )
     }

@@ -22,7 +22,7 @@
 
 import Foundation
 
-public protocol SEBaseActionResponse: SerializableResponse {
+public protocol SEBaseActionResponse: Decodable {
     var authorizationId: String? { get }
     var connectionId: String? { get }
 }

@@ -26,31 +26,31 @@ import SEAuthenticatorCore
 public struct SEAuthorizationManagerV2 {
     public static func getEncryptedAuthorizations(
         data: SEBaseAuthenticatedRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEEncryptedAuthorizationsListResponse>,
+        onSuccess success: SEHTTPResponse<SEEncryptedAuthorizationsListResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SEEncryptedAuthorizationsListResponse>.execute(
-            request: SEAuthorizationRouter.list(data),
-            success: success,
+        HTTPService<SEEncryptedAuthorizationsListResponse>.makeRequest(
+            SEAuthorizationRouter.list(data),
+            completion: success,
             failure: failure
         )
     }
 
     public static func getEncryptedAuthorization(
         data: SEBaseAuthenticatedWithIdRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEEncryptedAuthorizationDataResponse>,
+        onSuccess success: SEHTTPResponse<SEEncryptedAuthorizationDataResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SEEncryptedAuthorizationDataResponse>.execute(
-            request: SEAuthorizationRouter.show(data),
-            success: success,
+        HTTPService<SEEncryptedAuthorizationDataResponse>.makeRequest(
+            SEAuthorizationRouter.show(data),
+            completion: success,
             failure: failure
         )
     }
 
     public static func confirmAuthorization(
         data: SEConfirmAuthorizationRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmAuthorizationResponseV2>,
+        onSuccess success: SEHTTPResponse<SEConfirmAuthorizationResponseV2>,
         onFailure failure: @escaping FailureBlock
     ) {
         let parameters = RequestParametersBuilder.confirmAuthorizationParams(
@@ -58,16 +58,16 @@ public struct SEAuthorizationManagerV2 {
             exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
         )
 
-        HTTPService<SEConfirmAuthorizationResponseV2>.execute(
-            request: SEAuthorizationRouter.confirm(data, parameters),
-            success: success,
+        HTTPService<SEConfirmAuthorizationResponseV2>.makeRequest(
+            SEAuthorizationRouter.confirm(data, parameters),
+            completion: success,
             failure: failure
         )
     }
 
     public static func denyAuthorization(
         data: SEConfirmAuthorizationRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEConfirmAuthorizationResponseV2>,
+        onSuccess success: SEHTTPResponse<SEConfirmAuthorizationResponseV2>,
         onFailure failure: @escaping FailureBlock
     ) {
         let parameters = RequestParametersBuilder.confirmAuthorizationParams(
@@ -75,9 +75,9 @@ public struct SEAuthorizationManagerV2 {
             exp: Date().addingTimeInterval(5.0 * 60.0).utcSeconds
         )
 
-        HTTPService<SEConfirmAuthorizationResponseV2>.execute(
-            request: SEAuthorizationRouter.deny(data, parameters),
-            success: success,
+        HTTPService<SEConfirmAuthorizationResponseV2>.makeRequest(
+            SEAuthorizationRouter.deny(data, parameters),
+            completion: success,
             failure: failure
         )
     }

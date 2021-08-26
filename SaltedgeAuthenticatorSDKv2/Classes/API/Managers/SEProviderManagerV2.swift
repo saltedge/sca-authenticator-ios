@@ -26,12 +26,12 @@ import SEAuthenticatorCore
 public struct SEProviderManagerV2 {
     public static func fetchProviderData(
         url: URL,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEProviderResponseV2>,
+        onSuccess success: SEHTTPResponse<SEProviderResponseV2>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SEProviderResponseV2>.execute(
-            request: SEProviderRouterV2.fetchData(url),
-            success: success,
+        HTTPService<SEProviderResponseV2>.makeRequest(
+            SEProviderRouterV2.fetchData(url),
+            completion: success,
             failure: failure
         )
     }

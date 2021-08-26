@@ -26,26 +26,26 @@ import SEAuthenticatorCore
 public struct SEConsentManagerV2 {
     public static func getEncryptedConsents(
         data: SEBaseAuthenticatedRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEEncryptedListResponse>,
+        onSuccess success: SEHTTPResponse<SEEncryptedListResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SEEncryptedListResponse>.execute(
-            request: SEConsentRouter.list(data),
-            success: success,
+        HTTPService<SEEncryptedListResponse>.makeRequest(
+            SEConsentRouter.list(data),
+            completion: success,
             failure: failure
         )
     }
     
     public static func revokeConsent(
         data: SEBaseAuthenticatedWithIdRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConsentResponseV2>,
+        onSuccess success: SEHTTPResponse<SERevokeConsentResponseV2>,
         onFailure failure: @escaping FailureBlock
     ) {
         let parameters = RequestParametersBuilder.expirationTimeParameters
 
-        HTTPService<SERevokeConsentResponseV2>.execute(
-            request: SEConsentRouter.revoke(data, parameters),
-            success: success,
+        HTTPService<SERevokeConsentResponseV2>.makeRequest(
+            SEConsentRouter.revoke(data, parameters),
+            completion: success,
             failure: failure
         )
     }

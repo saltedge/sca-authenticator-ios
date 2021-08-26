@@ -28,24 +28,24 @@ public struct SEConnectionManagerV2 {
         by url: URL,
         params: SECreateConnectionParams,
         appLanguage: ApplicationLanguage,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SECreateConnectionResponse>,
+        onSuccess success: SEHTTPResponse<SECreateConnectionResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SECreateConnectionResponse>.execute(
-            request: SEConnectionRouter.createConnection(url, params, appLanguage),
-            success: success,
+        HTTPService<SECreateConnectionResponse>.makeRequest(
+            SEConnectionRouter.createConnection(url, params, appLanguage),
+            completion: success,
             failure: failure
         )
     }
 
     public static func revokeConnection(
         data: SEBaseAuthenticatedWithIdRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConnectionResponse>,
+        onSuccess success: SEHTTPResponse<SERevokeConnectionResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SERevokeConnectionResponse>.execute(
-            request: SEConnectionRouter.revoke(data),
-            success: success,
+        HTTPService<SERevokeConnectionResponse>.makeRequest(
+            SEConnectionRouter.revoke(data),
+            completion: success,
             failure: failure
         )
     }

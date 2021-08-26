@@ -27,15 +27,19 @@ public struct SESubmitActionResponseV2: SEBaseActionResponse {
     public var authorizationId: String?
     public var connectionId: String?
 
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-           let data = dict[SENetKeys.data] as? [String: Any],
-           let authorizationId = data[SENetKeys.authorizationId] as? Int,
-           let connectionId = data[SENetKeys.connectionId] as? Int {
-            self.authorizationId = "\(authorizationId)"
-            self.connectionId = "\(connectionId)"
-        } else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    enum DataCodingKeys: String, CodingKey {
+        case authorizationId = "authorization_id"
+        case connectionId = "connection_id"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
+        authorizationId = try dataContainer.decodeIfPresent(String.self, forKey: .authorizationId)
+        connectionId = try dataContainer.decodeIfPresent(String.self, forKey: .connectionId)
     }
 }

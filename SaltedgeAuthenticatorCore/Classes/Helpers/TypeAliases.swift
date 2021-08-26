@@ -34,3 +34,9 @@ public typealias ID = String
 public typealias PushToken = String
 public typealias ConnectQuery = String
 public typealias ApplicationLanguage = String
+
+public typealias SuccessClosure = () -> ()
+public typealias SimpleFailureClosure = (String) -> ()
+public typealias FullFailureClosure = ([String: Any]) -> ()
+public typealias RequestSuccessClosure = ([String: Any]?) -> ()
+public typealias SEHTTPResponse<T: Decodable> = ((T) -> Void)?
