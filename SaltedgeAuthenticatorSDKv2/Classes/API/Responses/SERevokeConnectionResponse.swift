@@ -37,6 +37,7 @@ public struct SERevokeConnectionResponse: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
-        connectionId = try dataContainer.decode(String.self, forKey: .connectionId)
+        let id = try dataContainer.decode(Int.self, forKey: .connectionId)
+        connectionId = "\(id)"
     }
 }

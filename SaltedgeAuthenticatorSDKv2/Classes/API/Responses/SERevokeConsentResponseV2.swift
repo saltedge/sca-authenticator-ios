@@ -37,6 +37,7 @@ public struct SERevokeConsentResponseV2: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
-        id = try dataContainer.decode(String.self, forKey: .id)
+        let consentId = try dataContainer.decode(Int.self, forKey: .id)
+        id = "\(consentId)"
     }
 }

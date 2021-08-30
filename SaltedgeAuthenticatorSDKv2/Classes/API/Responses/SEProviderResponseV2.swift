@@ -39,16 +39,17 @@ public struct SEProviderResponseV2: Decodable {
 
     enum DataCodingKeys: String, CodingKey {
         case name = "provider_name"
-        case baseUrl = "sca_service_url" //URL
-        case logoUrl = "logo_url" //URL
+        case baseUrl = "sca_service_url"
+        case logoUrl = "logo_url"
         case apiVersion = "api_version"
-        case supportEmail = "support_email"
+        case supportEmail = "provider_support_email"
         case providerId = "provider_id"
         case publicKey = "provider_public_key"
         case geolocationRequired = "geolocation_required"
     }
 
     public init(from decoder: Decoder) throws {
+        print("init decoder")
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
         name = try dataContainer.decode(String.self, forKey: .name)
@@ -56,8 +57,10 @@ public struct SEProviderResponseV2: Decodable {
         logoUrl = try dataContainer.decodeIfPresent(URL.self, forKey: .logoUrl)
         apiVersion = try dataContainer.decode(String.self, forKey: .apiVersion)
         supportEmail = try dataContainer.decode(String.self, forKey: .supportEmail)
-        providerId = try dataContainer.decode(String.self, forKey: .providerId)
+        let id = try dataContainer.decode(Int.self, forKey: .providerId)
+        providerId = "\(id)"
         publicKey = try dataContainer.decode(String.self, forKey: .publicKey)
         geolocationRequired = try dataContainer.decodeIfPresent(Bool.self, forKey: .geolocationRequired)
+        print("init name \(name), baseUrl: \(baseUrl)")
     }
 }

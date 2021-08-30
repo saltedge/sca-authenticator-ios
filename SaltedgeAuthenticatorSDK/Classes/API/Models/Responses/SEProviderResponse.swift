@@ -39,8 +39,8 @@ public struct SEProviderResponse: Decodable {
     enum DataCodingKeys: String, CodingKey {
         case name
         case code
-        case baseUrl = "connect_url" //URL(string: connectUrlString) WHERE let connectUrlString = data[SENetKeys.connectUrl] as? String,
-        case logoUrl = "logo_url" //URL
+        case baseUrl = "connect_url"
+        case logoUrl = "logo_url"
         case version
         case supportEmail = "support_email"
         case geolocationRequired = "geolocation_required"

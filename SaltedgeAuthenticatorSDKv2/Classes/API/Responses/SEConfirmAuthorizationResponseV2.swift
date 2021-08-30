@@ -39,7 +39,8 @@ public struct SEConfirmAuthorizationResponseV2: Decodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
-        id = try dataContainer.decode(String.self, forKey: .id)
+        let authorizationId = try dataContainer.decode(Int.self, forKey: .id)
+        id = "\(authorizationId)"
         status = try dataContainer.decode(AuthorizationStatus.self, forKey: .status)
     }
 }

@@ -39,7 +39,9 @@ public struct SESubmitActionResponseV2: SEBaseActionResponse {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
-        authorizationId = try dataContainer.decodeIfPresent(String.self, forKey: .authorizationId)
-        connectionId = try dataContainer.decodeIfPresent(String.self, forKey: .connectionId)
+        let authorizationV2Id = try dataContainer.decodeIfPresent(Int.self, forKey: .authorizationId)
+        authorizationId = "\(authorizationV2Id)"
+        let connectionV2Id = try dataContainer.decodeIfPresent(Int.self, forKey: .connectionId)
+        connectionId = "\(connectionV2Id)"
     }
 }
