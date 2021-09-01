@@ -23,6 +23,7 @@
 import Quick
 import Nimble
 @testable import SEAuthenticator
+@testable import SEAuthenticatorCore
 
 class ProviderResponseSpec: BaseSpec {
     override func spec() {
@@ -30,21 +31,21 @@ class ProviderResponseSpec: BaseSpec {
             context("when the value is a proper dictionary containing the necessary data") {
                 it("should create correct response") {
                     let fixture = DataFixtures.validProviderResponse
-                    let expectedResponse = SEProviderResponse(fixture)
+                    let response = SpecDecodableModel<SEProviderResponse>.create(from: fixture)
                     
-                    expect(expectedResponse).toNot(beNil())
-                    expect(expectedResponse?.code).to(equal("demobank"))
-                    expect(expectedResponse?.baseUrl.absoluteString).to(equal("getConnectUrl.com"))
-                    expect(expectedResponse?.name).to(equal("Demobank"))
-                    expect(expectedResponse?.logoUrl?.absoluteString).to(equal("https://upload.wikimedia.org/wikipedia/commons/6/6f/HP_logo_630x630.png"))
-                    expect(expectedResponse?.version).to(equal("1"))
+                    expect(response).toNot(beNil())
+                    expect(response.code).to(equal("demobank"))
+                    expect(response.baseUrl.absoluteString).to(equal("getConnectUrl.com"))
+                    expect(response.name).to(equal("Demobank"))
+                    expect(response.logoUrl?.absoluteString).to(equal("https://upload.wikimedia.org/wikipedia/commons/6/6f/HP_logo_630x630.png"))
+                    expect(response.version).to(equal("1"))
                 }
             }
 
             context("when the value is a malformed dictionary or is missing data") {
                 it("should return nil and fail to initialize the object") {
                     let fixture = DataFixtures.invalidProviderResponse
-                    let response = SEProviderResponse(fixture)
+                    let response = SpecDecodableModel<SEProviderResponse>.create(from: fixture)
 
                     expect(response).to(beNil())
                 }

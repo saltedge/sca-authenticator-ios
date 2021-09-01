@@ -23,6 +23,7 @@
 import Quick
 import Nimble
 @testable import SEAuthenticator
+@testable import SEAuthenticatorCore
 
 class CreateConnectionResponseSpec: BaseSpec {
     override func spec() {
@@ -30,19 +31,19 @@ class CreateConnectionResponseSpec: BaseSpec {
             context("when the value is a proper dictionary containing the necessary data") {
                 it("should create correct response") {
                     let fixture = DataFixtures.validCreateConnectionData
-                    let expectedResponse = SECreateConnectionResponse(fixture)
+                    let response = SpecDecodableModel<SECreateConnectionResponse>.create(from: fixture)
 
-                    expect(expectedResponse).toNot(beNil())
-                    expect(expectedResponse?.connectUrl).to(equal("connect.com"))
-                    expect(expectedResponse?.id).to(equal("123456789"))
+                    expect(response).toNot(beNil())
+                    expect(response.connectUrl).to(equal("connect.com"))
+                    expect(response.id).to(equal("123456789"))
                 }
             }
 
             context("when the value is a malformed dictionary or is missing data") {
                 it("should return nil and fail to initialize the object") {
                     let fixture = DataFixtures.invalidCreateConnectionData
-                    let response = SECreateConnectionResponse(fixture)
-                    
+                    let response = SpecDecodableModel<SECreateConnectionResponse>.create(from: fixture)
+
                     expect(response).to(beNil())
                 }
             }

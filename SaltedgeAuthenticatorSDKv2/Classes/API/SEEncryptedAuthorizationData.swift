@@ -43,11 +43,13 @@ public struct SEEncryptedAuthorizationData: SEBaseEncryptedAuthorizationData, De
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
+        let authorizationV2Id = try container.decode(Int.self, forKey: .id)
+        id = "\(authorizationV2Id)"
         data = try container.decode(String.self, forKey: .data)
         key = try container.decode(String.self, forKey: .key)
         iv = try container.decode(String.self, forKey: .iv)
         status = try container.decode(AuthorizationStatus.self, forKey: .id)
-        connectionId = try container.decodeIfPresent(String.self, forKey: .connectionId)
+        let connectionV2Id = try container.decodeIfPresent(Int.self, forKey: .connectionId)
+        connectionId = "\(connectionV2Id)"
     }
 }

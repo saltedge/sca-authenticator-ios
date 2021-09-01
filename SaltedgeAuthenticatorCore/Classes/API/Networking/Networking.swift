@@ -95,34 +95,27 @@ public struct HTTPService<T: Decodable> {
         failure: @escaping SimpleFailureClosure
     ) {
 //         NOTE: Uncomment this to debug request
-         let urlString = request.url?.absoluteString ?? ""
-         print("🚀 Running request: \(request.httpMethod ?? "") - \(urlString)")
+//         let urlString = request.url?.absoluteString ?? ""
+//         print("🚀 Running request: \(request.httpMethod ?? "") - \(urlString)")
 
         let task = URLSessionManager.shared.dataTask(with: request) { data, _, error in
-
-            print("data: \(String(describing: String(data: data!, encoding: .utf8)))")
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategyFormatters = [DateUtils.dateFormatter, DateUtils.ymdDateFormatter]
 
             let (data, error) = handleResponse(from: data, error: error, decoder: decoder)
 
             guard let jsonData = data, error == nil else {
-                print("jsonData else")
-
                 DispatchQueue.main.async { failure(error!.localizedDescription) }
                 return
             }
 
 //            NOTE: Uncomment this to debug response data
-            print("Response: ", String(data: jsonData, encoding: .utf8))
+//            print("Response: ", String(data: jsonData, encoding: .utf8))
 
             do {
-                print("do")
                 let model = try decoder.decode(T.self, from: jsonData)
                 DispatchQueue.main.async { completion?(model) }
             } catch {
-                print("error: \(error)")
-
                 DispatchQueue.main.async { failure(error.localizedDescription) }
             }
         }
@@ -130,12 +123,9 @@ public struct HTTPService<T: Decodable> {
     }
 
     private static func handleResponse(from data: Data?, error: Error?, decoder: JSONDecoder) -> (Data?, Error?) {
-        print("handleResponse")
         if let error = error { return (nil, error) }
 
         guard let jsonData = data else {
-            print("handleResponse else ")
-
             // -1017 -- The connection cannot parse the server’s response.
             let error = NSError(
                 domain: "",
@@ -145,23 +135,25 @@ public struct HTTPService<T: Decodable> {
             return (nil, error)
         }
 
-        print("handleResponse return ")
-
-
         return (jsonData, nil)
+    }
+}
+
+public struct SpecDecodableModel<T: Decodable> {
+    public static func create(from fixture: [String: Any]) -> T {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategyFormatters = [DateUtils.dateFormatter, DateUtils.ymdDateFormatter]
+        let fixtureData = Data(fixture.jsonString!.utf8)
+        return try! decoder.decode(T.self, from: fixtureData)
     }
 }
 
 private extension JSONDecoder {
     var dateDecodingStrategyFormatters: [DateFormatter]? {
         get {
-            print("dateDecodingStrategyFormatters get")
-
             return nil
         }
         set {
-            print("dateDecodingStrategyFormatters set")
-
             guard let formatters = newValue else { return }
 
             self.dateDecodingStrategy = .custom { decoder in

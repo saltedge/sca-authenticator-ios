@@ -33,13 +33,10 @@ struct URLSessionManager {
     private static var sharedManager: URLSession!
 
     static func initializeManager() {
-        print("initializeManager")
-
         sharedManager = createSession()
     }
 
     static func createSession() -> URLSession {
-        print("createSession")
         let config: URLSessionConfiguration = .default
         config.timeoutIntervalForRequest = 10.0
         config.timeoutIntervalForResource = 30.0

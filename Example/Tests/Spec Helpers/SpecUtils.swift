@@ -78,7 +78,8 @@ struct SpecUtils {
             "status": "pending"
         ]
 
-        return SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!
+        let response = SpecDecodableModel<SEEncryptedAuthorizationData>.create(from: dict)
+        return response.decryptedAuthorizationDataV2!
     }
 
     static func createFinalAuthResponseV2(
@@ -96,7 +97,8 @@ struct SpecUtils {
             "status": "denied"
         ]
 
-        return SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!
+        let response = SpecDecodableModel<SEEncryptedAuthorizationData>.create(from: dict)
+        return response.decryptedAuthorizationDataV2!
     }
 
     
