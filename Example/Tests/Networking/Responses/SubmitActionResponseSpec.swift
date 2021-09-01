@@ -34,9 +34,9 @@ class SubmitActionResponseSpec: BaseSpec {
                     let response = SpecDecodableModel<SESubmitActionResponse>.create(from: fixture)
 
                     expect(response).toNot(beNil())
-                    expect(response.success).to(beTrue())
-                    expect(response.authorizationId).to(equal("333"))
-                    expect(response.connectionId).to(equal("444"))
+                    expect(response?.success).to(beTrue())
+                    expect(response?.authorizationId).to(equal("333"))
+                    expect(response?.connectionId).to(equal("444"))
                 }
             }
             

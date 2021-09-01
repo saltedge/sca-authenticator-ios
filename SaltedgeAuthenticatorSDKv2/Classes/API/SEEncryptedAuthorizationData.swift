@@ -48,8 +48,9 @@ public struct SEEncryptedAuthorizationData: SEBaseEncryptedAuthorizationData, De
         data = try container.decode(String.self, forKey: .data)
         key = try container.decode(String.self, forKey: .key)
         iv = try container.decode(String.self, forKey: .iv)
-        status = try container.decode(AuthorizationStatus.self, forKey: .id)
-        let connectionV2Id = try container.decodeIfPresent(Int.self, forKey: .connectionId)
-        connectionId = "\(connectionV2Id)"
+        status = try container.decode(AuthorizationStatus.self, forKey: .status)
+        if let connectionV2Id = try container.decodeIfPresent(Int.self, forKey: .connectionId) {
+            connectionId = "\(connectionV2Id)"
+        }
     }
 }

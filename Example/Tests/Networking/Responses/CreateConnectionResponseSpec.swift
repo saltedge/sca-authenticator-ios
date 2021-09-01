@@ -34,8 +34,8 @@ class CreateConnectionResponseSpec: BaseSpec {
                     let response = SpecDecodableModel<SECreateConnectionResponse>.create(from: fixture)
 
                     expect(response).toNot(beNil())
-                    expect(response.connectUrl).to(equal("connect.com"))
-                    expect(response.id).to(equal("123456789"))
+                    expect(response?.connectUrl).to(equal("connect.com"))
+                    expect(response?.id).to(equal("123456789"))
                 }
             }
 

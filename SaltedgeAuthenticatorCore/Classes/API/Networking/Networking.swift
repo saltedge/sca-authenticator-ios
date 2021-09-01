@@ -140,11 +140,11 @@ public struct HTTPService<T: Decodable> {
 }
 
 public struct SpecDecodableModel<T: Decodable> {
-    public static func create(from fixture: [String: Any]) -> T {
+    public static func create(from fixture: [String: Any]) -> T? {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategyFormatters = [DateUtils.dateFormatter, DateUtils.ymdDateFormatter]
         let fixtureData = Data(fixture.jsonString!.utf8)
-        return try! decoder.decode(T.self, from: fixtureData)
+        return try? decoder.decode(T.self, from: fixtureData)
     }
 }
 

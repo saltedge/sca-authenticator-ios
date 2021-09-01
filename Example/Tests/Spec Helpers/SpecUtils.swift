@@ -79,7 +79,7 @@ struct SpecUtils {
         ]
 
         let response = SpecDecodableModel<SEEncryptedAuthorizationData>.create(from: dict)
-        return response.decryptedAuthorizationDataV2!
+        return (response?.decryptedAuthorizationDataV2!)!
     }
 
     static func createFinalAuthResponseV2(
@@ -98,7 +98,7 @@ struct SpecUtils {
         ]
 
         let response = SpecDecodableModel<SEEncryptedAuthorizationData>.create(from: dict)
-        return response.decryptedAuthorizationDataV2!
+        return (response?.decryptedAuthorizationDataV2!)!
     }
 
     

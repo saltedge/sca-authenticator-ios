@@ -114,7 +114,7 @@ class SEEncryptedDataExtensionsSpec: BaseSpec {
                     )
 
                     let response = SpecDecodableModel<SEEncryptedAuthorizationData>.create(from: dict)
-                    expect(expectedData).to(equal(response.decryptedAuthorizationDataV2!))
+                    expect(expectedData).to(equal(response?.decryptedAuthorizationDataV2!))
                 }
             }
 
@@ -139,7 +139,7 @@ class SEEncryptedDataExtensionsSpec: BaseSpec {
                     )
 
                     let response = SpecDecodableModel<SEEncryptedAuthorizationData>.create(from: dict)
-                    expect(expectedData).to(equal(response.decryptedAuthorizationDataV2!))
+                    expect(expectedData).to(equal(response?.decryptedAuthorizationDataV2!))
                 }
             }
         }

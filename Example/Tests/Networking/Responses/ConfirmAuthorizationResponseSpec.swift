@@ -34,8 +34,8 @@ class ConfirmAuthorizationResponseSpec: BaseSpec {
                     let response = SpecDecodableModel<SEConfirmAuthorizationResponse>.create(from: fixture)
 
                     expect(response).toNot(beNil())
-                    expect(response.success).to(beTrue())
-                    expect(response.id).to(equal("1"))
+                    expect(response?.success).to(beTrue())
+                    expect(response?.id).to(equal("1"))
                 }
             }
             

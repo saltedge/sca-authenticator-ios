@@ -34,7 +34,7 @@ class RevokeConnectionResponseSpec: BaseSpec {
                     let response = SpecDecodableModel<SERevokeConnectionResponse>.create(from: fixture)
 
                     expect(response).toNot(beNil())
-                    expect(response.success).to(beTrue())
+                    expect(response?.success).to(beTrue())
                 }
             }
 
