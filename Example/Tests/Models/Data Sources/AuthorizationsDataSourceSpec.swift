@@ -237,7 +237,7 @@ class AuthorizationsDataSourceSpec: BaseSpec {
 
                         _ = dataSource.update(with: [finalStatusAuthorization])
 
-                        expect(dataSource.rows).to(equal(1))
+                        expect(dataSource.rows).to(equal(0))
                     }
                 }
             }

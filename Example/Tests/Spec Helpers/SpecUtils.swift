@@ -90,17 +90,8 @@ struct SpecUtils {
         guid: GUID,
         status: AuthorizationStatus
     ) -> SEAuthorizationDataV2 {
-        let dict: [String: Any] = [
-            "data": "",
-            "key": "",
-            "iv": "",
-            "id": authorizationId,
-            "connection_id": connectionId,
-            "status": "denied"
-        ]
-
-        let response = SpecDecodableModel<SEEncryptedAuthorizationData>.create(from: dict)
-        return (response?.decryptedAuthorizationDataV2!)!
+        
+        return SEAuthorizationDataV2(id: "(authorizationId)", connectionId: "(connectionId)", status: status)
     }
 
     
