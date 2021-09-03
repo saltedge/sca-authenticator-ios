@@ -30,7 +30,7 @@ public struct SEEncryptedAuthorizationData: SEBaseEncryptedAuthorizationData, De
     public let iv: String
     public let status: AuthorizationStatus
     public var connectionId: String?
-    public var entityId: String? //TODO: check if we need it
+    public var entityId: String?
 
     enum CodingKeys: String, CodingKey {
         case id

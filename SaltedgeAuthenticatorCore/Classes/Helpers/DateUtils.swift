@@ -27,11 +27,11 @@ public struct DateUtils {
         return shared.iso8601dateFormatter
     }
 
-    static var dateFormatter: DateFormatter {
+    public static var dateFormatter: DateFormatter {
         return shared.dateFormatter
     }
 
-    static var ymdDateFormatter: DateFormatter {
+    public static var ymdDateFormatter: DateFormatter {
         return shared.ymdDateFormatter
     }
 

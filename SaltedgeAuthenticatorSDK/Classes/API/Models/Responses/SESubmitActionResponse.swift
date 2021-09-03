@@ -23,8 +23,7 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SESubmitActionResponse: SEBaseActionResponse {
-    
+public struct SESubmitActionResponse: SEBaseActionResponse {    
     public let success: Bool
     public var authorizationId: String?
     public var connectionId: String?

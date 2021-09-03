@@ -116,3 +116,36 @@ struct SpecUtils {
         "-----END PUBLIC KEY-----\n"
     }
 }
+
+public struct SpecDecodableModel<T: Decodable> {
+    public static func create(from fixture: [String: Any]) -> T? {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategyFormatters = [DateUtils.dateFormatter, DateUtils.ymdDateFormatter]
+        let fixtureData = Data(fixture.jsonString!.utf8)
+        return try? decoder.decode(T.self, from: fixtureData)
+    }
+}
+
+private extension JSONDecoder {
+    var dateDecodingStrategyFormatters: [DateFormatter]? {
+        get {
+            return nil
+        }
+        set {
+            guard let formatters = newValue else { return }
+
+            self.dateDecodingStrategy = .custom { decoder in
+                let container = try decoder.singleValueContainer()
+                let dateString = try container.decode(String.self)
+
+                for formatter in formatters {
+                    if let date = formatter.date(from: dateString) {
+                        return date
+                    }
+                }
+
+                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Cannot decode date string \(dateString)")
+            }
+        }
+    }
+}

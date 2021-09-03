@@ -49,7 +49,6 @@ public struct SEProviderResponseV2: Decodable {
     }
 
     public init(from decoder: Decoder) throws {
-        print("init decoder")
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
         name = try dataContainer.decode(String.self, forKey: .name)
@@ -61,6 +60,5 @@ public struct SEProviderResponseV2: Decodable {
         providerId = "\(id)"
         publicKey = try dataContainer.decode(String.self, forKey: .publicKey)
         geolocationRequired = try dataContainer.decodeIfPresent(Bool.self, forKey: .geolocationRequired)
-        print("init name \(name), baseUrl: \(baseUrl)")
     }
 }

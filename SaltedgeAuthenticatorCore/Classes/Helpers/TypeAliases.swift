@@ -25,7 +25,6 @@ public typealias ApiVersion = String
 public typealias SuccessBlock = () -> ()
 public typealias FailureBlock = (String) -> ()
 public typealias RequestSuccessBlock = ([String: Any]?) -> ()
-public typealias HTTPServiceSuccessClosure<T: SerializableResponse> = (T) -> ()
 
 public typealias AccessToken = String
 public typealias GUID = String
