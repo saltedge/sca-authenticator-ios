@@ -90,7 +90,7 @@ struct SpecUtils {
         guid: GUID,
         status: AuthorizationStatus
     ) -> SEAuthorizationDataV2 {
-        return SEAuthorizationDataV2(id: "(authorizationId)", connectionId: "(connectionId)", status: status)
+        return SEAuthorizationDataV2(id: "\(authorizationId)", connectionId: "\(connectionId)", status: status)
     }
 
     
