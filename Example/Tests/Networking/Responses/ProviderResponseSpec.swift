@@ -23,7 +23,6 @@
 import Quick
 import Nimble
 @testable import SEAuthenticator
-@testable import SEAuthenticatorCore
 
 class ProviderResponseSpec: BaseSpec {
     override func spec() {

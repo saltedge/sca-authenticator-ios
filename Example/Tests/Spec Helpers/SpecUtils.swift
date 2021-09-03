@@ -79,8 +79,8 @@ struct SpecUtils {
             "status": status
         ]
 
-        let response = SpecDecodableModel<SEEncryptedAuthorizationData>.create(from: dict)
-        return (response?.decryptedAuthorizationDataV2!)!
+        let response = SpecDecodableModel<SEEncryptedAuthorizationData>.create(from: dict)!
+        return response.decryptedAuthorizationDataV2!
     }
 
     static func createNotEncryptedAuthResponseV2(
@@ -90,7 +90,6 @@ struct SpecUtils {
         guid: GUID,
         status: AuthorizationStatus
     ) -> SEAuthorizationDataV2 {
-        
         return SEAuthorizationDataV2(id: "(authorizationId)", connectionId: "(connectionId)", status: status)
     }
 
