@@ -23,16 +23,21 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SERevokeConsentResponseV2: SerializableResponse {
+public struct SERevokeConsentResponseV2: Decodable {
     public let id: String
 
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? [String: Any],
-            let id = data[SENetKeys.id] as? Int {
-            self.id = "\(id)"
-        } else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    enum DataCodingKeys: String, CodingKey {
+        case id
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
+        let consentId = try dataContainer.decode(Int.self, forKey: .id)
+        id = "\(consentId)"
     }
 }

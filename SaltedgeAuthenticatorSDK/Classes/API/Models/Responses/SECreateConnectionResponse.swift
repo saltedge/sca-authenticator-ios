@@ -23,20 +23,26 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SECreateConnectionResponse: SerializableResponse {
+public struct SECreateConnectionResponse: Decodable {
     public let id: String
     public let accessToken: String?
     public let connectUrl: String? // NOTE: Open in SEWebView
 
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? [String: Any],
-            let id = data[SENetKeys.id] as? String {
-            self.id = id
-            self.connectUrl = data[SENetKeys.connectUrl] as? String
-            self.accessToken = data[SENetKeys.accessToken] as? String
-        } else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    enum DataCodingKeys: String, CodingKey {
+        case id
+        case accessToken = "access_token"
+        case connectUrl = "connect_url"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
+        id = try dataContainer.decode(String.self, forKey: .id)
+        accessToken = try dataContainer.decodeIfPresent(String.self, forKey: .accessToken)
+        connectUrl = try dataContainer.decodeIfPresent(String.self, forKey: .connectUrl)
     }
 }

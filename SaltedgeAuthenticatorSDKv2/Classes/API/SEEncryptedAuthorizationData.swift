@@ -23,7 +23,7 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEEncryptedAuthorizationData: SEBaseEncryptedAuthorizationData, SerializableResponse {
+public struct SEEncryptedAuthorizationData: SEBaseEncryptedAuthorizationData, Decodable {
     public let id: String
     public let data: String
     public let key: String
@@ -32,23 +32,25 @@ public struct SEEncryptedAuthorizationData: SEBaseEncryptedAuthorizationData, Se
     public var connectionId: String?
     public var entityId: String?
 
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let id = dict[SENetKeys.id] as? Int,
-            let data = dict[SENetKeys.data] as? String,
-            let key = dict[SENetKeys.key] as? String,
-            let iv = dict[SENetKeys.iv] as? String,
-            let statusString = dict[SENetKeys.status] as? String,
-            let status = AuthorizationStatus(rawValue: statusString),
-            let connectionId = dict[SENetKeys.connectionId] as? Int {
-            self.id = "\(id)"
-            self.data = data
-            self.key = key
-            self.iv = iv
-            self.status = status
-            self.connectionId = "\(connectionId)"
-        } else {
-            return nil
+    enum CodingKeys: String, CodingKey {
+        case id
+        case data
+        case key
+        case iv
+        case status
+        case connectionId = "connection_id"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let authorizationV2Id = try container.decode(Int.self, forKey: .id)
+        id = "\(authorizationV2Id)"
+        data = try container.decode(String.self, forKey: .data)
+        key = try container.decode(String.self, forKey: .key)
+        iv = try container.decode(String.self, forKey: .iv)
+        status = try container.decode(AuthorizationStatus.self, forKey: .status)
+        if let connectionV2Id = try container.decodeIfPresent(Int.self, forKey: .connectionId) {
+            connectionId = "\(connectionV2Id)"
         }
     }
 }

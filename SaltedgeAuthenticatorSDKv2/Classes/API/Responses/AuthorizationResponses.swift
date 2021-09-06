@@ -23,27 +23,28 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEEncryptedAuthorizationDataResponse: SerializableResponse {
+public struct SEEncryptedAuthorizationDataResponse: Decodable {
     public var data: SEEncryptedAuthorizationData
 
-    public init?(_ value: Any) {
-        if let response = (value as AnyObject)[SENetKeys.data] as? [String: Any],
-            let data = SEEncryptedAuthorizationData(response) {
-            self.data = data
-        } else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        data = try container.decode(SEEncryptedAuthorizationData.self, forKey: .data)
     }
 }
 
-public struct SEEncryptedAuthorizationsListResponse: SerializableResponse {
+public struct SEEncryptedAuthorizationsListResponse: Decodable {
     public var data: [SEEncryptedAuthorizationData] = []
 
-    public init?(_ value: Any) {
-        if let responses = (value as AnyObject)[SENetKeys.data] as? [[String: Any]] {
-            self.data = responses.compactMap { SEEncryptedAuthorizationData($0) }
-        } else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        data = try container.decode([SEEncryptedAuthorizationData].self, forKey: .data)
     }
 }

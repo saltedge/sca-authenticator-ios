@@ -112,8 +112,9 @@ class SEEncryptedDataExtensionsSpec: BaseSpec {
                         connectionId: connection.id,
                         status: .pending
                     )
-                    
-                    expect(expectedData).to(equal(SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!))
+
+                    let response = SpecDecodableModel<SEEncryptedAuthorizationData>.create(from: dict)
+                    expect(expectedData).to(equal(response?.decryptedAuthorizationDataV2!))
                 }
             }
 
@@ -137,7 +138,8 @@ class SEEncryptedDataExtensionsSpec: BaseSpec {
                         status: .confirmed
                     )
 
-                    expect(expectedData).to(equal(SEEncryptedAuthorizationData(dict)!.decryptedAuthorizationDataV2!))
+                    let response = SpecDecodableModel<SEEncryptedAuthorizationData>.create(from: dict)
+                    expect(expectedData).to(equal(response?.decryptedAuthorizationDataV2!))
                 }
             }
         }

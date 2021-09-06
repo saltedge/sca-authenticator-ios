@@ -23,35 +23,39 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SEProviderResponse: SerializableResponse {
+public struct SEProviderResponse: Decodable {
     public var baseUrl: URL
     public let name: String
     public let code: String
-    public let version: String
+    public var version: String
     public var logoUrl: URL?
     public var supportEmail: String
     public let geolocationRequired: Bool?
 
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? [String: Any],
-            let name = data[SENetKeys.name] as? String,
-            let code = data[SENetKeys.code] as? String,
-            let connectUrlString = data[SENetKeys.connectUrl] as? String,
-            let version = data[SENetKeys.version] as? String,
-            let connectUrl = URL(string: connectUrlString) {
-            if let logoUrlString = data[SENetKeys.logoUrl] as? String,
-                let logoUrl = URL(string: logoUrlString) {
-                self.logoUrl = logoUrl
-            }
-            geolocationRequired = data[SENetKeys.geolocationRequired] as? Bool
-            self.supportEmail = (data[SENetKeys.supportEmail] as? String) ?? ""
-            self.name = name
-            self.code = code
-            self.baseUrl = connectUrl
-            self.version = version
-        } else {
-            return nil
-        }
+    enum CodingKeys: String, CodingKey {
+        case data
+    }
+
+    enum DataCodingKeys: String, CodingKey {
+        case name
+        case code
+        case baseUrl = "connect_url"
+        case logoUrl = "logo_url"
+        case version
+        case supportEmail = "support_email"
+        case geolocationRequired = "geolocation_required"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
+        name = try dataContainer.decode(String.self, forKey: .name)
+        code = try dataContainer.decode(String.self, forKey: .code)
+        baseUrl = try dataContainer.decode(URL.self, forKey: .baseUrl)
+        logoUrl = try dataContainer.decodeIfPresent(URL.self, forKey: .logoUrl)
+        version = try dataContainer.decode(String.self, forKey: .version)
+        supportEmail = try dataContainer.decode(String.self, forKey: .supportEmail)
+        version = try dataContainer.decode(String.self, forKey: .version)
+        geolocationRequired = try dataContainer.decodeIfPresent(Bool.self, forKey: .geolocationRequired)
     }
 }
