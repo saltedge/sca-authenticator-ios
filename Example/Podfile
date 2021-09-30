@@ -5,9 +5,8 @@ def shared_pods
   pod 'SaltedgeAuthenticatorSDK', :path => '../'
   pod 'ReachabilitySwift'
   pod 'TinyConstraints'
+  pod 'RealmSwift', '5.5.1', :inhibit_warnings => true
   pod 'SDWebImage', '5.10.4'
-  pod 'RealmSwift', '10.5.1', :inhibit_warnings => true
-  pod 'Realm', '10.5.1', :inhibit_warnings => true
   pod 'Valet', '~> 3.2.8'
   pod 'Firebase/Crashlytics'
   pod 'Firebase/Analytics'
