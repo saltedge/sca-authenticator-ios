@@ -34,7 +34,15 @@ final class AuthorizationContentView: UIView {
     private lazy var stateView = AuthorizationStateView(state: .base)
     private var isProcessing: Bool = false
 
-    private let titleLabel = UILabel(font: .systemFont(ofSize: 24.0, weight: .regular), textColor: .titleColor)
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 24.0, weight: .regular)
+        label.textColor = .titleColor
+        label.textAlignment = .center
+        label.numberOfLines = 4
+        return label
+    }()
+
     private lazy var descriptionTextView = UITextView()
     private lazy var webView: WKWebView = {
         let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
@@ -144,6 +152,9 @@ extension AuthorizationContentView: Layoutable {
 
         titleLabel.top(to: self, offset: Layout.titleLabelTopOffset)
         titleLabel.centerX(to: self)
+        titleLabel.leftToSuperview(offset: Layout.sideOffset)
+        titleLabel.rightToSuperview(offset: -Layout.sideOffset, relation: .equalOrLess)
+        titleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         contentStackView.topToBottom(of: titleLabel, offset: Layout.contentTopOffset)
         contentStackView.leftToSuperview(offset: Layout.sideOffset)
