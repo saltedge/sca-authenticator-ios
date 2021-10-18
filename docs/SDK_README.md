@@ -48,7 +48,6 @@ Authenticator SDK provide next features:
  * `connectUrl` **[string]** - Base url of Authenticator API
  * `accessToken` **[string]** - Access token for accessing Authenticator API resources
  * `status` **[string]** - Connection Status. ACTIVE or INACTIVE
- * `geolocationRequired` **[bool]** - Geolocation Info is required for Authorization confirmation. `true` - geolocation is mandatory, `false` - geolocation is optional, `nil` - geolocation is not supported
 
 #### SEEncryptedData
 * `algorithm` **[string]** - encryption algorithm and block mode type
@@ -81,7 +80,6 @@ Authenticator SDK provide next features:
  * `code` **[string]** - Provider's code
  * `logoUrl` **[string]** - Optional. Provider's logo url.
  * `connectUrl` **[string]** - Base url of Authenticator API
- * `geolocationRequired` **[bool]** - Geolocation Info is required for Authorization confirmation. `true` - geolocation is mandatory, `false` - geolocation is optional, `nil` - geolocation is not supported
 
 ##### SECreateConnectionResponse
  * `connect_url` **[string]** - an url of Connect Web Page for future end-user authentication
@@ -339,8 +337,6 @@ User can confirm authorization
         - `accessToken`: a unique token string for authenticated access to API resources.
         - `appLanguage`: request header to identify preferred language.
         - `authorizationCode`: Optional. Generated unique code per each authorization action based on set of input information (datetime, amount, payee, account, etc.)
-        - `geolocation`: Optional. Geolocation information of client device. (e.g. `GEO:52.506931;13.144558`) 
-        - `authorizationType`: String. User authorization type.  (e.g. `biometrics`, `passcode`)
 
 ```swift
     SEAuthorizationManager.confirmAuthorization(
@@ -365,8 +361,6 @@ User can deny authorization
         - `accessToken`: a unique token string for authenticated access to API resources.
         - `appLanguage`: Request header to identify preferred language.
         - `authorizationCode`: Optional.
-        - `geolocation`: Optional. Geolocation information of client device. (e.g. `GEO:52.506931;13.144558`) 
-        - `authorizationType`: String. User authorization type.  (e.g. `biometrics`, `passcode`)
 
 ```swift
     SEAuthorizationManager.denyAuthorization(

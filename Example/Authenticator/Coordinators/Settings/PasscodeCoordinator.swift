@@ -49,7 +49,8 @@ final class PasscodeCoordinator: Coordinator {
         viewModel.delegate = self
 
         currentViewController.onCompleteClosure = { (_ completeType: CompleteType) -> () in
-            PasscodeCoordinator.lastAppUnlockCompleteType = completeType
+            // NOTE: Temporarily inactive due to legal restrictions
+//            PasscodeCoordinator.lastAppUnlockCompleteType = completeType
             self.onCompleteClosure?()
         }
 
