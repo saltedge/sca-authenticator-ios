@@ -36,9 +36,7 @@ enum SEProviderRouterV2: Routable {
 
     var url: URL {
         switch self {
-        case .fetchData(let url):
-            print(url)
-            return url
+        case .fetchData(let url): return url
         }
     }
 

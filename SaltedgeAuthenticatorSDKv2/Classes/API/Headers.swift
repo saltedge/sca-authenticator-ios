@@ -46,7 +46,6 @@ public struct Headers {
     }
 
     public static func authorizedRequestHeaders(token: String, appLanguage: String = "en") -> [String: String] {
-        print("REQUEST HEADERS: \(requestHeaders(with: appLanguage).merge(with: [HeadersKeys.accessToken: token]))")
         return requestHeaders(with: appLanguage).merge(with: [HeadersKeys.accessToken: token])
     }
 
