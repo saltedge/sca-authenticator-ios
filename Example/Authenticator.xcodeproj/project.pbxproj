@@ -1391,7 +1391,7 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				9D606E8922DF39D600D1D104 /* Run Swift Lint */,
-				9DCF6EBF252DE4F900D9182A /* ShellScript */,
+				9DCF6EBF252DE4F900D9182A /* Run Crashlytics */,
 				5C76890756954435947A161B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
@@ -1639,9 +1639,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"error: SwiftLint does not exist, download it from https://github.com/realm/SwiftLint\"\n    exit 1\nfi\n";
+			shellScript = "if test -d \"/opt/homebrew/bin/\"; then\n  PATH=\"/opt/homebrew/bin/:${PATH}\"\nfi\n\nexport PATH\n\nif which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
-		9DCF6EBF252DE4F900D9182A /* ShellScript */ = {
+		9DCF6EBF252DE4F900D9182A /* Run Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
@@ -1652,6 +1652,7 @@
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
 				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
+			name = "Run Crashlytics";
 			outputFileListPaths = (
 			);
 			outputPaths = (
