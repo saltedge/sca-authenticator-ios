@@ -34,7 +34,6 @@ public class SEAuthorizationData: SEBaseAuthorizationData {
     public var apiVersion: ApiVersion = "1"
 
     public init?(_ dictionary: [String: Any]) {
-        print("$$$$$ \(dictionary)")
         if let id = dictionary[SENetKeys.id] as? String,
             let connectionId = dictionary[SENetKeys.connectionId] as? String,
             let title = dictionary[SENetKeys.title] as? String,
