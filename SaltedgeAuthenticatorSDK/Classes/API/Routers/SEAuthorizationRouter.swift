@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 enum SEAuthorizationRouter: Routable {
     case list(SEBaseAuthenticatedRequestData)
@@ -45,11 +46,11 @@ enum SEAuthorizationRouter: Routable {
     var url: URL {
         switch self {
         case .list(let data):
-            return data.url.appendingPathComponent(SENetPaths.authorizations.path)
+            return data.url.appendingPathComponent(SENetPathBuilder(for: .authorizations).path)
         case .getAuthorization(let data):
-            return data.url.appendingPathComponent("\(SENetPaths.authorizations.path)/\(data.entityId)")
+            return data.url.appendingPathComponent("\(SENetPathBuilder(for: .authorizations).path)/\(data.entityId)")
         case .confirm(let data), .deny(let data):
-            return data.url.appendingPathComponent("\(SENetPaths.authorizations.path)/\(data.entityId)")
+            return data.url.appendingPathComponent("\(SENetPathBuilder(for: .authorizations).path)/\(data.entityId)")
         }
     }
 
@@ -78,7 +79,7 @@ enum SEAuthorizationRouter: Routable {
             let signature = SignatureHelper.signedPayload(
                 method: .get,
                 urlString: data.url.appendingPathComponent(
-                    "\(SENetPaths.authorizations.path)/\(data.entityId)"
+                    "\(SENetPathBuilder(for: .authorizations).path)/\(data.entityId)"
                     ).absoluteString,
                 guid: data.connectionGuid,
                 expiresAt: expiresAt,
@@ -97,7 +98,7 @@ enum SEAuthorizationRouter: Routable {
             let signature = SignatureHelper.signedPayload(
                 method: .put,
                 urlString: data.url.appendingPathComponent(
-                    "\(SENetPaths.authorizations.path)/\(data.entityId)"
+                    "\(SENetPathBuilder(for: .authorizations).path)/\(data.entityId)"
                     ).absoluteString,
                 guid: data.connectionGuid,
                 expiresAt: expiresAt,

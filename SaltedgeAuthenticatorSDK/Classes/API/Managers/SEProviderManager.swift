@@ -21,16 +21,17 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SEProviderManager {
     public static func fetchProviderData(
         url: URL,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SEProviderResponse>,
+        onSuccess success: SEHTTPResponse<SEProviderResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SEProviderResponse>.execute(
-            request: SEProviderRouter.fetchData(url),
-            success: success,
+        HTTPService<SEProviderResponse>.makeRequest(
+            SEProviderRouter.fetchData(url),
+            completion: success,
             failure: failure
         )
     }

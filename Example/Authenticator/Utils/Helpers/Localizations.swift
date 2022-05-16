@@ -43,6 +43,7 @@ enum Localizations: String, Localizable {
     case forgot = "actions.forgot"
     case remove = "actions.remove"
     case revoke = "actions.revoke"
+    case accessToLocation = "actions.access_to_location"
 
     // MARK: - Onboarding
     case getStarted = "actions.get_started"
@@ -103,6 +104,8 @@ enum Localizations: String, Localizable {
     case forgotPasscodeDescription = "no_data.forgot_passcode_description"
     case forgotPasscodeClearDataDescription = "no_data.forgot_passcode_clear_data_description"
     case locationWarning = "location.warning"
+
+    case ipAddress = "in_app.authorizations.ip_address"
 
     // MARK: - Actions
     case newAction = "instant_action.new_action"
@@ -199,11 +202,18 @@ enum Localizations: String, Localizable {
     case noInternetConnection = "errors.no_internet_connection"
     case errorOccuredPleaseTryAgain = "errors.authorization_error"
     case pleaseTryAgain = "errors.no_internet_connection_try_again"
+    case pleaseCheckAndTryAgain = "errors.no_internet_connection_check_and_try_again"
     case inactivityMessage = "warnings.inactivity_block_message"
     case passcodeDontMatch = "errors.passcode_dont_match"
     case wrongPasscode = "errors.wrong_passcode"
     case biometricsNotAvailable = "in_app.settings.biometrics_not_available"
     case biometricsNotAvailableDescription = "in_app.settings.biometrics_not_available_message"
+    case turnOnLocationServices = "errors.turn_on_location_services"
+    case turnOnLocationSharingDescription = "errors.turn_on_location_sharing_description"
+    case turnOnPhoneLocationServicesDescription = "errors.turn_on_phone_location_services"
+
+    case accessToLocationServices = "errors.access_to_location_services"
+    case grantAccessToLocationServices = "warnings.grant_access_to_location_services"
 
     // MARK: - Connection Options
     case connect = "actions.connect"
@@ -212,6 +222,7 @@ enum Localizations: String, Localizable {
     case contactSupport = "in_app.settings.contact_support"
     case reportAnIssue = "actions.report_an_issue"
     case viewConsents = "actions.view_consents"
+    case id = "actions.view_id"
 
     // MARK: - Main Menu Options
     case viewConnections = "actions.view_connections"

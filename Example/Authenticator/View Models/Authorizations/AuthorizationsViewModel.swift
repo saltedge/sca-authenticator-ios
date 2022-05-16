@@ -21,7 +21,7 @@
 //
 
 import UIKit
-import SEAuthenticator
+import SEAuthenticatorCore
 
 enum AuthorizationsViewModelState: Equatable {
     case changedConnectionsData
@@ -30,10 +30,13 @@ enum AuthorizationsViewModelState: Equatable {
     case presentFail(String)
     case scanQrPressed(Bool)
     case normal
+    case requestLocationWarning
 
     static func == (lhs: AuthorizationsViewModelState, rhs: AuthorizationsViewModelState) -> Bool {
         switch (lhs, rhs) {
-        case (.changedConnectionsData, .changedConnectionsData), (.reloadData, .reloadData), (.normal, .normal): return true
+        case (.changedConnectionsData, .changedConnectionsData),
+             (.reloadData, .reloadData), (.normal, .normal),
+             (.requestLocationWarning, .requestLocationWarning): return true
         case let (.scrollTo(index1), .scrollTo(index2)): return index1 == index2
         case let (.presentFail(message1), .presentFail(message2)): return message1 == message2
         case let (.scanQrPressed(value1), .scanQrPressed(value2)): return value1 == value2
@@ -53,10 +56,8 @@ class AuthorizationsViewModel {
     var dataSource: AuthorizationsDataSource!
     private var connectionsListener: RealmConnectionsListener?
 
-    private var poller: SEPoller?
+    private var poller: SEPoller? // TODO: Think about moving poller to interactor
     private var connections = ConnectionsCollector.activeConnections
-
-    var singleAuthorizationDetailViewModel: AuthorizationDetailViewModel?
 
     var singleAuthorization: (connectionId: String, authorizationId: String)? {
         willSet {
@@ -103,49 +104,74 @@ class AuthorizationsViewModel {
         }
     }
 
-    func confirmAuthorization(by authorizationId: String) {
-        guard let data = dataSource.confirmationData(for: authorizationId),
-            let detailViewModel = dataSource.viewModel(with: authorizationId) else { return }
+    func confirmAuthorization(by authorizationId: String, apiVersion: ApiVersion) {
+        guard let data = dataSource.confirmationData(for: authorizationId, apiVersion: apiVersion),
+            let detailViewModel = dataSource.viewModel(with: authorizationId, apiVersion: apiVersion) else { return }
 
-        detailViewModel.state.value = .processing
+        if detailViewModel.shouldShowLocationWarning {
+            state.value = .requestLocationWarning
+        } else {
+            detailViewModel.state.value = .processing
 
-        AuthorizationsInteractor.confirm(
-            data: data,
-            success: {
-                detailViewModel.state.value = .success
-                detailViewModel.actionTime = Date()
-            },
-            failure: { _ in
-                detailViewModel.state.value = .undefined
-                detailViewModel.actionTime = Date()
-            }
-        )
+            AuthorizationsInteractor.confirm(
+                apiVersion: detailViewModel.apiVersion,
+                data: data,
+                successV1: {
+                    self.update(viewModel: detailViewModel, state: .confirmed)
+                },
+                successV2: { response in
+                    if response.status.isFinal {
+                        self.update(viewModel: detailViewModel, state: .confirmed)
+                    }
+                },
+                failure: { _ in
+                    self.update(viewModel: detailViewModel, state: .error)
+                }
+            )
+        }
     }
 
-    func denyAuthorization(by authorizationId: String) {
-        guard let data = dataSource.confirmationData(for: authorizationId),
-            let detailViewModel = dataSource.viewModel(with: authorizationId) else { return }
+    func denyAuthorization(by authorizationId: String, apiVersion: ApiVersion) {
+        guard let data = dataSource.confirmationData(for: authorizationId, apiVersion: apiVersion),
+            let detailViewModel = dataSource.viewModel(with: authorizationId, apiVersion: apiVersion) else { return }
 
-        detailViewModel.state.value = .processing
+        if detailViewModel.shouldShowLocationWarning {
+            state.value = .requestLocationWarning
+        } else {
+            detailViewModel.state.value = .processing
 
-        AuthorizationsInteractor.deny(
-            data: data,
-            success: {
-                detailViewModel.state.value = .denied
-                detailViewModel.actionTime = Date()
-            },
-            failure: { _ in
-                detailViewModel.state.value = .undefined
-                detailViewModel.actionTime = Date()
-            }
-        )
+            AuthorizationsInteractor.deny(
+                apiVersion: detailViewModel.apiVersion,
+                data: data,
+                successV1: {
+                    self.update(viewModel: detailViewModel, state: .denied)
+                },
+                successV2: { response in
+                    if response.status.isFinal {
+                        self.update(viewModel: detailViewModel, state: .denied)
+                    }
+                },
+                failure: { _ in
+                    self.update(viewModel: detailViewModel, state: .error)
+                }
+            )
+        }
     }
 
-    private func updateDataSource(with authorizations: [SEAuthorizationData]) {
+    private func update(viewModel: AuthorizationDetailViewModel, state: AuthorizationStateView.AuthorizationState) {
+        viewModel.state.value = state
+        viewModel.actionTime = Date()
+    }
+
+    private func updateDataSource(with authorizations: [SEBaseAuthorizationData]) {
         if dataSource.update(with: authorizations) {
             state.value = .reloadData
         }
 
+        scrollToSingleAuthorization()
+    }
+
+    private func scrollToSingleAuthorization() {
         if let authorizationToScroll = singleAuthorization {
             if let detailViewModel = dataSource.viewModel(
                 by: authorizationToScroll.connectionId,
@@ -256,10 +282,11 @@ private extension AuthorizationsViewModel {
                 guard let strongSelf = self else { return }
 
                 DispatchQueue.global(qos: .background).async {
-                    let decryptedAuthorizations = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationData }
+                    let decryptedAuthorizationsV1 = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationData }
+                    let decryptedAuthorizationsV2 = encryptedAuthorizations.compactMap { $0.decryptedAuthorizationDataV2 }
 
                     DispatchQueue.main.async {
-                        strongSelf.updateDataSource(with: decryptedAuthorizations)
+                        strongSelf.updateDataSource(with: decryptedAuthorizationsV1 + decryptedAuthorizationsV2)
                     }
                 }
             },

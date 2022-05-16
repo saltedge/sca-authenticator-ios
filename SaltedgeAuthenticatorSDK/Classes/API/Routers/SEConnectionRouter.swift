@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 enum SEConnectionRouter: Routable {
     case createConnection(URL, SECreateConnectionRequestData, PushToken, ConnectQuery?, ApplicationLanguage)
@@ -42,8 +43,10 @@ enum SEConnectionRouter: Routable {
 
     var url: URL {
         switch self {
-        case .createConnection(let url, _, _, _, _): return url
-        case .revoke(let data): return data.url.appendingPathComponent("\(SENetPaths.connections.path)")
+        case .createConnection(let url, _, _, _, _):
+            return url.appendingPathComponent(SENetPathBuilder(for: .connections).path)
+        case .revoke(let data):
+            return data.url.appendingPathComponent(SENetPathBuilder(for: .connections).path)
         }
     }
 

@@ -21,7 +21,7 @@
 //
 
 import UIKit
-import SEAuthenticator
+import SEAuthenticatorCore
 
 private struct Layout {
     static let labelsSpacing: CGFloat = 10.0

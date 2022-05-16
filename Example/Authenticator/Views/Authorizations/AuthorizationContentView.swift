@@ -44,6 +44,7 @@ final class AuthorizationContentView: UIView {
     }()
 
     private lazy var descriptionTextView = UITextView()
+    private lazy var attributesStackView = AuthorizationContentDynamicStackView()
     private lazy var webView: WKWebView = {
         let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
         webView.layer.masksToBounds = true
@@ -54,6 +55,7 @@ final class AuthorizationContentView: UIView {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = Layout.sideOffset
+        stackView.distribution = .fillProportionally
         return stackView
     }()
     private var buttonsStackView: UIStackView = {
@@ -64,38 +66,25 @@ final class AuthorizationContentView: UIView {
         stackView.spacing = 11.0
         return stackView
     }()
-    private let locationWarningLabel = UILabel(font: .systemFont(ofSize: 18.0, weight: .regular), textColor: .redAlert)
 
     var viewModel: AuthorizationDetailViewModel! {
         didSet {
             titleLabel.text = viewModel.title
-
-            if viewModel.showLocationWarning {
-                locationWarningLabel.text = l10n(.locationWarning)
-            }
-            buttonsStackView.isHidden = viewModel.showLocationWarning
-            locationWarningLabel.isHidden = !viewModel.showLocationWarning
 
             guard viewModel.state.value == .base else {
                 stateView.set(state: viewModel.state.value)
                 return
             }
 
-            if viewModel.expired && viewModel.state.value != .expired {
-                stateView.set(state: .expired)
+            if viewModel.expired && viewModel.state.value != .timeOut {
+                stateView.set(state: .timeOut)
             } else {
                 stateView.set(state: .base)
 
-                if viewModel.description.htmlToAttributedString != nil {
-                    let supportDarkCSS = "<style>:root { color-scheme: light dark; }</style>"
-
-                    contentStackView.removeArrangedSubview(descriptionTextView)
-                    webView.loadHTMLString(viewModel.description + supportDarkCSS, baseURL: nil)
-                    contentStackView.addArrangedSubview(webView)
+                if viewModel.apiVersion == "1" {
+                    setupContentV1()
                 } else {
-                    contentStackView.removeArrangedSubview(webView)
-                    descriptionTextView.text = viewModel.description
-                    contentStackView.addArrangedSubview(descriptionTextView)
+                    setupContentV2(using: viewModel.descriptionAttributes)
                 }
             }
 
@@ -116,6 +105,36 @@ final class AuthorizationContentView: UIView {
         layout()
     }
 
+    private func setupContentV1() {
+        if viewModel.description.htmlToAttributedString != nil {
+            setupWebView(content: viewModel.description)
+        } else {
+            contentStackView.removeArrangedSubview(webView)
+            descriptionTextView.text = viewModel.description
+            contentStackView.addArrangedSubview(descriptionTextView)
+        }
+    }
+
+    private func setupContentV2(using attributes: [String: Any]) {
+        if let html = attributes["html"] as? String {
+            setupWebView(content: html)
+        } else {
+            contentStackView.removeAllArrangedSubviews()
+
+            let attributesScrollView = UIScrollView()
+            attributesScrollView.addSubview(attributesStackView)
+
+            contentStackView.addArrangedSubview(attributesScrollView)
+
+            attributesScrollView.edgesToSuperview()
+
+            attributesStackView.width(to: attributesScrollView)
+            attributesStackView.edgesToSuperview()
+
+            attributesStackView.setup(using: attributes)
+        }
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -131,6 +150,14 @@ private extension AuthorizationContentView {
         rightButton.addTarget(self, action: #selector(confirmButtonPressed(_:)), for: .touchUpInside)
 
         buttonsStackView.addArrangedSubviews(leftButton, rightButton)
+    }
+
+    func setupWebView(content: String) {
+        let supportDarkCSS = "<style>:root { color-scheme: light dark; }</style>"
+
+        contentStackView.removeAllArrangedSubviews()
+        webView.loadHTMLString(content + supportDarkCSS, baseURL: nil)
+        contentStackView.addArrangedSubview(webView)
     }
 }
 
@@ -148,7 +175,7 @@ private extension AuthorizationContentView {
 // MARK: - Layout
 extension AuthorizationContentView: Layoutable {
     func layout() {
-        addSubviews(titleLabel, contentStackView, buttonsStackView, locationWarningLabel, stateView)
+        addSubviews(titleLabel, contentStackView, buttonsStackView, stateView)
 
         titleLabel.top(to: self, offset: Layout.titleLabelTopOffset)
         titleLabel.centerX(to: self)
@@ -166,11 +193,6 @@ extension AuthorizationContentView: Layoutable {
         buttonsStackView.rightToSuperview(offset: -Layout.sideOffset)
         buttonsStackView.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: -Layout.bottomOffset)
         buttonsStackView.centerXToSuperview()
-
-        locationWarningLabel.leftToSuperview(offset: Layout.sideOffset)
-        locationWarningLabel.rightToSuperview(offset: -Layout.sideOffset)
-        locationWarningLabel.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: -Layout.bottomOffset)
-        locationWarningLabel.centerXToSuperview()
 
         stateView.edgesToSuperview()
     }

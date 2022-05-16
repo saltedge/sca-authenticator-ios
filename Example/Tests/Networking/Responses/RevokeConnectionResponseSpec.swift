@@ -30,7 +30,7 @@ class RevokeConnectionResponseSpec: BaseSpec {
             context("when the value is a proper dictionary containing the necessary data") {
                 it("should create correct response") {
                     let fixture = DataFixtures.validRevokeConnectionData
-                    let response = SERevokeConnectionResponse(fixture)
+                    let response = SpecDecodableModel<SERevokeConnectionResponse>.create(from: fixture)
 
                     expect(response).toNot(beNil())
                     expect(response?.success).to(beTrue())
@@ -40,8 +40,8 @@ class RevokeConnectionResponseSpec: BaseSpec {
             context("when the value is a malformed dictionary or is missing data") {
                 it("should return nil and fail to initialize the object") {
                     let fixture = DataFixtures.invalidRevokeConnectionData
-                    let response = SERevokeConnectionResponse(fixture)
-                    
+                    let response = SpecDecodableModel<SERevokeConnectionResponse>.create(from: fixture)
+
                     expect(response).to(beNil())
                 }
             }

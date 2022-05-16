@@ -22,19 +22,25 @@
 
 import Foundation
 import RealmSwift
+import SEAuthenticatorCore
 
 struct ConnectionRepository {
     @discardableResult
     static func setAccessTokenAndActive(_ connection: Connection, accessToken token: String) -> Bool {
+        guard let decryptedTokenData = try? SECryptoHelper.decrypt(key: token, tag: SETagHelper.create(for: connection.guid)).json,
+              let decryptedAccessToken = decryptedTokenData[SENetKeys.accessToken] as? String else {
+            return false
+        }
+
         var result = false
         if connection.isManaged {
             try? RealmManager.performRealmWriteTransaction {
-                connection.accessToken = token
+                connection.accessToken = decryptedAccessToken
                 connection.status = ConnectionStatus.active.rawValue
                 result = true
             }
         } else {
-            connection.accessToken = token
+            connection.accessToken = decryptedAccessToken
             connection.status = ConnectionStatus.active.rawValue
             result = true
         }

@@ -21,7 +21,7 @@
 //
 
 import Foundation
-import SEAuthenticator
+import SEAuthenticatorCore
 
 protocol ConnectEventsDelegate: class {
     func showWebViewController()
@@ -71,7 +71,7 @@ final class ConnectHandler {
         finalString.append(description)
         delegate?.finishConnectWithSuccess(attributedMessage: finalString)
 
-        if connection.geolocationRequired.value != nil && LocationManager.shared.notDeterminedAuthorization {
+        if connection.geolocationRequired.value != nil {
             delegate?.requestLocationAuthorization()
         }
     }
@@ -82,11 +82,21 @@ final class ConnectHandler {
         let connectQuery = SEConnectHelper.connectQuery(from: url)
 
         delegate?.showWebViewController()
-        createNewConnection(from: configurationUrl, with: connectQuery)
+
+        let apiVersion = configurationUrl.absoluteString.apiVerion
+        createNewConnection(
+            from: configurationUrl,
+            with: connectQuery,
+            interactor: apiVersion == "2" ? ConnectionsInteractorV2() : ConnectionsInteractor()
+        )
     }
 
-    private func createNewConnection(from configurationUrl: URL, with connectQuery: String?) {
-        ConnectionsInteractor.createNewConnection(
+    private func createNewConnection(
+        from configurationUrl: URL,
+        with connectQuery: String?,
+        interactor: BaseConnectionsInteractor
+    ) {
+        interactor.createNewConnection(
             from: configurationUrl,
             with: connectQuery,
             success: { [weak self] connection, accessToken in
@@ -106,7 +116,10 @@ final class ConnectHandler {
     private func reconnectConnection(_ connectionId: String) {
         guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
 
-        ConnectionsInteractor.submitNewConnection(
+        let interactor: BaseConnectionsInteractor = connection.isApiV2
+            ? ConnectionsInteractorV2() : ConnectionsInteractor()
+
+        interactor.submitNewConnection(
             for: connection,
             connectQuery: nil,
             success: { [weak self] connection, accessToken in

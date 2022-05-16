@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorCore
 
 enum ConsentType: String {
     case aisp
@@ -72,7 +73,7 @@ final class ConsentsViewModel {
 
         let expirationAttributedString = NSMutableAttributedString()
 
-        let numberOfDaysToExpire = consent.expiresAt.get(.day)
+        let numberOfDaysToExpire = consent.expiresAt.numberOfDaysFromNow
         let expiresInString = numberOfDaysToExpire == 1 ? "\(numberOfDaysToExpire) \(l10n(.day))"
             : "\(numberOfDaysToExpire) \(l10n(.days))"
         let expiresInAttributedMessage = NSMutableAttributedString(

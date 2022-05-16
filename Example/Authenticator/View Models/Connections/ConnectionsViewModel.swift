@@ -23,6 +23,7 @@
 import Foundation
 import RealmSwift
 import SEAuthenticator
+import SEAuthenticatorCore
 
 protocol ConnectionsEventsDelegate: class {
     func showEditConnectionAlert(placeholder: String, completion: @escaping (String) -> ())
@@ -32,6 +33,9 @@ protocol ConnectionsEventsDelegate: class {
     func consentsPressed(connectionId: String, consents: [SEConsentData])
     func updateViews()
     func addPressed()
+    func presentError(_ error: String)
+    func showNoInternetConnectionAlert(completion: @escaping () -> Void)
+    func showDeleteConfirmationAlert(completion: @escaping () -> Void)
 }
 
 final class ConnectionsViewModel {
@@ -43,7 +47,10 @@ final class ConnectionsViewModel {
     private var connectionsNotificationToken: NotificationToken?
     private var connectionsListener: RealmConnectionsListener?
 
-    init() {
+    private let reachabilityManager: Connectable
+
+    init(reachabilityManager: Connectable) {
+        self.reachabilityManager = reachabilityManager
         connectionsListener = RealmConnectionsListener(
             onDataChange: {
                 self.delegate?.updateViews()
@@ -62,7 +69,7 @@ final class ConnectionsViewModel {
 
     var emptyViewData: EmptyViewData {
         return EmptyViewData(
-            image: #imageLiteral(resourceName: "noConnections"),
+            image: UIImage(named: "noConnections", in: .authenticator_main, compatibleWith: nil) ?? UIImage(),
             title: l10n(.noConnections),
             description: l10n(.noConnectionsDescription),
             buttonTitle: l10n(.connect)
@@ -89,8 +96,19 @@ final class ConnectionsViewModel {
         delegate?.updateViews()
     }
 
-    private func remove(connection: Connection) {
-        ConnectionsInteractor.revoke(connection)
+    private func revoke(connection: Connection, interactor: BaseConnectionsInteractor) {
+        interactor.revoke(
+            connection,
+            success: { },
+            failure: { error in
+                self.delegate?.presentError(error)
+            }
+        )
+        deleteConnection(connection: connection)
+    }
+
+    private func deleteConnection(connection: Connection) {
+        SECryptoHelper.deleteKeyPair(with: connection.providerPublicKeyTag)
         SECryptoHelper.deleteKeyPair(with: SETagHelper.create(for: connection.guid))
         ConnectionRepository.delete(connection)
     }
@@ -112,13 +130,19 @@ extension ConnectionsViewModel {
     func remove(at indexPath: IndexPath) {
         guard let connection = item(for: indexPath) else { return }
 
-        remove(connection: connection)
+        revoke(
+            connection: connection,
+            interactor: connection.isApiV2 ? ConnectionsInteractorV2() : ConnectionsInteractor()
+        )
     }
 
     func remove(by id: ID) {
         guard let connection = ConnectionsCollector.with(id: id) else { return }
 
-        remove(connection: connection)
+        revoke(
+            connection: connection,
+            interactor: connection.isApiV2 ? ConnectionsInteractorV2() : ConnectionsInteractor()
+        )
     }
 
     func updateName(by id: ID) {
@@ -150,6 +174,21 @@ extension ConnectionsViewModel {
 
     func reconnect(id: ID) {
         delegate?.reconnect(by: id)
+    }
+
+    func checkInternetAndRemoveConnection(id: String, showConfirmation: Bool) {
+        guard reachabilityManager.isConnected else {
+            delegate?.showNoInternetConnectionAlert {
+                if self.reachabilityManager.isConnected { self.remove(by: id) }
+            }
+            return
+        }
+
+        if showConfirmation {
+            delegate?.showDeleteConfirmationAlert { self.remove(by: id) }
+        } else {
+            remove(by: id)
+        }
     }
 }
 

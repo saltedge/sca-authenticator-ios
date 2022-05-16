@@ -29,7 +29,8 @@ protocol RealmMigratable {
 
 private let availableMigrations: [RealmMigratable.Type] = [
     AddConnectionSupportEmail.self,
-    AddConnectionGeolocation.self
+    AddConnectionGeolocation.self,
+    AddConnectionV2Fields.self
 ]
 
 struct RealmMigrationManager {

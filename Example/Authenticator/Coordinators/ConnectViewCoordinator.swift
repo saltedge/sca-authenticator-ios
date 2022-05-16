@@ -22,6 +22,7 @@
 
 import UIKit
 import SEAuthenticator
+import SEAuthenticatorCore
 
 enum ConnectionType: Equatable {
     case newConnection(String)
@@ -42,7 +43,7 @@ final class ConnectViewCoordinator: Coordinator {
     private let rootViewController: UIViewController
 
     private lazy var webViewController = ConnectorWebViewController()
-    private var connectViewController = ConnectViewController()
+    private lazy var connectViewController = ConnectViewController()
     private var qrCodeCoordinator: QRCodeCoordinator?
     private var connectHandler: ConnectHandler?
 
@@ -86,7 +87,17 @@ extension ConnectViewCoordinator: ConnectEventsDelegate {
     }
 
     func requestLocationAuthorization() {
-        LocationManager.shared.requestLocationAuthorization()
+        if LocationManager.shared.notDeterminedAuthorization {
+            LocationManager.shared.requestLocationAuthorization()
+        } else {
+            connectViewController.showInfoAlert(
+                withTitle: l10n(.turnOnLocationServices),
+                message: l10n(.turnOnPhoneLocationServicesDescription),
+                completion: {
+                    LocationManager.shared.requestLocationAuthorization()
+                }
+            )
+        }
     }
 
     func startWebViewLoading(with connectUrlString: String) {

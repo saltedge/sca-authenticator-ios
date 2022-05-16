@@ -22,7 +22,7 @@
 
 import Quick
 import Nimble
-@testable import SEAuthenticator
+@testable import SEAuthenticatorCore
 
 class DateUtilsSpec: BaseSpec {
     override func spec() {

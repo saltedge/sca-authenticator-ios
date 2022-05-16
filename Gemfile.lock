@@ -32,6 +32,8 @@ GEM
     nokogiri (1.11.3)
       mini_portile2 (~> 2.5.0)
       racc (~> 1.4)
+    nokogiri (1.11.3-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.11.3-x86_64-darwin)
       racc (~> 1.4)
     pry (0.14.1)
@@ -68,6 +70,7 @@ GEM
 
 PLATFORMS
   -darwin-21
+  universal-darwin-20
   x86_64-darwin-19
 
 DEPENDENCIES

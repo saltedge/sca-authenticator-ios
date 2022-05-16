@@ -43,14 +43,14 @@ final class SettingsViewController: BaseViewController {
         layout()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        tableView.reloadData()
+//    }
 
-    func reloadData() {
-        tableView.reloadData()
-    }
+//    func reloadData() {
+//        tableView.reloadData()
+//    }
 }
 
 // MARK: - Setup

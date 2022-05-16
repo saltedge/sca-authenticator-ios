@@ -25,6 +25,7 @@ import UIKit
 protocol AuthorizationsViewControllerDelegate: class {
     func scanQrPressed()
     func showMoreOptionsMenu()
+    func requestLocation()
 }
 
 private struct Layout {
@@ -98,18 +99,41 @@ final class AuthorizationsViewController: BaseViewController {
                         message: l10n(.deniedCameraDescription),
                         confirmActionTitle: l10n(.goToSettings),
                         confirmActionStyle: .default,
-                        confirmAction: { _ in
-                            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
-
-                            if UIApplication.shared.canOpenURL(settingsUrl) {
-                                UIApplication.shared.open(settingsUrl)
-                            }
-                        }
+                        confirmAction: { _ in strongSelf.openPhoneSettings() }
                     )
                 }
+            case .requestLocationWarning:
+                strongSelf.checkLocationServicesStatus()
             default: break
             }
             strongSelf.viewModel.resetState()
+        }
+    }
+
+    private func checkLocationServicesStatus() {
+        if LocationManager.shared.notDeterminedAuthorization {
+            LocationManager.shared.requestLocationAuthorization()
+        } else if LocationManager.shared.geolocationSharingIsDenied {
+            showConfirmationAlert(
+                withTitle: l10n(.accessToLocationServices),
+                message: l10n(.turnOnLocationSharingDescription),
+                confirmActionTitle: l10n(.goToSettings),
+                confirmActionStyle: .default,
+                confirmAction: { _ in self.openPhoneSettings() }
+            )
+        } else {
+            showInfoAlert(
+                withTitle: l10n(.turnOnLocationServices),
+                message: l10n(.turnOnPhoneLocationServicesDescription)
+            )
+        }
+    }
+
+    private func openPhoneSettings() {
+        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+
+        if UIApplication.shared.canOpenURL(settingsUrl) {
+            UIApplication.shared.open(settingsUrl)
         }
     }
 

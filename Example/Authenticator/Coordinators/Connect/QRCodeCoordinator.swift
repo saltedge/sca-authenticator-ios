@@ -21,7 +21,7 @@
 //
 
 import UIKit
-import SEAuthenticator
+import SEAuthenticatorCore
 
 final class QRCodeCoordinator: Coordinator {
     private var rootViewController: UIViewController
@@ -29,15 +29,12 @@ final class QRCodeCoordinator: Coordinator {
     private var connectViewCoordinator: ConnectViewCoordinator?
     private var instantActionCoordinator:  InstantActionCoordinator?
 
-    var dismissClosure: (() -> ())?
-
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
         self.qrCodeViewController = QRCodeViewController()
     }
 
     func start() {
-        dismissClosure = qrCodeViewController.shouldDismissClosure
         qrCodeViewController.delegate = self
         if let navController = rootViewController.navigationController {
             navController.present(qrCodeViewController, animated: true)
@@ -55,13 +52,10 @@ extension QRCodeCoordinator: QRCodeViewControllerDelegate {
         guard let url = URL(string: data),
             SEConnectHelper.isValid(deepLinkUrl: url) else { return }
 
-        if let actionGuid = SEConnectHelper.actionGuid(from: url),
-            let connectUrl = SEConnectHelper.connectUrl(from: url) {
+        if SEConnectHelper.shouldStartInstantActionFlow(url: url) {
             instantActionCoordinator = InstantActionCoordinator(
                 rootViewController: rootViewController,
-                qrUrl: url,
-                actionGuid: actionGuid,
-                connectUrl: connectUrl
+                qrUrl: url
             )
             instantActionCoordinator?.start()
         } else {

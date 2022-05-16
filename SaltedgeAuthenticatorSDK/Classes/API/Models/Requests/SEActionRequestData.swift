@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public class SEActionRequestData: SEBaseAuthenticatedRequestData {
     public let guid: GUID
