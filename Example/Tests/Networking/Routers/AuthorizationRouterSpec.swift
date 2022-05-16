@@ -114,9 +114,10 @@ class AuthorizationRouterSpec: BaseSpec {
                         accessToken: "accessToken",
                         appLanguage: "en",
                         authorizationId: "1",
-                        authorizationCode: "code",
-                        geolocation: "GEO:52.506931;13.144558",
-                        authorizationType: "biometrics"
+                        authorizationCode: "code"
+                        // NOTE: Temporarily inactive due to legal restrictions
+                        // geolocation: "GEO:52.506931;13.144558",
+                        // authorizationType: "biometrics"
                     )
 
                     let params = RequestParametersBuilder.confirmAuthorization(true, authorizationCode: data.authorizationCode)
@@ -135,8 +136,9 @@ class AuthorizationRouterSpec: BaseSpec {
                         signature: signature,
                         appLanguage: "en"
                     )
-                    .addLocationHeader(geolocation: "GEO:52.506931;13.144558")
-                    .addAuthorizationTypeHeader(authorizationType: "biometrics")
+                    // NOTE: Temporarily inactive due to legal restrictions
+                    // .addLocationHeader(geolocation: "GEO:52.506931;13.144558")
+                    // .addAuthorizationTypeHeader(authorizationType: "biometrics")
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
                         with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.entityId)"),
@@ -160,9 +162,10 @@ class AuthorizationRouterSpec: BaseSpec {
                         accessToken: "accessToken",
                         appLanguage: "en",
                         authorizationId: "1",
-                        authorizationCode: "code",
-                        geolocation: "GEO:52.506931;13.144558",
-                        authorizationType: "biometrics"
+                        authorizationCode: "code"
+                        // NOTE: Temporarily inactive due to legal restrictions
+                        // geolocation: "GEO:52.506931;13.144558",
+                        // authorizationType: "biometrics"
                     )
                     
                     let params = RequestParametersBuilder.confirmAuthorization(false, authorizationCode: data.authorizationCode)
@@ -181,8 +184,9 @@ class AuthorizationRouterSpec: BaseSpec {
                         signature: signature,
                         appLanguage: "en"
                     )
-                    .addLocationHeader(geolocation: "GEO:52.506931;13.144558")
-                    .addAuthorizationTypeHeader(authorizationType: "biometrics")
+                    // NOTE: Temporarily inactive due to legal restrictions
+                    // .addLocationHeader(geolocation: "GEO:52.506931;13.144558")
+                    // .addAuthorizationTypeHeader(authorizationType: "biometrics")
 
                     let expectedRequest = URLRequestBuilder.buildUrlRequest(
                         with: baseUrl.appendingPathComponent("\(baseUrlPath)/\(data.entityId)"),
