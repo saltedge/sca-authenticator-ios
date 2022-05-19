@@ -108,6 +108,42 @@ struct SpecCryptoHelper {
 
         return try obtainKey(for: tag)
     }
+
+    static func publicEncrypt(data: Data, keyForTag: KeyTag) throws -> Data {
+        let publicKey = try obtainKey(for: keyForTag)
+
+        let blockSize = SecKeyGetBlockSize(publicKey)
+        let maxChunkSize = blockSize - 11 // Since PKCS1 padding is used
+
+        var decryptedDataAsArray = [UInt8](repeating: 0, count: data.count)
+        (data as NSData).getBytes(&decryptedDataAsArray, length: data.count)
+
+        var encryptedDataBytes = [UInt8](repeating: 0, count: 0)
+        var idx = 0
+        while idx < decryptedDataAsArray.count {
+
+            let idxEnd = min(idx + maxChunkSize, decryptedDataAsArray.count)
+            let chunkData = [UInt8](decryptedDataAsArray[idx..<idxEnd])
+
+            var encryptedDataBuffer = [UInt8](repeating: 0, count: blockSize)
+            var encryptedDataLength = blockSize
+
+            let status = SecKeyEncrypt(publicKey, .PKCS1, chunkData, chunkData.count, &encryptedDataBuffer, &encryptedDataLength)
+
+            guard status == noErr else {
+                throw SECryptoHelperError.couldNotEncryptChunk(at: idx)
+            }
+
+            encryptedDataBytes += encryptedDataBuffer
+
+            idx += maxChunkSize
+        }
+
+        let uint8Pointer = UnsafeMutablePointer<UInt8>.allocate(capacity: encryptedDataBytes.count)
+        uint8Pointer.initialize(from: &encryptedDataBytes, count: encryptedDataBytes.count)
+
+        return Data(bytes: uint8Pointer, count: encryptedDataBytes.count)
+    }
 }
 
 extension Data {
