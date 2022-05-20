@@ -108,6 +108,22 @@ public struct SECryptoHelper {
 
         return try AesCipher.decrypt(data: encryptedData.data, key: decryptedKey, iv: decryptedIv)
     }
+    
+    public static func decrypt(key: String, tag: KeyTag) throws -> String {
+        let privateKey = try SecKeyHelper.obtainKey(for: tag.privateTag)
+
+        do {
+            let decryptedData = try privateDecrypt(message: key, privateKey: privateKey)
+
+            guard let result = String(data: decryptedData, encoding: .utf8) else {
+                throw SEAesCipherError.couldNotCreateDecodedString(fromData: decryptedData)
+            }
+
+            return result
+        } catch {
+            throw error
+        }
+    }
 
     public static func publicKeyData(for tag: KeyTag) throws -> Data {
         return try SecKeyHelper.obtainKeyData(for: tag)

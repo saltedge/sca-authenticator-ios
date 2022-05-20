@@ -47,7 +47,7 @@ final class AuthorizationStateView: UIView {
 
         var title: String {
             switch self {
-            case .processing: return l10n(.active)
+            case .processing: return l10n(.processing)
             case .confirmed: return l10n(.successfulAuthorization)
             case .timeOut: return l10n(.timeOut)
             case .denied: return l10n(.denied)

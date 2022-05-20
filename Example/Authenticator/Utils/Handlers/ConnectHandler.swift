@@ -59,7 +59,11 @@ final class ConnectHandler {
     func saveConnectionAndFinish(with accessToken: AccessToken) {
         guard let connection = connection else { return }
 
-        ConnectionRepository.setAccessTokenAndActive(connection, accessToken: accessToken)
+        ConnectionRepository.setAccessTokenAndActive(
+            connection,
+            accessToken: connection.isApiV2 ? decryptedAccessToken(accessToken, for: connection) : accessToken
+        )
+
         ConnectionRepository.save(connection)
         let attributedConnectionName = NSAttributedString(
             string: connection.name,
@@ -75,8 +79,11 @@ final class ConnectHandler {
             delegate?.requestLocationAuthorization()
         }
     }
+}
 
-    private func fetchConfiguration(url: URL) {
+// Private methods
+private extension ConnectHandler {
+    func fetchConfiguration(url: URL) {
         guard let configurationUrl = SEConnectHelper.сonfiguration(from: url) else { return }
 
         let connectQuery = SEConnectHelper.connectQuery(from: url)
@@ -91,7 +98,7 @@ final class ConnectHandler {
         )
     }
 
-    private func createNewConnection(
+    func createNewConnection(
         from configurationUrl: URL,
         with connectQuery: String?,
         interactor: BaseConnectionsInteractor
@@ -113,7 +120,7 @@ final class ConnectHandler {
         )
     }
 
-    private func reconnectConnection(_ connectionId: String) {
+    func reconnectConnection(_ connectionId: String) {
         guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
 
         let interactor: BaseConnectionsInteractor = connection.isApiV2
@@ -136,7 +143,16 @@ final class ConnectHandler {
         )
     }
 
-    private func dismissConnectWithError(error: String) {
+    func decryptedAccessToken(_ token: String, for connection: Connection) -> String? {
+        guard let decryptedTokenData = try? SECryptoHelper.decrypt(key: token, tag: SETagHelper.create(for: connection.guid)).json,
+              let decryptedAccessToken = decryptedTokenData[SENetKeys.accessToken] as? String else {
+            return nil
+        }
+
+        return decryptedAccessToken
+    }
+
+    func dismissConnectWithError(error: String) {
         DispatchQueue.main.async {
             self.delegate?.dismissConnectWithError(error: error)
         }

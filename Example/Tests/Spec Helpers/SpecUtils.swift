@@ -48,17 +48,11 @@ struct SpecUtils {
     }
 
     static func createAuthResponse(with authMessage: [String: Any], id: ID, guid: GUID) -> SEAuthorizationData {
-        let encryptedData = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: guid))
+        let encryptedMessage = try! SECryptoHelper.encrypt(authMessage.jsonString!, tag: SETagHelper.create(for: guid))
 
-        let dict = [
-            "data": encryptedData.data,
-            "key": encryptedData.key,
-            "iv": encryptedData.iv,
-            "connection_id": id,
-            "algorithm": "AES-256-CBC"
-        ]
+        let encryptedData = SEEncryptedData(data: encryptedMessage.data, key: encryptedMessage.key, iv: encryptedMessage.iv, connectionId: id)
 
-        return SEEncryptedData(dict)!.decryptedAuthorizationData!
+        return encryptedData.decryptedAuthorizationData!
     }
 
     static func createAuthResponseV2(

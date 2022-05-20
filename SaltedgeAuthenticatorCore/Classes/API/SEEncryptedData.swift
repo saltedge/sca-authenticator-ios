@@ -31,31 +31,33 @@ public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, Decodable, Equa
     public var connectionId: String?
     public var entityId: String?
     
-    public init(data: String, key: String, iv: String) {
+    enum CodingKeys: String, CodingKey {
+        case id
+        case connectionId = "connection_id"
+        case data
+        case key
+        case iv
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        data = try container.decode(String.self, forKey: .data)
+        key = try container.decode(String.self, forKey: .key)
+        iv = try container.decode(String.self, forKey: .iv)
+        if let connectionIdString = try container.decodeIfPresent(String.self, forKey: .connectionId) {
+            connectionId = connectionIdString
+        } else if let id = try container.decodeIfPresent(Int.self, forKey: .connectionId) {
+            // NOTE: connection_id in v2 is integer
+            connectionId = "\(id)"
+        }
+        entityId = try container.decodeIfPresent(String.self, forKey: .id)
+    }
+
+    public init(data: String, key: String, iv: String, connectionId: String? = nil) {
         self.data = data
         self.key = key
         self.iv = iv
-    }
-
-    public init?(_ value: Any) {
-        if let dict = value as? [String: Any],
-            let data = dict[SENetKeys.data] as? String,
-            let key = dict[SENetKeys.key] as? String,
-            let iv = dict[SENetKeys.iv] as? String {
-            self.data = data
-            self.key = key
-            self.iv = iv
-            if let entityId = dict[SENetKeys.id] as? Int {
-                self.entityId = "\(entityId)"
-            }
-            if let connectionId = dict[SENetKeys.connectionId] as? String {
-                self.connectionId = connectionId
-            } else if let connectionId = dict[SENetKeys.connectionId] as? Int { // NOTE: connection_id in v2 is integer
-                self.connectionId = "\(connectionId)"
-            }
-        } else {
-            return nil
-        }
+        self.connectionId = connectionId
     }
 
     public static func == (lhs: SEEncryptedData, rhs: SEEncryptedData) -> Bool {
