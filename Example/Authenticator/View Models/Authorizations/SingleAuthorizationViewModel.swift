@@ -22,6 +22,7 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorV2
 import SEAuthenticatorCore
 
 protocol SingleAuthorizationViewModelEventsDelegate: class {
@@ -31,22 +32,30 @@ protocol SingleAuthorizationViewModelEventsDelegate: class {
 
 final class SingleAuthorizationViewModel {
     private var connection: Connection?
+    private var authorizationId: String?
+    private var showLocationWarning: Bool = false
     private var detailViewModel: AuthorizationDetailViewModel?
 
+    private var poller: SEPoller?
     weak var delegate: SingleAuthorizationViewModelEventsDelegate?
 
     init(connectionId: String, authorizationId: String, locationManagement: LocationManagement) {
         guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
 
+        self.authorizationId = authorizationId
         self.connection = connection
-        getAuthorization(
-            connection: connection,
-            authorizationId: authorizationId,
-            showLocationWarning: locationManagement.shouldShowLocationWarning(connection: connection)
-        )
+        self.showLocationWarning = locationManagement.shouldShowLocationWarning(connection: connection)
+
+        getAuthorization()
     }
 
-    private func getAuthorization(connection: Connection, authorizationId: String, showLocationWarning: Bool) {
+    deinit {
+        stopPolling()
+    }
+
+    private func getAuthorization() {
+        guard let connection = connection, let authorizationId = authorizationId else { return }
+
         AuthorizationsInteractor.refresh(
             connection: connection,
             authorizationId: authorizationId,
@@ -64,7 +73,10 @@ final class SingleAuthorizationViewModel {
                 guard let data = decryptedAuthorizationData else { return }
 
                 DispatchQueue.main.async {
-                    if let viewModel = AuthorizationDetailViewModel(data, apiVersion: connection.apiVersion) {
+                    if strongSelf.detailViewModel != nil,
+                       let dataV2 = data as? SEAuthorizationDataV2 {
+                        strongSelf.updateDetailViewModel(status: dataV2.status)
+                    } else if let viewModel = AuthorizationDetailViewModel(data, apiVersion: connection.apiVersion) {
                         strongSelf.detailViewModel = viewModel
                         strongSelf.detailViewModel?.delegate = self
 
@@ -81,6 +93,28 @@ final class SingleAuthorizationViewModel {
                 }
             }
         )
+    }
+}
+
+// MARK: - Polling
+extension SingleAuthorizationViewModel {
+    func stopPolling() {
+        poller?.stopPolling()
+        poller = nil
+    }
+
+    private func setupPolling() {
+        if poller == nil {
+            poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationIfAvailable))
+            getEncryptedAuthorizationIfAvailable()
+            poller?.startPolling()
+        }
+    }
+
+    @objc private func getEncryptedAuthorizationIfAvailable() {
+        if poller != nil, connection != nil {
+            getAuthorization()
+        }
     }
 }
 
@@ -106,17 +140,19 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             apiVersion: detailViewModel.apiVersion,
             data: confirmData,
             successV1: {
-                self.updateDetailViewModel(state: .confirmed)
+                self.updateDetailViewModel(status: .confirmed)
             },
             successV2: { response in
                 if response.status.isFinal {
-                    self.updateDetailViewModel(state: .confirmed)
+                    self.updateDetailViewModel(status: .confirmed)
                 }
             },
             failure: { _ in
-                self.updateDetailViewModel(state: .error)
+                self.updateDetailViewModel(status: .error)
             }
         )
+
+        setupPolling()
     }
 
     func denyPressed(_ authorizationId: String, apiVersion: ApiVersion) {
@@ -139,17 +175,19 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             apiVersion: detailViewModel.apiVersion,
             data: confirmData,
             successV1: {
-                self.updateDetailViewModel(state: .denied)
+                self.updateDetailViewModel(status: .denied)
             },
             successV2: { response in
                 if response.status.isFinal {
-                    self.updateDetailViewModel(state: .denied)
+                    self.updateDetailViewModel(status: .denied)
                 }
             },
             failure: { _ in
-                self.updateDetailViewModel(state: .error)
+                self.updateDetailViewModel(status: .error)
             }
         )
+
+        setupPolling()
     }
 
     func authorizationExpired() {
@@ -159,11 +197,17 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
         }
     }
 
-    private func updateDetailViewModel(state: AuthorizationStateView.AuthorizationState) {
+    private func updateDetailViewModel(status: AuthorizationStatus) {
+        guard let state = AuthorizationStateView.AuthorizationState(rawValue: status.rawValue) else { return }
+
         detailViewModel?.state.value = state
         detailViewModel?.actionTime = Date()
-        after(finalAuthorizationTimeToLive) {
-            self.delegate?.shouldClose()
+
+        if status.isFinal {
+            stopPolling()
+            after(finalAuthorizationTimeToLive) {
+                self.delegate?.shouldClose()
+            }
         }
     }
 }

@@ -26,11 +26,18 @@ final class ConnectViewController: BaseViewController {
     private lazy var completeView = CompleteView(state: .processing, title: l10n(.processing))
     private let viewModel = ConnectViewModel(reachabilityManager: ConnectivityManager.shared)
 
+    var shouldDismiss: (() ->())?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.checkInternetConnection()
         setupCancelButton()
         layout()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        shouldDismiss?()
     }
 }
 
@@ -55,7 +62,7 @@ private extension ConnectViewController {
     }
 
     @objc func cancelPressed() {
-        dismiss(animated: true)
+        dismiss(animated: true, completion: shouldDismiss)
     }
 }
 

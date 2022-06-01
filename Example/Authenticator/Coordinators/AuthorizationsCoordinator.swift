@@ -70,7 +70,12 @@ extension AuthorizationsCoordinator: AuthorizationsViewControllerDelegate {
             return
         }
 
+        stop() // Stop pollling when presenting contollers
+
         qrCoordinator = QRCodeCoordinator(rootViewController: rootViewController)
+        qrCoordinator?.shouldDismissController = {
+            self.viewModel.setupPolling()
+        }
         qrCoordinator?.start()
     }
 
