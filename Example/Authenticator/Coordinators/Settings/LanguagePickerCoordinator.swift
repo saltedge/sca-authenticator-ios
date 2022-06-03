@@ -26,7 +26,6 @@ final class LanguagePickerCoordinator: Coordinator {
     private var rootViewController: UIViewController?
     private var currentViewController: LanguagePickerViewController
     private var viewModel = LanguagePickerViewModel()
-    private var settingsCoordinator: SettingsCoordinator?
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
@@ -46,7 +45,6 @@ final class LanguagePickerCoordinator: Coordinator {
 // MARK: - LanguagePickerEventsDelegate
 extension LanguagePickerCoordinator: LanguagePickerEventsDelegate {
     func languageSelected() {
-        settingsCoordinator = SettingsCoordinator(rootController: currentViewController)
-        settingsCoordinator?.start()
+        rootViewController?.navigationController?.popViewController(animated: true)
     }
 }
