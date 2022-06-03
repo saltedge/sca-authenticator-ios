@@ -44,5 +44,14 @@ class SECryptoHelperSpec: BaseSpec {
                 expect(expectedDecryptedToken.json!["access_token"] as? String).to(equal("123456"))
             }
         }
+
+        describe("generateRandomBytes") {
+            it("should correctly genrate non empty array of bytes") {
+                let iv = try! SECryptoHelper.generateRandomBytes(count: 16)
+                let isIvValid = [UInt8](iv).allSatisfy({ $0 != 0 })
+
+                expect(isIvValid).to(beTrue())
+            }
+        }
     }
 }
