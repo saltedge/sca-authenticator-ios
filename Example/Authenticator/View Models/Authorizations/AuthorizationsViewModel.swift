@@ -45,7 +45,7 @@ enum AuthorizationsViewModelState: Equatable {
     }
 }
 
-class AuthorizationsViewModel {
+final class AuthorizationsViewModel {
     private struct Images {
         static let noAuthorizations: UIImage = UIImage(named: "noAuthorizations", in: .authenticator_main, compatibleWith: nil)!
         static let noConnections: UIImage = UIImage(named: "noConnections", in: .authenticator_main, compatibleWith: nil)!

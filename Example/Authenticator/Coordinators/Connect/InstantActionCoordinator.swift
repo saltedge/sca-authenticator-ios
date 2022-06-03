@@ -30,6 +30,8 @@ final class InstantActionCoordinator: Coordinator {
     private var instantActionHandler: InstantActionHandler
     private var qrCodeCoordinator: QRCodeCoordinator?
 
+    var shouldDismissController: (() -> ())?
+
     init(rootViewController: UIViewController, qrUrl: URL) {
         self.rootViewController = rootViewController
         self.connectViewController = ConnectViewController()
@@ -41,6 +43,7 @@ final class InstantActionCoordinator: Coordinator {
 
     func start() {
         connectViewController.title = l10n(.newAction)
+        connectViewController.shouldDismiss = shouldDismissController
         rootViewController.present(
             UINavigationController(rootViewController: connectViewController),
             animated: true
@@ -84,13 +87,14 @@ extension InstantActionCoordinator: InstantActionEventsDelegate {
     }
 
     func shouldDismiss() {
-        connectViewController.dismiss(animated: true)
+        connectViewController.dismiss(animated: true, completion: shouldDismissController)
     }
 
     func shouldDismiss(with error: String) {
         connectViewController.dismiss(
             animated: true,
             completion: {
+                self.shouldDismissController?()
                 self.rootViewController.present(message: error)
             }
         )

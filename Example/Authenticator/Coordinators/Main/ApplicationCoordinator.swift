@@ -236,6 +236,8 @@ final class ApplicationCoordinator: Coordinator {
     }
 
     private func startConnect(url: URL, controller: UIViewController) {
+        authorizationsCoordinator.stop()
+
         if SEConnectHelper.shouldStartInstantActionFlow(url: url) {
             instantActionCoordinator = InstantActionCoordinator(
                 rootViewController: controller,
