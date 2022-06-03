@@ -58,10 +58,12 @@ final class SingleAuthorizationViewController: BaseViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        viewModel.stopPolling()
         stopTimer()
     }
 
     deinit {
+        viewModel.stopPolling()
         stopTimer()
     }
 

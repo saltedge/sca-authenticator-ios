@@ -50,6 +50,8 @@ final class ConnectViewCoordinator: Coordinator {
     private var connection: Connection?
     private let connectionType: ConnectionType
 
+    var shouldDismissController: (() -> ())?
+
     init(rootViewController: UIViewController, connectionType: ConnectionType) {
         self.rootViewController = rootViewController
         self.connectionType = connectionType
@@ -59,6 +61,7 @@ final class ConnectViewCoordinator: Coordinator {
     func start() {
         connectHandler?.delegate = self
         connectHandler?.startHandling()
+        connectViewController.shouldDismiss = shouldDismissController
 
         rootViewController.present(
             UINavigationController(rootViewController: connectViewController),

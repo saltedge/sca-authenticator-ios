@@ -238,7 +238,7 @@ private struct AesCipher {
         do {
             let enc = try AES(key: keyArray, blockMode: CBC(iv: ivArray)).encrypt(data.bytes)
             let encData = NSData(bytes: enc, length: Int(enc.count))
-            let base64String: String = encData.base64EncodedString(options: [])
+            let base64String: String = encData.base64EncodedString()
 
             return String(base64String)
         } catch {

@@ -49,6 +49,9 @@ final class QRCodeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         requestCameraPermission()
+        if #available(iOS 13.0, *) {
+            isModalInPresentation = true
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
