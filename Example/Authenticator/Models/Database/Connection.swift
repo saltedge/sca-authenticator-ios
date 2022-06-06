@@ -55,7 +55,7 @@ enum ConnectionStatus: String {
         case name
         case code
         case baseUrlString = "connect_url"
-        case logoUrlString = "provier_logo_url"
+        case logoUrlString = "provider_logo_url"
         case accessToken = "access_token"
         case status
         case supportEmail = "support_email"

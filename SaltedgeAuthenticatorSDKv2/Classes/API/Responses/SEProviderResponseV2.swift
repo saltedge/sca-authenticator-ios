@@ -40,7 +40,7 @@ public struct SEProviderResponseV2: Decodable {
     enum DataCodingKeys: String, CodingKey {
         case name = "provider_name"
         case baseUrl = "sca_service_url"
-        case logoUrl = "logo_url"
+        case logoUrl = "provider_logo_url"
         case apiVersion = "api_version"
         case supportEmail = "provider_support_email"
         case providerId = "provider_id"
