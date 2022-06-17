@@ -52,6 +52,8 @@ public enum SEAesCipherError: Error {
     case couldNotCreateDecodedString(fromData: Data)
     case noKeyProvided
     case noIvProvided
+    case ivByteArrayIsNotValid
+    case keyByteArrayIsNotValid
 
     var localizedDescription: String {
         var message = ""

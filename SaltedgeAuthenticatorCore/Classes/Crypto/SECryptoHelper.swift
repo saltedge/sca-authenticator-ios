@@ -93,6 +93,9 @@ public struct SECryptoHelper {
         let encryptedKey = try publicEncrypt(data: key, keyForTag: tag)
         let encryptedIv = try publicEncrypt(data: iv, keyForTag: tag)
 
+        guard [UInt8](key).allSatisfy({ $0 != 0 }) else { throw SEAesCipherError.keyByteArrayIsNotValid }
+        guard [UInt8](iv).allSatisfy({ $0 != 0 }) else { throw SEAesCipherError.ivByteArrayIsNotValid }
+
         return SEEncryptedData(
             data: try AesCipher.encrypt(message: message, key: key, iv: iv),
             key: encryptedKey.base64EncodedString(),
@@ -141,6 +144,24 @@ public struct SECryptoHelper {
         return try SecKeyHelper.obtainKey(for: tag.privateTag)
     }
 
+    public static func generateRandomBytes(count: Int) throws -> Data {
+        var bytes: [Int8] = [Int8](repeating: 0, count: count)
+
+        // Fill bytes with secure random data
+        let status = SecRandomCopyBytes(
+            kSecRandomDefault,
+            count,
+            &bytes
+        )
+
+        // A status of errSecSuccess indicates success
+        if status == errSecSuccess {
+            return Data(bytes.map(UInt8.init))
+        } else {
+            throw SECryptoHelperError.errorGeneratingRandomBytes
+        }
+    }
+    
     // MARK: - Private Methods
     private static func privateDecrypt(message: String, privateKey: SecKey) throws -> Data {
         guard let data = Data(base64Encoded: message.replacingOccurrences(of: "\n", with: "")) else {
@@ -213,17 +234,6 @@ public struct SECryptoHelper {
 
         return Data(bytes: uint8Pointer, count: encryptedDataBytes.count)
     }
-
-    private static func generateRandomBytes(count: Int) throws -> Data {
-        let keyData = Data(count: count)
-        var newData = keyData
-        let result = newData.withUnsafeMutableBytes { SecRandomCopyBytes(kSecRandomDefault, keyData.count, $0.baseAddress!) }
-        if result == errSecSuccess {
-            return keyData
-        } else {
-            throw SECryptoHelperError.errorGeneratingRandomBytes
-        }
-    }
 }
 
 private struct AesCipher {
@@ -256,6 +266,7 @@ private struct AesCipher {
 
         if keyArray.isEmpty { throw SEAesCipherError.noKeyProvided }
         if iv.isEmpty { throw SEAesCipherError.noIvProvided }
+
         do {
             let dec = try AES(key: keyArray, blockMode: CBC(iv: ivArray)).decrypt(encryptedData.bytes)
             let decData = NSData(bytes: dec, length: Int(dec.count))
