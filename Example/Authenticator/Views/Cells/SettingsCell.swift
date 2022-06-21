@@ -46,7 +46,7 @@ final class SettingsCell: UITableViewCell, Dequeuable {
         }
     }
     
-    func setSelectedBackgroundView() -> UIView {
+    private func setSelectedBackgroundView() -> UIView {
         let bgColorView = UIView()
         bgColorView.backgroundColor = .selectedColor
         return bgColorView
