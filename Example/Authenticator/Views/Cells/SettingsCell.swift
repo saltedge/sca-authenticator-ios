@@ -26,6 +26,7 @@ final class SettingsCell: UITableViewCell, Dequeuable {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: reuseIdentifier)
         backgroundColor = .backgroundColor
+        selectedBackgroundView = selectedBackgroundСolorView
         textLabel?.textColor = .titleColor
         textLabel?.font = .auth_17regular
         detailTextLabel?.textColor = .titleColor
@@ -43,6 +44,12 @@ final class SettingsCell: UITableViewCell, Dequeuable {
         case .clearData: textLabel?.textColor = .redAlert
         default: break
         }
+    }
+    
+    private var selectedBackgroundСolorView: UIView {
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = .selectedColor
+        return bgColorView
     }
 
     required init?(coder aDecoder: NSCoder) {

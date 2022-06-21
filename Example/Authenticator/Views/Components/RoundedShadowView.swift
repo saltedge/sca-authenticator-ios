@@ -23,44 +23,35 @@
 import UIKit
 
 class RoundedShadowView: UIView {
-    private var shadowLayer: CAShapeLayer!
-    private var cornerRadius: CGFloat
-
+    
     init(cornerRadius: CGFloat) {
-        self.cornerRadius = cornerRadius
         super.init(frame: .zero)
+        layer.cornerRadius = cornerRadius
+        backgroundColor = .secondaryBackground
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        layer.shadowColor = UIColor(red: 0.056, green: 0.126, blue: 0.179, alpha: 0.12).cgColor
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.shadowOffset = .zero
+        layer.shadowOpacity = 0.7
+        layer.shadowRadius = 8
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
         if #available(iOS 13.0, *),
-            traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection),
-            let shadowLayer = shadowLayer {
-            shadowLayer.fillColor = UIColor.secondaryBackground.cgColor
+           traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+            layer.shadowColor = UIColor.secondaryBackground.cgColor
         }
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        if shadowLayer == nil {
-            shadowLayer = CAShapeLayer()
-            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius).cgPath
-            shadowLayer.fillColor = UIColor.secondaryBackground.cgColor
-
-            shadowLayer.shadowColor = UIColor(red: 0.056, green: 0.126, blue: 0.179, alpha: 0.12).cgColor
-            shadowLayer.shadowPath = shadowLayer.path
-            shadowLayer.shadowOffset = .zero
-            shadowLayer.shadowOpacity = 0.7
-            shadowLayer.shadowRadius = 8
-            shadowLayer.shadowPath = UIBezierPath(rect: bounds).cgPath
-
-            layer.insertSublayer(shadowLayer, at: 0)
-        }
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
+
+
