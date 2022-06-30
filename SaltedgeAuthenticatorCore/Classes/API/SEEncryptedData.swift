@@ -44,15 +44,14 @@ public struct SEEncryptedData: SEBaseEncryptedAuthorizationData, Decodable, Equa
         data = try container.decode(String.self, forKey: .data)
         key = try container.decode(String.self, forKey: .key)
         iv = try container.decode(String.self, forKey: .iv)
-        if let id = try container.decodeIfPresent(Int.self, forKey: .connectionId) {
-            // NOTE: connection_id in v2 is integer
-            connectionId = "\(id)"
-        } else if let connectionIdString = try container.decodeIfPresent(String.self, forKey: .connectionId) {
+        
+        if let connectionIdString = try container.decodeIfPresent(String.self, forKey: .connectionId) {
             connectionId = connectionIdString
+        } else if let id = try container.decodeIfPresent(Int.self, forKey: .connectionId) {
+            connectionId = "\(id)"
         }
-        if let id = try container.decodeIfPresent(Int.self, forKey: .id) {
-            entityId = "\(id)"
-        }
+        
+        entityId = try container.decodeIfPresent(String.self, forKey: .id)
     }
 
     public init(data: String, key: String, iv: String, connectionId: String? = nil) {
