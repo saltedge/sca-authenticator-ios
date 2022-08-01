@@ -38,7 +38,7 @@ struct URLSessionManager {
 
     static func createSession() -> URLSession {
         let config: URLSessionConfiguration = .default
-        config.timeoutIntervalForRequest = 10.0
+        config.timeoutIntervalForRequest = 20.0
         config.timeoutIntervalForResource = 30.0
         config.requestCachePolicy = .reloadIgnoringLocalCacheData
 
