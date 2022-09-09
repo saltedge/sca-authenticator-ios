@@ -106,6 +106,14 @@ extension WKWebViewController: WKNavigationDelegate {
         loadingIndicator.stop()
         handleError(error as NSError)
     }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if navigationAction.navigationType == .linkActivated {
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
+    }
 
     #if DEBUG
     func webView(_ webView: WKWebView,
