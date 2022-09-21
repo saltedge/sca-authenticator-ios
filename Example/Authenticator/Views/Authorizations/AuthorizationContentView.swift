@@ -21,7 +21,6 @@
 //
 
 import UIKit
-import WebKit
 
 private struct Layout {
     static let sideOffset: CGFloat = 16.0
@@ -45,12 +44,7 @@ final class AuthorizationContentView: UIView {
 
     private lazy var descriptionTextView = UITextView()
     private lazy var attributesStackView = AuthorizationContentDynamicStackView()
-    private lazy var webView: WKWebView = {
-        let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
-        webView.layer.masksToBounds = true
-        webView.layer.cornerRadius = 4.0
-        return webView
-    }()
+    private lazy var webView = ContentWebView()
     private var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -156,7 +150,6 @@ private extension AuthorizationContentView {
         let supportDarkCSS = "<style>:root { color-scheme: light dark; }</style>"
 
         contentStackView.removeAllArrangedSubviews()
-        webView.navigationDelegate = self
         webView.loadHTMLString(content + supportDarkCSS, baseURL: nil)
 
         contentStackView.addArrangedSubview(webView)
@@ -197,16 +190,5 @@ extension AuthorizationContentView: Layoutable {
         buttonsStackView.centerXToSuperview()
 
         stateView.edgesToSuperview()
-    }
-}
-
-
-extension AuthorizationContentView: WKNavigationDelegate {
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        if navigationAction.navigationType == .linkActivated {
-            decisionHandler(.cancel)
-        } else {
-            decisionHandler(.allow)
-        }
     }
 }
