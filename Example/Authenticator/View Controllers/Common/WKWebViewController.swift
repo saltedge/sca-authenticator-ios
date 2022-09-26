@@ -24,11 +24,11 @@ import UIKit
 import WebKit
 import TinyConstraints
 
-protocol WKWebViewControllerDelegate: class {
+protocol WKWebViewControllerDelegate: AnyObject {
     func showError(_ error: String)
 }
 
-class WKWebViewController: BaseViewController {
+final class WKWebViewController: BaseViewController {
     weak var delegate: WKWebViewControllerDelegate?
     var messageBar: MessageBarView?
     var displayType: Presentation = .modal
