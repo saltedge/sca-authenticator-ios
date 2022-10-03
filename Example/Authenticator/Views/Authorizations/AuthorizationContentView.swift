@@ -44,12 +44,7 @@ final class AuthorizationContentView: UIView {
     }()
 
     private lazy var descriptionTextView = UITextView()
-    private lazy var webView: WKWebView = {
-        let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
-        webView.layer.masksToBounds = true
-        webView.layer.cornerRadius = 4.0
-        return webView
-    }()
+    private lazy var webView = ContentWebView()
     private var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
