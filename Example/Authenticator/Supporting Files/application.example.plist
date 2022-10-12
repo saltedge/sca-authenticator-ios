@@ -6,14 +6,14 @@
 	<string>pages/authenticator_terms</string>
 	<key>PRODUCTION</key>
 	<dict>
-		<key>rootURL</key>
+		<key>RootURL</key>
 		<string>https://www.saltedge.com</string>
 		<key>support_email</key>
 		<string>authenticator@saltedge.com</string>
 	</dict>
 	<key>STAGING</key>
 	<dict>
-		<key>rootURL</key>
+		<key>RootURL</key>
 		<string>https://www.saltedge.com</string>
 		<key>support_email</key>
 		<string>authenticator@saltedge.com</string>
