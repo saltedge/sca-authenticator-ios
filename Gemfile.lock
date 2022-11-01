@@ -68,6 +68,7 @@ GEM
 
 PLATFORMS
   -darwin-21
+  ruby
   x86_64-darwin-19
 
 DEPENDENCIES
