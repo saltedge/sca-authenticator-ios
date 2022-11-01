@@ -478,4 +478,4 @@ On success, Authenticator app receives `SESubmitActionResponse` which has option
     ```
   
 ---
-Copyright © 2019 - 2020 Salt Edge. https://www.saltedge.com 
+Copyright © 2019 Salt Edge. https://www.saltedge.com 
