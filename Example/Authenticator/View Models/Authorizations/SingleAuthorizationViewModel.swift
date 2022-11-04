@@ -129,9 +129,10 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: authorizationId,
-            authorizationCode: detailViewModel.authorizationCode,
-            geolocation: LocationManager.currentLocation?.headerValue,
-            authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
+            authorizationCode: detailViewModel.authorizationCode
+            // NOTE: Temporarily inactive due to legal restrictions
+            // geolocation: LocationManager.currentLocation?.headerValue,
+            // authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
         )
 
         detailViewModel.state.value = .processing
@@ -164,9 +165,10 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: authorizationId,
-            authorizationCode: detailViewModel.authorizationCode,
-            geolocation: LocationManager.currentLocation?.headerValue,
-            authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
+            authorizationCode: detailViewModel.authorizationCode
+            // NOTE: Temporarily inactive due to legal restrictions
+            // geolocation: LocationManager.currentLocation?.headerValue,
+            // authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
         )
 
         detailViewModel.state.value = .processing

@@ -29,7 +29,7 @@ protocol ConnectEventsDelegate: class {
     func startWebViewLoading(with connectUrlString: String)
     func dismiss()
     func dismissConnectWithError(error: String)
-    func requestLocationAuthorization()
+//    func requestLocationAuthorization() // Note: Temporarily inactive due to legal restrictions
 }
 
 final class ConnectHandler {
@@ -75,9 +75,10 @@ final class ConnectHandler {
         finalString.append(description)
         delegate?.finishConnectWithSuccess(attributedMessage: finalString)
 
-        if connection.geolocationRequired.value != nil {
-            delegate?.requestLocationAuthorization()
-        }
+        // Note: Temporarily inactive dut to legal restrictions
+//        if connection.geolocationRequired.value != nil && LocationManager.shared.notDeterminedAuthorization {
+//            delegate?.requestLocationAuthorization()
+//        }
     }
 }
 
