@@ -28,6 +28,5 @@ Pod::Spec.new do |s|
   s.source_files          = '**/Classes/**/*'
 
   s.dependency 'SaltedgeAuthenticatorCore'
-#  s.dependency 'CryptoSwift'
   s.dependency 'JOSESwift'
 end
