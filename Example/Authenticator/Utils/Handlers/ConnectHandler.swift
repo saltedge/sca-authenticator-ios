@@ -111,7 +111,7 @@ private extension ConnectHandler {
                 self?.connection = connection
                 self?.saveConnectionAndFinish(with: accessToken)
             },
-            redirect: { [weak self]  connection, connectUrl in
+            redirect: { [weak self]  connection, connectUrl in // url designated for user authorization
                 self?.connection = connection
                 self?.delegate?.startWebViewLoading(with: connectUrl)
             },

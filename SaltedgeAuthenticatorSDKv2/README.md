@@ -80,7 +80,7 @@ Authenticator SDK provide next features:
  * `publicKey` **[string]** - asymmetric RSA Public Key (in PEM format) linked to the Provider (registered as Client in SCA Service)
  * `geolocationRequired` **[boolean]** - collection of geolocation data is mandatory or not
 
-##### SECreateConnectionResponse
+##### SECreateConnectionResponseV2
  * `authenticationUrl` **[string]** - URL OAuth Authentication Page for future end-user authentication
  * `id` **[string]** - an ID of current connection
 
@@ -121,16 +121,53 @@ Use extraction method from `SEConnectHelper.swift`
         )
     ```
 
-5. Create `SEConnectionData` model, where will be created keypair using `tag`.
-    - parameters:
-      - `code`: The code of the provider
-      - `tag`: The tag, which will be used for creating keypair
+5. Create Provider's public key (SecKey)
 
     ```swift
-        let connectionData = SEConnectionData(code: providerCode, tag: connectionGuid)
+        SECryptoHelper.createKey(
+            from: connection.publicKey,
+            isPublic: true,
+            tag: connection.providerPublicKeyTag
+        )
+    ```    
+
+6. Generate new RSA key pair for a new Connection by tag
+
+    ```swift
+        SECryptoHelper.createKeyPair(with: SETagHelper.create(for: connection.guid))
     ```
 
-6. Post `SEConnectionData` and receive authorization url (`connect_url`), using `SEConnectionManagerV2.createConnection` method.
+7. Convert Connection's public key to pem
+
+    ```swift
+        let connectionPublicKeyPem = SECryptoHelper.publicKeyToPem(tag: SETagHelper.create(for: connection.guid)),
+    ```
+8.  Encrypt Connection's public key with Provider's public key (step 5)
+
+    ```swift
+        let encryptedData = try? SECryptoHelper.encrypt(
+            connectionPublicKeyPem,
+            tag: connection.providerPublicKeyTag
+        )
+    ```
+
+9. Create `SECreateConnectionParams` model, where will be created keypair using `tag`.
+    - parameters:
+      - `providerId`: The id of Connection's Provider
+      - `pushToken`: The push token of the devise
+      - `connectQuery`: Token which uniquely identifies the user which requires creation of new connection.
+      - `encryptedRsaPublicKey`: Connection's public key with Provider's public key (step 8)
+
+    ```swift
+        let connectionParams = SECreateConnectionParams(
+            providerId: providerId,
+            pushToken: pushToken,
+            connectQuery: connectQuery,
+            encryptedRsaPublicKey: encryptedRsaPublicKey
+        )
+    ```
+
+10. Post `SECreateConnectionParams` and receive authorization url (`connect_url`), using `SEConnectionManagerV2.createConnection` method.
     - parameters:
       - `url`: the url, which will be use to make request.
       - `data`: `SEConnectionData`
@@ -139,13 +176,13 @@ Use extraction method from `SEConnectHelper.swift`
 
     ```swift
         SEConnectionManagerV2.createConnection(
-            by: connectionUrl,
-            data: connectionData,
+            by: connectionBaseUrl, // Base url of the Connection
+            params: connectionData,
             pushToken: pushToken,
             appLanguage: "en",
             success: { response in
                 // assign received id as connection id 
-                // use received connectUrl string for openning webView for future user authentication
+                // use received connectUrl string for openning a webView for future user authentication
             },
             failure: {
                 // handle error
@@ -153,14 +190,14 @@ Use extraction method from `SEConnectHelper.swift`
         )
     ```
 
-7. Pass `connectUrl` to instance of `SEWebView` *(For OAuth authentication)*.
+11. Pass `connectUrl` to instance of `SEWebView` *(For OAuth authentication)*.
 
     ```swift
         let request = URLRequest(url: connectUrl)
         seWebView.load(request)
     ```
 
-8. After passing user authencation, webView will catch `accessToken` or `error`. Result will be returned through `SEWebViewDelegate` *(For OAuth authentication)*.
+12. After passing user authencation, webView will catch `accessToken` or `error`. Result will be returned through `SEWebViewDelegate` *(For OAuth authentication)*.
 
     ```swift
         func webView(_ webView: WKWebView, didReceiveCallback url: URL, accessToken: AccessToken) {
@@ -172,7 +209,7 @@ Use extraction method from `SEConnectHelper.swift`
         }
     ```
 
-9. Set `accessToken` to `Connection` and save `Connection` to persistent storage (e.g. Realm, CoreData).
+13. Set `accessToken` to `Connection` and save `Connection` to persistent storage (e.g. Realm, CoreData).
 
 That's all, now you have connection to the Bank (Service Provider).
 
@@ -180,9 +217,12 @@ That's all, now you have connection to the Bank (Service Provider).
 
 1. Send revoke request
     - parameters:
-      - `url`: the url, which will be use to make request.
-      - `data`: `SERevokeConnectionData`
-      - `appLanguage`: Request header to identify preferred language.
+        - `SEBaseAuthenticatedWithIdRequestData`:
+          - `entityId`: the id of authorization
+          - `url`: the url, which will be use to make request.
+          - `connectionGuid`: the uniq guid of the connection.
+          - `accessToken`: a unique token string for authenticated access to API resources.
+          - `appLanguage`: request header to identify preferred language.
 
     ```swift
         let data = SEBaseAuthenticatedWithIdRequestData(
@@ -212,21 +252,15 @@ That's all, now you have connection to the Bank (Service Provider).
     ```
 ### Fetch authorizations list
 
-1. For periodically fetching of authorizations list, implement polling service. You may use Swift Timer which will request pending Authorizations every 3 seconds.
+1. For periodically fetching of authorizations list, implement a polling service. You may use `SEPoller` which will request pending Authorizations every 3 seconds.
 
 ```swift
-    var pollingTimer: Timer?
+    var pollingTimer: SEPoller?
 
-    func startPolling() {
+    func startPolling() {        
+        poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizations))
         getEncryptedAuthorizations()
-        
-        pollingTimer = Timer.scheduledTimer(
-            timeInterval: 3.0,
-            target: self,
-            selector: #selector(getEncryptedAuthorizations),
-            userInfo: nil,
-            repeats: true
-        )
+        poller?.startPolling()
     }
 ```
 
@@ -234,8 +268,8 @@ To stop polling, just invalidate timer and set it to nil:
 
 ```swift
     func stopPolling() {
-        pollingTimer?.invalidate()
-        pollingTimer = nil
+        poller?.stopPolling()
+        poller = nil
     }
 ```
 
@@ -248,7 +282,7 @@ To stop polling, just invalidate timer and set it to nil:
         - `appLanguage`: request header to identify preferred language.
 
     ```swift
-        SEAuthorizationManager.getEncryptedAuthorizations(
+        SEAuthorizationManagerV2.getEncryptedAuthorizations(
             data: SEBaseAuthenticatedRequestData(
                 url: baseUrl,
                 connectionGuid: connection.guid,
@@ -354,15 +388,15 @@ User can confirm authorization
 User can deny authorization
 - parameters:
     - `SEConfirmAuthorizationRequestData`:
-        - `authorizationId`: the uniq id of authorization to confirm
         - `url`: the url, which will be used to make request.
         - `connectionGuid`: the uniq guid of the connection.
         - `accessToken`: a unique token string for authenticated access to API resources.
         - `appLanguage`: Request header to identify preferred language.
+        - `authorizationId`: the uniq id of authorization to confirm
         - `authorizationCode`: Optional.
 
 ```swift
-    SEAuthorizationManager.denyAuthorization(
+    SEAuthorizationManagerV2.denyAuthorization(
         data: denyAuthData,
         onSuccess: { response in
             // handle success here
@@ -396,7 +430,7 @@ Instant Action feature is designated to authenticate an action of Service Provid
         actionId: actionId,
     )
 
-    SEActionManager.submitAction(
+    SEActionManagerV2.submitAction(
         data: actionData,
         onSuccess: { response in
             // handle success here
@@ -420,7 +454,7 @@ On success, Authenticator app receives `SESubmitActionResponseV2` which has opti
         - `appLanguage`: request header to identify preferred language.
 
     ```swift
-        SEAuthorizationManager.getEncryptedConsents(
+        SEConsentManagerV2.getEncryptedConsents(
             data: SEBaseAuthenticatedRequestData(
                 url: baseUrl,
                 connectionGuid: connection.guid,

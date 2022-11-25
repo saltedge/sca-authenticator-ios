@@ -28,10 +28,10 @@ public struct SEConnectionManagerV2 {
         by url: URL,
         params: SECreateConnectionParams,
         appLanguage: ApplicationLanguage,
-        onSuccess success: SEHTTPResponse<SECreateConnectionResponse>,
+        onSuccess success: SEHTTPResponse<SECreateConnectionResponseV2>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SECreateConnectionResponse>.makeRequest(
+        HTTPService<SECreateConnectionResponseV2>.makeRequest(
             SEConnectionRouter.createConnection(url, params, appLanguage),
             completion: success,
             failure: failure
@@ -40,10 +40,10 @@ public struct SEConnectionManagerV2 {
 
     public static func revokeConnection(
         data: SEBaseAuthenticatedWithIdRequestData,
-        onSuccess success: SEHTTPResponse<SERevokeConnectionResponse>,
+        onSuccess success: SEHTTPResponse<SERevokeConnectionResponseV2>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SERevokeConnectionResponse>.makeRequest(
+        HTTPService<SERevokeConnectionResponseV2>.makeRequest(
             SEConnectionRouter.revoke(data),
             completion: success,
             failure: failure
