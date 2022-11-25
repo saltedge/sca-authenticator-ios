@@ -23,7 +23,7 @@
 import Foundation
 import SEAuthenticatorCore
 
-protocol ConnectEventsDelegate: class {
+protocol ConnectEventsDelegate: AnyObject {
     func showWebViewController()
     func finishConnectWithSuccess(attributedMessage: NSMutableAttributedString)
     func startWebViewLoading(with connectUrlString: String)
@@ -75,7 +75,7 @@ final class ConnectHandler {
         finalString.append(description)
         delegate?.finishConnectWithSuccess(attributedMessage: finalString)
 
-        if connection.geolocationRequired.value != nil {
+        if connection.geolocationRequired.value != nil && LocationManager.shared.notDeterminedAuthorization {
             delegate?.requestLocationAuthorization()
         }
     }
@@ -110,7 +110,7 @@ private extension ConnectHandler {
                 self?.connection = connection
                 self?.saveConnectionAndFinish(with: accessToken)
             },
-            redirect: { [weak self]  connection, connectUrl in
+            redirect: { [weak self]  connection, connectUrl in // url designated for user authorization
                 self?.connection = connection
                 self?.delegate?.startWebViewLoading(with: connectUrl)
             },

@@ -1,5 +1,5 @@
 //
-//  SECreateConnectionResponse
+//  SERevokeConnectionResponseV2
 //  This file is part of the Salt Edge Authenticator distribution
 //  (https://github.com/saltedge/sca-authenticator-ios)
 //  Copyright © 2021 Salt Edge Inc.
@@ -23,24 +23,21 @@
 import Foundation
 import SEAuthenticatorCore
 
-public struct SECreateConnectionResponse: Decodable {
-    public let id: String
-    public let authenticationUrl: String
+public struct SERevokeConnectionResponseV2: Decodable {
+    public let connectionId: String
 
     enum CodingKeys: String, CodingKey {
         case data
     }
 
     enum DataCodingKeys: String, CodingKey {
-        case id = "connection_id"
-        case authenticationUrl = "authentication_url"
+        case connectionId = "connection_id"
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let dataContainer = try container.nestedContainer(keyedBy: DataCodingKeys.self, forKey: .data)
-        let connectionId = try dataContainer.decode(Int.self, forKey: .id)
-        id = "\(connectionId)"
-        authenticationUrl = try dataContainer.decode(String.self, forKey: .authenticationUrl)
+        let id = try dataContainer.decode(Int.self, forKey: .connectionId)
+        connectionId = "\(id)"
     }
 }
