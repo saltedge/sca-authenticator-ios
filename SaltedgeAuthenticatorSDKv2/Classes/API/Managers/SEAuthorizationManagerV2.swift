@@ -85,10 +85,9 @@ public struct SEAuthorizationManagerV2 {
     // Encrypt the confirmation payload with connection's provider public key
     private static func encryptedData(requestData: SEConfirmAuthorizationRequestData) -> SEEncryptedData? {
         guard let data = [
-            SENetKeys.authorizationCode: requestData.authorizationCode
-//            ApiConstants.userAuthorizationType: requestData.user,
-//            ApiConstants.geolocation: requestData.geolocation
-            // NOTE: Temporarily inactive due to legal restrictions
+            SENetKeys.authorizationCode: requestData.authorizationCode,
+            ApiConstants.userAuthorizationType: requestData.authorizationType,
+            ApiConstants.geolocation: requestData.geolocation
         ].jsonString else { return nil }
 
         return try? SECryptoHelper.encrypt(data, tag: "\(requestData.connectionGuid)_provider_public_key")

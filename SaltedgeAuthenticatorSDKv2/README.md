@@ -1,6 +1,6 @@
 # Authenticator iOS SDK  
 
-A client of Salt Edge Authenticator API v2 of Salt Edge SCA Service. Implements Strong Customer Authentication/Dynamic Linking process.
+A client of Salt Edge Authenticator API v2 implemeted by Salt Edge SCA Service. Implements Strong Customer Authentication/Dynamic Linking process.
 
 ## Requirements
 
@@ -13,9 +13,9 @@ A client of Salt Edge Authenticator API v2 of Salt Edge SCA Service. Implements 
 ### CocoaPods
 
 CocoaPods is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website.
-To integrate `SaltedgeAuthenticatorSDK` into your Xcode project using CocoaPods, specify it in your Podfile:
+To integrate `SaltedgeAuthenticatorSDKv2` into your Xcode project using CocoaPods, specify it in your Podfile:
 
-`pod 'SaltedgeAuthenticatorSDK'`
+`pod 'SaltedgeAuthenticatorSDKv2'`
 
 ## How to use
 

@@ -100,10 +100,9 @@ final class AuthorizationsDataSource {
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: viewModel.authorizationId,
-            authorizationCode: viewModel.authorizationCode
-            // NOTE: Temporarily inactive due to legal restrictions
-            // geolocation: LocationManager.currentLocation?.headerValue,
-            // authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
+            authorizationCode: viewModel.authorizationCode,
+            geolocation: LocationManager.currentLocation?.headerValue,
+            authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
         )
     }
 

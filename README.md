@@ -40,6 +40,7 @@ You can find related source code:
 ## How it works
 
 * ### [Authenticator iOS SDK](SaltedgeAuthenticatorSDK/README.md)
+* ### [Authenticator iOS SDK v2](SaltedgeAuthenticatorSDKv2/README.md)
 * ### [Authenticator iOS app workflow](docs/WORKFLOW.md)
 * ### [Authenticator Identity Service Wiki](https://github.com/saltedge/sca-identity-service-example/wiki)
 * ### [Authenticator Identity Service API](https://github.com/saltedge/sca-identity-service-example/blob/master/docs/IDENTITY_SERVICE_API.md)

@@ -111,9 +111,8 @@ enum SEAuthorizationRouter: Routable {
                 signature: signature,
                 appLanguage: data.appLanguage
             )
-        // NOTE: Temporarily inactive due to legal restrictions
-//            .addLocationHeader(geolocation: data.geolocation)
-//            .addAuthorizationTypeHeader(authorizationType: data.authorizationType)
+            .addLocationHeader(geolocation: data.geolocation)
+            .addAuthorizationTypeHeader(authorizationType: data.authorizationType)
         }
     }
 

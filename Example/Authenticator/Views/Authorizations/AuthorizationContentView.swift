@@ -60,19 +60,17 @@ final class AuthorizationContentView: UIView {
         stackView.spacing = 11.0
         return stackView
     }()
-    // NOTE: Temporarily inactive due to legal restrictions
-    // private let locationWarningLabel = UILabel(font: .systemFont(ofSize: 18.0, weight: .regular), textColor: .redAlert)
+    private let locationWarningLabel = UILabel(font: .systemFont(ofSize: 18.0, weight: .regular), textColor: .redAlert)
 
     var viewModel: AuthorizationDetailViewModel! {
         didSet {
             titleLabel.text = viewModel.title
 
-            // NOTE: Temporarily inactive due to legal restrictions
-            // if viewModel.showLocationWarning {
-            //    locationWarningLabel.text = l10n(.locationWarning)
-            // }
-            // buttonsStackView.isHidden = viewModel.showLocationWarning
-            // locationWarningLabel.isHidden = !viewModel.showLocationWarning
+            if viewModel.shouldShowLocationWarning {
+               locationWarningLabel.text = l10n(.locationWarning)
+            }
+            buttonsStackView.isHidden = viewModel.shouldShowLocationWarning
+            locationWarningLabel.isHidden = !viewModel.shouldShowLocationWarning
 
             guard viewModel.state.value == .base else {
                 stateView.set(state: viewModel.state.value)
@@ -179,9 +177,7 @@ private extension AuthorizationContentView {
 // MARK: - Layout
 extension AuthorizationContentView: Layoutable {
     func layout() {
-        addSubviews(titleLabel, contentStackView, buttonsStackView, stateView) // locationWarningLabel
-
-        addSubviews(titleLabel, contentStackView, buttonsStackView, stateView)
+        addSubviews(titleLabel, contentStackView, buttonsStackView, stateView, locationWarningLabel)
 
         titleLabel.top(to: self, offset: Layout.titleLabelTopOffset)
         titleLabel.centerX(to: self)
@@ -200,11 +196,10 @@ extension AuthorizationContentView: Layoutable {
         buttonsStackView.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: -Layout.bottomOffset)
         buttonsStackView.centerXToSuperview()
 
-        // NOTE: Temporarily inactive due to legal restrictions
-        // locationWarningLabel.leftToSuperview(offset: Layout.sideOffset)
-        // locationWarningLabel.rightToSuperview(offset: -Layout.sideOffset)
-        // locationWarningLabel.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: -Layout.bottomOffset)
-        // locationWarningLabel.centerXToSuperview()
+        locationWarningLabel.leftToSuperview(offset: Layout.sideOffset)
+        locationWarningLabel.rightToSuperview(offset: -Layout.sideOffset)
+        locationWarningLabel.bottom(to: self, safeAreaLayoutGuide.bottomAnchor, offset: -Layout.bottomOffset)
+        locationWarningLabel.centerXToSuperview()
 
         stateView.edgesToSuperview()
     }
