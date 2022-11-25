@@ -21,15 +21,15 @@
 //
 
 import Foundation
-import SEAuthenticator
+import SEAuthenticatorCore
 
-protocol ConnectEventsDelegate: class {
+protocol ConnectEventsDelegate: AnyObject {
     func showWebViewController()
     func finishConnectWithSuccess(attributedMessage: NSMutableAttributedString)
     func startWebViewLoading(with connectUrlString: String)
     func dismiss()
     func dismissConnectWithError(error: String)
-//    func requestLocationAuthorization() // Note: Temporarily inactive due to legal restrictions
+    func requestLocationAuthorization()
 }
 
 final class ConnectHandler {
@@ -59,7 +59,11 @@ final class ConnectHandler {
     func saveConnectionAndFinish(with accessToken: AccessToken) {
         guard let connection = connection else { return }
 
-        ConnectionRepository.setAccessTokenAndActive(connection, accessToken: accessToken)
+        ConnectionRepository.setAccessTokenAndActive(
+            connection,
+            accessToken: connection.isApiV2 ? decryptedAccessToken(accessToken, for: connection) : accessToken
+        )
+
         ConnectionRepository.save(connection)
         let attributedConnectionName = NSAttributedString(
             string: connection.name,
@@ -71,30 +75,42 @@ final class ConnectHandler {
         finalString.append(description)
         delegate?.finishConnectWithSuccess(attributedMessage: finalString)
 
-        // Note: Temporarily inactive dut to legal restrictions
-//        if connection.geolocationRequired.value != nil && LocationManager.shared.notDeterminedAuthorization {
-//            delegate?.requestLocationAuthorization()
-//        }
+        if connection.geolocationRequired.value != nil && LocationManager.shared.notDeterminedAuthorization {
+            delegate?.requestLocationAuthorization()
+        }
     }
+}
 
-    private func fetchConfiguration(url: URL) {
+// Private methods
+private extension ConnectHandler {
+    func fetchConfiguration(url: URL) {
         guard let configurationUrl = SEConnectHelper.сonfiguration(from: url) else { return }
 
         let connectQuery = SEConnectHelper.connectQuery(from: url)
 
         delegate?.showWebViewController()
-        createNewConnection(from: configurationUrl, with: connectQuery)
+
+        let apiVersion = configurationUrl.absoluteString.apiVerion
+        createNewConnection(
+            from: configurationUrl,
+            with: connectQuery,
+            interactor: apiVersion == "2" ? ConnectionsInteractorV2() : ConnectionsInteractor()
+        )
     }
 
-    private func createNewConnection(from configurationUrl: URL, with connectQuery: String?) {
-        ConnectionsInteractor.createNewConnection(
+    func createNewConnection(
+        from configurationUrl: URL,
+        with connectQuery: String?,
+        interactor: BaseConnectionsInteractor
+    ) {
+        interactor.createNewConnection(
             from: configurationUrl,
             with: connectQuery,
             success: { [weak self] connection, accessToken in
                 self?.connection = connection
                 self?.saveConnectionAndFinish(with: accessToken)
             },
-            redirect: { [weak self]  connection, connectUrl in
+            redirect: { [weak self]  connection, connectUrl in // url designated for user authorization
                 self?.connection = connection
                 self?.delegate?.startWebViewLoading(with: connectUrl)
             },
@@ -104,10 +120,13 @@ final class ConnectHandler {
         )
     }
 
-    private func reconnectConnection(_ connectionId: String) {
+    func reconnectConnection(_ connectionId: String) {
         guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
 
-        ConnectionsInteractor.submitNewConnection(
+        let interactor: BaseConnectionsInteractor = connection.isApiV2
+            ? ConnectionsInteractorV2() : ConnectionsInteractor()
+
+        interactor.submitNewConnection(
             for: connection,
             connectQuery: nil,
             success: { [weak self] connection, accessToken in
@@ -124,7 +143,16 @@ final class ConnectHandler {
         )
     }
 
-    private func dismissConnectWithError(error: String) {
+    func decryptedAccessToken(_ token: String, for connection: Connection) -> String? {
+        guard let decryptedTokenData = try? SECryptoHelper.decrypt(key: token, tag: SETagHelper.create(for: connection.guid)).json,
+              let decryptedAccessToken = decryptedTokenData[SENetKeys.accessToken] as? String else {
+            return nil
+        }
+
+        return decryptedAccessToken
+    }
+
+    func dismissConnectWithError(error: String) {
         DispatchQueue.main.async {
             self.delegate?.dismissConnectWithError(error: error)
         }

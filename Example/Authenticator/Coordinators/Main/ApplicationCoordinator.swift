@@ -21,7 +21,7 @@
 //
 
 import UIKit
-import SEAuthenticator
+import SEAuthenticatorCore
 
 final class ApplicationCoordinator: Coordinator {
     private let window: UIWindow?
@@ -236,13 +236,12 @@ final class ApplicationCoordinator: Coordinator {
     }
 
     private func startConnect(url: URL, controller: UIViewController) {
-        if let actionGuid = SEConnectHelper.actionGuid(from: url),
-            let connectUrl = SEConnectHelper.connectUrl(from: url) {
+        authorizationsCoordinator.stop()
+
+        if SEConnectHelper.shouldStartInstantActionFlow(url: url) {
             instantActionCoordinator = InstantActionCoordinator(
                 rootViewController: controller,
-                qrUrl: url,
-                actionGuid: actionGuid,
-                connectUrl: connectUrl
+                qrUrl: url
             )
             instantActionCoordinator?.start()
         } else {

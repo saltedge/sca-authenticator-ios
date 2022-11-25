@@ -75,6 +75,9 @@ extension LicensesViewController: UITableViewDataSource {
         )
         cell.backgroundColor = .backgroundColor
         cell.textLabel?.text = viewModel.cellTitle(for: indexPath)
+        let bgColorView = UIView()
+        bgColorView.backgroundColor = .selectedColor
+        cell.selectedBackgroundView = bgColorView
         return cell
     }
 }

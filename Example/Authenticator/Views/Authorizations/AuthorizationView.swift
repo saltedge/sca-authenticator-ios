@@ -21,6 +21,7 @@
 //
 
 import UIKit
+import SEAuthenticatorCore
 
 private struct Layout {
     static let headerSpacing: CGFloat = 16.0
@@ -192,12 +193,12 @@ extension AuthorizationView: UICollectionViewDelegate, UICollectionViewDelegateF
 
 // MARK: - AuthorizationCellDelegate
 extension AuthorizationView: AuthorizationDetailEventsDelegate {
-    func confirmPressed(_ authorizationId: String) {
-        viewModel.confirmAuthorization(by: authorizationId)
+    func confirmPressed(_ authorizationId: String, apiVersion: ApiVersion) {
+        viewModel.confirmAuthorization(by: authorizationId, apiVersion: apiVersion)
     }
 
-    func denyPressed(_ authorizationId: String) {
-        viewModel.denyAuthorization(by: authorizationId)
+    func denyPressed(_ authorizationId: String, apiVersion: ApiVersion) {
+        viewModel.denyAuthorization(by: authorizationId, apiVersion: apiVersion)
     }
 
     func authorizationExpired() {}

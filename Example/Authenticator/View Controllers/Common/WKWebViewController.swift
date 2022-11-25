@@ -24,11 +24,11 @@ import UIKit
 import WebKit
 import TinyConstraints
 
-protocol WKWebViewControllerDelegate: class {
+protocol WKWebViewControllerDelegate: AnyObject {
     func showError(_ error: String)
 }
 
-class WKWebViewController: BaseViewController {
+final class WKWebViewController: BaseViewController {
     weak var delegate: WKWebViewControllerDelegate?
     var messageBar: MessageBarView?
     var displayType: Presentation = .modal
@@ -105,6 +105,14 @@ extension WKWebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         loadingIndicator.stop()
         handleError(error as NSError)
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        if navigationAction.navigationType == .linkActivated {
+            decisionHandler(.cancel)
+        } else {
+            decisionHandler(.allow)
+        }
     }
 
     #if DEBUG

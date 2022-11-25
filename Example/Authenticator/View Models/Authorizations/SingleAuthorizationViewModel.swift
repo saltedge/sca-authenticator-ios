@@ -22,6 +22,8 @@
 
 import Foundation
 import SEAuthenticator
+import SEAuthenticatorV2
+import SEAuthenticatorCore
 
 protocol SingleAuthorizationViewModelEventsDelegate: class {
     func receivedDetailViewModel(_ detailViewModel: AuthorizationDetailViewModel)
@@ -30,41 +32,55 @@ protocol SingleAuthorizationViewModelEventsDelegate: class {
 
 final class SingleAuthorizationViewModel {
     private var connection: Connection?
+    private var authorizationId: String?
+    private var showLocationWarning: Bool = false
     private var detailViewModel: AuthorizationDetailViewModel?
 
+    private var poller: SEPoller?
     weak var delegate: SingleAuthorizationViewModelEventsDelegate?
 
     init(connectionId: String, authorizationId: String, locationManagement: LocationManagement) {
         guard let connection = ConnectionsCollector.with(id: connectionId) else { return }
 
+        self.authorizationId = authorizationId
         self.connection = connection
-        getAuthorization(
-            connection: connection,
-            authorizationId: authorizationId,
-            showLocationWarning: locationManagement.showLocationWarning(connection: connection)
-        )
+        self.showLocationWarning = locationManagement.shouldShowLocationWarning(connection: connection)
+
+        getAuthorization()
     }
 
-    private func getAuthorization(connection: Connection, authorizationId: String, showLocationWarning: Bool) {
+    deinit {
+        stopPolling()
+    }
+
+    private func getAuthorization() {
+        guard let connection = connection, let authorizationId = authorizationId else { return }
+
         AuthorizationsInteractor.refresh(
             connection: connection,
             authorizationId: authorizationId,
             success: { [weak self] encryptedAuthorization in
                 guard let strongSelf = self else { return }
 
-                DispatchQueue.global(qos: .background).async {
-                    guard let decryptedAuthorizationData = encryptedAuthorization.decryptedAuthorizationData else { return }
+                var decryptedAuthorizationData: SEBaseAuthorizationData?
 
-                    DispatchQueue.main.async {
-                        if let viewModel = AuthorizationDetailViewModel(
-                            decryptedAuthorizationData,
-                            showLocationWarning: showLocationWarning
-                        ) {
-                            strongSelf.detailViewModel = viewModel
-                            strongSelf.detailViewModel?.delegate = self
+                if connection.isApiV2 {
+                    decryptedAuthorizationData = encryptedAuthorization.decryptedAuthorizationDataV2
+                } else {
+                    decryptedAuthorizationData = encryptedAuthorization.decryptedAuthorizationData
+                }
 
-                            strongSelf.delegate?.receivedDetailViewModel(viewModel)
-                        }
+                guard let data = decryptedAuthorizationData else { return }
+
+                DispatchQueue.main.async {
+                    if strongSelf.detailViewModel != nil,
+                       let dataV2 = data as? SEAuthorizationDataV2 {
+                        strongSelf.updateDetailViewModel(status: dataV2.status)
+                    } else if let viewModel = AuthorizationDetailViewModel(data, apiVersion: connection.apiVersion) {
+                        strongSelf.detailViewModel = viewModel
+                        strongSelf.detailViewModel?.delegate = self
+
+                        strongSelf.delegate?.receivedDetailViewModel(viewModel)
                     }
                 }
             },
@@ -80,9 +96,31 @@ final class SingleAuthorizationViewModel {
     }
 }
 
+// MARK: - Polling
+extension SingleAuthorizationViewModel {
+    func stopPolling() {
+        poller?.stopPolling()
+        poller = nil
+    }
+
+    private func setupPolling() {
+        if poller == nil {
+            poller = SEPoller(targetClass: self, selector: #selector(getEncryptedAuthorizationIfAvailable))
+            getEncryptedAuthorizationIfAvailable()
+            poller?.startPolling()
+        }
+    }
+
+    @objc private func getEncryptedAuthorizationIfAvailable() {
+        if poller != nil, connection != nil {
+            getAuthorization()
+        }
+    }
+}
+
 // MARK: - AuthorizationDetailEventsDelegate
 extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
-    func confirmPressed(_ authorizationId: String) {
+    func confirmPressed(_ authorizationId: String, apiVersion: ApiVersion) {
         guard let detailViewModel = detailViewModel, let connection = connection, let url = connection.baseUrl else { return }
 
         let confirmData = SEConfirmAuthorizationRequestData(
@@ -91,34 +129,33 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: authorizationId,
-            authorizationCode: detailViewModel.authorizationCode
-            // NOTE: Temporarily inactive due to legal restrictions
-            // geolocation: LocationManager.currentLocation?.headerValue,
-            // authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
+            authorizationCode: detailViewModel.authorizationCode,
+            geolocation: LocationManager.currentLocation?.headerValue,
+            authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
         )
 
         detailViewModel.state.value = .processing
 
         AuthorizationsInteractor.confirm(
+            apiVersion: detailViewModel.apiVersion,
             data: confirmData,
-            success: {
-                detailViewModel.state.value = .success
-                detailViewModel.actionTime = Date()
-                after(finalAuthorizationTimeToLive) {
-                    self.delegate?.shouldClose()
+            successV1: {
+                self.updateDetailViewModel(status: .confirmed)
+            },
+            successV2: { response in
+                if response.status.isFinal {
+                    self.updateDetailViewModel(status: .confirmed)
                 }
             },
             failure: { _ in
-                detailViewModel.state.value = .undefined
-                detailViewModel.actionTime = Date()
-                after(finalAuthorizationTimeToLive) {
-                    self.delegate?.shouldClose()
-                }
+                self.updateDetailViewModel(status: .error)
             }
         )
+
+        setupPolling()
     }
 
-    func denyPressed(_ authorizationId: String) {
+    func denyPressed(_ authorizationId: String, apiVersion: ApiVersion) {
         guard let detailViewModel = detailViewModel, let connection = connection, let url = connection.baseUrl else { return }
 
         let confirmData = SEConfirmAuthorizationRequestData(
@@ -127,37 +164,50 @@ extension SingleAuthorizationViewModel: AuthorizationDetailEventsDelegate {
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: authorizationId,
-            authorizationCode: detailViewModel.authorizationCode
-            // NOTE: Temporarily inactive due to legal restrictions
-            // geolocation: LocationManager.currentLocation?.headerValue,
-            // authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
+            authorizationCode: detailViewModel.authorizationCode,
+            geolocation: LocationManager.currentLocation?.headerValue,
+            authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
         )
 
         detailViewModel.state.value = .processing
 
         AuthorizationsInteractor.deny(
+            apiVersion: detailViewModel.apiVersion,
             data: confirmData,
-            success: {
-                detailViewModel.state.value = .denied
-                detailViewModel.actionTime = Date()
-                after(finalAuthorizationTimeToLive) {
-                    self.delegate?.shouldClose()
+            successV1: {
+                self.updateDetailViewModel(status: .denied)
+            },
+            successV2: { response in
+                if response.status.isFinal {
+                    self.updateDetailViewModel(status: .denied)
                 }
             },
             failure: { _ in
-                detailViewModel.state.value = .undefined
-                detailViewModel.actionTime = Date()
-                after(finalAuthorizationTimeToLive) {
-                    self.delegate?.shouldClose()
-                }
+                self.updateDetailViewModel(status: .error)
             }
         )
+
+        setupPolling()
     }
 
     func authorizationExpired() {
-        detailViewModel?.state.value = .expired
+        detailViewModel?.state.value = .timeOut
         after(finalAuthorizationTimeToLive) {
             self.delegate?.shouldClose()
+        }
+    }
+
+    private func updateDetailViewModel(status: AuthorizationStatus) {
+        guard let state = AuthorizationStateView.AuthorizationState(rawValue: status.rawValue) else { return }
+
+        detailViewModel?.state.value = state
+        detailViewModel?.actionTime = Date()
+
+        if status.isFinal {
+            stopPolling()
+            after(finalAuthorizationTimeToLive) {
+                self.delegate?.shouldClose()
+            }
         }
     }
 }

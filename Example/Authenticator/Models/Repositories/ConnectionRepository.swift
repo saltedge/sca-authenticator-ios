@@ -22,10 +22,13 @@
 
 import Foundation
 import RealmSwift
+import SEAuthenticatorCore
 
 struct ConnectionRepository {
     @discardableResult
-    static func setAccessTokenAndActive(_ connection: Connection, accessToken token: String) -> Bool {
+    static func setAccessTokenAndActive(_ connection: Connection, accessToken token: String?) -> Bool {
+        guard let token = token else { return false }
+
         var result = false
         if connection.isManaged {
             try? RealmManager.performRealmWriteTransaction {

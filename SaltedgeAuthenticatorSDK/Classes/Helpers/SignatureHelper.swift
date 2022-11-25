@@ -22,13 +22,16 @@
 
 import Foundation
 import CommonCrypto
+import SEAuthenticatorCore
 
 struct SignatureHelper {
-    static func signedPayload(method: HTTPMethod,
-                              urlString: String,
-                              guid: GUID,
-                              expiresAt: Int,
-                              params: [String: Any]?) -> String? {
+    static func signedPayload(
+        method: HTTPMethod,
+        urlString: String,
+        guid: GUID,
+        expiresAt: Int,
+        params: [String: Any]?
+    ) -> String? {
         let bodyString: String
         if let payloadParams = params, let payloadBody = ParametersSerializer.createBody(parameters: payloadParams) {
             bodyString = String(data: payloadBody, encoding: .utf8) ?? ""

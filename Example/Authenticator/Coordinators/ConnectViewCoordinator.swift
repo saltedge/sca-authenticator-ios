@@ -22,6 +22,7 @@
 
 import UIKit
 import SEAuthenticator
+import SEAuthenticatorCore
 
 enum ConnectionType: Equatable {
     case newConnection(String)
@@ -42,12 +43,14 @@ final class ConnectViewCoordinator: Coordinator {
     private let rootViewController: UIViewController
 
     private lazy var webViewController = ConnectorWebViewController()
-    private var connectViewController = ConnectViewController()
+    private lazy var connectViewController = ConnectViewController()
     private var qrCodeCoordinator: QRCodeCoordinator?
     private var connectHandler: ConnectHandler?
 
     private var connection: Connection?
     private let connectionType: ConnectionType
+
+    var shouldDismissController: (() -> ())?
 
     init(rootViewController: UIViewController, connectionType: ConnectionType) {
         self.rootViewController = rootViewController
@@ -58,6 +61,7 @@ final class ConnectViewCoordinator: Coordinator {
     func start() {
         connectHandler?.delegate = self
         connectHandler?.startHandling()
+        connectViewController.shouldDismiss = shouldDismissController
 
         rootViewController.present(
             UINavigationController(rootViewController: connectViewController),
@@ -85,10 +89,19 @@ extension ConnectViewCoordinator: ConnectEventsDelegate {
         connectViewController.showCompleteView(with: .success, title: "", attributedTitle: attributedMessage)
     }
 
-    // NOTE: Temporarily inactive due to legal restrictions
-//    func requestLocationAuthorization() {
-//        LocationManager.shared.requestLocationAuthorization()
-//    }
+    func requestLocationAuthorization() {
+        if LocationManager.shared.notDeterminedAuthorization {
+            LocationManager.shared.requestLocationAuthorization()
+        } else {
+            connectViewController.showInfoAlert(
+                withTitle: l10n(.turnOnLocationServices),
+                message: l10n(.turnOnPhoneLocationServicesDescription),
+                completion: {
+                    LocationManager.shared.requestLocationAuthorization()
+                }
+            )
+        }
+    }
 
     func startWebViewLoading(with connectUrlString: String) {
         webViewController.startLoading(with: connectUrlString)

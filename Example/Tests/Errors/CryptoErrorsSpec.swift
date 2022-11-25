@@ -22,6 +22,7 @@
 
 import Quick
 import Nimble
+@testable import SEAuthenticatorCore
 @testable import SEAuthenticator
 
 class CryptoErrorsSpec: BaseSpec {

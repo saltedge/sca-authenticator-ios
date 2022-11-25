@@ -25,6 +25,7 @@ import Foundation
 extension Notification.Name {
     static let networkConnectionIsNotReachable = Notification.Name("network-connection-is-not-reachable")
     static let networkConnectionIsReachable = Notification.Name("network-connection-is-reachable")
+    static let locationServicesStatusDidChange = Notification.Name("locationServicesStatusDidChange")
 }
 
 final class NotificationsHelper {

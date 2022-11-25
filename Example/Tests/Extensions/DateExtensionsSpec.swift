@@ -38,5 +38,13 @@ class DateExtensionsSpec: BaseSpec {
                 expect(date.utcSeconds).to(equal(1568285040))
             }
         }
+
+        describe("numberOfDaysFromNow") {
+            it("should return difference betwen dates from now") {
+                let twoDaysFromNow = Calendar.current.date(byAdding: .day, value: 2, to: Date())!
+
+                expect(twoDaysFromNow.numberOfDaysFromNow).to(equal(2))
+            }
+        }
     }
 }

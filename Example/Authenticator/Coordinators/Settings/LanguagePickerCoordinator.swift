@@ -45,6 +45,6 @@ final class LanguagePickerCoordinator: Coordinator {
 // MARK: - LanguagePickerEventsDelegate
 extension LanguagePickerCoordinator: LanguagePickerEventsDelegate {
     func languageSelected() {
-        rootViewController?.navigationController?.popToRootViewController(animated: true)
+        rootViewController?.navigationController?.popViewController(animated: true)
     }
 }

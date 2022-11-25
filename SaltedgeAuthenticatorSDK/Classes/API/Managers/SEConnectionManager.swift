@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 public struct SEConnectionManager {
     public static func createConnection(
@@ -29,24 +30,24 @@ public struct SEConnectionManager {
         pushToken: PushToken,
         connectQuery: ConnectQuery? = nil,
         appLanguage: ApplicationLanguage,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SECreateConnectionResponse>,
+        onSuccess success: SEHTTPResponse<SECreateConnectionResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SECreateConnectionResponse>.execute(
-            request: SEConnectionRouter.createConnection(url, data, pushToken, connectQuery, appLanguage),
-            success: success,
+        HTTPService<SECreateConnectionResponse>.makeRequest(
+            SEConnectionRouter.createConnection(url, data, pushToken, connectQuery, appLanguage),
+            completion: success,
             failure: failure
         )
     }
 
     public static func revokeConnection(
         data: SEBaseAuthenticatedWithIdRequestData,
-        onSuccess success: @escaping HTTPServiceSuccessClosure<SERevokeConnectionResponse>,
+        onSuccess success: SEHTTPResponse<SERevokeConnectionResponse>,
         onFailure failure: @escaping FailureBlock
     ) {
-        HTTPService<SERevokeConnectionResponse>.execute(
-            request: SEConnectionRouter.revoke(data),
-            success: success,
+        HTTPService<SERevokeConnectionResponse>.makeRequest(
+            SEConnectionRouter.revoke(data),
+            completion: success,
             failure: failure
         )
     }

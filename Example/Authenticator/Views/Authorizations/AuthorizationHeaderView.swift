@@ -42,12 +42,7 @@ final class AuthorizationHeaderView: RoundedShadowView {
         return view
     }()
     private let connectionImageView = AspectFitImageView(imageName: "")
-    private let connectionNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 14.0)
-        label.textColor = .titleColor
-        return label
-    }()
+    private let connectionNameLabel = UILabel(font: .systemFont(ofSize: 14.0), textColor: .titleColor)
     private let timeLeftLabel = TimeLeftLabel()
     private let progressView = CountdownProgressView()
 

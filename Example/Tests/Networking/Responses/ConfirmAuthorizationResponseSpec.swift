@@ -30,7 +30,7 @@ class ConfirmAuthorizationResponseSpec: BaseSpec {
             context("when the value is a proper dictionary containing the necessary data") {
                 it("should create correct response") {
                     let fixture = DataFixtures.validConfirmAuthorizationData
-                    let response = SEConfirmAuthorizationResponse(fixture)
+                    let response = SpecDecodableModel<SEConfirmAuthorizationResponse>.create(from: fixture)
 
                     expect(response).toNot(beNil())
                     expect(response?.success).to(beTrue())
@@ -41,7 +41,7 @@ class ConfirmAuthorizationResponseSpec: BaseSpec {
             context("when the value is a malformed dictionary or is missing data") {
                 it("should return nil and fail to initialize the object") {
                     let fixture = DataFixtures.invalidConfirmAuthorizationData
-                    let response = SEConfirmAuthorizationResponse(fixture)
+                    let response = SpecDecodableModel<SEConfirmAuthorizationResponse>.create(from: fixture)
 
                     expect(response).to(beNil())
                 }

@@ -21,17 +21,23 @@
 //
 
 import Foundation
-@testable import SEAuthenticator
+import SEAuthenticatorCore
 
 struct URLRequestBuilder {
-    static func buildUrlRequest(with url: URL,
-                                method: String,
-                                headers: [String: String]? = nil,
-                                params: [String: Any]? = nil,
-                                encoding: Encoding = .json) -> URLRequest {
+    static func buildUrlRequest(
+        with url: URL,
+        method: String,
+        headers: [String: String]? = nil,
+        params: [String: Any]? = nil,
+        encoding: Encoding = .json
+    ) -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.allHTTPHeaderFields = headers
+        request.setValue(
+            "TestHost-iOS / 1.0(1); (simulator/sandbox; iOS \(UIDevice.current.systemVersion))",
+            forHTTPHeaderField: "User-Agent"
+        )
 
         if encoding == .url {
             var components = URLComponents(url: url, resolvingAgainstBaseURL: true)

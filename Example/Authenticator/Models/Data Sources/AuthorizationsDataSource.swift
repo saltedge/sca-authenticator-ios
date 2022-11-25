@@ -22,27 +22,27 @@
 
 import UIKit
 import SEAuthenticator
+import SEAuthenticatorV2
+import SEAuthenticatorCore
 
 final class AuthorizationsDataSource {
-    private var authorizationResponses = [SEAuthorizationData]()
     private var viewModels = [AuthorizationDetailViewModel]()
-    private var locationManagement: LocationManagement
 
-    init(locationManagement: LocationManagement) {
-        self.locationManagement = locationManagement
-    }
+    func update(with baseData: [SEBaseAuthorizationData]) -> Bool {
+        let viewModelsV1 = baseData
+            .filter { $0.apiVersion == API_V1_VERSION }
+            .toAuthorizationViewModels(existedViewModels: viewModels)
+            .merge(array: self.viewModels.filter { $0.apiVersion == API_V1_VERSION })
 
-    func update(with authorizationResponses: [SEAuthorizationData]) -> Bool {
-        if authorizationResponses != self.authorizationResponses {
-            self.authorizationResponses = authorizationResponses
-            self.viewModels = authorizationResponses.compactMap { response in
-                guard response.expiresAt >= Date() else { return nil }
+        let viewModelsV2 = baseData
+            .filter { $0.apiVersion == API_V2_VERSION }
+            .toAuthorizationViewModels(existedViewModels: viewModels)
+            .merge(array: self.viewModels.filter { $0.apiVersion == API_V2_VERSION })
 
-                let connection = ConnectionsCollector.with(id: response.connectionId)
-                let showLocationWarning = locationManagement.showLocationWarning(connection: connection)
+        let allViewModels = (viewModelsV1 + viewModelsV2).sorted(by: { $0.createdAt < $1.createdAt })
 
-                return AuthorizationDetailViewModel(response, showLocationWarning: showLocationWarning)
-            }.merge(array: self.viewModels).sorted(by: { $0.createdAt < $1.createdAt })
+        if allViewModels != self.viewModels {
+            self.viewModels = allViewModels
             return true
         }
 
@@ -85,12 +85,12 @@ final class AuthorizationsDataSource {
         return viewModels.firstIndex(of: viewModel)
     }
 
-    func viewModel(with authorizationId: String) -> AuthorizationDetailViewModel? {
-        return viewModels.filter({ $0.authorizationId == authorizationId }).first
+    func viewModel(with authorizationId: String, apiVersion: ApiVersion) -> AuthorizationDetailViewModel? {
+        return viewModels.filter { $0.authorizationId == authorizationId && $0.apiVersion == apiVersion}.first
     }
 
-    func confirmationData(for authorizationId: String) -> SEConfirmAuthorizationRequestData? {
-        guard let viewModel = viewModel(with: authorizationId),
+    func confirmationData(for authorizationId: String, apiVersion: ApiVersion) -> SEConfirmAuthorizationRequestData? {
+        guard let viewModel = viewModel(with: authorizationId, apiVersion: apiVersion),
             let connection = ConnectionsCollector.with(id: viewModel.connectionId),
             let url = connection.baseUrl else { return nil }
 
@@ -100,15 +100,13 @@ final class AuthorizationsDataSource {
             accessToken: connection.accessToken,
             appLanguage: UserDefaultsHelper.applicationLanguage,
             authorizationId: viewModel.authorizationId,
-            authorizationCode: viewModel.authorizationCode
-            // NOTE: Temporarily inactive due to legal restrictions
-            // geolocation: LocationManager.currentLocation?.headerValue,
-            // authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
+            authorizationCode: viewModel.authorizationCode,
+            geolocation: LocationManager.currentLocation?.headerValue,
+            authorizationType: PasscodeCoordinator.lastAppUnlockCompleteType.rawValue
         )
     }
 
     func clearAuthorizations() {
-        authorizationResponses.removeAll()
         viewModels.removeAll()
     }
 
@@ -129,22 +127,57 @@ final class AuthorizationsDataSource {
     }
 }
 
+private extension Array where Element == SEBaseAuthorizationData {
+    /*
+     Converts SEBaseAuthorizationData to array of AuthorizationDetailViewModel's
+
+     - parameters:
+        - existedViewModels: The array of already existed authorization view models
+
+     For API v2 at first it checks if status of received authorization response is final,
+     than it filters existed view models to find the one with the same authorization id.
+
+     For the found view model sets the final state (if it doesn't have the final status already) and return it.
+
+     For API v1 it only checks if this authorization isn't already expired
+     and pass the received response to AuthorizationDetailViewModel.
+     */
+    func toAuthorizationViewModels(
+        existedViewModels: [AuthorizationDetailViewModel]
+    ) -> [AuthorizationDetailViewModel] {
+        return compactMap { response in
+            if let v2Response = response as? SEAuthorizationDataV2,
+               v2Response.status.isFinal,
+               let filtered = existedViewModels.filter({ $0.authorizationId == v2Response.id }).first {
+                guard filtered.authorizationExpiresAt >= Date(),
+                      let filteredStatus = filtered.status, !filteredStatus.isFinal, !filteredStatus.isClosed else { return nil }
+
+                filtered.setFinal(status: v2Response.status)
+                return filtered
+            } else {
+                guard response.expiresAt >= Date() else { return nil }
+
+                return AuthorizationDetailViewModel(response, apiVersion: response.apiVersion)
+            }
+        }
+    }
+}
+
 private extension Array where Element == AuthorizationDetailViewModel {
     func merge(array: [Element]) -> [AuthorizationDetailViewModel] {
-        let finalElements: [Element] = array.compactMap { element in
-            if element.expired || element.state.value != .base {
-                return element
-            } else {
-                return nil
-            }
+        let finalElements: [Element] = array.filter { element in
+            return element.expired || element.state.value != .base
         }
 
         let newAuthIds: [String] = self.map { $0.authorizationId }
         let newConnectionIds: [String] = self.map { $0.connectionId }
 
         var merged: [Element] = self
-        merged.append(contentsOf: finalElements
-            .filter { !newAuthIds.contains($0.authorizationId) || !newConnectionIds.contains($0.connectionId) }
+        merged.append(
+            contentsOf: finalElements.filter {
+                !newAuthIds.contains($0.authorizationId) ||
+                !newConnectionIds.contains($0.connectionId)
+            }
         )
 
         return merged

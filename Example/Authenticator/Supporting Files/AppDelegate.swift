@@ -22,6 +22,7 @@ import UIKit
 import UserNotifications
 import Firebase
 import SEAuthenticator
+import SEAuthenticatorCore
 
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     var window: UIWindow?
@@ -32,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         self.window = UIWindow(frame: UIScreen.main.bounds)
         UNUserNotificationCenter.current().delegate = self
-        ReachabilityManager.shared.observeReachability()
+        ConnectivityManager.shared.observeReachability()
         AppearanceHelper.setup()
         CacheHelper.setDefaultDiskAge()
         configureFirebase()
@@ -160,9 +161,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let userInfo = request.content.userInfo
 
         guard let apsDict = userInfo[SENetKeys.aps] as? [String: Any],
-            let dataDict = apsDict[SENetKeys.data] as? [String: Any],
-            let connectionId = dataDict[SENetKeys.connectionId] as? String,
-            let authorizationId = dataDict[SENetKeys.authorizationId] as? String else { return nil }
-        return (connectionId, authorizationId)
+              let dataDict = apsDict[SENetKeys.data] as? [String: Any] else { return nil }
+
+        // NOTE: connection_id and authorization_id from v1 are strings, from v2 - ints
+            if let connectionId = dataDict[SENetKeys.connectionId] as? String,
+               let authorizationId = dataDict[SENetKeys.authorizationId] as? String {
+                return (connectionId, authorizationId)
+            } else if let connectionId = dataDict[SENetKeys.connectionId] as? Int,
+                      let authorizationId = dataDict[SENetKeys.authorizationId] as? Int {
+                return ("\(connectionId)", "\(authorizationId)")
+            } else {
+                return nil
+            }
     }
 }

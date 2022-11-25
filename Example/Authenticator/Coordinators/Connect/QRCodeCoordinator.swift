@@ -21,15 +21,15 @@
 //
 
 import UIKit
-import SEAuthenticator
+import SEAuthenticatorCore
 
 final class QRCodeCoordinator: Coordinator {
     private var rootViewController: UIViewController
     private var qrCodeViewController: QRCodeViewController
     private var connectViewCoordinator: ConnectViewCoordinator?
-    private var instantActionCoordinator:  InstantActionCoordinator?
+    private var instantActionCoordinator: InstantActionCoordinator?
 
-    var dismissClosure: (() -> ())?
+    var shouldDismissController: (() -> ())?
 
     init(rootViewController: UIViewController) {
         self.rootViewController = rootViewController
@@ -37,8 +37,9 @@ final class QRCodeCoordinator: Coordinator {
     }
 
     func start() {
-        dismissClosure = qrCodeViewController.shouldDismissClosure
         qrCodeViewController.delegate = self
+        qrCodeViewController.shouldDismissClosure = shouldDismissController
+
         if let navController = rootViewController.navigationController {
             navController.present(qrCodeViewController, animated: true)
         } else {
@@ -55,20 +56,19 @@ extension QRCodeCoordinator: QRCodeViewControllerDelegate {
         guard let url = URL(string: data),
             SEConnectHelper.isValid(deepLinkUrl: url) else { return }
 
-        if let actionGuid = SEConnectHelper.actionGuid(from: url),
-            let connectUrl = SEConnectHelper.connectUrl(from: url) {
+        if SEConnectHelper.shouldStartInstantActionFlow(url: url) {
             instantActionCoordinator = InstantActionCoordinator(
                 rootViewController: rootViewController,
-                qrUrl: url,
-                actionGuid: actionGuid,
-                connectUrl: connectUrl
+                qrUrl: url
             )
+            instantActionCoordinator?.shouldDismissController = shouldDismissController
             instantActionCoordinator?.start()
         } else {
             connectViewCoordinator = ConnectViewCoordinator(
                 rootViewController: rootViewController,
                 connectionType: .newConnection(data)
             )
+            connectViewCoordinator?.shouldDismissController = shouldDismissController
             connectViewCoordinator?.start()
         }
     }

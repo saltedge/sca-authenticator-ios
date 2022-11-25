@@ -30,7 +30,7 @@ class SubmitActionResponseSpec: BaseSpec {
             context("when the value is a proper dictionary containing the necessary data") {
                 it("should create correct response") {
                     let fixture = DataFixtures.validSubmitActionData
-                    let response = SESubmitActionResponse(fixture)
+                    let response = SpecDecodableModel<SESubmitActionResponse>.create(from: fixture)
 
                     expect(response).toNot(beNil())
                     expect(response?.success).to(beTrue())
@@ -42,7 +42,7 @@ class SubmitActionResponseSpec: BaseSpec {
             context("when the value is a malformed dictionary or is missing data") {
                 it("should return nil and fail to initialize the object") {
                     let fixture = DataFixtures.invalidSubmitActionData
-                    let response = SESubmitActionResponse(fixture)
+                    let response = SpecDecodableModel<SESubmitActionResponse>.create(from: fixture)
 
                     expect(response).to(beNil())
                 }

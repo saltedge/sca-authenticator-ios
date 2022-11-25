@@ -24,28 +24,21 @@ import UIKit
 
 final class ConnectViewController: BaseViewController {
     private lazy var completeView = CompleteView(state: .processing, title: l10n(.processing))
+    private let viewModel = ConnectViewModel(reachabilityManager: ConnectivityManager.shared)
+
+    var shouldDismiss: (() ->())?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkInternetConnection()
+        viewModel.checkInternetConnection()
         setupCancelButton()
         layout()
     }
 
-    private func checkInternetConnection() {
-        guard ReachabilityManager.shared.isReachable else {
-            self.showInfoAlert(
-                withTitle: l10n(.noInternetConnection),
-                message: l10n(.pleaseTryAgain),
-                actionTitle: l10n(.ok),
-                completion: {
-                    self.dismiss(animated: true)
-                }
-            )
-            return
-        }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        shouldDismiss?()
     }
-
 }
 
 // MARK: - Layout
@@ -64,8 +57,12 @@ private extension ConnectViewController {
             title: l10n(.cancel),
             style: .plain,
             target: self,
-            action: #selector(close)
+            action: #selector(cancelPressed)
         )
+    }
+
+    @objc func cancelPressed() {
+        dismiss(animated: true, completion: shouldDismiss)
     }
 }
 
@@ -88,6 +85,18 @@ extension ConnectViewController {
 // MARK: - CompleteViewDelegate
 extension ConnectViewController: CompleteViewDelegate {
     func proceedPressed(for view: CompleteView) {
-        dismiss(animated: true, completion: nil)
+        cancelPressed()
+    }
+}
+
+// MARK: - ConnectViewModelEventsDelegate
+extension ConnectViewController: ConnectViewModelEventsDelegate {
+    func showNoInternetConnectionAlert() {
+        showInfoAlert(
+            withTitle: l10n(.noInternetConnection),
+            message: l10n(.pleaseTryAgain),
+            actionTitle: l10n(.ok),
+            completion: { self.cancelPressed() }
+        )
     }
 }

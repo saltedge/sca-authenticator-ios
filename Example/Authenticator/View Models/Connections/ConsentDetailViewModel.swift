@@ -21,7 +21,7 @@
 //
 
 import UIKit
-import SEAuthenticator
+import SEAuthenticatorCore
 
 protocol ConsentDetailViewModelEventsDelegate: class {
     func revoke(_ consent: SEConsentData, messageTitle: String, messageDescription: String, successMessage: String)
@@ -45,7 +45,7 @@ final class ConsentDetailViewModel {
     }
 
     var expiresInText: String {
-        return "\(consent.expiresAt.get(.day)) \(l10n(.daysLeft))"
+        return "\(consent.expiresAt.numberOfDaysFromNow) \(l10n(.daysLeft))"
     }
 
     var descriptionAtributedString: NSMutableAttributedString {

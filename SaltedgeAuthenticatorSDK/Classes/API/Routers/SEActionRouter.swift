@@ -21,6 +21,7 @@
 //
 
 import Foundation
+import SEAuthenticatorCore
 
 enum SEActionRouter: Routable {
     case submit(SEActionRequestData)
@@ -36,7 +37,7 @@ enum SEActionRouter: Routable {
     var url: URL {
         switch self {
         case .submit(let data):
-            return data.url.appendingPathComponent("\(SENetPaths.actions.path)/\(data.guid)")
+            return data.url.appendingPathComponent("\(SENetPathBuilder(for: .actions).path)/\(data.guid)")
         }
     }
 
@@ -47,7 +48,9 @@ enum SEActionRouter: Routable {
 
             let signature = SignatureHelper.signedPayload(
                 method: .put,
-                urlString: data.url.appendingPathComponent("\(SENetPaths.actions.path)/\(data.guid)").absoluteString,
+                urlString: data.url.appendingPathComponent(
+                    "\(SENetPathBuilder(for: .actions).path)/\(data.guid)"
+                ).absoluteString,
                 guid: data.connectionGuid,
                 expiresAt: expiresAt,
                 params: parameters
