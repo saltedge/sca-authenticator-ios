@@ -115,7 +115,7 @@ PODS:
   - SaltedgeAuthenticatorSDK (1.1.0):
     - CryptoSwift
     - SaltedgeAuthenticatorCore
-  - SaltedgeAuthenticatorSDKv2 (1.1.0):
+  - SaltedgeAuthenticatorSDKv2 (2.0.0):
     - JOSESwift
     - SaltedgeAuthenticatorCore
   - SDWebImage (5.10.4):
@@ -193,7 +193,7 @@ SPEC CHECKSUMS:
   RealmSwift: 5a35c1c35c3e1925e6fcd092c881d5cc4a826bff
   SaltedgeAuthenticatorCore: bf9c91b81449fb7ccd23581ab84e1eeff5020647
   SaltedgeAuthenticatorSDK: 4fd566984678e8d936cae541aee82c89b44422e2
-  SaltedgeAuthenticatorSDKv2: f9eb801575c0b90879c3f7cf667a7aabed743eef
+  SaltedgeAuthenticatorSDKv2: f80ade5a53283764e66c992dad9751bea6a3e3a8
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
   TinyConstraints: 7b7ccc0c485bb3bb47082138ff28bc33cd49897f
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51

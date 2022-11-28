@@ -63,6 +63,10 @@ You can find related source code:
   pod 'SaltedgeAuthenticatorSDK', '~> 1.1.1'
   ```
 
+#### To install pods, run next command in terminal:
+
+  `pod install`
+
 #### Import SDK into your app
 
   `import SEAuthenticator`
@@ -83,6 +87,10 @@ You can find related source code:
   pod 'SaltedgeAuthenticatorSDKv2', :path => 'path_to_SaltedgeAuthenticatorSDKv2'
   ```
 
+#### To install pods, run next command in terminal:
+
+  `pod install`
+
 #### Import required SDKs into your app
 
   ```swift
@@ -90,9 +98,9 @@ You can find related source code:
   import SEAuthenticatorV2
   ```
 
-## How to build locally
+## How to build Salt Edge Authenticator app locally
 
-You can install app from [Apple Appstore](https://apps.apple.com/md/app/priora-authenticator/id1277625653) 
+You can install app from [Apple App Store](https://apps.apple.com/md/app/priora-authenticator/id1277625653) 
 or build from source code.
 
 1. Fork this repository
