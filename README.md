@@ -55,17 +55,40 @@ You can find related source code:
   brew install swiftlint
   ```
   
-## SDK installation via [CocoaPods](https://cocoapods.org)
+## SDK remote installation via [CocoaPods](https://cocoapods.org)
   
 #### Add the pod to your `Podfile`
   
   ```ruby
   pod 'SaltedgeAuthenticatorSDK', '~> 1.1.1'
   ```
-  
+
 #### Import SDK into your app
-  
+
   `import SEAuthenticator`
+
+## SDK local installation via [CocoaPods](https://cocoapods.org)
+
+#### Copy required Salt Edge SDKs directories to your project
+
+1. [Core module, required for both SDKs versions](https://github.com/saltedge/sca-authenticator-ios/tree/master/SaltedgeAuthenticatorCore)
+2. [SDK v1](https://github.com/saltedge/sca-authenticator-ios/tree/master/SaltedgeAuthenticatorSDK)
+3. [SDK v2](https://github.com/saltedge/sca-authenticator-ios/tree/master/SaltedgeAuthenticatorSDKv2)
+
+#### Add Salt Edge SDK pods to your `Podfile`, specifying the path to SDK
+
+  ```ruby
+  pod 'SaltedgeAuthenticatorCore', :path => 'path_to_SaltedgeAuthenticatorCore'
+  pod 'SaltedgeAuthenticatorSDK', :path => 'path_to_SaltedgeAuthenticatorSDK'
+  pod 'SaltedgeAuthenticatorSDKv2', :path => 'path_to_SaltedgeAuthenticatorSDKv2'
+  ```
+
+#### Import required SDKs into your app
+
+  ```swift
+  import SEAuthenticatorCore
+  import SEAuthenticatorV2
+  ```
 
 ## How to build locally
 
